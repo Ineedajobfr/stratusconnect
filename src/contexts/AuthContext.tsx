@@ -165,6 +165,71 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
       setLoading(true);
+      
+      // First check if this is an admin login
+      if (email === 'stratuscharters@gmail.com' || email === 'lordbroctree1@gmail.com') {
+        try {
+          const { data: adminResult, error: adminError } = await supabase
+            .rpc('authenticate_admin' as any, {
+              email_input: email,
+              password_input: password
+            });
+
+          if (!adminError && adminResult && typeof adminResult === 'object' && 'success' in adminResult) {
+            const result = adminResult as { success: boolean; user?: any; error?: string };
+            
+            if (result.success && result.user) {
+              const adminUser = result.user;
+              
+              // Create admin user session
+              setUser({
+                id: adminUser.id,
+                email: adminUser.email,
+                fullName: adminUser.display_name,
+                role: 'admin',
+                verificationStatus: 'approved',
+                username: adminUser.username
+              });
+
+              // Create a minimal session object for admin
+              const adminSession = {
+                access_token: 'admin_token_' + Date.now(),
+                refresh_token: 'admin_refresh_' + Date.now(),
+                expires_in: 3600,
+                expires_at: Math.floor(Date.now() / 1000) + 3600,
+                token_type: 'bearer' as const,
+                user: {
+                  id: adminUser.id,
+                  email: adminUser.email,
+                  app_metadata: {},
+                  user_metadata: {
+                    full_name: adminUser.display_name,
+                    role: 'admin'
+                  },
+                  aud: 'authenticated',
+                  created_at: new Date().toISOString(),
+                  updated_at: new Date().toISOString(),
+                  email_confirmed_at: new Date().toISOString(),
+                  last_sign_in_at: new Date().toISOString(),
+                  role: 'authenticated'
+                }
+              } as Session;
+              
+              setSession(adminSession);
+              
+              toast({
+                title: 'Admin Login Successful',
+                description: 'Welcome back, Admin!'
+              });
+              return true;
+            }
+          }
+        } catch (adminAuthError) {
+          console.error('Admin auth error:', adminAuthError);
+        }
+      }
+      
+      // Fall back to regular Supabase authentication
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password

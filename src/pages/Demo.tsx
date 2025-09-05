@@ -29,14 +29,14 @@ export default function DemoSetup() {
     },
     {
       title: "Pilot Terminal",
-      description: "Manage flight certifications and view available positions", 
+      description: "Manage crew schedules and certification tracking", 
       icon: Users,
       path: "/demo/pilot",
       role: "pilot"
     },
     {
       title: "Crew Terminal",
-      description: "Manage crew schedules and certification tracking", 
+      description: "Manage flight certifications and view available positions", 
       icon: Users,
       path: "/demo/crew",
       role: "crew"

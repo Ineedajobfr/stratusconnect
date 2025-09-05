@@ -8,7 +8,7 @@ export const StratusConnectLogo = ({ className = "" }: StratusConnectLogoProps) 
   const navigate = useNavigate();
 
   const handleLogoClick = () => {
-    navigate('/');
+    navigate('/settings/profile');
   };
 
   return (

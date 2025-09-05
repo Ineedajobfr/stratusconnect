@@ -55,7 +55,7 @@ export const TerminalLayout = withMemo(({
   }, [navigate]);
 
   const handleLogoClick = useCallback(() => {
-    navigate('/');
+    navigate('/settings/profile');
   }, [navigate]);
 
   const handleTabChange = useCallback((tab: string) => {

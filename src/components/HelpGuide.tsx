@@ -296,8 +296,14 @@ const getStatusColor = (status: StepStatus) => {
   const content = getHelpContent();
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-      <Card className="terminal-card bg-terminal-card/95 backdrop-blur-sm max-w-2xl w-full max-h-[80vh]">
+    <div 
+      className="fixed inset-0 z-50 bg-black/20 backdrop-blur-sm flex items-center justify-center p-4"
+      onClick={handleClose}
+    >
+      <Card 
+        className="terminal-card bg-terminal-card/80 backdrop-blur-sm w-96 h-96 max-h-[400px] shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
         <CardHeader className="border-b border-terminal-border">
           <div className="flex items-start justify-between">
             <div className="space-y-2">
@@ -324,8 +330,8 @@ const getStatusColor = (status: StepStatus) => {
         </CardHeader>
         
         <CardContent className="p-0">
-          <ScrollArea className="h-[400px]">
-            <div className="p-6 space-y-4">
+          <ScrollArea className="h-[280px]">
+            <div className="p-4 space-y-3">
               {content.steps.map((step, index) => {
                 const Icon = step.icon || HelpCircle;
                 const status: StepStatus = step.status ?? 'available';
@@ -334,7 +340,7 @@ const getStatusColor = (status: StepStatus) => {
                 return (
                   <div
                     key={index}
-                    className={`flex items-start space-x-4 p-4 rounded-lg transition-colors ${
+                    className={`flex items-start space-x-3 p-3 rounded-lg transition-colors ${
                       status === 'locked' 
                         ? 'bg-terminal-warning/5 border border-terminal-warning/20' 
                         : 'bg-terminal-card/30 hover:bg-terminal-card/50'
@@ -343,12 +349,12 @@ const getStatusColor = (status: StepStatus) => {
                     <div className="flex-shrink-0">
                       <Icon className={`h-5 w-5 ${getStatusColor(status)}`} />
                     </div>
-                    <div className="flex-1 space-y-2">
+                    <div className="flex-1 space-y-1">
                       <div className="flex items-center justify-between">
-                        <h4 className="font-medium text-foreground">{step.title}</h4>
-                        <StatusIcon className={`h-4 w-4 ${getStatusColor(status)}`} />
+                        <h4 className="font-medium text-foreground text-sm">{step.title}</h4>
+                        <StatusIcon className={`h-3 w-3 ${getStatusColor(status)}`} />
                       </div>
-                      <p className="text-sm text-muted-foreground leading-relaxed">
+                      <p className="text-xs text-muted-foreground leading-relaxed">
                         {step.description}
                       </p>
                       {step.action && (

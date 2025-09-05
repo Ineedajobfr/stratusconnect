@@ -7,7 +7,6 @@ import { KPICard } from "@/components/KPICard";
 import { Section } from "@/components/Section";
 import { DataTile } from "@/components/DataTile";
 import { DemoBanner } from "@/components/DemoBanner";
-import { ProfileWidget } from "@/components/ProfileWidget";
 import { PrivacyOverlay } from "@/components/PrivacyOverlay";
 import { 
   BarChart3, MessageSquare, TrendingUp, DollarSign, Clock, Users, Globe, 
@@ -127,10 +126,9 @@ export default function DemoBrokerTerminal() {
             </div>
 
             {/* Main Dashboard Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <ProfileWidget />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               
-              <Section 
+              <Section
                 title="Empty Legs Near Me"
                 subtitle="Hot deals and repositioning flights"
                 actions={

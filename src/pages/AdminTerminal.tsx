@@ -32,7 +32,8 @@ import {
   X,
   Gavel,
   BarChart3,
-  Lock
+  Lock,
+  ChevronRight
 } from "lucide-react";
 import type { User } from '@supabase/supabase-js';
 
@@ -60,14 +61,67 @@ const AdminTerminal = () => {
   const [pendingUsers, setPendingUsers] = useState<PendingUser[]>([]);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
+    const checkAuthAndRole = async () => {
+      try {
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        
+        if (sessionError) throw sessionError;
+        
+        if (!session?.user) {
+          setUser(null);
+          setLoading(false);
+          return;
+        }
+
+        // Check if user has admin role
+        const { data: userData, error: userError } = await supabase
+          .from('users')
+          .select('role, email')
+          .eq('id', session.user.id)
+          .single();
+
+        if (userError) {
+          console.error('Error fetching user data:', userError);
+          setUser(null);
+          setLoading(false);
+          return;
+        }
+
+        // Only allow admin users, not demo users
+        if (userData?.role === 'admin' && !session.user.email?.includes('demo')) {
+          setUser(session.user);
+        } else {
+          setUser(null);
+        }
+        
+        setLoading(false);
+      } catch (error) {
+        console.error('Auth check error:', error);
+        setUser(null);
+        setLoading(false);
+      }
+    };
+
+    checkAuthAndRole();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setUser(session?.user ?? null);
+      async (event, session) => {
+        if (session?.user) {
+          // Re-check role when auth state changes
+          const { data: userData } = await supabase
+            .from('users')
+            .select('role, email')
+            .eq('id', session.user.id)
+            .single();
+
+          if (userData?.role === 'admin' && !session.user.email?.includes('demo')) {
+            setUser(session.user);
+          } else {
+            setUser(null);
+          }
+        } else {
+          setUser(null);
+        }
         setLoading(false);
       }
     );
@@ -151,7 +205,27 @@ const AdminTerminal = () => {
   }
 
   if (!user) {
-    return <AuthForm />;
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-6">
+        <div className="text-center max-w-md">
+          <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <X className="w-8 h-8 text-red-400" />
+          </div>
+          <h2 className="text-2xl font-bold text-red-400 mb-4">Access Denied</h2>
+          <p className="text-slate-300 mb-6">
+            This admin terminal requires verified administrator credentials. 
+            Demo users and regular accounts are not authorized.
+          </p>
+          <Button 
+            onClick={() => window.history.back()}
+            className="bg-slate-700 hover:bg-slate-600 text-white"
+          >
+            <ChevronRight className="w-4 h-4 mr-2 rotate-180" />
+            Go Back
+          </Button>
+        </div>
+      </div>
+    );
   }
 
   return (

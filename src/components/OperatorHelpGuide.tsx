@@ -48,53 +48,59 @@ export const OperatorHelpGuide = ({ activeTab, onClose, showOnMount = true }: Op
       setIsVisible(true);
       setHasBeenShown(prev => new Set([...prev, activeTab]));
     }
-  }, [activeTab, showOnMount, hasBeenShown]);
+  }, [activeTab, showOnMount]);
 
   const getHelpContent = (tab: string): HelpContent => {
     const content: Record<string, HelpContent> = {
       dashboard: {
-        title: "Operator Command Center",
+        title: "Operator Terminal Dashboard",
         items: [
           {
-            section: "Fleet Status",
-            description: "Monitor your entire fleet - active aircraft, current flights, and maintenance schedules",
+            section: "Fleet Status Monitor",
+            description: "Real-time view of aircraft availability, flight hours, and maintenance status",
             icon: Plane
           },
           {
-            section: "Today's Bookings",
-            description: "View confirmed and pending bookings for today with real-time updates",
-            icon: BarChart3
-          },
-          {
-            section: "Revenue Metrics",
-            description: "Track monthly revenue, utilization rates, and performance against targets",
-            icon: DollarSign
-          },
-          {
-            section: "Fleet Overview",
-            description: "Detailed status of each aircraft including location, next flight, and utilization",
+            section: "Daily Operations",
+            description: "Today's flights, upcoming bookings, and crew scheduling overview",
             icon: CheckCircle
           },
           {
-            section: "Recent Bookings",
-            description: "Latest booking activity with client details and revenue information",
-            icon: ArrowRight
+            section: "Revenue Performance",
+            description: "Monthly earnings, utilization rates, and profit margin tracking",
+            icon: DollarSign
+          },
+          {
+            section: "Market Listings",
+            description: "Your active marketplace listings and incoming broker bids",
+            icon: BarChart3
+          },
+          {
+            section: "Verification Center",
+            description: "Complete identity verification to unlock full platform features",
+            icon: Shield,
+            locked: true
           }
         ],
-        demoNote: "Profile features are inactive in demo mode and unlock after verification."
+        demoNote: "In the live version, verification unlocks advanced features and higher trust scores."
       },
       verification: {
         title: "Fortress of Trust Verification",
         items: [
           {
-            section: "Identity Verification",
-            description: "Upload government-issued ID and complete identity verification process",
+            section: "Identity Verification", 
+            description: "Upload government-issued ID and complete identity screening process",
             icon: Shield
           },
           {
-            section: "Business Documentation",
-            description: "Provide business registration, insurance, and operational certificates",
+            section: "Company Registration",
+            description: "Verify business registration and aviation authority certifications",
             icon: CheckCircle
+          },
+          {
+            section: "Insurance Documentation",
+            description: "Provide current aviation insurance and liability coverage proof",
+            icon: Shield
           },
           {
             section: "Background Screening",
@@ -151,79 +157,88 @@ export const OperatorHelpGuide = ({ activeTab, onClose, showOnMount = true }: Op
             icon: DollarSign
           },
           {
-            section: "Accept Bids",
-            description: "Accepting a bid opens direct messaging and deal flow with the broker",
-            icon: MessageSquare
-          },
-          {
-            section: "Deal Flow",
-            description: "Once accepted, coordinate logistics and finalize terms through messaging",
-            icon: ArrowRight
-          }
-        ],
-        demoNote: "Accepting a bid here would open a deal flow with the broker."
-      },
-      messages: {
-        title: "Secure Messaging Center",
-        items: [
-          {
-            section: "Deal Communication",
-            description: "Messaging unlocks once a deal is agreed with a broker",
-            icon: MessageSquare,
-            locked: true
-          },
-          {
-            section: "Logistics Coordination",
-            description: "Use chat to coordinate flight details, crew requirements, and logistics",
-            icon: ArrowRight,
-            locked: true
-          },
-          {
-            section: "Final Terms",
-            description: "Finalize contract terms, payment schedules, and special requirements",
-            icon: CheckCircle,
-            locked: true
-          }
-        ],
-        demoNote: "Messaging only unlocks once a deal is agreed with a broker."
-      },
-      news: {
-        title: "Aviation Intelligence Hub",
-        items: [
-          {
-            section: "Industry Updates",
-            description: "Live aviation industry news relevant to operators and flight operations",
-            icon: Globe
+            section: "Deal Creation",
+            description: "Accept bids to create confirmed deals and unlock secure messaging",
+            icon: CheckCircle
           },
           {
             section: "Market Intelligence",
-            description: "Trends affecting charter rates, fuel costs, and operational regulations",
-            icon: BarChart3
+            description: "Access pricing trends, route analysis, and competitive data",
+            icon: BarChart3,
+            locked: true
+          }
+        ],
+        demoNote: "Market intelligence and advanced analytics require verification status."
+      },
+      messages: {
+        title: "Secure Communication Hub",
+        items: [
+          {
+            section: "Deal-Based Messaging",
+            description: "Private, encrypted chat channels automatically created for confirmed deals",
+            icon: MessageSquare
           },
           {
-            section: "Regulatory Changes",
-            description: "Important updates on aviation regulations and compliance requirements",
+            section: "Broker Communication",
+            description: "Direct contact with charter brokers for flight coordination and requirements",
+            icon: MessageSquare
+          },
+          {
+            section: "File Sharing",
+            description: "Secure sharing of contracts, flight plans, and operational documents",
             icon: Shield
           },
           {
-            section: "Market Opportunities",
-            description: "Identify new routes, seasonal trends, and emerging market opportunities",
-            icon: ArrowRight
+            section: "Privacy Protection",
+            description: "Contact information protected until deals are confirmed and contracts signed",
+            icon: Lock
           }
         ],
-        demoNote: "Stay informed with real-time aviation industry intelligence."
+        demoNote: "Messaging channels open when deals are confirmed through the marketplace."
       },
-      revenue: {
-        title: "Revenue Analytics Dashboard",
+      news: {
+        title: "Aviation Industry News",
         items: [
           {
-            section: "Profit Margins",
-            description: "Track profit margins across different aircraft and route types",
+            section: "Industry Headlines", 
+            description: "Latest aviation news, regulatory updates, and market developments",
+            icon: Globe
+          },
+          {
+            section: "Operational Alerts",
+            description: "Weather advisories, airspace restrictions, and safety notices",
+            icon: Shield
+          },
+          {
+            section: "Market Analysis",
+            description: "Charter demand trends, pricing analytics, and competitive intelligence",
+            icon: BarChart3
+          },
+          {
+            section: "Personalized Feed",
+            description: "Customized news based on your fleet, routes, and business focus",
+            icon: ArrowRight,
+            locked: true
+          }
+        ],
+        demoNote: "Personalized news feeds and advanced market data require verification."
+      },
+      revenue: {
+        title: "Financial Analytics Center",
+        items: [
+          {
+            section: "Revenue Dashboard",
+            description: "Monthly revenue tracking, profit margins, and performance metrics",
             icon: DollarSign
           },
           {
-            section: "Cost Per Hour",
-            description: "Monitor operational costs and optimize pricing strategies",
+            section: "Fleet Performance",
+            description: "Individual aircraft profitability and utilization analysis",
+            icon: Plane
+          },
+          {
+            section: "Cost Management",
+            description: "Operating expenses, maintenance costs, and budget tracking",
             icon: BarChart3
           },
           {
@@ -271,72 +286,75 @@ export const OperatorHelpGuide = ({ activeTab, onClose, showOnMount = true }: Op
   const content = getHelpContent(activeTab);
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-sm border-b border-slate-700">
-      <div className="max-w-6xl mx-auto p-4">
-        <Card className="bg-slate-800/90 border-slate-600">
-          <CardContent className="p-6">
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center space-x-3">
-                <Info className="w-6 h-6 text-blue-400" />
-                <div>
-                  <h3 className="text-lg font-semibold text-white">{content.title}</h3>
-                  <p className="text-sm text-slate-400">Interactive demo walkthrough</p>
-                </div>
+    <div 
+      className="fixed inset-0 z-50 bg-black/20 backdrop-blur-sm flex items-center justify-center p-4"
+      onClick={handleClose}
+    >
+      <Card 
+        className="terminal-card bg-terminal-card/80 backdrop-blur-sm w-96 h-96 max-h-[400px] shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <CardContent className="p-4">
+          <div className="flex items-start justify-between mb-3">
+            <div className="flex items-center space-x-2">
+              <Info className="w-5 h-5 text-blue-400" />
+              <div>
+                <h3 className="text-lg font-semibold text-white">{content.title}</h3>
+                <p className="text-sm text-slate-400">Interactive demo walkthrough</p>
               </div>
-              <Button
-                onClick={handleClose}
-                variant="ghost"
-                size="sm"
-                className="text-slate-400 hover:text-white"
+            </div>
+            <Button
+              onClick={handleClose}
+              variant="ghost"
+              size="sm"
+              className="text-slate-400 hover:text-white"
+            >
+              <X className="w-4 h-4" />
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 gap-3 max-h-60 overflow-y-auto terminal-scrollbar">
+            {content.items.map((item, index) => (
+              <div
+                key={index}
+                className={`flex items-start space-x-2 p-2 rounded-lg ${
+                  item.locked 
+                    ? 'bg-slate-700/50 border border-yellow-500/30' 
+                    : 'bg-slate-700/30 border border-slate-600'
+                }`}
               >
-                <X className="w-4 h-4" />
-              </Button>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-              {content.items.map((item, index) => (
-                <div
-                  key={index}
-                  className={`flex items-start space-x-3 p-3 rounded-lg ${
-                    item.locked 
-                      ? 'bg-slate-700/50 border border-yellow-500/30' 
-                      : 'bg-slate-700/30 border border-slate-600'
-                  }`}
-                >
-                  <div className={`p-2 rounded-lg ${
-                    item.locked 
-                      ? 'bg-yellow-500/20 text-yellow-400' 
-                      : 'bg-blue-500/20 text-blue-400'
-                  }`}>
-                    {item.icon && <item.icon className="w-4 h-4" />}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-2 mb-1">
-                      <h4 className="text-sm font-medium text-white">{item.section}</h4>
-                      {item.locked && (
-                        <Badge variant="outline" className="bg-yellow-500/20 border-yellow-500/50 text-yellow-400 text-xs">
-                          <Lock className="w-3 h-3 mr-1" />
-                          Locked
-                        </Badge>
-                      )}
-                    </div>
-                    <p className="text-xs text-slate-400 leading-relaxed">{item.description}</p>
-                  </div>
+                <div className={`p-1 rounded-lg ${
+                  item.locked 
+                    ? 'bg-yellow-500/20 text-yellow-400' 
+                    : 'bg-blue-500/20 text-blue-400'
+                }`}>
+                  {item.icon && <item.icon className="w-3 h-3" />}
                 </div>
-              ))}
-            </div>
-
-            {content.demoNote && (
-              <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3">
-                <div className="flex items-start space-x-2">
-                  <Info className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
-                  <p className="text-sm text-blue-300">{content.demoNote}</p>
+                <div className="flex-1">
+                  <div className="flex items-center space-x-1 mb-1">
+                    <h4 className="text-xs font-medium text-white">{item.section}</h4>
+                    {item.locked && (
+                      <Badge variant="outline" className="bg-yellow-500/20 border-yellow-500/50 text-yellow-400 text-xs px-1 py-0">
+                        <Lock className="w-2 h-2" />
+                      </Badge>
+                    )}
+                  </div>
+                  <p className="text-xs text-slate-400 leading-relaxed">{item.description}</p>
                 </div>
               </div>
-            )}
-          </CardContent>
-        </Card>
-      </div>
+            ))}
+          </div>
+
+          {content.demoNote && (
+            <div className="mt-3 bg-blue-500/10 border border-blue-500/30 rounded-lg p-2">
+              <div className="flex items-start space-x-2">
+                <Info className="w-3 h-3 text-blue-400 mt-0.5 flex-shrink-0" />
+                <p className="text-xs text-blue-300">{content.demoNote}</p>
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 };

@@ -42,8 +42,7 @@ export default function Auth() {
     operator: { email: 'demo.operator@stratusconnect.org', password: 'demo123456' },
     broker: { email: 'demo.broker@stratusconnect.org', password: 'demo123456' },
     pilot: { email: 'demo.pilot@stratusconnect.org', password: 'demo123456' },
-    crew: { email: 'demo.crew@stratusconnect.org', password: 'demo123456' },
-    admin: { email: 'demo.admin@stratusconnect.org', password: 'demo123456' }
+    crew: { email: 'demo.crew@stratusconnect.org', password: 'demo123456' }
   };
 
   // Redirect if already authenticated

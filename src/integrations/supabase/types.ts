@@ -1500,6 +1500,346 @@ export type Database = {
         }
         Relationships: []
       }
+      psych_consent: {
+        Row: {
+          share_profile: boolean | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          share_profile?: boolean | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          share_profile?: boolean | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "psych_consent_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      psych_items: {
+        Row: {
+          id: string
+          is_active: boolean | null
+          module_id: string | null
+          payload: Json
+          trait_map: Json
+          type: string
+        }
+        Insert: {
+          id?: string
+          is_active?: boolean | null
+          module_id?: string | null
+          payload: Json
+          trait_map: Json
+          type: string
+        }
+        Update: {
+          id?: string
+          is_active?: boolean | null
+          module_id?: string | null
+          payload?: Json
+          trait_map?: Json
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "psych_items_module_id_fkey"
+            columns: ["module_id"]
+            isOneToOne: false
+            referencedRelation: "psych_modules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      psych_modules: {
+        Row: {
+          code: string
+          config: Json | null
+          id: string
+          item_count: number
+          name: string
+          order_index: number
+          test_id: string | null
+          time_hint_min: number
+        }
+        Insert: {
+          code: string
+          config?: Json | null
+          id?: string
+          item_count: number
+          name: string
+          order_index: number
+          test_id?: string | null
+          time_hint_min: number
+        }
+        Update: {
+          code?: string
+          config?: Json | null
+          id?: string
+          item_count?: number
+          name?: string
+          order_index?: number
+          test_id?: string | null
+          time_hint_min?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "psych_modules_test_id_fkey"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "psych_tests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      psych_norms: {
+        Row: {
+          mean: number
+          sd: number
+          trait: string
+        }
+        Insert: {
+          mean: number
+          sd: number
+          trait: string
+        }
+        Update: {
+          mean?: number
+          sd?: number
+          trait?: string
+        }
+        Relationships: []
+      }
+      psych_responses: {
+        Row: {
+          created_at: string | null
+          id: string
+          item_id: string | null
+          module_id: string | null
+          ms_elapsed: number | null
+          response: Json
+          session_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          item_id?: string | null
+          module_id?: string | null
+          ms_elapsed?: number | null
+          response: Json
+          session_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          item_id?: string | null
+          module_id?: string | null
+          ms_elapsed?: number | null
+          response?: Json
+          session_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "psych_responses_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "psych_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "psych_responses_module_id_fkey"
+            columns: ["module_id"]
+            isOneToOne: false
+            referencedRelation: "psych_modules"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "psych_responses_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "psych_sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "psych_responses_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      psych_scores: {
+        Row: {
+          created_at: string | null
+          id: string
+          module_code: string | null
+          percentile: number | null
+          raw: number
+          session_id: string | null
+          trait: string
+          user_id: string | null
+          zscore: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          module_code?: string | null
+          percentile?: number | null
+          raw: number
+          session_id?: string | null
+          trait: string
+          user_id?: string | null
+          zscore?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          module_code?: string | null
+          percentile?: number | null
+          raw?: number
+          session_id?: string | null
+          trait?: string
+          user_id?: string | null
+          zscore?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "psych_scores_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "psych_sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "psych_scores_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      psych_sessions: {
+        Row: {
+          attention_flags: Json | null
+          completed_at: string | null
+          id: string
+          seconds_spent: number | null
+          started_at: string | null
+          status: string | null
+          test_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          attention_flags?: Json | null
+          completed_at?: string | null
+          id?: string
+          seconds_spent?: number | null
+          started_at?: string | null
+          status?: string | null
+          test_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          attention_flags?: Json | null
+          completed_at?: string | null
+          id?: string
+          seconds_spent?: number | null
+          started_at?: string | null
+          status?: string | null
+          test_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "psych_sessions_test_id_fkey"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "psych_tests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "psych_sessions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      psych_share_tokens: {
+        Row: {
+          created_at: string | null
+          expires_at: string | null
+          token: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          expires_at?: string | null
+          token?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          expires_at?: string | null
+          token?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "psych_share_tokens_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      psych_tests: {
+        Row: {
+          code: string
+          created_at: string | null
+          description: string | null
+          duration_min: number
+          id: string
+          is_active: boolean | null
+          name: string
+        }
+        Insert: {
+          code: string
+          created_at?: string | null
+          description?: string | null
+          duration_min?: number
+          id?: string
+          is_active?: boolean | null
+          name: string
+        }
+        Update: {
+          code?: string
+          created_at?: string | null
+          description?: string | null
+          duration_min?: number
+          id?: string
+          is_active?: boolean | null
+          name?: string
+        }
+        Relationships: []
+      }
       quotes: {
         Row: {
           aircraft_choice: string | null
@@ -2066,6 +2406,77 @@ export type Database = {
           rating?: number
         }
         Relationships: []
+      }
+      user_reviews: {
+        Row: {
+          created_at: string | null
+          deal_id: string | null
+          hiring_request_id: string | null
+          id: string
+          is_verified: boolean | null
+          rating: number
+          review_text: string | null
+          review_type: string
+          reviewee_id: string
+          reviewer_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          deal_id?: string | null
+          hiring_request_id?: string | null
+          id?: string
+          is_verified?: boolean | null
+          rating: number
+          review_text?: string | null
+          review_type: string
+          reviewee_id: string
+          reviewer_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          deal_id?: string | null
+          hiring_request_id?: string | null
+          id?: string
+          is_verified?: boolean | null
+          rating?: number
+          review_text?: string | null
+          review_type?: string
+          reviewee_id?: string
+          reviewer_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_reviews_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_reviews_hiring_request_id_fkey"
+            columns: ["hiring_request_id"]
+            isOneToOne: false
+            referencedRelation: "hiring_requests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_reviews_reviewee_id_fkey"
+            columns: ["reviewee_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "user_reviews_reviewer_id_fkey"
+            columns: ["reviewer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
       user_sessions: {
         Row: {

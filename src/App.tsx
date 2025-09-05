@@ -19,6 +19,7 @@ const OperatorTerminal = lazy(() => import("./pages/OperatorTerminal"));
 const CrewTerminal = lazy(() => import("./pages/CrewTerminal"));
 const AdminTerminal = lazy(() => import("./pages/AdminTerminal"));
 const BetaNavigator = lazy(() => import("./pages/BetaNavigator"));
+const PersonalityTest = lazy(() => import("./pages/PersonalityTest"));
 
 // Secondary pages - loaded on demand
 const Demo = lazy(() => import("./pages/Demo"));
@@ -109,10 +110,15 @@ const App = memo(() => {
               
               {/* Public Beta Testing Routes - No Auth Required */}
               <Route path="/beta" element={<BetaNavigator />} />
-              <Route path="/beta/broker" element={<BrokerTerminal />} />
-              <Route path="/beta/operator" element={<OperatorTerminal />} />
-              <Route path="/beta/crew" element={<CrewTerminal />} />
-              <Route path="/beta/admin" element={<AdminTerminal />} />
+        <Route path="/beta/broker" element={<BrokerTerminal />} />
+        <Route path="/beta/operator" element={<OperatorTerminal />} />
+        <Route path="/beta/crew" element={<CrewTerminal />} />
+        <Route path="/beta/admin" element={<AdminTerminal />} />
+        
+        {/* Psychometric Test Routes */}
+        <Route path="/psych" element={<PersonalityTest />} />
+        <Route path="/psych/run/:sessionId" element={<PersonalityTest />} />
+        <Route path="/psych/report/:sessionId" element={<PersonalityTest />} />
               
               {/* Profile routes */}
               <Route path="/u/:username" element={<PublicProfile />} />

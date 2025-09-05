@@ -38,6 +38,7 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const PublicProfile = lazy(() => import("./pages/PublicProfile"));
 const ProfileSettings = lazy(() => import("./pages/ProfileSettings"));
 const Directory = lazy(() => import("./pages/Directory"));
+const Auth = lazy(() => import("./pages/Auth"));
 
 // Demo terminals
 const DemoBrokerTerminal = lazy(() => import("./pages/DemoBrokerTerminal"));
@@ -90,6 +91,7 @@ const App = memo(() => {
               {/* Public routes */}
               <Route path="/" element={<Index />} />
               <Route path="/enter" element={<Enter />} />
+              <Route path="/auth" element={<Auth />} />
               <Route path="/demo" element={<Demo />} />
               <Route path="/about" element={<About />} />
               <Route path="/fees" element={<Fees />} />
@@ -110,10 +112,10 @@ const App = memo(() => {
               
               {/* Public Beta Testing Routes - No Auth Required */}
               <Route path="/beta" element={<BetaNavigator />} />
-        <Route path="/beta/broker" element={<BrokerTerminal />} />
-        <Route path="/beta/operator" element={<OperatorTerminal />} />
-        <Route path="/beta/crew" element={<CrewTerminal />} />
-        <Route path="/beta/admin" element={<AdminTerminal />} />
+              <Route path="/beta/broker" element={<DemoBrokerTerminal />} />
+              <Route path="/beta/operator" element={<DemoOperatorTerminal />} />
+              <Route path="/beta/crew" element={<DemoCrewTerminal />} />
+              <Route path="/beta/admin" element={<DemoBrokerTerminal />} />
         
         {/* Psychometric Test Routes */}
         <Route path="/psych" element={<PersonalityTest />} />

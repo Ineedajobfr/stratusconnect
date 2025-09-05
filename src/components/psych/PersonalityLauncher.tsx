@@ -21,6 +21,14 @@ export default function PersonalityLauncher({ user }: PersonalityLauncherProps) 
     let alive = true;
     (async () => {
       try {
+        // Seed catalog if empty
+        const { count } = await supabase
+          .from("psych_items")
+          .select("id", { count: 'exact', head: true });
+        if (!count || count === 0) {
+          await supabase.functions.invoke('psych-seed');
+        }
+
         // Check consent
         const { data: consentData } = await supabase
           .from("psych_consent")

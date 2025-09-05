@@ -304,24 +304,24 @@ export default function Index() {
       {/* What Stratus Connect Is */}
       <section className="relative z-10 mobile-container py-20 sm:py-32 lg:py-40">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl sm:text-5xl lg:text-7xl font-bold text-center mb-12 sm:mb-20 lg:mb-28 text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.7)]">What Stratus Connect Is</h2>
+          <h2 className="text-5xl lg:text-7xl font-bold text-center mb-24 lg:mb-32 text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.7)]">What Stratus Connect Is</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 mobile-gap">
             <div className="text-center">
               <Users className="h-12 w-12 sm:h-16 sm:w-16 lg:h-20 lg:w-20 text-cyan-400 mx-auto mb-4 sm:mb-6 lg:mb-8 drop-shadow-[0_0_15px_rgba(34,211,238,0.8)]" />
-              <h3 className="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4 sm:mb-6 lg:mb-8 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]">Brokers</h3>
-              <p className="text-white/90 mobile-text leading-relaxed">Access live jets in seconds. Bid, book, and close with confidence.</p>
+              <h3 className="text-2xl lg:text-3xl font-semibold mb-6 lg:mb-8 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]">Brokers</h3>
+              <p className="text-white/90 text-lg lg:text-xl leading-relaxed">Access live jets in seconds. Bid, book, and close with confidence.</p>
             </div>
 
             <div className="text-center">
               <Plane className="h-12 w-12 sm:h-16 sm:w-16 lg:h-20 lg:w-20 text-cyan-400 mx-auto mb-4 sm:mb-6 lg:mb-8 drop-shadow-[0_0_15px_rgba(34,211,238,0.8)]" />
-              <h3 className="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4 sm:mb-6 lg:mb-8 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]">Operators</h3>
-              <p className="text-white/90 mobile-text leading-relaxed">Get your fleet off the ground. Connect. List. Scale confidently. </p>
+              <h3 className="text-2xl lg:text-3xl font-semibold mb-6 lg:mb-8 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]">Operators</h3>
+              <p className="text-white/90 text-lg lg:text-xl leading-relaxed">Get your fleet off the ground. Connect. List. Scale confidently.</p>
             </div>
 
             <div className="text-center">
               <Globe className="h-12 w-12 sm:h-16 sm:w-16 lg:h-20 lg:w-20 text-cyan-400 mx-auto mb-4 sm:mb-6 lg:mb-8 drop-shadow-[0_0_15px_rgba(34,211,238,0.8)]" />
-              <h3 className="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4 sm:mb-6 lg:mb-8 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]">Pilots & Crew</h3>
-              <p className="text-white/90 mobile-text leading-relaxed">Show your credentials, set your availability, and get noticed.</p>
+              <h3 className="text-2xl lg:text-3xl font-semibold mb-6 lg:mb-8 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]">Pilots & Crew</h3>
+              <p className="text-white/90 text-lg lg:text-xl leading-relaxed">Show your credentials, set your availability, and get noticed.</p>
             </div>
           </div>
         </div>
@@ -330,37 +330,37 @@ export default function Index() {
       {/* Simple Fees Section */}
       <section className="relative z-10 mobile-container py-20 sm:py-32 lg:py-40">
         <div className="max-w-5xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-5xl lg:text-7xl font-bold mb-12 sm:mb-20 lg:mb-28 text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.7)]">Simple fees. Everyone wins.</h2>
+          <h2 className="text-5xl lg:text-7xl font-bold mb-24 lg:mb-32 text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.7)]">Simple fees. Everyone wins.</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 mobile-gap mb-8 sm:mb-12 lg:mb-16">
             <div className="text-center">
               <div className="text-4xl sm:text-6xl lg:text-8xl font-black text-cyan-400 mb-4 sm:mb-6 lg:mb-8 drop-shadow-[0_0_30px_rgba(34,211,238,1)] animate-pulse">7%</div>
-              <p className="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4 sm:mb-6 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]">Broker deals</p>
-              <p className="text-white/90 mobile-text leading-relaxed">Pay only when business closes successfully.</p>
+              <p className="text-2xl lg:text-3xl font-semibold mb-6 lg:mb-8 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]">Broker deals</p>
+              <p className="text-white/90 text-lg lg:text-xl leading-relaxed">Pay only when business closes successfully.</p>
             </div>
             <div className="text-center">
               <div className="text-4xl sm:text-6xl lg:text-8xl font-black text-cyan-400 mb-4 sm:mb-6 lg:mb-8 drop-shadow-[0_0_30px_rgba(34,211,238,1)] animate-pulse">10%</div>
-              <p className="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4 sm:mb-6 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]">Crew hiring</p>
-              <p className="text-white/90 mobile-text leading-relaxed">Operators pay when they hire through Stratus.</p>
+              <p className="text-2xl lg:text-3xl font-semibold mb-6 lg:mb-8 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]">Crew hiring</p>
+              <p className="text-white/90 text-lg lg:text-xl leading-relaxed">Operators pay when they hire through Stratus.</p>
             </div>
             <div className="text-center">
               <div className="text-4xl sm:text-6xl lg:text-8xl font-black text-cyan-400 mb-4 sm:mb-6 lg:mb-8 drop-shadow-[0_0_30px_rgba(34,211,238,1)] animate-pulse">0%</div>
-              <p className="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4 sm:mb-6 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]">Pilots & Crew</p>
-              <p className="text-white/90 mobile-text leading-relaxed">Aviation professionals fly free. No cost, ever. </p>
+              <p className="text-2xl lg:text-3xl font-semibold mb-6 lg:mb-8 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]">Pilots & Crew</p>
+              <p className="text-white/90 text-lg lg:text-xl leading-relaxed">Aviation professionals fly free. No cost, ever.</p>
             </div>
           </div>
-          <p className="text-white/90 text-lg sm:text-xl lg:text-2xl font-medium">We help everyone. No deal, no fee.</p>
+          <p className="text-2xl lg:text-3xl font-bold mb-12 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.6)] leading-relaxed">We help everyone. No deal, no fee.</p>
         </div>
       </section>
 
       {/* Why We Are Better - Four Pillars */}
-      <section className="relative z-10 px-6 py-32 lg:py-40">{/* Keep your other sections */}
+      <section className="relative z-10 px-6 py-32 lg:py-40">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-5xl lg:text-7xl font-bold text-center mb-24 lg:mb-32 text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.7)]">Why We Are Better</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-20">
             <div className="text-center">
               <UserCheck className="h-16 w-16 lg:h-20 lg:w-20 text-cyan-400 mx-auto mb-6 lg:mb-8 drop-shadow-[0_0_15px_rgba(34,211,238,0.8)]" />
               <h3 className="text-2xl lg:text-3xl font-semibold mb-6 lg:mb-8 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]">Verified Network</h3>
-              <p className="text-white/90 text-lg lg:text-xl leading-relaxed">Roles checked. Documents verified. Only trusted professionals inside. </p>
+              <p className="text-white/90 text-lg lg:text-xl leading-relaxed">Roles checked. Documents verified. Only trusted professionals inside.</p>
             </div>
 
             <div className="text-center">
@@ -372,7 +372,7 @@ export default function Index() {
             <div className="text-center">
               <Receipt className="h-16 w-16 lg:h-20 lg:w-20 text-cyan-400 mx-auto mb-6 lg:mb-8 drop-shadow-[0_0_15px_rgba(34,211,238,0.8)]" />
               <h3 className="text-2xl lg:text-3xl font-semibold mb-6 lg:mb-8 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]">Escrow & Receipts</h3>
-              <p className="text-white/90 text-lg lg:text-xl leading-relaxed">Payments secured in escrow. full receipts every time.</p>
+              <p className="text-white/90 text-lg lg:text-xl leading-relaxed">Payments secured in escrow. Full receipts every time.</p>
             </div>
 
             <div className="text-center">
@@ -385,7 +385,39 @@ export default function Index() {
       </section>
 
       {/* Trust & Verification Section */}
-      <section className="relative z-10 px-6 py-32 lg:py-40">{/* Keep your other sections */}
+      <section className="relative z-10 px-6 py-32 lg:py-40">
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 className="text-5xl lg:text-7xl font-bold mb-24 lg:mb-32 text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.7)]">StratusConnect cleans up.</h2>
+          <div className="text-center space-y-8 lg:space-y-12">
+            <p className="text-2xl lg:text-3xl font-bold mb-12 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.6)] leading-relaxed max-w-4xl mx-auto">
+              Aviation bit.
+            </p>
+            
+            <div className="space-y-8 lg:space-y-12">
+              <div className="text-center">
+                <UserCheck className="h-16 w-16 lg:h-20 lg:w-20 text-cyan-400 mx-auto mb-6 drop-shadow-[0_0_15px_rgba(34,211,238,0.8)]" />
+                <h3 className="text-2xl lg:text-3xl font-semibold mb-4 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]">Automated ID & Sanctions Verification</h3>
+                <p className="text-white/90 text-lg lg:text-xl leading-relaxed">Every user undergoes real-time sanctions and financial crime screening. No action is needed from our verified members.</p>
+              </div>
+              
+              <div className="text-center">
+                <FileText className="h-16 w-16 lg:h-20 lg:w-20 text-cyan-400 mx-auto mb-6 drop-shadow-[0_0_15px_rgba(34,211,238,0.8)]" />
+                <h3 className="text-2xl lg:text-3xl font-semibold mb-4 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]">Real-time Compliance</h3>
+                <p className="text-white/90 text-lg lg:text-xl leading-relaxed">Every transaction is automatically checked against global financial crime databases and aviation regulatory standards.</p>
+              </div>
+              
+              <div className="text-center">
+                <Radio className="h-16 w-16 lg:h-20 lg:w-20 text-cyan-400 mx-auto mb-6 drop-shadow-[0_0_15px_rgba(34,211,238,0.8)]" />
+                <h3 className="text-2xl lg:text-3xl font-semibold mb-4 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]">Licensed Verification</h3>
+                <p className="text-white/90 text-lg lg:text-xl leading-relaxed">All pilots and crew undergo automated license verification against civil aviation authorities worldwide.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* What We Do Section - Former Trust runway section */}
+      <section className="relative z-10 px-6 py-32 lg:py-40">
         <div className="max-w-5xl mx-auto text-center">
           <h2 className="text-5xl lg:text-7xl font-bold mb-24 lg:mb-32 text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.7)]">Trust is the runway.</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 text-left max-w-4xl mx-auto">
@@ -410,26 +442,28 @@ export default function Index() {
               </div>
               <div className="flex items-start space-x-4">
                 <CheckCircle className="h-6 w-6 text-cyan-400 mt-1 flex-shrink-0 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
-                <p className="text-white/90 text-base leading-relaxed">Zero data sales policy</p>
+                <p className="text-white/90 text-lg lg:text-xl leading-relaxed">Zero data sales policy</p>
               </div>
               <div className="flex items-start space-x-4">
                 <CheckCircle className="h-6 w-6 text-cyan-400 mt-1 flex-shrink-0 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
-                <p className="text-white/90 text-base leading-relaxed">Complete audit trail for every action</p>
+                <p className="text-white/90 text-lg lg:text-xl leading-relaxed">Complete audit trail for every action</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Security & Privacy Section */}
-      <section className="relative z-10 px-6 py-20 lg:py-28">{/* Keep your other sections */}
+      {/* What We Do Details Section */}
+      <section className="relative z-10 px-6 py-32 lg:py-40">
         <div className="max-w-5xl mx-auto text-center">
-          <h2 className="text-4xl lg:text-5xl font-bold mb-16 lg:mb-20 text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.7)]">What We Do </h2>
-          <p className="text-white/90 leading-relaxed max-w-3xl mx-auto mb-16 lg:mb-20 text-lg">StratusConnect cleans up aviation. Every user and deal is verified, so the network can be trusted. Brokers bid and secure aircraft faster. Operators move aircraft to market quicker. Pilots and crew list avalavbility for free. Jobs find you not the other way around.  One platform . Faster, safer, cleaner, Built with the same discipline aviation demands in the air.       </p>
+          <h2 className="text-5xl lg:text-7xl font-bold mb-24 lg:mb-32 text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.7)]">What We Do</h2>
+          <p className="text-2xl lg:text-3xl font-bold mb-12 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.6)] leading-relaxed max-w-4xl mx-auto">
+            StratusConnect cleans up aviation. Every user and deal is verified, so the network can be trusted. Brokers bid and secure aircraft faster. Operators move aircraft to market quicker. Pilots and crew list availability for free. Jobs find you not the other way around. One platform. Faster, safer, cleaner. Built with the same discipline aviation demands in the air.
+          </p>
           <div className="flex justify-center space-x-12">
-            <Link to="/privacy" className="text-cyan-400 hover:text-cyan-300 transition-colors drop-shadow-[0_0_8px_rgba(34,211,238,0.6)] text-lg font-semibold">Privacy</Link>
-            <Link to="/security" className="text-cyan-400 hover:text-cyan-300 transition-colors drop-shadow-[0_0_8px_rgba(34,211,238,0.6)] text-lg font-semibold">Security</Link>
-            <Link to="/compliance" className="text-cyan-400 hover:text-cyan-300 transition-colors drop-shadow-[0_0_8px_rgba(34,211,238,0.6)] text-lg font-semibold">Compliance</Link>
+            <Link to="/privacy" className="text-cyan-400 hover:text-cyan-300 transition-colors drop-shadow-[0_0_8px_rgba(34,211,238,0.6)] text-xl lg:text-2xl font-semibold">Privacy</Link>
+            <Link to="/security" className="text-cyan-400 hover:text-cyan-300 transition-colors drop-shadow-[0_0_8px_rgba(34,211,238,0.6)] text-xl lg:text-2xl font-semibold">Security</Link>
+            <Link to="/compliance" className="text-cyan-400 hover:text-cyan-300 transition-colors drop-shadow-[0_0_8px_rgba(34,211,238,0.6)] text-xl lg:text-2xl font-semibold">Compliance</Link>
           </div>
         </div>
       </section>

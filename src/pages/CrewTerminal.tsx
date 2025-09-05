@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { TerminalLayout } from "@/components/TerminalLayout";
 import { KPICard } from "@/components/KPICard";
 import { Section } from "@/components/Section";
@@ -13,9 +14,13 @@ import { PrivacyOverlay } from "@/components/PrivacyOverlay";
 import { CrewAnalytics } from "@/components/analytics/CrewAnalytics";
 import { ProfileWidget } from "@/components/ProfileWidget";
 import { User, Briefcase, Award, Calendar, DollarSign, Globe, Shield } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { NavigationArrows } from "@/components/NavigationArrows";
 export default function CrewTerminal() {
   const [activeSection, setActiveSection] = useState("profile");
+  const location = useLocation();
+  const isBetaMode = location.pathname.startsWith('/beta/');
+  
   const menuItems = [{
     id: "profile",
     label: "My Profile",
@@ -60,7 +65,35 @@ export default function CrewTerminal() {
 
             {/* Profile Overview */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <ProfileWidget />
+              <div className="lg:col-span-1">
+                {/* Crew Profile Card */}
+                <div className="terminal-card p-6 space-y-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 bg-terminal-glow/20 rounded-full flex items-center justify-center">
+                      <User className="w-8 h-8 text-terminal-glow" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold text-foreground">Captain Sarah Chen</h3>
+                      <p className="text-gunmetal">Gulfstream G650 Type Rating</p>
+                      <div className="flex items-center gap-2 mt-2">
+                        <Badge className="bg-terminal-success/20 text-terminal-success">Available</Badge>
+                        <Badge className="bg-terminal-info/20 text-terminal-info">Level 2 Verified</Badge>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4 pt-4 border-t border-terminal-border">
+                    <div>
+                      <p className="text-xs text-gunmetal uppercase tracking-wide">Total Hours</p>
+                      <p className="text-lg font-semibold text-foreground">8,240</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gunmetal uppercase tracking-wide">Experience</p>
+                      <p className="text-lg font-semibold text-foreground">12 Years</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div className="lg:col-span-2">
                 <CrewProfile />
               </div>

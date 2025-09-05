@@ -226,7 +226,7 @@ export default function CrewProfile() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="bg-slate-700 border-slate-600">
-                      <SelectItem value="pilot" className="text-white">Captain/Pilot</SelectItem>
+                      <SelectItem value="pilot" className="text-white">Pilot</SelectItem>
                       <SelectItem value="co_pilot" className="text-white">Co-Pilot</SelectItem>
                       <SelectItem value="flight_attendant" className="text-white">Flight Attendant</SelectItem>
                       <SelectItem value="engineer" className="text-white">Flight Engineer</SelectItem>

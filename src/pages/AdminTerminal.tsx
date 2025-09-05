@@ -61,8 +61,28 @@ const AdminTerminal = () => {
   const [pendingUsers, setPendingUsers] = useState<PendingUser[]>([]);
 
   useEffect(() => {
+    const location = window.location;
+    const isBetaMode = location.pathname.startsWith('/beta/');
+    
     const checkAuthAndRole = async () => {
       try {
+        if (isBetaMode) {
+          // Beta mode - create mock admin user
+          setUser({
+            id: 'beta-admin-user',
+            email: 'beta.admin@stratusconnect.org',
+            user_metadata: {
+              full_name: 'Beta Admin',
+              role: 'admin'
+            },
+            app_metadata: {},
+            aud: 'authenticated',
+            created_at: new Date().toISOString()
+          } as any);
+          setLoading(false);
+          return;
+        }
+
         const { data: { session }, error: sessionError } = await supabase.auth.getSession();
         
         if (sessionError) throw sessionError;
@@ -104,29 +124,31 @@ const AdminTerminal = () => {
 
     checkAuthAndRole();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        if (session?.user) {
-          // Re-check role when auth state changes
-          const { data: userData } = await supabase
-            .from('users')
-            .select('role, email')
-            .eq('id', session.user.id)
-            .single();
+    if (!isBetaMode) {
+      const { data: { subscription } } = supabase.auth.onAuthStateChange(
+        async (event, session) => {
+          if (session?.user) {
+            // Re-check role when auth state changes
+            const { data: userData } = await supabase
+              .from('users')
+              .select('role, email')
+              .eq('id', session.user.id)
+              .single();
 
-          if (userData?.role === 'admin' && !session.user.email?.includes('demo')) {
-            setUser(session.user);
+            if (userData?.role === 'admin' && !session.user.email?.includes('demo')) {
+              setUser(session.user);
+            } else {
+              setUser(null);
+            }
           } else {
             setUser(null);
           }
-        } else {
-          setUser(null);
+          setLoading(false);
         }
-        setLoading(false);
-      }
-    );
+      );
 
-    return () => subscription.unsubscribe();
+      return () => subscription.unsubscribe();
+    }
   }, []);
 
   useEffect(() => {
@@ -205,6 +227,8 @@ const AdminTerminal = () => {
   }
 
   if (!user) {
+    const isBetaMode = window.location.pathname.startsWith('/beta/');
+    
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-6">
         <div className="text-center max-w-md">
@@ -213,8 +237,10 @@ const AdminTerminal = () => {
           </div>
           <h2 className="text-2xl font-bold text-red-400 mb-4">Access Denied</h2>
           <p className="text-slate-300 mb-6">
-            This admin terminal requires verified administrator credentials. 
-            Demo users and regular accounts are not authorized.
+            {isBetaMode 
+              ? "Admin terminal in beta mode. This should have loaded automatically."
+              : "This admin terminal requires verified administrator credentials. Demo users and regular accounts are not authorized."
+            }
           </p>
           <Button 
             onClick={() => window.history.back()}

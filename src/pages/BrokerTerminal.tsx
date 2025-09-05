@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -21,7 +22,28 @@ const BrokerTerminal = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const isBetaMode = location.pathname.startsWith('/beta/');
+
   useEffect(() => {
+    if (isBetaMode) {
+      // Beta mode - create mock user
+      setUser({
+        id: 'beta-broker-user',
+        email: 'beta.broker@stratusconnect.org',
+        user_metadata: {
+          full_name: 'Beta Broker',
+          role: 'broker'
+        },
+        app_metadata: {},
+        aud: 'authenticated',
+        created_at: new Date().toISOString()
+      } as User);
+      setLoading(false);
+      return;
+    }
+
+    // Regular auth mode
     supabase.auth.getSession().then(({
       data: {
         session
@@ -30,6 +52,7 @@ const BrokerTerminal = () => {
       setUser(session?.user ?? null);
       setLoading(false);
     });
+
     const {
       data: {
         subscription
@@ -38,14 +61,15 @@ const BrokerTerminal = () => {
       setUser(session?.user ?? null);
       setLoading(false);
     });
+
     return () => subscription.unsubscribe();
-  }, []);
+  }, [isBetaMode]);
   if (loading) {
     return <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
         <div className="text-white">Loading...</div>
       </div>;
   }
-  if (!user) {
+  if (!user && !isBetaMode) {
     return <AuthForm />;
   }
 

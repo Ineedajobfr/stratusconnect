@@ -86,10 +86,10 @@ export default {
         "data-warning": "hsl(var(--data-warning))",
         
         // Status colors
-        success: "hsl(var(--success))",
-        warning: "hsl(var(--warning))",
-        error: "hsl(var(--error))",
-        info: "hsl(var(--info))",
+        success: "hsl(var(--terminal-success))",
+        warning: "hsl(var(--terminal-warning))",
+        error: "hsl(var(--terminal-danger))",
+        info: "hsl(var(--terminal-info))",
         
         // Terminal status colors
         "terminal-success": "hsl(var(--terminal-success))",

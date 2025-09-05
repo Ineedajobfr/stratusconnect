@@ -110,12 +110,40 @@ const App = memo(() => {
               <Route path="/demo/pilot" element={<DemoPilotTerminal />} />
               <Route path="/demo/crew" element={<DemoCrewTerminal />} />
               
-              {/* Public Beta Testing Routes - No Auth Required */}
+              {/* Public Beta Testing Routes - Protected for users/owners */}
               <Route path="/beta" element={<BetaNavigator />} />
-              <Route path="/beta/broker" element={<DemoBrokerTerminal />} />
-              <Route path="/beta/operator" element={<DemoOperatorTerminal />} />
-              <Route path="/beta/crew" element={<DemoCrewTerminal />} />
-              <Route path="/beta/admin" element={<DemoBrokerTerminal />} />
+              <Route 
+                path="/beta/broker" 
+                element={
+                  <ProtectedRoute allowedRoles={['broker']}>
+                    <BrokerTerminal />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/beta/operator" 
+                element={
+                  <ProtectedRoute allowedRoles={['operator']}>
+                    <OperatorTerminal />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/beta/crew" 
+                element={
+                  <ProtectedRoute allowedRoles={['pilot', 'crew']}>
+                    <CrewTerminal />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/beta/admin" 
+                element={
+                  <ProtectedRoute allowedRoles={['admin']}>
+                    <AdminTerminal />
+                  </ProtectedRoute>
+                } 
+              />
         
         {/* Psychometric Test Routes */}
         <Route path="/psych" element={<PersonalityTest />} />

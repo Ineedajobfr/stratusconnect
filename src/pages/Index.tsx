@@ -444,7 +444,7 @@ export default function Index() {
               <Receipt className="h-20 w-20 lg:h-24 lg:w-24 text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.8)]" />
             </div>
             <p className="text-2xl lg:text-3xl font-bold mb-12 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.6)] leading-relaxed max-w-4xl mx-auto">
-              Payments run through escrow. Every transaction comes with a receipt and a full audit trail.
+              Payments run through Escrow. Every transaction comes with a receipt and full audit trail.
             </p>
             <Link to="/payments" className="text-cyan-400 hover:text-cyan-300 transition-colors text-xl lg:text-2xl font-semibold drop-shadow-[0_0_8px_rgba(34,211,238,0.6)]">
               How payments work →

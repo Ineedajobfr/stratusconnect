@@ -1,6 +1,7 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Loader2 } from 'lucide-react';
+import { hasOwnerAccess } from '@/utils/ownerAccess';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -27,9 +28,14 @@ export const ProtectedRoute = ({
     );
   }
 
+  // Owner bypass - allow access without authentication for specific emails
+  if (user && hasOwnerAccess(user)) {
+    return <>{children}</>;
+  }
+
   // Redirect to login if not authenticated
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/auth" replace />;
   }
 
   // Check if user needs approval

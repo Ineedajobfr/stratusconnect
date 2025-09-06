@@ -3218,6 +3218,18 @@ export type Database = {
         Args: { "": number }
         Returns: string
       }
+      get_public_profile: {
+        Args: { profile_user_id: string }
+        Returns: {
+          avatar_url: string
+          country: string
+          created_at: string
+          display_name: string
+          platform_role: string
+          user_id: string
+          username: string
+        }[]
+      }
       get_user_security_status: {
         Args: { p_user_id: string }
         Returns: Json

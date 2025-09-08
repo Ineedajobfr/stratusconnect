@@ -63,7 +63,7 @@ We're going to take your project from your computer and put it on the internet s
 1. **In Vercel, go to:** Your project settings
 2. **Click:** "Environment Variables"
 3. **Add these two:**
-   - **Name:** `VITE_SUPABASE_URL`
+   - **Name:** `VITE_SUPABASE_URL`e
    - **Value:** (You'll get this from Supabase)
    - **Name:** `VITE_SUPABASE_ANON_KEY`
    - **Value:** (You'll get this from Supabase)

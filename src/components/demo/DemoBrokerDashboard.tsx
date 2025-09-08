@@ -11,6 +11,7 @@ import { NotificationCenter } from "../ui/notification-center";
 import { MessageCenter } from "../messaging/MessageCenter";
 import { UnifiedTerminalLayout, TerminalIcons } from "./UnifiedTerminalLayout";
 import { ProfessionalDataCard, ProfessionalFlightCard } from "./ProfessionalDataCard";
+import { PilotTrackingMap } from "./PilotTrackingMap";
 
 // Demo data
 const demoRequests = [
@@ -119,6 +120,109 @@ const demoNotifications = [
   }
 ];
 
+// Pilot tracking data for the map
+const demoPilotTracking = [
+  {
+    id: "pilot-001",
+    name: "Captain Sarah Johnson",
+    role: "captain",
+    status: "available",
+    location: {
+      lat: 40.7128,
+      lng: -74.0060,
+      airport: "KJFK",
+      city: "New York",
+      country: "USA"
+    },
+    ratings: ["Gulfstream G550", "Falcon 7X", "Citation X+"],
+    hours_flown: 8500,
+    rating: 4.9,
+    next_available: "Available now"
+  },
+  {
+    id: "pilot-002",
+    name: "Captain Mike Chen",
+    role: "captain",
+    status: "in_flight",
+    location: {
+      lat: 34.0522,
+      lng: -118.2437,
+      airport: "KLAX",
+      city: "Los Angeles",
+      country: "USA"
+    },
+    current_assignment: {
+      flight_id: "FL-001",
+      route: "KLAX → KJFK",
+      aircraft: "Gulfstream G550",
+      departure_time: "14:30 UTC",
+      arrival_time: "22:45 UTC"
+    },
+    ratings: ["Boeing 737", "Airbus A320", "Gulfstream G550"],
+    hours_flown: 12000,
+    rating: 4.8,
+    next_available: "Tomorrow 08:00"
+  },
+  {
+    id: "pilot-003",
+    name: "First Officer Emma Davis",
+    role: "first_officer",
+    status: "on_duty",
+    location: {
+      lat: 25.7617,
+      lng: -80.1918,
+      airport: "KMIA",
+      city: "Miami",
+      country: "USA"
+    },
+    ratings: ["Falcon 7X", "Citation X+", "Challenger 350"],
+    hours_flown: 3200,
+    rating: 4.7,
+    next_available: "Today 18:00"
+  },
+  {
+    id: "pilot-004",
+    name: "Captain James Mitchell",
+    role: "captain",
+    status: "available",
+    location: {
+      lat: 51.5074,
+      lng: -0.1278,
+      airport: "EGLL",
+      city: "London",
+      country: "UK"
+    },
+    ratings: ["Boeing 777", "Airbus A350", "Gulfstream G650"],
+    hours_flown: 15000,
+    rating: 4.9,
+    next_available: "Available now"
+  },
+  {
+    id: "pilot-005",
+    name: "Captain Lisa Wang",
+    role: "captain",
+    status: "in_flight",
+    location: {
+      lat: 35.6762,
+      lng: 139.6503,
+      airport: "RJTT",
+      city: "Tokyo",
+      country: "Japan"
+    },
+    current_assignment: {
+      flight_id: "FL-002",
+      route: "RJTT → KLAX",
+      aircraft: "Boeing 777",
+      departure_time: "16:00 UTC",
+      arrival_time: "08:30 UTC"
+    },
+    ratings: ["Boeing 777", "Boeing 787", "Airbus A350"],
+    hours_flown: 11000,
+    rating: 4.8,
+    next_available: "Jan 15 10:00"
+  }
+];
+
 export const DemoBrokerDashboard: React.FC = () => {
   const [showNewRequestForm, setShowNewRequestForm] = useState(false);
 
@@ -196,6 +300,9 @@ export const DemoBrokerDashboard: React.FC = () => {
               trend={{ value: 12, isPositive: true }}
             />
           </div>
+
+          {/* Pilot Tracking Map */}
+          <PilotTrackingMap pilots={demoPilotTracking} />
 
           {/* Recent Activity */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

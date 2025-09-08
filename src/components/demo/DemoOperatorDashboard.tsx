@@ -12,6 +12,7 @@ import { NotificationCenter } from "../ui/notification-center";
 import { MessageCenter } from "../messaging/MessageCenter";
 import { UnifiedTerminalLayout, TerminalIcons } from "./UnifiedTerminalLayout";
 import { ProfessionalDataCard, ProfessionalFlightCard } from "./ProfessionalDataCard";
+import { AircraftTrackingMap } from "./AircraftTrackingMap";
 
 // Demo data
 const demoRequests = [
@@ -181,6 +182,104 @@ const demoNotifications = [
   }
 ];
 
+// Aircraft tracking data for the map
+const demoAircraftTracking = [
+  {
+    id: "aircraft-001",
+    tail_number: "N425SC",
+    model: "Gulfstream G550",
+    status: "in_flight",
+    location: {
+      lat: 40.7128,
+      lng: -74.0060,
+      airport: "KJFK",
+      city: "New York",
+      country: "USA"
+    },
+    current_flight: {
+      origin: "KJFK",
+      destination: "KLAX",
+      departure_time: "14:30 UTC",
+      arrival_time: "17:45 UTC",
+      passengers: 8
+    },
+    crew: {
+      captain: "Sarah Johnson",
+      first_officer: "Mike Chen"
+    },
+    next_scheduled: {
+      route: "KLAX → KMIA",
+      time: "Tomorrow 09:00"
+    }
+  },
+  {
+    id: "aircraft-002",
+    tail_number: "N892AV",
+    model: "Citation X+",
+    status: "available",
+    location: {
+      lat: 34.0522,
+      lng: -118.2437,
+      airport: "KLAX",
+      city: "Los Angeles",
+      country: "USA"
+    },
+    crew: {
+      captain: "David Rodriguez",
+      first_officer: "Emma Davis"
+    },
+    next_scheduled: {
+      route: "KLAX → KJFK",
+      time: "Today 18:00"
+    }
+  },
+  {
+    id: "aircraft-003",
+    tail_number: "N156JT",
+    model: "Falcon 7X",
+    status: "maintenance",
+    location: {
+      lat: 25.7617,
+      lng: -80.1918,
+      airport: "KMIA",
+      city: "Miami",
+      country: "USA"
+    },
+    crew: {
+      captain: "James Mitchell",
+      first_officer: "Lisa Wang"
+    },
+    next_scheduled: {
+      route: "KMIA → KORD",
+      time: "Jan 15 10:00"
+    }
+  },
+  {
+    id: "aircraft-004",
+    tail_number: "N789AB",
+    model: "Gulfstream G650",
+    status: "scheduled",
+    location: {
+      lat: 51.5074,
+      lng: -0.1278,
+      airport: "EGLL",
+      city: "London",
+      country: "UK"
+    },
+    current_flight: {
+      origin: "EGLL",
+      destination: "KJFK",
+      departure_time: "16:00 UTC",
+      arrival_time: "19:30 UTC",
+      passengers: 12
+    },
+    crew: {
+      captain: "Robert Smith",
+      first_officer: "Anna Johnson"
+    }
+  }
+];
+
 export const DemoOperatorDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
 
@@ -260,6 +359,9 @@ export const DemoOperatorDashboard: React.FC = () => {
               trend={{ value: 22, isPositive: true }}
             />
           </div>
+
+          {/* Aircraft Tracking Map */}
+          <AircraftTrackingMap aircraft={demoAircraftTracking} />
 
           {/* Fleet Overview */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

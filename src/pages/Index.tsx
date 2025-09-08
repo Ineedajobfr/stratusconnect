@@ -158,7 +158,7 @@ export default function Index() {
                     <ArrowRight className="ml-1 h-3 w-3" />
                   </Button>
                   <Button 
-                    onClick={() => handleDemoLogin('broker')}
+                    onClick={() => navigate('/demo/broker')}
                     variant="outline" 
                     className="w-full border-cyan-400/50 text-cyan-300 hover:bg-cyan-400/10 rounded-lg font-medium py-1.5 text-xs shadow-[0_0_15px_rgba(34,211,238,0.3)]"
                   >
@@ -197,7 +197,7 @@ export default function Index() {
                     <ArrowRight className="ml-1 h-3 w-3" />
                   </Button>
                   <Button 
-                    onClick={() => handleDemoLogin('operator')}
+                    onClick={() => navigate('/demo/operator')}
                     variant="outline" 
                     className="w-full border-cyan-400/50 text-cyan-300 hover:bg-cyan-400/10 rounded-lg font-medium py-1.5 text-xs shadow-[0_0_15px_rgba(34,211,238,0.3)]"
                   >
@@ -236,7 +236,7 @@ export default function Index() {
                     <ArrowRight className="ml-1 h-3 w-3" />
                   </Button>
                   <Button 
-                    onClick={() => handleDemoLogin('pilot')}
+                    onClick={() => navigate('/demo/pilot')}
                     variant="outline" 
                     className="w-full border-cyan-400/50 text-cyan-300 hover:bg-cyan-400/10 rounded-lg font-medium py-1.5 text-xs shadow-[0_0_15px_rgba(34,211,238,0.3)]"
                   >
@@ -275,7 +275,7 @@ export default function Index() {
                     <ArrowRight className="ml-1 h-3 w-3" />
                   </Button>
                   <Button 
-                    onClick={() => handleDemoLogin('crew')}
+                    onClick={() => navigate('/demo/crew')}
                     variant="outline" 
                     className="w-full border-cyan-400/50 text-cyan-300 hover:bg-cyan-400/10 rounded-lg font-medium py-1.5 text-xs shadow-[0_0_15px_rgba(34,211,238,0.3)]"
                   >

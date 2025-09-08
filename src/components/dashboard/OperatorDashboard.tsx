@@ -6,11 +6,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Plus, Plane, Clock, CheckCircle, Users, BarChart3, Settings } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { QuoteCard } from "./QuoteCard";
-import { FleetCard } from "./FleetCard";
-import { CrewCard } from "./CrewCard";
-import { AnalyticsChart } from "./AnalyticsChart";
-import { NotificationCenter } from "./NotificationCenter";
+import { QuoteCard } from "../ui/quote-card";
+import { FleetCard } from "../ui/fleet-card";
+import { CrewCard } from "../ui/crew-card";
+import { AnalyticsChart } from "../analytics/AnalyticsChart";
+import { NotificationCenter } from "../ui/notification-center";
 
 interface Request {
   id: string;

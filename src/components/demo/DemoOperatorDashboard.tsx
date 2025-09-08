@@ -3,13 +3,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Plane, Clock, CheckCircle, AlertCircle, Users, BarChart3, Settings, Bell } from "lucide-react";
-import { DemoBanner } from "./DemoBanner";
+import { Plus, Plane, Clock, CheckCircle, AlertCircle, Users, BarChart3, Settings, Bell, FileText, Shield, Award, DollarSign } from "lucide-react";
+import { DemoBanner } from "../DemoBanner";
 import { FleetCard } from "../ui/fleet-card";
 import { CrewCard } from "../ui/crew-card";
 import { AnalyticsChart } from "../analytics/AnalyticsChart";
 import { NotificationCenter } from "../ui/notification-center";
 import { MessageCenter } from "../messaging/MessageCenter";
+import { UnifiedTerminalLayout, TerminalIcons } from "./UnifiedTerminalLayout";
+import { ProfessionalDataCard, ProfessionalFlightCard } from "./ProfessionalDataCard";
 
 // Demo data
 const demoRequests = [
@@ -180,265 +182,209 @@ const demoNotifications = [
 ];
 
 export const DemoOperatorDashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState("requests");
+  const [activeTab, setActiveTab] = useState("dashboard");
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'open':
-        return <Clock className="h-4 w-4 text-yellow-500" />;
-      case 'accepted':
-        return <CheckCircle className="h-4 w-4 text-green-500" />;
-      case 'pending':
-        return <Clock className="h-4 w-4 text-blue-500" />;
-      case 'rejected':
-        return <Clock className="h-4 w-4 text-red-500" />;
-      default:
-        return <Clock className="h-4 w-4 text-gray-500" />;
-    }
+  const sidebarItems = [
+    { id: "dashboard", label: "Operator Dashboard", icon: <TerminalIcons.Analytics />, active: true },
+    { id: "requests", label: "Open Requests", icon: <TerminalIcons.Requests />, badge: 8 },
+    { id: "quotes", label: "My Quotes", icon: <TerminalIcons.Analytics />, badge: 12 },
+    { id: "bookings", label: "Active Bookings", icon: <TerminalIcons.Bookings />, badge: 3 },
+    { id: "fleet", label: "Fleet Management", icon: <TerminalIcons.Fleet /> },
+    { id: "crew", label: "Crew Management", icon: <TerminalIcons.Crew /> },
+    { id: "analytics", label: "Analytics", icon: <TerminalIcons.Analytics /> },
+    { id: "billing", label: "Billing & Revenue", icon: <TerminalIcons.Earnings /> },
+    { id: "reports", label: "Reports", icon: <TerminalIcons.FileText /> },
+    { id: "settings", label: "Settings", icon: <TerminalIcons.Settings /> }
+  ];
+
+  const user = {
+    name: "David Rodriguez",
+    role: "Fleet Operations Manager",
+    status: "available" as const
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'open':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-500';
       case 'accepted':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-500';
       case 'pending':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-blue-500';
       case 'rejected':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-500';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-gray-500';
     }
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gray-900">
       <DemoBanner />
       
-      <div className="p-6 space-y-6">
-        {/* Header */}
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold">Operator Dashboard</h1>
-            <p className="text-gray-600">Manage your fleet, crew, and charter operations</p>
+      <UnifiedTerminalLayout
+        title="Operator Terminal"
+        subtitle="Fleet Operations & Charter Management"
+        user={user}
+        sidebarItems={sidebarItems}
+        onNavigate={(direction) => console.log(`Navigate ${direction}`)}
+        onLogout={() => console.log('Logout')}
+        onNotificationClick={() => console.log('Notifications')}
+        onMessageClick={() => console.log('Messages')}
+      >
+        <div className="space-y-6">
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <ProfessionalDataCard
+              title="Open Requests"
+              value={demoStats.totalRequests}
+              icon={Plane}
+              badge={{ text: "New", variant: "destructive" }}
+            />
+            <ProfessionalDataCard
+              title="My Quotes"
+              value={demoStats.myQuotes}
+              icon={Clock}
+              trend={{ value: 18, isPositive: true }}
+            />
+            <ProfessionalDataCard
+              title="Win Rate"
+              value={`${demoStats.winRate.toFixed(1)}%`}
+              icon={BarChart3}
+              trend={{ value: 5, isPositive: true }}
+            />
+            <ProfessionalDataCard
+              title="Total Revenue"
+              value={`$${demoStats.totalRevenue.toLocaleString()}`}
+              icon={DollarSign}
+              trend={{ value: 22, isPositive: true }}
+            />
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline" className="flex items-center gap-2">
-              <Settings className="h-4 w-4" />
-              Settings
-            </Button>
-            <Button className="flex items-center gap-2">
-              <Plus className="h-4 w-4" />
-              Add Aircraft
-            </Button>
+
+          {/* Fleet Overview */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Fleet Status */}
+            <Card className="bg-gray-800 border-gray-700">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2 text-white">
+                  <Plane className="h-5 w-5 text-orange-400" />
+                  <span>FLEET STATUS</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {demoAircraft.map((aircraft) => (
+                  <Card key={aircraft.id} className="bg-gray-700 border-gray-600">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold">
+                            {aircraft.tail_number.slice(-2)}
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-white">{aircraft.model}</h3>
+                            <p className="text-sm text-gray-400">{aircraft.tail_number}</p>
+                          </div>
+                        </div>
+                        <Badge className={`${getStatusColor(aircraft.status)} text-white`}>
+                          {aircraft.status.replace('_', ' ')}
+                        </Badge>
+                      </div>
+                      
+                      <div className="grid grid-cols-3 gap-4 text-sm text-gray-300">
+                        <div>
+                          <span className="text-gray-400">Seats:</span>
+                          <span className="ml-1 text-orange-400">{aircraft.seats}</span>
+                        </div>
+                        <div>
+                          <span className="text-gray-400">Range:</span>
+                          <span className="ml-1 text-orange-400">{aircraft.range_nm}nm</span>
+                        </div>
+                        <div>
+                          <span className="text-gray-400">Year:</span>
+                          <span className="ml-1 text-orange-400">{aircraft.year}</span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </CardContent>
+            </Card>
+
+            {/* Recent Activity */}
+            <Card className="bg-gray-800 border-gray-700">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2 text-white">
+                  <Clock className="h-5 w-5 text-orange-400" />
+                  <span>RECENT ACTIVITY</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {demoRequests.map((request) => (
+                  <Card key={request.id} className="bg-gray-700 border-gray-600">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                          <h3 className="font-semibold text-white">{request.origin} → {request.destination}</h3>
+                        </div>
+                        <Badge className={`${getStatusColor(request.status)} text-white`}>
+                          {request.status}
+                        </Badge>
+                      </div>
+                      
+                      <div className="space-y-2 text-sm text-gray-300">
+                        <div className="flex items-center justify-between">
+                          <span>{new Date(request.departure_date).toLocaleDateString()}</span>
+                          <span className="text-orange-400">{request.passenger_count} PAX</span>
+                        </div>
+                        
+                        <div className="pt-2 border-t border-gray-600">
+                          <div className="flex items-center justify-between">
+                            <span className="text-gray-400">Broker: {request.companies?.name}</span>
+                            <Button size="sm" className="bg-orange-500 hover:bg-orange-600 text-white">
+                              Submit Quote
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </CardContent>
+            </Card>
           </div>
-        </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Open Requests</CardTitle>
-              <Plane className="h-4 w-4 text-muted-foreground" />
+          {/* Quick Actions */}
+          <Card className="bg-gray-800 border-gray-700">
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2 text-white">
+                <Plus className="h-5 w-5 text-orange-400" />
+                <span>QUICK ACTIONS</span>
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{demoStats.totalRequests}</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">My Quotes</CardTitle>
-              <Clock className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{demoStats.myQuotes}</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Win Rate</CardTitle>
-              <BarChart3 className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{demoStats.winRate.toFixed(1)}%</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-              <span className="text-sm text-muted-foreground">$</span>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">${demoStats.totalRevenue.toLocaleString()}</div>
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <Button className="bg-orange-500 hover:bg-orange-600 text-white h-12">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Aircraft
+                </Button>
+                <Button variant="outline" className="border-gray-600 text-gray-300 hover:bg-gray-700 h-12">
+                  <Users className="h-4 w-4 mr-2" />
+                  Manage Crew
+                </Button>
+                <Button variant="outline" className="border-gray-600 text-gray-300 hover:bg-gray-700 h-12">
+                  <BarChart3 className="h-4 w-4 mr-2" />
+                  View Analytics
+                </Button>
+                <Button variant="outline" className="border-gray-600 text-gray-300 hover:bg-gray-700 h-12">
+                  <FileText className="h-4 w-4 mr-2" />
+                  Generate Report
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </div>
-
-        {/* Main Content */}
-        <Tabs defaultValue="requests" className="space-y-4">
-          <TabsList>
-            <TabsTrigger value="requests">Open Requests</TabsTrigger>
-            <TabsTrigger value="quotes">My Quotes</TabsTrigger>
-            <TabsTrigger value="bookings">Active Bookings</TabsTrigger>
-            <TabsTrigger value="fleet">Fleet</TabsTrigger>
-            <TabsTrigger value="crew">Crew</TabsTrigger>
-            <TabsTrigger value="analytics">Analytics</TabsTrigger>
-            <TabsTrigger value="notifications">Notifications</TabsTrigger>
-            <TabsTrigger value="messages">Messages</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="requests" className="space-y-4">
-            <div className="space-y-4">
-              {demoRequests.map((request) => (
-                <Card key={request.id}>
-                  <CardHeader>
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <CardTitle className="flex items-center gap-2">
-                          {getStatusIcon(request.status)}
-                          {request.origin} → {request.destination}
-                        </CardTitle>
-                        <CardDescription>
-                          {new Date(request.departure_date).toLocaleDateString()}
-                          • {request.passenger_count} passengers
-                          • {request.companies?.name}
-                        </CardDescription>
-                      </div>
-                      <Badge className={getStatusColor(request.status)}>
-                        {request.status}
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <Button className="w-full">
-                      Submit Quote
-                    </Button>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="quotes" className="space-y-4">
-            <div className="space-y-4">
-              {demoQuotes.map((quote) => (
-                <Card key={quote.id}>
-                  <CardHeader>
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <CardTitle className="flex items-center gap-2">
-                          {getStatusIcon(quote.status)}
-                          {quote.requests?.origin} → {quote.requests?.destination}
-                        </CardTitle>
-                        <CardDescription>
-                          ${quote.price.toLocaleString()} {quote.currency}
-                          {quote.aircraft && ` • ${quote.aircraft.model} (${quote.aircraft.tail_number})`}
-                        </CardDescription>
-                      </div>
-                      <Badge className={getStatusColor(quote.status)}>
-                        {quote.status}
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="bookings" className="space-y-4">
-            <div className="space-y-4">
-              {demoBookings.map((booking) => (
-                <Card key={booking.id}>
-                  <CardHeader>
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <CardTitle>
-                          {booking.requests.origin} → {booking.requests.destination}
-                        </CardTitle>
-                        <CardDescription>
-                          ${booking.total_price.toLocaleString()} {booking.currency}
-                        </CardDescription>
-                      </div>
-                      <Badge className={getStatusColor(booking.status)}>
-                        {booking.status}
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-2">
-                      <Button variant="outline" className="w-full">
-                        Assign Crew
-                      </Button>
-                      <Button variant="outline" className="w-full">
-                        Update Flight Status
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="fleet" className="space-y-4">
-            <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold">Fleet Management</h3>
-              <Button className="flex items-center gap-2">
-                <Plus className="h-4 w-4" />
-                Add Aircraft
-              </Button>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {demoAircraft.map((aircraft) => (
-                <FleetCard key={aircraft.id} aircraft={aircraft} />
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="crew" className="space-y-4">
-            <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold">Crew Management</h3>
-              <Button className="flex items-center gap-2">
-                <Plus className="h-4 w-4" />
-                Add Crew Member
-              </Button>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {demoCrew.map((member) => (
-                <CrewCard key={member.id} member={member} />
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="analytics">
-            <AnalyticsChart />
-          </TabsContent>
-
-          <TabsContent value="notifications">
-            <div className="space-y-4">
-              {demoNotifications.map((notification) => (
-                <Card key={notification.id} className={!notification.read ? 'border-l-4 border-l-blue-500 bg-blue-50/50' : ''}>
-                  <CardContent className="p-4">
-                    <div className="flex items-start gap-3">
-                      <Bell className="h-4 w-4 text-blue-500 mt-1" />
-                      <div className="flex-1">
-                        <p className="text-sm text-gray-900">{notification.message}</p>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {new Date(notification.created_at).toLocaleTimeString()}
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="messages">
-            <MessageCenter bookingId="demo-booking-001" />
-          </TabsContent>
-        </Tabs>
-      </div>
+      </UnifiedTerminalLayout>
     </div>
   );
 };

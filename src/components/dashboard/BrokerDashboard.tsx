@@ -7,9 +7,9 @@ import { Plus, Plane, Clock, CheckCircle, AlertCircle } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { NewRequestForm } from "./NewRequestForm";
-import { QuoteCard } from "./QuoteCard";
-import { BookingTimeline } from "./BookingTimeline";
-import { NotificationCenter } from "./NotificationCenter";
+import { QuoteCard } from "../ui/quote-card";
+import { BookingTimeline } from "../ui/booking-timeline";
+import { NotificationCenter } from "../ui/notification-center";
 
 interface Request {
   id: string;

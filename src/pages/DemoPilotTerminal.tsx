@@ -1,5 +1,6 @@
-import { DemoCrewDashboard } from "@/components/demo/DemoCrewDashboard";
+import { DemoPilotDashboard } from "@/components/demo/DemoPilotDashboard";
 
 export default function DemoPilotTerminal() {
-  return <DemoCrewDashboard />;
+  return <DemoPilotDashboard />;
 }
+

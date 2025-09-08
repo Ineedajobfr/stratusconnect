@@ -143,3 +143,4 @@ We're going to take your project from your computer and put it on the internet s
 
 **Your project folder name:** `stratusconnect`
 **Your project location:** `C:\Users\ibrah\Documents\GitHub\stratusconnect`
+

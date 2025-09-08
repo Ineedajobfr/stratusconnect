@@ -3,29 +3,29 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plane, Clock, CheckCircle, AlertCircle, Bell, MapPin, Users, Calendar, Shield, Award, FileText, DollarSign, Star } from "lucide-react";
+import { Plane, Clock, CheckCircle, AlertCircle, Bell, MapPin, Users, Calendar, Shield, Award, FileText, DollarSign, Star, BarChart3 } from "lucide-react";
 import { DemoBanner } from "../DemoBanner";
 import { NotificationCenter } from "../ui/notification-center";
 import { MessageCenter } from "../messaging/MessageCenter";
 import { UnifiedTerminalLayout, TerminalIcons } from "./UnifiedTerminalLayout";
 import { ProfessionalDataCard, ProfessionalFlightCard, ProfessionalProfileCard } from "./ProfessionalDataCard";
 
-// Demo data for crew/pilot
+// Demo data for pilot
 const demoAssignments = [
   {
     id: "assign-001",
     flight_id: "flight-001",
-    departure_airport: "MIA",
-    arrival_airport: "LHR",
+    departure_airport: "KTEB",
+    arrival_airport: "KMIA",
     departure_datetime: "2024-01-20T08:00:00Z",
-    arrival_datetime: "2024-01-20T18:30:00Z",
+    arrival_datetime: "2024-01-20T11:30:00Z",
     status: "scheduled",
     role: "Captain",
     aircraft: {
-      model: "Falcon 7X",
-      tail_number: "N156JT"
+      model: "Gulfstream G550",
+      tail_number: "N425SC"
     },
-    passengers: 6,
+    passengers: 8,
     booking: {
       id: "book-001",
       broker: "Elite Charter Co."
@@ -34,17 +34,17 @@ const demoAssignments = [
   {
     id: "assign-002",
     flight_id: "flight-002",
-    departure_airport: "JFK",
-    arrival_airport: "LAX",
+    departure_airport: "KJFK",
+    arrival_airport: "KLAX",
     departure_datetime: "2024-01-15T10:00:00Z",
     arrival_datetime: "2024-01-15T13:30:00Z",
     status: "in_flight",
-    role: "First Officer",
+    role: "Captain",
     aircraft: {
-      model: "Gulfstream G550",
-      tail_number: "N425SC"
+      model: "Falcon 7X",
+      tail_number: "N156JT"
     },
-    passengers: 4,
+    passengers: 6,
     booking: {
       id: "book-002",
       broker: "Premier Jets"
@@ -53,61 +53,61 @@ const demoAssignments = [
 ];
 
 const demoProfile = {
-  id: "crew-001",
-  full_name: "Captain Sarah Johnson",
-  role: "pilot",
+  id: "pilot-001",
+  full_name: "Captain James Mitchell",
+  role: "Senior Captain",
   avatar_url: "/placeholder-avatar.jpg",
-  licence_number: "ATP-123456",
-  licence_expiry: "2025-06-15",
-  ratings: ["Gulfstream G550", "Falcon 7X", "Citation X+"],
-  hours_flown: 2847,
+  licence_number: "ATP-987654",
+  licence_expiry: "2025-08-20",
+  ratings: ["Boeing 737", "Airbus A320", "Gulfstream G550", "Falcon 7X", "Citation X+"],
+  hours_flown: 12500,
   base_airport: "KJFK",
   availability_status: "available"
 };
 
 const demoStats = {
-  totalFlights: 47,
-  hoursThisMonth: 89.5,
-  upcomingFlights: 3,
-  completedFlights: 44
+  totalFlights: 89,
+  hoursThisMonth: 156.5,
+  upcomingFlights: 5,
+  completedFlights: 84
 };
 
 const demoNotifications = [
   {
     id: "notif-001",
-    type: "crew_assigned",
-    message: "You've been assigned as Captain for Miami→London flight",
+    type: "flight_assigned",
+    message: "You've been assigned as Captain for Teterboro→Miami flight",
     read: false,
     created_at: "2024-01-10T14:30:00Z"
   },
   {
     id: "notif-002",
-    type: "flight_delay",
-    message: "Flight JFK→LAX delayed by 45 minutes due to weather",
+    type: "weather_alert",
+    message: "Weather advisory: Strong winds expected in Miami area",
     read: false,
     created_at: "2024-01-15T09:15:00Z"
   }
 ];
 
-export const DemoCrewDashboard: React.FC = () => {
+export const DemoPilotDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState("profile");
 
   const sidebarItems = [
     { id: "profile", label: "Pilot Profile", icon: <TerminalIcons.Profile />, active: true },
-    { id: "trust", label: "Fortress of Trust", icon: <TerminalIcons.Trust /> },
-    { id: "jobs", label: "Job Opportunities", icon: <TerminalIcons.Jobs />, badge: 3 },
-    { id: "schedule", label: "Flight Schedule", icon: <TerminalIcons.Schedule /> },
-    { id: "certifications", label: "Certifications", icon: <TerminalIcons.Certifications /> },
+    { id: "schedule", label: "Flight Schedule", icon: <TerminalIcons.Schedule />, badge: 5 },
     { id: "logbook", label: "Digital Logbook", icon: <TerminalIcons.Logbook /> },
-    { id: "earnings", label: "Earnings", icon: <TerminalIcons.Earnings /> },
-    { id: "network", label: "Professional Network", icon: <TerminalIcons.Network /> },
+    { id: "certifications", label: "Certifications", icon: <TerminalIcons.Certifications /> },
     { id: "training", label: "Training Records", icon: <TerminalIcons.Training /> },
+    { id: "earnings", label: "Earnings", icon: <TerminalIcons.Earnings /> },
+    { id: "analytics", label: "Performance Analytics", icon: <TerminalIcons.Analytics /> },
+    { id: "network", label: "Professional Network", icon: <TerminalIcons.Network /> },
+    { id: "weather", label: "Weather Center", icon: <TerminalIcons.Trust /> },
     { id: "news", label: "Aviation News", icon: <TerminalIcons.News /> }
   ];
 
   const user = {
-    name: "Captain Sarah Mitchell",
-    role: "Professional Pilot",
+    name: "Captain James Mitchell",
+    role: "Senior Captain",
     status: "available" as const
   };
 
@@ -125,8 +125,8 @@ export const DemoCrewDashboard: React.FC = () => {
       <DemoBanner />
       
       <UnifiedTerminalLayout
-        title="Crew Terminal"
-        subtitle="Professional Pilot Profile"
+        title="Pilot Terminal"
+        subtitle="Professional Flight Operations & Career Management"
         user={user}
         sidebarItems={sidebarItems}
         onNavigate={(direction) => console.log(`Navigate ${direction}`)}
@@ -137,13 +137,13 @@ export const DemoCrewDashboard: React.FC = () => {
         <div className="space-y-6">
           {/* Pilot Profile Card */}
           <ProfessionalProfileCard
-            name="Captain Sarah Mitchell"
-            title="ATP-1234567"
-            rating={4.9}
-            flights={127}
-            location="Teterboro, NJ (KTEB)"
-            typeRatings={["G650/G650ER", "Falcon 7X/8X", "Citation X/X+", "G550/G500"]}
-            operatingRegions={["Domestic US", "Europe", "Caribbean", "Central America"]}
+            name="Captain James Mitchell"
+            title="ATP-987654"
+            rating={4.8}
+            flights={89}
+            location="New York, NY (KJFK)"
+            typeRatings={["Boeing 737", "Airbus A320", "Gulfstream G550", "Falcon 7X", "Citation X+"]}
+            operatingRegions={["North America", "Europe", "Asia", "Caribbean"]}
           />
 
           {/* Flight Experience Summary */}
@@ -157,19 +157,19 @@ export const DemoCrewDashboard: React.FC = () => {
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-orange-400">8,547</div>
+                  <div className="text-3xl font-bold text-orange-400">12,500</div>
                   <div className="text-sm text-gray-400">Total Flight Hours</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-orange-400">6,240</div>
+                  <div className="text-3xl font-bold text-orange-400">9,200</div>
                   <div className="text-sm text-gray-400">PIC Hours</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-orange-400">6</div>
+                  <div className="text-3xl font-bold text-orange-400">5</div>
                   <div className="text-sm text-gray-400">Type Ratings</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-orange-400">12</div>
+                  <div className="text-3xl font-bold text-orange-400">18</div>
                   <div className="text-sm text-gray-400">Years Experience</div>
                 </div>
               </div>
@@ -188,31 +188,31 @@ export const DemoCrewDashboard: React.FC = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <ProfessionalFlightCard
-                  route="KTEB → KMIA"
-                  date="Dec 20 • G550 • 2.9h • PIC"
-                  aircraft="G550"
+                  route="KJFK → KLAX"
+                  date="Dec 22 • Boeing 737 • 5.2h • Captain"
+                  aircraft="Boeing 737"
+                  status="landed"
+                  passengers={156}
+                  earnings={3200}
+                  rating={4.9}
+                />
+                <ProfessionalFlightCard
+                  route="KLAX → KJFK"
+                  date="Dec 20 • Airbus A320 • 4.8h • Captain"
+                  aircraft="Airbus A320"
+                  status="landed"
+                  passengers={142}
+                  earnings={2800}
+                  rating={4.7}
+                />
+                <ProfessionalFlightCard
+                  route="KJFK → KMIA"
+                  date="Dec 18 • Gulfstream G550 • 2.9h • Captain"
+                  aircraft="Gulfstream G550"
                   status="landed"
                   passengers={8}
-                  earnings={1150}
-                  rating={5.0}
-                />
-                <ProfessionalFlightCard
-                  route="KJFK → KLAX"
-                  date="Dec 18 • G650 • 5.2h • PIC"
-                  aircraft="G650"
-                  status="landed"
-                  passengers={6}
-                  earnings={2100}
-                  rating={4.8}
-                />
-                <ProfessionalFlightCard
-                  route="KMIA → KORD"
-                  date="Dec 15 • Falcon 7X • 3.1h • PIC"
-                  aircraft="Falcon 7X"
-                  status="landed"
-                  passengers={4}
                   earnings={1800}
-                  rating={4.9}
+                  rating={5.0}
                 />
               </CardContent>
             </Card>
@@ -227,25 +227,25 @@ export const DemoCrewDashboard: React.FC = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <ProfessionalFlightCard
-                  route="KTEB → KPBI"
+                  route="KJFK → KORD"
                   date="Dec 28 at 14:30 UTC"
-                  aircraft="G550"
+                  aircraft="Boeing 737"
                   status="scheduled"
-                  passengers={6}
+                  passengers={156}
                 />
                 <ProfessionalFlightCard
-                  route="KPBI → KLAX"
+                  route="KORD → KLAX"
                   date="Dec 30 at 09:15 UTC"
-                  aircraft="G650"
+                  aircraft="Airbus A320"
                   status="scheduled"
-                  passengers={8}
+                  passengers={142}
                 />
                 <ProfessionalFlightCard
                   route="KLAX → KJFK"
                   date="Jan 2 at 16:45 UTC"
                   aircraft="Falcon 7X"
                   status="scheduled"
-                  passengers={4}
+                  passengers={6}
                 />
               </CardContent>
             </Card>
@@ -257,13 +257,13 @@ export const DemoCrewDashboard: React.FC = () => {
               title="Total Flights"
               value={demoStats.totalFlights}
               icon={Plane}
-              trend={{ value: 12, isPositive: true }}
+              trend={{ value: 15, isPositive: true }}
             />
             <ProfessionalDataCard
               title="Hours This Month"
               value={demoStats.hoursThisMonth}
               icon={Clock}
-              trend={{ value: 8, isPositive: true }}
+              trend={{ value: 12, isPositive: true }}
             />
             <ProfessionalDataCard
               title="Upcoming Flights"
@@ -275,9 +275,35 @@ export const DemoCrewDashboard: React.FC = () => {
               title="Completed"
               value={demoStats.completedFlights}
               icon={CheckCircle}
-              trend={{ value: 5, isPositive: true }}
+              trend={{ value: 8, isPositive: true }}
             />
           </div>
+
+          {/* Performance Analytics */}
+          <Card className="bg-gray-800 border-gray-700">
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2 text-white">
+                <BarChart3 className="h-5 w-5 text-orange-400" />
+                <span>PERFORMANCE ANALYTICS</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-orange-400">98.5%</div>
+                  <div className="text-sm text-gray-400">On-Time Performance</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-orange-400">4.8</div>
+                  <div className="text-sm text-gray-400">Average Rating</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-orange-400">0</div>
+                  <div className="text-sm text-gray-400">Safety Incidents</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </UnifiedTerminalLayout>
     </div>

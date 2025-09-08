@@ -3,12 +3,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Plane, Clock, CheckCircle, AlertCircle, Bell, DollarSign, Users, BarChart3 } from "lucide-react";
-import { DemoBanner } from "./DemoBanner";
+import { Plus, Plane, Clock, CheckCircle, AlertCircle, Bell, DollarSign, Users, BarChart3, FileText, Settings, Shield, Award } from "lucide-react";
+import { DemoBanner } from "../DemoBanner";
 import { QuoteCard } from "../ui/quote-card";
 import { BookingTimeline } from "../ui/booking-timeline";
 import { NotificationCenter } from "../ui/notification-center";
 import { MessageCenter } from "../messaging/MessageCenter";
+import { UnifiedTerminalLayout, TerminalIcons } from "./UnifiedTerminalLayout";
+import { ProfessionalDataCard, ProfessionalFlightCard } from "./ProfessionalDataCard";
 
 // Demo data
 const demoRequests = [
@@ -120,196 +122,198 @@ const demoNotifications = [
 export const DemoBrokerDashboard: React.FC = () => {
   const [showNewRequestForm, setShowNewRequestForm] = useState(false);
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'open':
-        return <Clock className="h-4 w-4 text-yellow-500" />;
-      case 'accepted':
-        return <CheckCircle className="h-4 w-4 text-green-500" />;
-      case 'cancelled':
-        return <AlertCircle className="h-4 w-4 text-red-500" />;
-      default:
-        return <Clock className="h-4 w-4 text-gray-500" />;
-    }
+  const sidebarItems = [
+    { id: "dashboard", label: "Broker Dashboard", icon: <TerminalIcons.Analytics />, active: true },
+    { id: "requests", label: "My Requests", icon: <TerminalIcons.Requests />, badge: 3 },
+    { id: "bookings", label: "Active Bookings", icon: <TerminalIcons.Bookings />, badge: 2 },
+    { id: "quotes", label: "Quote Management", icon: <TerminalIcons.Analytics /> },
+    { id: "clients", label: "Client Management", icon: <TerminalIcons.Network /> },
+    { id: "analytics", label: "Analytics", icon: <TerminalIcons.Analytics /> },
+    { id: "billing", label: "Billing & Payments", icon: <TerminalIcons.Earnings /> },
+    { id: "reports", label: "Reports", icon: <TerminalIcons.FileText /> },
+    { id: "settings", label: "Settings", icon: <TerminalIcons.Settings /> },
+    { id: "support", label: "Support", icon: <TerminalIcons.Trust /> }
+  ];
+
+  const user = {
+    name: "Michael Chen",
+    role: "Senior Charter Broker",
+    status: "available" as const
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'open':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-500';
       case 'accepted':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-500';
       case 'cancelled':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-500';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-gray-500';
     }
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gray-900">
       <DemoBanner />
       
-      <div className="p-6 space-y-6">
-        {/* Header */}
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold">Broker Dashboard</h1>
-            <p className="text-gray-600">Manage your charter requests and bookings</p>
+      <UnifiedTerminalLayout
+        title="Broker Terminal"
+        subtitle="Charter Request Management & Client Relations"
+        user={user}
+        sidebarItems={sidebarItems}
+        onNavigate={(direction) => console.log(`Navigate ${direction}`)}
+        onLogout={() => console.log('Logout')}
+        onNotificationClick={() => console.log('Notifications')}
+        onMessageClick={() => console.log('Messages')}
+      >
+        <div className="space-y-6">
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <ProfessionalDataCard
+              title="Total Requests"
+              value={demoStats.totalRequests}
+              icon={Plane}
+              trend={{ value: 15, isPositive: true }}
+            />
+            <ProfessionalDataCard
+              title="Active Requests"
+              value={demoStats.activeRequests}
+              icon={Clock}
+              badge={{ text: "Urgent", variant: "destructive" }}
+            />
+            <ProfessionalDataCard
+              title="Total Bookings"
+              value={demoStats.totalBookings}
+              icon={CheckCircle}
+              trend={{ value: 8, isPositive: true }}
+            />
+            <ProfessionalDataCard
+              title="Total Spent"
+              value={`$${demoStats.totalSpent.toLocaleString()}`}
+              icon={DollarSign}
+              trend={{ value: 12, isPositive: true }}
+            />
           </div>
-          <Button onClick={() => setShowNewRequestForm(true)} className="flex items-center gap-2">
-            <Plus className="h-4 w-4" />
-            New Request
-          </Button>
+
+          {/* Recent Activity */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Active Requests */}
+            <Card className="bg-gray-800 border-gray-700">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2 text-white">
+                  <Clock className="h-5 w-5 text-orange-400" />
+                  <span>ACTIVE REQUESTS</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {demoRequests.map((request) => (
+                  <Card key={request.id} className="bg-gray-700 border-gray-600">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                          <h3 className="font-semibold text-white">{request.origin} → {request.destination}</h3>
+                        </div>
+                        <Badge className={`${getStatusColor(request.status)} text-white`}>
+                          {request.status}
+                        </Badge>
+                      </div>
+                      
+                      <div className="space-y-2 text-sm text-gray-300">
+                        <div className="flex items-center justify-between">
+                          <span>{new Date(request.departure_date).toLocaleDateString()}</span>
+                          <span className="text-orange-400">{request.passenger_count} PAX</span>
+                        </div>
+                        
+                        {request.quotes && request.quotes.length > 0 && (
+                          <div className="pt-2 border-t border-gray-600">
+                            <div className="flex items-center justify-between">
+                              <span className="text-green-400">{request.quotes.length} Quotes</span>
+                              <span className="text-orange-400">${request.quotes[0].price.toLocaleString()}</span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </CardContent>
+            </Card>
+
+            {/* Recent Bookings */}
+            <Card className="bg-gray-800 border-gray-700">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2 text-white">
+                  <CheckCircle className="h-5 w-5 text-orange-400" />
+                  <span>RECENT BOOKINGS</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {demoBookings.map((booking) => (
+                  <Card key={booking.id} className="bg-gray-700 border-gray-600">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                          <h3 className="font-semibold text-white">{booking.requests.origin} → {booking.requests.destination}</h3>
+                        </div>
+                        <Badge className="bg-green-500 text-white">
+                          {booking.status}
+                        </Badge>
+                      </div>
+                      
+                      <div className="space-y-2 text-sm text-gray-300">
+                        <div className="flex items-center justify-between">
+                          <span>{new Date(booking.created_at).toLocaleDateString()}</span>
+                          <span className="text-green-400 font-medium">${booking.total_price.toLocaleString()}</span>
+                        </div>
+                        
+                        <div className="pt-2 border-t border-gray-600">
+                          <div className="flex items-center justify-between">
+                            <span className="text-orange-400">Status: Confirmed</span>
+                            <span className="text-gray-400">USD</span>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Quick Actions */}
+          <Card className="bg-gray-800 border-gray-700">
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2 text-white">
+                <Plus className="h-5 w-5 text-orange-400" />
+                <span>QUICK ACTIONS</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Button 
+                  className="bg-orange-500 hover:bg-orange-600 text-white h-12"
+                  onClick={() => setShowNewRequestForm(true)}
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  New Charter Request
+                </Button>
+                <Button variant="outline" className="border-gray-600 text-gray-300 hover:bg-gray-700 h-12">
+                  <FileText className="h-4 w-4 mr-2" />
+                  Generate Report
+                </Button>
+                <Button variant="outline" className="border-gray-600 text-gray-300 hover:bg-gray-700 h-12">
+                  <Users className="h-4 w-4 mr-2" />
+                  Manage Clients
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
-
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Requests</CardTitle>
-              <Plane className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{demoStats.totalRequests}</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Active Requests</CardTitle>
-              <Clock className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{demoStats.activeRequests}</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Bookings</CardTitle>
-              <CheckCircle className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{demoStats.totalBookings}</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Spent</CardTitle>
-              <span className="text-sm text-muted-foreground">$</span>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">${demoStats.totalSpent.toLocaleString()}</div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Main Content */}
-        <Tabs defaultValue="requests" className="space-y-4">
-          <TabsList>
-            <TabsTrigger value="requests">My Requests</TabsTrigger>
-            <TabsTrigger value="bookings">Active Bookings</TabsTrigger>
-            <TabsTrigger value="notifications">Notifications</TabsTrigger>
-            <TabsTrigger value="messages">Messages</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="requests" className="space-y-4">
-            <div className="space-y-4">
-              {demoRequests.map((request) => (
-                <Card key={request.id}>
-                  <CardHeader>
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <CardTitle className="flex items-center gap-2">
-                          {getStatusIcon(request.status)}
-                          {request.origin} → {request.destination}
-                        </CardTitle>
-                        <CardDescription>
-                          {new Date(request.departure_date).toLocaleDateString()}
-                          {request.return_date && ` - ${new Date(request.return_date).toLocaleDateString()}`}
-                          • {request.passenger_count} passengers
-                        </CardDescription>
-                      </div>
-                      <Badge className={getStatusColor(request.status)}>
-                        {request.status}
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    {request.quotes && request.quotes.length > 0 ? (
-                      <div className="space-y-3">
-                        <h4 className="font-semibold">Quotes ({request.quotes.length})</h4>
-                        {request.quotes.map((quote) => (
-                          <QuoteCard
-                            key={quote.id}
-                            quote={quote}
-                            onAccept={() => {}}
-                            canAccept={request.status === 'open'}
-                          />
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="text-gray-500">No quotes received yet</p>
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="bookings" className="space-y-4">
-            <div className="space-y-4">
-              {demoBookings.map((booking) => (
-                <Card key={booking.id}>
-                  <CardHeader>
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <CardTitle>
-                          {booking.requests.origin} → {booking.requests.destination}
-                        </CardTitle>
-                        <CardDescription>
-                          ${booking.total_price.toLocaleString()} {booking.currency}
-                        </CardDescription>
-                      </div>
-                      <Badge className={getStatusColor(booking.status)}>
-                        {booking.status}
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    {booking.flights && booking.flights.length > 0 && (
-                      <BookingTimeline flights={booking.flights} />
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="notifications">
-            <div className="space-y-4">
-              {demoNotifications.map((notification) => (
-                <Card key={notification.id} className={!notification.read ? 'border-l-4 border-l-blue-500 bg-blue-50/50' : ''}>
-                  <CardContent className="p-4">
-                    <div className="flex items-start gap-3">
-                      <Bell className="h-4 w-4 text-blue-500 mt-1" />
-                      <div className="flex-1">
-                        <p className="text-sm text-gray-900">{notification.message}</p>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {new Date(notification.created_at).toLocaleTimeString()}
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="messages">
-            <MessageCenter bookingId="demo-booking-001" />
-          </TabsContent>
-        </Tabs>
-      </div>
+      </UnifiedTerminalLayout>
     </div>
   );
 };

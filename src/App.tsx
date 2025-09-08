@@ -11,6 +11,10 @@ import { NavigationOptimizer } from "@/components/NavigationOptimizer";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { logger } from "@/utils/performance";
 
+// Import new dashboard components
+import { BrokerDashboard } from "@/components/dashboard/BrokerDashboard";
+import { OperatorDashboard } from "@/components/dashboard/OperatorDashboard";
+
 // Lazy load pages for better performance - prioritize by usage frequency
 const Index = lazy(() => import("./pages/Index"));
 const Enter = lazy(() => import("./pages/Enter"));
@@ -116,7 +120,7 @@ const App = memo(() => {
                 path="/beta/broker" 
                 element={
                   <ProtectedRoute allowedRoles={['broker']}>
-                    <BrokerTerminal />
+                    <BrokerDashboard />
                   </ProtectedRoute>
                 } 
               />
@@ -124,7 +128,7 @@ const App = memo(() => {
                 path="/beta/operator" 
                 element={
                   <ProtectedRoute allowedRoles={['operator']}>
-                    <OperatorTerminal />
+                    <OperatorDashboard />
                   </ProtectedRoute>
                 } 
               />
@@ -163,7 +167,7 @@ const App = memo(() => {
                 path="/terminal/broker" 
                 element={
                   <ProtectedRoute allowedRoles={['broker']}>
-                    <BrokerTerminal />
+                    <BrokerDashboard />
                   </ProtectedRoute>
                 } 
               />
@@ -171,7 +175,7 @@ const App = memo(() => {
                 path="/terminal/operator" 
                 element={
                   <ProtectedRoute allowedRoles={['operator']}>
-                    <OperatorTerminal />
+                    <OperatorDashboard />
                   </ProtectedRoute>
                 } 
               />

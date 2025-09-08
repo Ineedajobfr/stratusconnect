@@ -1,21 +1,16 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Plane, Clock, CheckCircle, AlertCircle, Users, BarChart3, Settings, Bell, FileText, Shield, Award, DollarSign } from "lucide-react";
+import { Plus, Plane, Clock, CheckCircle, AlertCircle, Users, BarChart3, Settings, Bell, FileText, Shield, Award, DollarSign, Activity } from "lucide-react";
 import { DemoBanner } from "../DemoBanner";
-import { FleetCard } from "../ui/fleet-card";
-import { CrewCard } from "../ui/crew-card";
-import { AnalyticsChart } from "../analytics/AnalyticsChart";
-import { NotificationCenter } from "../ui/notification-center";
-import { MessageCenter } from "../messaging/MessageCenter";
 import { UnifiedTerminalLayout, TerminalIcons } from "./UnifiedTerminalLayout";
 import { ProfessionalDataCard, ProfessionalFlightCard } from "./ProfessionalDataCard";
 import { AircraftTrackingMap } from "./AircraftTrackingMap";
 import { OperatorCommandCenter } from "./OperatorCommandCenter";
 
-// Demo data
+// Demo data for operator
 const demoRequests = [
   {
     id: "req-001",
@@ -36,6 +31,16 @@ const demoRequests = [
     status: "open",
     created_at: "2024-01-08T11:00:00Z",
     companies: { name: "Premier Jets" }
+  },
+  {
+    id: "req-003",
+    origin: "Chicago (ORD)",
+    destination: "Paris (CDG)",
+    departure_date: "2024-01-25T14:00:00Z",
+    passenger_count: 8,
+    status: "quoted",
+    created_at: "2024-01-12T16:00:00Z",
+    companies: { name: "Global Aviation" }
   }
 ];
 
@@ -49,9 +54,10 @@ const demoQuotes = [
     created_at: "2024-01-10T14:30:00Z",
     requests: {
       origin: "New York (JFK)",
-      destination: "Los Angeles (LAX)"
-    },
-    aircraft: { model: "Gulfstream G550", tail_number: "N425SC" }
+      destination: "Los Angeles (LAX)",
+      departure_date: "2024-01-15T10:00:00Z",
+      passenger_count: 4
+    }
   },
   {
     id: "quote-002",
@@ -59,131 +65,99 @@ const demoQuotes = [
     price: 85000,
     currency: "USD",
     status: "accepted",
-    created_at: "2024-01-08T15:20:00Z",
+    created_at: "2024-01-08T15:00:00Z",
     requests: {
       origin: "Miami (MIA)",
-      destination: "London (LHR)"
-    },
-    aircraft: { model: "Falcon 7X", tail_number: "N156JT" }
-  }
-];
-
-const demoBookings = [
-  {
-    id: "book-001",
-    total_price: 85000,
-    currency: "USD",
-    status: "upcoming",
-    created_at: "2024-01-08T15:30:00Z",
-    requests: {
-      origin: "Miami (MIA)",
-      destination: "London (LHR)"
-    },
-    quotes: {
-      price: 85000,
-      currency: "USD"
+      destination: "London (LHR)",
+      departure_date: "2024-01-20T08:00:00Z",
+      passenger_count: 6
     }
   }
 ];
 
-const demoAircraft = [
+const demoFleet = [
   {
     id: "aircraft-001",
     tail_number: "N425SC",
     model: "Gulfstream G550",
-    category: "heavy_jet",
-    seats: 12,
-    status: "available",
-    photo_url: "/placeholder-aircraft.jpg",
-    range_nm: 6750,
-    year: 2018
+    status: "in_flight",
+    location: "New York (JFK)",
+    next_maintenance: "2024-02-15",
+    hours_flown: 1250,
+    crew: {
+      captain: "Captain Sarah Mitchell",
+      first_officer: "Mike Chen"
+    }
   },
   {
     id: "aircraft-002",
     tail_number: "N892AV",
     model: "Citation X+",
-    category: "midsize_jet",
-    seats: 8,
-    status: "in_use",
-    photo_url: "/placeholder-aircraft.jpg",
-    range_nm: 3500,
-    year: 2020
+    status: "available",
+    location: "Los Angeles (LAX)",
+    next_maintenance: "2024-03-20",
+    hours_flown: 890,
+    crew: {
+      captain: "David Rodriguez",
+      first_officer: "Emma Davis"
+    }
   },
   {
     id: "aircraft-003",
     tail_number: "N156JT",
     model: "Falcon 7X",
-    category: "heavy_jet",
-    seats: 14,
     status: "maintenance",
-    photo_url: "/placeholder-aircraft.jpg",
-    range_nm: 5950,
-    year: 2019
+    location: "Miami (MIA)",
+    next_maintenance: "2024-01-30",
+    hours_flown: 2100,
+    crew: {
+      captain: "James Wilson",
+      first_officer: "Lisa Brown"
+    }
   }
 ];
 
 const demoCrew = [
   {
     id: "crew-001",
-    full_name: "Captain Sarah Johnson",
-    role: "pilot",
-    avatar_url: "/placeholder-avatar.jpg",
-    crew_profiles: {
-      licence_expiry: "2025-06-15",
-      availability_status: "available"
-    }
+    name: "Captain Sarah Mitchell",
+    role: "Captain",
+    status: "available",
+    aircraft_type: "Gulfstream G550",
+    hours_flown: 12500,
+    rating: 4.9,
+    next_available: "Available now"
   },
   {
     id: "crew-002",
-    full_name: "First Officer Mike Chen",
-    role: "pilot",
-    avatar_url: "/placeholder-avatar.jpg",
-    crew_profiles: {
-      licence_expiry: "2024-12-20",
-      availability_status: "busy"
-    }
+    name: "Mike Chen",
+    role: "First Officer",
+    status: "in_flight",
+    aircraft_type: "Gulfstream G550",
+    hours_flown: 8500,
+    rating: 4.8,
+    next_available: "Tomorrow 08:00"
   },
   {
     id: "crew-003",
-    full_name: "Flight Attendant Emma Davis",
-    role: "crew",
-    avatar_url: "/placeholder-avatar.jpg",
-    crew_profiles: {
-      licence_expiry: "2025-03-10",
-      availability_status: "available"
-    }
+    name: "David Rodriguez",
+    role: "Captain",
+    status: "available",
+    aircraft_type: "Citation X+",
+    hours_flown: 9800,
+    rating: 4.7,
+    next_available: "Available now"
   }
 ];
 
 const demoStats = {
-  totalRequests: 8,
-  myQuotes: 12,
-  acceptedQuotes: 5,
-  activeBookings: 3,
-  fleetSize: 3,
-  crewSize: 8,
-  winRate: 41.7,
-  totalRevenue: 425000
+  totalFlights: 156,
+  activeFlights: 8,
+  totalRevenue: 2450000,
+  fleetUtilization: 78.5
 };
 
-const demoNotifications = [
-  {
-    id: "notif-001",
-    type: "new_request",
-    message: "New charter request: NYC→LAX on Jan 15",
-    read: false,
-    created_at: "2024-01-10T09:00:00Z"
-  },
-  {
-    id: "notif-002",
-    type: "quote_accepted",
-    message: "Your quote was accepted for Miami→London",
-    read: false,
-    created_at: "2024-01-08T15:30:00Z"
-  }
-];
-
-// Aircraft tracking data for the map
+// Aircraft tracking data for operator view
 const demoAircraftTracking = [
   {
     id: "aircraft-001",
@@ -205,7 +179,7 @@ const demoAircraftTracking = [
       passengers: 8
     },
     crew: {
-      captain: "Sarah Johnson",
+      captain: "Captain Sarah Mitchell",
       first_officer: "Mike Chen"
     },
     next_scheduled: {
@@ -233,51 +207,6 @@ const demoAircraftTracking = [
       route: "KLAX → KJFK",
       time: "Today 18:00"
     }
-  },
-  {
-    id: "aircraft-003",
-    tail_number: "N156JT",
-    model: "Falcon 7X",
-    status: "maintenance",
-    location: {
-      lat: 25.7617,
-      lng: -80.1918,
-      airport: "KMIA",
-      city: "Miami",
-      country: "USA"
-    },
-    crew: {
-      captain: "James Mitchell",
-      first_officer: "Lisa Wang"
-    },
-    next_scheduled: {
-      route: "KMIA → KORD",
-      time: "Jan 15 10:00"
-    }
-  },
-  {
-    id: "aircraft-004",
-    tail_number: "N789AB",
-    model: "Gulfstream G650",
-    status: "scheduled",
-    location: {
-      lat: 51.5074,
-      lng: -0.1278,
-      airport: "EGLL",
-      city: "London",
-      country: "UK"
-    },
-    current_flight: {
-      origin: "EGLL",
-      destination: "KJFK",
-      departure_time: "16:00 UTC",
-      arrival_time: "19:30 UTC",
-      passengers: 12
-    },
-    crew: {
-      captain: "Robert Smith",
-      first_officer: "Anna Johnson"
-    }
   }
 ];
 
@@ -286,37 +215,23 @@ export const DemoOperatorDashboard: React.FC = () => {
   const [viewMode, setViewMode] = useState<"standard" | "command">("standard");
 
   const sidebarItems = [
-    { id: "dashboard", label: "Operator Dashboard", icon: <TerminalIcons.Analytics />, active: true },
-    { id: "requests", label: "Open Requests", icon: <TerminalIcons.Requests />, badge: 8 },
-    { id: "quotes", label: "My Quotes", icon: <TerminalIcons.Analytics />, badge: 12 },
-    { id: "bookings", label: "Active Bookings", icon: <TerminalIcons.Bookings />, badge: 3 },
+    { id: "dashboard", label: "Operations Center", icon: <TerminalIcons.Dashboard />, active: true },
     { id: "fleet", label: "Fleet Management", icon: <TerminalIcons.Fleet /> },
-    { id: "crew", label: "Crew Management", icon: <TerminalIcons.Crew /> },
-    { id: "analytics", label: "Analytics", icon: <TerminalIcons.Analytics /> },
-    { id: "billing", label: "Billing & Revenue", icon: <TerminalIcons.Earnings /> },
-    { id: "reports", label: "Reports", icon: <TerminalIcons.FileText /> },
-    { id: "settings", label: "Settings", icon: <TerminalIcons.Settings /> }
+    { id: "dispatch", label: "Flight Dispatch", icon: <TerminalIcons.Dispatch /> },
+    { id: "maintenance", label: "Maintenance", icon: <TerminalIcons.Maintenance /> },
+    { id: "crew", label: "Crew Scheduling", icon: <TerminalIcons.Crew /> },
+    { id: "bookings", label: "Charter Bookings", icon: <TerminalIcons.Bookings /> },
+    { id: "marketplace", label: "Marketplace", icon: <TerminalIcons.Marketplace /> },
+    { id: "communications", label: "Communications", icon: <TerminalIcons.Communications /> },
+    { id: "analytics", label: "Performance Analytics", icon: <TerminalIcons.Analytics /> },
+    { id: "compliance", label: "Compliance Center", icon: <TerminalIcons.Compliance /> },
+    { id: "news", label: "Aviation News", icon: <TerminalIcons.News /> }
   ];
 
   const user = {
-    name: "David Rodriguez",
-    role: "Fleet Operations Manager",
-    status: "available" as const
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'open':
-        return 'bg-yellow-500';
-      case 'accepted':
-        return 'bg-green-500';
-      case 'pending':
-        return 'bg-blue-500';
-      case 'rejected':
-        return 'bg-red-500';
-      default:
-        return 'bg-gray-500';
-    }
+    name: "Alex Thompson",
+    role: "Aircraft Operator",
+    status: "active" as const
   };
 
   if (viewMode === "command") {
@@ -338,7 +253,7 @@ export const DemoOperatorDashboard: React.FC = () => {
       
       <UnifiedTerminalLayout
         title="Operator Terminal"
-        subtitle="Fleet Operations & Charter Management"
+        subtitle="Aircraft Operations Management"
         user={user}
         sidebarItems={sidebarItems}
         onNavigate={(direction) => console.log(`Navigate ${direction}`)}
@@ -346,79 +261,156 @@ export const DemoOperatorDashboard: React.FC = () => {
         onNotificationClick={() => console.log('Notifications')}
         onMessageClick={() => console.log('Messages')}
       >
-        <div className="space-y-6">
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <ProfessionalDataCard
-              title="Open Requests"
-              value={demoStats.totalRequests}
-              icon={Plane}
-              badge={{ text: "New", variant: "destructive" }}
-            />
-            <ProfessionalDataCard
-              title="My Quotes"
-              value={demoStats.myQuotes}
-              icon={Clock}
-              trend={{ value: 18, isPositive: true }}
-            />
-            <ProfessionalDataCard
-              title="Win Rate"
-              value={`${demoStats.winRate.toFixed(1)}%`}
-              icon={BarChart3}
-              trend={{ value: 5, isPositive: true }}
-            />
-            <ProfessionalDataCard
-              title="Total Revenue"
-              value={`$${demoStats.totalRevenue.toLocaleString()}`}
-              icon={DollarSign}
-              trend={{ value: 22, isPositive: true }}
-            />
-          </div>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="grid w-full grid-cols-4 lg:grid-cols-11 bg-gray-800">
+            <TabsTrigger value="dashboard" className="text-xs">Dashboard</TabsTrigger>
+            <TabsTrigger value="fleet" className="text-xs">Fleet</TabsTrigger>
+            <TabsTrigger value="dispatch" className="text-xs">Dispatch</TabsTrigger>
+            <TabsTrigger value="maintenance" className="text-xs">Maintenance</TabsTrigger>
+            <TabsTrigger value="crew" className="text-xs">Crew</TabsTrigger>
+            <TabsTrigger value="bookings" className="text-xs">Bookings</TabsTrigger>
+            <TabsTrigger value="marketplace" className="text-xs">Marketplace</TabsTrigger>
+            <TabsTrigger value="communications" className="text-xs">Comm</TabsTrigger>
+            <TabsTrigger value="analytics" className="text-xs">Analytics</TabsTrigger>
+            <TabsTrigger value="compliance" className="text-xs">Compliance</TabsTrigger>
+            <TabsTrigger value="news" className="text-xs">News</TabsTrigger>
+          </TabsList>
 
-          {/* Aircraft Tracking Map */}
-          <AircraftTrackingMap aircraft={demoAircraftTracking} />
+          <TabsContent value="dashboard" className="space-y-6">
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <ProfessionalDataCard
+                title="Total Flights"
+                value={demoStats.totalFlights}
+                icon={Plane}
+                trend={{ value: 12, isPositive: true }}
+              />
+              <ProfessionalDataCard
+                title="Active Flights"
+                value={demoStats.activeFlights}
+                icon={Activity}
+                badge={{ text: "Live", variant: "destructive" }}
+              />
+              <ProfessionalDataCard
+                title="Total Revenue"
+                value={`$${(demoStats.totalRevenue / 1000000).toFixed(1)}M`}
+                icon={DollarSign}
+                trend={{ value: 8, isPositive: true }}
+              />
+              <ProfessionalDataCard
+                title="Fleet Utilization"
+                value={`${demoStats.fleetUtilization}%`}
+                icon={BarChart3}
+                trend={{ value: 5, isPositive: true }}
+              />
+            </div>
 
-          {/* Fleet Overview */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Fleet Status */}
+            {/* Aircraft Tracking Map */}
+            <AircraftTrackingMap aircraft={demoAircraftTracking} />
+
+            {/* Recent Activity */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <Card className="bg-gray-800 border-gray-700">
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2 text-white">
+                    <Clock className="h-5 w-5 text-orange-400" />
+                    <span>RECENT REQUESTS</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {demoRequests.map((request) => (
+                    <Card key={request.id} className="bg-gray-700 border-gray-600">
+                      <CardContent className="p-4">
+                        <div className="flex items-center justify-between mb-3">
+                          <h3 className="font-semibold text-white">{request.origin} → {request.destination}</h3>
+                          <Badge className={`${
+                            request.status === 'open' ? 'bg-yellow-500' : 'bg-green-500'
+                          } text-white`}>
+                            {request.status}
+                          </Badge>
+                        </div>
+                        <div className="space-y-2 text-sm text-gray-300">
+                          <div className="flex items-center justify-between">
+                            <span>{new Date(request.departure_date).toLocaleDateString()}</span>
+                            <span className="text-orange-400">{request.passenger_count} PAX</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span>{request.companies.name}</span>
+                            <span className="text-gray-400">{new Date(request.created_at).toLocaleDateString()}</span>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </CardContent>
+              </Card>
+
+              <Card className="bg-gray-800 border-gray-700">
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2 text-white">
+                    <CheckCircle className="h-5 w-5 text-orange-400" />
+                    <span>RECENT QUOTES</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {demoQuotes.map((quote) => (
+                    <Card key={quote.id} className="bg-gray-700 border-gray-600">
+                      <CardContent className="p-4">
+                        <div className="flex items-center justify-between mb-3">
+                          <h3 className="font-semibold text-white">{quote.requests.origin} → {quote.requests.destination}</h3>
+                          <Badge className={`${
+                            quote.status === 'pending' ? 'bg-yellow-500' : 'bg-green-500'
+                          } text-white`}>
+                            {quote.status}
+                          </Badge>
+                        </div>
+                        <div className="space-y-2 text-sm text-gray-300">
+                          <div className="flex items-center justify-between">
+                            <span>{new Date(quote.requests.departure_date).toLocaleDateString()}</span>
+                            <span className="text-orange-400">${quote.price.toLocaleString()}</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span>{quote.requests.passenger_count} PAX</span>
+                            <span className="text-gray-400">{new Date(quote.created_at).toLocaleDateString()}</span>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="fleet" className="space-y-6">
             <Card className="bg-gray-800 border-gray-700">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2 text-white">
                   <Plane className="h-5 w-5 text-orange-400" />
-                  <span>FLEET STATUS</span>
+                  <span>FLEET MANAGEMENT</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {demoAircraft.map((aircraft) => (
+                {demoFleet.map((aircraft) => (
                   <Card key={aircraft.id} className="bg-gray-700 border-gray-600">
                     <CardContent className="p-4">
                       <div className="flex items-center justify-between mb-3">
-                        <div className="flex items-center space-x-3">
-                          <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold">
-                            {aircraft.tail_number.slice(-2)}
-                          </div>
-                          <div>
-                            <h3 className="font-semibold text-white">{aircraft.model}</h3>
-                            <p className="text-sm text-gray-400">{aircraft.tail_number}</p>
-                          </div>
-                        </div>
-                        <Badge className={`${getStatusColor(aircraft.status)} text-white`}>
-                          {aircraft.status.replace('_', ' ')}
+                        <h3 className="font-semibold text-white">{aircraft.tail_number} - {aircraft.model}</h3>
+                        <Badge className={`${
+                          aircraft.status === 'in_flight' ? 'bg-green-500' : 
+                          aircraft.status === 'available' ? 'bg-blue-500' : 'bg-red-500'
+                        } text-white`}>
+                          {aircraft.status}
                         </Badge>
                       </div>
-                      
-                      <div className="grid grid-cols-3 gap-4 text-sm text-gray-300">
-                        <div>
-                          <span className="text-gray-400">Seats:</span>
-                          <span className="ml-1 text-orange-400">{aircraft.seats}</span>
+                      <div className="space-y-2 text-sm text-gray-300">
+                        <div className="flex items-center justify-between">
+                          <span>Location: {aircraft.location}</span>
+                          <span className="text-orange-400">{aircraft.hours_flown} hours</span>
                         </div>
-                        <div>
-                          <span className="text-gray-400">Range:</span>
-                          <span className="ml-1 text-orange-400">{aircraft.range_nm}nm</span>
-                        </div>
-                        <div>
-                          <span className="text-gray-400">Year:</span>
-                          <span className="ml-1 text-orange-400">{aircraft.year}</span>
+                        <div className="flex items-center justify-between">
+                          <span>Captain: {aircraft.crew.captain}</span>
+                          <span className="text-gray-400">Next MX: {aircraft.next_maintenance}</span>
                         </div>
                       </div>
                     </CardContent>
@@ -426,13 +418,14 @@ export const DemoOperatorDashboard: React.FC = () => {
                 ))}
               </CardContent>
             </Card>
+          </TabsContent>
 
-            {/* Recent Activity */}
+          <TabsContent value="dispatch" className="space-y-6">
             <Card className="bg-gray-800 border-gray-700">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2 text-white">
-                  <Clock className="h-5 w-5 text-orange-400" />
-                  <span>RECENT ACTIVITY</span>
+                  <Plane className="h-5 w-5 text-orange-400" />
+                  <span>FLIGHT DISPATCH</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -440,28 +433,23 @@ export const DemoOperatorDashboard: React.FC = () => {
                   <Card key={request.id} className="bg-gray-700 border-gray-600">
                     <CardContent className="p-4">
                       <div className="flex items-center justify-between mb-3">
-                        <div className="flex items-center space-x-2">
-                          <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                          <h3 className="font-semibold text-white">{request.origin} → {request.destination}</h3>
-                        </div>
-                        <Badge className={`${getStatusColor(request.status)} text-white`}>
+                        <h3 className="font-semibold text-white">{request.origin} → {request.destination}</h3>
+                        <Badge className={`${
+                          request.status === 'open' ? 'bg-yellow-500' : 'bg-green-500'
+                        } text-white`}>
                           {request.status}
                         </Badge>
                       </div>
-                      
                       <div className="space-y-2 text-sm text-gray-300">
                         <div className="flex items-center justify-between">
                           <span>{new Date(request.departure_date).toLocaleDateString()}</span>
                           <span className="text-orange-400">{request.passenger_count} PAX</span>
                         </div>
-                        
-                        <div className="pt-2 border-t border-gray-600">
-                          <div className="flex items-center justify-between">
-                            <span className="text-gray-400">Broker: {request.companies?.name}</span>
-                            <Button size="sm" className="bg-orange-500 hover:bg-orange-600 text-white">
-                              Submit Quote
-                            </Button>
-                          </div>
+                        <div className="flex items-center justify-between">
+                          <span>{request.companies.name}</span>
+                          <Button size="sm" variant="outline" className="text-xs">
+                            Assign Aircraft
+                          </Button>
                         </div>
                       </div>
                     </CardContent>
@@ -469,38 +457,316 @@ export const DemoOperatorDashboard: React.FC = () => {
                 ))}
               </CardContent>
             </Card>
-          </div>
+          </TabsContent>
 
-          {/* Quick Actions */}
-          <Card className="bg-gray-800 border-gray-700">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2 text-white">
-                <Plus className="h-5 w-5 text-orange-400" />
-                <span>QUICK ACTIONS</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <Button className="bg-orange-500 hover:bg-orange-600 text-white h-12">
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Aircraft
-                </Button>
-                <Button variant="outline" className="border-gray-600 text-gray-300 hover:bg-gray-700 h-12">
-                  <Users className="h-4 w-4 mr-2" />
-                  Manage Crew
-                </Button>
-                <Button variant="outline" className="border-gray-600 text-gray-300 hover:bg-gray-700 h-12">
-                  <BarChart3 className="h-4 w-4 mr-2" />
-                  View Analytics
-                </Button>
-                <Button variant="outline" className="border-gray-600 text-gray-300 hover:bg-gray-700 h-12">
-                  <FileText className="h-4 w-4 mr-2" />
-                  Generate Report
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+          <TabsContent value="maintenance" className="space-y-6">
+            <Card className="bg-gray-800 border-gray-700">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2 text-white">
+                  <Settings className="h-5 w-5 text-orange-400" />
+                  <span>MAINTENANCE SCHEDULE</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {demoFleet.map((aircraft) => (
+                  <Card key={aircraft.id} className="bg-gray-700 border-gray-600">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <h3 className="font-semibold text-white">{aircraft.tail_number} - {aircraft.model}</h3>
+                        <Badge className={`${
+                          aircraft.status === 'maintenance' ? 'bg-red-500' : 'bg-green-500'
+                        } text-white`}>
+                          {aircraft.status === 'maintenance' ? 'In MX' : 'Operational'}
+                        </Badge>
+                      </div>
+                      <div className="space-y-2 text-sm text-gray-300">
+                        <div className="flex items-center justify-between">
+                          <span>Next Maintenance: {aircraft.next_maintenance}</span>
+                          <span className="text-orange-400">{aircraft.hours_flown} hours</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span>Location: {aircraft.location}</span>
+                          <Button size="sm" variant="outline" className="text-xs">
+                            Schedule MX
+                          </Button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="crew" className="space-y-6">
+            <Card className="bg-gray-800 border-gray-700">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2 text-white">
+                  <Users className="h-5 w-5 text-orange-400" />
+                  <span>CREW SCHEDULING</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {demoCrew.map((crew) => (
+                  <Card key={crew.id} className="bg-gray-700 border-gray-600">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <h3 className="font-semibold text-white">{crew.name}</h3>
+                        <Badge className={`${
+                          crew.status === 'available' ? 'bg-green-500' : 'bg-blue-500'
+                        } text-white`}>
+                          {crew.status}
+                        </Badge>
+                      </div>
+                      <div className="space-y-2 text-sm text-gray-300">
+                        <div className="flex items-center justify-between">
+                          <span>{crew.role} - {crew.aircraft_type}</span>
+                          <span className="text-orange-400">{crew.hours_flown} hours</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span>Rating: {crew.rating}/5.0</span>
+                          <span className="text-gray-400">{crew.next_available}</span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="bookings" className="space-y-6">
+            <Card className="bg-gray-800 border-gray-700">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2 text-white">
+                  <Calendar className="h-5 w-5 text-orange-400" />
+                  <span>CHARTER BOOKINGS</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {demoQuotes.map((quote) => (
+                  <Card key={quote.id} className="bg-gray-700 border-gray-600">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <h3 className="font-semibold text-white">{quote.requests.origin} → {quote.requests.destination}</h3>
+                        <Badge className={`${
+                          quote.status === 'pending' ? 'bg-yellow-500' : 'bg-green-500'
+                        } text-white`}>
+                          {quote.status}
+                        </Badge>
+                      </div>
+                      <div className="space-y-2 text-sm text-gray-300">
+                        <div className="flex items-center justify-between">
+                          <span>{new Date(quote.requests.departure_date).toLocaleDateString()}</span>
+                          <span className="text-orange-400">${quote.price.toLocaleString()}</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span>{quote.requests.passenger_count} PAX</span>
+                          <Button size="sm" variant="outline" className="text-xs">
+                            {quote.status === 'pending' ? 'Confirm' : 'View Details'}
+                          </Button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="marketplace" className="space-y-6">
+            <Card className="bg-gray-800 border-gray-700">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2 text-white">
+                  <BarChart3 className="h-5 w-5 text-orange-400" />
+                  <span>MARKETPLACE</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                  <div className="text-center p-4 bg-gray-700 rounded-lg">
+                    <div className="text-2xl font-bold text-orange-400">$2.45M</div>
+                    <div className="text-sm text-gray-400">Total Revenue</div>
+                  </div>
+                  <div className="text-center p-4 bg-gray-700 rounded-lg">
+                    <div className="text-2xl font-bold text-orange-400">156</div>
+                    <div className="text-sm text-gray-400">Total Flights</div>
+                  </div>
+                  <div className="text-center p-4 bg-gray-700 rounded-lg">
+                    <div className="text-2xl font-bold text-orange-400">78.5%</div>
+                    <div className="text-sm text-gray-400">Fleet Utilization</div>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  {demoRequests.map((request) => (
+                    <Card key={request.id} className="bg-gray-700 border-gray-600">
+                      <CardContent className="p-3">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <h3 className="font-semibold text-white">{request.origin} → {request.destination}</h3>
+                            <p className="text-sm text-gray-400">{request.companies.name}</p>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-orange-400 font-medium">{request.passenger_count} PAX</div>
+                            <div className="text-sm text-gray-400">{new Date(request.departure_date).toLocaleDateString()}</div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="communications" className="space-y-6">
+            <Card className="bg-gray-800 border-gray-700">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2 text-white">
+                  <Bell className="h-5 w-5 text-orange-400" />
+                  <span>COMMUNICATIONS</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                    <div>
+                      <h3 className="font-semibold text-white">Flight N425SC Status Update</h3>
+                      <p className="text-sm text-gray-400">Captain Sarah Mitchell - 2 minutes ago</p>
+                    </div>
+                    <Badge className="bg-green-500 text-white">New</Badge>
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                    <div>
+                      <h3 className="font-semibold text-white">Maintenance Alert</h3>
+                      <p className="text-sm text-gray-400">N156JT requires inspection - 1 hour ago</p>
+                    </div>
+                    <Badge className="bg-yellow-500 text-white">Alert</Badge>
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                    <div>
+                      <h3 className="font-semibold text-white">New Charter Request</h3>
+                      <p className="text-sm text-gray-400">JFK to LAX - 3 hours ago</p>
+                    </div>
+                    <Badge className="bg-blue-500 text-white">Request</Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="analytics" className="space-y-6">
+            <Card className="bg-gray-800 border-gray-700">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2 text-white">
+                  <BarChart3 className="h-5 w-5 text-orange-400" />
+                  <span>PERFORMANCE ANALYTICS</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-white">Monthly Performance</h3>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                        <span className="text-white">Revenue</span>
+                        <span className="text-green-400 font-medium">+12.5%</span>
+                      </div>
+                      <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                        <span className="text-white">Flight Hours</span>
+                        <span className="text-green-400 font-medium">+8.3%</span>
+                      </div>
+                      <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                        <span className="text-white">Fleet Utilization</span>
+                        <span className="text-green-400 font-medium">+5.2%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-white">Top Routes</h3>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                        <span className="text-white">JFK → LAX</span>
+                        <span className="text-orange-400 font-medium">45 flights</span>
+                      </div>
+                      <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                        <span className="text-white">MIA → LHR</span>
+                        <span className="text-orange-400 font-medium">32 flights</span>
+                      </div>
+                      <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                        <span className="text-white">ORD → CDG</span>
+                        <span className="text-orange-400 font-medium">28 flights</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="compliance" className="space-y-6">
+            <Card className="bg-gray-800 border-gray-700">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2 text-white">
+                  <Shield className="h-5 w-5 text-orange-400" />
+                  <span>COMPLIANCE CENTER</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                    <span className="text-white">FAA Part 135 Compliance</span>
+                    <CheckCircle className="h-5 w-5 text-green-400" />
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                    <span className="text-white">Safety Management System</span>
+                    <CheckCircle className="h-5 w-5 text-green-400" />
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                    <span className="text-white">Crew Training Records</span>
+                    <CheckCircle className="h-5 w-5 text-green-400" />
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                    <span className="text-white">Aircraft Maintenance Logs</span>
+                    <CheckCircle className="h-5 w-5 text-green-400" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="news" className="space-y-6">
+            <Card className="bg-gray-800 border-gray-700">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2 text-white">
+                  <Bell className="h-5 w-5 text-orange-400" />
+                  <span>AVIATION NEWS</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {[
+                  { title: "New Gulfstream G800 Enters Service", date: "2024-01-10", category: "Aircraft" },
+                  { title: "FAA Updates Weather Minimums", date: "2024-01-08", category: "Regulations" },
+                  { title: "Private Jet Demand Surges 15%", date: "2024-01-05", category: "Market" },
+                  { title: "New Pilot Training Requirements", date: "2024-01-03", category: "Training" },
+                  { title: "Aviation Safety Milestone Reached", date: "2024-01-01", category: "Safety" }
+                ].map((news, index) => (
+                  <Card key={index} className="bg-gray-700 border-gray-600">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h3 className="font-semibold text-white">{news.title}</h3>
+                          <p className="text-sm text-gray-400">{news.date}</p>
+                        </div>
+                        <Badge className="bg-orange-500 text-white">{news.category}</Badge>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </UnifiedTerminalLayout>
     </div>
   );

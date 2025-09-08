@@ -9,6 +9,9 @@ import { NotificationCenter } from "../ui/notification-center";
 import { MessageCenter } from "../messaging/MessageCenter";
 import { UnifiedTerminalLayout, TerminalIcons } from "./UnifiedTerminalLayout";
 import { ProfessionalDataCard, ProfessionalFlightCard, ProfessionalProfileCard } from "./ProfessionalDataCard";
+import { AircraftTrackingMap } from "./AircraftTrackingMap";
+import { PilotTrackingMap } from "./PilotTrackingMap";
+import { CrewFlightDeck } from "./CrewFlightDeck";
 
 // Demo data for crew/pilot
 const demoAssignments = [
@@ -89,8 +92,107 @@ const demoNotifications = [
   }
 ];
 
+// Aircraft tracking data for crew view
+const demoAircraftTracking = [
+  {
+    id: "aircraft-001",
+    tail_number: "N425SC",
+    model: "Gulfstream G550",
+    status: "in_flight",
+    location: {
+      lat: 40.7128,
+      lng: -74.0060,
+      airport: "KJFK",
+      city: "New York",
+      country: "USA"
+    },
+    current_flight: {
+      origin: "KJFK",
+      destination: "KLAX",
+      departure_time: "14:30 UTC",
+      arrival_time: "17:45 UTC",
+      passengers: 8
+    },
+    crew: {
+      captain: "Captain Sarah Mitchell",
+      first_officer: "Mike Chen"
+    },
+    next_scheduled: {
+      route: "KLAX → KMIA",
+      time: "Tomorrow 09:00"
+    }
+  },
+  {
+    id: "aircraft-002",
+    tail_number: "N892AV",
+    model: "Citation X+",
+    status: "available",
+    location: {
+      lat: 34.0522,
+      lng: -118.2437,
+      airport: "KLAX",
+      city: "Los Angeles",
+      country: "USA"
+    },
+    crew: {
+      captain: "David Rodriguez",
+      first_officer: "Emma Davis"
+    },
+    next_scheduled: {
+      route: "KLAX → KJFK",
+      time: "Today 18:00"
+    }
+  }
+];
+
+// Pilot network data for crew view
+const demoPilotNetwork = [
+  {
+    id: "pilot-001",
+    name: "Captain James Mitchell",
+    role: "captain",
+    status: "available",
+    location: {
+      lat: 40.7128,
+      lng: -74.0060,
+      airport: "KJFK",
+      city: "New York",
+      country: "USA"
+    },
+    ratings: ["Boeing 737", "Airbus A320", "Gulfstream G550"],
+    hours_flown: 12500,
+    rating: 4.8,
+    next_available: "Available now"
+  },
+  {
+    id: "pilot-002",
+    name: "Captain Mike Chen",
+    role: "captain",
+    status: "in_flight",
+    location: {
+      lat: 34.0522,
+      lng: -118.2437,
+      airport: "KLAX",
+      city: "Los Angeles",
+      country: "USA"
+    },
+    current_assignment: {
+      flight_id: "FL-001",
+      route: "KLAX → KJFK",
+      aircraft: "Gulfstream G550",
+      departure_time: "14:30 UTC",
+      arrival_time: "22:45 UTC"
+    },
+    ratings: ["Boeing 737", "Airbus A320", "Gulfstream G550"],
+    hours_flown: 12000,
+    rating: 4.8,
+    next_available: "Tomorrow 08:00"
+  }
+];
+
 export const DemoCrewDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState("profile");
+  const [viewMode, setViewMode] = useState<"standard" | "flightdeck">("standard");
 
   const sidebarItems = [
     { id: "profile", label: "Pilot Profile", icon: <TerminalIcons.Profile />, active: true },
@@ -120,9 +222,22 @@ export const DemoCrewDashboard: React.FC = () => {
     });
   };
 
+  if (viewMode === "flightdeck") {
+    return <CrewFlightDeck />;
+  }
+
   return (
     <div className="min-h-screen bg-gray-900">
       <DemoBanner />
+      <div className="flex justify-end p-4">
+        <Button
+          onClick={() => setViewMode(viewMode === "standard" ? "flightdeck" : "standard")}
+          variant="outline"
+          className="border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white"
+        >
+          {viewMode === "standard" ? "Flight Deck" : "Standard View"}
+        </Button>
+      </div>
       
       <UnifiedTerminalLayout
         title="Crew Terminal"
@@ -180,12 +295,12 @@ export const DemoCrewDashboard: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Recent Flight Activity */}
             <Card className="bg-gray-800 border-gray-700">
-              <CardHeader>
+                  <CardHeader>
                 <CardTitle className="flex items-center space-x-2 text-white">
                   <Clock className="h-5 w-5 text-orange-400" />
                   <span>RECENT FLIGHT ACTIVITY</span>
-                </CardTitle>
-              </CardHeader>
+                        </CardTitle>
+                  </CardHeader>
               <CardContent className="space-y-4">
                 <ProfessionalFlightCard
                   route="KTEB → KMIA"
@@ -214,8 +329,8 @@ export const DemoCrewDashboard: React.FC = () => {
                   earnings={1800}
                   rating={4.9}
                 />
-              </CardContent>
-            </Card>
+                  </CardContent>
+                </Card>
 
             {/* Upcoming Schedule */}
             <Card className="bg-gray-800 border-gray-700">
@@ -278,7 +393,13 @@ export const DemoCrewDashboard: React.FC = () => {
               trend={{ value: 5, isPositive: true }}
             />
           </div>
-        </div>
+
+          {/* Aircraft Tracking Map */}
+          <AircraftTrackingMap aircraft={demoAircraftTracking} />
+
+          {/* Professional Network Map */}
+          <PilotTrackingMap pilots={demoPilotNetwork} />
+                    </div>
       </UnifiedTerminalLayout>
     </div>
   );

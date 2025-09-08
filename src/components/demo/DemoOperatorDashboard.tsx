@@ -13,6 +13,7 @@ import { MessageCenter } from "../messaging/MessageCenter";
 import { UnifiedTerminalLayout, TerminalIcons } from "./UnifiedTerminalLayout";
 import { ProfessionalDataCard, ProfessionalFlightCard } from "./ProfessionalDataCard";
 import { AircraftTrackingMap } from "./AircraftTrackingMap";
+import { OperatorCommandCenter } from "./OperatorCommandCenter";
 
 // Demo data
 const demoRequests = [
@@ -282,6 +283,7 @@ const demoAircraftTracking = [
 
 export const DemoOperatorDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
+  const [viewMode, setViewMode] = useState<"standard" | "command">("standard");
 
   const sidebarItems = [
     { id: "dashboard", label: "Operator Dashboard", icon: <TerminalIcons.Analytics />, active: true },
@@ -317,9 +319,22 @@ export const DemoOperatorDashboard: React.FC = () => {
     }
   };
 
+  if (viewMode === "command") {
+    return <OperatorCommandCenter />;
+  }
+
   return (
     <div className="min-h-screen bg-gray-900">
       <DemoBanner />
+      <div className="flex justify-end p-4">
+        <Button
+          onClick={() => setViewMode(viewMode === "standard" ? "command" : "standard")}
+          variant="outline"
+          className="border-orange-500 text-orange-400 hover:bg-orange-500 hover:text-white"
+        >
+          {viewMode === "standard" ? "Command Center" : "Standard View"}
+        </Button>
+      </div>
       
       <UnifiedTerminalLayout
         title="Operator Terminal"

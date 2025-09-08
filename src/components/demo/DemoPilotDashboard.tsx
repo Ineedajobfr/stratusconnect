@@ -9,6 +9,9 @@ import { NotificationCenter } from "../ui/notification-center";
 import { MessageCenter } from "../messaging/MessageCenter";
 import { UnifiedTerminalLayout, TerminalIcons } from "./UnifiedTerminalLayout";
 import { ProfessionalDataCard, ProfessionalFlightCard, ProfessionalProfileCard } from "./ProfessionalDataCard";
+import { AircraftTrackingMap } from "./AircraftTrackingMap";
+import { PilotTrackingMap } from "./PilotTrackingMap";
+import { PilotCockpit } from "./PilotCockpit";
 
 // Demo data for pilot
 const demoAssignments = [
@@ -89,8 +92,107 @@ const demoNotifications = [
   }
 ];
 
+// Aircraft tracking data for pilot view
+const demoAircraftTracking = [
+  {
+    id: "aircraft-001",
+    tail_number: "N425SC",
+    model: "Boeing 737",
+    status: "in_flight",
+    location: {
+      lat: 40.7128,
+      lng: -74.0060,
+      airport: "KJFK",
+      city: "New York",
+      country: "USA"
+    },
+    current_flight: {
+      origin: "KJFK",
+      destination: "KLAX",
+      departure_time: "14:30 UTC",
+      arrival_time: "17:45 UTC",
+      passengers: 156
+    },
+    crew: {
+      captain: "Captain James Mitchell",
+      first_officer: "Mike Chen"
+    },
+    next_scheduled: {
+      route: "KLAX → KJFK",
+      time: "Tomorrow 09:00"
+    }
+  },
+  {
+    id: "aircraft-002",
+    tail_number: "N892AV",
+    model: "Airbus A320",
+    status: "available",
+    location: {
+      lat: 34.0522,
+      lng: -118.2437,
+      airport: "KLAX",
+      city: "Los Angeles",
+      country: "USA"
+    },
+    crew: {
+      captain: "David Rodriguez",
+      first_officer: "Emma Davis"
+    },
+    next_scheduled: {
+      route: "KLAX → KJFK",
+      time: "Today 18:00"
+    }
+  }
+];
+
+// Pilot network data for pilot view
+const demoPilotNetwork = [
+  {
+    id: "pilot-001",
+    name: "Captain Sarah Johnson",
+    role: "captain",
+    status: "available",
+    location: {
+      lat: 40.7128,
+      lng: -74.0060,
+      airport: "KJFK",
+      city: "New York",
+      country: "USA"
+    },
+    ratings: ["Boeing 737", "Airbus A320", "Gulfstream G550"],
+    hours_flown: 8500,
+    rating: 4.9,
+    next_available: "Available now"
+  },
+  {
+    id: "pilot-002",
+    name: "Captain Mike Chen",
+    role: "captain",
+    status: "in_flight",
+    location: {
+      lat: 34.0522,
+      lng: -118.2437,
+      airport: "KLAX",
+      city: "Los Angeles",
+      country: "USA"
+    },
+    current_assignment: {
+      flight_id: "FL-001",
+      route: "KLAX → KJFK",
+      aircraft: "Boeing 737",
+      departure_time: "14:30 UTC",
+      arrival_time: "22:45 UTC"
+    },
+    ratings: ["Boeing 737", "Airbus A320", "Gulfstream G550"],
+    hours_flown: 12000,
+    rating: 4.8,
+    next_available: "Tomorrow 08:00"
+  }
+];
+
 export const DemoPilotDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState("profile");
+  const [viewMode, setViewMode] = useState<"standard" | "cockpit">("standard");
 
   const sidebarItems = [
     { id: "profile", label: "Pilot Profile", icon: <TerminalIcons.Profile />, active: true },
@@ -120,9 +222,22 @@ export const DemoPilotDashboard: React.FC = () => {
     });
   };
 
+  if (viewMode === "cockpit") {
+    return <PilotCockpit />;
+  }
+
   return (
     <div className="min-h-screen bg-gray-900">
       <DemoBanner />
+      <div className="flex justify-end p-4">
+        <Button
+          onClick={() => setViewMode(viewMode === "standard" ? "cockpit" : "standard")}
+          variant="outline"
+          className="border-orange-500 text-orange-400 hover:bg-orange-500 hover:text-white"
+        >
+          {viewMode === "standard" ? "Cockpit View" : "Standard View"}
+        </Button>
+      </div>
       
       <UnifiedTerminalLayout
         title="Pilot Terminal"
@@ -304,6 +419,12 @@ export const DemoPilotDashboard: React.FC = () => {
               </div>
             </CardContent>
           </Card>
+
+          {/* Aircraft Tracking Map */}
+          <AircraftTrackingMap aircraft={demoAircraftTracking} />
+
+          {/* Professional Network Map */}
+          <PilotTrackingMap pilots={demoPilotNetwork} />
         </div>
       </UnifiedTerminalLayout>
     </div>

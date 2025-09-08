@@ -12,6 +12,7 @@ import { MessageCenter } from "../messaging/MessageCenter";
 import { UnifiedTerminalLayout, TerminalIcons } from "./UnifiedTerminalLayout";
 import { ProfessionalDataCard, ProfessionalFlightCard } from "./ProfessionalDataCard";
 import { PilotTrackingMap } from "./PilotTrackingMap";
+import { BrokerTradingFloor } from "./BrokerTradingFloor";
 
 // Demo data
 const demoRequests = [
@@ -225,6 +226,7 @@ const demoPilotTracking = [
 
 export const DemoBrokerDashboard: React.FC = () => {
   const [showNewRequestForm, setShowNewRequestForm] = useState(false);
+  const [viewMode, setViewMode] = useState<"standard" | "trading">("standard");
 
   const sidebarItems = [
     { id: "dashboard", label: "Broker Dashboard", icon: <TerminalIcons.Analytics />, active: true },
@@ -258,9 +260,22 @@ export const DemoBrokerDashboard: React.FC = () => {
     }
   };
 
+  if (viewMode === "trading") {
+    return <BrokerTradingFloor />;
+  }
+
   return (
     <div className="min-h-screen bg-gray-900">
       <DemoBanner />
+      <div className="flex justify-end p-4">
+        <Button
+          onClick={() => setViewMode(viewMode === "standard" ? "trading" : "standard")}
+          variant="outline"
+          className="border-green-500 text-green-400 hover:bg-green-500 hover:text-white"
+        >
+          {viewMode === "standard" ? "Trading Floor" : "Standard View"}
+        </Button>
+      </div>
       
       <UnifiedTerminalLayout
         title="Broker Terminal"

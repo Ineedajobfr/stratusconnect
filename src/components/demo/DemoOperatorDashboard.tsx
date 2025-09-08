@@ -213,6 +213,8 @@ const demoAircraftTracking = [
 export const DemoOperatorDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [viewMode, setViewMode] = useState<"standard" | "command">("standard");
+  
+  // Force rebuild to ensure new content is deployed
 
   const sidebarItems = [
     { id: "dashboard", label: "Operations Center", icon: <TerminalIcons.Dashboard />, active: true },

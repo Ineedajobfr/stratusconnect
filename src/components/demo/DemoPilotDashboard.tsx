@@ -177,6 +177,8 @@ const demoPilotNetwork = [
 export const DemoPilotDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState("profile");
   const [viewMode, setViewMode] = useState<"standard" | "cockpit">("standard");
+  
+  // Force rebuild to ensure new content is deployed
 
   const sidebarItems = [
     { id: "profile", label: "Pilot Profile", icon: <TerminalIcons.Profile />, active: true },

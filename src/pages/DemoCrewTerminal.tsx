@@ -1,6 +1,6 @@
-import { DemoCrewDashboard } from "@/components/demo/DemoCrewDashboard";
+import { TestComponent } from "@/components/demo/TestComponent";
 
 export default function DemoCrewTerminal() {
-  return <DemoCrewDashboard />;
+  return <TestComponent />;
 }
 

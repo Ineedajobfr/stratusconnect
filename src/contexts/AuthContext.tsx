@@ -304,38 +304,82 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const register = async (data: RegisterData): Promise<RegisterResult | null> => {
     try {
-      const redirectUrl = `${window.location.origin}/`;
-      
-      const { data: authData, error } = await supabase.auth.signUp({
-        email: data.email,
-        password: data.password,
-        options: {
-          emailRedirectTo: redirectUrl,
-          data: {
-            full_name: data.fullName,
-            role: data.role,
-            company_name: data.companyName || ''
-          }
+      // Try server-side provision to avoid email confirmation blockers
+      const { data: fnRes, error: fnErr } = await supabase.functions.invoke('auth-direct-register', {
+        body: {
+          email: data.email,
+          password: data.password,
+          fullName: data.fullName,
+          companyName: data.companyName,
+          role: data.role,
         }
       });
 
-      if (error) {
+      if (fnErr) {
+        // Fallback to regular sign up (will require email confirmation if enabled)
+        const redirectUrl = `${window.location.origin}/`;
+        const { data: authData, error } = await supabase.auth.signUp({
+          email: data.email,
+          password: data.password,
+          options: {
+            emailRedirectTo: redirectUrl,
+            data: {
+              full_name: data.fullName,
+              role: data.role,
+              company_name: data.companyName || ''
+            }
+          }
+        });
+
+        if (error) {
+          toast({
+            title: 'Registration Failed',
+            description: error.message || 'Failed to create account',
+            variant: 'destructive'
+          });
+          return null;
+        }
+
         toast({
-          title: 'Registration Failed',
-          description: error.message || 'Failed to create account',
+          title: 'Registration Successful!',
+          description: 'Please check your email to confirm your account.'
+        });
+
+        return {
+          user: {
+            id: authData.user?.id || '',
+            email: data.email,
+            fullName: data.fullName,
+            companyName: data.companyName,
+            role: data.role,
+            verificationStatus: 'pending'
+          }
+        };
+      }
+
+      // If server created the user, sign in immediately
+      const { error: loginErr } = await supabase.auth.signInWithPassword({
+        email: data.email,
+        password: data.password
+      });
+
+      if (loginErr) {
+        toast({
+          title: 'Login After Registration Failed',
+          description: loginErr.message,
           variant: 'destructive'
         });
         return null;
       }
 
       toast({
-        title: 'Registration Successful!',
-        description: 'Please check your email to confirm your account.'
+        title: 'Registration Complete',
+        description: 'Welcome to Stratus Connect!'
       });
 
       return {
         user: {
-          id: authData.user?.id || '',
+          id: fnRes?.userId || '',
           email: data.email,
           fullName: data.fullName,
           companyName: data.companyName,

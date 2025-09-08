@@ -7,6 +7,8 @@ export const TestComponent: React.FC = () => {
         🚀 NEW COMPONENT LOADED! 🚀
         <br />
         <span className="text-2xl">This proves the new components are working!</span>
+        <br />
+        <span className="text-lg">Timestamp: {new Date().toISOString()}</span>
       </div>
     </div>
   );

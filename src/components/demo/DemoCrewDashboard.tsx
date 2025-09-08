@@ -399,7 +399,7 @@ export const DemoCrewDashboard: React.FC = () => {
 
           {/* Professional Network Map */}
           <PilotTrackingMap pilots={demoPilotNetwork} />
-                    </div>
+        </div>
       </UnifiedTerminalLayout>
     </div>
   );

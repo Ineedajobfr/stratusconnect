@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Plane, Clock, CheckCircle, AlertCircle, Users, BarChart3, Settings, Bell, FileText, Shield, Award, DollarSign, Activity } from "lucide-react";
+import { Plus, Calendar, Clock, CheckCircle, AlertCircle, Bell, DollarSign, Users, BarChart3, FileText, Settings, Shield, Award, Plane, Activity } from "lucide-react";
 import { DemoBanner } from "../DemoBanner";
 import { UnifiedTerminalLayout, TerminalIcons } from "./UnifiedTerminalLayout";
 import { ProfessionalDataCard, ProfessionalFlightCard } from "./ProfessionalDataCard";
@@ -106,7 +106,7 @@ const demoFleet = [
     id: "aircraft-003",
     tail_number: "N156JT",
     model: "Falcon 7X",
-    status: "maintenance",
+    status: "maintenance" as const,
     location: "Miami (MIA)",
     next_maintenance: "2024-01-30",
     hours_flown: 2100,
@@ -142,7 +142,7 @@ const demoCrew = [
     id: "crew-003",
     name: "David Rodriguez",
     role: "Captain",
-    status: "available",
+    status: "available" as const,
     aircraft_type: "Citation X+",
     hours_flown: 9800,
     rating: 4.7,
@@ -163,7 +163,7 @@ const demoAircraftTracking = [
     id: "aircraft-001",
     tail_number: "N425SC",
     model: "Gulfstream G550",
-    status: "in_flight",
+    status: "in_flight" as const,
     location: {
       lat: 40.7128,
       lng: -74.0060,
@@ -191,7 +191,7 @@ const demoAircraftTracking = [
     id: "aircraft-002",
     tail_number: "N892AV",
     model: "Citation X+",
-    status: "available",
+    status: "available" as const,
     location: {
       lat: 34.0522,
       lng: -118.2437,
@@ -233,7 +233,7 @@ export const DemoOperatorDashboard: React.FC = () => {
   const user = {
     name: "Alex Thompson",
     role: "Aircraft Operator",
-    status: "active" as const
+    status: "available" as const
   };
 
   if (viewMode === "command") {

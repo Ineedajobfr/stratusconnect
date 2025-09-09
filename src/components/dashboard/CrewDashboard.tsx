@@ -25,7 +25,8 @@ import {
   XCircle,
   Utensils,
   Heart,
-  Coffee
+  Coffee,
+  Plus
 } from "lucide-react";
 
 interface CrewProfile {

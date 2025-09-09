@@ -126,8 +126,8 @@ const demoPilotTracking = [
   {
     id: "pilot-001",
     name: "Captain Sarah Johnson",
-    role: "captain",
-    status: "available",
+    role: "captain" as const,
+    status: "available" as const,
     location: {
       lat: 40.7128,
       lng: -74.0060,
@@ -143,8 +143,8 @@ const demoPilotTracking = [
   {
     id: "pilot-002",
     name: "Captain Mike Chen",
-    role: "captain",
-    status: "in_flight",
+    role: "captain" as const,
+    status: "in_flight" as const,
     location: {
       lat: 34.0522,
       lng: -118.2437,
@@ -167,8 +167,8 @@ const demoPilotTracking = [
   {
     id: "pilot-003",
     name: "First Officer Emma Davis",
-    role: "first_officer",
-    status: "on_duty",
+    role: "first_officer" as const,
+    status: "on_duty" as const,
     location: {
       lat: 25.7617,
       lng: -80.1918,
@@ -184,8 +184,8 @@ const demoPilotTracking = [
   {
     id: "pilot-004",
     name: "Captain James Mitchell",
-    role: "captain",
-    status: "available",
+    role: "captain" as const,
+    status: "available" as const,
     location: {
       lat: 51.5074,
       lng: -0.1278,
@@ -201,8 +201,8 @@ const demoPilotTracking = [
   {
     id: "pilot-005",
     name: "Captain Lisa Wang",
-    role: "captain",
-    status: "in_flight",
+    role: "captain" as const,
+    status: "in_flight" as const,
     location: {
       lat: 35.6762,
       lng: 139.6503,

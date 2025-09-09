@@ -212,18 +212,172 @@ This update forces a fresh deployment to ensure all new demo layouts are properl
 
 ## 📚 **COMPREHENSIVE BUILD BLUEPRINT FOR CURSOR AI**
 
-### **StratusConnect Full-Stack Platform Build Blueprint**
+### **StratusConnect Multi-Role Terminal: Complete Interface Structure and Workflows**
 
-This section contains the complete technical specification for building StratusConnect from scratch using Cursor AI. This blueprint covers all modules, database schema, frontend components, and backend logic.
+This section contains the complete technical specification and user experience documentation for building StratusConnect from scratch using Cursor AI. This comprehensive blueprint covers all modules, database schema, frontend components, backend logic, and detailed workflow documentation.
 
 #### **1. Overview**
 
 **Purpose**: StratusConnect is a multi-role, real-time aviation charter platform built with React (frontend), Supabase (PostgreSQL BaaS), TypeScript, and modern event-driven architecture. The platform connects brokers, operators, pilots, and crew for private charter flights in real time, facilitating everything from flight requests and quotes to crew assignment and compliance checks.
 
-**User Types**: StratusConnect supports five primary user roles:
-- **Broker**: Creates flight requests, receives quotes, manages bookings
-- **Operator**: Submits quotes, manages fleet, assigns crew, tracks flights
-- **Pilot/Crew**: Views assignments, updates flight status, manages profile
+**Introduction**: StratusConnect is a unified digital platform designed for the private aviation industry, bringing together brokers, aircraft operators, pilots, and cabin crew in one system. Each user role is provided with a tailored "terminal" (interface) that addresses its specific needs and workflows. The platform serves as an all-in-one solution – a central cockpit – where flight requests, charter quotes, crew availability, and communications all come together seamlessly. The design emphasizes a sleek orange-and-black theme for a modern, high-contrast look, ensuring that important information stands out and the interface remains clean and professional.
+
+**Overall Design**: Navigation within StratusConnect is intuitive and role-based. Upon visiting the platform, users are prompted to select which portal (role-specific terminal) they wish to enter. This initial selection ensures that brokers, operators, pilots, and crew each see only the tools and pages relevant to their activities. Despite the differing functionalities for each role, the user experience is consistent across the board – all terminals share a common layout with a left-hand navigation menu, a content dashboard area, and the same sleek orange-and-black interface styling.
+
+#### **2. Broker Terminal**
+
+**Role Overview**: The Broker Terminal is designed for charter brokers whose primary goal is to secure flights for clients by obtaining quotes from operators quickly and efficiently. Brokers essentially manage trip requests (on behalf of clients) and coordinate with operators to find the best options. StratusConnect gives brokers a streamlined digital workspace – essentially a "cleaner cockpit" for managing charter inquiries – helping them win more quotes and close deals faster by leveraging real-time data and communication tools.
+
+**Key Pages & Features for Brokers**:
+
+- **Dashboard (Marketplace Overview)**: Brokers land on a dashboard that shows the latest marketplace activity relevant to them. This could include a quick view of any empty-leg flights or special deals posted by operators (supply side opportunities) and status updates on the broker's own trip requests.
+
+- **Post New Trip Request**: A dedicated workflow allows brokers to create a new charter trip request with all necessary details. The broker enters trip parameters like origin, destination, departure date, return date (if applicable), passenger count, aircraft preferences, etc.
+
+- **My Trip Requests**: A section that lists all trip requests the broker has posted, along with their current status. Each request entry might show summary info (route, dates, status like "Quotes pending" or "X quotes received").
+
+- **Quote Management (Quotes Received)**: For each trip request, brokers can view quotes from operators side by side for easy comparison. StratusConnect notifies brokers in real time as operators submit quotes.
+
+- **Marketplace (Empty Legs & Listings)**: In addition to handling broker-initiated requests, the Broker Terminal likely provides access to a Marketplace of operator-posted availabilities.
+
+- **Messages (Communication Hub)**: An integrated messaging system allows brokers to communicate directly with operators within the platform.
+
+- **Saved Jets / Operators**: Brokers may have the ability to save or bookmark certain aircraft or operators as favorites.
+
+- **Profile & Verification**: Brokers have a profile area where they manage their account info and business credentials.
+
+#### **3. Operator Terminal**
+
+**Role Overview**: The Operator Terminal is built for aircraft operators (charter companies or aircraft owners managing flights) who want to maximize the utilization of their fleet and respond quickly to market demand. Operators use StratusConnect to list their available aircraft, receive trip requests from brokers, and provide quotes, as well as to find qualified pilots or crew if needed.
+
+**Key Pages & Features for Operators**:
+
+- **Requests Board (Incoming Trip Requests)**: Upon logging in, an operator can access a live board of broker trip requests (essentially the flip side of what brokers see).
+
+- **Quote Submission Workflow**: When an operator decides to respond to a trip request, they enter the Quote Submission page for that request.
+
+- **My Quotes & Requests**: A management page where the operator can track all the quotes they have submitted and the status of each.
+
+- **Fleet Availability & Listings**: Operators can proactively list their aircraft availability on StratusConnect to attract broker interest.
+
+- **Crew & Pilot Directory Access**: A unique aspect of StratusConnect is connecting Pilots and Cabin Crew directly with operators.
+
+- **Messages**: Similar to the brokers, operators have an internal messaging hub.
+
+- **Analytics Dashboard**: To help operators optimize their business, StratusConnect may offer an Analytics section.
+
+- **Transactions & Payment Tracking**: If StratusConnect supports booking transactions (or at least logging them), the operator terminal could include a Transactions page.
+
+- **Profile & Verification**: Operators maintain a profile which includes company details (name, logo, description of the business), as well as the list of aircraft in their fleet.
+
+#### **4. Pilot Terminal**
+
+**Role Overview**: The Pilot Terminal caters to individual pilots (often freelance or those looking for contract opportunities) who want to connect directly with operators for work. StratusConnect provides pilots a platform to showcase their credentials, list their availability, and get hired directly by operators, without needing a middleman or staffing agency.
+
+**Key Pages & Features for Pilots**:
+
+- **Profile (Digital Pilot Resume)**: At the heart of the Pilot Terminal is a detailed pilot profile. This functions like an online resume/CV and is the primary way operators discover and evaluate a pilot.
+
+- **Availability Calendar**: A crucial feature for pilots is the ability to list their availability. This could be an interactive calendar where pilots mark which dates they are free to fly.
+
+- **Job Listings or Opportunities**: The Pilot Terminal may include a section where operators' crew requests are listed.
+
+- **Notifications & Alerts**: Pilots receive alerts when there is activity relevant to them.
+
+- **Messages**: The messaging system in the Pilot Terminal allows direct communication with operators.
+
+- **Profile Settings & Verification**: In the pilot's profile settings, aside from editing their resume info, they can manage their Fortress of Trust verification status.
+
+#### **5. Cabin Crew Terminal**
+
+**Role Overview**: The Cabin Crew Terminal is very similar to the Pilot Terminal but tailored for flight attendants and other cabin crew members in private aviation. Like pilots, freelance cabin crew (or those seeking additional work) can use StratusConnect to advertise their skills, list availability, and connect directly with operators who need their services.
+
+**Key Pages & Features for Cabin Crew**:
+
+- **Crew Profile**: A detailed professional profile for cabin crew to showcase their qualifications.
+
+- **Availability & Schedule**: Cabin crew members maintain an availability calendar just like pilots.
+
+- **Job Opportunities Listing**: If the platform supports listing specific crew needs by operators, crew will see relevant job postings in their terminal.
+
+- **Notifications & Invitations**: Crew receive alerts for direct invitations, messages, and application updates.
+
+- **Messages**: The messaging interface for cabin crew works just like for pilots.
+
+- **Profile Verification (Fortress of Trust)**: StratusConnect likely extends its Fortress of Trust verification to crew members as well.
+
+- **Crew Resources**: Similar to pilots, the platform might offer helpful resources for crew.
+
+#### **6. Cross-Role Interaction Workflows**
+
+StratusConnect's true power comes from how these different roles interact through the platform. Here we outline critical workflows that illustrate the end-to-end usage across roles:
+
+**1. Broker Request to Operator Quote (Charter Booking Workflow)**:
+- Broker Posts a Trip Request
+- Operators Get Alerted
+- Operators Submit Quotes
+- Broker Receives Quotes
+- Broker Reviews & Communicates
+- Broker Accepts a Quote
+- Confirmation & Handoff
+- Completion
+
+**2. Operator Empty Leg Posting to Broker Booking Workflow**:
+- Operator Posts an Empty Leg
+- Listing Visible to Brokers
+- Broker Interest
+- Broker Contacts Operator
+- Agreement
+- Booking Confirmation
+- Follow-up
+
+**3. Operator Hiring a Pilot/Crew for a Trip Workflow**:
+- Operator Needs Crew
+- Searching the Directory
+- Reviewing Profiles
+- Sending Invitation
+- Pilot/Crew Respond
+- Confirmation
+- Execution
+- Feedback
+
+#### **7. Verification and Trust: The "Fortress of Trust" System**
+
+One of the standout elements of StratusConnect is its emphasis on security, verification, and trust among users. Given the high-stakes nature of private aviation (involving expensive aircraft, safety considerations, and VIP clients), the platform implements a rigorous verification workflow dubbed the "Fortress of Trust."
+
+**Key Components**:
+- **Document Uploads**: Users must upload scanned copies or images of key documents
+- **Verification Status & Progress**: The system shows a progress indicator
+- **Sanctions and Background Screening**: Beyond document validation, StratusConnect incorporates sanctions screening and possibly background checks
+- **Badges and Access Control**: Users who complete Fortress of Trust are awarded with trust badges or labels on their profiles
+- **Ongoing Compliance**: The Fortress of Trust isn't a one-time hurdle; it's likely an ongoing framework
+- **Privacy and Security**: Given the sensitive nature of documents, StratusConnect will handle these uploads securely
+
+#### **8. Technical Architecture**
+
+**Frontend Stack**:
+- React with TypeScript
+- Vite for build tooling
+- Tailwind CSS for styling
+- Shadcn UI components
+- React Router for navigation
+
+**Backend Stack**:
+- Supabase (PostgreSQL BaaS)
+- Real-time subscriptions
+- Edge functions
+- Row-level security (RLS)
+
+**Deployment**:
+- Netlify for hosting
+- GitHub for version control
+- Automated deployments
+
+**Design System**:
+- Orange and black color scheme
+- Sleek, professional interface
+- Role-based navigation
+- Consistent terminal layouts
 - **Admin**: System oversight, compliance monitoring, dispute resolution
 
 #### **2. Database Schema (Supabase)**

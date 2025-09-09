@@ -1,5 +1,5 @@
-import { DemoOperatorDashboard } from "@/components/demo/DemoOperatorDashboard";
+import { OperatorDashboard } from "@/components/dashboard/OperatorDashboard";
 
 export default function DemoOperatorTerminal() {
-  return <DemoOperatorDashboard />;
+  return <OperatorDashboard />;
 }

@@ -1,0 +1,30 @@
+# GitHub Pages configuration for StratusConnect
+title: StratusConnect
+description: The future of private aviation marketplace - Connect brokers, operators, pilots, and crew in one unified platform
+theme: jekyll-theme-minimal
+
+# Build settings
+baseurl: "/stratusconnect"
+url: "https://ineedajobfr.github.io"
+
+# Site settings
+lang: en
+timezone: UTC
+
+# Navigation
+navigation:
+  - title: Home
+    url: /
+  - title: Broker Terminal
+    url: /demo/broker
+  - title: Operator Terminal
+    url: /demo/operator
+  - title: Pilot Terminal
+    url: /demo/pilot
+  - title: Crew Terminal
+    url: /demo/crew
+
+# Social links
+social:
+  - title: GitHub
+    url: https://github.com/Ineedajobfr/stratusconnect

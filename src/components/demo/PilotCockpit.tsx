@@ -48,7 +48,7 @@ export const PilotCockpit: React.FC = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center">
+              <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
                 <span className="text-black font-bold text-sm">P</span>
               </div>
               <span className="text-xl font-bold">STRATUSCONNECT</span>
@@ -59,12 +59,12 @@ export const PilotCockpit: React.FC = () => {
           <div className="flex items-center space-x-6">
             <div className="text-center">
               <div className="text-sm text-slate-400">PILOT</div>
-              <div className="text-lg font-bold text-cyan-400">Capt. Sarah Johnson</div>
+              <div className="text-lg font-bold text-orange-400">Capt. Sarah Johnson</div>
             </div>
             <div className="text-right">
-              <div className="text-2xl font-mono text-cyan-400">
-              {formatTime(currentTime)}
-            </div>
+              <div className="text-2xl font-mono text-orange-400">
+                {formatTime(currentTime)}
+              </div>
               <div className="text-sm text-slate-400">{formatDate(currentTime)}</div>
             </div>
           </div>
@@ -74,19 +74,19 @@ export const PilotCockpit: React.FC = () => {
       <div className="p-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="bg-slate-800 border-slate-700">
-            <TabsTrigger value="schedule" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-white">
+            <TabsTrigger value="schedule" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
               <Calendar className="h-4 w-4 mr-2" />
               Schedule
             </TabsTrigger>
-            <TabsTrigger value="assignments" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-white">
+            <TabsTrigger value="assignments" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
               <Briefcase className="h-4 w-4 mr-2" />
               Assignments
             </TabsTrigger>
-            <TabsTrigger value="profile" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-white">
+            <TabsTrigger value="profile" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
               <User className="h-4 w-4 mr-2" />
               Profile
             </TabsTrigger>
-            <TabsTrigger value="notifications" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-white">
+            <TabsTrigger value="notifications" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
               <Bell className="h-4 w-4 mr-2" />
               Notifications
             </TabsTrigger>
@@ -98,13 +98,13 @@ export const PilotCockpit: React.FC = () => {
               <div className="lg:col-span-2">
                 <Card className="bg-slate-800 border-slate-700">
                   <CardHeader>
-                    <CardTitle className="text-cyan-400">Upcoming Flights</CardTitle>
+                    <CardTitle className="text-orange-400">Upcoming Flights</CardTitle>
             </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-3">
                       <div className="flex items-center justify-between p-4 bg-slate-700 rounded-lg border border-slate-600">
                         <div className="flex items-center space-x-4">
-                          <div className="w-12 h-12 bg-cyan-500 rounded-lg flex items-center justify-center">
+                          <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
                             <Plane className="h-6 w-6 text-black" />
                           </div>
                           <div>

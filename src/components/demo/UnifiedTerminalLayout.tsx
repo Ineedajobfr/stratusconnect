@@ -107,7 +107,7 @@ export const UnifiedTerminalLayout: React.FC<TerminalLayoutProps> = ({
                 key={item.id}
                 className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-left transition-colors ${
                   item.active 
-                    ? 'bg-cyan-500 text-white' 
+                    ? 'bg-orange-500 text-white' 
                     : 'text-slate-300 hover:bg-slate-700 hover:text-white'
                 }`}
               >
@@ -197,7 +197,7 @@ export const UnifiedTerminalLayout: React.FC<TerminalLayoutProps> = ({
                     <p className="text-sm text-slate-400">Welcome back,</p>
                     <p className="text-sm font-medium text-white">{user.name}</p>
                   </div>
-                  <div className="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center text-white text-sm font-semibold">
+                  <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-semibold">
                     {user.name.split(' ').map(n => n[0]).join('')}
                   </div>
                 </div>

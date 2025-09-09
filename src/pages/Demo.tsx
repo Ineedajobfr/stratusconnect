@@ -80,7 +80,7 @@ export default function DemoSetup() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="text-center">
-                    <Button className="btn-terminal-primary w-full">
+                    <Button className="btn-terminal-accent w-full">
                       View Demo
                     </Button>
                   </CardContent>

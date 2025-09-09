@@ -1,5 +1,5 @@
-import { DemoBrokerDashboard } from "@/components/demo/DemoBrokerDashboard";
+import { TestDemoBroker } from "@/components/demo/TestDemoBroker";
 
 export default function DemoBrokerTerminal() {
-  return <DemoBrokerDashboard />;
+  return <TestDemoBroker />;
 }

@@ -18,7 +18,7 @@ const demoAssignments = [
     route: "KTEB → KMIA",
     date: "Dec 20 • G550 • 2.9h • PIC",
     aircraft: "G550",
-    status: "landed",
+    status: "available",
     passengers: 8,
     earnings: 1150,
     rating: 5.0
@@ -28,7 +28,7 @@ const demoAssignments = [
     route: "KJFK → KLAX",
     date: "Dec 18 • G650 • 5.2h • PIC",
     aircraft: "G650",
-    status: "landed",
+    status: "available",
     passengers: 6,
     earnings: 2100,
     rating: 4.8
@@ -38,7 +38,7 @@ const demoAssignments = [
     route: "KMIA → KORD",
     date: "Dec 15 • Falcon 7X • 3.1h • PIC",
     aircraft: "Falcon 7X",
-    status: "landed",
+    status: "available",
     passengers: 4,
     earnings: 1800,
     rating: 4.9

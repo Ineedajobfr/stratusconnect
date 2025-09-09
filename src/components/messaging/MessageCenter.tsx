@@ -70,7 +70,7 @@ export const MessageCenter: React.FC<MessageCenterProps> = ({
         .from('messages')
         .select(`
           *,
-          users!messages_sender_id_fkey (full_name, avatar_url)
+          users (full_name, avatar_url)
         `)
         .or(`booking_id.eq.${bookingId},request_id.eq.${requestId}`)
         .order('created_at', { ascending: true });

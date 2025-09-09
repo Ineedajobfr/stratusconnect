@@ -91,35 +91,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const fetchUserProfile = async (supabaseUser: SupabaseUser) => {
     try {
-      // Get user data and profile data separately
-      const { data: userData } = await supabase
-        .from('users')
-        .select('email, full_name, company_name, role, verification_status')
-        .eq('id', supabaseUser.id)
-        .maybeSingle();
-
-      const { data: profileData } = await supabase
-        .from('profiles')
-        .select('username, display_name, avatar_url, platform_role')
-        .eq('user_id', supabaseUser.id)
-        .maybeSingle();
-
-      if (userData) {
-        setUser({
-          id: supabaseUser.id,
-          email: userData.email,
-          fullName: userData.full_name || profileData?.display_name || '',
-          companyName: userData.company_name || '',
-          role: userData.role as 'broker' | 'operator' | 'pilot' | 'crew' | 'admin',
-          verificationStatus: userData.verification_status as 'pending' | 'approved' | 'rejected',
-          username: profileData?.username,
-          avatarUrl: profileData?.avatar_url,
-        });
-        setLoading(false);
-        return;
-      }
-
-      // Fallback to auth metadata (useful for demo users)
+      // Simplified version - just use auth metadata for now
       const meta = supabaseUser.user_metadata || {};
       const email = supabaseUser.email || '';
       const role = meta.role || 'broker';
@@ -134,8 +106,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         companyName: meta.company_name || '',
         role,
         verificationStatus,
-        username: profileData?.username,
-        avatarUrl: profileData?.avatar_url,
+        username: meta.username,
+        avatarUrl: meta.avatar_url,
       });
     } catch (error) {
       console.error('Profile fetch error:', error);

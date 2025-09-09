@@ -12,8 +12,8 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { logger } from "@/utils/performance";
 
 // Import new dashboard components
-import { BrokerDashboard } from "@/components/dashboard/BrokerDashboard";
-import { OperatorDashboard } from "@/components/dashboard/OperatorDashboard";
+import BrokerDashboard from "@/components/dashboard/BrokerDashboard";
+import OperatorDashboard from "@/components/dashboard/OperatorDashboard";
 
 // Lazy load pages for better performance - prioritize by usage frequency
 const Index = lazy(() => import("./pages/Index"));

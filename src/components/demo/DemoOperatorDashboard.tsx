@@ -241,13 +241,13 @@ export const DemoOperatorDashboard: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900">
+    <div className="min-h-screen bg-slate-900">
       <DemoBanner />
       <div className="flex justify-end p-4">
         <Button
           onClick={() => setViewMode(viewMode === "standard" ? "command" : "standard")}
           variant="outline"
-          className="border-orange-500 text-orange-400 hover:bg-orange-500 hover:text-white"
+          className="border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-white"
         >
           {viewMode === "standard" ? "Command Center" : "Standard View"}
         </Button>
@@ -264,18 +264,18 @@ export const DemoOperatorDashboard: React.FC = () => {
         onMessageClick={() => console.log('Messages')}
       >
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 lg:grid-cols-11 bg-gray-800">
-            <TabsTrigger value="dashboard" className="text-xs">Dashboard</TabsTrigger>
-            <TabsTrigger value="fleet" className="text-xs">Fleet</TabsTrigger>
-            <TabsTrigger value="dispatch" className="text-xs">Dispatch</TabsTrigger>
-            <TabsTrigger value="maintenance" className="text-xs">Maintenance</TabsTrigger>
-            <TabsTrigger value="crew" className="text-xs">Crew</TabsTrigger>
-            <TabsTrigger value="bookings" className="text-xs">Bookings</TabsTrigger>
-            <TabsTrigger value="marketplace" className="text-xs">Marketplace</TabsTrigger>
-            <TabsTrigger value="communications" className="text-xs">Comm</TabsTrigger>
-            <TabsTrigger value="analytics" className="text-xs">Analytics</TabsTrigger>
-            <TabsTrigger value="compliance" className="text-xs">Compliance</TabsTrigger>
-            <TabsTrigger value="news" className="text-xs">News</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-4 lg:grid-cols-11 bg-slate-800 border-slate-700">
+            <TabsTrigger value="dashboard" className="text-xs data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Dashboard</TabsTrigger>
+            <TabsTrigger value="fleet" className="text-xs data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Fleet</TabsTrigger>
+            <TabsTrigger value="dispatch" className="text-xs data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Dispatch</TabsTrigger>
+            <TabsTrigger value="maintenance" className="text-xs data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Maintenance</TabsTrigger>
+            <TabsTrigger value="crew" className="text-xs data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Crew</TabsTrigger>
+            <TabsTrigger value="bookings" className="text-xs data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Bookings</TabsTrigger>
+            <TabsTrigger value="marketplace" className="text-xs data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Marketplace</TabsTrigger>
+            <TabsTrigger value="communications" className="text-xs data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Comm</TabsTrigger>
+            <TabsTrigger value="analytics" className="text-xs data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Analytics</TabsTrigger>
+            <TabsTrigger value="compliance" className="text-xs data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Compliance</TabsTrigger>
+            <TabsTrigger value="news" className="text-xs data-[state=active]:bg-cyan-500 data-[state=active]:text-white">News</TabsTrigger>
           </TabsList>
 
           <TabsContent value="dashboard" className="space-y-6">
@@ -312,16 +312,16 @@ export const DemoOperatorDashboard: React.FC = () => {
 
             {/* Recent Activity */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card className="bg-gray-800 border-gray-700">
+              <Card className="bg-slate-800 border-slate-700">
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2 text-white">
-                    <Clock className="h-5 w-5 text-orange-400" />
+                    <Clock className="h-5 w-5 text-cyan-400" />
                     <span>RECENT REQUESTS</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {demoRequests.map((request) => (
-                    <Card key={request.id} className="bg-gray-700 border-gray-600">
+                    <Card key={request.id} className="bg-slate-700 border-slate-600">
                       <CardContent className="p-4">
                         <div className="flex items-center justify-between mb-3">
                           <h3 className="font-semibold text-white">{request.origin} → {request.destination}</h3>
@@ -331,14 +331,14 @@ export const DemoOperatorDashboard: React.FC = () => {
                             {request.status}
                           </Badge>
                         </div>
-                        <div className="space-y-2 text-sm text-gray-300">
+                        <div className="space-y-2 text-sm text-slate-300">
                           <div className="flex items-center justify-between">
                             <span>{new Date(request.departure_date).toLocaleDateString()}</span>
-                            <span className="text-orange-400">{request.passenger_count} PAX</span>
+                            <span className="text-cyan-400">{request.passenger_count} PAX</span>
                           </div>
                           <div className="flex items-center justify-between">
                             <span>{request.companies.name}</span>
-                            <span className="text-gray-400">{new Date(request.created_at).toLocaleDateString()}</span>
+                            <span className="text-slate-400">{new Date(request.created_at).toLocaleDateString()}</span>
                           </div>
                         </div>
                       </CardContent>
@@ -347,16 +347,16 @@ export const DemoOperatorDashboard: React.FC = () => {
                 </CardContent>
               </Card>
 
-              <Card className="bg-gray-800 border-gray-700">
+              <Card className="bg-slate-800 border-slate-700">
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2 text-white">
-                    <CheckCircle className="h-5 w-5 text-orange-400" />
+                    <CheckCircle className="h-5 w-5 text-cyan-400" />
                     <span>RECENT QUOTES</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {demoQuotes.map((quote) => (
-                    <Card key={quote.id} className="bg-gray-700 border-gray-600">
+                    <Card key={quote.id} className="bg-slate-700 border-slate-600">
                       <CardContent className="p-4">
                         <div className="flex items-center justify-between mb-3">
                           <h3 className="font-semibold text-white">{quote.requests.origin} → {quote.requests.destination}</h3>
@@ -366,14 +366,14 @@ export const DemoOperatorDashboard: React.FC = () => {
                             {quote.status}
                           </Badge>
                         </div>
-                        <div className="space-y-2 text-sm text-gray-300">
+                        <div className="space-y-2 text-sm text-slate-300">
                           <div className="flex items-center justify-between">
                             <span>{new Date(quote.requests.departure_date).toLocaleDateString()}</span>
-                            <span className="text-orange-400">${quote.price.toLocaleString()}</span>
+                            <span className="text-cyan-400">${quote.price.toLocaleString()}</span>
                           </div>
                           <div className="flex items-center justify-between">
                             <span>{quote.requests.passenger_count} PAX</span>
-                            <span className="text-gray-400">{new Date(quote.created_at).toLocaleDateString()}</span>
+                            <span className="text-slate-400">{new Date(quote.created_at).toLocaleDateString()}</span>
                           </div>
                         </div>
                       </CardContent>
@@ -385,16 +385,16 @@ export const DemoOperatorDashboard: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="fleet" className="space-y-6">
-            <Card className="bg-gray-800 border-gray-700">
+            <Card className="bg-slate-800 border-slate-700">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2 text-white">
-                  <Plane className="h-5 w-5 text-orange-400" />
+                  <Plane className="h-5 w-5 text-cyan-400" />
                   <span>FLEET MANAGEMENT</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {demoFleet.map((aircraft) => (
-                  <Card key={aircraft.id} className="bg-gray-700 border-gray-600">
+                  <Card key={aircraft.id} className="bg-slate-700 border-slate-600">
                     <CardContent className="p-4">
                       <div className="flex items-center justify-between mb-3">
                         <h3 className="font-semibold text-white">{aircraft.tail_number} - {aircraft.model}</h3>
@@ -405,14 +405,14 @@ export const DemoOperatorDashboard: React.FC = () => {
                           {aircraft.status}
                         </Badge>
                       </div>
-                      <div className="space-y-2 text-sm text-gray-300">
+                      <div className="space-y-2 text-sm text-slate-300">
                         <div className="flex items-center justify-between">
                           <span>Location: {aircraft.location}</span>
-                          <span className="text-orange-400">{aircraft.hours_flown} hours</span>
+                          <span className="text-cyan-400">{aircraft.hours_flown} hours</span>
                         </div>
                         <div className="flex items-center justify-between">
                           <span>Captain: {aircraft.crew.captain}</span>
-                          <span className="text-gray-400">Next MX: {aircraft.next_maintenance}</span>
+                          <span className="text-slate-400">Next MX: {aircraft.next_maintenance}</span>
                         </div>
                       </div>
                     </CardContent>
@@ -423,16 +423,16 @@ export const DemoOperatorDashboard: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="dispatch" className="space-y-6">
-            <Card className="bg-gray-800 border-gray-700">
+            <Card className="bg-slate-800 border-slate-700">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2 text-white">
-                  <Plane className="h-5 w-5 text-orange-400" />
+                  <Plane className="h-5 w-5 text-cyan-400" />
                   <span>FLIGHT DISPATCH</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {demoRequests.map((request) => (
-                  <Card key={request.id} className="bg-gray-700 border-gray-600">
+                  <Card key={request.id} className="bg-slate-700 border-slate-600">
                     <CardContent className="p-4">
                       <div className="flex items-center justify-between mb-3">
                         <h3 className="font-semibold text-white">{request.origin} → {request.destination}</h3>
@@ -442,10 +442,10 @@ export const DemoOperatorDashboard: React.FC = () => {
                           {request.status}
                         </Badge>
                       </div>
-                      <div className="space-y-2 text-sm text-gray-300">
+                      <div className="space-y-2 text-sm text-slate-300">
                         <div className="flex items-center justify-between">
                           <span>{new Date(request.departure_date).toLocaleDateString()}</span>
-                          <span className="text-orange-400">{request.passenger_count} PAX</span>
+                          <span className="text-cyan-400">{request.passenger_count} PAX</span>
                         </div>
                         <div className="flex items-center justify-between">
                           <span>{request.companies.name}</span>
@@ -462,16 +462,16 @@ export const DemoOperatorDashboard: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="maintenance" className="space-y-6">
-            <Card className="bg-gray-800 border-gray-700">
+            <Card className="bg-slate-800 border-slate-700">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2 text-white">
-                  <Settings className="h-5 w-5 text-orange-400" />
+                  <Settings className="h-5 w-5 text-cyan-400" />
                   <span>MAINTENANCE SCHEDULE</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {demoFleet.map((aircraft) => (
-                  <Card key={aircraft.id} className="bg-gray-700 border-gray-600">
+                  <Card key={aircraft.id} className="bg-slate-700 border-slate-600">
                     <CardContent className="p-4">
                       <div className="flex items-center justify-between mb-3">
                         <h3 className="font-semibold text-white">{aircraft.tail_number} - {aircraft.model}</h3>
@@ -481,10 +481,10 @@ export const DemoOperatorDashboard: React.FC = () => {
                           {aircraft.status === 'maintenance' ? 'In MX' : 'Operational'}
                         </Badge>
                       </div>
-                      <div className="space-y-2 text-sm text-gray-300">
+                      <div className="space-y-2 text-sm text-slate-300">
                         <div className="flex items-center justify-between">
                           <span>Next Maintenance: {aircraft.next_maintenance}</span>
-                          <span className="text-orange-400">{aircraft.hours_flown} hours</span>
+                          <span className="text-cyan-400">{aircraft.hours_flown} hours</span>
                         </div>
                         <div className="flex items-center justify-between">
                           <span>Location: {aircraft.location}</span>
@@ -501,16 +501,16 @@ export const DemoOperatorDashboard: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="crew" className="space-y-6">
-            <Card className="bg-gray-800 border-gray-700">
+            <Card className="bg-slate-800 border-slate-700">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2 text-white">
-                  <Users className="h-5 w-5 text-orange-400" />
+                  <Users className="h-5 w-5 text-cyan-400" />
                   <span>CREW SCHEDULING</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {demoCrew.map((crew) => (
-                  <Card key={crew.id} className="bg-gray-700 border-gray-600">
+                  <Card key={crew.id} className="bg-slate-700 border-slate-600">
                     <CardContent className="p-4">
                       <div className="flex items-center justify-between mb-3">
                         <h3 className="font-semibold text-white">{crew.name}</h3>
@@ -520,14 +520,14 @@ export const DemoOperatorDashboard: React.FC = () => {
                           {crew.status}
                         </Badge>
                       </div>
-                      <div className="space-y-2 text-sm text-gray-300">
+                      <div className="space-y-2 text-sm text-slate-300">
                         <div className="flex items-center justify-between">
                           <span>{crew.role} - {crew.aircraft_type}</span>
-                          <span className="text-orange-400">{crew.hours_flown} hours</span>
+                          <span className="text-cyan-400">{crew.hours_flown} hours</span>
                         </div>
                         <div className="flex items-center justify-between">
                           <span>Rating: {crew.rating}/5.0</span>
-                          <span className="text-gray-400">{crew.next_available}</span>
+                          <span className="text-slate-400">{crew.next_available}</span>
                         </div>
                       </div>
                     </CardContent>
@@ -538,16 +538,16 @@ export const DemoOperatorDashboard: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="bookings" className="space-y-6">
-            <Card className="bg-gray-800 border-gray-700">
+            <Card className="bg-slate-800 border-slate-700">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2 text-white">
-                  <Calendar className="h-5 w-5 text-orange-400" />
+                  <Calendar className="h-5 w-5 text-cyan-400" />
                   <span>CHARTER BOOKINGS</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {demoQuotes.map((quote) => (
-                  <Card key={quote.id} className="bg-gray-700 border-gray-600">
+                  <Card key={quote.id} className="bg-slate-700 border-slate-600">
                     <CardContent className="p-4">
                       <div className="flex items-center justify-between mb-3">
                         <h3 className="font-semibold text-white">{quote.requests.origin} → {quote.requests.destination}</h3>
@@ -557,10 +557,10 @@ export const DemoOperatorDashboard: React.FC = () => {
                           {quote.status}
                         </Badge>
                       </div>
-                      <div className="space-y-2 text-sm text-gray-300">
+                      <div className="space-y-2 text-sm text-slate-300">
                         <div className="flex items-center justify-between">
                           <span>{new Date(quote.requests.departure_date).toLocaleDateString()}</span>
-                          <span className="text-orange-400">${quote.price.toLocaleString()}</span>
+                          <span className="text-cyan-400">${quote.price.toLocaleString()}</span>
                         </div>
                         <div className="flex items-center justify-between">
                           <span>{quote.requests.passenger_count} PAX</span>
@@ -577,40 +577,40 @@ export const DemoOperatorDashboard: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="marketplace" className="space-y-6">
-            <Card className="bg-gray-800 border-gray-700">
+            <Card className="bg-slate-800 border-slate-700">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2 text-white">
-                  <BarChart3 className="h-5 w-5 text-orange-400" />
+                  <BarChart3 className="h-5 w-5 text-cyan-400" />
                   <span>MARKETPLACE</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                  <div className="text-center p-4 bg-gray-700 rounded-lg">
-                    <div className="text-2xl font-bold text-orange-400">$2.45M</div>
-                    <div className="text-sm text-gray-400">Total Revenue</div>
+                  <div className="text-center p-4 bg-slate-700 rounded-lg">
+                    <div className="text-2xl font-bold text-cyan-400">$2.45M</div>
+                    <div className="text-sm text-slate-400">Total Revenue</div>
                   </div>
-                  <div className="text-center p-4 bg-gray-700 rounded-lg">
-                    <div className="text-2xl font-bold text-orange-400">156</div>
-                    <div className="text-sm text-gray-400">Total Flights</div>
+                  <div className="text-center p-4 bg-slate-700 rounded-lg">
+                    <div className="text-2xl font-bold text-cyan-400">156</div>
+                    <div className="text-sm text-slate-400">Total Flights</div>
                   </div>
-                  <div className="text-center p-4 bg-gray-700 rounded-lg">
-                    <div className="text-2xl font-bold text-orange-400">78.5%</div>
-                    <div className="text-sm text-gray-400">Fleet Utilization</div>
+                  <div className="text-center p-4 bg-slate-700 rounded-lg">
+                    <div className="text-2xl font-bold text-cyan-400">78.5%</div>
+                    <div className="text-sm text-slate-400">Fleet Utilization</div>
                   </div>
                 </div>
                 <div className="space-y-3">
                   {demoRequests.map((request) => (
-                    <Card key={request.id} className="bg-gray-700 border-gray-600">
+                    <Card key={request.id} className="bg-slate-700 border-slate-600">
                       <CardContent className="p-3">
                         <div className="flex items-center justify-between">
                           <div>
                             <h3 className="font-semibold text-white">{request.origin} → {request.destination}</h3>
-                            <p className="text-sm text-gray-400">{request.companies.name}</p>
+                            <p className="text-sm text-slate-400">{request.companies.name}</p>
                           </div>
                           <div className="text-right">
-                            <div className="text-orange-400 font-medium">{request.passenger_count} PAX</div>
-                            <div className="text-sm text-gray-400">{new Date(request.departure_date).toLocaleDateString()}</div>
+                            <div className="text-cyan-400 font-medium">{request.passenger_count} PAX</div>
+                            <div className="text-sm text-slate-400">{new Date(request.departure_date).toLocaleDateString()}</div>
                           </div>
                         </div>
                       </CardContent>
@@ -622,33 +622,33 @@ export const DemoOperatorDashboard: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="communications" className="space-y-6">
-            <Card className="bg-gray-800 border-gray-700">
+            <Card className="bg-slate-800 border-slate-700">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2 text-white">
-                  <Bell className="h-5 w-5 text-orange-400" />
+                  <Bell className="h-5 w-5 text-cyan-400" />
                   <span>COMMUNICATIONS</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                  <div className="flex items-center justify-between p-3 bg-slate-700 rounded">
                     <div>
                       <h3 className="font-semibold text-white">Flight N425SC Status Update</h3>
-                      <p className="text-sm text-gray-400">Captain Sarah Mitchell - 2 minutes ago</p>
+                      <p className="text-sm text-slate-400">Captain Sarah Mitchell - 2 minutes ago</p>
                     </div>
                     <Badge className="bg-green-500 text-white">New</Badge>
                   </div>
-                  <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                  <div className="flex items-center justify-between p-3 bg-slate-700 rounded">
                     <div>
                       <h3 className="font-semibold text-white">Maintenance Alert</h3>
-                      <p className="text-sm text-gray-400">N156JT requires inspection - 1 hour ago</p>
+                      <p className="text-sm text-slate-400">N156JT requires inspection - 1 hour ago</p>
                     </div>
                     <Badge className="bg-yellow-500 text-white">Alert</Badge>
                   </div>
-                  <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                  <div className="flex items-center justify-between p-3 bg-slate-700 rounded">
                     <div>
                       <h3 className="font-semibold text-white">New Charter Request</h3>
-                      <p className="text-sm text-gray-400">JFK to LAX - 3 hours ago</p>
+                      <p className="text-sm text-slate-400">JFK to LAX - 3 hours ago</p>
                     </div>
                     <Badge className="bg-blue-500 text-white">Request</Badge>
                   </div>
@@ -658,10 +658,10 @@ export const DemoOperatorDashboard: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="analytics" className="space-y-6">
-            <Card className="bg-gray-800 border-gray-700">
+            <Card className="bg-slate-800 border-slate-700">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2 text-white">
-                  <BarChart3 className="h-5 w-5 text-orange-400" />
+                  <BarChart3 className="h-5 w-5 text-cyan-400" />
                   <span>PERFORMANCE ANALYTICS</span>
                 </CardTitle>
               </CardHeader>
@@ -670,15 +670,15 @@ export const DemoOperatorDashboard: React.FC = () => {
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold text-white">Monthly Performance</h3>
                     <div className="space-y-3">
-                      <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                      <div className="flex items-center justify-between p-3 bg-slate-700 rounded">
                         <span className="text-white">Revenue</span>
                         <span className="text-green-400 font-medium">+12.5%</span>
                       </div>
-                      <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                      <div className="flex items-center justify-between p-3 bg-slate-700 rounded">
                         <span className="text-white">Flight Hours</span>
                         <span className="text-green-400 font-medium">+8.3%</span>
                       </div>
-                      <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                      <div className="flex items-center justify-between p-3 bg-slate-700 rounded">
                         <span className="text-white">Fleet Utilization</span>
                         <span className="text-green-400 font-medium">+5.2%</span>
                       </div>
@@ -687,17 +687,17 @@ export const DemoOperatorDashboard: React.FC = () => {
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold text-white">Top Routes</h3>
                     <div className="space-y-3">
-                      <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                      <div className="flex items-center justify-between p-3 bg-slate-700 rounded">
                         <span className="text-white">JFK → LAX</span>
-                        <span className="text-orange-400 font-medium">45 flights</span>
+                        <span className="text-cyan-400 font-medium">45 flights</span>
                       </div>
-                      <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                      <div className="flex items-center justify-between p-3 bg-slate-700 rounded">
                         <span className="text-white">MIA → LHR</span>
-                        <span className="text-orange-400 font-medium">32 flights</span>
+                        <span className="text-cyan-400 font-medium">32 flights</span>
                       </div>
-                      <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                      <div className="flex items-center justify-between p-3 bg-slate-700 rounded">
                         <span className="text-white">ORD → CDG</span>
-                        <span className="text-orange-400 font-medium">28 flights</span>
+                        <span className="text-cyan-400 font-medium">28 flights</span>
                       </div>
                     </div>
                   </div>
@@ -707,28 +707,28 @@ export const DemoOperatorDashboard: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="compliance" className="space-y-6">
-            <Card className="bg-gray-800 border-gray-700">
+            <Card className="bg-slate-800 border-slate-700">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2 text-white">
-                  <Shield className="h-5 w-5 text-orange-400" />
+                  <Shield className="h-5 w-5 text-cyan-400" />
                   <span>COMPLIANCE CENTER</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                  <div className="flex items-center justify-between p-3 bg-slate-700 rounded">
                     <span className="text-white">FAA Part 135 Compliance</span>
                     <CheckCircle className="h-5 w-5 text-green-400" />
                   </div>
-                  <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                  <div className="flex items-center justify-between p-3 bg-slate-700 rounded">
                     <span className="text-white">Safety Management System</span>
                     <CheckCircle className="h-5 w-5 text-green-400" />
                   </div>
-                  <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                  <div className="flex items-center justify-between p-3 bg-slate-700 rounded">
                     <span className="text-white">Crew Training Records</span>
                     <CheckCircle className="h-5 w-5 text-green-400" />
                   </div>
-                  <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                  <div className="flex items-center justify-between p-3 bg-slate-700 rounded">
                     <span className="text-white">Aircraft Maintenance Logs</span>
                     <CheckCircle className="h-5 w-5 text-green-400" />
                   </div>
@@ -738,10 +738,10 @@ export const DemoOperatorDashboard: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="news" className="space-y-6">
-            <Card className="bg-gray-800 border-gray-700">
+            <Card className="bg-slate-800 border-slate-700">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2 text-white">
-                  <Bell className="h-5 w-5 text-orange-400" />
+                  <Bell className="h-5 w-5 text-cyan-400" />
                   <span>AVIATION NEWS</span>
                 </CardTitle>
               </CardHeader>
@@ -753,12 +753,12 @@ export const DemoOperatorDashboard: React.FC = () => {
                   { title: "New Pilot Training Requirements", date: "2024-01-03", category: "Training" },
                   { title: "Aviation Safety Milestone Reached", date: "2024-01-01", category: "Safety" }
                 ].map((news, index) => (
-                  <Card key={index} className="bg-gray-700 border-gray-600">
+                  <Card key={index} className="bg-slate-700 border-slate-600">
                     <CardContent className="p-4">
                       <div className="flex items-center justify-between">
                         <div>
                           <h3 className="font-semibold text-white">{news.title}</h3>
-                          <p className="text-sm text-gray-400">{news.date}</p>
+                          <p className="text-sm text-slate-400">{news.date}</p>
                         </div>
                         <Badge className="bg-orange-500 text-white">{news.category}</Badge>
                       </div>

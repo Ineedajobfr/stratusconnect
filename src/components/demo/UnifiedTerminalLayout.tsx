@@ -85,14 +85,19 @@ export const UnifiedTerminalLayout: React.FC<TerminalLayoutProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-slate-900 text-white">
       <div className="flex h-screen">
         {/* Left Sidebar */}
-        <div className="w-64 bg-gray-800 border-r border-gray-700 flex flex-col">
+        <div className="w-64 bg-slate-800 border-r border-slate-700 flex flex-col">
           {/* Branding */}
-          <div className="p-6 border-b border-gray-700">
-            <h2 className="text-xl font-bold text-white">StratusConnect</h2>
-            <p className="text-sm text-gray-400">Aviation Professional</p>
+          <div className="p-6 border-b border-slate-700">
+            <h2 
+              className="text-xl font-bold text-white cursor-pointer hover:text-cyan-400 transition-colors"
+              onClick={() => window.location.href = '/'}
+            >
+              StratusConnect
+            </h2>
+            <p className="text-sm text-slate-400">Aviation Professional</p>
           </div>
 
           {/* Navigation */}
@@ -102,8 +107,8 @@ export const UnifiedTerminalLayout: React.FC<TerminalLayoutProps> = ({
                 key={item.id}
                 className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-left transition-colors ${
                   item.active 
-                    ? 'bg-orange-500 text-white' 
-                    : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                    ? 'bg-cyan-500 text-white' 
+                    : 'text-slate-300 hover:bg-slate-700 hover:text-white'
                 }`}
               >
                 <div className="flex items-center space-x-3">
@@ -111,7 +116,7 @@ export const UnifiedTerminalLayout: React.FC<TerminalLayoutProps> = ({
                   <span className="text-sm font-medium">{item.label}</span>
                 </div>
                 {item.badge && (
-                  <Badge variant="secondary" className="bg-gray-600 text-white text-xs">
+                  <Badge variant="secondary" className="bg-slate-600 text-white text-xs">
                     {item.badge}
                   </Badge>
                 )}
@@ -120,10 +125,10 @@ export const UnifiedTerminalLayout: React.FC<TerminalLayoutProps> = ({
           </nav>
 
           {/* System Status */}
-          <div className="p-4 border-t border-gray-700">
+          <div className="p-4 border-t border-slate-700">
             <div className="flex items-center space-x-2 text-sm">
               <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              <span className="text-gray-400">System Operational</span>
+              <span className="text-slate-400">System Operational</span>
             </div>
           </div>
         </div>
@@ -131,11 +136,11 @@ export const UnifiedTerminalLayout: React.FC<TerminalLayoutProps> = ({
         {/* Main Content Area */}
         <div className="flex-1 flex flex-col">
           {/* Top Header */}
-          <header className="bg-gray-800 border-b border-gray-700 px-6 py-4">
+          <header className="bg-slate-800 border-b border-slate-700 px-6 py-4">
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-2xl font-bold text-white">{title}</h1>
-                <p className="text-gray-400 text-sm">{subtitle}</p>
+                <p className="text-slate-400 text-sm">{subtitle}</p>
               </div>
               
               <div className="flex items-center space-x-4">
@@ -146,7 +151,7 @@ export const UnifiedTerminalLayout: React.FC<TerminalLayoutProps> = ({
                       variant="ghost"
                       size="sm"
                       onClick={() => onNavigate('prev')}
-                      className="text-gray-400 hover:text-white hover:bg-gray-700"
+                      className="text-slate-400 hover:text-white hover:bg-slate-700"
                     >
                       <ArrowLeft className="h-4 w-4" />
                     </Button>
@@ -154,7 +159,7 @@ export const UnifiedTerminalLayout: React.FC<TerminalLayoutProps> = ({
                       variant="ghost"
                       size="sm"
                       onClick={() => onNavigate('next')}
-                      className="text-gray-400 hover:text-white hover:bg-gray-700"
+                      className="text-slate-400 hover:text-white hover:bg-slate-700"
                     >
                       <ArrowRight className="h-4 w-4" />
                     </Button>
@@ -167,7 +172,7 @@ export const UnifiedTerminalLayout: React.FC<TerminalLayoutProps> = ({
                     variant="ghost"
                     size="sm"
                     onClick={onNotificationClick}
-                    className="text-gray-400 hover:text-white hover:bg-gray-700 relative"
+                    className="text-slate-400 hover:text-white hover:bg-slate-700 relative"
                   >
                     <Bell className="h-4 w-4" />
                     <div className="absolute -top-1 -right-1 w-3 h-3 bg-orange-500 rounded-full"></div>
@@ -180,7 +185,7 @@ export const UnifiedTerminalLayout: React.FC<TerminalLayoutProps> = ({
                     variant="ghost"
                     size="sm"
                     onClick={onMessageClick}
-                    className="text-gray-400 hover:text-white hover:bg-gray-700"
+                    className="text-slate-400 hover:text-white hover:bg-slate-700"
                   >
                     <MessageSquare className="h-4 w-4" />
                   </Button>
@@ -189,10 +194,10 @@ export const UnifiedTerminalLayout: React.FC<TerminalLayoutProps> = ({
                 {/* User Profile */}
                 <div className="flex items-center space-x-3">
                   <div className="text-right">
-                    <p className="text-sm text-gray-400">Welcome back,</p>
+                    <p className="text-sm text-slate-400">Welcome back,</p>
                     <p className="text-sm font-medium text-white">{user.name}</p>
                   </div>
-                  <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-semibold">
+                  <div className="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center text-white text-sm font-semibold">
                     {user.name.split(' ').map(n => n[0]).join('')}
                   </div>
                 </div>
@@ -203,7 +208,7 @@ export const UnifiedTerminalLayout: React.FC<TerminalLayoutProps> = ({
                     variant="ghost"
                     size="sm"
                     onClick={onLogout}
-                    className="text-gray-400 hover:text-white hover:bg-gray-700"
+                    className="text-slate-400 hover:text-white hover:bg-slate-700"
                   >
                     <LogOut className="h-4 w-4" />
                   </Button>
@@ -222,7 +227,7 @@ export const UnifiedTerminalLayout: React.FC<TerminalLayoutProps> = ({
           </header>
 
           {/* Main Content */}
-          <main className="flex-1 bg-gray-900 p-6 overflow-auto">
+          <main className="flex-1 bg-slate-900 p-6 overflow-auto">
             {children}
           </main>
         </div>

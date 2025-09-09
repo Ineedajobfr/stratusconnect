@@ -265,13 +265,13 @@ export const DemoBrokerDashboard: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900">
+    <div className="min-h-screen bg-slate-900">
       <DemoBanner />
       <div className="flex justify-end p-4">
         <Button
           onClick={() => setViewMode(viewMode === "standard" ? "trading" : "standard")}
           variant="outline"
-          className="border-green-500 text-green-400 hover:bg-green-500 hover:text-white"
+          className="border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-white"
         >
           {viewMode === "standard" ? "Trading Floor" : "Standard View"}
         </Button>
@@ -287,9 +287,18 @@ export const DemoBrokerDashboard: React.FC = () => {
         onNotificationClick={() => console.log('Notifications')}
         onMessageClick={() => console.log('Messages')}
       >
-        <div className="space-y-6">
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Tabs defaultValue="dashboard" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-5 bg-slate-800 border-slate-700">
+            <TabsTrigger value="dashboard" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Dashboard</TabsTrigger>
+            <TabsTrigger value="requests" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Requests</TabsTrigger>
+            <TabsTrigger value="bookings" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Bookings</TabsTrigger>
+            <TabsTrigger value="analytics" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Analytics</TabsTrigger>
+            <TabsTrigger value="network" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Network</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="dashboard" className="space-y-6">
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <ProfessionalDataCard
               title="Total Requests"
               value={demoStats.totalRequests}
@@ -319,119 +328,197 @@ export const DemoBrokerDashboard: React.FC = () => {
           {/* Pilot Tracking Map */}
           <PilotTrackingMap pilots={demoPilotTracking} />
 
-          {/* Active Requests */}
-          <Card className="bg-gray-800 border-gray-700">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2 text-white">
-                <Clock className="h-5 w-5 text-orange-400" />
-                <span>ACTIVE REQUESTS</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {demoRequests.map((request) => (
-                <Card key={request.id} className="bg-gray-700 border-gray-600">
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                        <h3 className="font-semibold text-white">{request.origin} → {request.destination}</h3>
-                      </div>
-                      <Badge className={`${getStatusColor(request.status)} text-white`}>
-                        {request.status}
-                      </Badge>
-                    </div>
-                    
-                    <div className="space-y-2 text-sm text-gray-300">
-                      <div className="flex items-center justify-between">
-                        <span>{new Date(request.departure_date).toLocaleDateString()}</span>
-                        <span className="text-orange-400">{request.passenger_count} PAX</span>
-                      </div>
-                      
-                      {request.quotes && request.quotes.length > 0 && (
-                        <div className="pt-2 border-t border-gray-600">
-                          <div className="flex items-center justify-between">
-                            <span className="text-green-400">{request.quotes.length} Quotes</span>
-                            <span className="text-orange-400">${request.quotes[0].price.toLocaleString()}</span>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </CardContent>
-          </Card>
-
-          {/* Recent Bookings */}
-          <Card className="bg-gray-800 border-gray-700">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2 text-white">
-                <CheckCircle className="h-5 w-5 text-orange-400" />
-                <span>RECENT BOOKINGS</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {demoBookings.map((booking) => (
-                <Card key={booking.id} className="bg-gray-700 border-gray-600">
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <h3 className="font-semibold text-white">{booking.requests.origin} → {booking.requests.destination}</h3>
-                      </div>
-                      <Badge className="bg-green-500 text-white">
-                        {booking.status}
-                      </Badge>
-                    </div>
-                    
-                    <div className="space-y-2 text-sm text-gray-300">
-                      <div className="flex items-center justify-between">
-                        <span>{new Date(booking.created_at).toLocaleDateString()}</span>
-                        <span className="text-green-400 font-medium">${booking.total_price.toLocaleString()}</span>
-                      </div>
-                      
-                      <div className="pt-2 border-t border-gray-600">
-                        <div className="flex items-center justify-between">
-                          <span className="text-orange-400">Status: Confirmed</span>
-                          <span className="text-gray-400">USD</span>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </CardContent>
-          </Card>
-
           {/* Quick Actions */}
-          <Card className="bg-gray-800 border-gray-700">
+          <Card className="bg-slate-800 border-slate-700">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2 text-white">
-                <Plus className="h-5 w-5 text-orange-400" />
+                <Plus className="h-5 w-5 text-cyan-400" />
                 <span>QUICK ACTIONS</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Button 
-                  className="bg-orange-500 hover:bg-orange-600 text-white h-12"
+                  className="bg-cyan-500 hover:bg-cyan-600 text-white h-12"
                   onClick={() => setShowNewRequestForm(true)}
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   New Charter Request
                 </Button>
-                <Button variant="outline" className="border-gray-600 text-gray-300 hover:bg-gray-700 h-12">
+                <Button variant="outline" className="border-slate-600 text-slate-300 hover:bg-slate-700 h-12">
                   <FileText className="h-4 w-4 mr-2" />
                   Generate Report
                 </Button>
-                <Button variant="outline" className="border-gray-600 text-gray-300 hover:bg-gray-700 h-12">
+                <Button variant="outline" className="border-slate-600 text-slate-300 hover:bg-slate-700 h-12">
                   <Users className="h-4 w-4 mr-2" />
                   Manage Clients
                 </Button>
               </div>
             </CardContent>
           </Card>
-        </div>
+          </TabsContent>
+
+          <TabsContent value="requests" className="space-y-6">
+            <Card className="bg-slate-800 border-slate-700">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2 text-white">
+                  <Clock className="h-5 w-5 text-cyan-400" />
+                  <span>ACTIVE REQUESTS</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {demoRequests.map((request) => (
+                  <Card key={request.id} className="bg-slate-700 border-slate-600">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                          <h3 className="font-semibold text-white">{request.origin} → {request.destination}</h3>
+                        </div>
+                        <Badge className={`${getStatusColor(request.status)} text-white`}>
+                          {request.status}
+                        </Badge>
+                      </div>
+                      
+                      <div className="space-y-2 text-sm text-slate-300">
+                        <div className="flex items-center justify-between">
+                          <span>{new Date(request.departure_date).toLocaleDateString()}</span>
+                          <span className="text-orange-400">{request.passenger_count} PAX</span>
+                        </div>
+                        
+                        {request.quotes && request.quotes.length > 0 && (
+                          <div className="pt-2 border-t border-slate-600">
+                            <div className="flex items-center justify-between">
+                              <span className="text-green-400">{request.quotes.length} Quotes</span>
+                              <span className="text-orange-400">${request.quotes[0].price.toLocaleString()}</span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="bookings" className="space-y-6">
+            <Card className="bg-slate-800 border-slate-700">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2 text-white">
+                  <CheckCircle className="h-5 w-5 text-cyan-400" />
+                  <span>RECENT BOOKINGS</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {demoBookings.map((booking) => (
+                  <Card key={booking.id} className="bg-slate-700 border-slate-600">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                          <h3 className="font-semibold text-white">{booking.requests.origin} → {booking.requests.destination}</h3>
+                        </div>
+                        <Badge className="bg-green-500 text-white">
+                          {booking.status}
+                        </Badge>
+                      </div>
+                      
+                      <div className="space-y-2 text-sm text-slate-300">
+                        <div className="flex items-center justify-between">
+                          <span>{new Date(booking.created_at).toLocaleDateString()}</span>
+                          <span className="text-green-400 font-medium">${booking.total_price.toLocaleString()}</span>
+                        </div>
+                        
+                        <div className="pt-2 border-t border-slate-600">
+                          <div className="flex items-center justify-between">
+                            <span className="text-orange-400">Status: Confirmed</span>
+                            <span className="text-slate-400">USD</span>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="analytics" className="space-y-6">
+            <PilotTrackingMap pilots={demoPilotTracking} />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Card className="bg-slate-800 border-slate-700">
+                <CardHeader>
+                  <CardTitle className="text-white">Performance Metrics</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex justify-between">
+                      <span className="text-slate-300">Success Rate</span>
+                      <span className="text-green-400 font-semibold">94.2%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-300">Avg Response Time</span>
+                      <span className="text-cyan-400 font-semibold">2.3 hrs</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-300">Client Satisfaction</span>
+                      <span className="text-yellow-400 font-semibold">4.8/5</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card className="bg-slate-800 border-slate-700">
+                <CardHeader>
+                  <CardTitle className="text-white">Revenue Analytics</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex justify-between">
+                      <span className="text-slate-300">This Month</span>
+                      <span className="text-green-400 font-semibold">$425,000</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-300">Last Month</span>
+                      <span className="text-slate-400 font-semibold">$380,000</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-300">Growth</span>
+                      <span className="text-green-400 font-semibold">+11.8%</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="network" className="space-y-6">
+            <Card className="bg-slate-800 border-slate-700">
+              <CardHeader>
+                <CardTitle className="text-white">Professional Network</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="bg-slate-700 p-4 rounded-lg">
+                    <h4 className="font-semibold text-white mb-2">Elite Aviation</h4>
+                    <p className="text-slate-300 text-sm">Premium partner</p>
+                    <p className="text-cyan-400 text-sm">12 successful deals</p>
+                  </div>
+                  <div className="bg-slate-700 p-4 rounded-lg">
+                    <h4 className="font-semibold text-white mb-2">Premier Jets</h4>
+                    <p className="text-slate-300 text-sm">Reliable operator</p>
+                    <p className="text-cyan-400 text-sm">8 successful deals</p>
+                  </div>
+                  <div className="bg-slate-700 p-4 rounded-lg">
+                    <h4 className="font-semibold text-white mb-2">Global Aviation</h4>
+                    <p className="text-slate-300 text-sm">International partner</p>
+                    <p className="text-cyan-400 text-sm">15 successful deals</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </UnifiedTerminalLayout>
     </div>
   );

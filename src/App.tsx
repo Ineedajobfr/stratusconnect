@@ -20,6 +20,7 @@ const Index = lazy(() => import("./pages/Index"));
 const Enter = lazy(() => import("./pages/Enter"));
 const BrokerTerminal = lazy(() => import("./pages/BrokerTerminal"));
 const OperatorTerminal = lazy(() => import("./pages/OperatorTerminal"));
+const PilotTerminal = lazy(() => import("./pages/PilotTerminal"));
 const CrewTerminal = lazy(() => import("./pages/CrewTerminal"));
 const AdminTerminal = lazy(() => import("./pages/AdminTerminal"));
 const BetaNavigator = lazy(() => import("./pages/BetaNavigator"));
@@ -133,6 +134,14 @@ const App = memo(() => {
                 } 
               />
               <Route 
+                path="/beta/pilot" 
+                element={
+                  <ProtectedRoute allowedRoles={['pilot']}>
+                    <PilotTerminal />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
                 path="/beta/crew" 
                 element={
                   <ProtectedRoute allowedRoles={['pilot', 'crew']}>
@@ -176,6 +185,14 @@ const App = memo(() => {
                 element={
                   <ProtectedRoute allowedRoles={['operator']}>
                     <OperatorDashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/terminal/pilot" 
+                element={
+                  <ProtectedRoute allowedRoles={['pilot']}>
+                    <PilotTerminal />
                   </ProtectedRoute>
                 } 
               />

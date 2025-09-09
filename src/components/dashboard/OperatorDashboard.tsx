@@ -4,6 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
+import { RFQManager } from '@/components/rfq/RFQManager';
+import { QuoteManager } from '@/components/quotes/QuoteManager';
+import { EscrowManager } from '@/components/payments/EscrowManager';
+import { NotificationsCenter } from '@/components/notifications/NotificationsCenter';
+import { TaskInbox } from '@/components/tasks/TaskInbox';
+import { VerificationSystem } from '@/components/verification/VerificationSystem';
 import { 
   Plane, 
   BarChart3, 
@@ -22,7 +28,8 @@ import {
   Settings,
   FileText,
   Shield,
-  Bell
+  Bell,
+  CheckSquare
 } from "lucide-react";
 
 interface TripRequest {
@@ -200,6 +207,7 @@ export default function OperatorDashboard() {
           </div>
           
           <div className="flex items-center space-x-6">
+            <NotificationsCenter />
             <div className="text-center">
               <div className="text-sm text-slate-400">OPERATOR</div>
               <div className="text-lg font-bold text-orange-400">Elite Aviation Group</div>
@@ -216,7 +224,7 @@ export default function OperatorDashboard() {
 
       <div className="p-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="bg-slate-800 border-slate-700">
+          <TabsList className="bg-slate-800 border-slate-700 grid grid-cols-11">
             <TabsTrigger value="dashboard" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
               <BarChart3 className="h-4 w-4 mr-2" />
               Dashboard
@@ -229,9 +237,21 @@ export default function OperatorDashboard() {
               <DollarSign className="h-4 w-4 mr-2" />
               My Quotes
             </TabsTrigger>
+            <TabsTrigger value="escrow" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+              <Shield className="h-4 w-4 mr-2" />
+              Escrow
+            </TabsTrigger>
+            <TabsTrigger value="tasks" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+              <CheckSquare className="h-4 w-4 mr-2" />
+              Tasks
+            </TabsTrigger>
+            <TabsTrigger value="verification" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+              <FileText className="h-4 w-4 mr-2" />
+              Verification
+            </TabsTrigger>
             <TabsTrigger value="fleet" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
               <Plane className="h-4 w-4 mr-2" />
-              Fleet Management
+              Fleet
             </TabsTrigger>
             <TabsTrigger value="empty-legs" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
               <Calendar className="h-4 w-4 mr-2" />
@@ -239,11 +259,7 @@ export default function OperatorDashboard() {
             </TabsTrigger>
             <TabsTrigger value="crew" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
               <Users className="h-4 w-4 mr-2" />
-              Crew Directory
-            </TabsTrigger>
-            <TabsTrigger value="analytics" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
-              <TrendingUp className="h-4 w-4 mr-2" />
-              Analytics
+              Crew
             </TabsTrigger>
             <TabsTrigger value="messages" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
               <MessageCircle className="h-4 w-4 mr-2" />
@@ -400,113 +416,12 @@ export default function OperatorDashboard() {
 
           {/* Requests Board Tab */}
           <TabsContent value="requests" className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-white">Incoming Trip Requests</h2>
-              <div className="flex items-center space-x-4">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
-                  <Input
-                    placeholder="Search requests..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 bg-slate-800 border-slate-700 text-white w-64"
-                  />
-                </div>
-                <select
-                  value={filterStatus}
-                  onChange={(e) => setFilterStatus(e.target.value)}
-                  className="bg-slate-800 border border-slate-700 text-white px-3 py-2 rounded-lg"
-                >
-                  <option value="all">All Status</option>
-                  <option value="new">New</option>
-                  <option value="quoted">Quoted</option>
-                  <option value="accepted">Accepted</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              {tripRequests.map((request) => (
-                <Card key={request.id} className="bg-slate-800 border-slate-700">
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4">
-                        <div className="w-16 h-16 bg-orange-500 rounded-lg flex items-center justify-center">
-                          <Plane className="h-8 w-8 text-black" />
-                        </div>
-                      <div>
-                          <div className="text-xl font-bold text-white">{request.route}</div>
-                          <div className="text-slate-400">{request.broker} • {request.passengers} passengers</div>
-                          <div className="text-slate-400">{request.date} • {request.aircraftType}</div>
-                          <div className="text-slate-400">Budget: {request.budget} • Urgency: {request.urgency}</div>
-                        </div>
-                      </div>
-                      <div className="flex items-center space-x-4">
-                        <div className="text-right">
-                      <Badge className={getStatusColor(request.status)}>
-                            {getStatusText(request.status)}
-                      </Badge>
-                          <div className="text-sm text-slate-400 mt-1">
-                            {request.timeRemaining}
-                          </div>
-                        </div>
-                        <div className="flex space-x-2">
-                          <Button className="btn-terminal-accent">
-                            <Eye className="h-4 w-4 mr-2" />
-                            View Details
-                          </Button>
-                          {request.status === 'new' && (
-                            <Button className="btn-terminal-secondary">
-                              <DollarSign className="h-4 w-4 mr-2" />
-                              Submit Quote
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-        </TabsContent>
+            <RFQManager />
+          </TabsContent>
 
           {/* My Quotes Tab */}
           <TabsContent value="quotes" className="space-y-6">
-            <h2 className="text-2xl font-bold text-white">My Quotes & Requests</h2>
-            
-            <div className="space-y-6">
-              {myQuotes.map((quote) => (
-                <Card key={quote.id} className="bg-slate-800 border-slate-700">
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4">
-                        <div className="w-16 h-16 bg-orange-500 rounded-lg flex items-center justify-center">
-                          <DollarSign className="h-8 w-8 text-black" />
-                        </div>
-                        <div>
-                          <div className="text-xl font-bold text-white">Request {quote.requestId}</div>
-                          <div className="text-slate-400">{quote.aircraft}</div>
-                          <div className="text-slate-400">Submitted: {quote.submittedAt}</div>
-                          <div className="text-slate-400">Valid until: {quote.validUntil}</div>
-                        </div>
-                      </div>
-                      <div className="flex items-center space-x-4">
-                        <div className="text-right">
-                          <div className="text-2xl font-bold text-orange-400">${quote.price.toLocaleString()}</div>
-                          <Badge className={getStatusColor(quote.status)}>
-                            {getStatusText(quote.status)}
-                          </Badge>
-                        </div>
-                        <Button className="btn-terminal-accent">
-                          <Eye className="h-4 w-4 mr-2" />
-                          View Details
-                        </Button>
-                      </div>
-                    </div>
-              </CardContent>
-            </Card>
-              ))}
-            </div>
+            <QuoteManager />
           </TabsContent>
 
           {/* Fleet Management Tab */}
@@ -787,7 +702,22 @@ export default function OperatorDashboard() {
               </CardContent>
             </Card>
         </TabsContent>
-      </Tabs>
+
+          {/* Escrow Tab */}
+          <TabsContent value="escrow" className="space-y-6">
+            <EscrowManager />
+          </TabsContent>
+
+          {/* Tasks Tab */}
+          <TabsContent value="tasks" className="space-y-6">
+            <TaskInbox />
+          </TabsContent>
+
+          {/* Verification Tab */}
+          <TabsContent value="verification" className="space-y-6">
+            <VerificationSystem />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );

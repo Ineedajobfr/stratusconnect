@@ -9,8 +9,8 @@ import {
   TrendingDown, Activity, Zap, Target, Globe, Database, Settings
 } from "lucide-react";
 
-// Interactive demo data generator
-export const generateInteractiveDemoData = () => {
+// Interactive demo data generator hook
+export const useInteractiveDemoData = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isLive, setIsLive] = useState(true);
 
@@ -30,7 +30,7 @@ export const generateInteractiveDemoData = () => {
 
 // Real-time flight status component
 export const RealTimeFlightStatus: React.FC = () => {
-  const { currentTime, isLive } = generateInteractiveDemoData();
+  const { currentTime, isLive } = useInteractiveDemoData();
   
   const flights = [
     {

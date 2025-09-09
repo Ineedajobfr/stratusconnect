@@ -95,7 +95,7 @@ export function StarfieldRunwayBackground({
     }
 
     // runway state
-    let runwayOffset = 0;
+    const runwayOffset = 0;
 
     function drawBackground(dt: number, speedBoost: number) {
       // clear

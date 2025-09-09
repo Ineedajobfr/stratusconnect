@@ -4,6 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
+import { RFQManager } from '@/components/rfq/RFQManager';
+import { QuoteManager } from '@/components/quotes/QuoteManager';
+import { EscrowManager } from '@/components/payments/EscrowManager';
+import { NotificationsCenter } from '@/components/notifications/NotificationsCenter';
+import { TaskInbox } from '@/components/tasks/TaskInbox';
 import { 
   BarChart3, 
   Plane, 
@@ -19,7 +24,11 @@ import {
   Eye,
   DollarSign,
   Calendar,
-  AlertCircle
+  AlertCircle,
+  Bell,
+  CheckSquare,
+  Shield,
+  FileText
 } from "lucide-react";
 
 interface TripRequest {
@@ -171,6 +180,7 @@ export default function BrokerDashboard() {
           </div>
           
           <div className="flex items-center space-x-6">
+            <NotificationsCenter />
             <div className="text-center">
               <div className="text-sm text-slate-400">BROKER</div>
               <div className="text-lg font-bold text-orange-400">Sarah Mitchell</div>
@@ -187,7 +197,7 @@ export default function BrokerDashboard() {
 
       <div className="p-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="bg-slate-800 border-slate-700">
+          <TabsList className="bg-slate-800 border-slate-700 grid grid-cols-9">
             <TabsTrigger value="dashboard" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
               <BarChart3 className="h-4 w-4 mr-2" />
               Dashboard
@@ -199,6 +209,14 @@ export default function BrokerDashboard() {
             <TabsTrigger value="quotes" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
               <DollarSign className="h-4 w-4 mr-2" />
               Quote Management
+            </TabsTrigger>
+            <TabsTrigger value="escrow" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+              <Shield className="h-4 w-4 mr-2" />
+              Escrow
+            </TabsTrigger>
+            <TabsTrigger value="tasks" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+              <CheckSquare className="h-4 w-4 mr-2" />
+              Tasks
             </TabsTrigger>
             <TabsTrigger value="marketplace" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
               <Search className="h-4 w-4 mr-2" />
@@ -356,111 +374,13 @@ export default function BrokerDashboard() {
 
           {/* My Requests Tab */}
           <TabsContent value="requests" className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-white">My Trip Requests</h2>
-              <Button className="btn-terminal-accent">
-                <Plus className="h-4 w-4 mr-2" />
-                New Request
-              </Button>
-            </div>
-
-            <div className="flex items-center space-x-4">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
-                <Input
-                  placeholder="Search requests..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 bg-slate-800 border-slate-700 text-white"
-                />
-              </div>
-              <select
-                value={filterStatus}
-                onChange={(e) => setFilterStatus(e.target.value)}
-                className="bg-slate-800 border border-slate-700 text-white px-3 py-2 rounded-lg"
-              >
-                <option value="all">All Status</option>
-                <option value="pending">Pending</option>
-                <option value="quotes_received">Quotes Received</option>
-                <option value="booked">Booked</option>
-              </select>
-            </div>
-
-            <div className="space-y-4">
-              {tripRequests.map((request) => (
-                <Card key={request.id} className="bg-slate-800 border-slate-700">
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4">
-                        <div className="w-16 h-16 bg-orange-500 rounded-lg flex items-center justify-center">
-                          <Plane className="h-8 w-8 text-black" />
-                        </div>
-                      <div>
-                          <div className="text-xl font-bold text-white">{request.route}</div>
-                          <div className="text-slate-400">{request.client} • {request.passengers} passengers</div>
-                          <div className="text-slate-400">{request.date} • {request.timeRemaining}</div>
-                        </div>
-                      </div>
-                      <div className="flex items-center space-x-4">
-                        <div className="text-right">
-                      <Badge className={getStatusColor(request.status)}>
-                            {getStatusText(request.status)}
-                      </Badge>
-                          <div className="text-sm text-slate-400 mt-1">
-                            {request.quotesCount} quotes received
-                          </div>
-                        </div>
-                        <Button className="btn-terminal-accent">
-                          <Eye className="h-4 w-4 mr-2" />
-                          View Details
-                        </Button>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            <RFQManager />
           </TabsContent>
 
           {/* Quote Management Tab */}
           <TabsContent value="quotes" className="space-y-6">
-            <h2 className="text-2xl font-bold text-white">Quote Management</h2>
-            
-            <div className="space-y-6">
-              {recentQuotes.map((quote) => (
-                <Card key={quote.id} className="bg-slate-800 border-slate-700">
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4">
-                        <div className="w-16 h-16 bg-orange-500 rounded-lg flex items-center justify-center">
-                          <Plane className="h-8 w-8 text-black" />
-                        </div>
-                        <div>
-                          <div className="text-xl font-bold text-white">{quote.operator}</div>
-                          <div className="text-slate-400">{quote.aircraft}</div>
-                          <div className="text-slate-400">Request: {quote.requestId}</div>
-                        </div>
-                      </div>
-                      <div className="flex items-center space-x-4">
-                        <div className="text-right">
-                          <div className="text-2xl font-bold text-orange-400">${quote.price.toLocaleString()}</div>
-                          <div className="text-sm text-slate-400">Valid until: {quote.validUntil}</div>
-                        </div>
-                        <div className="flex space-x-2">
-                          <Button className="btn-terminal-accent">
-                            Accept
-                          </Button>
-                          <Button className="btn-terminal-secondary">
-                            Decline
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-        </TabsContent>
+            <QuoteManager />
+          </TabsContent>
 
           {/* Marketplace Tab */}
           <TabsContent value="marketplace" className="space-y-6">
@@ -858,7 +778,17 @@ export default function BrokerDashboard() {
               </CardContent>
             </Card>
         </TabsContent>
-      </Tabs>
+
+          {/* Escrow Tab */}
+          <TabsContent value="escrow" className="space-y-6">
+            <EscrowManager />
+          </TabsContent>
+
+          {/* Tasks Tab */}
+          <TabsContent value="tasks" className="space-y-6">
+            <TaskInbox />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );

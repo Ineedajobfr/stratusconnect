@@ -85,62 +85,67 @@ export const UnifiedTerminalLayout: React.FC<TerminalLayoutProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
       <div className="flex h-screen">
         {/* Left Sidebar */}
-        <div className="w-64 bg-slate-800 border-r border-slate-700 flex flex-col">
+        <div className="w-64 bg-slate-800/90 backdrop-blur-sm border-r border-slate-700/50 flex flex-col shadow-2xl">
           {/* Branding */}
-          <div className="p-6 border-b border-slate-700">
+          <div className="p-6 border-b border-slate-700/50">
             <h2 
-              className="text-xl font-bold text-white cursor-pointer hover:text-cyan-400 transition-colors"
+              className="text-xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent cursor-pointer hover:text-cyan-400 transition-all duration-300"
               onClick={() => window.location.href = '/'}
             >
               StratusConnect
             </h2>
-            <p className="text-sm text-slate-400">Aviation Professional</p>
+            <p className="text-sm text-slate-400 font-medium">Aviation Professional</p>
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 p-4 space-y-2">
+          <nav className="flex-1 p-4 space-y-1">
             {sidebarItems.map((item) => (
               <button
                 key={item.id}
-                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-left transition-colors ${
+                className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-left transition-all duration-300 group ${
                   item.active 
-                    ? 'bg-cyan-500 text-white' 
-                    : 'text-slate-300 hover:bg-slate-700 hover:text-white'
+                    ? 'bg-gradient-to-r from-cyan-500 to-cyan-600 text-white shadow-lg shadow-cyan-500/25' 
+                    : 'text-slate-300 hover:bg-slate-700/50 hover:text-white'
                 }`}
               >
                 <div className="flex items-center space-x-3">
-                  {item.icon}
+                  <div className={`transition-transform duration-300 ${item.active ? 'scale-110' : 'group-hover:scale-105'}`}>
+                    {item.icon}
+                  </div>
                   <span className="text-sm font-medium">{item.label}</span>
                 </div>
                 {item.badge && (
-                  <Badge variant="secondary" className="bg-slate-600 text-white text-xs">
+                  <Badge variant="secondary" className="bg-slate-600/80 text-white text-xs px-2 py-1">
                     {item.badge}
                   </Badge>
+                )}
+                {item.active && (
+                  <ArrowRight className="h-4 w-4 transition-transform duration-300" />
                 )}
               </button>
             ))}
           </nav>
 
           {/* System Status */}
-          <div className="p-4 border-t border-slate-700">
+          <div className="p-4 border-t border-slate-700/50">
             <div className="flex items-center space-x-2 text-sm">
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              <span className="text-slate-400">System Operational</span>
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <span className="text-slate-400 font-medium">System Operational</span>
             </div>
           </div>
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
           {/* Top Header */}
-          <header className="bg-slate-800 border-b border-slate-700 px-6 py-4">
+          <header className="bg-slate-800/80 backdrop-blur-sm border-b border-slate-700/50 px-6 py-5 shadow-lg">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-2xl font-bold text-white">{title}</h1>
-                <p className="text-slate-400 text-sm">{subtitle}</p>
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">{title}</h1>
+                <p className="text-slate-400 text-sm font-medium mt-1">{subtitle}</p>
               </div>
               
               <div className="flex items-center space-x-4">
@@ -151,7 +156,7 @@ export const UnifiedTerminalLayout: React.FC<TerminalLayoutProps> = ({
                       variant="ghost"
                       size="sm"
                       onClick={() => onNavigate('prev')}
-                      className="text-slate-400 hover:text-white hover:bg-slate-700"
+                      className="text-slate-400 hover:text-white hover:bg-slate-700/50 transition-all duration-300 rounded-xl"
                     >
                       <ArrowLeft className="h-4 w-4" />
                     </Button>
@@ -159,7 +164,7 @@ export const UnifiedTerminalLayout: React.FC<TerminalLayoutProps> = ({
                       variant="ghost"
                       size="sm"
                       onClick={() => onNavigate('next')}
-                      className="text-slate-400 hover:text-white hover:bg-slate-700"
+                      className="text-slate-400 hover:text-white hover:bg-slate-700/50 transition-all duration-300 rounded-xl"
                     >
                       <ArrowRight className="h-4 w-4" />
                     </Button>
@@ -172,10 +177,10 @@ export const UnifiedTerminalLayout: React.FC<TerminalLayoutProps> = ({
                     variant="ghost"
                     size="sm"
                     onClick={onNotificationClick}
-                    className="text-slate-400 hover:text-white hover:bg-slate-700 relative"
+                    className="text-slate-400 hover:text-white hover:bg-slate-700/50 relative transition-all duration-300 rounded-xl"
                   >
                     <Bell className="h-4 w-4" />
-                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-orange-500 rounded-full"></div>
+                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-orange-500 rounded-full animate-pulse"></div>
                   </Button>
                 )}
 
@@ -185,19 +190,19 @@ export const UnifiedTerminalLayout: React.FC<TerminalLayoutProps> = ({
                     variant="ghost"
                     size="sm"
                     onClick={onMessageClick}
-                    className="text-slate-400 hover:text-white hover:bg-slate-700"
+                    className="text-slate-400 hover:text-white hover:bg-slate-700/50 transition-all duration-300 rounded-xl"
                   >
                     <MessageSquare className="h-4 w-4" />
                   </Button>
                 )}
 
                 {/* User Profile */}
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-4">
                   <div className="text-right">
-                    <p className="text-sm text-slate-400">Welcome back,</p>
-                    <p className="text-sm font-medium text-white">{user.name}</p>
+                    <p className="text-sm text-slate-400 font-medium">Welcome back,</p>
+                    <p className="text-sm font-semibold text-white">{user.name}</p>
                   </div>
-                  <div className="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center text-white text-sm font-semibold">
+                  <div className="w-10 h-10 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-xl flex items-center justify-center text-black text-sm font-bold shadow-lg">
                     {user.name.split(' ').map(n => n[0]).join('')}
                   </div>
                 </div>
@@ -208,7 +213,7 @@ export const UnifiedTerminalLayout: React.FC<TerminalLayoutProps> = ({
                     variant="ghost"
                     size="sm"
                     onClick={onLogout}
-                    className="text-slate-400 hover:text-white hover:bg-slate-700"
+                    className="text-slate-400 hover:text-white hover:bg-slate-700/50 transition-all duration-300 rounded-xl"
                   >
                     <LogOut className="h-4 w-4" />
                   </Button>
@@ -219,7 +224,7 @@ export const UnifiedTerminalLayout: React.FC<TerminalLayoutProps> = ({
             {/* Status Badge */}
             <div className="mt-4">
               <Badge 
-                className={`${getStatusColor(user.status)} text-white px-3 py-1`}
+                className={`${getStatusColor(user.status)} text-white px-4 py-2 rounded-full font-medium shadow-lg`}
               >
                 {getStatusText(user.status)}
               </Badge>
@@ -227,8 +232,10 @@ export const UnifiedTerminalLayout: React.FC<TerminalLayoutProps> = ({
           </header>
 
           {/* Main Content */}
-          <main className="flex-1 bg-slate-900 p-6 overflow-auto">
-            {children}
+          <main className="flex-1 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-6 overflow-auto">
+            <div className="space-y-6">
+              {children}
+            </div>
           </main>
         </div>
       </div>

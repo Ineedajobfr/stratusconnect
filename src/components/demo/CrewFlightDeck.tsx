@@ -43,30 +43,32 @@ export const CrewFlightDeck: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
       {/* Header */}
-      <div className="bg-slate-800 border-b border-slate-700 px-6 py-4">
+      <div className="bg-slate-800/80 backdrop-blur-sm border-b border-slate-700/50 px-6 py-5 shadow-lg">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-xl flex items-center justify-center shadow-lg">
                 <span className="text-black font-bold text-sm">C</span>
               </div>
-              <span className="text-xl font-bold">STRATUSCONNECT</span>
+              <div>
+                <span className="text-2xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">STRATUSCONNECT</span>
+                <div className="text-sm text-slate-400 font-medium">CREW DASHBOARD</div>
+              </div>
             </div>
-            <div className="text-sm text-slate-400">CREW DASHBOARD</div>
           </div>
           
-          <div className="flex items-center space-x-6">
+          <div className="flex items-center space-x-8">
             <div className="text-center">
-              <div className="text-sm text-slate-400">CREW</div>
+              <div className="text-sm text-slate-400 font-medium">CREW</div>
               <div className="text-lg font-bold text-cyan-400">Emma Davis</div>
             </div>
             <div className="text-right">
-              <div className="text-2xl font-mono text-cyan-400">
-              {formatTime(currentTime)}
-            </div>
-              <div className="text-sm text-slate-400">{formatDate(currentTime)}</div>
+              <div className="text-3xl font-mono text-cyan-400 font-light">
+                {formatTime(currentTime)}
+              </div>
+              <div className="text-sm text-slate-400 font-medium">{formatDate(currentTime)}</div>
             </div>
           </div>
         </div>
@@ -74,20 +76,20 @@ export const CrewFlightDeck: React.FC = () => {
 
       <div className="p-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="bg-slate-800 border-slate-700">
-            <TabsTrigger value="schedule" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-white">
+          <TabsList className="bg-slate-800/80 backdrop-blur-sm border-slate-700/50 rounded-xl p-1 shadow-lg">
+            <TabsTrigger value="schedule" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500 data-[state=active]:to-cyan-600 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-lg transition-all duration-300">
               <Calendar className="h-4 w-4 mr-2" />
               Schedule
             </TabsTrigger>
-            <TabsTrigger value="assignments" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-white">
+            <TabsTrigger value="assignments" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500 data-[state=active]:to-cyan-600 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-lg transition-all duration-300">
               <Briefcase className="h-4 w-4 mr-2" />
               Assignments
             </TabsTrigger>
-            <TabsTrigger value="services" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-white">
+            <TabsTrigger value="services" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500 data-[state=active]:to-cyan-600 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-lg transition-all duration-300">
               <Utensils className="h-4 w-4 mr-2" />
               Services
             </TabsTrigger>
-            <TabsTrigger value="profile" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-white">
+            <TabsTrigger value="profile" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500 data-[state=active]:to-cyan-600 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-lg transition-all duration-300">
               <User className="h-4 w-4 mr-2" />
               Profile
             </TabsTrigger>

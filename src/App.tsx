@@ -51,6 +51,12 @@ const DemoOperatorTerminal = lazy(() => import("./pages/DemoOperatorTerminal"));
 const DemoPilotTerminal = lazy(() => import("./pages/DemoPilotTerminal"));
 const DemoCrewTerminal = lazy(() => import("./pages/DemoCrewTerminal"));
 
+// Help pages
+const HelpBroker = lazy(() => import("./pages/HelpBroker"));
+const HelpOperator = lazy(() => import("./pages/HelpOperator"));
+const HelpPilot = lazy(() => import("./pages/HelpPilot"));
+const HelpCrew = lazy(() => import("./pages/HelpCrew"));
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -114,6 +120,12 @@ const App = memo(() => {
               <Route path="/demo/operator" element={<DemoOperatorTerminal />} />
               <Route path="/demo/pilot" element={<DemoPilotTerminal />} />
               <Route path="/demo/crew" element={<DemoCrewTerminal />} />
+              
+              {/* Help pages */}
+              <Route path="/help/broker" element={<HelpBroker />} />
+              <Route path="/help/operator" element={<HelpOperator />} />
+              <Route path="/help/pilot" element={<HelpPilot />} />
+              <Route path="/help/crew" element={<HelpCrew />} />
               
               {/* Public Beta Testing Routes - Protected for users/owners */}
               <Route path="/beta" element={<BetaNavigator />} />

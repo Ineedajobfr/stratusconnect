@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
+import { NavigationControls } from '@/components/NavigationControls';
 import { 
   Users, 
   Calendar, 
@@ -278,6 +279,17 @@ export default function CrewDashboard() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Navigation Controls */}
+      <div className="bg-slate-800/50 border-b border-slate-700 px-6 py-3">
+        <NavigationControls 
+          onPrevious={() => window.history.back()}
+          onNext={() => window.history.forward()}
+          showHome={true}
+          showHelp={true}
+          helpPage="crew"
+        />
       </div>
 
       <div className="p-6">

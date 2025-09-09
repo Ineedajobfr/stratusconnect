@@ -10,6 +10,7 @@ import { EscrowManager } from '@/components/payments/EscrowManager';
 import { NotificationsCenter } from '@/components/notifications/NotificationsCenter';
 import { TaskInbox } from '@/components/tasks/TaskInbox';
 import { VerificationSystem } from '@/components/verification/VerificationSystem';
+import { NavigationControls } from '@/components/NavigationControls';
 import { 
   Plane, 
   BarChart3, 
@@ -220,6 +221,17 @@ export default function OperatorDashboard() {
             </div>
         </div>
         </div>
+      </div>
+
+      {/* Navigation Controls */}
+      <div className="bg-slate-800/50 border-b border-slate-700 px-6 py-3">
+        <NavigationControls 
+          onPrevious={() => window.history.back()}
+          onNext={() => window.history.forward()}
+          showHome={true}
+          showHelp={true}
+          helpPage="operator"
+        />
       </div>
 
       <div className="p-6">

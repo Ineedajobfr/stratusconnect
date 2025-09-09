@@ -22,7 +22,8 @@ import {
   Filter,
   Eye,
   CheckCircle,
-  XCircle
+  XCircle,
+  Plus
 } from "lucide-react";
 
 interface PilotProfile {

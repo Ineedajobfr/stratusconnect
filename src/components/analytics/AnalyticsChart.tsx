@@ -47,47 +47,55 @@ export const AnalyticsChart: React.FC = () => {
     try {
       setLoading(true);
       
-      const endDate = new Date();
-      const startDate = new Date();
-      
-      switch (timeRange) {
-        case '7d':
-          startDate.setDate(endDate.getDate() - 7);
-          break;
-        case '30d':
-          startDate.setDate(endDate.getDate() - 30);
-          break;
-        case '90d':
-          startDate.setDate(endDate.getDate() - 90);
-          break;
-        case '1y':
-          startDate.setFullYear(endDate.getFullYear() - 1);
-          break;
-      }
+      // Use mock data instead of database queries
+      const mockRequests = Array.from({length: 30}, (_, i) => ({
+        date: new Date(Date.now() - (i * 24 * 60 * 60 * 1000)).toISOString().split('T')[0],
+        count: Math.floor(Math.random() * 10) + 1,
+        name: new Date(Date.now() - (i * 24 * 60 * 60 * 1000)).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+      })).reverse();
 
-      const [requestsData, quotesData, bookingsData, revenueData, performanceData] = await Promise.all([
-        fetchRequestsData(startDate, endDate),
-        fetchQuotesData(startDate, endDate),
-        fetchBookingsData(startDate, endDate),
-        fetchRevenueData(startDate, endDate),
-        fetchPerformanceData(startDate, endDate)
-      ]);
+      const mockQuotes = Array.from({length: 30}, (_, i) => ({
+        date: new Date(Date.now() - (i * 24 * 60 * 60 * 1000)).toISOString().split('T')[0],
+        count: Math.floor(Math.random() * 8) + 1,
+        accepted: Math.floor(Math.random() * 3) + 1,
+        name: new Date(Date.now() - (i * 24 * 60 * 60 * 1000)).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+      })).reverse();
+
+      const mockBookings = Array.from({length: 30}, (_, i) => ({
+        date: new Date(Date.now() - (i * 24 * 60 * 60 * 1000)).toISOString().split('T')[0],
+        count: Math.floor(Math.random() * 5) + 1,
+        revenue: Math.floor(Math.random() * 50000) + 10000,
+        name: new Date(Date.now() - (i * 24 * 60 * 60 * 1000)).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+      })).reverse();
+
+      const mockRevenue = Array.from({length: 30}, (_, i) => ({
+        date: new Date(Date.now() - (i * 24 * 60 * 60 * 1000)).toISOString().split('T')[0],
+        revenue: Math.floor(Math.random() * 75000) + 25000,
+        name: new Date(Date.now() - (i * 24 * 60 * 60 * 1000)).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+      })).reverse();
+
+      const mockPerformance = [
+        { name: 'On-Time Performance', value: 95, color: '#00C49F' },
+        { name: 'Customer Satisfaction', value: 4.8, color: '#0088FE' },
+        { name: 'Response Time (hrs)', value: 2.3, color: '#FFBB28' },
+        { name: 'Fleet Utilization', value: 78, color: '#FF8042' }
+      ];
 
       setData({
-        requests: requestsData,
-        quotes: quotesData,
-        bookings: bookingsData,
-        revenue: revenueData,
-        performance: performanceData
+        requests: mockRequests,
+        quotes: mockQuotes,
+        bookings: mockBookings,
+        revenue: mockRevenue,
+        performance: mockPerformance
       });
 
       // Calculate KPIs
-      const totalRequests = requestsData.reduce((sum, item) => sum + item.count, 0);
-      const totalQuotes = quotesData.reduce((sum, item) => sum + item.count, 0);
-      const totalBookings = bookingsData.reduce((sum, item) => sum + item.count, 0);
-      const totalRevenue = revenueData.reduce((sum, item) => sum + item.revenue, 0);
+      const totalRequests = mockRequests.reduce((sum, item) => sum + item.count, 0);
+      const totalQuotes = mockQuotes.reduce((sum, item) => sum + item.count, 0);
+      const totalBookings = mockBookings.reduce((sum, item) => sum + item.count, 0);
+      const totalRevenue = mockRevenue.reduce((sum, item) => sum + item.revenue, 0);
       const winRate = totalQuotes > 0 ? (totalBookings / totalQuotes) * 100 : 0;
-      const avgResponseTime = calculateAvgResponseTime(quotesData);
+      const avgResponseTime = 2.3;
 
       setKpis({
         totalRequests,
@@ -105,125 +113,7 @@ export const AnalyticsChart: React.FC = () => {
     }
   };
 
-  const fetchRequestsData = async (startDate: Date, endDate: Date) => {
-    const { data, error } = await supabase
-      .from('requests')
-      .select('created_at')
-      .eq('broker_company_id', user?.company_id)
-      .gte('created_at', startDate.toISOString())
-      .lte('created_at', endDate.toISOString());
-
-    if (error) throw error;
-
-    // Group by date
-    const grouped = data?.reduce((acc, item) => {
-      const date = new Date(item.created_at).toISOString().split('T')[0];
-      acc[date] = (acc[date] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>) || {};
-
-    return Object.entries(grouped).map(([date, count]) => ({
-      date,
-      count,
-      name: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-    }));
-  };
-
-  const fetchQuotesData = async (startDate: Date, endDate: Date) => {
-    const { data, error } = await supabase
-      .from('quotes')
-      .select('created_at, status')
-      .eq('operator_company_id', user?.company_id)
-      .gte('created_at', startDate.toISOString())
-      .lte('created_at', endDate.toISOString());
-
-    if (error) throw error;
-
-    const grouped = data?.reduce((acc, item) => {
-      const date = new Date(item.created_at).toISOString().split('T')[0];
-      if (!acc[date]) {
-        acc[date] = { total: 0, accepted: 0 };
-      }
-      acc[date].total += 1;
-      if (item.status === 'accepted') {
-        acc[date].accepted += 1;
-      }
-      return acc;
-    }, {} as Record<string, { total: number; accepted: number }>) || {};
-
-    return Object.entries(grouped).map(([date, counts]) => ({
-      date,
-      count: counts.total,
-      accepted: counts.accepted,
-      name: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-    }));
-  };
-
-  const fetchBookingsData = async (startDate: Date, endDate: Date) => {
-    const { data, error } = await supabase
-      .from('bookings')
-      .select('created_at, total_price, currency')
-      .eq('operator_company_id', user?.company_id)
-      .gte('created_at', startDate.toISOString())
-      .lte('created_at', endDate.toISOString());
-
-    if (error) throw error;
-
-    const grouped = data?.reduce((acc, item) => {
-      const date = new Date(item.created_at).toISOString().split('T')[0];
-      if (!acc[date]) {
-        acc[date] = { count: 0, revenue: 0 };
-      }
-      acc[date].count += 1;
-      acc[date].revenue += item.total_price || 0;
-      return acc;
-    }, {} as Record<string, { count: number; revenue: number }>) || {};
-
-    return Object.entries(grouped).map(([date, counts]) => ({
-      date,
-      count: counts.count,
-      revenue: counts.revenue,
-      name: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-    }));
-  };
-
-  const fetchRevenueData = async (startDate: Date, endDate: Date) => {
-    const { data, error } = await supabase
-      .from('bookings')
-      .select('total_price, currency, created_at')
-      .eq('operator_company_id', user?.company_id)
-      .gte('created_at', startDate.toISOString())
-      .lte('created_at', endDate.toISOString());
-
-    if (error) throw error;
-
-    const grouped = data?.reduce((acc, item) => {
-      const date = new Date(item.created_at).toISOString().split('T')[0];
-      acc[date] = (acc[date] || 0) + (item.total_price || 0);
-      return acc;
-    }, {} as Record<string, number>) || {};
-
-    return Object.entries(grouped).map(([date, revenue]) => ({
-      date,
-      revenue,
-      name: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-    }));
-  };
-
-  const fetchPerformanceData = async (startDate: Date, endDate: Date) => {
-    // Mock performance data - in real implementation, this would come from performance table
-    return [
-      { name: 'On-Time Performance', value: 95, color: '#00C49F' },
-      { name: 'Customer Satisfaction', value: 4.8, color: '#0088FE' },
-      { name: 'Response Time (hrs)', value: 2.3, color: '#FFBB28' },
-      { name: 'Fleet Utilization', value: 78, color: '#FF8042' }
-    ];
-  };
-
-  const calculateAvgResponseTime = (quotesData: any[]) => {
-    // Mock calculation - in real implementation, this would be calculated from actual response times
-    return 2.3;
-  };
+  // All data fetching now happens in fetchAnalytics with mock data
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {

@@ -11,6 +11,7 @@ import { NotificationsCenter } from '@/components/notifications/NotificationsCen
 import { TaskInbox } from '@/components/tasks/TaskInbox';
 import { VerificationSystem } from '@/components/verification/VerificationSystem';
 import { NavigationControls } from '@/components/NavigationControls';
+import StarfieldBackground from '@/components/StarfieldBackground';
 import { 
   Plane, 
   BarChart3, 
@@ -193,7 +194,8 @@ export default function OperatorDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white">
+    <div className="min-h-screen bg-slate-900 text-white relative">
+      <StarfieldBackground />
       {/* Header */}
       <div className="bg-slate-800 border-b border-slate-700 px-6 py-4">
         <div className="flex items-center justify-between">

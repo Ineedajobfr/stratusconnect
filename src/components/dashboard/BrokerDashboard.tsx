@@ -10,6 +10,7 @@ import { EscrowManager } from '@/components/payments/EscrowManager';
 import { NotificationsCenter } from '@/components/notifications/NotificationsCenter';
 import { TaskInbox } from '@/components/tasks/TaskInbox';
 import { NavigationControls } from '@/components/NavigationControls';
+import StarfieldBackground from '@/components/StarfieldBackground';
 import { 
   BarChart3, 
   Plane, 
@@ -166,7 +167,8 @@ export default function BrokerDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white">
+    <div className="min-h-screen bg-slate-900 text-white relative">
+      <StarfieldBackground />
       {/* Header */}
       <div className="bg-slate-800 border-b border-slate-700 px-6 py-4">
         <div className="flex items-center justify-between">

@@ -11,6 +11,20 @@ url: "https://ineedajobfr.github.io"
 lang: en
 timezone: UTC
 
+# GitHub Pages specific settings
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# SEO settings
+seo:
+  type: "WebSite"
+  name: "StratusConnect"
+  description: "The future of private aviation marketplace"
+  url: "https://ineedajobfr.github.io/stratusconnect"
+  image: "https://ineedajobfr.github.io/stratusconnect/logo.png"
+
 # Navigation
 navigation:
   - title: Home

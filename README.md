@@ -2,7 +2,9 @@
 
 [![Deploy to GitHub Pages](https://github.com/Ineedajobfr/stratusconnect/actions/workflows/deploy.yml/badge.svg)](https://github.com/Ineedajobfr/stratusconnect/actions/workflows/deploy.yml)
 
-**Live Demo:** [https://ineedajobfr.github.io/stratusconnect/](https://ineedajobfr.github.io/stratusconnect/)
+**🌐 Live Demo:** [https://ineedajobfr.github.io/stratusconnect/](https://ineedajobfr.github.io/stratusconnect/)
+
+**📱 Mobile Demo:** [https://ineedajobfr.github.io/stratusconnect/](https://ineedajobfr.github.io/stratusconnect/) (Mobile Optimized)
 
 ## ✈️ About StratusConnect
 
@@ -143,7 +145,16 @@ src/
 
 This project is automatically deployed to GitHub Pages on every push to the main branch.
 
-**Live URL:** [https://ineedajobfr.github.io/stratusconnect/](https://ineedajobfr.github.io/stratusconnect/)
+### **🚀 Live URLs:**
+- **Primary:** [https://ineedajobfr.github.io/stratusconnect/](https://ineedajobfr.github.io/stratusconnect/)
+- **GitHub Repository:** [https://github.com/Ineedajobfr/stratusconnect](https://github.com/Ineedajobfr/stratusconnect)
+
+### **⚡ Deployment Features:**
+- **Automatic deployment** on every push to main branch
+- **GitHub Actions** workflow for build and deployment
+- **Global CDN** for fast loading worldwide
+- **HTTPS included** with automatic SSL certificates
+- **Mobile optimized** responsive design
 
 ## 📄 License
 

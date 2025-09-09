@@ -1,6 +1,6 @@
-import PilotDashboard from "@/components/dashboard/PilotDashboard";
+import TestPilotDashboard from "@/components/dashboard/TestPilotDashboard";
 
 export default function DemoPilotTerminal() {
-  return <PilotDashboard />;
+  return <TestPilotDashboard />;
 }
 

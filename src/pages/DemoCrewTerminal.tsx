@@ -1,5 +1,5 @@
-import SimpleCrewDashboard from "@/components/dashboard/SimpleCrewDashboard";
+import CrewDashboard from "@/components/dashboard/CrewDashboard";
 
 export default function DemoCrewTerminal() {
-  return <SimpleCrewDashboard />;
+  return <CrewDashboard />;
 }

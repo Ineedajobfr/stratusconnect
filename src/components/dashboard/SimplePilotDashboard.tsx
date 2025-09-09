@@ -137,6 +137,10 @@ export default function SimplePilotDashboard() {
             <Users className="h-4 w-4 mr-2" />
             Network
           </TabsTrigger>
+          <TabsTrigger value="messages" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+            <MessageCircle className="h-4 w-4 mr-2" />
+            Messages
+          </TabsTrigger>
         </TabsList>
 
         {/* Profile Tab */}
@@ -492,6 +496,171 @@ export default function SimplePilotDashboard() {
                     </div>
                   </div>
                 ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Messages Tab */}
+        <TabsContent value="messages" className="space-y-6">
+          <h2 className="text-2xl font-bold text-white">Messages</h2>
+          
+          {/* Message Threads */}
+          <div className="space-y-4">
+            {/* Thread 1 */}
+            <Card className="bg-slate-800 border-slate-700">
+              <CardContent className="p-4">
+                <div className="flex items-start space-x-3">
+                  <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
+                    <span className="text-black font-bold text-sm">GA</span>
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <div>
+                        <h3 className="font-semibold text-white">Global Aviation</h3>
+                        <p className="text-sm text-slate-400">Re: JFK → LAX Assignment</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm text-slate-400">10 min ago</p>
+                        <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30 text-xs">
+                          New
+                        </Badge>
+                      </div>
+                    </div>
+                    <p className="text-slate-300 text-sm">
+                      "Hi Sarah, you've been assigned to the JFK → LAX flight on Dec 28th. 
+                      G550 N425SC, 8 passengers. Please confirm availability and review the flight plan. 
+                      Weather looks good for departure at 14:30 UTC."
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Thread 2 */}
+            <Card className="bg-slate-800 border-slate-700">
+              <CardContent className="p-4">
+                <div className="flex items-start space-x-3">
+                  <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">EW</span>
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <div>
+                        <h3 className="font-semibold text-white">Emma Wilson (Crew)</h3>
+                        <p className="text-sm text-slate-400">Re: Flight Coordination</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm text-slate-400">2 hours ago</p>
+                      </div>
+                    </div>
+                    <p className="text-slate-300 text-sm">
+                      "Hi Captain! Looking forward to working with you on the LAX → MIA flight. 
+                      I've prepared the cabin service plan. Any special requirements for the passengers? 
+                      I'll be at the aircraft 2 hours before departure."
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Thread 3 */}
+            <Card className="bg-slate-800 border-slate-700">
+              <CardContent className="p-4">
+                <div className="flex items-start space-x-3">
+                  <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">MC</span>
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <div>
+                        <h3 className="font-semibold text-white">Mike Chen (Operations)</h3>
+                        <p className="text-sm text-slate-400">Re: Schedule Update</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm text-slate-400">4 hours ago</p>
+                      </div>
+                    </div>
+                    <p className="text-slate-300 text-sm">
+                      "Your MIA → LHR flight has been confirmed for Jan 2nd. 
+                      G650 N892AV, 6 passengers. Departure time moved to 16:00 UTC. 
+                      Please update your schedule and confirm receipt."
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Thread 4 */}
+            <Card className="bg-slate-800 border-slate-700">
+              <CardContent className="p-4">
+                <div className="flex items-start space-x-3">
+                  <div className="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">LR</span>
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <div>
+                        <h3 className="font-semibold text-white">Lisa Rodriguez (Broker)</h3>
+                        <p className="text-sm text-slate-400">Re: Client Feedback</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm text-slate-400">1 day ago</p>
+                      </div>
+                    </div>
+                    <p className="text-slate-300 text-sm">
+                      "Excellent work on the recent charter! The client was very impressed with your professionalism. 
+                      They've requested you specifically for their next trip. 
+                      Thank you for representing us so well!"
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Thread 5 */}
+            <Card className="bg-slate-800 border-slate-700">
+              <CardContent className="p-4">
+                <div className="flex items-start space-x-3">
+                  <div className="w-10 h-10 bg-cyan-500 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">JW</span>
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <div>
+                        <h3 className="font-semibold text-white">James Wilson (Training)</h3>
+                        <p className="text-sm text-slate-400">Re: Recurrent Training</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm text-slate-400">2 days ago</p>
+                      </div>
+                    </div>
+                    <p className="text-slate-300 text-sm">
+                      "Your recurrent training is due next month. 
+                      Please schedule your simulator session for the G550. 
+                      Available slots: Jan 15th, 18th, or 22nd. Let me know your preference."
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Quick Actions */}
+          <Card className="bg-slate-800 border-slate-700">
+            <CardHeader>
+              <CardTitle className="text-orange-400">Quick Actions</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex space-x-3">
+                <Button className="bg-orange-500 hover:bg-orange-600 text-white">
+                  <MessageCircle className="h-4 w-4 mr-2" />
+                  New Message
+                </Button>
+                <Button variant="outline" className="border-slate-600 text-slate-300 hover:bg-slate-700">
+                  <Search className="h-4 w-4 mr-2" />
+                  Search Messages
+                </Button>
               </div>
             </CardContent>
           </Card>

@@ -26,6 +26,7 @@ import {
   Home
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { StarfieldRunwayBackground } from "../StarfieldRunwayBackground";
 
 interface User {
   name: string;
@@ -93,9 +94,14 @@ export const UnifiedTerminalLayout: React.FC<UnifiedTerminalLayoutProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white">
+    <div className="min-h-screen bg-slate-900 text-white relative">
+      {/* Star Background */}
+      <div className="absolute inset-0 z-0">
+        <StarfieldRunwayBackground intensity={0.4} starCount={120} />
+      </div>
+      
       {/* Main Terminal Interface */}
-      <div className="flex h-screen">
+      <div className="flex h-screen relative z-10">
         {/* Sidebar */}
         <div className="w-80 bg-slate-800 border-r border-slate-700 flex flex-col">
           {/* Terminal Header */}

@@ -615,11 +615,161 @@ export default function OperatorDashboard() {
           {/* Messages Tab */}
           <TabsContent value="messages" className="space-y-6">
             <h2 className="text-2xl font-bold text-white">Messages</h2>
+            
+            {/* Message Threads */}
+            <div className="space-y-4">
+              {/* Thread 1 */}
+              <Card className="bg-slate-800 border-slate-700">
+                <CardContent className="p-4">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
+                      <span className="text-black font-bold text-sm">SB</span>
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-2">
+                        <div>
+                          <h3 className="font-semibold text-white">Sarah Brooks</h3>
+                          <p className="text-sm text-slate-400">Re: G550 Availability Inquiry</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-sm text-slate-400">5 min ago</p>
+                          <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30 text-xs">
+                            New
+                          </Badge>
+                        </div>
+                      </div>
+                      <p className="text-slate-300 text-sm">
+                        "Hi Mike, I have a client looking for G550 availability JFK → LAX on Dec 28th. 
+                        Can you confirm if N425SC is available? They need 8 seats and prefer morning departure."
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Thread 2 */}
+              <Card className="bg-slate-800 border-slate-700">
+                <CardContent className="p-4">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">JM</span>
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-2">
+                        <div>
+                          <h3 className="font-semibold text-white">James Mitchell</h3>
+                          <p className="text-sm text-slate-400">Re: Fleet Maintenance Update</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-sm text-slate-400">1 hour ago</p>
+                        </div>
+                      </div>
+                      <p className="text-slate-300 text-sm">
+                        "Our Citation X+ N892AV is back from maintenance and ready for service. 
+                        All systems green. We can offer competitive rates for your upcoming charters."
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Thread 3 */}
+              <Card className="bg-slate-800 border-slate-700">
+                <CardContent className="p-4">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">LC</span>
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-2">
+                        <div>
+                          <h3 className="font-semibold text-white">Lisa Chen</h3>
+                          <p className="text-sm text-slate-400">Re: G650 Charter Confirmation</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-sm text-slate-400">2 hours ago</p>
+                        </div>
+                      </div>
+                      <p className="text-slate-300 text-sm">
+                        "Thanks for the quick response! My client has confirmed the MIA → LHR charter. 
+                        Please send over the contract and crew details. 
+                        They're very excited about the G650 experience."
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Thread 4 */}
+              <Card className="bg-slate-800 border-slate-700">
+                <CardContent className="p-4">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">DR</span>
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-2">
+                        <div>
+                          <h3 className="font-semibold text-white">David Rodriguez</h3>
+                          <p className="text-sm text-slate-400">Re: Pilot Availability</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-sm text-slate-400">4 hours ago</p>
+                        </div>
+                      </div>
+                      <p className="text-slate-300 text-sm">
+                        "Captain Johnson is available for your Dec 30th flight. 
+                        He has 12,500 hours on Gulfstream aircraft. 
+                        Should I confirm him for the assignment?"
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Thread 5 */}
+              <Card className="bg-slate-800 border-slate-700">
+                <CardContent className="p-4">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-10 h-10 bg-cyan-500 rounded-full flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">EW</span>
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-2">
+                        <div>
+                          <h3 className="font-semibold text-white">Emma Wilson</h3>
+                          <p className="text-sm text-slate-400">Re: Catering Requirements</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-sm text-slate-400">1 day ago</p>
+                        </div>
+                      </div>
+                      <p className="text-slate-300 text-sm">
+                        "For the VIP charter, we need premium catering for 6 passengers. 
+                        Any dietary restrictions? We can arrange Michelin-starred meals 
+                        and premium beverages. Please confirm by tomorrow."
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Quick Actions */}
             <Card className="bg-slate-800 border-slate-700">
-              <CardContent className="p-6">
-                <div className="text-center text-slate-400">
-                  <MessageCircle className="h-16 w-16 mx-auto mb-4 text-slate-600" />
-                  <p>No messages yet. Start a conversation with a broker!</p>
+              <CardHeader>
+                <CardTitle className="text-orange-400">Quick Actions</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex space-x-3">
+                  <Button className="bg-orange-500 hover:bg-orange-600 text-white">
+                    <MessageCircle className="h-4 w-4 mr-2" />
+                    New Message
+                  </Button>
+                  <Button variant="outline" className="border-slate-600 text-slate-300 hover:bg-slate-700">
+                    <Search className="h-4 w-4 mr-2" />
+                    Search Messages
+                  </Button>
                 </div>
               </CardContent>
             </Card>

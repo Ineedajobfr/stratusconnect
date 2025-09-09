@@ -8,40 +8,18 @@ import {
   Shield, Award, FileText, DollarSign, Star, BarChart3, TrendingUp, 
   TrendingDown, Activity, Zap, Target, Globe, Database, Settings,
   Play, Pause, Volume2, MoreHorizontal, ArrowRight, Triangle, Gauge,
-  Navigation, Wind, Thermometer, Droplets, Eye, EyeOff, Compass
+  Navigation, Wind, Thermometer, Droplets, Eye, EyeOff, Compass,
+  Briefcase, User, Phone, Mail, Map, Calendar as CalendarIcon
 } from "lucide-react";
 
 export const PilotCockpit: React.FC = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [isLive, setIsLive] = useState(true);
-  const [flightData, setFlightData] = useState({
-    altitude: 41000,
-    speed: 485,
-    heading: 270,
-    verticalSpeed: 1200,
-    temperature: -56,
-    windSpeed: 45,
-    fuel: 78,
-    autopilot: true,
-    flaps: 0,
-    gear: 'UP'
-  });
+  const [activeTab, setActiveTab] = useState("schedule");
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(new Date());
-      // Simulate live flight data updates
-      setFlightData(prev => ({
-        ...prev,
-        altitude: prev.altitude + Math.floor(Math.random() * 100 - 50),
-        speed: prev.speed + Math.floor(Math.random() * 10 - 5),
-        heading: (prev.heading + Math.floor(Math.random() * 5 - 2) + 360) % 360,
-        verticalSpeed: prev.verticalSpeed + Math.floor(Math.random() * 200 - 100),
-        temperature: prev.temperature + Math.floor(Math.random() * 2 - 1),
-        windSpeed: prev.windSpeed + Math.floor(Math.random() * 5 - 2),
-        fuel: Math.max(0, prev.fuel - 0.05)
-      }));
-    }, 500);
+    }, 1000);
     return () => clearInterval(interval);
   }, []);
 
@@ -54,314 +32,339 @@ export const PilotCockpit: React.FC = () => {
     });
   };
 
+  const formatDate = (date: Date) => {
+    return date.toLocaleDateString('en-US', { 
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Top Cockpit Bar */}
-      <div className="bg-gray-900 border-b border-gray-700 px-6 py-3">
+    <div className="min-h-screen bg-slate-900 text-white">
+      {/* Header */}
+      <div className="bg-slate-800 border-b border-slate-700 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+              <div className="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center">
                 <span className="text-black font-bold text-sm">P</span>
               </div>
               <span className="text-xl font-bold">STRATUSCONNECT</span>
             </div>
-            <div className="text-sm text-gray-400">COCKPIT</div>
+            <div className="text-sm text-slate-400">PILOT DASHBOARD</div>
           </div>
           
           <div className="flex items-center space-x-6">
             <div className="text-center">
-              <div className="text-sm text-gray-400">PILOT</div>
-              <div className="text-lg font-mono font-bold text-orange-400">PIC-001</div>
+              <div className="text-sm text-slate-400">PILOT</div>
+              <div className="text-lg font-bold text-cyan-400">Capt. Sarah Johnson</div>
             </div>
-            <div className="text-2xl font-mono text-orange-400">
+            <div className="text-right">
+              <div className="text-2xl font-mono text-cyan-400">
               {formatTime(currentTime)}
             </div>
-          </div>
-          
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <div className={`w-2 h-2 rounded-full ${isLive ? 'bg-green-500' : 'bg-red-500'}`}></div>
-              <span className="text-sm text-gray-400">{isLive ? 'LIVE' : 'OFFLINE'}</span>
+              <div className="text-sm text-slate-400">{formatDate(currentTime)}</div>
             </div>
-            <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
-              <Play className="h-4 w-4" />
-            </Button>
-            <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
-              <Volume2 className="h-4 w-4" />
-            </Button>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-12 gap-4 p-6 h-screen">
-        {/* Left Column - Flight Controls & Status */}
-        <div className="col-span-3 space-y-4">
-          {/* Flight Controls */}
-          <Card className="bg-gray-800 border-gray-700">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-orange-400 text-sm font-mono">FLIGHT CONTROLS</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="space-y-2">
-                <div className="flex items-center justify-between p-2 bg-gray-700 rounded">
-                  <span className="text-white text-sm font-mono">AUTOPILOT</span>
-                  <div className={`w-3 h-3 rounded-full ${flightData.autopilot ? 'bg-green-500' : 'bg-red-500'}`}></div>
-                </div>
-                <div className="flex items-center justify-between p-2 bg-gray-700 rounded">
-                  <span className="text-white text-sm font-mono">FLAPS</span>
-                  <span className="text-orange-400 text-sm font-mono">{flightData.flaps}°</span>
-                </div>
-                <div className="flex items-center justify-between p-2 bg-gray-700 rounded">
-                  <span className="text-white text-sm font-mono">GEAR</span>
-                  <span className="text-orange-400 text-sm font-mono">{flightData.gear}</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+      <div className="p-6">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="bg-slate-800 border-slate-700">
+            <TabsTrigger value="schedule" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-white">
+              <Calendar className="h-4 w-4 mr-2" />
+              Schedule
+            </TabsTrigger>
+            <TabsTrigger value="assignments" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-white">
+              <Briefcase className="h-4 w-4 mr-2" />
+              Assignments
+            </TabsTrigger>
+            <TabsTrigger value="profile" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-white">
+              <User className="h-4 w-4 mr-2" />
+              Profile
+            </TabsTrigger>
+            <TabsTrigger value="notifications" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-white">
+              <Bell className="h-4 w-4 mr-2" />
+              Notifications
+            </TabsTrigger>
+          </TabsList>
 
-          {/* Flight Information */}
-          <Card className="bg-gray-800 border-gray-700">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-orange-400 text-sm font-mono">FLIGHT INFO</CardTitle>
+          <TabsContent value="schedule" className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Upcoming Flights */}
+              <div className="lg:col-span-2">
+                <Card className="bg-slate-800 border-slate-700">
+                  <CardHeader>
+                    <CardTitle className="text-cyan-400">Upcoming Flights</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="text-2xl font-mono font-bold text-white">FL-001</div>
-              <div className="space-y-2 text-sm font-mono">
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Route:</span>
-                  <span className="text-white">JFK → LAX</span>
+                  <CardContent className="space-y-4">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between p-4 bg-slate-700 rounded-lg border border-slate-600">
+                        <div className="flex items-center space-x-4">
+                          <div className="w-12 h-12 bg-cyan-500 rounded-lg flex items-center justify-center">
+                            <Plane className="h-6 w-6 text-black" />
+                          </div>
+                          <div>
+                            <div className="font-semibold text-white">Charter Flight #CF-2025-001</div>
+                            <div className="text-sm text-slate-400">JFK → LAX • Gulfstream G550</div>
+                            <div className="text-sm text-slate-400">8 passengers • 6h 30m</div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Aircraft:</span>
-                  <span className="text-white">Boeing 737</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Status:</span>
-                  <span className="text-green-400">IN FLIGHT</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Passengers:</span>
-                  <span className="text-white">156</span>
+                        <div className="text-right">
+                          <div className="text-cyan-400 font-semibold">Tomorrow 14:30</div>
+                          <Badge className="bg-green-500 text-white">Confirmed</Badge>
                 </div>
               </div>
-            </CardContent>
-          </Card>
 
-          {/* Performance Metrics */}
-          <Card className="bg-gray-800 border-gray-700">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-orange-400 text-sm font-mono">PERFORMANCE</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="grid grid-cols-2 gap-2 text-center">
-                <div className="bg-gray-700 p-2 rounded">
-                  <div className="text-white font-mono text-lg">98.5%</div>
-                  <div className="text-xs text-gray-400">On-Time</div>
+                      <div className="flex items-center justify-between p-4 bg-slate-700 rounded-lg border border-slate-600">
+                        <div className="flex items-center space-x-4">
+                          <div className="w-12 h-12 bg-slate-600 rounded-lg flex items-center justify-center">
+                            <Plane className="h-6 w-6 text-slate-400" />
                 </div>
-                <div className="bg-gray-700 p-2 rounded">
-                  <div className="text-white font-mono text-lg">4.8</div>
-                  <div className="text-xs text-gray-400">Rating</div>
+                          <div>
+                            <div className="font-semibold text-white">Charter Flight #CF-2025-002</div>
+                            <div className="text-sm text-slate-400">LAX → MIA • Citation XLS</div>
+                            <div className="text-sm text-slate-400">4 passengers • 4h 15m</div>
+                </div>
+                </div>
+                        <div className="text-right">
+                          <div className="text-cyan-400 font-semibold">Jan 12, 09:00</div>
+                          <Badge className="bg-yellow-500 text-black">Pending</Badge>
                 </div>
               </div>
-              <div className="space-y-2">
-                <div className="flex justify-between text-xs">
-                  <span className="text-gray-400">This Month</span>
-                  <span className="text-orange-400">156.5 hrs</span>
+
+                      <div className="flex items-center justify-between p-4 bg-slate-700 rounded-lg border border-slate-600">
+                        <div className="flex items-center space-x-4">
+                          <div className="w-12 h-12 bg-slate-600 rounded-lg flex items-center justify-center">
+                            <Plane className="h-6 w-6 text-slate-400" />
                 </div>
-                <div className="w-full bg-gray-700 rounded-full h-2">
-                  <div className="bg-orange-500 h-2 rounded-full" style={{width: '78%'}}></div>
+                          <div>
+                            <div className="font-semibold text-white">Charter Flight #CF-2025-003</div>
+                            <div className="text-sm text-slate-400">MIA → TEB • Challenger 350</div>
+                            <div className="text-sm text-slate-400">6 passengers • 2h 45m</div>
+                </div>
+              </div>
+                        <div className="text-right">
+                          <div className="text-cyan-400 font-semibold">Jan 15, 16:00</div>
+                          <Badge className="bg-blue-500 text-white">Tentative</Badge>
+                </div>
                 </div>
               </div>
             </CardContent>
           </Card>
         </div>
 
-        {/* Center Column - Primary Flight Display */}
-        <div className="col-span-6 space-y-4">
-          {/* Primary Flight Display */}
-          <Card className="bg-gray-800 border-gray-700 h-80">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-orange-400 text-sm font-mono">PRIMARY FLIGHT DISPLAY</CardTitle>
+              {/* Quick Stats */}
+              <div className="space-y-6">
+                <Card className="bg-slate-800 border-slate-700">
+                  <CardHeader>
+                    <CardTitle className="text-cyan-400">This Month</CardTitle>
             </CardHeader>
-            <CardContent className="p-0 h-full">
-              <div className="relative h-full bg-gradient-to-br from-gray-900 to-black rounded-lg overflow-hidden">
-                {/* Artificial Horizon */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-40 h-40 border-2 border-gray-600 rounded-full relative">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-32 h-32 bg-blue-500 rounded-full opacity-20"></div>
+                  <CardContent className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4 text-center">
+                      <div className="bg-slate-700 p-3 rounded-lg">
+                        <div className="text-2xl font-bold text-white">12</div>
+                        <div className="text-sm text-slate-400">Flights</div>
+                      </div>
+                      <div className="bg-slate-700 p-3 rounded-lg">
+                        <div className="text-2xl font-bold text-white">45.2</div>
+                        <div className="text-sm text-slate-400">Hours</div>
+                      </div>
                     </div>
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1 h-12 bg-white"></div>
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-1 bg-white"></div>
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 border border-white rounded-full"></div>
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-slate-400">On-Time Rate</span>
+                        <span className="text-green-400">98.5%</span>
                   </div>
-                </div>
-                
-                {/* Flight data overlay */}
-                <div className="absolute top-4 left-4 space-y-2">
-                  <div className="text-white font-mono text-lg">ALT: {flightData.altitude.toLocaleString()}</div>
-                  <div className="text-white font-mono text-lg">SPD: {flightData.speed}</div>
-                  <div className="text-white font-mono text-lg">HDG: {flightData.heading}°</div>
-                  <div className="text-white font-mono text-lg">VS: {flightData.verticalSpeed}</div>
-                </div>
-                
-                <div className="absolute top-4 right-4 space-y-2">
-                  <div className="text-white font-mono text-lg">TEMP: {flightData.temperature}°C</div>
-                  <div className="text-white font-mono text-lg">WIND: {flightData.windSpeed} kts</div>
-                  <div className="text-white font-mono text-lg">FUEL: {flightData.fuel.toFixed(1)}%</div>
-                  <div className="text-white font-mono text-lg">AP: {flightData.autopilot ? 'ON' : 'OFF'}</div>
-                </div>
-
-                {/* Compass */}
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
-                  <div className="w-16 h-16 border-2 border-gray-600 rounded-full relative">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-12 h-12 border border-white rounded-full"></div>
-                    </div>
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1 h-6 bg-white"></div>
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-6 h-1 bg-white"></div>
-                  </div>
+                      <div className="w-full bg-slate-700 rounded-full h-2">
+                        <div className="bg-green-500 h-2 rounded-full" style={{width: '98.5%'}}></div>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Navigation Display */}
-          <Card className="bg-gray-800 border-gray-700">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-orange-400 text-sm font-mono">NAVIGATION</CardTitle>
+                <Card className="bg-slate-800 border-slate-700">
+                  <CardHeader>
+                    <CardTitle className="text-cyan-400">Quick Actions</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <Button className="w-full bg-cyan-500 hover:bg-cyan-600 text-white">
+                      <CheckCircle className="h-4 w-4 mr-2" />
+                      Confirm Next Flight
+                    </Button>
+                    <Button className="w-full bg-slate-700 hover:bg-slate-600 text-white">
+                      <FileText className="h-4 w-4 mr-2" />
+                      View Flight Brief
+                    </Button>
+                    <Button className="w-full bg-slate-700 hover:bg-slate-600 text-white">
+                      <Phone className="h-4 w-4 mr-2" />
+                      Contact Dispatch
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="assignments" className="space-y-6">
+            <Card className="bg-slate-800 border-slate-700">
+              <CardHeader>
+                <CardTitle className="text-cyan-400">Current Assignment</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-3">
-                <div className="grid grid-cols-4 gap-2 text-center">
-                  <div className="bg-gray-700 p-2 rounded">
-                    <div className="text-white font-mono text-sm">JFK</div>
-                    <div className="text-gray-400 text-xs">Origin</div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div className="bg-slate-700 p-4 rounded-lg">
+                      <h3 className="font-semibold text-white mb-2">Flight Details</h3>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <span className="text-slate-400">Flight Number:</span>
+                          <span className="text-white">CF-2025-001</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-400">Route:</span>
+                          <span className="text-white">JFK → LAX</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-400">Aircraft:</span>
+                          <span className="text-white">Gulfstream G550</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-400">Departure:</span>
+                          <span className="text-white">Tomorrow 14:30</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-400">Duration:</span>
+                          <span className="text-white">6h 30m</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="bg-gray-700 p-2 rounded">
-                    <div className="text-white font-mono text-sm">ORD</div>
-                    <div className="text-gray-400 text-xs">Waypoint</div>
+                  <div className="space-y-4">
+                    <div className="bg-slate-700 p-4 rounded-lg">
+                      <h3 className="font-semibold text-white mb-2">Crew Information</h3>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <span className="text-slate-400">Captain:</span>
+                          <span className="text-white">Sarah Johnson (You)</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-400">First Officer:</span>
+                          <span className="text-white">Mike Chen</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-400">Flight Attendant:</span>
+                          <span className="text-white">Emma Davis</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-400">Passengers:</span>
+                          <span className="text-white">8</span>
+                        </div>
                   </div>
-                  <div className="bg-gray-700 p-2 rounded">
-                    <div className="text-white font-mono text-sm">DEN</div>
-                    <div className="text-gray-400 text-xs">Waypoint</div>
                   </div>
-                  <div className="bg-gray-700 p-2 rounded">
-                    <div className="text-white font-mono text-sm">LAX</div>
-                    <div className="text-gray-400 text-xs">Destination</div>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between text-sm font-mono">
-                  <span className="text-gray-400">Current Position:</span>
-                  <span className="text-white">41°N 87°W</span>
-                </div>
-                <div className="flex items-center justify-between text-sm font-mono">
-                  <span className="text-gray-400">Next Waypoint:</span>
-                  <span className="text-white">ORD - 45nm</span>
                 </div>
               </div>
             </CardContent>
           </Card>
-        </div>
+          </TabsContent>
 
-        {/* Right Column - Systems & Alerts */}
-        <div className="col-span-3 space-y-4">
-          {/* Engine Status */}
-          <Card className="bg-gray-800 border-gray-700">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-orange-400 text-sm font-mono">ENGINES</CardTitle>
+          <TabsContent value="profile" className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <Card className="bg-slate-800 border-slate-700">
+                <CardHeader>
+                  <CardTitle className="text-cyan-400">Personal Information</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-white text-sm font-mono">ENG 1</span>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-green-400 text-xs">NORMAL</span>
+                <CardContent className="space-y-4">
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-slate-400">Name:</span>
+                      <span className="text-white">Capt. Sarah Johnson</span>
                 </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-400">License:</span>
+                      <span className="text-white">ATP #1234567</span>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-white text-sm font-mono">ENG 2</span>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-green-400 text-xs">NORMAL</span>
+                    <div className="flex justify-between">
+                      <span className="text-slate-400">Medical:</span>
+                      <span className="text-green-400">Valid until Dec 2025</span>
                 </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-400">Total Hours:</span>
+                      <span className="text-white">8,500</span>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-white text-sm font-mono">N1</span>
-                <span className="text-white text-sm font-mono">85%</span>
+                    <div className="flex justify-between">
+                      <span className="text-slate-400">Aircraft Types:</span>
+                      <span className="text-white">G550, Citation XLS, Challenger 350</span>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-white text-sm font-mono">EGT</span>
-                <span className="text-white text-sm font-mono">650°C</span>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Flight Alerts */}
-          <Card className="bg-gray-800 border-gray-700">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-orange-400 text-sm font-mono">ALERTS</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="flex items-center space-x-2 p-2 bg-yellow-900/20 border border-yellow-500/30 rounded">
-                <Triangle className="h-4 w-4 text-yellow-400" />
-                <span className="text-yellow-400 text-xs font-mono">TURBULENCE AHEAD</span>
-              </div>
-              <div className="flex items-center space-x-2 p-2 bg-blue-900/20 border border-blue-500/30 rounded">
-                <Bell className="h-4 w-4 text-blue-400" />
-                <span className="text-blue-400 text-xs font-mono">ATC CONTACT</span>
-              </div>
-              <div className="flex items-center space-x-2 p-2 bg-green-900/20 border border-green-500/30 rounded">
-                <CheckCircle className="h-4 w-4 text-green-400" />
-                <span className="text-green-400 text-xs font-mono">AUTO PILOT ON</span>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Weather Information */}
-          <Card className="bg-gray-800 border-gray-700">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-orange-400 text-sm font-mono">WEATHER</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-white text-sm font-mono">Current</span>
-                <span className="text-white text-sm font-mono">Clear</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-white text-sm font-mono">Visibility</span>
-                <span className="text-white text-sm font-mono">10+ SM</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-white text-sm font-mono">Wind</span>
-                <span className="text-white text-sm font-mono">270/45</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-white text-sm font-mono">Temp</span>
-                <span className="text-white text-sm font-mono">-56°C</span>
               </div>
             </CardContent>
           </Card>
 
-          {/* Quick Actions */}
-          <Card className="bg-gray-800 border-gray-700">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-orange-400 text-sm font-mono">ACTIONS</CardTitle>
+              <Card className="bg-slate-800 border-slate-700">
+                <CardHeader>
+                  <CardTitle className="text-cyan-400">Performance</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2">
-              <Button className="w-full bg-orange-500 hover:bg-orange-600 text-white text-xs font-mono">
-                CONTACT ATC
-              </Button>
-              <Button className="w-full bg-gray-700 hover:bg-gray-600 text-white text-xs font-mono">
-                WEATHER UPDATE
-              </Button>
-              <Button className="w-full bg-gray-700 hover:bg-gray-600 text-white text-xs font-mono">
-                FLIGHT LOG
-              </Button>
+                <CardContent className="space-y-4">
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-slate-400">On-Time Rate:</span>
+                      <span className="text-green-400">98.5%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-400">Rating:</span>
+                      <span className="text-yellow-400">4.8/5.0</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-400">This Month:</span>
+                      <span className="text-white">45.2 hours</span>
+              </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-400">Last Flight:</span>
+                      <span className="text-white">Jan 8, 2025</span>
+              </div>
+              </div>
             </CardContent>
           </Card>
-        </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="notifications" className="space-y-6">
+            <Card className="bg-slate-800 border-slate-700">
+              <CardHeader>
+                <CardTitle className="text-cyan-400">Recent Notifications</CardTitle>
+            </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-start space-x-3 p-3 bg-slate-700 rounded-lg">
+                  <Bell className="h-5 w-5 text-cyan-400 mt-0.5" />
+                  <div className="flex-1">
+                    <div className="font-semibold text-white">New Assignment</div>
+                    <div className="text-sm text-slate-400">You've been assigned to Charter Flight #CF-2025-001</div>
+                    <div className="text-xs text-slate-500">2 hours ago</div>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3 p-3 bg-slate-700 rounded-lg">
+                  <CheckCircle className="h-5 w-5 text-green-400 mt-0.5" />
+                  <div className="flex-1">
+                    <div className="font-semibold text-white">Flight Confirmed</div>
+                    <div className="text-sm text-slate-400">Charter Flight #CF-2025-000 has been confirmed</div>
+                    <div className="text-xs text-slate-500">1 day ago</div>
+              </div>
+              </div>
+                <div className="flex items-start space-x-3 p-3 bg-slate-700 rounded-lg">
+                  <AlertCircle className="h-5 w-5 text-yellow-400 mt-0.5" />
+                  <div className="flex-1">
+                    <div className="font-semibold text-white">Schedule Change</div>
+                    <div className="text-sm text-slate-400">Departure time updated for tomorrow's flight</div>
+                    <div className="text-xs text-slate-500">2 days ago</div>
+              </div>
+              </div>
+            </CardContent>
+          </Card>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );

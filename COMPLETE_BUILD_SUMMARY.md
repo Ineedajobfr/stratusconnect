@@ -208,5 +208,187 @@ This build is **production-ready** and includes:
 ## 🔄 **Force Fresh Deployment - Updated 2025-01-09**
 This update forces a fresh deployment to ensure all new demo layouts are properly loaded.
 
+---
+
+## 📚 **COMPREHENSIVE BUILD BLUEPRINT FOR CURSOR AI**
+
+### **StratusConnect Full-Stack Platform Build Blueprint**
+
+This section contains the complete technical specification for building StratusConnect from scratch using Cursor AI. This blueprint covers all modules, database schema, frontend components, and backend logic.
+
+#### **1. Overview**
+
+**Purpose**: StratusConnect is a multi-role, real-time aviation charter platform built with React (frontend), Supabase (PostgreSQL BaaS), TypeScript, and modern event-driven architecture. The platform connects brokers, operators, pilots, and crew for private charter flights in real time, facilitating everything from flight requests and quotes to crew assignment and compliance checks.
+
+**User Types**: StratusConnect supports five primary user roles:
+- **Broker**: Creates flight requests, receives quotes, manages bookings
+- **Operator**: Submits quotes, manages fleet, assigns crew, tracks flights
+- **Pilot/Crew**: Views assignments, updates flight status, manages profile
+- **Admin**: System oversight, compliance monitoring, dispute resolution
+
+#### **2. Database Schema (Supabase)**
+
+**Core Tables**:
+- `users` - User accounts with role-based access
+- `companies` - Brokerage and operator organizations
+- `requests` - Charter flight requests from brokers
+- `quotes` - Operator quotes in response to requests
+- `bookings` - Confirmed trips after quote acceptance
+- `flights` - Detailed flight segments with real-time status
+- `crew_assignments` - Links crew to flights/bookings
+- `aircraft` - Fleet management for operators
+- `maintenance` - Aircraft maintenance records
+- `crew_profiles` - Extended pilot/crew data
+- `documents` - File storage references
+- `sanctions` - Compliance and no-fly list checks
+- `messages` - Real-time chat system
+- `notifications` - In-app notification system
+- `analytics` - Performance metrics and reporting
+- `audit_logs` - Action tracking for compliance
+- `performance` - SLA and performance tracking
+
+**Row Level Security (RLS)**: All tables have RLS enabled with company-scoped and role-based policies ensuring data isolation and security.
+
+#### **3. Supabase Edge Functions**
+
+**Critical Functions**:
+- `create_request` - Broker creates charter requests
+- `submit_quote` - Operator submits quotes
+- `accept_quote` - Broker accepts quotes (creates booking)
+- `assign_crew` - Operator assigns crew to flights
+- `update_flight_status` - Real-time flight status updates
+- `complete_trip` - Finalizes completed trips
+- `hire_crew` - Crew hiring workflow
+- `sanction_check` - Compliance verification
+- `send_notification` - Multi-channel notifications
+- `admin_audit_log` - Admin audit and reporting
+
+#### **4. Frontend Architecture (React + TypeScript)**
+
+**Role-Based Dashboards**:
+- **Broker Dashboard**: Request creation, quote comparison, booking management
+- **Operator Dashboard**: Request feed, quote submission, fleet management, crew assignment
+- **Pilot/Crew Dashboard**: Schedule view, flight updates, profile management
+- **Admin Dashboard**: Network health, compliance monitoring, audit logs
+
+**Shared Components**:
+- `QuoteCard` - Quote display and actions
+- `FleetCard` - Aircraft information display
+- `BookingTimeline` - Visual trip progress
+- `CrewAvailability` - Crew scheduling interface
+- `NotificationCenter` - Real-time notifications
+- `ComplianceStatus` - Compliance indicators
+
+#### **5. Real-Time Logic**
+
+**Supabase Realtime Channels**:
+- Quote updates for brokers
+- Flight status updates for all parties
+- Message delivery for chat
+- Notification delivery
+- Compliance alerts for admin
+
+**Implementation**: Uses `supabase.channel()` with `postgres_changes` events and React `useEffect` hooks for subscription management.
+
+#### **6. Feature Modules**
+
+**Charter Request-to-Flight Flow**:
+1. Broker creates request
+2. Operators submit quotes
+3. Broker accepts quote (creates booking)
+4. Operator assigns crew
+5. Real-time flight monitoring
+6. Trip completion and payment
+
+**Crew Hiring Flow**:
+1. Operator posts crew request
+2. Pilots browse and apply
+3. Operator accepts application
+4. Crew assignment integration
+
+**Compliance & Safety Module**:
+- Sanctions checking
+- License expiry monitoring
+- AOC validation
+- SLA tracking
+- Safety reporting
+
+**Messaging Module**:
+- Deal-based chat (broker-operator)
+- User-based chat (admin support)
+- Real-time message delivery
+- File sharing capabilities
+
+**Admin & Analytics Module**:
+- Network health dashboard
+- Compliance monitoring
+- Dispute resolution
+- User management
+- Performance analytics
+
+#### **7. UI/UX Expectations**
+
+**Design Principles**:
+- Mobile-first responsive design
+- Role-specific navigation
+- Professional aviation theme
+- Tailwind CSS + ShadCN UI
+- Recharts for data visualization
+- Accessibility compliance
+
+**Key Features**:
+- Touch-friendly mobile interface
+- Real-time feedback
+- Consistent design system
+- Performance optimization
+- Cross-browser compatibility
+
+#### **8. Security and Permissions**
+
+**Multi-Layer Security**:
+- Supabase Auth with JWT tokens
+- Row Level Security (RLS) policies
+- Role-based access control
+- Edge function validation
+- Data encryption (TLS)
+- Payment security (Stripe integration)
+
+#### **9. Testing Plan**
+
+**Comprehensive Testing**:
+- Unit tests (React components, Edge functions)
+- Integration tests (end-to-end workflows)
+- Edge case testing (permissions, race conditions)
+- Performance testing
+- Cross-browser testing
+- RLS policy validation
+
+#### **10. Deployment Guidance**
+
+**Production Setup**:
+- Supabase project configuration
+- Edge function deployment
+- Database migration management
+- Monitoring and alerting
+- CI/CD pipeline setup
+- Backup and recovery procedures
+
+---
+
+## 🎯 **CURSOR AI IMPLEMENTATION NOTES**
+
+This blueprint provides everything needed to build StratusConnect from scratch:
+
+1. **Database Schema**: Complete PostgreSQL schema with RLS policies
+2. **Backend Logic**: 10 critical Edge Functions with TypeScript
+3. **Frontend Components**: React components for all user roles
+4. **Real-time Features**: Supabase Realtime implementation
+5. **Business Workflows**: Complete charter lifecycle management
+6. **Security**: Multi-layer security implementation
+7. **Testing**: Comprehensive testing strategy
+8. **Deployment**: Production-ready deployment guide
+
+**Ready for Cursor AI to implement the complete StratusConnect platform!** 🚀
+
 
 

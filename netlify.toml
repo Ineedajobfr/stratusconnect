@@ -1,12 +1,9 @@
 [build]
   command = "npm run build"
   publish = "dist"
-  environment = { NETLIFY_NEXT_PLUGIN_SKIP = "true" }
 
-# Disable Next.js plugin detection
 [build.environment]
   NETLIFY_NEXT_PLUGIN_SKIP = "true"
-  NEXT_PRIVATE_TARGET = "server"
 
 [functions]
   node_bundler = "esbuild"

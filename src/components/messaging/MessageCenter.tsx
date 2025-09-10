@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Send, Paperclip, Smile, MoreVertical } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { useMessagesRealtime } from "@/hooks/useRealtime";
+import { useRealtime } from "@/hooks/useRealtime";
 
 interface Message {
   id: string;
@@ -171,9 +171,12 @@ export const MessageCenter: React.FC<MessageCenterProps> = ({
   };
 
   // Real-time message updates
-  useMessagesRealtime(threadId || '', (payload) => {
-    if (payload.eventType === 'INSERT') {
-      setMessages(prev => [...prev, payload.new]);
+  useRealtime({
+    table: 'messages',
+    onUpdate: (payload) => {
+      if (payload.eventType === 'INSERT') {
+        setMessages(prev => [...prev, payload.new as Message]);
+      }
     }
   });
 

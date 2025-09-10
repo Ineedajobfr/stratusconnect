@@ -440,7 +440,7 @@ export default function PilotTerminal() {
       activeTab={activeSection} 
       onTabChange={setActiveSection} 
       bannerText="Precision in every flight. Your expertise is our competitive advantage." 
-      terminalType="pilot"
+      terminalType="crew"
     >
       {renderContent()}
     </TerminalLayout>

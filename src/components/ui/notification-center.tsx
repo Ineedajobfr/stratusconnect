@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Bell, Check, X, AlertCircle, CheckCircle, Plane, DollarSign, Users } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { useNotificationsRealtime } from "@/hooks/useRealtime";
+import { useRealtime } from "@/hooks/useRealtime";
 
 interface Notification {
   id: string;
@@ -144,10 +144,13 @@ export const NotificationCenter: React.FC = () => {
   };
 
   // Real-time notification updates
-  useNotificationsRealtime(user?.id || '', (payload) => {
-    if (payload.eventType === 'INSERT') {
-      setNotifications(prev => [payload.new, ...prev]);
-      setUnreadCount(prev => prev + 1);
+  useRealtime({
+    table: 'notifications',
+    onUpdate: (payload) => {
+      if (payload.eventType === 'INSERT') {
+        setNotifications(prev => [payload.new as Notification, ...prev]);
+        setUnreadCount(prev => prev + 1);
+      }
     }
   });
 

@@ -28,7 +28,7 @@ const demoAssignments = [
     route: "KJFK → KLAX",
     date: "Dec 18 • G650 • 5.2h • PIC",
     aircraft: "G650",
-    status: "available",
+    status: "scheduled" as const,
     passengers: 6,
     earnings: 2100,
     rating: 4.8
@@ -38,7 +38,7 @@ const demoAssignments = [
     route: "KMIA → KORD",
     date: "Dec 15 • Falcon 7X • 3.1h • PIC",
     aircraft: "Falcon 7X",
-    status: "available",
+    status: "landed" as const,
     passengers: 4,
     earnings: 1800,
     rating: 4.9
@@ -48,7 +48,7 @@ const demoAssignments = [
     route: "KTEB → KPBI",
     date: "Dec 28 at 14:30 UTC",
     aircraft: "G550",
-    status: "scheduled",
+    status: "scheduled" as const,
     passengers: 6
   },
   {
@@ -56,7 +56,7 @@ const demoAssignments = [
     route: "KPBI → KLAX",
     date: "Dec 30 at 09:15 UTC",
     aircraft: "G650",
-    status: "scheduled",
+    status: "scheduled" as const,
     passengers: 8
   },
   {
@@ -64,7 +64,7 @@ const demoAssignments = [
     route: "KLAX → KJFK",
     date: "Jan 2 at 16:45 UTC",
     aircraft: "Falcon 7X",
-    status: "scheduled",
+    status: "scheduled" as const,
     passengers: 4
   }
 ];
@@ -110,7 +110,7 @@ const demoAircraftTracking = [
     id: "aircraft-002",
     tail_number: "N892AV",
     model: "Citation X+",
-    status: "available",
+    status: "available" as const,
     location: {
       lat: 34.0522,
       lng: -118.2437,
@@ -151,8 +151,8 @@ const demoPilotNetwork = [
   {
     id: "pilot-002",
     name: "Captain Mike Chen",
-    role: "captain",
-    status: "in_flight",
+    role: "captain" as const,
+    status: "in_flight" as const,
     location: {
       lat: 34.0522,
       lng: -118.2437,

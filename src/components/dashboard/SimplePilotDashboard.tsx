@@ -18,6 +18,7 @@ import {
   Award,
   Shield,
   FileText,
+  Search,
   BarChart3,
   TrendingUp,
   CheckCircle,

@@ -1,14 +1,21 @@
-import { useState, useEffect } from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { 
-  Building2, 
   Plane, 
-  UserCheck, 
-  Users,
-  ArrowRight,
-  Clock,
-  Search
+  Shield, 
+  Users, 
+  Clock, 
+  CheckCircle, 
+  Star,
+  Zap,
+  Globe,
+  Lock,
+  DollarSign,
+  Building2,
+  UserCheck,
+  ArrowRight
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { LoginModal } from "@/components/LoginModal";
@@ -17,182 +24,446 @@ import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 export default function Index() {
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [currentTime, setCurrentTime] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      setCurrentTime(now.toUTCString().slice(17, 25));
-    };
-    
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const roles = [
-    {
-      id: "broker",
-      title: "Brokers",
-      icon: Building2,
-      description: "Speed creates advantage. Win more quotes with a cleaner cockpit.",
-      image: "/lovable-uploads/5b72b37d-1cf2-4e5d-9c9d-de6ea6c2d8e7.png",
-      route: "/terminal/broker",
-      demoRoute: "/demo/broker"
-    },
-    {
-      id: "operator",
-      title: "Operators", 
-      icon: Plane,
-      description: "Fill the legs. Lift the yield. Control the risk.",
-      image: "/lovable-uploads/87f62aae-d379-4cbe-a080-53fabcef5e60.png",
-      route: "/terminal/operator",
-      demoRoute: "/demo/operator"
-    },
-    {
-      id: "pilot",
-      title: "Pilots",
-      icon: UserCheck,
-      description: "Credentials speak. Availability sells. Fly the missions that fit.",
-      image: "/lovable-uploads/97709032-3f83-4b71-92d5-970343d1f100.png",
-      route: "/terminal/pilot",
-      demoRoute: "/demo/pilot"
-    },
-    {
-      id: "crew",
-      title: "Cabin Crew",
-      icon: Users,
-      description: "Professional service wins repeat work. Your calendar is your shop window.",
-      image: "/lovable-uploads/a7806c06-d816-42e6-b3ee-eea61f2134ae.png",
-      route: "/terminal/crew",
-      demoRoute: "/demo/crew"
-    }
-  ];
-
-  const handleAccessTerminal = (role: typeof roles[0]) => {
-    setSelectedRole(role.id);
+  const handleAccessTerminal = (roleId: string) => {
+    setSelectedRole(roleId);
     setShowLoginModal(true);
   };
 
-  const handleDemoAccess = (role: typeof roles[0]) => {
-    navigate(role.demoRoute);
+  const handleDemoAccess = (demoRoute: string) => {
+    navigate(demoRoute);
   };
 
   return (
     <div className="min-h-screen bg-terminal-bg relative overflow-hidden">
       <StarfieldRunwayBackground />
       
-      {/* Header */}
-      <header className="relative z-10 sticky top-0 bg-terminal-card/80 backdrop-blur-sm border-b border-terminal-border">
-        <div className="flex items-center justify-between p-4 max-w-7xl mx-auto">
-          <h1 className="text-xl font-bold text-foreground">Stratus Connect</h1>
-          
-          <div className="flex items-center space-x-4">
-            <div className="relative hidden md:block">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <input
-                type="text"
-                placeholder="Search or run a command"
-                className="w-80 pl-10 pr-4 py-2 bg-input border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-              />
+      {/* Hero Section */}
+      <div className="relative z-10 pt-16 pb-8">
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          <div className="mb-8">
+            <Badge variant="secondary" className="mb-4 px-4 py-2 text-sm">
+              <Zap className="w-4 h-4 mr-2" />
+              Next-Generation Aviation Platform
+            </Badge>
+            <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6">
+              Welcome to <span className="text-accent">StratusConnect</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+              The industry's most secure and efficient platform connecting brokers, operators, pilots, and crew. 
+              Built on zero-trust architecture with military-grade encryption.
+            </p>
+          </div>
+
+          {/* Quick Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-accent">99.9%</div>
+              <div className="text-sm text-muted-foreground">Uptime</div>
             </div>
-            <div className="flex items-center space-x-2 text-muted-foreground">
-              <Clock className="w-4 h-4" />
-              <span className="text-sm font-mono">UTC {currentTime}</span>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-accent">15k+</div>
+              <div className="text-sm text-muted-foreground">Active Users</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-accent">$2B+</div>
+              <div className="text-sm text-muted-foreground">Transactions</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-accent">50ms</div>
+              <div className="text-sm text-muted-foreground">Avg Response</div>
             </div>
           </div>
         </div>
-      </header>
+      </div>
 
-      {/* Main Content - Keep this section big */}
-      <main className="relative z-10 px-4 py-16">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h1 className="text-6xl font-bold text-foreground mb-6">Choose your terminal.</h1>
-            <p className="text-2xl text-muted-foreground">Real time. Verified. Precise.</p>
+      {/* Terminal Access Section */}
+      <div className="relative z-10 py-16">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-foreground mb-4">Choose Your Terminal</h2>
+            <p className="text-xl text-muted-foreground">Access your personalized workspace</p>
           </div>
 
-          {/* Role Cards Grid - Big prominent section */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-            {roles.map((role) => {
-              const Icon = role.icon;
-              return (
-                <Card 
-                  key={role.id}
-                  className="group terminal-card hover:terminal-glow cursor-pointer overflow-hidden transition-all duration-300 hover:scale-[1.02]"
-                >
-                  <div className="relative h-56 overflow-hidden">
-                    <img 
-                      src={role.image} 
-                      alt={role.title}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-terminal-bg/80 to-transparent" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Broker Terminal */}
+            <Card className="group terminal-card hover:terminal-glow cursor-pointer transition-all duration-300">
+              <CardHeader className="pb-4">
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 bg-accent/20 rounded-xl">
+                    <Building2 className="w-8 h-8 text-accent" />
                   </div>
-                  
-                  <CardContent className="p-8">
-                    <div className="flex items-center space-x-4 mb-6">
-                      <div className="p-3 bg-accent/20 rounded-xl">
-                        <Icon className="w-8 h-8 text-accent" />
-                      </div>
-                      <h3 className="text-3xl font-bold text-foreground">{role.title}</h3>
-                    </div>
-                    
-                    <p className="text-muted-foreground mb-8 text-lg leading-relaxed">{role.description}</p>
-                    
-                    <div className="flex space-x-4">
-                      <Button
-                        onClick={() => handleAccessTerminal(role)}
-                        className="flex-1 btn-terminal-accent h-12 text-lg font-semibold"
-                      >
-                        Access Terminal
-                        <ArrowRight className="ml-2 w-5 h-5" />
-                      </Button>
-                      
-                      <Button
-                        onClick={() => handleDemoAccess(role)}
-                        variant="outline"
-                        className="px-8 h-12 text-lg border-border text-foreground hover:bg-secondary/50"
-                      >
-                        Demo
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
+                  <div>
+                    <CardTitle className="text-2xl">Broker Terminal</CardTitle>
+                    <CardDescription>Quote management & client relations</CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground mb-6">
+                  Speed creates advantage. Win more quotes with real-time market intelligence and automated workflows.
+                </p>
+                <div className="flex space-x-3">
+                  <Button 
+                    onClick={() => handleAccessTerminal("broker")} 
+                    className="flex-1 btn-terminal-accent"
+                  >
+                    Access Terminal <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                  <Button 
+                    onClick={() => handleDemoAccess("/demo/broker")} 
+                    variant="outline"
+                    className="px-6"
+                  >
+                    Demo
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Operator Terminal */}
+            <Card className="group terminal-card hover:terminal-glow cursor-pointer transition-all duration-300">
+              <CardHeader className="pb-4">
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 bg-accent/20 rounded-xl">
+                    <Plane className="w-8 h-8 text-accent" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-2xl">Operator Terminal</CardTitle>
+                    <CardDescription>Fleet management & optimization</CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground mb-6">
+                  Fill the legs. Lift the yield. Control the risk with comprehensive fleet analytics and crew coordination.
+                </p>
+                <div className="flex space-x-3">
+                  <Button 
+                    onClick={() => handleAccessTerminal("operator")} 
+                    className="flex-1 btn-terminal-accent"
+                  >
+                    Access Terminal <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                  <Button 
+                    onClick={() => handleDemoAccess("/demo/operator")} 
+                    variant="outline"
+                    className="px-6"
+                  >
+                    Demo
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Pilot Terminal */}
+            <Card className="group terminal-card hover:terminal-glow cursor-pointer transition-all duration-300">
+              <CardHeader className="pb-4">
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 bg-accent/20 rounded-xl">
+                    <UserCheck className="w-8 h-8 text-accent" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-2xl">Pilot Terminal</CardTitle>
+                    <CardDescription>Flight assignments & credentials</CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground mb-6">
+                  Credentials speak. Availability sells. Fly the missions that match your experience and schedule.
+                </p>
+                <div className="flex space-x-3">
+                  <Button 
+                    onClick={() => handleAccessTerminal("pilot")} 
+                    className="flex-1 btn-terminal-accent"
+                  >
+                    Access Terminal <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                  <Button 
+                    onClick={() => handleDemoAccess("/demo/pilot")} 
+                    variant="outline"
+                    className="px-6"
+                  >
+                    Demo
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Crew Terminal */}
+            <Card className="group terminal-card hover:terminal-glow cursor-pointer transition-all duration-300">
+              <CardHeader className="pb-4">
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 bg-accent/20 rounded-xl">
+                    <Users className="w-8 h-8 text-accent" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-2xl">Crew Terminal</CardTitle>
+                    <CardDescription>Service excellence & scheduling</CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground mb-6">
+                  Professional service wins repeat work. Your calendar is your shop window for premium opportunities.
+                </p>
+                <div className="flex space-x-3">
+                  <Button 
+                    onClick={() => handleAccessTerminal("crew")} 
+                    className="flex-1 btn-terminal-accent"
+                  >
+                    Access Terminal <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                  <Button 
+                    onClick={() => handleDemoAccess("/demo/crew")} 
+                    variant="outline"
+                    className="px-6"
+                  >
+                    Demo
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+
+      {/* Security & Trust Features */}
+      <div className="relative z-10 py-16 bg-terminal-card/20">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-foreground mb-4">Fortress of Trust</h2>
+            <p className="text-xl text-muted-foreground">Built for the most demanding security requirements</p>
           </div>
 
-          {/* Footer Info */}
-          <div className="text-center space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-              <div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">Real-Time Data</h3>
-                <p className="text-muted-foreground">Live market intelligence and instant updates</p>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">Verified Network</h3>
-                <p className="text-muted-foreground">Trusted professionals with verified credentials</p>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">Precise Matching</h3>
-                <p className="text-muted-foreground">AI-powered optimization for perfect fits</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Card className="terminal-card">
+              <CardHeader>
+                <Shield className="w-12 h-12 text-accent mb-4" />
+                <CardTitle>Military-Grade Encryption</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  End-to-end AES-256 encryption for all data in transit and at rest. SOC 2 Type II compliant infrastructure.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="terminal-card">
+              <CardHeader>
+                <Lock className="w-12 h-12 text-accent mb-4" />
+                <CardTitle>Zero-Trust Architecture</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  Every connection verified, every transaction authenticated. Multi-factor authentication standard across all terminals.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="terminal-card">
+              <CardHeader>
+                <CheckCircle className="w-12 h-12 text-accent mb-4" />
+                <CardTitle>Verified Network</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  Comprehensive background checks and credential verification. Only pre-approved professionals access the network.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+
+      {/* Escrow & Payment Security */}
+      <div className="relative z-10 py-16">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-foreground mb-4">Secure Escrow System</h2>
+            <p className="text-xl text-muted-foreground">Your funds are protected at every step</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h3 className="text-2xl font-bold text-foreground mb-6">How It Works</h3>
+              <div className="space-y-6">
+                <div className="flex items-start space-x-4">
+                  <div className="bg-accent/20 rounded-full p-2 mt-1">
+                    <span className="text-accent font-bold text-sm">1</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-foreground">Funds Secured</h4>
+                    <p className="text-muted-foreground">Payment held in secure escrow until flight completion</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4">
+                  <div className="bg-accent/20 rounded-full p-2 mt-1">
+                    <span className="text-accent font-bold text-sm">2</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-foreground">Service Delivered</h4>
+                    <p className="text-muted-foreground">Flight completed and verified by all parties</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4">
+                  <div className="bg-accent/20 rounded-full p-2 mt-1">
+                    <span className="text-accent font-bold text-sm">3</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-foreground">Automatic Release</h4>
+                    <p className="text-muted-foreground">Funds automatically released to service providers</p>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Staff Access */}
+            <Card className="terminal-card">
+              <CardHeader>
+                <DollarSign className="w-12 h-12 text-accent mb-4" />
+                <CardTitle>Payment Protection</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <span className="text-muted-foreground">FDIC-insured escrow accounts</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <span className="text-muted-foreground">Real-time transaction monitoring</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <span className="text-muted-foreground">Dispute resolution system</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <span className="text-muted-foreground">24/7 fraud protection</span>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+
+      {/* Privacy Protection */}
+      <div className="relative z-10 py-16 bg-terminal-card/20">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-foreground mb-4">Privacy by Design</h2>
+            <p className="text-xl text-muted-foreground">Your data is never shared without explicit consent</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Card className="terminal-card text-center">
+              <CardContent className="pt-6">
+                <Globe className="w-10 h-10 text-accent mx-auto mb-4" />
+                <h3 className="font-semibold text-foreground mb-2">GDPR Compliant</h3>
+                <p className="text-sm text-muted-foreground">Full compliance with global privacy regulations</p>
+              </CardContent>
+            </Card>
+
+            <Card className="terminal-card text-center">
+              <CardContent className="pt-6">
+                <Shield className="w-10 h-10 text-accent mx-auto mb-4" />
+                <h3 className="font-semibold text-foreground mb-2">Data Anonymization</h3>
+                <p className="text-sm text-muted-foreground">Personal data encrypted and anonymized</p>
+              </CardContent>
+            </Card>
+
+            <Card className="terminal-card text-center">
+              <CardContent className="pt-6">
+                <Lock className="w-10 h-10 text-accent mx-auto mb-4" />
+                <h3 className="font-semibold text-foreground mb-2">Selective Disclosure</h3>
+                <p className="text-sm text-muted-foreground">You control what information is visible</p>
+              </CardContent>
+            </Card>
+
+            <Card className="terminal-card text-center">
+              <CardContent className="pt-6">
+                <Clock className="w-10 h-10 text-accent mx-auto mb-4" />
+                <h3 className="font-semibold text-foreground mb-2">Data Retention</h3>
+                <p className="text-sm text-muted-foreground">Automatic deletion of expired data</p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+
+      {/* Performance & Reliability */}
+      <div className="relative z-10 py-16">
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          <h2 className="text-4xl font-bold text-foreground mb-12">Enterprise Performance</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <a 
-                href="/admin-setup" 
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Staff Access
-              </a>
+              <div className="text-5xl font-bold text-accent mb-4">99.99%</div>
+              <h3 className="text-xl font-semibold text-foreground mb-2">Uptime SLA</h3>
+              <p className="text-muted-foreground">Mission-critical reliability with redundant infrastructure</p>
+            </div>
+            <div>
+              <div className="text-5xl font-bold text-accent mb-4">&lt;50ms</div>
+              <h3 className="text-xl font-semibold text-foreground mb-2">Response Time</h3>
+              <p className="text-muted-foreground">Lightning-fast performance optimized for real-time operations</p>
+            </div>
+            <div>
+              <div className="text-5xl font-bold text-accent mb-4">24/7</div>
+              <h3 className="text-xl font-semibold text-foreground mb-2">Support</h3>
+              <p className="text-muted-foreground">Dedicated support team available around the clock</p>
             </div>
           </div>
         </div>
-      </main>
+      </div>
+
+      {/* Footer */}
+      <footer className="relative z-10 py-12 border-t border-terminal-border">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+              <h3 className="font-semibold text-foreground mb-4">Platform</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><a href="/about" className="hover:text-foreground transition-colors">About</a></li>
+                <li><a href="/security" className="hover:text-foreground transition-colors">Security</a></li>
+                <li><a href="/compliance" className="hover:text-foreground transition-colors">Compliance</a></li>
+                <li><a href="/fees" className="hover:text-foreground transition-colors">Fees</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold text-foreground mb-4">Support</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><a href="/help/broker" className="hover:text-foreground transition-colors">Broker Help</a></li>
+                <li><a href="/help/operator" className="hover:text-foreground transition-colors">Operator Help</a></li>
+                <li><a href="/help/pilot" className="hover:text-foreground transition-colors">Pilot Help</a></li>
+                <li><a href="/help/crew" className="hover:text-foreground transition-colors">Crew Help</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold text-foreground mb-4">Legal</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><a href="/terms" className="hover:text-foreground transition-colors">Terms of Service</a></li>
+                <li><a href="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</a></li>
+                <li><a href="/payments" className="hover:text-foreground transition-colors">Payment Terms</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold text-foreground mb-4">Connect</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><a href="/contact" className="hover:text-foreground transition-colors">Contact</a></li>
+                <li><a href="/directory" className="hover:text-foreground transition-colors">Directory</a></li>
+                <li><a href="/admin-setup" className="hover:text-foreground transition-colors">Staff Access</a></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="border-t border-terminal-border mt-8 pt-8 text-center">
+            <p className="text-sm text-muted-foreground">
+              © 2024 StratusConnect. All rights reserved. Built for the aviation industry.
+            </p>
+          </div>
+        </div>
+      </footer>
 
       {/* Login Modal */}
       <LoginModal 

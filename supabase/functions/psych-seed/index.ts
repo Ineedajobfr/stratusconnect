@@ -44,7 +44,7 @@ Deno.serve(async (req) => {
   }
 });
 
-function json(obj: Record<string, unknown>, status = 200) {
+function json(obj: any, status = 200) {
   return new Response(JSON.stringify(obj), { status, headers: { ...corsHeaders, 'content-type': 'application/json' } });
 }
 
@@ -185,7 +185,7 @@ function buildBatches(m: Record<string, string>) {
 
   const all = [...big5Items, ...riskItems, ...decItems, ...sjtItems, ...intItems];
 
-  const batches: unknown[][] = [];
+  const batches: any[] = [];
   let index = 0;
   while (index < all.length) {
     batches.push(all.slice(index, index + 100));

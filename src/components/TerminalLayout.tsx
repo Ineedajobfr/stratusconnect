@@ -13,7 +13,7 @@ import { withMemo } from "@/components/PerformanceOptimizer";
 interface MenuItem {
   id: string;
   label: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: any;
 }
 
 interface TerminalLayoutProps {
@@ -55,7 +55,13 @@ export const TerminalLayout = withMemo(({
   }, [navigate]);
 
   const handleLogoClick = useCallback(() => {
-    navigate('/settings/profile');
+    // Stay on current page or go to home if on a terminal page
+    const currentPath = window.location.pathname;
+    if (currentPath.includes('/terminal/') || currentPath.includes('/beta/')) {
+      // If on a terminal page, go to home
+      navigate('/');
+    }
+    // Otherwise, do nothing (stay on current page)
   }, [navigate]);
 
   const handleTabChange = useCallback((tab: string) => {
@@ -181,8 +187,10 @@ export const TerminalLayout = withMemo(({
           </div>
 
           {/* Main Content */}
-          <main className="flex-1 p-6 lg:p-8 relative overflow-auto terminal-scrollbar">
-            {children}
+          <main className="flex-1 p-4 lg:p-6 relative overflow-auto terminal-scrollbar">
+            <div className="max-w-7xl mx-auto space-y-6">
+              {children}
+            </div>
           </main>
         </div>
       </div>

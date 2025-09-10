@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -31,38 +31,38 @@ interface Score {
 
 export default function PsychReport({ sessionId }: PsychReportProps) {
   const [scores, setScores] = useState<Score[]>([]);
-  const [session, setSession] = useState<Record<string, unknown> | null>(null);
+  const [session, setSession] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadReport();
-  }, [sessionId, loadReport]);
+  }, [sessionId]);
 
-  const loadReport = useCallback(async () => {
-              try {
-                // Get session details
-                const { data: sessionData } = await supabase
-                  .from("psych_sessions")
-                  .select("*")
-                  .eq("id", sessionId)
-                  .single();
+  const loadReport = async () => {
+    try {
+      // Get session details
+      const { data: sessionData } = await supabase
+        .from("psych_sessions")
+        .select("*")
+        .eq("id", sessionId)
+        .single();
 
-                setSession(sessionData);
+      setSession(sessionData);
 
-                // Get scores
-                const { data: scoresData } = await supabase
-                  .from("psych_scores")
-                  .select("*")
-                  .eq("session_id", sessionId)
-                  .order("trait");
+      // Get scores
+      const { data: scoresData } = await supabase
+        .from("psych_scores")
+        .select("*")
+        .eq("session_id", sessionId)
+        .order("trait");
 
-                setScores(scoresData || []);
-              } catch (error) {
-                console.error("Error loading report:", error);
-              } finally {
-                setLoading(false);
-              }
-            }, [data, sessionData, from, select, eq, sessionId, single, scoresData, order]);
+      setScores(scoresData || []);
+    } catch (error) {
+      console.error("Error loading report:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const getPercentile = (trait: string): number => {
     const score = scores.find(s => s.trait === trait);

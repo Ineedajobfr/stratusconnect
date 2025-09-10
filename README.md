@@ -1,100 +1,66 @@
-# StratusConnect - Aviation Platform
+# 🚀 StratusConnect - The Future of Private Aviation
 
-![StratusConnect](https://img.shields.io/badge/StratusConnect-Aviation%20Platform-blue)
-![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
-![Version](https://img.shields.io/badge/version-3.0.0-blue)
+[![Deploy to GitHub Pages](https://github.com/Ineedajobfr/stratusconnect/actions/workflows/deploy.yml/badge.svg)](https://github.com/Ineedajobfr/stratusconnect/actions/workflows/deploy.yml)
 
-## 🚀 Performance & Architecture Optimizations
+**🌐 Live Demo:** [https://ineedajobfr.github.io/stratusconnect/](https://ineedajobfr.github.io/stratusconnect/)
 
-### **Latest Performance Improvements**
+**📱 Mobile Demo:** [https://ineedajobfr.github.io/stratusconnect/](https://ineedajobfr.github.io/stratusconnect/) (Mobile Optimized)
 
-#### **Bundle Size Optimization**
-- **Removed demo components** - Reduced bundle size by ~40KB
-- **Lazy loading prioritization** - Critical pages load first
-- **Memoized components** - Prevented unnecessary re-renders
-- **Production console cleanup** - Removed debug logs in production
+## ✈️ About StratusConnect
 
-#### **Query & State Optimization** 
-- **Enhanced QueryClient** configuration with intelligent caching
-- **Disabled refetch on focus** for better performance
-- **Optimized stale times** (5min) and garbage collection (30min)
-- **Smart retry logic** for network errors only
+StratusConnect is a revolutionary private aviation marketplace platform that connects brokers, operators, pilots, and crew in one unified ecosystem. Built with modern web technologies and designed for the future of aviation.
 
-#### **Component Performance**
-- **OptimizedCard** - Memoized card component with loading states
-- **OptimizedTable** - Virtualized table for large datasets
-- **Performance utilities** - Debounce, throttle, and memory optimization helpers
+## 🎯 Key Features
 
-## 🏗️ System Architecture
+### 📊 **Notifications Center**
+- Real-time alerts for all system events
+- Smart filtering and priority-based organization
+- Channel preferences (Email, Push, SMS)
+- Quiet hours and digest emails
 
-**Enterprise-Grade Multi-Terminal Platform**
-- **4 Role-Based Terminals**: Admin, Operator, Broker, Crew
-- **25+ Database Tables** with advanced RLS security
-- **Real-time Features**: Messaging, notifications, live updates
-- **Payment Integration**: Stripe with escrow management
-- **Security**: OFAC sanctions screening, AI monitoring
+### 📋 **Task Inbox**
+- Centralized task management
+- Priority system with color coding
+- Smart filtering and overdue tracking
+- Entity linking to RFQs, quotes, deals
 
-## 💼 Business Capabilities
+### ✈️ **RFQ & Quote Flow**
+- Complete trip request lifecycle
+- Advanced quote comparison
+- Real-time status updates
+- Risk analysis and flagging
 
-### **Marketplace Operations**
-- Aircraft charter listings and bidding
-- Real-time price discovery
-- Automated contract generation
-- Commission calculation and distribution
+### 💰 **Escrow Funds Flow**
+- Secure payment processing
+- Complete transaction ledger
+- Dual control release system
+- Real-time progress tracking
 
-### **Compliance & Security**
-- OFAC sanctions screening
-- Multi-level user verification
-- AI-powered security monitoring  
-- Comprehensive audit logging
+### 🛡️ **Verification & Trust System**
+- Multi-level verification tracks
+- Document management and expiry tracking
+- 0-5 star trust rating system
+- Admin review queue
 
-### **Fleet & Crew Management**
-- Aircraft utilization tracking
-- Maintenance scheduling
-- Crew certification management
-- Performance analytics
+## 🏗️ Technology Stack
 
-## 🛡️ Security Features
+- **Frontend:** React 18 + TypeScript + Vite
+- **UI Framework:** Tailwind CSS + shadcn/ui
+- **Backend:** Supabase (PostgreSQL + Auth + Edge Functions)
+- **Payments:** Stripe (escrow-ready)
+- **Deployment:** GitHub Pages
+- **Theme:** Orange on black, high contrast
 
-- **Row Level Security (RLS)** on all data access
-- **Role-based permissions** with granular controls
-- **Real-time threat detection** with AI monitoring
-- **Encrypted messaging** with privacy controls
-- **Automated sanctions screening** for compliance
-
-## 📊 Analytics & Intelligence
-
-- **Market Intelligence**: Real-time pricing and demand analytics
-- **Performance Metrics**: KPIs for all user types
-- **Predictive Analytics**: Market trends and forecasting
-- **Business Intelligence**: Revenue optimization insights
-
-## 🔧 Technical Stack
-
-**Frontend**: React 18, TypeScript, Tailwind CSS, React Query  
-**Backend**: Supabase (PostgreSQL, Auth, Storage, Edge Functions)  
-**Security**: Advanced RLS policies, JWT authentication  
-**Payments**: Stripe integration with escrow management  
-**Real-time**: WebSocket connections for live updates  
-
-## 🎯 Performance Benchmarks
-
-- **Initial Load**: < 2s for authenticated users
-- **Terminal Switch**: < 500ms page transitions  
-- **Search Results**: < 300ms marketplace queries
-- **Real-time Updates**: < 100ms message delivery
-- **Bundle Size**: Optimized chunks under 250KB each
-
-## 🚀 Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js & npm - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- Node.js 18+
+- npm or yarn
 
 ### Installation
-
 ```bash
 # Clone the repository
-git clone <YOUR_GIT_URL>
+git clone https://github.com/Ineedajobfr/stratusconnect.git
 
 # Navigate to project directory
 cd stratusconnect
@@ -106,44 +72,113 @@ npm install
 npm run dev
 ```
 
-### Environment Setup
-1. Configure Supabase connection in `src/integrations/supabase/client.ts`
-2. Set up environment variables for production deployment
-3. Initialize database with provided migration scripts
+### Build for Production
+```bash
+npm run build
+```
 
-## 📈 Scalability
+## 🎮 Demo Terminals
 
-**Current Capacity**: Designed for 10,000+ concurrent users  
-**Database**: Optimized for millions of records  
-**Caching**: Intelligent query caching and invalidation  
-**CDN Ready**: Optimized for global distribution  
+### 🏢 **Broker Terminal**
+- Dashboard with key metrics
+- Trip request management
+- Quote comparison and acceptance
+- Escrow payment processing
+- Task management
+- Real-time notifications
 
-## 🔄 Development Workflow
+### ✈️ **Operator Terminal**
+- Fleet and booking overview
+- Incoming trip requests
+- Quote submission and tracking
+- Payment and fund management
+- Document verification
+- Operational task management
 
-1. **Hot Reloading**: Instant development feedback
-2. **Type Safety**: Full TypeScript coverage  
-3. **Error Boundaries**: Graceful error handling
-4. **Performance Monitoring**: Built-in optimization tracking
+### 👨‍✈️ **Pilot Terminal**
+- Flight deck interface
+- Schedule management
+- Document tracking
+- Performance analytics
 
-## 📚 Documentation
+### 👥 **Crew Terminal**
+- Crew management interface
+- Availability calendar
+- Job pipeline
+- Certification tracking
 
-- [API Documentation](./docs/api.md)
-- [Database Schema](./docs/schema.md)  
-- [Security Guidelines](./docs/security.md)
-- [Deployment Guide](./docs/deployment.md)
+## 📱 Features Overview
 
-## 🤝 Contributing
+- **One login, role-based dashboards**
+- **Command K palette + keyboard shortcuts**
+- **Empty states guide users**
+- **GDPR/CCPA compliant**
+- **Real-time everything**
+- **Mobile-responsive design**
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+## 🔧 Development
+
+### Project Structure
+```
+src/
+├── components/          # React components
+│   ├── dashboard/       # Terminal dashboards
+│   ├── notifications/   # Notification system
+│   ├── tasks/          # Task management
+│   ├── rfq/            # RFQ workflow
+│   ├── quotes/         # Quote management
+│   ├── payments/       # Escrow system
+│   └── verification/   # Trust system
+├── pages/              # Page components
+├── hooks/              # Custom React hooks
+├── utils/              # Utility functions
+└── integrations/       # External integrations
+```
+
+### Available Scripts
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
+
+## 🌐 Deployment
+
+This project is automatically deployed to GitHub Pages on every push to the main branch.
+
+### **🚀 Live URLs:**
+- **Primary:** [https://ineedajobfr.github.io/stratusconnect/](https://ineedajobfr.github.io/stratusconnect/)
+- **GitHub Repository:** [https://github.com/Ineedajobfr/stratusconnect](https://github.com/Ineedajobfr/stratusconnect)
+
+### **⚡ Deployment Features:**
+- **Automatic deployment** on every push to main branch
+- **GitHub Actions** workflow for build and deployment
+- **Global CDN** for fast loading worldwide
+- **HTTPS included** with automatic SSL certificates
+- **Mobile optimized** responsive design
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📞 Contact
+
+- **GitHub:** [@Ineedajobfr](https://github.com/Ineedajobfr)
+- **Project Link:** [https://github.com/Ineedajobfr/stratusconnect](https://github.com/Ineedajobfr/stratusconnect)
+
+## 🙏 Acknowledgments
+
+- Built with modern web technologies
+- Designed for the future of aviation
+- Inspired by the need for better aviation marketplace solutions
+
 ---
 
-**StratusConnect** - Where aviation meets cutting-edge technology. Built for scale, security, and performance.
+**StratusConnect - Connecting the skies, one flight at a time. ✈️**

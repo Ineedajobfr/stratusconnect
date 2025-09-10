@@ -14,7 +14,7 @@ type StepStatus = 'locked' | 'available' | 'completed';
 interface HelpStep {
   title: string;
   description: string;
-  icon?: React.ComponentType<{ className?: string }>;
+  icon?: React.ComponentType<any>;
   status?: StepStatus;
   action?: string;
 }

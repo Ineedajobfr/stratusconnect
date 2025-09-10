@@ -17,9 +17,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { setupDemoUsers, demoCredentials } from "@/utils/setupDemoUsers";
 import { useToast } from "@/hooks/use-toast";
-import { Events } from "@/lib/events";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -34,7 +32,7 @@ export const LoginModal = ({ isOpen, onClose, selectedRole }: LoginModalProps) =
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { login } = useAuth();
+  const { login, loginAsDemo } = useAuth();
 
   const roles = [
     {
@@ -73,18 +71,12 @@ export const LoginModal = ({ isOpen, onClose, selectedRole }: LoginModalProps) =
     try {
       const ok = await login(email, password);
       if (!ok) return;
-      
-      // Emit login event for AI monitoring
-      Events.login(activeRole, 'email');
-      
       const role = roles.find(r => r.id === activeRole);
       if (role) {
         navigate(role.route);
         onClose();
       }
     } catch (err) {
-      // Emit failed login event for security monitoring
-      Events.security.suspiciousActivity(activeRole, 'failed_login', { email, error: (err as Error).message });
       toast({ title: "Error", description: "Login failed", variant: "destructive" });
     } finally {
       setLoading(false);
@@ -95,19 +87,17 @@ export const LoginModal = ({ isOpen, onClose, selectedRole }: LoginModalProps) =
     setActiveRole(role.id);
     setLoading(true);
     try {
-      await setupDemoUsers();
-      const creds = (demoCredentials as any)[role.id];
-      if (!creds) throw new Error("Demo credentials not found");
-      const ok = await login(creds.email, creds.password);
+      const ok = await loginAsDemo(role.id);
       if (!ok) return;
       navigate(role.route);
       onClose();
     } catch (error) {
-      toast({ title: "Demo login failed", description: (error as Error)?.message || "Demo accounts may not be set up yet", variant: "destructive" });
+      toast({ title: "Demo login failed", description: (error as any)?.message || "Demo accounts may not be set up yet", variant: "destructive" });
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

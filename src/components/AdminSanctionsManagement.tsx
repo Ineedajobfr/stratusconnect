@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,7 @@ interface SanctionsMatch {
   status: 'pending' | 'reviewed' | 'cleared' | 'flagged';
   user_name: string;
   user_email: string;
-  match_details?: Record<string, unknown>;
+  match_details?: any;
 }
 
 export default function AdminSanctionsManagement() {
@@ -28,9 +28,9 @@ export default function AdminSanctionsManagement() {
 
   useEffect(() => {
     fetchSanctionsMatches();
-  }, [fetchSanctionsMatches]);
+  }, []);
 
-  const fetchSanctionsMatches = useCallback(async () => {
+  const fetchSanctionsMatches = async () => {
     try {
       setLoading(true);
       
@@ -66,7 +66,7 @@ export default function AdminSanctionsManagement() {
       }) || [];
 
       setMatches(formattedMatches);
-    } catch (error: unknown) {
+    } catch (error: any) {
       console.error('Error fetching sanctions matches:', error);
       toast({
         title: "Error",
@@ -76,7 +76,7 @@ export default function AdminSanctionsManagement() {
     } finally {
       setLoading(false);
     }
-  }, [toast]);
+  };
 
   const handleReviewAction = async (matchId: string, action: 'approve' | 'flag') => {
     try {
@@ -94,7 +94,7 @@ export default function AdminSanctionsManagement() {
           ? { ...match, status: action === 'approve' ? 'cleared' : 'flagged' }
           : match
       ));
-    } catch (error: unknown) {
+    } catch (error: any) {
       toast({
         title: "Error",
         description: "Failed to process review action",

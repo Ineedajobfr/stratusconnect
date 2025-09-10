@@ -19,7 +19,7 @@ interface OptimizedTableProps<T> {
 }
 
 // Optimized table component with virtualization for large datasets
-export const OptimizedTable = memo(<T extends Record<string, unknown>>({
+export const OptimizedTable = memo(<T extends Record<string, any>>({
   data,
   columns,
   loading = false,

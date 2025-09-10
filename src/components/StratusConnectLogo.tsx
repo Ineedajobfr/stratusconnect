@@ -8,7 +8,13 @@ export const StratusConnectLogo = ({ className = "" }: StratusConnectLogoProps) 
   const navigate = useNavigate();
 
   const handleLogoClick = () => {
-    navigate('/settings/profile');
+    // Stay on current page or go to home if on a terminal page
+    const currentPath = window.location.pathname;
+    if (currentPath.includes('/terminal/') || currentPath.includes('/beta/')) {
+      // If on a terminal page, go to home
+      navigate('/');
+    }
+    // Otherwise, do nothing (stay on current page)
   };
 
   return (

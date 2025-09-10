@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -63,89 +63,89 @@ export default function ProfileSettings() {
     if (user) {
       fetchProfileData();
     }
-  }, [user, fetchProfileData]);
+  }, [user]);
 
-  const fetchProfileData = useCallback(async () => {
-              if (!user) return;
+  const fetchProfileData = async () => {
+    if (!user) return;
 
-              try {
-                // Fetch user profile
-                const { data: profileData, error: profileError } = await supabase
-                  .from('user_profiles')
-                  .select('*')
-                  .eq('user_id', user.id)
-                  .maybeSingle();
+    try {
+      // Fetch user profile
+      const { data: profileData, error: profileError } = await supabase
+        .from('user_profiles')
+        .select('*')
+        .eq('user_id', user.id)
+        .maybeSingle();
 
-                if (profileError && profileError.code !== 'PGRST116') {
-                  throw profileError;
-                }
+      if (profileError && profileError.code !== 'PGRST116') {
+        throw profileError;
+      }
 
-                if (profileData) {
-                  setProfile(profileData);
-                } else {
-                  // Create initial profile
-                  const username = await generateUsername();
-                  const newProfile = {
-                    user_id: user.id,
-                    username,
-                    full_name: user.fullName,
-                    role: user.role,
-                    level: 1,
-                    trust_score: 0
-                  };
+      if (profileData) {
+        setProfile(profileData);
+      } else {
+        // Create initial profile
+        const username = await generateUsername();
+        const newProfile = {
+          user_id: user.id,
+          username,
+          full_name: user.fullName,
+          role: user.role,
+          level: 1,
+          trust_score: 0
+        };
 
-                  const { data: createdProfile, error: createError } = await supabase
-                    .from('user_profiles')
-                    .insert([newProfile])
-                    .select()
-                    .single();
+        const { data: createdProfile, error: createError } = await supabase
+          .from('user_profiles')
+          .insert([newProfile])
+          .select()
+          .single();
 
-                  if (createError) throw createError;
-                  setProfile(createdProfile);
-                }
+        if (createError) throw createError;
+        setProfile(createdProfile);
+      }
 
-                // Fetch experience
-                const { data: experienceData } = await supabase
-                  .from('experience')
-                  .select('*')
-                  .eq('user_id', user.id)
-                  .order('start_date', { ascending: false });
+      // Fetch experience
+      const { data: experienceData } = await supabase
+        .from('experience')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('start_date', { ascending: false });
 
-                setExperience(experienceData || []);
+      setExperience(experienceData || []);
 
-                // Fetch privacy settings
-                const { data: privacyData } = await supabase
-                  .from('privacy_settings')
-                  .select('*')
-                  .eq('user_id', user.id)
-                  .maybeSingle();
+      // Fetch privacy settings
+      const { data: privacyData } = await supabase
+        .from('privacy_settings')
+        .select('*')
+        .eq('user_id', user.id)
+        .maybeSingle();
 
-                if (privacyData) {
-                  setPrivacySettings({
-                    show_email: privacyData.show_email,
-                    show_phone: privacyData.show_phone,
-                    show_activity: privacyData.show_activity,
-                    allow_messages: privacyData.allow_messages
-                  });
-                } else {
-                  // Create default privacy settings
-                  await supabase.from('privacy_settings').insert([{
-                    user_id: user.id,
-                    ...privacySettings
-                  }]);
-                }
+      if (privacyData) {
+        setPrivacySettings({
+          show_email: privacyData.show_email,
+          show_phone: privacyData.show_phone,
+          show_activity: privacyData.show_activity,
+          allow_messages: privacyData.allow_messages
+        });
+      } else {
+        // Create default privacy settings
+        await supabase.from('privacy_settings').insert([{
+          user_id: user.id,
+          ...privacySettings
+        }]);
+      }
 
-              } catch (error) {
-                console.error('Error fetching profile:', error);
-                toast({
-                  title: 'Error',
-                  description: 'Failed to load profile data',
-                  variant: 'destructive'
-                });
-              } finally {
-                setLoading(false);
-              }
-            }, [user, data, profileData, profileError, from, select, eq, id, maybeSingle, code, user_id, full_name, fullName, role, level, trust_score, createdProfile, createError, insert, single, experienceData, order, ascending, privacyData, show_email, show_phone, show_activity, allow_messages, privacySettings, toast, title, description, variant]);
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to load profile data',
+        variant: 'destructive'
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const generateUsername = async () => {
     try {

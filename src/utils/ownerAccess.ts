@@ -5,7 +5,7 @@ export const isOwner = (email: string): boolean => {
   return OWNER_EMAILS.includes(email?.toLowerCase());
 };
 
-export const hasOwnerAccess = (user: Record<string, unknown>): boolean => {
+export const hasOwnerAccess = (user: any): boolean => {
   if (!user?.email) return false;
   return isOwner(user.email);
 };

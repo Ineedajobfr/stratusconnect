@@ -14,8 +14,8 @@ interface AuditLog {
   target_type: string;
   target_id: string;
   actor_id: string;
-  before_values?: Record<string, unknown>;
-  after_values?: Record<string, unknown>;
+  before_values?: any;
+  after_values?: any;
   created_at: string;
   session_hash?: string;
   request_hash?: string;

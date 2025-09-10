@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -29,65 +29,65 @@ export default function NotificationCenter() {
   useEffect(() => {
     fetchNotifications();
     setupRealtimeSubscription();
-  }, [fetchNotifications, setupRealtimeSubscription]);
+  }, []);
 
-  const fetchNotifications = useCallback(async () => {
-              try {
-                const { data: { user } } = await supabase.auth.getUser();
-                if (!user) return;
+  const fetchNotifications = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
 
-                const { data, error } = await supabase
-                  .from("notifications")
-                  .select("*")
-                  .eq("user_id", user.id)
-                  .order("created_at", { ascending: false })
-                  .limit(50);
+      const { data, error } = await supabase
+        .from("notifications")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
+        .limit(50);
 
-                if (error) throw error;
-                
-                setNotifications((data || []) as Notification[]);
-                setUnreadCount(data?.filter(n => !n.read_at).length || 0);
-              } catch (error) {
-                console.error("Error fetching notifications:", error);
-              } finally {
-                setLoading(false);
-              }
-            }, [data, user, auth, getUser, from, select, eq, id, order, ascending, limit, Notification, filter, read_at, length]);
+      if (error) throw error;
+      
+      setNotifications((data || []) as Notification[]);
+      setUnreadCount(data?.filter(n => !n.read_at).length || 0);
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const setupRealtimeSubscription = useCallback(async () => {
-              const { data: { user } } = await supabase.auth.getUser();
-              
-              if (!user) return;
+  const setupRealtimeSubscription = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) return;
 
-              const channel = supabase
-                .channel(`user-notifications-${user.id}`)
-                .on(
-                  'postgres_changes',
-                  {
-                    event: 'INSERT',
-                    schema: 'public',
-                    table: 'notifications',
-                    filter: `user_id=eq.${user.id}`
-                  },
-                  (payload) => {
-                    const newNotification = payload.new as Notification;
-                    setNotifications(prev => [newNotification, ...prev]);
-                    setUnreadCount(prev => prev + 1);
-                    
-                    // Show toast for new notification
-                    toast({
-                      title: newNotification.title,
-                      description: newNotification.message,
-                      variant: newNotification.type === 'error' ? 'destructive' : 'default',
-                    });
-                  }
-                )
-                .subscribe();
+    const channel = supabase
+      .channel(`user-notifications-${user.id}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'notifications',
+          filter: `user_id=eq.${user.id}`
+        },
+        (payload) => {
+          const newNotification = payload.new as Notification;
+          setNotifications(prev => [newNotification, ...prev]);
+          setUnreadCount(prev => prev + 1);
+          
+          // Show toast for new notification
+          toast({
+            title: newNotification.title,
+            description: newNotification.message,
+            variant: newNotification.type === 'error' ? 'destructive' : 'default',
+          });
+        }
+      )
+      .subscribe();
 
-              return () => {
-                supabase.removeChannel(channel);
-              };
-            }, [data, user, auth, getUser, id, on, event, schema, table, filter, new, Notification, toast, title, description, message, variant, type, subscribe, removeChannel]);
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  };
 
   const markAsRead = async (notificationId: string) => {
     try {
@@ -133,10 +133,10 @@ export default function NotificationCenter() {
         title: "All notifications marked as read",
         description: "Your notification center has been cleared",
       });
-    } catch (error: unknown) {
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: (error as Error).message || "Failed to mark notifications as read",
+        description: error.message || "Failed to mark notifications as read",
         variant: "destructive",
       });
     }

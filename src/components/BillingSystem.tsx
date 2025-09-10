@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -66,7 +66,7 @@ interface Payment {
 export default function BillingSystem() {
   const [billingSchedules, setBillingSchedules] = useState<BillingSchedule[]>([]);
   const [payments, setPayments] = useState<Payment[]>([]);
-  const [availableDeals, setAvailableDeals] = useState<Record<string, unknown>[]>([]);
+  const [availableDeals, setAvailableDeals] = useState<any[]>([]);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string>("");
   const { toast } = useToast();
@@ -88,27 +88,27 @@ export default function BillingSystem() {
     fetchBillingSchedules();
     fetchPayments();
     fetchAvailableDeals();
-  }, [fetchUserData, fetchBillingSchedules, fetchPayments, fetchAvailableDeals]);
+  }, []);
 
-  const fetchUserData = useCallback(async () => {
-              try {
-                const { data: { user } } = await supabase.auth.getUser();
-                if (user) {
-                  setCurrentUserId(user.id);
-                }
-              } catch (error) {
-                console.error("Error fetching user data:", error);
-              }
-            }, [data, user, auth, getUser, id]);
+  const fetchUserData = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setCurrentUserId(user.id);
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
 
-  const fetchBillingSchedules = useCallback(async () => {
-              try {
-                const { data: { user } } = await supabase.auth.getUser();
-                if (!user) return;
+  const fetchBillingSchedules = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
 
-                const { data, error } = await supabase
-                  .from("billing_schedules")
-                  .select(`
+      const { data, error } = await supabase
+        .from("billing_schedules")
+        .select(`
           *,
           deals (
             final_amount,
@@ -127,45 +127,45 @@ export default function BillingSystem() {
             )
           )
         `)
-                  .order("created_at", { ascending: false });
+        .order("created_at", { ascending: false });
 
-                if (error) throw error;
-                setBillingSchedules((data || []) as unknown as BillingSchedule[]);
-              } catch (error: unknown) {
-                toast({
-                  title: "Error",
-                  description: "Failed to fetch billing schedules",
-                  variant: "destructive",
-                });
-              }
-            }, [data, user, auth, getUser, from, select, order, ascending, BillingSchedule, toast, title, description, variant]);
+      if (error) throw error;
+      setBillingSchedules((data || []) as unknown as BillingSchedule[]);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Failed to fetch billing schedules",
+        variant: "destructive",
+      });
+    }
+  };
 
-  const fetchPayments = useCallback(async () => {
-              try {
-                const { data: { user } } = await supabase.auth.getUser();
-                if (!user) return;
+  const fetchPayments = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
 
-                const { data, error } = await supabase
-                  .from("payments")
-                  .select("*")
-                  .order("created_at", { ascending: false })
-                  .limit(50);
+      const { data, error } = await supabase
+        .from("payments")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(50);
 
-                if (error) throw error;
-                setPayments((data || []) as Payment[]);
-              } catch (error: unknown) {
-                console.error("Error fetching payments:", error);
-              }
-            }, [data, user, auth, getUser, from, select, order, ascending, limit, Payment]);
+      if (error) throw error;
+      setPayments((data || []) as Payment[]);
+    } catch (error: any) {
+      console.error("Error fetching payments:", error);
+    }
+  };
 
-  const fetchAvailableDeals = useCallback(async () => {
-              try {
-                const { data: { user } } = await supabase.auth.getUser();
-                if (!user) return;
+  const fetchAvailableDeals = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
 
-                const { data, error } = await supabase
-                  .from("deals")
-                  .select(`
+      const { data, error } = await supabase
+        .from("deals")
+        .select(`
           *,
           aircraft:aircraft!deals_aircraft_id_fkey (
             tail_number,
@@ -181,17 +181,17 @@ export default function BillingSystem() {
             company_name
           )
         `)
-                  .in("status", ["accepted", "in_progress"])
-                  .or(`operator_id.eq.${user.id},broker_id.eq.${user.id}`);
+        .in("status", ["accepted", "in_progress"])
+        .or(`operator_id.eq.${user.id},broker_id.eq.${user.id}`);
 
-                if (error) throw error;
-                setAvailableDeals(data || []);
-              } catch (error: unknown) {
-                console.error("Error fetching available deals:", error);
-              }
-            }, [data, user, auth, getUser, from, select, in, or, id]);
+      if (error) throw error;
+      setAvailableDeals(data || []);
+    } catch (error: any) {
+      console.error("Error fetching available deals:", error);
+    }
+  };
 
-  const createBillingSchedule = useCallback(async () => {
+  const createBillingSchedule = async () => {
     if (!billingForm.deal_id) {
       toast({
         title: "Error",
@@ -269,14 +269,14 @@ export default function BillingSystem() {
         installment_interval: 30
       });
       fetchBillingSchedules();
-    } catch (error: unknown) {
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: (error as Error).message || "Failed to create billing schedule",
+        description: error.message || "Failed to create billing schedule",
         variant: "destructive",
       });
     }
-  }, [billingForm, availableDeals, toast, setIsCreateDialogOpen, setBillingForm, fetchBillingSchedules]);
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {

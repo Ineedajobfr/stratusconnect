@@ -66,10 +66,10 @@ export default function ReviewModal({
       onClose();
       setRating(0);
       setReviewText("");
-    } catch (error: unknown) {
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: (error as Error).message || "Failed to submit review",
+        description: error.message || "Failed to submit review",
         variant: "destructive"
       });
     } finally {

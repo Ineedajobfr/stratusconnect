@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -76,57 +76,57 @@ export const UserProfile = () => {
     if (username) {
       fetchProfile();
     }
-  }, [username, fetchProfile]);
+  }, [username]);
 
-  const fetchProfile = useCallback(async () => {
-              if (!username) return;
+  const fetchProfile = async () => {
+    if (!username) return;
 
-              try {
-                // Fetch user profile
-                const { data: profileData, error: profileError } = await supabase
-                  .from('user_profiles')
-                  .select('*')
-                  .eq('username', username)
-                  .single();
+    try {
+      // Fetch user profile
+      const { data: profileData, error: profileError } = await supabase
+        .from('user_profiles')
+        .select('*')
+        .eq('username', username)
+        .single();
 
-                if (profileError) throw profileError;
-                setProfile(profileData);
+      if (profileError) throw profileError;
+      setProfile(profileData);
 
-                const userId = profileData.user_id;
+      const userId = profileData.user_id;
 
-                // Fetch related data
-                const [experienceRes, credentialsRes, referencesRes, activityRes] = await Promise.all([
-                  supabase.from('experience').select('*').eq('user_id', userId).order('start_date', { ascending: false }),
-                  supabase.from('credentials').select('*').eq('user_id', userId).order('created_at', { ascending: false }),
-                  supabase.from('references').select('*').eq('user_id', userId).eq('status', 'approved'),
-                  supabase.from('activity').select('*').eq('user_id', userId).order('created_at', { ascending: false }).limit(5)
-                ]);
+      // Fetch related data
+      const [experienceRes, credentialsRes, referencesRes, activityRes] = await Promise.all([
+        supabase.from('experience').select('*').eq('user_id', userId).order('start_date', { ascending: false }),
+        supabase.from('credentials').select('*').eq('user_id', userId).order('created_at', { ascending: false }),
+        supabase.from('references').select('*').eq('user_id', userId).eq('status', 'approved'),
+        supabase.from('activity').select('*').eq('user_id', userId).order('created_at', { ascending: false }).limit(5)
+      ]);
 
-                setExperience(experienceRes.data || []);
-                setCredentials(credentialsRes.data || []);
-                setReferences(referencesRes.data || []);
-                setActivity(activityRes.data || []);
+      setExperience(experienceRes.data || []);
+      setCredentials(credentialsRes.data || []);
+      setReferences(referencesRes.data || []);
+      setActivity(activityRes.data || []);
 
-                // Log profile view in activity table
-                if (user && user.id !== userId) {
-                  await supabase.from('activity').insert({
-                    user_id: userId,
-                    kind: 'profile_view',
-                    summary: `Profile viewed by ${user.fullName || user.email}`
-                  });
-                }
+      // Log profile view in activity table
+      if (user && user.id !== userId) {
+        await supabase.from('activity').insert({
+          user_id: userId,
+          kind: 'profile_view',
+          summary: `Profile viewed by ${user.fullName || user.email}`
+        });
+      }
 
-              } catch (error) {
-                console.error('Error fetching profile:', error);
-                toast({
-                  title: 'Error',
-                  description: 'Failed to load profile',
-                  variant: 'destructive'
-                });
-              } finally {
-                setLoading(false);
-              }
-            }, [username, data, profileData, profileError, from, select, eq, single, user_id, experienceRes, credentialsRes, referencesRes, activityRes, Promise, all, order, ascending, limit, user, id, insert, kind, summary, fullName, email, toast, title, description, variant]);
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to load profile',
+        variant: 'destructive'
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const getRoleBadgeColor = (role: string) => {
     switch (role) {

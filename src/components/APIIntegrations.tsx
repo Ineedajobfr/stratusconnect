@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -34,7 +34,7 @@ interface IntegrationLog {
   integration_id: string;
   event_type: 'sync' | 'error' | 'webhook' | 'test';
   message: string;
-  response_data: Record<string, unknown>;
+  response_data: any;
   created_at: string;
 }
 
@@ -98,9 +98,9 @@ export default function APIIntegrations() {
   useEffect(() => {
     fetchUserData();
     fetchIntegrations();
-  }, [fetchUserData, fetchIntegrations]);
+  }, []);
 
-  const fetchUserData = useCallback(async () => {
+  const fetchUserData = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
@@ -109,9 +109,9 @@ export default function APIIntegrations() {
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
-  }, []);
+  };
 
-  const fetchIntegrations = useCallback(async () => {
+  const fetchIntegrations = async () => {
     try {
       const { data, error } = await supabase
         .from("api_integrations")
@@ -120,14 +120,14 @@ export default function APIIntegrations() {
 
       if (error) throw error;
       setIntegrations((data || []) as APIIntegration[]);
-    } catch (error: unknown) {
+    } catch (error: any) {
       toast({
         title: "Error",
         description: "Failed to fetch API integrations",
         variant: "destructive",
       });
     }
-  }, [toast]);
+  };
 
   const createIntegration = async () => {
     if (!integrationForm.integration_name || !integrationForm.api_endpoint) {
@@ -166,10 +166,10 @@ export default function APIIntegrations() {
         auto_sync: true
       });
       fetchIntegrations();
-    } catch (error: unknown) {
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: (error as Error).message || "Failed to create integration",
+        description: error.message || "Failed to create integration",
         variant: "destructive",
       });
     }
@@ -202,7 +202,7 @@ export default function APIIntegrations() {
       });
 
       fetchIntegrations();
-    } catch (error: unknown) {
+    } catch (error: any) {
       toast({
         title: "Error",
         description: "Failed to test integration",
@@ -228,7 +228,7 @@ export default function APIIntegrations() {
       });
 
       fetchIntegrations();
-    } catch (error: unknown) {
+    } catch (error: any) {
       toast({
         title: "Error",
         description: "Failed to sync integration",
@@ -254,7 +254,7 @@ export default function APIIntegrations() {
       });
 
       fetchIntegrations();
-    } catch (error: unknown) {
+    } catch (error: any) {
       toast({
         title: "Error",
         description: "Failed to update integration status",

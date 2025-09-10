@@ -71,7 +71,7 @@ export default function VerificationSystem() {
         .select("platform_role")
         .eq("user_id", user.id)
         .single();
-      setUserRole((data as Record<string, unknown>)?.platform_role as string || "");
+      setUserRole((data as any)?.platform_role || "");
       }
     } catch (error) {
       console.error("Error fetching user role:", error);
@@ -138,10 +138,10 @@ export default function VerificationSystem() {
       });
 
       fetchDocuments();
-    } catch (error: unknown) {
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: (error as Error).message || "Failed to upload document",
+        description: error.message || "Failed to upload document",
         variant: "destructive",
       });
     } finally {

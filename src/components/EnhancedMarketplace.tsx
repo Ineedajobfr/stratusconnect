@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -61,7 +61,7 @@ export default function EnhancedMarketplace() {
   const [userRole, setUserRole] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
-  const [savedSearches, setSavedSearches] = useState<Record<string, unknown>[]>([]);
+  const [savedSearches, setSavedSearches] = useState<any[]>([]);
   const [realTimeUpdates, setRealTimeUpdates] = useState(0);
   const { toast } = useToast();
 
@@ -89,33 +89,33 @@ export default function EnhancedMarketplace() {
     fetchListings();
     fetchSavedSearches();
     setupRealtimeSubscription();
-  }, [fetchUserRole, fetchListings, fetchSavedSearches, setupRealtimeSubscription]);
+  }, []);
 
   useEffect(() => {
     applyFilters();
-  }, [listings, searchQuery, filters, applyFilters]);
+  }, [listings, searchQuery, filters]);
 
-  const fetchUserRole = useCallback(async () => {
-              try {
-                const { data: { user } } = await supabase.auth.getUser();
-                if (user) {
-                  const { data } = await supabase
-                    .from("users")
-                    .select("role")
-                    .eq("id", user.id)
-                    .single();
-                  setUserRole(data?.role || "");
-                }
-              } catch (error) {
-                console.error("Error fetching user role:", error);
-              }
-            }, [data, user, auth, getUser, from, select, eq, id, single, role]);
+  const fetchUserRole = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data } = await supabase
+          .from("users")
+          .select("role")
+          .eq("id", user.id)
+          .single();
+        setUserRole(data?.role || "");
+      }
+    } catch (error) {
+      console.error("Error fetching user role:", error);
+    }
+  };
 
-  const fetchListings = useCallback(async () => {
-              try {
-                const { data, error } = await supabase
-                  .from("marketplace_listings")
-                  .select(`
+  const fetchListings = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("marketplace_listings")
+        .select(`
           *,
           aircraft:aircraft_id (
             tail_number,
@@ -127,41 +127,41 @@ export default function EnhancedMarketplace() {
             hourly_rate
           )
         `)
-                  .eq("status", "active")
-                  .order("created_at", { ascending: false });
+        .eq("status", "active")
+        .order("created_at", { ascending: false });
 
-                if (error) throw error;
-                
-                // Get operator names separately
-                const listingsWithOperators = await Promise.all(
-                  (data || []).map(async (listing) => {
-                    const { data: userData } = await supabase
-                      .from('users')
-                      .select('full_name, company_name')
-                      .eq('id', listing.operator_id)
-                      .single();
-                    
-                    return {
-                      ...listing,
-                      operator_name: userData?.full_name || 'Unknown',
-                      operator_company: userData?.company_name || ''
-                    };
-                  })
-                );
+      if (error) throw error;
+      
+      // Get operator names separately
+      const listingsWithOperators = await Promise.all(
+        (data || []).map(async (listing) => {
+          const { data: userData } = await supabase
+            .from('users')
+            .select('full_name, company_name')
+            .eq('id', listing.operator_id)
+            .single();
+          
+          return {
+            ...listing,
+            operator_name: userData?.full_name || 'Unknown',
+            operator_company: userData?.company_name || ''
+          };
+        })
+      );
 
-                setListings(listingsWithOperators);
-                calculateStats(listingsWithOperators);
-              } catch (error) {
-                console.error("Error fetching listings:", error);
-                toast({
-                  title: "Error",
-                  description: "Failed to load marketplace listings",
-                  variant: "destructive",
-                });
-              } finally {
-                setLoading(false);
-              }
-            }, [data, from, select, eq, order, ascending, Promise, all, map, userData, operator_id, single, operator_name, full_name, operator_company, company_name, toast, title, description, variant]);
+      setListings(listingsWithOperators);
+      calculateStats(listingsWithOperators);
+    } catch (error) {
+      console.error("Error fetching listings:", error);
+      toast({
+        title: "Error",
+        description: "Failed to load marketplace listings",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const setupRealtimeSubscription = () => {
     const channel = supabase
@@ -192,22 +192,22 @@ export default function EnhancedMarketplace() {
     };
   };
 
-  const fetchSavedSearches = useCallback(async () => {
-              try {
-                const { data: { user } } = await supabase.auth.getUser();
-                if (!user) return;
+  const fetchSavedSearches = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
 
-                const { data } = await supabase
-                  .from("saved_searches")
-                  .select("*")
-                  .eq("user_id", user.id)
-                  .order("created_at", { ascending: false });
+      const { data } = await supabase
+        .from("saved_searches")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
 
-                setSavedSearches(data || []);
-              } catch (error) {
-                console.error("Error fetching saved searches:", error);
-              }
-            }, [data, user, auth, getUser, from, select, eq, id, order, ascending]);
+      setSavedSearches(data || []);
+    } catch (error) {
+      console.error("Error fetching saved searches:", error);
+    }
+  };
 
   const calculateStats = (data: MarketplaceListing[]) => {
     const totalListings = data.length;
@@ -317,10 +317,10 @@ export default function EnhancedMarketplace() {
       });
 
       fetchSavedSearches();
-    } catch (error: unknown) {
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: (error as Error).message || "Failed to save search",
+        description: error.message || "Failed to save search",
         variant: "destructive",
       });
     }

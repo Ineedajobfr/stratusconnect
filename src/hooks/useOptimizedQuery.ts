@@ -31,7 +31,7 @@ export const useOptimizedQuery = <T>(
 // Optimized mutation hook
 export const useOptimizedMutation = <T, V>(
   mutationFn: (variables: V) => Promise<T>,
-  options?: Record<string, unknown>
+  options?: any
 ) => {
   return useMutation({
     mutationFn: async (variables: V) => {

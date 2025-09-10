@@ -42,65 +42,6 @@ export default function Index() {
     }
   }, []);
 
-  const terminalOptions = [
-    {
-      title: "Broker Terminal",
-      description: "Trading floor interface with live market data and quote management",
-      icon: BarChart3,
-      path: "/demo/broker",
-      role: "broker",
-      color: "from-orange-500 to-red-500"
-    },
-    {
-      title: "Operator Terminal", 
-      description: "Mission control center with real-time fleet tracking and operations",
-      icon: Plane,
-      path: "/demo/operator", 
-      role: "operator",
-      color: "from-blue-500 to-cyan-500"
-    },
-    {
-      title: "Pilot Terminal",
-      description: "Advanced cockpit interface with flight controls and navigation", 
-      icon: Users,
-      path: "/demo/pilot",
-      role: "pilot",
-      color: "from-green-500 to-emerald-500"
-    },
-    {
-      title: "Crew Terminal",
-      description: "Professional flight deck with crew coordination and safety monitoring", 
-      icon: Users,
-      path: "/demo/crew",
-      role: "crew",
-      color: "from-purple-500 to-pink-500"
-    },
-    {
-      title: "Personality Test",
-      description: "Aviation-specific psychometric assessment for better matching and insights",
-      icon: Brain,
-      path: "/psych",
-      role: "psych",
-      color: "from-indigo-500 to-blue-500"
-    },
-    {
-      title: "Fortress of Trust",
-      description: "Advanced verification and security system for aviation professionals",
-      icon: Shield,
-      path: "/verification-pending",
-      role: "verification",
-      color: "from-yellow-500 to-orange-500"
-    },
-    {
-      title: "AI System Monitor",
-      description: "Real-time AI agent monitoring and platform intelligence dashboard",
-      icon: Bot,
-      path: "/admin/ai-reports",
-      role: "ai",
-      color: "from-teal-500 to-green-500"
-    }
-  ];
-
   return (
     <div className="relative min-h-screen bg-terminal-bg">
       <StarfieldRunwayBackground intensity={0.3} starCount={150} />
@@ -164,32 +105,180 @@ export default function Index() {
 
         {/* Terminal Access Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-16">
-          {terminalOptions.map((option) => (
-            <Card 
-              key={option.role} 
-              className="terminal-card hover:terminal-glow transition-all cursor-pointer group"
-              onClick={() => navigate(option.path)}
-            >
-              <CardContent className="p-8 text-center">
-                <div className={`w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br ${option.color} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                  <option.icon className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-accent transition-colors">
-                  {option.title}
-                </h3>
-                <p className="text-gunmetal text-sm leading-relaxed mb-6">
-                  {option.description}
-                </p>
-                <Button 
-                  className="btn-terminal-accent w-full group-hover:bg-accent group-hover:text-white transition-all duration-300"
-                  variant="outline"
-                >
-                  Access Terminal
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
+          {/* Broker Terminal */}
+          <Card 
+            className="terminal-card hover:terminal-glow transition-all cursor-pointer group"
+            onClick={() => navigate('/demo/broker')}
+          >
+            <CardContent className="p-8 text-center">
+              <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <BarChart3 className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-accent transition-colors">
+                Broker Terminal
+              </h3>
+              <p className="text-gunmetal text-sm leading-relaxed mb-6">
+                Trading floor interface with live market data and quote management
+              </p>
+              <Button 
+                className="btn-terminal-accent w-full group-hover:bg-accent group-hover:text-white transition-all duration-300"
+                variant="outline"
+              >
+                Access Terminal
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Operator Terminal */}
+          <Card 
+            className="terminal-card hover:terminal-glow transition-all cursor-pointer group"
+            onClick={() => navigate('/demo/operator')}
+          >
+            <CardContent className="p-8 text-center">
+              <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <Plane className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-accent transition-colors">
+                Operator Terminal
+              </h3>
+              <p className="text-gunmetal text-sm leading-relaxed mb-6">
+                Mission control center with real-time fleet tracking and operations
+              </p>
+              <Button 
+                className="btn-terminal-accent w-full group-hover:bg-accent group-hover:text-white transition-all duration-300"
+                variant="outline"
+              >
+                Access Terminal
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Pilot Terminal */}
+          <Card 
+            className="terminal-card hover:terminal-glow transition-all cursor-pointer group"
+            onClick={() => navigate('/demo/pilot')}
+          >
+            <CardContent className="p-8 text-center">
+              <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <Users className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-accent transition-colors">
+                Pilot Terminal
+              </h3>
+              <p className="text-gunmetal text-sm leading-relaxed mb-6">
+                Advanced cockpit interface with flight controls and navigation
+              </p>
+              <Button 
+                className="btn-terminal-accent w-full group-hover:bg-accent group-hover:text-white transition-all duration-300"
+                variant="outline"
+              >
+                Access Terminal
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Crew Terminal */}
+          <Card 
+            className="terminal-card hover:terminal-glow transition-all cursor-pointer group"
+            onClick={() => navigate('/demo/crew')}
+          >
+            <CardContent className="p-8 text-center">
+              <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <Users className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-accent transition-colors">
+                Crew Terminal
+              </h3>
+              <p className="text-gunmetal text-sm leading-relaxed mb-6">
+                Professional flight deck with crew coordination and safety monitoring
+              </p>
+              <Button 
+                className="btn-terminal-accent w-full group-hover:bg-accent group-hover:text-white transition-all duration-300"
+                variant="outline"
+              >
+                Access Terminal
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Personality Test */}
+          <Card 
+            className="terminal-card hover:terminal-glow transition-all cursor-pointer group"
+            onClick={() => navigate('/psych')}
+          >
+            <CardContent className="p-8 text-center">
+              <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <Brain className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-accent transition-colors">
+                Personality Test
+              </h3>
+              <p className="text-gunmetal text-sm leading-relaxed mb-6">
+                Aviation-specific psychometric assessment for better matching and insights
+              </p>
+              <Button 
+                className="btn-terminal-accent w-full group-hover:bg-accent group-hover:text-white transition-all duration-300"
+                variant="outline"
+              >
+                Access Terminal
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Fortress of Trust */}
+          <Card 
+            className="terminal-card hover:terminal-glow transition-all cursor-pointer group"
+            onClick={() => navigate('/verification-pending')}
+          >
+            <CardContent className="p-8 text-center">
+              <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <Shield className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-accent transition-colors">
+                Fortress of Trust
+              </h3>
+              <p className="text-gunmetal text-sm leading-relaxed mb-6">
+                Advanced verification and security system for aviation professionals
+              </p>
+              <Button 
+                className="btn-terminal-accent w-full group-hover:bg-accent group-hover:text-white transition-all duration-300"
+                variant="outline"
+              >
+                Access Terminal
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* AI System Monitor */}
+          <Card 
+            className="terminal-card hover:terminal-glow transition-all cursor-pointer group"
+            onClick={() => navigate('/admin/ai-reports')}
+          >
+            <CardContent className="p-8 text-center">
+              <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-teal-500 to-green-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <Bot className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-accent transition-colors">
+                AI System Monitor
+              </h3>
+              <p className="text-gunmetal text-sm leading-relaxed mb-6">
+                Real-time AI agent monitoring and platform intelligence dashboard
+              </p>
+              <Button 
+                className="btn-terminal-accent w-full group-hover:bg-accent group-hover:text-white transition-all duration-300"
+                variant="outline"
+              >
+                Access Terminal
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Features Section */}

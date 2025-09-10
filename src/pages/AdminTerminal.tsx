@@ -33,7 +33,8 @@ import {
   Gavel,
   BarChart3,
   Lock,
-  ChevronRight
+  ChevronRight,
+  Bot
 } from "lucide-react";
 import type { User } from '@supabase/supabase-js';
 
@@ -199,6 +200,7 @@ const AdminTerminal = () => {
   const menuItems = [
     { id: "dashboard", label: "Dashboard", icon: Shield },
     { id: "fortress", label: "Fortress of Trust", icon: Lock },
+    { id: "ai-monitor", label: "AI System Monitor", icon: Bot },
     { id: "verification", label: "User Verification", icon: UserCheck },
     { id: "users", label: "User Management", icon: Users },
     { id: "strikes", label: "Strike Management", icon: Gavel },

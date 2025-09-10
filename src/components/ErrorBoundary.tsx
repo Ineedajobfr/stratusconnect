@@ -1,4 +1,6 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 
 interface Props {
@@ -46,18 +48,20 @@ export class ErrorBoundary extends Component<Props, State> {
 
       return (
         <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-6">
-          <div className="w-full max-w-md bg-slate-800/50 border border-red-500/20 backdrop-blur-sm rounded-lg p-6">
-            <div className="text-center">
+          <Card className="w-full max-w-md bg-slate-800/50 border-red-500/20 backdrop-blur-sm">
+            <CardHeader className="text-center">
               <div className="mx-auto w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center mb-4">
                 <AlertTriangle className="w-6 h-6 text-red-400" />
               </div>
-              <h2 className="text-red-400 text-xl font-semibold mb-2">Something went wrong</h2>
-              <p className="text-slate-300 text-sm mb-6">
+              <CardTitle className="text-red-400">Something went wrong</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-slate-300 text-sm text-center">
                 An unexpected error occurred. Our team has been notified.
               </p>
               
               {import.meta.env.DEV && this.state.error && (
-                <details className="bg-slate-900/50 border border-slate-700 rounded p-2 text-xs mb-4">
+                <details className="bg-slate-900/50 border border-slate-700 rounded p-2 text-xs">
                   <summary className="text-red-400 cursor-pointer">Error Details</summary>
                   <pre className="text-slate-400 mt-2 whitespace-pre-wrap break-words">
                     {this.state.error.message}
@@ -66,23 +70,24 @@ export class ErrorBoundary extends Component<Props, State> {
               )}
               
               <div className="flex gap-2">
-                <button 
+                <Button 
                   onClick={this.handleReset}
-                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded flex items-center justify-center gap-2"
+                  className="flex-1 bg-blue-600 hover:bg-blue-700"
                 >
-                  <RefreshCw className="w-4 h-4" />
+                  <RefreshCw className="w-4 h-4 mr-2" />
                   Try Again
-                </button>
-                <button 
+                </Button>
+                <Button 
                   onClick={this.handleHomeNavigation}
-                  className="flex-1 border border-slate-600 text-slate-300 hover:bg-slate-700 px-4 py-2 rounded flex items-center justify-center gap-2"
+                  variant="outline"
+                  className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-700"
                 >
-                  <Home className="w-4 h-4" />
+                  <Home className="w-4 h-4 mr-2" />
                   Home
-                </button>
+                </Button>
               </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         </div>
       );
     }

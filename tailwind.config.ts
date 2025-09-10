@@ -20,8 +20,6 @@ export default {
     extend: {
       fontFamily: {
         'inter': ['Inter', 'sans-serif'],
-        ui: ["Inter", "system-ui", "sans-serif"],
-        mono: ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "monospace"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -107,11 +105,6 @@ export default {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
-        // Luxury terminal colors
-        ink: "#0a0f1a",
-        glass: "rgba(255,255,255,0.04)",
-        line: "rgba(255,255,255,0.12)",
-        textDim: "rgba(255,255,255,0.7)",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -124,7 +117,6 @@ export default {
         'glow': '0 0 40px hsl(var(--terminal-glow) / 0.4)',
         'card': '0 8px 30px rgba(0,0,0,0.35)',
         'sleek': '0 4px 20px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.05)',
-        insetSoft: "inset 0 1px 0 rgba(255,255,255,0.05)",
       },
       transitionTimingFunction: {
         'smooth': 'cubic-bezier(0.4, 0, 0.2, 1)',

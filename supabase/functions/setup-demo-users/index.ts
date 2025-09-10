@@ -83,101 +83,10 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     )
 
-    // Demo users and admin users
+    // Only demo users - NO ADMIN USERS
     const demoUsers = [
-      // Admin accounts
       {
-        email: 'admin@stratusconnect.org',
-        password: 'AdminStratus2025!',
-        role: 'admin',
-        fullName: 'StratusConnect Admin',
-        username: 'ADMIN001',
-        headline: 'System Administrator',
-        bio: 'Platform administrator with full system access and oversight capabilities.',
-        location: 'Global',
-        company: 'StratusConnect',
-        level: 5,
-        trust_score: 100.0,
-        experience: [
-          {
-            title: 'System Administrator',
-            company: 'StratusConnect',
-            start_date: '2024-01-01',
-            description: 'Full platform administration and user management oversight.'
-          }
-        ],
-        credentials: [
-          { type: 'Admin Access', issuer: 'StratusConnect', status: 'valid', expires_at: '2030-12-31' }
-        ],
-        references: []
-      },
-      {
-        email: 'admin.broker@stratusconnect.org',
-        password: 'AdminBk7!mP9$qX2vL',
-        role: 'broker',
-        fullName: 'Admin Broker',
-        username: 'ADMIN_BROKER',
-        headline: 'Admin Broker Account',
-        bio: 'Administrative broker account with full platform access.',
-        location: 'Global',
-        company: 'StratusConnect',
-        level: 5,
-        trust_score: 100.0,
-        experience: [],
-        credentials: [],
-        references: []
-      },
-      {
-        email: 'admin.operator@stratusconnect.org',
-        password: 'AdminOp3#nW8&zR5kM',
-        role: 'operator',
-        fullName: 'Admin Operator',
-        username: 'ADMIN_OPERATOR',
-        headline: 'Admin Operator Account',
-        bio: 'Administrative operator account with full platform access.',
-        location: 'Global',
-        company: 'StratusConnect',
-        level: 5,
-        trust_score: 100.0,
-        experience: [],
-        credentials: [],
-        references: []
-      },
-      {
-        email: 'admin.pilot@stratusconnect.org',
-        password: 'AdminPl6#tF2&vB9xK',
-        role: 'pilot',
-        fullName: 'Admin Pilot',
-        username: 'ADMIN_PILOT',
-        headline: 'Admin Pilot Account',
-        bio: 'Administrative pilot account with full platform access.',
-        location: 'Global',
-        company: 'StratusConnect',
-        level: 5,
-        trust_score: 100.0,
-        experience: [],
-        credentials: [],
-        references: []
-      },
-      {
-        email: 'admin.crew@stratusconnect.org',
-        password: 'AdminCr9!uE4$tY7nQ',
-        role: 'crew',
-        fullName: 'Admin Crew',
-        username: 'ADMIN_CREW',
-        headline: 'Admin Crew Account',
-        bio: 'Administrative crew account with full platform access.',
-        location: 'Global',
-        company: 'StratusConnect',
-        level: 5,
-        trust_score: 100.0,
-        experience: [],
-        credentials: [],
-        references: []
-      },
-      // Regular demo users
-      {
-        email: broker@stratusconnect.org',
+        email: 'broker@stratusconnect.org',
         password: 'Bk7!mP9$qX2vL',
         role: 'broker',
         fullName: 'Alexandra Mitchell',

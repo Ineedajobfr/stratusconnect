@@ -15,28 +15,28 @@ export default function DemoSetup() {
   const demoOptions = [
     {
       title: "Broker Terminal",
-      description: "Trading floor interface with live market data and quote management",
+      description: "Explore marketplace listings and place bids on charter flights",
       icon: BarChart3,
       path: "/demo/broker",
       role: "broker"
     },
     {
       title: "Operator Terminal", 
-      description: "Mission control center with real-time fleet tracking and operations",
+      description: "Manage fleet operations and create marketplace listings",
       icon: Plane,
       path: "/demo/operator", 
       role: "operator"
     },
     {
       title: "Pilot Terminal",
-      description: "Advanced cockpit interface with flight controls and navigation", 
+      description: "Manage crew schedules and certification tracking", 
       icon: Users,
       path: "/demo/pilot",
       role: "pilot"
     },
     {
       title: "Crew Terminal",
-      description: "Professional flight deck with crew coordination and safety monitoring", 
+      description: "Manage flight certifications and view available positions", 
       icon: Users,
       path: "/demo/crew",
       role: "crew"
@@ -64,7 +64,7 @@ export default function DemoSetup() {
                 Platform Demo
               </h1>
               <p className="text-xl lg:text-2xl text-gunmetal leading-relaxed">
-                Experience StratusConnect's mission-critical aviation platform with command center interfaces
+                Experience StratusConnect's aviation marketplace platform
               </p>
             </div>
             
@@ -80,7 +80,7 @@ export default function DemoSetup() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="text-center">
-                    <Button className="btn-terminal-accent w-full">
+                    <Button className="btn-terminal-primary w-full">
                       View Demo
                     </Button>
                   </CardContent>
@@ -90,8 +90,7 @@ export default function DemoSetup() {
 
             <div className="text-center">
               <p className="text-gunmetal text-sm mb-4">
-                New to StratusConnect? Start by exploring any terminal above.<br/>
-                <span className="text-accent">Each terminal features both standard and command center views!</span>
+                New to StratusConnect? Start by exploring any terminal above.
               </p>
               <Button 
                 variant="outline" 

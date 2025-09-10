@@ -90,21 +90,24 @@ export default function Index() {
       </nav>
 
       {/* Hero Section */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-20">
-        <div className="text-center mb-16">
-          <h1 className="text-6xl lg:text-8xl font-bold mb-6 text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.7)]">
-            Welcome to STRATUS CONNECT
+      <div className="relative z-10 max-w-7xl mx-auto px-6 py-32">
+        <div className="text-center mb-32">
+          <h1 className="text-8xl lg:text-9xl font-bold mb-8 text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.7)]">
+            Welcome to
           </h1>
-          <p className="text-xl lg:text-2xl text-slate-300 mb-8 max-w-4xl mx-auto leading-relaxed">
+          <h1 className="text-8xl lg:text-9xl font-bold mb-12 text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.7)]">
+            STRATUS CONNECT
+          </h1>
+          <p className="text-2xl lg:text-3xl text-slate-300 mb-8 max-w-4xl mx-auto leading-relaxed">
             Terminal Access
           </p>
-          <p className="text-lg text-slate-400 mb-12 max-w-3xl mx-auto">
+          <p className="text-xl text-slate-400 mb-16 max-w-3xl mx-auto">
             Please select your correct field.
           </p>
         </div>
 
         {/* Terminal Access Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-32">
           {/* Broker Terminal */}
           <Card 
             className="bg-slate-800/50 border-slate-700 hover:border-orange-500/50 hover:bg-slate-800/70 transition-all cursor-pointer group backdrop-blur-sm"
@@ -280,110 +283,118 @@ export default function Index() {
             </CardContent>
           </Card>
         </div>
+      </div>
 
-        {/* Features Section */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-white mb-4">What Stratus Connect Is</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+      {/* What Stratus Connect Is Section */}
+      <div className="relative z-10 w-full py-32 bg-slate-900/50">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-6xl lg:text-7xl font-bold text-white text-center mb-20">What Stratus Connect Is</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
             <div className="text-center">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
-                <BarChart3 className="w-8 h-8 text-white" />
+              <div className="w-24 h-24 mx-auto mb-8 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
+                <BarChart3 className="w-12 h-12 text-white" />
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">Brokers</h3>
-              <p className="text-slate-300">Access live jets in seconds. Bid, book, and close with confidence.</p>
+              <h3 className="text-3xl font-bold text-white mb-6">Brokers</h3>
+              <p className="text-xl text-slate-300 leading-relaxed">Access live jets in seconds. Bid, book, and close with confidence.</p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
-                <Plane className="w-8 h-8 text-white" />
+              <div className="w-24 h-24 mx-auto mb-8 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
+                <Plane className="w-12 h-12 text-white" />
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">Operators</h3>
-              <p className="text-slate-300">Get your fleet off the ground. Connect. List. Scale confidently.</p>
+              <h3 className="text-3xl font-bold text-white mb-6">Operators</h3>
+              <p className="text-xl text-slate-300 leading-relaxed">Get your fleet off the ground. Connect. List. Scale confidently.</p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center">
-                <Users className="w-8 h-8 text-white" />
+              <div className="w-24 h-24 mx-auto mb-8 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center">
+                <Users className="w-12 h-12 text-white" />
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">Pilots & Crew</h3>
-              <p className="text-slate-300">Show your credentials, set your availability, and get noticed.</p>
+              <h3 className="text-3xl font-bold text-white mb-6">Pilots & Crew</h3>
+              <p className="text-xl text-slate-300 leading-relaxed">Show your credentials, set your availability, and get noticed.</p>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Pricing Section */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-white mb-4">Simple fees. Everyone wins.</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+      {/* Simple fees section */}
+      <div className="relative z-10 w-full py-32">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-6xl lg:text-7xl font-bold text-white text-center mb-20">Simple fees. Everyone wins.</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
             <div className="text-center">
-              <div className="text-3xl font-bold text-orange-400 mb-2">7%</div>
-              <div className="text-slate-300">Broker deals</div>
-              <div className="text-sm text-slate-400 mt-2">Pay only when business closes successfully.</div>
+              <div className="text-6xl font-bold text-orange-400 mb-6">7%</div>
+              <div className="text-2xl text-slate-300 mb-4">Broker deals</div>
+              <div className="text-lg text-slate-400">Pay only when business closes successfully.</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-blue-400 mb-2">10%</div>
-              <div className="text-slate-300">Crew hiring</div>
-              <div className="text-sm text-slate-400 mt-2">Operators pay when they hire through Stratus.</div>
+              <div className="text-6xl font-bold text-blue-400 mb-6">10%</div>
+              <div className="text-2xl text-slate-300 mb-4">Crew hiring</div>
+              <div className="text-lg text-slate-400">Operators pay when they hire through Stratus.</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-green-400 mb-2">0%</div>
-              <div className="text-slate-300">Pilots & Crew</div>
-              <div className="text-sm text-slate-400 mt-2">Aviation professionals fly free. No cost, ever.</div>
+              <div className="text-6xl font-bold text-green-400 mb-6">0%</div>
+              <div className="text-2xl text-slate-300 mb-4">Pilots & Crew</div>
+              <div className="text-lg text-slate-400">Aviation professionals fly free. No cost, ever.</div>
             </div>
           </div>
-          <p className="text-slate-400 mt-8">We help everyone. No deal, no fee.</p>
+          <p className="text-xl text-slate-400 mt-16 text-center">We help everyone. No deal, no fee.</p>
         </div>
+      </div>
 
-        {/* Trust Section */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-white mb-4">Why We Are Better</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-12">
+      {/* Why We Are Better Section */}
+      <div className="relative z-10 w-full py-32 bg-slate-900/50">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-6xl lg:text-7xl font-bold text-white text-center mb-20">Why We Are Better</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16">
             <div className="text-center">
-              <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-green-500/20 flex items-center justify-center">
-                <CheckCircle className="w-6 h-6 text-green-400" />
+              <div className="w-20 h-20 mx-auto mb-8 rounded-full bg-green-500/20 flex items-center justify-center">
+                <CheckCircle className="w-10 h-10 text-green-400" />
               </div>
-              <h3 className="text-lg font-bold text-white mb-2">Verified Network</h3>
-              <p className="text-slate-300 text-sm">Roles checked. Documents verified. Only trusted professionals inside.</p>
+              <h3 className="text-2xl font-bold text-white mb-6">Verified Network</h3>
+              <p className="text-lg text-slate-300">Roles checked. Documents verified. Only trusted professionals inside.</p>
             </div>
             <div className="text-center">
-              <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-blue-500/20 flex items-center justify-center">
-                <Shield className="w-6 h-6 text-blue-400" />
+              <div className="w-20 h-20 mx-auto mb-8 rounded-full bg-blue-500/20 flex items-center justify-center">
+                <Shield className="w-10 h-10 text-blue-400" />
               </div>
-              <h3 className="text-lg font-bold text-white mb-2">Security First</h3>
-              <p className="text-slate-300 text-sm">Military grade encryption and audit trails</p>
+              <h3 className="text-2xl font-bold text-white mb-6">Security First</h3>
+              <p className="text-lg text-slate-300">Military grade encryption and audit trails</p>
             </div>
             <div className="text-center">
-              <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-purple-500/20 flex items-center justify-center">
-                <Star className="w-6 h-6 text-purple-400" />
+              <div className="w-20 h-20 mx-auto mb-8 rounded-full bg-purple-500/20 flex items-center justify-center">
+                <Star className="w-10 h-10 text-purple-400" />
               </div>
-              <h3 className="text-lg font-bold text-white mb-2">Escrow & Receipts</h3>
-              <p className="text-slate-300 text-sm">Payments secured in escrow. Full receipts every time.</p>
+              <h3 className="text-2xl font-bold text-white mb-6">Escrow & Receipts</h3>
+              <p className="text-lg text-slate-300">Payments secured in escrow. Full receipts every time.</p>
             </div>
             <div className="text-center">
-              <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-orange-500/20 flex items-center justify-center">
-                <BarChart3 className="w-6 h-6 text-orange-400" />
+              <div className="w-20 h-20 mx-auto mb-8 rounded-full bg-orange-500/20 flex items-center justify-center">
+                <BarChart3 className="w-10 h-10 text-orange-400" />
               </div>
-              <h3 className="text-lg font-bold text-white mb-2">Terminal Speed</h3>
-              <p className="text-slate-300 text-sm">Fast, responsive dashboards built for live and up to date data.</p>
+              <h3 className="text-2xl font-bold text-white mb-6">Terminal Speed</h3>
+              <p className="text-lg text-slate-300">Fast, responsive dashboards built for live and up to date data.</p>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* CTA Section */}
-        <div className="text-center">
-          <h2 className="text-4xl font-bold text-white mb-4">Ready to Get Started?</h2>
-          <p className="text-slate-300 mb-8 max-w-2xl mx-auto">
+      {/* CTA Section */}
+      <div className="relative z-10 w-full py-32">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <h2 className="text-6xl lg:text-7xl font-bold text-white mb-12">Ready to Get Started?</h2>
+          <p className="text-2xl text-slate-300 mb-16 max-w-4xl mx-auto">
             Join the most trusted aviation marketplace. Start with a demo or create your account today.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-8 justify-center">
             <Button 
               onClick={() => navigate('/demo')}
-              className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 text-lg font-medium transition-colors"
+              className="bg-orange-500 hover:bg-orange-600 text-white px-12 py-6 text-xl font-medium transition-colors"
             >
               Try Demo
             </Button>
             <Button 
               onClick={() => navigate('/auth')}
               variant="outline"
-              className="border-slate-600 text-white hover:bg-slate-800 px-8 py-3 text-lg font-medium transition-colors"
+              className="border-slate-600 text-white hover:bg-slate-800 px-12 py-6 text-xl font-medium transition-colors"
             >
               Create Account
             </Button>

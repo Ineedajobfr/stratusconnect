@@ -4,7 +4,7 @@ export async function proposePatch(body: {
   target: string;
   patch: Record<string, unknown>;
 }) {
-  const url = import.meta.env.VITE_POLICY_GATEWAY_URL!;
+  const url = import.meta.env.VITE_POLICY_GATEWAY_URL || "/api/policy-gateway";
   const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

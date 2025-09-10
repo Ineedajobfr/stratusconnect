@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { createClient } from "@supabase/supabase-js";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { AlertTriangle, CheckCircle, Info, Clock } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 type Report = {
   id: string;
@@ -13,11 +13,6 @@ type Report = {
   severity: string;
   details: any;
 };
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL!,
-  import.meta.env.VITE_SUPABASE_ANON_KEY!
-);
 
 export default function AdminAgentReports() {
   const [reports, setReports] = useState<Report[]>([]);

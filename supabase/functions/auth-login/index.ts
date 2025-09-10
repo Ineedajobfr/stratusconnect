@@ -81,7 +81,7 @@ serve(async (req) => {
     if (providedHash !== user.password_hash) {
       // Increment failed login count
       const newFailedCount = user.failed_login_count + 1;
-      const updateData: any = { 
+      const updateData: Record<string, unknown> = { 
         failed_login_count: newFailedCount 
       };
 

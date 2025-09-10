@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -60,42 +60,42 @@ export default function MarketIntelligence() {
   useEffect(() => {
     fetchMarketData();
     generateMockAnalytics(); // Generate some mock data for demonstration
-  }, [selectedTimeframe, selectedRegion]);
+  }, [selectedTimeframe, selectedRegion, fetchMarketData, generateMockAnalytics]);
 
-  const fetchMarketData = async () => {
-    try {
-      // Fetch real marketplace data
-      const { data: listings } = await supabase
-        .from("marketplace_listings")
-        .select(`
+  const fetchMarketData = useCallback(async () => {
+              try {
+                // Fetch real marketplace data
+                const { data: listings } = await supabase
+                  .from("marketplace_listings")
+                  .select(`
           *,
           aircraft:aircraft_id (aircraft_type, manufacturer, model)
         `)
-        .eq("status", "active");
+                  .eq("status", "active");
 
-      // Process real data into analytics
-      if (listings) {
-        processListingsIntoAnalytics(listings);
-      }
+                // Process real data into analytics
+                if (listings) {
+                  processListingsIntoAnalytics(listings);
+                }
 
-      // Fetch existing analytics
-      const { data: analyticsData } = await supabase
-        .from("market_analytics")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(50);
+                // Fetch existing analytics
+                const { data: analyticsData } = await supabase
+                  .from("market_analytics")
+                  .select("*")
+                  .order("created_at", { ascending: false })
+                  .limit(50);
 
-      setAnalytics((analyticsData || []) as MarketAnalytics[]);
-    } catch (error) {
-      console.error("Error fetching market data:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+                setAnalytics((analyticsData || []) as MarketAnalytics[]);
+              } catch (error) {
+                console.error("Error fetching market data:", error);
+              } finally {
+                setLoading(false);
+              }
+            }, [data, listings, from, select, eq, analyticsData, order, ascending, limit, MarketAnalytics]);
 
-  const processListingsIntoAnalytics = (listings: any[]) => {
-    const routeMap = new Map<string, any[]>();
-    const aircraftMap = new Map<string, any[]>();
+  const processListingsIntoAnalytics = (listings: Record<string, unknown>[]) => {
+    const routeMap = new Map<string, Record<string, unknown>[]>();
+    const aircraftMap = new Map<string, Record<string, unknown>[]>();
 
     listings.forEach(listing => {
       const route = `${listing.departure_location}-${listing.destination}`;
@@ -153,33 +153,33 @@ export default function MarketIntelligence() {
     });
   };
 
-  const generateMockAnalytics = async () => {
-    // Generate some mock analytics for demonstration
-    const mockRoutes = ['KJFK-KLAX', 'KBOS-KMIA', 'KORD-KLAS', 'KATL-KPHX', 'KSEA-KSAN'];
-    const mockAircraftTypes = ['Light Jet', 'Mid-Size Jet', 'Heavy Jet', 'Turboprop'];
+  const generateMockAnalytics = useCallback(async () => {
+              // Generate some mock analytics for demonstration
+              const mockRoutes = ['KJFK-KLAX', 'KBOS-KMIA', 'KORD-KLAS', 'KATL-KPHX', 'KSEA-KSAN'];
+              const mockAircraftTypes = ['Light Jet', 'Mid-Size Jet', 'Heavy Jet', 'Turboprop'];
 
-    const mockAnalytics: MarketAnalytics[] = [];
-    
-    mockRoutes.forEach(route => {
-      mockAircraftTypes.forEach(aircraft_type => {
-        const basePrice = Math.random() * 50000 + 25000;
-        mockAnalytics.push({
-          id: `mock-${route}-${aircraft_type}`,
-          route,
-          aircraft_type,
-          avg_price: basePrice,
-          min_price: basePrice * 0.8,
-          max_price: basePrice * 1.2,
-          listing_count: Math.floor(Math.random() * 20) + 1,
-          demand_score: Math.random() * 10,
-          trend_direction: Math.random() > 0.6 ? 'up' : Math.random() > 0.3 ? 'stable' : 'down',
-          created_at: new Date().toISOString()
-        });
-      });
-    });
+              const mockAnalytics: MarketAnalytics[] = [];
+              
+              mockRoutes.forEach(route => {
+                mockAircraftTypes.forEach(aircraft_type => {
+                  const basePrice = Math.random() * 50000 + 25000;
+                  mockAnalytics.push({
+                    id: `mock-${route}-${aircraft_type}`,
+                    route,
+                    aircraft_type,
+                    avg_price: basePrice,
+                    min_price: basePrice * 0.8,
+                    max_price: basePrice * 1.2,
+                    listing_count: Math.floor(Math.random() * 20) + 1,
+                    demand_score: Math.random() * 10,
+                    trend_direction: Math.random() > 0.6 ? 'up' : Math.random() > 0.3 ? 'stable' : 'down',
+                    created_at: new Date().toISOString()
+                  });
+                });
+              });
 
-    setAnalytics(prev => [...prev, ...mockAnalytics].slice(0, 50));
-  };
+              setAnalytics(prev => [...prev, ...mockAnalytics].slice(0, 50));
+            }, [MarketAnalytics, forEach, random, push, id, avg_price, min_price, max_price, listing_count, floor, demand_score, trend_direction, created_at, toISOString, slice]);
 
   const getTrendIcon = (direction: string) => {
     switch (direction) {

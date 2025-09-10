@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -26,26 +26,26 @@ export const NotificationCenter: React.FC = () => {
     if (user) {
       fetchNotifications();
     }
-  }, [user]);
+  }, [user, fetchNotifications]);
 
-  const fetchNotifications = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('notifications')
-        .select('*')
-        .eq('user_id', user?.id)
-        .order('created_at', { ascending: false })
-        .limit(50);
+  const fetchNotifications = useCallback(async () => {
+              try {
+                const { data, error } = await supabase
+                  .from('notifications')
+                  .select('*')
+                  .eq('user_id', user?.id)
+                  .order('created_at', { ascending: false })
+                  .limit(50);
 
-      if (error) throw error;
-      setNotifications(data || []);
-      setUnreadCount(data?.filter(n => !n.read).length || 0);
-    } catch (error) {
-      console.error('Error fetching notifications:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+                if (error) throw error;
+                setNotifications(data || []);
+                setUnreadCount(data?.filter(n => !n.read).length || 0);
+              } catch (error) {
+                console.error('Error fetching notifications:', error);
+              } finally {
+                setLoading(false);
+              }
+            }, [data, from, select, eq, user, id, order, ascending, limit, filter, read, length]);
 
   const markAsRead = async (notificationId: string) => {
     try {

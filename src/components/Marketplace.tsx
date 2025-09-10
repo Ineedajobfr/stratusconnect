@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -53,7 +53,7 @@ export default function Marketplace() {
   const [bids, setBids] = useState<{ [key: string]: Bid[] }>({});
   const [loading, setLoading] = useState(true);
   const [userRole, setUserRole] = useState<string>("");
-  const [aircraft, setAircraft] = useState<any[]>([]);
+  const [aircraft, setAircraft] = useState<Record<string, unknown>[]>([]);
   const [bidDialogOpen, setBidDialogOpen] = useState(false);
   const [listingDialogOpen, setListingDialogOpen] = useState(false);
   const [selectedListing, setSelectedListing] = useState<MarketplaceListing | null>(null);
@@ -77,28 +77,28 @@ export default function Marketplace() {
   useEffect(() => {
     fetchUserRole();
     fetchListings();
-  }, []);
+  }, [fetchUserRole, fetchListings]);
 
-  const fetchUserRole = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-      const { data } = await supabase
-        .from("users")
-        .select("role")
-        .eq("id", user.id)
-        .single();
-        
-      setUserRole(data?.role || "");
-      
-      if (data?.role === "operator") {
-        fetchAircraft();
-      }
-      }
-    } catch (error) {
-      console.error("Error fetching user role:", error);
-    }
-  };
+  const fetchUserRole = useCallback(async () => {
+              try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user) {
+                const { data } = await supabase
+                  .from("users")
+                  .select("role")
+                  .eq("id", user.id)
+                  .single();
+                  
+                setUserRole(data?.role || "");
+                
+                if (data?.role === "operator") {
+                  fetchAircraft();
+                }
+                }
+              } catch (error) {
+                console.error("Error fetching user role:", error);
+              }
+            }, [data, user, auth, getUser, from, select, eq, id, single, role]);
 
   const fetchAircraft = async () => {
     try {
@@ -113,11 +113,11 @@ export default function Marketplace() {
     }
   };
 
-  const fetchListings = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("marketplace_listings")
-        .select(`
+  const fetchListings = useCallback(async () => {
+              try {
+                const { data, error } = await supabase
+                  .from("marketplace_listings")
+                  .select(`
           *,
           aircraft:aircraft_id (
             tail_number,
@@ -129,45 +129,45 @@ export default function Marketplace() {
             hourly_rate
           )
         `)
-        .eq("status", "active")
-        .order("created_at", { ascending: false });
+                  .eq("status", "active")
+                  .order("created_at", { ascending: false });
 
-      if (error) throw error;
-      
-      // Get operator names separately
-      const listingsWithOperators = await Promise.all(
-        (data || []).map(async (listing) => {
-          const { data: userData } = await supabase
-            .from('users')
-            .select('full_name, company_name')
-            .eq('id', listing.operator_id)
-            .single();
-          
-          return {
-            ...listing,
-            operator_name: userData?.full_name || 'Unknown',
-            operator_company: userData?.company_name || ''
-          };
-        })
-      );
+                if (error) throw error;
+                
+                // Get operator names separately
+                const listingsWithOperators = await Promise.all(
+                  (data || []).map(async (listing) => {
+                    const { data: userData } = await supabase
+                      .from('users')
+                      .select('full_name, company_name')
+                      .eq('id', listing.operator_id)
+                      .single();
+                    
+                    return {
+                      ...listing,
+                      operator_name: userData?.full_name || 'Unknown',
+                      operator_company: userData?.company_name || ''
+                    };
+                  })
+                );
 
-      setListings(listingsWithOperators);
+                setListings(listingsWithOperators);
 
-      // Fetch bids for each listing
-      for (const listing of listingsWithOperators) {
-        await fetchBidsForListing(listing.id);
-      }
-    } catch (error) {
-      console.error("Error fetching listings:", error);
-      toast({
-        title: "Error",
-        description: "Failed to load marketplace listings",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+                // Fetch bids for each listing
+                for (const listing of listingsWithOperators) {
+                  await fetchBidsForListing(listing.id);
+                }
+              } catch (error) {
+                console.error("Error fetching listings:", error);
+                toast({
+                  title: "Error",
+                  description: "Failed to load marketplace listings",
+                  variant: "destructive",
+                });
+              } finally {
+                setLoading(false);
+              }
+            }, [data, from, select, eq, order, ascending, Promise, all, map, userData, operator_id, single, operator_name, full_name, operator_company, company_name, id, toast, title, description, variant]);
 
   const fetchBidsForListing = async (listingId: string) => {
     try {
@@ -236,10 +236,10 @@ export default function Marketplace() {
         description: "",
       });
       fetchListings();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to create listing",
+        description: (error as Error).message || "Failed to create listing",
         variant: "destructive",
       });
     }
@@ -267,10 +267,10 @@ export default function Marketplace() {
       setBidAmount("");
       setBidMessage("");
       fetchBidsForListing(selectedListing.id);
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to place bid",
+        description: (error as Error).message || "Failed to place bid",
         variant: "destructive",
       });
     }
@@ -327,10 +327,10 @@ export default function Marketplace() {
 
       toast({ title: "Success", description: "Bid accepted! A deal has been created." });
       fetchListings();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to accept bid",
+        description: (error as Error).message || "Failed to accept bid",
         variant: "destructive",
       });
     }

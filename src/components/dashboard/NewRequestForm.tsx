@@ -60,15 +60,15 @@ export const NewRequestForm: React.FC<NewRequestFormProps> = ({
       if (error) throw error;
 
       onSuccess();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error creating request:', error);
-      setErrors({ submit: error.message || 'Failed to create request' });
+      setErrors({ submit: (error as Error).message || 'Failed to create request' });
     } finally {
       setLoading(false);
     }
   };
 
-  const handleInputChange = (field: string, value: any) => {
+  const handleInputChange = (field: string, value: unknown) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));

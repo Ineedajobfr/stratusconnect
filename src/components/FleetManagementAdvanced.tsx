@@ -191,10 +191,10 @@ export default function FleetManagementAdvanced() {
         notes: ""
       });
       fetchFleetData();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to schedule maintenance",
+        description: (error as Error).message || "Failed to schedule maintenance",
         variant: "destructive",
       });
     }

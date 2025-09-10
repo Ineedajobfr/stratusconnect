@@ -189,7 +189,7 @@ export const PilotTrackingMap: React.FC<PilotTrackingMapProps> = ({
                     key={status}
                     variant={filterStatus === status ? 'default' : 'outline'}
                     size="sm"
-                    onClick={() => setFilterStatus(status as any)}
+                    onClick={() => setFilterStatus(status as 'all' | 'active' | 'completed' | 'cancelled')}
                     className={filterStatus === status ? 'bg-orange-500' : 'border-gray-600 text-gray-300'}
                   >
                     {status.replace('_', ' ')}

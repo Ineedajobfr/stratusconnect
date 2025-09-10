@@ -18,6 +18,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { Events } from "@/lib/events";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -71,12 +72,18 @@ export const LoginModal = ({ isOpen, onClose, selectedRole }: LoginModalProps) =
     try {
       const ok = await login(email, password);
       if (!ok) return;
+      
+      // Emit login event for AI monitoring
+      Events.login(activeRole, 'email');
+      
       const role = roles.find(r => r.id === activeRole);
       if (role) {
         navigate(role.route);
         onClose();
       }
     } catch (err) {
+      // Emit failed login event for security monitoring
+      Events.security.suspiciousActivity(activeRole, 'failed_login', { email, error: (err as Error).message });
       toast({ title: "Error", description: "Login failed", variant: "destructive" });
     } finally {
       setLoading(false);
@@ -92,7 +99,7 @@ export const LoginModal = ({ isOpen, onClose, selectedRole }: LoginModalProps) =
       navigate(role.route);
       onClose();
     } catch (error) {
-      toast({ title: "Demo login failed", description: (error as any)?.message || "Demo accounts may not be set up yet", variant: "destructive" });
+      toast({ title: "Demo login failed", description: (error as Error)?.message || "Demo accounts may not be set up yet", variant: "destructive" });
     } finally {
       setLoading(false);
     }

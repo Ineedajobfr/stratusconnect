@@ -11,6 +11,7 @@ import { NotificationsCenter } from '@/components/notifications/NotificationsCen
 import { TaskInbox } from '@/components/tasks/TaskInbox';
 import { NavigationControls } from '@/components/NavigationControls';
 import StarfieldBackground from '@/components/StarfieldBackground';
+import { Events } from '@/lib/events';
 import { 
   BarChart3, 
   Plane, 
@@ -30,7 +31,9 @@ import {
   Bell,
   CheckSquare,
   Shield,
-  FileText
+  FileText,
+  Brain,
+  UserCheck
 } from "lucide-react";
 
 interface TripRequest {
@@ -211,7 +214,7 @@ export default function BrokerDashboard() {
 
       <div className="p-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="bg-slate-800 border-slate-700 grid grid-cols-9">
+          <TabsList className="bg-slate-800 border-slate-700 grid grid-cols-10">
             <TabsTrigger value="dashboard" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
               <BarChart3 className="h-4 w-4 mr-2" />
               Dashboard
@@ -247,6 +250,10 @@ export default function BrokerDashboard() {
             <TabsTrigger value="profile" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
               <Users className="h-4 w-4 mr-2" />
               Profile
+            </TabsTrigger>
+            <TabsTrigger value="psych" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+              <Brain className="h-4 w-4 mr-2" />
+              Psych Test
             </TabsTrigger>
           </TabsList>
 
@@ -801,6 +808,59 @@ export default function BrokerDashboard() {
           {/* Tasks Tab */}
           <TabsContent value="tasks" className="space-y-6">
             <TaskInbox />
+          </TabsContent>
+
+          {/* Psych Test Tab */}
+          <TabsContent value="psych" className="space-y-6">
+            <h2 className="text-2xl font-bold text-white">Personality Assessment</h2>
+            
+            <Card className="bg-slate-800 border-slate-700">
+              <CardHeader>
+                <CardTitle className="text-orange-400 flex items-center gap-2">
+                  <Brain className="h-5 w-5" />
+                  Aviation Personality Test
+                </CardTitle>
+                <CardDescription>
+                  Complete your personality assessment to unlock advanced features and better matching
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="text-center py-8">
+                  <div className="w-20 h-20 bg-orange-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Brain className="h-10 w-10 text-orange-400" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-white mb-2">Ready to Discover Your Aviation Profile?</h3>
+                  <p className="text-slate-400 mb-6 max-w-md mx-auto">
+                    Our comprehensive personality test helps match you with the right opportunities and partners in the aviation industry.
+                  </p>
+                  <Button 
+                    onClick={() => window.location.href = '/psych'}
+                    className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3"
+                  >
+                    <Brain className="h-4 w-4 mr-2" />
+                    Start Personality Test
+                  </Button>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="text-center p-4 bg-slate-700 rounded-lg">
+                    <UserCheck className="h-8 w-8 text-green-400 mx-auto mb-2" />
+                    <h4 className="font-semibold text-white mb-1">Better Matching</h4>
+                    <p className="text-sm text-slate-400">Find compatible partners and opportunities</p>
+                  </div>
+                  <div className="text-center p-4 bg-slate-700 rounded-lg">
+                    <Shield className="h-8 w-8 text-blue-400 mx-auto mb-2" />
+                    <h4 className="font-semibold text-white mb-1">Trust Building</h4>
+                    <p className="text-sm text-slate-400">Show your professional profile to others</p>
+                  </div>
+                  <div className="text-center p-4 bg-slate-700 rounded-lg">
+                    <TrendingUp className="h-8 w-8 text-purple-400 mx-auto mb-2" />
+                    <h4 className="font-semibold text-white mb-1">Career Insights</h4>
+                    <p className="text-sm text-slate-400">Understand your strengths and growth areas</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       </div>

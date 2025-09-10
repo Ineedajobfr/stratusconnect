@@ -16,7 +16,7 @@ interface SecurityEvent {
   user_id?: string;
   ip_hash?: string;
   user_agent_hash?: string;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
   blocked: boolean;
   resolved: boolean;
   created_at: string;

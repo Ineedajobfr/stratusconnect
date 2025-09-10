@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -53,7 +53,7 @@ interface Transaction {
 
 export default function EscrowManagement() {
   const [escrowAccounts, setEscrowAccounts] = useState<EscrowAccount[]>([]);
-  const [availableDeals, setAvailableDeals] = useState<any[]>([]);
+  const [availableDeals, setAvailableDeals] = useState<Record<string, unknown>[]>([]);
   const [selectedAccount, setSelectedAccount] = useState<EscrowAccount | null>(null);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [isTransactionDialogOpen, setIsTransactionDialogOpen] = useState(false);
@@ -75,27 +75,27 @@ export default function EscrowManagement() {
     fetchUserData();
     fetchEscrowAccounts();
     fetchAvailableDeals();
-  }, []);
+  }, [fetchUserData, fetchEscrowAccounts, fetchAvailableDeals]);
 
-  const fetchUserData = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        setCurrentUserId(user.id);
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
+  const fetchUserData = useCallback(async () => {
+              try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user) {
+                  setCurrentUserId(user.id);
+                }
+              } catch (error) {
+                console.error("Error fetching user data:", error);
+              }
+            }, [data, user, auth, getUser, id]);
 
-  const fetchEscrowAccounts = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+  const fetchEscrowAccounts = useCallback(async () => {
+              try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user) return;
 
-      const { data, error } = await supabase
-        .from("escrow_accounts")
-        .select(`
+                const { data, error } = await supabase
+                  .from("escrow_accounts")
+                  .select(`
           *,
           deals (
             final_amount,
@@ -115,27 +115,27 @@ export default function EscrowManagement() {
             )
           )
         `)
-        .order("created_at", { ascending: false });
+                  .order("created_at", { ascending: false });
 
-      if (error) throw error;
-      setEscrowAccounts((data || []) as unknown as EscrowAccount[]);
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: "Failed to fetch escrow accounts",
-        variant: "destructive",
-      });
-    }
-  };
+                if (error) throw error;
+                setEscrowAccounts((data || []) as unknown as EscrowAccount[]);
+              } catch (error: unknown) {
+                toast({
+                  title: "Error",
+                  description: "Failed to fetch escrow accounts",
+                  variant: "destructive",
+                });
+              }
+            }, [data, user, auth, getUser, from, select, order, ascending, EscrowAccount, toast, title, description, variant]);
 
-  const fetchAvailableDeals = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+  const fetchAvailableDeals = useCallback(async () => {
+              try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user) return;
 
-      const { data, error } = await supabase
-        .from("deals")
-        .select(`
+                const { data, error } = await supabase
+                  .from("deals")
+                  .select(`
           *,
           aircraft:aircraft!deals_aircraft_id_fkey (
             tail_number,
@@ -151,15 +151,15 @@ export default function EscrowManagement() {
             company_name
           )
         `)
-        .in("status", ["accepted", "in_progress"])
-        .or(`operator_id.eq.${user.id},broker_id.eq.${user.id}`);
+                  .in("status", ["accepted", "in_progress"])
+                  .or(`operator_id.eq.${user.id},broker_id.eq.${user.id}`);
 
-      if (error) throw error;
-      setAvailableDeals(data || []);
-    } catch (error: any) {
-      console.error("Error fetching available deals:", error);
-    }
-  };
+                if (error) throw error;
+                setAvailableDeals(data || []);
+              } catch (error: unknown) {
+                console.error("Error fetching available deals:", error);
+              }
+            }, [data, user, auth, getUser, from, select, in, or, id]);
 
   const createEscrowAccount = async () => {
     if (!escrowForm.deal_id) {
@@ -198,10 +198,10 @@ export default function EscrowManagement() {
       setIsCreateDialogOpen(false);
       setEscrowForm({ deal_id: "", initial_deposit: 0 });
       fetchEscrowAccounts();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to create escrow account",
+        description: (error as Error).message || "Failed to create escrow account",
         variant: "destructive",
       });
     }
@@ -245,10 +245,10 @@ export default function EscrowManagement() {
       setTransactionForm({ type: "deposit", amount: 0, description: "" });
       setSelectedAccount(null);
       fetchEscrowAccounts();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to process transaction",
+        description: (error as Error).message || "Failed to process transaction",
         variant: "destructive",
       });
     }
@@ -272,7 +272,7 @@ export default function EscrowManagement() {
       });
 
       fetchEscrowAccounts();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: "Failed to release escrow funds",

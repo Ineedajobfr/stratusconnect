@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Card } from "@/components/ui/card";
 import { Star, MessageCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -28,39 +28,39 @@ export default function ReviewsList({ userId, className = "" }: ReviewsListProps
 
   useEffect(() => {
     fetchReviews();
-  }, [userId]);
+  }, [userId, fetchReviews]);
 
-  const fetchReviews = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("user_reviews")
-        .select(`
+  const fetchReviews = useCallback(async () => {
+              try {
+                const { data, error } = await supabase
+                  .from("user_reviews")
+                  .select(`
           *,
           profiles!user_reviews_reviewer_id_fkey (
             display_name,
             platform_role
           )
         `)
-        .eq("reviewee_id", userId)
-        .order("created_at", { ascending: false });
+                  .eq("reviewee_id", userId)
+                  .order("created_at", { ascending: false });
 
-      if (error) throw error;
+                if (error) throw error;
 
-      const reviewsData = data || [];
-      setReviews(reviewsData);
-      
-      if (reviewsData.length > 0) {
-        const avg = reviewsData.reduce((sum, review) => sum + review.rating, 0) / reviewsData.length;
-        setAverageRating(Math.round(avg * 10) / 10);
-      } else {
-        setAverageRating(0);
-      }
-    } catch (error) {
-      console.error("Error fetching reviews:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+                const reviewsData = data || [];
+                setReviews(reviewsData);
+                
+                if (reviewsData.length > 0) {
+                  const avg = reviewsData.reduce((sum, review) => sum + review.rating, 0) / reviewsData.length;
+                  setAverageRating(Math.round(avg * 10) / 10);
+                } else {
+                  setAverageRating(0);
+                }
+              } catch (error) {
+                console.error("Error fetching reviews:", error);
+              } finally {
+                setLoading(false);
+              }
+            }, [data, from, select, eq, userId, order, ascending, length, reduce, rating, round]);
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {

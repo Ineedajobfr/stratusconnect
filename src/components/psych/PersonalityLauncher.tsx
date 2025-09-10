@@ -7,14 +7,14 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
 interface PersonalityLauncherProps {
-  user: any;
+  user: Record<string, unknown>;
 }
 
 export default function PersonalityLauncher({ user }: PersonalityLauncherProps) {
   const [loading, setLoading] = useState(true);
-  const [session, setSession] = useState<any | null>(null);
+  const [session, setSession] = useState<Record<string, unknown> | null>(null);
   const [consent, setConsent] = useState(false);
-  const [completedSession, setCompletedSession] = useState<any | null>(null);
+  const [completedSession, setCompletedSession] = useState<Record<string, unknown> | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -103,10 +103,10 @@ export default function PersonalityLauncher({ user }: PersonalityLauncherProps) 
       
       // Navigate to test runner
       window.location.href = `/psych/run/${data.id}`;
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to start test",
+        description: (error as Error).message || "Failed to start test",
         variant: "destructive"
       });
     }
@@ -130,7 +130,7 @@ export default function PersonalityLauncher({ user }: PersonalityLauncherProps) 
           : "Your personality profile is now private",
         variant: "default"
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: "Failed to update privacy settings",

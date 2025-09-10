@@ -59,7 +59,7 @@ serve(async (req) => {
       if (msg.includes('already') && msg.includes('registered')) {
         // User exists, update their role to admin
         const { data: list } = await supabaseClient.auth.admin.listUsers();
-        const existing = list?.users?.find((u: any) => u.email === email);
+        const existing = list?.users?.find((u: Record<string, unknown>) => u.email === email);
         
         if (existing) {
           // Update existing user to admin
@@ -147,7 +147,7 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({ 
         error: 'Internal server error',
-        details: (error as any)?.message 
+        details: (error as Error)?.message 
       }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },

@@ -55,7 +55,7 @@ export const sanitizeMessageContent = (content: string): string => {
  * @param data - Object containing profile fields to sanitize
  * @returns Sanitized profile data object
  */
-export const sanitizeProfileData = (data: Record<string, any>): Record<string, any> => {
+export const sanitizeProfileData = (data: Record<string, unknown>): Record<string, unknown> => {
   const sanitized = { ...data };
   
   // Fields that should be sanitized as plain text

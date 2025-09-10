@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -48,42 +48,42 @@ export const StrikeManagement = () => {
 
   useEffect(() => {
     fetchStrikes();
-  }, []);
+  }, [fetchStrikes]);
 
-  const fetchStrikes = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('strikes')
-        .select(`
+  const fetchStrikes = useCallback(async () => {
+              try {
+                const { data, error } = await supabase
+                  .from('strikes')
+                  .select(`
           *,
           profiles!strikes_user_id_fkey (
             display_name,
             platform_role
           )
         `)
-        .order('created_at', { ascending: false });
+                  .order('created_at', { ascending: false });
 
-      if (error) throw error;
-      
-      // Handle the query result and map to correct type
-      const mappedStrikes: Strike[] = (data || [])
-        .filter((item: any) => item.profiles && item.profiles.display_name)
-        .map((item: any) => ({
-          ...item,
-          profiles: item.profiles
-        }));
-      
-      setStrikes(mappedStrikes);
-    } catch (error: any) {
-      toast({
-        title: 'Error',
-        description: error.message || 'Failed to fetch strikes',
-        variant: 'destructive',
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+                if (error) throw error;
+                
+                // Handle the query result and map to correct type
+                const mappedStrikes: Strike[] = (data || [])
+                  .filter((item: Record<string, unknown>) => item.profiles && (item.profiles as Record<string, unknown>).display_name)
+                  .map((item: Record<string, unknown>) => ({
+                    ...item,
+                    profiles: item.profiles
+                  }));
+                
+                setStrikes(mappedStrikes);
+              } catch (error: unknown) {
+                toast({
+                  title: 'Error',
+                  description: (error as Error).message || 'Failed to fetch strikes',
+                  variant: 'destructive',
+                });
+              } finally {
+                setLoading(false);
+              }
+            }, [data, from, select, order, ascending, Strike, filter, Record, profiles, display_name, map, toast, title, description, Error, message, variant]);
 
   const issueStrike = async () => {
     if (!newStrike.user_email || !newStrike.reason) {
@@ -173,10 +173,10 @@ export const StrikeManagement = () => {
       // Reset form and refresh
       setNewStrike({ user_email: '', reason: '', notes: '', severity: 'minor' });
       fetchStrikes();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: 'Error',
-        description: error.message || 'Failed to issue strike',
+        description: (error as Error).message || 'Failed to issue strike',
         variant: 'destructive',
       });
     } finally {
@@ -206,10 +206,10 @@ export const StrikeManagement = () => {
       });
 
       fetchStrikes();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: 'Error',
-        description: error.message || 'Failed to resolve strike',
+        description: (error as Error).message || 'Failed to resolve strike',
         variant: 'destructive',
       });
     }

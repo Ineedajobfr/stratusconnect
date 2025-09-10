@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -82,112 +82,112 @@ export default function AdvancedAnalytics() {
     fetchMarketTrends();
     fetchPerformanceMetrics();
     generateMockData();
-  }, [selectedRoute, selectedPeriod]);
+  }, [selectedRoute, selectedPeriod, fetchUserData, fetchMarketTrends, fetchPerformanceMetrics, generateMockData]);
 
-  const fetchUserData = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        setCurrentUserId(user.id);
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
+  const fetchUserData = useCallback(async () => {
+              try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user) {
+                  setCurrentUserId(user.id);
+                }
+              } catch (error) {
+                console.error("Error fetching user data:", error);
+              }
+            }, [data, user, auth, getUser, id]);
 
-  const fetchMarketTrends = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("market_trends")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(50);
+  const fetchMarketTrends = useCallback(async () => {
+              try {
+                const { data, error } = await supabase
+                  .from("market_trends")
+                  .select("*")
+                  .order("created_at", { ascending: false })
+                  .limit(50);
 
-      if (error) throw error;
-      setMarketTrends((data || []) as MarketTrend[]);
-    } catch (error: any) {
-      console.error("Error fetching market trends:", error);
-    }
-  };
+                if (error) throw error;
+                setMarketTrends((data || []) as MarketTrend[]);
+              } catch (error: unknown) {
+                console.error("Error fetching market trends:", error);
+              }
+            }, [data, from, select, order, ascending, limit, MarketTrend]);
 
-  const fetchPerformanceMetrics = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+  const fetchPerformanceMetrics = useCallback(async () => {
+              try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user) return;
 
-      const { data, error } = await supabase
-        .from("performance_metrics")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("period_start", { ascending: false })
-        .limit(100);
+                const { data, error } = await supabase
+                  .from("performance_metrics")
+                  .select("*")
+                  .eq("user_id", user.id)
+                  .order("period_start", { ascending: false })
+                  .limit(100);
 
-      if (error) throw error;
-      setPerformanceMetrics(data || []);
-    } catch (error: any) {
-      console.error("Error fetching performance metrics:", error);
-    }
-  };
+                if (error) throw error;
+                setPerformanceMetrics(data || []);
+              } catch (error: unknown) {
+                console.error("Error fetching performance metrics:", error);
+              }
+            }, [data, user, auth, getUser, from, select, eq, id, order, ascending, limit]);
 
-  const generateMockData = async () => {
-    if (marketTrends.length === 0) {
-      // Generate some mock market trends for demonstration
-      const mockTrends = [
-        {
-          route: 'NYC-LAX',
-          aircraft_type: 'Light Jet',
-          trend_data: {
-            price_trend: 12.5,
-            volume_trend: 8.3,
-            demand_score: 9.2,
-            predictions: mockPriceData.map(d => ({
-              date: d.date,
-              predicted_price: d.price * 1.05,
-              confidence: 0.85
-            }))
-          },
-          confidence_score: 0.89,
-          forecast_period: '6_months'
-        },
-        {
-          route: 'MIA-NYC',
-          aircraft_type: 'Midsize Jet',
-          trend_data: {
-            price_trend: -3.2,
-            volume_trend: 15.7,
-            demand_score: 8.7,
-            predictions: mockPriceData.map(d => ({
-              date: d.date,
-              predicted_price: d.price * 0.97,
-              confidence: 0.78
-            }))
-          },
-          confidence_score: 0.82,
-          forecast_period: '6_months'
-        }
-      ];
+  const generateMockData = useCallback(async () => {
+              if (marketTrends.length === 0) {
+                // Generate some mock market trends for demonstration
+                const mockTrends = [
+                  {
+                    route: 'NYC-LAX',
+                    aircraft_type: 'Light Jet',
+                    trend_data: {
+                      price_trend: 12.5,
+                      volume_trend: 8.3,
+                      demand_score: 9.2,
+                      predictions: mockPriceData.map(d => ({
+                        date: d.date,
+                        predicted_price: d.price * 1.05,
+                        confidence: 0.85
+                      }))
+                    },
+                    confidence_score: 0.89,
+                    forecast_period: '6_months'
+                  },
+                  {
+                    route: 'MIA-NYC',
+                    aircraft_type: 'Midsize Jet',
+                    trend_data: {
+                      price_trend: -3.2,
+                      volume_trend: 15.7,
+                      demand_score: 8.7,
+                      predictions: mockPriceData.map(d => ({
+                        date: d.date,
+                        predicted_price: d.price * 0.97,
+                        confidence: 0.78
+                      }))
+                    },
+                    confidence_score: 0.82,
+                    forecast_period: '6_months'
+                  }
+                ];
 
-      try {
-        const { error } = await supabase
-          .from("market_trends")
-          .insert(mockTrends.map(trend => ({
-            route: trend.route,
-            aircraft_type: trend.aircraft_type,
-            trend_data: trend.trend_data,
-            confidence_score: trend.confidence_score,
-            forecast_period: trend.forecast_period
-          })));
+                try {
+                  const { error } = await supabase
+                    .from("market_trends")
+                    .insert(mockTrends.map(trend => ({
+                      route: trend.route,
+                      aircraft_type: trend.aircraft_type,
+                      trend_data: trend.trend_data,
+                      confidence_score: trend.confidence_score,
+                      forecast_period: trend.forecast_period
+                    })));
 
-        if (!error) {
-          setMarketTrends(mockTrends as MarketTrend[]);
-        }
-      } catch (error) {
-        console.error("Error generating mock data:", error);
-      }
-    }
-  };
+                  if (!error) {
+                    setMarketTrends(mockTrends as MarketTrend[]);
+                  }
+                } catch (error) {
+                  console.error("Error generating mock data:", error);
+                }
+              }
+            }, [marketTrends, length, route, aircraft_type, trend_data, price_trend, volume_trend, demand_score, predictions, map, date, predicted_price, price, confidence, confidence_score, forecast_period, from, insert, MarketTrend]);
 
-  const refreshAnalytics = async () => {
+  const refreshAnalytics = useCallback(async () => {
     setIsLoading(true);
     try {
       await Promise.all([
@@ -207,7 +207,7 @@ export default function AdvancedAnalytics() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [fetchMarketTrends, fetchPerformanceMetrics, toast]);
 
   const getTrendColor = (trend: number) => {
     if (trend > 5) return 'text-terminal-success';

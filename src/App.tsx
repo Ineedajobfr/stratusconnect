@@ -3,13 +3,14 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { lazy, Suspense, memo } from "react";
+import { lazy, Suspense, memo, useEffect } from "react";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { FullPageLoader } from "@/components/LoadingSpinner";
 import { NavigationOptimizer } from "@/components/NavigationOptimizer";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { logger } from "@/utils/performance";
+import { Events } from "@/lib/events";
 
 // Import new dashboard components
 import BrokerDashboard from "@/components/dashboard/BrokerDashboard";
@@ -25,6 +26,9 @@ const CrewTerminal = lazy(() => import("./pages/CrewTerminal"));
 const AdminTerminal = lazy(() => import("./pages/AdminTerminal"));
 const BetaNavigator = lazy(() => import("./pages/BetaNavigator"));
 const PersonalityTest = lazy(() => import("./pages/PersonalityTest"));
+const AdminAgentReports = lazy(() => import("./pages/AdminAgentReports"));
+const VerifyCertificate = lazy(() => import("./pages/VerifyCertificate"));
+const CertificateManagement = lazy(() => import("./pages/CertificateManagement"));
 
 // Secondary pages - loaded on demand
 const Demo = lazy(() => import("./pages/Demo"));
@@ -88,6 +92,18 @@ const MemoizedNavigationOptimizer = memo(NavigationOptimizer);
 const App = memo(() => {
   // Log app initialization in development only
   logger.debug('StratusConnect App initializing...');
+  
+  // Track page performance
+  useEffect(() => {
+    const startTime = performance.now();
+    const handleLoad = () => {
+      const loadTime = performance.now() - startTime;
+      Events.pageView(window.location.pathname, loadTime, loadTime);
+    };
+    
+    window.addEventListener('load', handleLoad);
+    return () => window.removeEventListener('load', handleLoad);
+  }, []);
 
   return (
     <ErrorBoundary>
@@ -175,6 +191,10 @@ const App = memo(() => {
         <Route path="/psych" element={<PersonalityTest />} />
         <Route path="/psych/run/:sessionId" element={<PersonalityTest />} />
         <Route path="/psych/report/:sessionId" element={<PersonalityTest />} />
+        
+        {/* Certificate Management Routes */}
+        <Route path="/verify" element={<VerifyCertificate />} />
+        <Route path="/admin/certificates" element={<ProtectedRoute allowedRoles={['admin']}><CertificateManagement /></ProtectedRoute>} />
               
               {/* Profile routes */}
               <Route path="/u/:username" element={<PublicProfile />} />
@@ -222,6 +242,14 @@ const App = memo(() => {
                 element={
                   <ProtectedRoute allowedRoles={['admin']}>
                     <AdminTerminal />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/ai-reports" 
+                element={
+                  <ProtectedRoute allowedRoles={['admin']}>
+                    <AdminAgentReports />
                   </ProtectedRoute>
                 } 
               />

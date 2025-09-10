@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -98,67 +98,67 @@ export default function ReputationSystem() {
   useEffect(() => {
     fetchUserData();
     fetchReputationData();
-  }, []);
+  }, [fetchUserData, fetchReputationData]);
 
-  const fetchUserData = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        setCurrentUserId(user.id);
-        
-        const { data: userData } = await supabase
-          .from("users")
-          .select("role")
-          .eq("id", user.id)
-          .single();
-        
-        setUserRole(userData?.role || "");
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
+  const fetchUserData = useCallback(async () => {
+              try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user) {
+                  setCurrentUserId(user.id);
+                  
+                  const { data: userData } = await supabase
+                    .from("users")
+                    .select("role")
+                    .eq("id", user.id)
+                    .single();
+                  
+                  setUserRole(userData?.role || "");
+                }
+              } catch (error) {
+                console.error("Error fetching user data:", error);
+              }
+            }, [data, user, auth, getUser, id, userData, from, select, eq, single, role]);
 
-  const fetchReputationData = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+  const fetchReputationData = useCallback(async () => {
+              try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user) return;
 
-      // Skip ratings query due to foreign key issues - use mock data for now
-      setRatings([]);
+                // Skip ratings query due to foreign key issues - use mock data for now
+                setRatings([]);
 
-      // Calculate average ratings
-      if (ratings && ratings.length > 0) {
-        const categories = ['communication', 'reliability', 'professionalism', 'timeliness'];
-        const avgRatings: any = { totalReviews: ratings.length };
-        
-        categories.forEach(category => {
-          const categoryRatings = ratings.filter(r => r.category === category);
-          if (categoryRatings.length > 0) {
-            avgRatings[category] = categoryRatings.reduce((sum, r) => sum + r.rating, 0) / categoryRatings.length;
-          } else {
-            avgRatings[category] = 0;
-          }
-        });
+                // Calculate average ratings
+                if (ratings && ratings.length > 0) {
+                  const categories = ['communication', 'reliability', 'professionalism', 'timeliness'];
+                  const avgRatings: Record<string, unknown> = { totalReviews: ratings.length };
+                  
+                  categories.forEach(category => {
+                    const categoryRatings = ratings.filter(r => r.category === category);
+                    if (categoryRatings.length > 0) {
+                      avgRatings[category] = categoryRatings.reduce((sum, r) => sum + r.rating, 0) / categoryRatings.length;
+                    } else {
+                      avgRatings[category] = 0;
+                    }
+                  });
 
-        avgRatings.overall = (avgRatings.communication + avgRatings.reliability + avgRatings.professionalism + avgRatings.timeliness) / 4;
-        
-        setReputationScore(prev => ({ ...prev, ...avgRatings }));
-      }
+                  avgRatings.overall = (avgRatings.communication + avgRatings.reliability + avgRatings.professionalism + avgRatings.timeliness) / 4;
+                  
+                  setReputationScore(prev => ({ ...prev, ...avgRatings }));
+                }
 
-      // Fetch achievements
-      const { data: achievementsData } = await supabase
-        .from("user_achievements")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("earned_at", { ascending: false });
+                // Fetch achievements
+                const { data: achievementsData } = await supabase
+                  .from("user_achievements")
+                  .select("*")
+                  .eq("user_id", user.id)
+                  .order("earned_at", { ascending: false });
 
-      setAchievements(achievementsData || []);
+                setAchievements(achievementsData || []);
 
-      // Fetch completed deals for rating
-      const { data: dealsData } = await supabase
-        .from("deals")
-        .select(`
+                // Fetch completed deals for rating
+                const { data: dealsData } = await supabase
+                  .from("deals")
+                  .select(`
           *,
           aircraft:aircraft_id (
             tail_number,
@@ -166,23 +166,23 @@ export default function ReputationSystem() {
             model
           )
         `)
-        .or(`operator_id.eq.${user.id},broker_id.eq.${user.id}`)
-        .eq("status", "completed")
-        .order("created_at", { ascending: false });
+                  .or(`operator_id.eq.${user.id},broker_id.eq.${user.id}`)
+                  .eq("status", "completed")
+                  .order("created_at", { ascending: false });
 
-      if (dealsData) {
-        setCompletedDeals(dealsData);
-        setReputationScore(prev => ({ ...prev, dealsCompleted: dealsData.length }));
-      }
+                if (dealsData) {
+                  setCompletedDeals(dealsData);
+                  setReputationScore(prev => ({ ...prev, dealsCompleted: dealsData.length }));
+                }
 
-      // Generate some achievements if none exist
-      if (!achievementsData || achievementsData.length === 0) {
-        generateMockAchievements(user.id);
-      }
-    } catch (error) {
-      console.error("Error fetching reputation data:", error);
-    }
-  };
+                // Generate some achievements if none exist
+                if (!achievementsData || achievementsData.length === 0) {
+                  generateMockAchievements(user.id);
+                }
+              } catch (error) {
+                console.error("Error fetching reputation data:", error);
+              }
+            }, [data, user, auth, getUser, ratings, length, Record, totalReviews, forEach, filter, category, reduce, rating, overall, communication, reliability, professionalism, timeliness, achievementsData, from, select, eq, id, order, ascending, dealsData, or, dealsCompleted]);
 
   const generateMockAchievements = async (userId: string) => {
     const mockAchievements = [
@@ -267,10 +267,10 @@ export default function ReputationSystem() {
           timeliness: ""
         }
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to submit rating",
+        description: (error as Error).message || "Failed to submit rating",
         variant: "destructive",
       });
     }

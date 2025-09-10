@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 
 export interface PageContent {
@@ -18,30 +18,30 @@ export const usePageContent = (pageName: string) => {
 
   useEffect(() => {
     fetchContent();
-  }, [pageName]);
+  }, [pageName, fetchContent]);
 
-  const fetchContent = async () => {
-    try {
-      setLoading(true);
-      const { data, error } = await supabase
-        .from('page_content')
-        .select('*')
-        .eq('page_name', pageName);
+  const fetchContent = useCallback(async () => {
+              try {
+                setLoading(true);
+                const { data, error } = await supabase
+                  .from('page_content')
+                  .select('*')
+                  .eq('page_name', pageName);
 
-      if (error) throw error;
+                if (error) throw error;
 
-      const contentMap = data.reduce((acc, item) => {
-        acc[item.section_key] = item.content;
-        return acc;
-      }, {} as Record<string, string>);
+                const contentMap = data.reduce((acc, item) => {
+                  acc[item.section_key] = item.content;
+                  return acc;
+                }, {} as Record<string, string>);
 
-      setContent(contentMap);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-    } finally {
-      setLoading(false);
-    }
-  };
+                setContent(contentMap);
+              } catch (err) {
+                setError(err instanceof Error ? err.message : 'An error occurred');
+              } finally {
+                setLoading(false);
+              }
+            }, [data, error, from, select, eq, reduce, section_key, content, Record, Error, message]);
 
   const updateContent = async (sectionKey: string, newContent: string) => {
     try {

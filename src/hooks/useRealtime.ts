@@ -6,7 +6,7 @@ interface RealtimeSubscription {
   table: string;
   event: 'INSERT' | 'UPDATE' | 'DELETE';
   filter?: string;
-  callback: (payload: any) => void;
+  callback: (payload: Record<string, unknown>) => void;
 }
 
 export const useRealtime = (subscriptions: RealtimeSubscription[]) => {
@@ -52,7 +52,7 @@ export const useRealtime = (subscriptions: RealtimeSubscription[]) => {
 };
 
 // Specific hooks for common use cases
-export const useQuotesRealtime = (requestId: string, callback: (payload: any) => void) => {
+export const useQuotesRealtime = (requestId: string, callback: (payload: Record<string, unknown>) => void) => {
   return useRealtime([
     {
       table: 'quotes',
@@ -69,7 +69,7 @@ export const useQuotesRealtime = (requestId: string, callback: (payload: any) =>
   ]);
 };
 
-export const useFlightStatusRealtime = (bookingId: string, callback: (payload: any) => void) => {
+export const useFlightStatusRealtime = (bookingId: string, callback: (payload: Record<string, unknown>) => void) => {
   return useRealtime([
     {
       table: 'flights',
@@ -80,7 +80,7 @@ export const useFlightStatusRealtime = (bookingId: string, callback: (payload: a
   ]);
 };
 
-export const useNotificationsRealtime = (userId: string, callback: (payload: any) => void) => {
+export const useNotificationsRealtime = (userId: string, callback: (payload: Record<string, unknown>) => void) => {
   return useRealtime([
     {
       table: 'notifications',
@@ -91,7 +91,7 @@ export const useNotificationsRealtime = (userId: string, callback: (payload: any
   ]);
 };
 
-export const useMessagesRealtime = (threadId: string, callback: (payload: any) => void) => {
+export const useMessagesRealtime = (threadId: string, callback: (payload: Record<string, unknown>) => void) => {
   return useRealtime([
     {
       table: 'messages',
@@ -102,7 +102,7 @@ export const useMessagesRealtime = (threadId: string, callback: (payload: any) =
   ]);
 };
 
-export const useBookingRealtime = (bookingId: string, callback: (payload: any) => void) => {
+export const useBookingRealtime = (bookingId: string, callback: (payload: Record<string, unknown>) => void) => {
   return useRealtime([
     {
       table: 'bookings',

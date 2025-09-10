@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +8,7 @@ import { Send, Paperclip, Smile, MoreVertical } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useMessagesRealtime } from "@/hooks/useRealtime";
+import { Events } from "@/lib/events";
 
 interface Message {
   id: string;
@@ -58,31 +59,31 @@ export const MessageCenter: React.FC<MessageCenterProps> = ({
     if (threadId) {
       fetchMessages();
     }
-  }, [threadId]);
+  }, [threadId, fetchMessages]);
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
-  const fetchMessages = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('messages')
-        .select(`
+  const fetchMessages = useCallback(async () => {
+              try {
+                const { data, error } = await supabase
+                  .from('messages')
+                  .select(`
           *,
           users (full_name, avatar_url)
         `)
-        .or(`booking_id.eq.${bookingId},request_id.eq.${requestId}`)
-        .order('created_at', { ascending: true });
+                  .or(`booking_id.eq.${bookingId},request_id.eq.${requestId}`)
+                  .order('created_at', { ascending: true });
 
-      if (error) throw error;
-      setMessages(data || []);
-    } catch (error) {
-      console.error('Error fetching messages:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+                if (error) throw error;
+                setMessages(data || []);
+              } catch (error) {
+                console.error('Error fetching messages:', error);
+              } finally {
+                setLoading(false);
+              }
+            }, [data, from, select, or, bookingId, requestId, order, ascending]);
 
   const sendMessage = async () => {
     if (!newMessage.trim() || !threadId || sending) return;
@@ -101,6 +102,15 @@ export const MessageCenter: React.FC<MessageCenterProps> = ({
         });
 
       if (error) throw error;
+
+      // Emit message sent event for AI monitoring
+      const containsPhone = /\b\d{3}[-.]?\d{3}[-.]?\d{4}\b/.test(newMessage.trim());
+      Events.messageSent(
+        threadId, 
+        user?.id || '', 
+        threadId, // Using threadId as recipient for now
+        containsPhone
+      );
 
       setNewMessage('');
     } catch (error) {

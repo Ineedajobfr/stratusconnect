@@ -7,7 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 export default function PersonalityTest() {
   const { action, sessionId } = useParams();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<Record<string, unknown> | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

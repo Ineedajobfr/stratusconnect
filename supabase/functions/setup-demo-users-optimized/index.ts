@@ -93,11 +93,11 @@ serve(async (req) => {
         });
 
         if (createErr) {
-          const msg = (createErr as any).message?.toLowerCase() || '';
+          const msg = (createErr as Error).message?.toLowerCase() || '';
           if (msg.includes('already') && msg.includes('registered')) {
             // Find existing
             const { data: list } = await supabaseClient.auth.admin.listUsers();
-            const existing = list?.users?.find((u: any) => u.email === userData.email);
+            const existing = list?.users?.find((u: Record<string, unknown>) => u.email === userData.email);
             if (existing) {
               userId = existing.id;
               await supabaseClient.auth.admin.updateUserById(existing.id, {
@@ -145,12 +145,12 @@ serve(async (req) => {
           success: true,
           message: 'User processed'
         });
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error(`Error processing ${userData.email}:`, error);
         results.push({
           email: userData.email,
           success: false,
-          error: error?.message || 'Unknown error'
+          error: (error as Error)?.message || 'Unknown error'
         });
       }
     });

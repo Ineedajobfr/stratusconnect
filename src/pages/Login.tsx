@@ -18,7 +18,7 @@ export default function Login() {
   const [activeTab, setActiveTab] = useState('login');
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [registrationResult, setRegistrationResult] = useState<any>(null);
+  const [registrationResult, setRegistrationResult] = useState<Record<string, unknown> | null>(null);
   const [copied, setCopied] = useState({ username: false, accessCode: false });
 
   // Login form state

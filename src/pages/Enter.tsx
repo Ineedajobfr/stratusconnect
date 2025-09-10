@@ -80,10 +80,10 @@ export default function Enter() {
           navigate('/verification-pending');
         }
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Authentication failed",
-        description: error.message || "Please check your credentials and try again",
+        description: (error as Error).message || "Please check your credentials and try again",
         variant: "destructive"
       });
     } finally {

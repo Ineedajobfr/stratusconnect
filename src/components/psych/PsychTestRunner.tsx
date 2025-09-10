@@ -8,8 +8,8 @@ import { useToast } from "@/hooks/use-toast";
 interface Item {
   id: string;
   type: string;
-  payload: any;
-  trait_map: any;
+  payload: Record<string, unknown>;
+  trait_map: Record<string, unknown>;
   module_id: string;
   module_code: string;
 }
@@ -65,7 +65,7 @@ export default function PsychTestRunner({ sessionId }: PsychTestRunnerProps) {
 
           if (itemsError) throw itemsError;
 
-          moduleItems?.forEach((item: any) => {
+          moduleItems?.forEach((item: Record<string, unknown>) => {
             allItems.push({
               ...item,
               module_id: module.id,
@@ -80,7 +80,7 @@ export default function PsychTestRunner({ sessionId }: PsychTestRunnerProps) {
         const shuffled = shuffleArray([...allItems]);
         setItems(shuffled);
         setMsStart(Date.now());
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error loading test items:", error);
         toast({
           title: "Error",
@@ -110,7 +110,7 @@ export default function PsychTestRunner({ sessionId }: PsychTestRunnerProps) {
     [currentIndex, items.length]
   );
 
-  const handleAnswer = async (value: any) => {
+  const handleAnswer = async (value: unknown) => {
     if (!currentItem || saving) return;
 
     setSaving(true);
@@ -139,10 +139,10 @@ export default function PsychTestRunner({ sessionId }: PsychTestRunnerProps) {
         // Test completed - finalize scores
         await finalizeTest();
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to save response",
+        description: (error as Error).message || "Failed to save response",
         variant: "destructive"
       });
     } finally {
@@ -175,7 +175,7 @@ export default function PsychTestRunner({ sessionId }: PsychTestRunnerProps) {
         window.location.href = `/psych/report/${sessionId}`;
       }, 1000);
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error finalizing test:", error);
       toast({
         title: "Error",
@@ -249,7 +249,7 @@ export default function PsychTestRunner({ sessionId }: PsychTestRunnerProps) {
 }
 
 interface LikertQuestionProps {
-  item: any;
+  item: Item;
   onAnswer: (value: number) => void;
   disabled: boolean;
 }
@@ -288,7 +288,7 @@ function LikertQuestion({ item, onAnswer, disabled }: LikertQuestionProps) {
 }
 
 interface ScenarioQuestionProps {
-  item: any;
+  item: Item;
   onAnswer: (option: number) => void;
   disabled: boolean;
 }

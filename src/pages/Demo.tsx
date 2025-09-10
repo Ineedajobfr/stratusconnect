@@ -6,7 +6,7 @@ import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { DemoBanner } from "@/components/DemoBanner";
-import { Plane, Users, BarChart3 } from "lucide-react";
+import { Plane, Users, BarChart3, Brain, Shield, Bot } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function DemoSetup() {
@@ -40,6 +40,27 @@ export default function DemoSetup() {
       icon: Users,
       path: "/demo/crew",
       role: "crew"
+    },
+    {
+      title: "Personality Test",
+      description: "Aviation-specific psychometric assessment for better matching and insights",
+      icon: Brain,
+      path: "/psych",
+      role: "psych"
+    },
+    {
+      title: "Fortress of Trust",
+      description: "Advanced verification and security system for aviation professionals",
+      icon: Shield,
+      path: "/verification-pending",
+      role: "verification"
+    },
+    {
+      title: "AI System Monitor",
+      description: "Real-time AI agent monitoring and platform intelligence dashboard",
+      icon: Bot,
+      path: "/admin/ai-reports",
+      role: "ai"
     }
   ];
 

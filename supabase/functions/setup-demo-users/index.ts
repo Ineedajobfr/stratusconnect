@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
-async function createUserProfile(supabaseClient: any, userId: string, userData: any) {
+async function createUserProfile(supabaseClient: Record<string, unknown>, userId: string, userData: Record<string, unknown>) {
   try {
     // Upsert user profile
     const { error: profileError } = await supabaseClient
@@ -26,7 +26,7 @@ async function createUserProfile(supabaseClient: any, userId: string, userData: 
     // Clear and recreate experience
     await supabaseClient.from('experience').delete().eq('user_id', userId);
     if (userData.experience?.length > 0) {
-      const experienceData = userData.experience.map((exp: any) => ({
+      const experienceData = userData.experience.map((exp: Record<string, unknown>) => ({
         ...exp,
         user_id: userId
       }));
@@ -37,7 +37,7 @@ async function createUserProfile(supabaseClient: any, userId: string, userData: 
     // Clear and recreate credentials
     await supabaseClient.from('credentials').delete().eq('user_id', userId);
     if (userData.credentials?.length > 0) {
-      const credentialsData = userData.credentials.map((cred: any) => ({
+      const credentialsData = userData.credentials.map((cred: Record<string, unknown>) => ({
         ...cred,
         user_id: userId
       }));
@@ -177,7 +177,7 @@ serve(async (req) => {
       },
       // Regular demo users
       {
-        email: broker@stratusconnect.org',
+        email: 'broker@stratusconnect.org',
         password: 'Bk7!mP9$qX2vL',
         role: 'broker',
         fullName: 'Alexandra Mitchell',
@@ -350,7 +350,7 @@ serve(async (req) => {
           if (msg.includes('already') && msg.includes('registered')) {
             // User exists, get their ID and update metadata
             const { data: list } = await supabaseClient.auth.admin.listUsers();
-            const existing = list?.users?.find((u: any) => u.email === userData.email);
+            const existing = list?.users?.find((u: Record<string, unknown>) => u.email === userData.email);
             
             if (existing) {
               // Update existing user's metadata and password
@@ -412,7 +412,7 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({ 
         error: 'Internal server error',
-        details: (error as any)?.message 
+        details: (error as Error)?.message 
       }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },

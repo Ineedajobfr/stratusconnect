@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -57,8 +57,8 @@ Aircraft: {{aircraft_make}} {{aircraft_model}}
 Tail Number: {{tail_number}}
 
 CHARTER DETAILS:
-Charter Amount: $\{\{charter_amount\}\}
-Flight Date: \{\{flight_date\}\}
+Charter Amount: ${{charter_amount}}
+Flight Date: {{flight_date}}
 
 TERMS AND CONDITIONS:
 1. Payment terms: Net 30 days
@@ -82,8 +82,8 @@ Aircraft: {{aircraft_make}} {{aircraft_model}}
 Tail Number: {{tail_number}}
 
 SALE DETAILS:
-Purchase Price: $\{\{sale_amount\}\}
-Closing Date: \{\{closing_date\}\}
+Purchase Price: ${{sale_amount}}
+Closing Date: {{closing_date}}
 
 TERMS AND CONDITIONS:
 1. Title transfer upon full payment
@@ -101,7 +101,7 @@ export default function ContractManagement() {
   const [selectedContract, setSelectedContract] = useState<Contract | null>(null);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string>("");
-  const [availableDeals, setAvailableDeals] = useState<any[]>([]);
+  const [availableDeals, setAvailableDeals] = useState<Record<string, unknown>[]>([]);
   const { toast } = useToast();
 
   const [contractForm, setContractForm] = useState({
@@ -114,27 +114,27 @@ export default function ContractManagement() {
     fetchUserData();
     fetchContracts();
     fetchAvailableDeals();
-  }, []);
+  }, [fetchUserData, fetchContracts, fetchAvailableDeals]);
 
-  const fetchUserData = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        setCurrentUserId(user.id);
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
+  const fetchUserData = useCallback(async () => {
+              try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user) {
+                  setCurrentUserId(user.id);
+                }
+              } catch (error) {
+                console.error("Error fetching user data:", error);
+              }
+            }, [data, user, auth, getUser, id]);
 
-  const fetchContracts = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+  const fetchContracts = useCallback(async () => {
+              try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user) return;
 
-      const { data, error } = await supabase
-        .from("contracts")
-        .select(`
+                const { data, error } = await supabase
+                  .from("contracts")
+                  .select(`
           *,
           deals (
             final_amount,
@@ -153,27 +153,27 @@ export default function ContractManagement() {
             )
           )
         `)
-        .order("created_at", { ascending: false });
+                  .order("created_at", { ascending: false });
 
-      if (error) throw error;
-      setContracts((data || []) as unknown as Contract[]);
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: "Failed to fetch contracts",
-        variant: "destructive",
-      });
-    }
-  };
+                if (error) throw error;
+                setContracts((data || []) as unknown as Contract[]);
+              } catch (error: unknown) {
+                toast({
+                  title: "Error",
+                  description: "Failed to fetch contracts",
+                  variant: "destructive",
+                });
+              }
+            }, [data, user, auth, getUser, from, select, order, ascending, Contract, toast, title, description, variant]);
 
-  const fetchAvailableDeals = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+  const fetchAvailableDeals = useCallback(async () => {
+              try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user) return;
 
-      const { data, error } = await supabase
-        .from("deals")
-        .select(`
+                const { data, error } = await supabase
+                  .from("deals")
+                  .select(`
           *,
           aircraft:aircraft!deals_aircraft_id_fkey (
             tail_number,
@@ -189,21 +189,21 @@ export default function ContractManagement() {
             company_name
           )
         `)
-        .in("status", ["accepted", "in_progress"])
-        .or(`operator_id.eq.${user.id},broker_id.eq.${user.id}`);
+                  .in("status", ["accepted", "in_progress"])
+                  .or(`operator_id.eq.${user.id},broker_id.eq.${user.id}`);
 
-      if (error) throw error;
-      setAvailableDeals(data || []);
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: "Failed to fetch available deals",
-        variant: "destructive",
-      });
-    }
-  };
+                if (error) throw error;
+                setAvailableDeals(data || []);
+              } catch (error: unknown) {
+                toast({
+                  title: "Error",
+                  description: "Failed to fetch available deals",
+                  variant: "destructive",
+                });
+              }
+            }, [data, user, auth, getUser, from, select, in, or, id, toast, title, description, variant]);
 
-  const createContract = async () => {
+  const createContract = useCallback(async () => {
     if (!contractForm.deal_id) {
       toast({
         title: "Error",
@@ -253,14 +253,14 @@ export default function ContractManagement() {
       setIsCreateDialogOpen(false);
       setContractForm({ deal_id: "", template: "charter", custom_content: "" });
       fetchContracts();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to create contract",
+        description: (error as Error).message || "Failed to create contract",
         variant: "destructive",
       });
     }
-  };
+  }, [contractForm, availableDeals, currentUserId, toast, setIsCreateDialogOpen, setContractForm, fetchContracts]);
 
   const signContract = async (contractId: string) => {
     try {
@@ -268,7 +268,7 @@ export default function ContractManagement() {
       if (!contract) return;
 
       const isOperator = contract.deals.operator_profile && currentUserId === contract.deals.operator_profile.full_name;
-      const updateData: any = { status: 'signed' };
+      const updateData: Record<string, unknown> = { status: 'signed' };
 
       if (isOperator) {
         updateData.signed_by_operator = currentUserId;
@@ -291,7 +291,7 @@ export default function ContractManagement() {
       });
 
       fetchContracts();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: "Failed to sign contract",

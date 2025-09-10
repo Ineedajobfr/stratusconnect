@@ -13,7 +13,7 @@ import { withMemo } from "@/components/PerformanceOptimizer";
 interface MenuItem {
   id: string;
   label: string;
-  icon: any;
+  icon: React.ComponentType<{ className?: string }>;
 }
 
 interface TerminalLayoutProps {

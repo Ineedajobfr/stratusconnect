@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -29,29 +29,29 @@ export const ProfileWidget = () => {
     if (user) {
       fetchProfile();
     }
-  }, [user]);
+  }, [user, fetchProfile]);
 
-  const fetchProfile = async () => {
-    if (!user) return;
+  const fetchProfile = useCallback(async () => {
+              if (!user) return;
 
-    try {
-      const { data, error } = await supabase
-        .from('user_profiles')
-        .select('*')
-        .eq('user_id', user.id)
-        .maybeSingle();
+              try {
+                const { data, error } = await supabase
+                  .from('user_profiles')
+                  .select('*')
+                  .eq('user_id', user.id)
+                  .maybeSingle();
 
-      if (error && error.code !== 'PGRST116') {
-        throw error;
-      }
+                if (error && error.code !== 'PGRST116') {
+                  throw error;
+                }
 
-      setProfile(data);
-    } catch (error) {
-      console.error('Error fetching profile:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+                setProfile(data);
+              } catch (error) {
+                console.error('Error fetching profile:', error);
+              } finally {
+                setLoading(false);
+              }
+            }, [user, data, from, select, eq, id, maybeSingle, code]);
 
   const getRoleBadgeColor = (role: string) => {
     switch (role) {

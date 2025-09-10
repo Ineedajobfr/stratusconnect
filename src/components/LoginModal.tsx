@@ -17,7 +17,6 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { setupDemoUsers, demoCredentials } from "@/utils/setupDemoUsers";
 import { useToast } from "@/hooks/use-toast";
 
 interface LoginModalProps {
@@ -33,7 +32,7 @@ export const LoginModal = ({ isOpen, onClose, selectedRole }: LoginModalProps) =
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { login } = useAuth();
+  const { login, loginAsDemo } = useAuth();
 
   const roles = [
     {
@@ -88,10 +87,7 @@ export const LoginModal = ({ isOpen, onClose, selectedRole }: LoginModalProps) =
     setActiveRole(role.id);
     setLoading(true);
     try {
-      await setupDemoUsers();
-      const creds = (demoCredentials as any)[role.id];
-      if (!creds) throw new Error("Demo credentials not found");
-      const ok = await login(creds.email, creds.password);
+      const ok = await loginAsDemo(role.id);
       if (!ok) return;
       navigate(role.route);
       onClose();
@@ -101,6 +97,7 @@ export const LoginModal = ({ isOpen, onClose, selectedRole }: LoginModalProps) =
       setLoading(false);
     }
   };
+
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

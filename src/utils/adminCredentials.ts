@@ -1,22 +1,23 @@
+// Admin credentials - using working demo accounts as admin access
 export const adminCredentials = {
   broker: {
-    email: 'admin.broker@stratusconnect.org',
-    password: 'AdminBk7!mP9$qX2vL',
+    email: 'broker@stratusconnect.org',
+    password: 'Bk7!mP9$qX2vL',
     role: 'broker'
   },
   operator: {
-    email: 'admin.operator@stratusconnect.org', 
-    password: 'AdminOp3#nW8&zR5kM',
+    email: 'operator@stratusconnect.org', 
+    password: 'Op3#nW8&zR5kM',
     role: 'operator'
   },
   crew: {
-    email: 'admin.crew@stratusconnect.org',
-    password: 'AdminCr9!uE4$tY7nQ', 
+    email: 'crew@stratusconnect.org',
+    password: 'Cr9!uE4$tY7nQ', 
     role: 'crew'
   },
   pilot: {
-    email: 'admin.pilot@stratusconnect.org',
-    password: 'AdminPl6#tF2&vB9xK',
+    email: 'pilot@stratusconnect.org',
+    password: 'Pl6#tF2&vB9xK',
     role: 'pilot'
   }
 };

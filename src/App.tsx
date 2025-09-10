@@ -39,6 +39,7 @@ const Contact = lazy(() => import("./pages/Contact"));
 const Compliance = lazy(() => import("./pages/Compliance"));
 const VerificationPending = lazy(() => import("./pages/VerificationPending"));
 const AdminConsole = lazy(() => import("./pages/AdminConsole"));
+const AdminSetup = lazy(() => import("./pages/AdminSetup"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const PublicProfile = lazy(() => import("./pages/PublicProfile"));
 const ProfileSettings = lazy(() => import("./pages/ProfileSettings"));
@@ -227,6 +228,10 @@ const App = memo(() => {
               <Route 
                 path="/admin" 
                 element={<AdminConsole />} 
+              />
+              <Route 
+                path="/admin-setup" 
+                element={<AdminSetup />} 
               />
               
               {/* Catch all route */}

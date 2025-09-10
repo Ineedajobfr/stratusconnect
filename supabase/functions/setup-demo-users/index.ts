@@ -83,10 +83,10 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     )
 
-    // Demo users and admin users
+    // Only demo users - NO ADMIN USERS
     const demoUsers = [
-      // Admin accounts
       {
+<<<<<<< HEAD
         email: 'admin@stratusconnect.org',
         password: 'AdminStratus2025!',
         role: 'admin',
@@ -177,6 +177,8 @@ serve(async (req) => {
       },
       // Regular demo users
       {
+=======
+>>>>>>> a6b8bdff512fb16a7c74ee735513f213d6e9c833
         email: 'broker@stratusconnect.org',
         password: 'Bk7!mP9$qX2vL',
         role: 'broker',

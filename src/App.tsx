@@ -12,16 +12,11 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { logger } from "@/utils/performance";
 import { Events } from "@/lib/events";
 
-// Import new dashboard components
-import BrokerDashboard from "@/components/dashboard/BrokerDashboard";
-import OperatorDashboard from "@/components/dashboard/OperatorDashboard";
-
 // Lazy load pages for better performance - prioritize by usage frequency
 const Index = lazy(() => import("./pages/Index"));
 const Enter = lazy(() => import("./pages/Enter"));
 const BrokerTerminal = lazy(() => import("./pages/BrokerTerminal"));
 const OperatorTerminal = lazy(() => import("./pages/OperatorTerminal"));
-const PilotTerminal = lazy(() => import("./pages/PilotTerminal"));
 const CrewTerminal = lazy(() => import("./pages/CrewTerminal"));
 const AdminTerminal = lazy(() => import("./pages/AdminTerminal"));
 const BetaNavigator = lazy(() => import("./pages/BetaNavigator"));
@@ -43,7 +38,6 @@ const Contact = lazy(() => import("./pages/Contact"));
 const Compliance = lazy(() => import("./pages/Compliance"));
 const VerificationPending = lazy(() => import("./pages/VerificationPending"));
 const AdminConsole = lazy(() => import("./pages/AdminConsole"));
-const AdminSetup = lazy(() => import("./pages/AdminSetup"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const PublicProfile = lazy(() => import("./pages/PublicProfile"));
 const ProfileSettings = lazy(() => import("./pages/ProfileSettings"));
@@ -55,12 +49,6 @@ const DemoBrokerTerminal = lazy(() => import("./pages/DemoBrokerTerminal"));
 const DemoOperatorTerminal = lazy(() => import("./pages/DemoOperatorTerminal"));
 const DemoPilotTerminal = lazy(() => import("./pages/DemoPilotTerminal"));
 const DemoCrewTerminal = lazy(() => import("./pages/DemoCrewTerminal"));
-
-// Help pages
-const HelpBroker = lazy(() => import("./pages/HelpBroker"));
-const HelpOperator = lazy(() => import("./pages/HelpOperator"));
-const HelpPilot = lazy(() => import("./pages/HelpPilot"));
-const HelpCrew = lazy(() => import("./pages/HelpCrew"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -138,19 +126,13 @@ const App = memo(() => {
               <Route path="/demo/pilot" element={<DemoPilotTerminal />} />
               <Route path="/demo/crew" element={<DemoCrewTerminal />} />
               
-              {/* Help pages */}
-              <Route path="/help/broker" element={<HelpBroker />} />
-              <Route path="/help/operator" element={<HelpOperator />} />
-              <Route path="/help/pilot" element={<HelpPilot />} />
-              <Route path="/help/crew" element={<HelpCrew />} />
-              
               {/* Public Beta Testing Routes - Protected for users/owners */}
               <Route path="/beta" element={<BetaNavigator />} />
               <Route 
                 path="/beta/broker" 
                 element={
                   <ProtectedRoute allowedRoles={['broker']}>
-                    <BrokerDashboard />
+                    <BrokerTerminal />
                   </ProtectedRoute>
                 } 
               />
@@ -158,15 +140,7 @@ const App = memo(() => {
                 path="/beta/operator" 
                 element={
                   <ProtectedRoute allowedRoles={['operator']}>
-                    <OperatorDashboard />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/beta/pilot" 
-                element={
-                  <ProtectedRoute allowedRoles={['pilot']}>
-                    <PilotTerminal />
+                    <OperatorTerminal />
                   </ProtectedRoute>
                 } 
               />
@@ -209,7 +183,7 @@ const App = memo(() => {
                 path="/terminal/broker" 
                 element={
                   <ProtectedRoute allowedRoles={['broker']}>
-                    <BrokerDashboard />
+                    <BrokerTerminal />
                   </ProtectedRoute>
                 } 
               />
@@ -217,15 +191,7 @@ const App = memo(() => {
                 path="/terminal/operator" 
                 element={
                   <ProtectedRoute allowedRoles={['operator']}>
-                    <OperatorDashboard />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/terminal/pilot" 
-                element={
-                  <ProtectedRoute allowedRoles={['pilot']}>
-                    <PilotTerminal />
+                    <OperatorTerminal />
                   </ProtectedRoute>
                 } 
               />
@@ -256,10 +222,6 @@ const App = memo(() => {
               <Route 
                 path="/admin" 
                 element={<AdminConsole />} 
-              />
-              <Route 
-                path="/admin-setup" 
-                element={<AdminSetup />} 
               />
               
               {/* Catch all route */}

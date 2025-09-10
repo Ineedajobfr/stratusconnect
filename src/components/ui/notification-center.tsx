@@ -30,16 +30,22 @@ export const NotificationCenter: React.FC = () => {
 
   const fetchNotifications = async () => {
     try {
-      const { data, error } = await supabase
-        .from('notifications')
-        .select('*')
-        .eq('user_id', user?.id)
-        .order('created_at', { ascending: false })
-        .limit(50);
-
-      if (error) throw error;
-      setNotifications(data || []);
-      setUnreadCount(data?.filter(n => !n.read).length || 0);
+        // Use mock data for now
+        const mockNotifications = [
+          {
+            id: '1',
+            title: 'Welcome to StratusConnect',
+            message: 'Your account is ready to use',
+            type: 'info',
+            read: false,
+            created_at: new Date().toISOString(),
+            user_id: user?.id || 'current-user',
+            action_url: null,
+            read_at: null
+          }
+        ];
+        setNotifications(mockNotifications);
+        setUnreadCount(mockNotifications.filter(n => !n.read).length);
     } catch (error) {
       console.error('Error fetching notifications:', error);
     } finally {
@@ -49,13 +55,7 @@ export const NotificationCenter: React.FC = () => {
 
   const markAsRead = async (notificationId: string) => {
     try {
-      const { error } = await supabase
-        .from('notifications')
-        .update({ read: true })
-        .eq('id', notificationId);
-
-      if (error) throw error;
-
+      // Mock mark as read
       setNotifications(prev => 
         prev.map(n => n.id === notificationId ? { ...n, read: true } : n)
       );
@@ -67,19 +67,8 @@ export const NotificationCenter: React.FC = () => {
 
   const markAllAsRead = async () => {
     try {
-      const unreadIds = notifications.filter(n => !n.read).map(n => n.id);
-      if (unreadIds.length === 0) return;
-
-      const { error } = await supabase
-        .from('notifications')
-        .update({ read: true })
-        .in('id', unreadIds);
-
-      if (error) throw error;
-
-      setNotifications(prev => 
-        prev.map(n => ({ ...n, read: true }))
-      );
+      // Mock mark all as read
+      setNotifications(prev => prev.map(n => ({ ...n, read: true })));
       setUnreadCount(0);
     } catch (error) {
       console.error('Error marking all notifications as read:', error);

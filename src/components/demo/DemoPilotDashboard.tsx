@@ -18,7 +18,7 @@ const demoAssignments = [
     route: "KTEB → KMIA",
     date: "Dec 20 • G550 • 2.9h • PIC",
     aircraft: "G550",
-    status: "available",
+    status: "in_flight" as const,
     passengers: 8,
     earnings: 1150,
     rating: 5.0
@@ -82,7 +82,7 @@ const demoAircraftTracking = [
     id: "aircraft-001",
     tail_number: "N425SC",
     model: "Gulfstream G550",
-    status: "in_flight",
+    status: "in_flight" as const,
     location: {
       lat: 40.7128,
       lng: -74.0060,
@@ -134,8 +134,8 @@ const demoPilotNetwork = [
   {
     id: "pilot-001",
     name: "Captain Sarah Mitchell",
-    role: "captain",
-    status: "available",
+    role: "captain" as const,
+    status: "available" as const,
     location: {
       lat: 40.7128,
       lng: -74.0060,

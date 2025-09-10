@@ -49,7 +49,7 @@ export default function SimplePilotDashboard() {
     { id: "earnings", label: "Flight Earnings", icon: <TerminalIcons.Earnings /> },
     { id: "licenses", label: "Licenses & Ratings", icon: <TerminalIcons.Licenses /> },
     { id: "network", label: "Professional Network", icon: <TerminalIcons.Network /> },
-    { id: "messages", label: "Messages", icon: <TerminalIcons.Messages /> },
+    { id: "messages", label: "Messages", icon: <MessageCircle className="w-4 h-4" /> },
     { id: "settings", label: "Settings", icon: <TerminalIcons.Settings /> }
   ];
 

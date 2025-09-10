@@ -30,7 +30,9 @@ import {
   Bell,
   CheckSquare,
   Shield,
-  FileText
+  FileText,
+  CheckCircle,
+  UserCheck
 } from "lucide-react";
 
 interface TripRequest {

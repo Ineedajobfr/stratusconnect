@@ -24,7 +24,9 @@ import {
   CheckCircle,
   AlertCircle,
   Coffee,
-  Heart
+  Heart,
+  Search,
+  Wrench
 } from "lucide-react";
 import { UnifiedTerminalLayout, TerminalIcons } from "../demo/UnifiedTerminalLayout";
 
@@ -50,9 +52,9 @@ export default function SimpleCrewDashboard() {
     { id: "schedule", label: "Flight Schedule", icon: <TerminalIcons.Schedule /> },
     { id: "assignments", label: "Current Assignments", icon: <TerminalIcons.Jobs /> },
     { id: "earnings", label: "Flight Earnings", icon: <TerminalIcons.Earnings /> },
-    { id: "services", label: "Service Capabilities", icon: <TerminalIcons.Services /> },
+    { id: "services", label: "Service Capabilities", icon: <Wrench className="w-4 h-4" /> },
     { id: "network", label: "Professional Network", icon: <TerminalIcons.Network /> },
-    { id: "messages", label: "Messages", icon: <TerminalIcons.Messages /> },
+    { id: "messages", label: "Messages", icon: <MessageCircle className="w-4 h-4" /> },
     { id: "settings", label: "Settings", icon: <TerminalIcons.Settings /> }
   ];
 

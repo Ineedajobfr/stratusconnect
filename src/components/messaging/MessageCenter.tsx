@@ -66,17 +66,23 @@ export const MessageCenter: React.FC<MessageCenterProps> = ({
 
   const fetchMessages = async () => {
     try {
-      const { data, error } = await supabase
-        .from('messages')
-        .select(`
-          *,
-          users (full_name, avatar_url)
-        `)
-        .or(`booking_id.eq.${bookingId},request_id.eq.${requestId}`)
-        .order('created_at', { ascending: true });
-
-      if (error) throw error;
-      setMessages(data || []);
+        // Use mock data for now
+        const mockMessages = [
+          {
+            id: '1',
+            content: 'Welcome to StratusConnect messaging',
+            sender_id: 'system',
+            created_at: new Date().toISOString(),
+            users: { full_name: 'System', avatar_url: null },
+            booking_id: bookingId,
+            request_id: requestId,
+            message_type: 'system',
+            read_at: null,
+            has_violations: false,
+            redacted_content: null
+          }
+        ];
+        setMessages(mockMessages);
     } catch (error) {
       console.error('Error fetching messages:', error);
     } finally {
@@ -89,18 +95,21 @@ export const MessageCenter: React.FC<MessageCenterProps> = ({
 
     setSending(true);
     try {
-      const { error } = await supabase
-        .from('messages')
-        .insert({
-          thread_id: threadId,
-          sender_id: user?.id,
-          booking_id: bookingId,
-          request_id: requestId,
-          content: newMessage.trim(),
-          message_type: 'text'
-        });
-
-      if (error) throw error;
+      // Mock message sending
+      const messageData = {
+        id: Date.now().toString(),
+        content: newMessage.trim(),
+        sender_id: user?.id || 'current-user',
+        created_at: new Date().toISOString(),
+        users: { full_name: 'You', avatar_url: null },
+        booking_id: bookingId,
+        request_id: requestId,
+        message_type: 'text',
+        read_at: null,
+        has_violations: false,
+        redacted_content: null
+      };
+      setMessages(prev => [...prev, messageData]);
 
       setNewMessage('');
     } catch (error) {

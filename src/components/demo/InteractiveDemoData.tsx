@@ -149,7 +149,7 @@ export const InteractiveAnalytics: React.FC = () => {
     }
   };
 
-  const currentData = analyticsData[selectedMetric as keyof typeof analyticsData][selectedPeriod as keyof typeof analyticsData[typeof selectedMetric]];
+  const currentData = analyticsData[selectedMetric as 'revenue' | 'flights' | 'utilization'][selectedPeriod as '7d' | '30d' | '90d'];
 
   return (
     <Card className="bg-gray-800 border-gray-700">

@@ -17,7 +17,7 @@ import { PrivacyOverlay } from "@/components/PrivacyOverlay";
 import { OperatorAnalytics } from "@/components/analytics/OperatorAnalytics";
 import { ProfileWidget } from "@/components/ProfileWidget";
 import AuthForm from "@/components/AuthForm";
-import { Plane, Calendar, DollarSign, TrendingUp, Users, MapPin, Clock, Settings, MessageSquare, BarChart3, CheckCircle, Activity, Gauge, Shield, Globe } from "lucide-react";
+import { Plane, Calendar, DollarSign, TrendingUp, Users, MapPin, Clock, Settings, MessageSquare, BarChart3, CheckCircle, Activity, Gauge, Shield, Globe, Brain } from "lucide-react";
 import { NavigationArrows } from "@/components/NavigationArrows";
 import { OperatorHelpGuide } from "@/components/OperatorHelpGuide";
 import type { User } from '@supabase/supabase-js';
@@ -133,6 +133,10 @@ const OperatorTerminal = () => {
     id: "verification",
     label: "Fortress of Trust",
     icon: Shield
+  }, {
+    id: "psychometric",
+    label: "Personality Test",
+    icon: Brain
   }, {
     id: "marketplace",
     label: "Marketplace",
@@ -316,6 +320,35 @@ const OperatorTerminal = () => {
       {activeTab === "verification" && (
         <div className="space-y-6">
           <VerificationSystem />
+        </div>
+      )}
+
+      {activeTab === "psychometric" && (
+        <div className="space-y-6">
+          <Card className="terminal-card">
+            <CardHeader>
+              <CardTitle className="text-foreground flex items-center">
+                <Brain className="mr-2 h-5 w-5" />
+                Aviation Personality Assessment
+              </CardTitle>
+              <p className="text-gunmetal">Complete your psychometric evaluation to enhance your operator profile and improve matching with brokers and clients</p>
+            </CardHeader>
+            <CardContent>
+              <div className="text-center py-12">
+                <Brain className="w-16 h-16 mx-auto mb-6 text-accent opacity-60" />
+                <h3 className="text-xl font-semibold text-foreground mb-4">Personality Test</h3>
+                <p className="text-gunmetal mb-6 max-w-md mx-auto">
+                  Take our aviation-specific personality assessment to understand your operational style, communication preferences, and how you work with brokers and clients.
+                </p>
+                <Button 
+                  onClick={() => window.open('/psych', '_blank')}
+                  className="btn-terminal-accent"
+                >
+                  Start Assessment
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       )}
 

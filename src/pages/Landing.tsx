@@ -188,13 +188,8 @@ export default function Landing() {
       
 
       {/* Footer */}
-      <footer className="border-t border-terminal-border bg-terminal-card/50 px-6 py-16">
+      <footer className="border-t border-terminal-border bg-terminal-card/50 px-6 py-8">
         <div className="max-w-5xl mx-auto">
-          <div className="flex flex-wrap justify-center gap-8 mb-8">
-            {footerLinks.map(link => <a key={link.label} href={link.href} className="text-gunmetal hover:text-foreground transition-colors duration-300 font-medium">
-                {link.label}
-              </a>)}
-          </div>
           <div className="text-center">
             <p className="text-gunmetal">© 2025 StratusConnect. Professional aviation trading platform.</p>
           </div>

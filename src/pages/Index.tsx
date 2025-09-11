@@ -418,46 +418,9 @@ export default function Index() {
       </div>
 
       {/* Footer */}
-      <footer className="relative z-10 py-12 border-t border-terminal-border">
+      <footer className="relative z-10 py-8 border-t border-terminal-border">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="font-semibold text-foreground mb-4">Platform</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="/about" className="hover:text-foreground transition-colors">About</a></li>
-                <li><a href="/security" className="hover:text-foreground transition-colors">Security</a></li>
-                <li><a href="/compliance" className="hover:text-foreground transition-colors">Compliance</a></li>
-                <li><a href="/fees" className="hover:text-foreground transition-colors">Fees</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold text-foreground mb-4">Support</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="/help/broker" className="hover:text-foreground transition-colors">Broker Help</a></li>
-                <li><a href="/help/operator" className="hover:text-foreground transition-colors">Operator Help</a></li>
-                <li><a href="/help/pilot" className="hover:text-foreground transition-colors">Pilot Help</a></li>
-                <li><a href="/help/crew" className="hover:text-foreground transition-colors">Crew Help</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold text-foreground mb-4">Legal</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="/terms" className="hover:text-foreground transition-colors">Terms of Service</a></li>
-                <li><a href="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</a></li>
-                <li><a href="/payments" className="hover:text-foreground transition-colors">Payment Terms</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold text-foreground mb-4">Connect</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="/contact" className="hover:text-foreground transition-colors">Contact</a></li>
-                <li><a href="/directory" className="hover:text-foreground transition-colors">Directory</a></li>
-                <li><a href="/admin-setup" className="hover:text-foreground transition-colors">Staff Access</a></li>
-              </ul>
-            </div>
-          </div>
-          
-          <div className="border-t border-terminal-border mt-8 pt-8 text-center">
+          <div className="text-center">
             <p className="text-sm text-muted-foreground">
               © 2024 StratusConnect. All rights reserved. Built for the aviation industry.
             </p>

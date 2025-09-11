@@ -25,7 +25,6 @@ const CrewTerminal = lazy(() => import("./pages/CrewTerminal"));
 const AdminTerminal = lazy(() => import("./pages/AdminTerminal"));
 const BetaNavigator = lazy(() => import("./pages/BetaNavigator"));
 const Status = lazy(() => import("./pages/CompliantStatus"));
-const Privacy = lazy(() => import("./pages/Privacy"));
 const Cookies = lazy(() => import("./pages/Cookies"));
 const SLA = lazy(() => import("./pages/CompliantSLA"));
 

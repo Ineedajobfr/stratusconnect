@@ -19,7 +19,14 @@ import {
   GitCompare,
   Save,
   Eye,
-  Shield
+  Shield,
+  Zap,
+  Clock,
+  TrendingUp,
+  Award,
+  Leaf,
+  Target,
+  Timer
 } from 'lucide-react';
 import { Listing, money, pricePerNm, dealScore, scoreLabel, estimateCO2Tonnes, computeFees } from '@/lib/marketplace';
 
@@ -87,6 +94,30 @@ export default function ListingCard({
                   Verified
                 </Badge>
               )}
+              {listing.safetyRating && listing.safetyRating !== 'Not Rated' && (
+                <Badge className="bg-purple-100 text-purple-800">
+                  <Award className="w-3 h-3 mr-1" />
+                  {listing.safetyRating}
+                </Badge>
+              )}
+              {listing.wyvernStatus && listing.wyvernStatus !== 'Not Certified' && (
+                <Badge className="bg-indigo-100 text-indigo-800">
+                  <Shield className="w-3 h-3 mr-1" />
+                  {listing.wyvernStatus}
+                </Badge>
+              )}
+              {listing.instantQuote && (
+                <Badge className="bg-yellow-100 text-yellow-800">
+                  <Zap className="w-3 h-3 mr-1" />
+                  Instant Quote
+                </Badge>
+              )}
+              {listing.autoMatch && (
+                <Badge className="bg-orange-100 text-orange-800">
+                  <Target className="w-3 h-3 mr-1" />
+                  Auto-Match
+                </Badge>
+              )}
               {listing.tags?.map(tag => (
                 <Badge key={tag} variant="outline" className="text-xs">
                   {tag}
@@ -129,8 +160,9 @@ export default function ListingCard({
           </div>
           <div>
             <div className="text-sm font-medium text-gunmetal">CO2 Est.</div>
-            <div className="text-foreground text-sm">
-              {co2} tonnes/pax
+            <div className="text-foreground text-sm flex items-center gap-1">
+              <Leaf className="w-3 h-3 text-green-500" />
+              {listing.carbonPerPax ? `${listing.carbonPerPax} t/pax` : `${co2} t/pax`}
             </div>
           </div>
           <div>
@@ -140,6 +172,56 @@ export default function ListingCard({
             </div>
           </div>
         </div>
+
+        {/* Performance Metrics */}
+        {(listing.p50Response || listing.completionRate) && (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+            {listing.p50Response && (
+              <div>
+                <div className="text-sm font-medium text-gunmetal flex items-center gap-1">
+                  <Clock className="w-3 h-3" />
+                  Response Time
+                </div>
+                <div className="text-foreground text-sm">
+                  {listing.p50Response} min avg
+                </div>
+              </div>
+            )}
+            {listing.completionRate && (
+              <div>
+                <div className="text-sm font-medium text-gunmetal flex items-center gap-1">
+                  <TrendingUp className="w-3 h-3" />
+                  Completion Rate
+                </div>
+                <div className="text-foreground text-sm">
+                  {listing.completionRate}%
+                </div>
+              </div>
+            )}
+            {listing.instantQuote && (
+              <div>
+                <div className="text-sm font-medium text-gunmetal flex items-center gap-1">
+                  <Zap className="w-3 h-3 text-yellow-500" />
+                  Quote Speed
+                </div>
+                <div className="text-foreground text-sm text-green-600">
+                  Instant
+                </div>
+              </div>
+            )}
+            {listing.autoMatch && (
+              <div>
+                <div className="text-sm font-medium text-gunmetal flex items-center gap-1">
+                  <Target className="w-3 h-3 text-orange-500" />
+                  Auto-Match
+                </div>
+                <div className="text-foreground text-sm text-green-600">
+                  Enabled
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Fee Breakdown */}
         <div className="bg-gray-50 rounded-lg p-4 mb-4">

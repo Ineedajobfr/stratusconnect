@@ -26,6 +26,13 @@ interface Filters {
   verifiedOnly: boolean;
   emptyLegsOnly: boolean;
   sortBy: 'dealScore' | 'price' | 'date';
+  // New competitive filters
+  safetyRating: string;
+  wyvernStatus: string;
+  instantQuoteOnly: boolean;
+  autoMatchOnly: boolean;
+  maxResponseTime: string;
+  minCompletionRate: string;
 }
 
 export default function DemoMarketplace() {
@@ -43,7 +50,13 @@ export default function DemoMarketplace() {
     currency: 'USD',
     verifiedOnly: false,
     emptyLegsOnly: false,
-    sortBy: 'dealScore'
+    sortBy: 'dealScore',
+    safetyRating: '',
+    wyvernStatus: '',
+    instantQuoteOnly: false,
+    autoMatchOnly: false,
+    maxResponseTime: '',
+    minCompletionRate: ''
   });
 
   const isDemoMode = import.meta.env.VITE_SC_DEMO_MODE === 'true';
@@ -84,6 +97,34 @@ export default function DemoMarketplace() {
 
     if (filters.emptyLegsOnly) {
       filtered = filtered.filter(listing => listing.emptyLeg);
+    }
+
+    if (filters.safetyRating) {
+      filtered = filtered.filter(listing => listing.safetyRating === filters.safetyRating);
+    }
+
+    if (filters.wyvernStatus) {
+      filtered = filtered.filter(listing => listing.wyvernStatus === filters.wyvernStatus);
+    }
+
+    if (filters.instantQuoteOnly) {
+      filtered = filtered.filter(listing => listing.instantQuote === true);
+    }
+
+    if (filters.autoMatchOnly) {
+      filtered = filtered.filter(listing => listing.autoMatch === true);
+    }
+
+    if (filters.maxResponseTime) {
+      filtered = filtered.filter(listing => 
+        listing.p50Response && listing.p50Response <= parseInt(filters.maxResponseTime)
+      );
+    }
+
+    if (filters.minCompletionRate) {
+      filtered = filtered.filter(listing => 
+        listing.completionRate && listing.completionRate >= parseInt(filters.minCompletionRate)
+      );
     }
 
     // Sort
@@ -127,7 +168,13 @@ export default function DemoMarketplace() {
       currency: 'USD',
       verifiedOnly: false,
       emptyLegsOnly: false,
-      sortBy: 'dealScore'
+      sortBy: 'dealScore',
+      safetyRating: '',
+      wyvernStatus: '',
+      instantQuoteOnly: false,
+      autoMatchOnly: false,
+      maxResponseTime: '',
+      minCompletionRate: ''
     });
   };
 
@@ -216,7 +263,9 @@ export default function DemoMarketplace() {
         </div>
 
         {/* Active Filters */}
-        {(filters.route || filters.minSeats || filters.maxPrice || filters.verifiedOnly || filters.emptyLegsOnly) && (
+        {(filters.route || filters.minSeats || filters.maxPrice || filters.verifiedOnly || filters.emptyLegsOnly || 
+          filters.safetyRating || filters.wyvernStatus || filters.instantQuoteOnly || filters.autoMatchOnly || 
+          filters.maxResponseTime || filters.minCompletionRate) && (
           <Card className="mb-6">
             <CardContent className="p-4">
               <div className="flex items-center gap-2 flex-wrap">
@@ -235,6 +284,24 @@ export default function DemoMarketplace() {
                 )}
                 {filters.emptyLegsOnly && (
                   <Badge variant="outline">Empty legs only</Badge>
+                )}
+                {filters.safetyRating && (
+                  <Badge variant="outline">Safety: {filters.safetyRating}</Badge>
+                )}
+                {filters.wyvernStatus && (
+                  <Badge variant="outline">WYVERN: {filters.wyvernStatus}</Badge>
+                )}
+                {filters.instantQuoteOnly && (
+                  <Badge variant="outline">Instant quotes only</Badge>
+                )}
+                {filters.autoMatchOnly && (
+                  <Badge variant="outline">Auto-match only</Badge>
+                )}
+                {filters.maxResponseTime && (
+                  <Badge variant="outline">Max response: {filters.maxResponseTime}min</Badge>
+                )}
+                {filters.minCompletionRate && (
+                  <Badge variant="outline">Min completion: {filters.minCompletionRate}%</Badge>
                 )}
                 <Button
                   onClick={clearFilters}

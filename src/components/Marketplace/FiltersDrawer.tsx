@@ -32,6 +32,13 @@ interface Filters {
   verifiedOnly: boolean;
   emptyLegsOnly: boolean;
   sortBy: 'dealScore' | 'price' | 'date';
+  // New competitive filters
+  safetyRating: string;
+  wyvernStatus: string;
+  instantQuoteOnly: boolean;
+  autoMatchOnly: boolean;
+  maxResponseTime: string;
+  minCompletionRate: string;
 }
 
 interface FiltersDrawerProps {
@@ -127,6 +134,70 @@ export default function FiltersDrawer({
             </Select>
           </div>
 
+          {/* Safety Ratings */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="safetyRating">ARGUS Safety Rating</Label>
+              <Select 
+                value={filters.safetyRating} 
+                onValueChange={(value) => updateFilter('safetyRating', value)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Any rating" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">Any rating</SelectItem>
+                  <SelectItem value="ARGUS Platinum">ARGUS Platinum</SelectItem>
+                  <SelectItem value="ARGUS Gold">ARGUS Gold</SelectItem>
+                  <SelectItem value="ARGUS Silver">ARGUS Silver</SelectItem>
+                  <SelectItem value="Not Rated">Not Rated</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div>
+              <Label htmlFor="wyvernStatus">WYVERN Status</Label>
+              <Select 
+                value={filters.wyvernStatus} 
+                onValueChange={(value) => updateFilter('wyvernStatus', value)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Any status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">Any status</SelectItem>
+                  <SelectItem value="WYVERN Elite">WYVERN Elite</SelectItem>
+                  <SelectItem value="WYVERN Certified">WYVERN Certified</SelectItem>
+                  <SelectItem value="Not Certified">Not Certified</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {/* Performance Filters */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="maxResponseTime">Max Response Time (minutes)</Label>
+              <Input
+                id="maxResponseTime"
+                type="number"
+                placeholder="e.g., 10"
+                value={filters.maxResponseTime}
+                onChange={(e) => updateFilter('maxResponseTime', e.target.value)}
+              />
+            </div>
+            <div>
+              <Label htmlFor="minCompletionRate">Min Completion Rate (%)</Label>
+              <Input
+                id="minCompletionRate"
+                type="number"
+                placeholder="e.g., 95"
+                value={filters.minCompletionRate}
+                onChange={(e) => updateFilter('minCompletionRate', e.target.value)}
+              />
+            </div>
+          </div>
+
           {/* Checkboxes */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
@@ -145,6 +216,24 @@ export default function FiltersDrawer({
                 onCheckedChange={(checked) => updateFilter('emptyLegsOnly', !!checked)}
               />
               <Label htmlFor="emptyLegsOnly">Empty Legs Only</Label>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="instantQuoteOnly"
+                checked={filters.instantQuoteOnly}
+                onCheckedChange={(checked) => updateFilter('instantQuoteOnly', !!checked)}
+              />
+              <Label htmlFor="instantQuoteOnly">Instant Quotes Only</Label>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="autoMatchOnly"
+                checked={filters.autoMatchOnly}
+                onCheckedChange={(checked) => updateFilter('autoMatchOnly', !!checked)}
+              />
+              <Label htmlFor="autoMatchOnly">Auto-Match Enabled Only</Label>
             </div>
           </div>
 

@@ -14,7 +14,8 @@ import {
   Calendar,
   Timer,
   Percent,
-  FileText
+  FileText,
+  Plus
 } from 'lucide-react';
 
 export interface CancellationRule {

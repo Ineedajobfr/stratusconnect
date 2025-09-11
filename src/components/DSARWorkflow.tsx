@@ -141,7 +141,7 @@ export default function DSARWorkflow() {
             <DialogHeader>
               <DialogTitle>Create DSAR Request</DialogTitle>
             </DialogHeader>
-            <form action={createDSARRequest} className="space-y-4">
+            <form onSubmit={(e) => { e.preventDefault(); const fd = new FormData(e.currentTarget); createDSARRequest(fd); }} className="space-y-4">
               <div>
                 <Label htmlFor="type">Request Type</Label>
                 <Select name="type" required>

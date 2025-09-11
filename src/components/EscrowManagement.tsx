@@ -42,7 +42,7 @@ import {
   RefreshCw
 } from 'lucide-react';
 import { createPaymentProvider, EscrowIntent, EscrowRelease } from '@/lib/payment-providers';
-import { supabase } from '@/integrations/supabase/client';
+
 import { useToast } from '@/hooks/use-toast';
 
 interface EscrowManagementProps {
@@ -69,30 +69,8 @@ export default function EscrowManagement({ dealId, userRole }: EscrowManagementP
   const loadEscrowIntents = async () => {
     try {
       setLoading(true);
-      
-      // Load from database
-      const { data, error } = await supabase
-        .from('escrow_intents')
-        .select('*')
-        .eq(dealId ? 'deal_id' : 'id', dealId || '')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-
-      // Update status from payment provider
-      const updatedIntents = await Promise.all(
-        data.map(async (intent) => {
-          try {
-            const liveStatus = await paymentProvider.getEscrowStatus(intent.provider_intent_id);
-            return { ...intent, ...liveStatus };
-          } catch (error) {
-            console.error('Error fetching live status:', error);
-            return intent;
-          }
-        })
-      );
-
-      setEscrowIntents(updatedIntents);
+      // No backend table yet; showing empty list for now
+      setEscrowIntents([]);
     } catch (error) {
       console.error('Error loading escrow intents:', error);
       toast({
@@ -113,7 +91,6 @@ export default function EscrowManagement({ dealId, userRole }: EscrowManagementP
       const sellerId = formData.get('sellerId') as string;
       const description = formData.get('description') as string;
 
-      // Create escrow intent with payment provider
       const intent = await paymentProvider.createEscrowIntent({
         dealId: dealId || crypto.randomUUID(),
         amount,
@@ -124,41 +101,8 @@ export default function EscrowManagement({ dealId, userRole }: EscrowManagementP
         expiresInDays: 30,
       });
 
-      // Store in database
-      const { error } = await supabase
-        .from('escrow_intents')
-        .insert({
-          id: intent.id,
-          deal_id: intent.dealId,
-          provider_intent_id: intent.id,
-          amount: intent.amount,
-          currency: intent.currency,
-          buyer_id: intent.buyerId,
-          seller_id: intent.sellerId,
-          description: intent.description,
-          status: intent.status,
-          provider: paymentProvider.name,
-          created_at: intent.createdAt,
-          expires_at: intent.expiresAt,
-        });
-
-      if (error) throw error;
-
-      // Create audit log
-      await supabase
-        .from('audit_logs')
-        .insert({
-          action: 'escrow_intent_created',
-          entity_type: 'escrow_intent',
-          entity_id: intent.id,
-          details: {
-            amount: intent.amount,
-            currency: intent.currency,
-            buyer_id: intent.buyerId,
-            seller_id: intent.sellerId,
-          },
-          user_id: (await supabase.auth.getUser()).data.user?.id,
-        });
+      // Update local state
+      setEscrowIntents((prev) => [intent, ...prev]);
 
       toast({
         title: "Escrow Intent Created",
@@ -180,23 +124,9 @@ export default function EscrowManagement({ dealId, userRole }: EscrowManagementP
   const fundEscrowIntent = async (intentId: string) => {
     try {
       const intent = await paymentProvider.fundEscrowIntent(intentId);
-      
-      // Update database
-      await supabase
-        .from('escrow_intents')
-        .update({ status: intent.status })
-        .eq('provider_intent_id', intentId);
 
-      // Create audit log
-      await supabase
-        .from('audit_logs')
-        .insert({
-          action: 'escrow_intent_funded',
-          entity_type: 'escrow_intent',
-          entity_id: intentId,
-          details: { status: intent.status },
-          user_id: (await supabase.auth.getUser()).data.user?.id,
-        });
+      // Update local state
+      setEscrowIntents(prev => prev.map(i => i.id === intentId ? intent : i));
 
       toast({
         title: "Escrow Funded",
@@ -222,32 +152,14 @@ export default function EscrowManagement({ dealId, userRole }: EscrowManagementP
         intentId: selectedIntent.id,
         amount: parseFloat(releaseAmount),
         reason: releaseReason,
-        releasedBy: (await supabase.auth.getUser()).data.user?.id || '',
+        releasedBy: 'current-user',
         releasedAt: new Date().toISOString(),
       };
 
       const intent = await paymentProvider.releaseEscrow(selectedIntent.id, release);
-      
-      // Update database
-      await supabase
-        .from('escrow_intents')
-        .update({ status: intent.status })
-        .eq('provider_intent_id', selectedIntent.id);
 
-      // Create audit log
-      await supabase
-        .from('audit_logs')
-        .insert({
-          action: 'escrow_released',
-          entity_type: 'escrow_intent',
-          entity_id: selectedIntent.id,
-          details: {
-            amount: release.amount,
-            reason: release.reason,
-            status: intent.status,
-          },
-          user_id: release.releasedBy,
-        });
+      // Update local state
+      setEscrowIntents(prev => prev.map(i => i.id === selectedIntent.id ? intent : i));
 
       toast({
         title: "Escrow Released",
@@ -272,23 +184,9 @@ export default function EscrowManagement({ dealId, userRole }: EscrowManagementP
   const refundEscrow = async (intentId: string) => {
     try {
       const intent = await paymentProvider.refundEscrow(intentId, 'Refund requested by user');
-      
-      // Update database
-      await supabase
-        .from('escrow_intents')
-        .update({ status: intent.status })
-        .eq('provider_intent_id', intentId);
 
-      // Create audit log
-      await supabase
-        .from('audit_logs')
-        .insert({
-          action: 'escrow_refunded',
-          entity_type: 'escrow_intent',
-          entity_id: intentId,
-          details: { status: intent.status },
-          user_id: (await supabase.auth.getUser()).data.user?.id,
-        });
+      // Update local state
+      setEscrowIntents(prev => prev.map(i => i.id === intentId ? intent : i));
 
       toast({
         title: "Escrow Refunded",
@@ -543,7 +441,7 @@ export default function EscrowManagement({ dealId, userRole }: EscrowManagementP
           <DialogHeader>
             <DialogTitle>Create Escrow Intent</DialogTitle>
           </DialogHeader>
-          <form action={createEscrowIntent} className="space-y-4">
+          <form onSubmit={(e) => { e.preventDefault(); const fd = new FormData(e.currentTarget); createEscrowIntent(fd); }} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="amount">Amount</Label>

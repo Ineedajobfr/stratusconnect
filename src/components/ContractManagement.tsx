@@ -57,7 +57,7 @@ Aircraft: {{aircraft_make}} {{aircraft_model}}
 Tail Number: {{tail_number}}
 
 CHARTER DETAILS:
-Charter Amount: ${{charter_amount}}
+Charter Amount: \${{charter_amount}}
 Flight Date: {{flight_date}}
 
 TERMS AND CONDITIONS:
@@ -82,7 +82,7 @@ Aircraft: {{aircraft_make}} {{aircraft_model}}
 Tail Number: {{tail_number}}
 
 SALE DETAILS:
-Purchase Price: ${{sale_amount}}
+Purchase Price: \${{sale_amount}}
 Closing Date: {{closing_date}}
 
 TERMS AND CONDITIONS:

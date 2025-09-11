@@ -18,7 +18,8 @@ import {
   Calendar,
   User,
   CreditCard,
-  Building
+  Building,
+  Plus
 } from 'lucide-react';
 
 export interface Chargeback {

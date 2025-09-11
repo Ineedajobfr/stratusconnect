@@ -102,7 +102,7 @@ export default function BrokerTerminal() {
                 <div className="text-sm font-semibold">Live RFQs & Quotes</div>
                 <div className="overflow-auto rounded-md border border-line">
                   <table className="min-w-full border-separate border-spacing-0 text-sm">
-                    <thead className="bg-white/5 text-white/80">
+                    <thead className="bg-blue-900/30 text-blue-100 border-b border-blue-700">
                       <tr>
                         <th className="sticky top-0 z-10 border-b border-line px-3 py-2 text-left">Route</th>
                         <th className="sticky top-0 z-10 border-b border-line px-3 py-2 text-left">Aircraft</th>

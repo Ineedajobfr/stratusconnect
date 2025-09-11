@@ -16,7 +16,7 @@ export function TermsAndConditions() {
           <CardHeader>
             <div className="flex justify-between items-start">
               <CardTitle className="text-3xl font-bold">Terms and Conditions</CardTitle>
-              <Badge className="bg-blue-100 text-blue-800">
+              <Badge className="bg-blue-900/50 text-blue-100 border-blue-700">
                 <Calendar className="w-3 h-3 mr-1" />
                 Last Updated: {LAST_UPDATED}
               </Badge>
@@ -24,7 +24,7 @@ export function TermsAndConditions() {
           </CardHeader>
           <CardContent className="prose prose-gray max-w-none">
             <div className="space-y-6">
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+              <div className="bg-blue-900/30 border border-blue-700 rounded-lg p-4">
                 <div className="flex items-start gap-3">
                   <Shield className="w-5 h-5 text-green-600 mt-0.5" />
                   <div>
@@ -140,7 +140,7 @@ export function PrivacyNotice() {
           <CardHeader>
             <div className="flex justify-between items-start">
               <CardTitle className="text-3xl font-bold">Privacy Notice</CardTitle>
-              <Badge className="bg-blue-100 text-blue-800">
+              <Badge className="bg-blue-900/50 text-blue-100 border-blue-700">
                 <Calendar className="w-3 h-3 mr-1" />
                 Last Updated: {LAST_UPDATED}
               </Badge>
@@ -148,12 +148,12 @@ export function PrivacyNotice() {
           </CardHeader>
           <CardContent className="prose prose-gray max-w-none">
             <div className="space-y-6">
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div className="bg-blue-900/30 border border-blue-700 rounded-lg p-4">
                 <div className="flex items-start gap-3">
                   <Shield className="w-5 h-5 text-blue-600 mt-0.5" />
                   <div>
-                    <h3 className="font-medium text-blue-800">GDPR Compliant</h3>
-                    <p className="text-blue-700 text-sm mt-1">
+                    <h3 className="font-medium text-blue-100">GDPR Compliant</h3>
+                    <p className="text-blue-200 text-sm mt-1">
                       This privacy notice complies with GDPR and DPA 2018. 
                       You have rights to access, correct, delete, and port your data.
                     </p>
@@ -269,7 +269,7 @@ export function ServiceLevelAgreement() {
           <CardHeader>
             <div className="flex justify-between items-start">
               <CardTitle className="text-3xl font-bold">Service Level Agreement</CardTitle>
-              <Badge className="bg-blue-100 text-blue-800">
+              <Badge className="bg-blue-900/50 text-blue-100 border-blue-700">
                 <Calendar className="w-3 h-3 mr-1" />
                 Last Updated: {LAST_UPDATED}
               </Badge>
@@ -277,7 +277,7 @@ export function ServiceLevelAgreement() {
           </CardHeader>
           <CardContent className="prose prose-gray max-w-none">
             <div className="space-y-6">
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+              <div className="bg-blue-900/30 border border-blue-700 rounded-lg p-4">
                 <div className="flex items-start gap-3">
                   <Shield className="w-5 h-5 text-green-600 mt-0.5" />
                   <div>
@@ -405,7 +405,7 @@ export function SecurityOverview() {
           <CardHeader>
             <div className="flex justify-between items-start">
               <CardTitle className="text-3xl font-bold">Security Overview</CardTitle>
-              <Badge className="bg-blue-100 text-blue-800">
+              <Badge className="bg-blue-900/50 text-blue-100 border-blue-700">
                 <Calendar className="w-3 h-3 mr-1" />
                 Last Updated: {LAST_UPDATED}
               </Badge>
@@ -413,12 +413,12 @@ export function SecurityOverview() {
           </CardHeader>
           <CardContent className="prose prose-gray max-w-none">
             <div className="space-y-6">
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+              <div className="bg-blue-900/30 border border-blue-700 rounded-lg p-4">
                 <div className="flex items-start gap-3">
                   <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
                   <div>
-                    <h3 className="font-medium text-yellow-800">Security Controls Aligned with ISO 27001</h3>
-                    <p className="text-yellow-700 text-sm mt-1">
+                    <h3 className="font-medium text-blue-100">Security Controls Aligned with ISO 27001</h3>
+                    <p className="text-blue-200 text-sm mt-1">
                       We implement security controls aligned with ISO 27001 standards. 
                       We are not ISO 27001 certified at this time.
                     </p>

@@ -423,7 +423,7 @@ This bundle provides comprehensive evidence that the service was delivered as ag
             <h4 className="font-medium">Evidence Files Included:</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {bundle.evidenceFiles.map(file => (
-                <div key={file.id} className="flex items-center gap-2 p-2 bg-white rounded border">
+                <div key={file.id} className="flex items-center gap-2 p-2 bg-blue-900/30 rounded border border-blue-700">
                   <FileText className="w-4 h-4 text-blue-600" />
                   <span className="text-sm">{file.title}</span>
                   <Badge variant="outline" className="text-xs">{file.type}</Badge>

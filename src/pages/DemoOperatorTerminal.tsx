@@ -420,7 +420,7 @@ export default function DemoOperatorTerminal() {
           <CardContent>
             <div className="space-y-2">
               {alerts.slice(0, 3).map(alert => (
-                <div key={alert.id} className="flex items-center justify-between p-2 bg-white rounded">
+                <div key={alert.id} className="flex items-center justify-between p-2 bg-blue-900/30 rounded border border-blue-700">
                   <div className="flex items-center gap-2">
                     <div className={`w-2 h-2 rounded-full ${alert.read ? 'bg-gray-400' : 'bg-blue-600'}`} />
                     <span className="text-sm">{alert.message}</span>

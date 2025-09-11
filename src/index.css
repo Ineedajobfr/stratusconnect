@@ -28,7 +28,7 @@ body {
     /* Sleek Dark Palette - Reference Style */
     --background: 217 32% 4%;
     --foreground: 0 0% 98%;
-    --card: 217 30% 6%;
+    --card: 217 60% 8%;
     --card-foreground: 0 0% 98%;
     --popover: 217 30% 6%;
     --popover-foreground: 0 0% 98%;
@@ -59,7 +59,7 @@ body {
     
     /* Terminal specific colors - Ultra Sleek */
     --terminal-bg: 217 32% 3%;
-    --terminal-card: 217 30% 5%;
+    --terminal-card: 217 60% 8%;
     --terminal-border: 217 20% 12%;
     --terminal-glow: 25 95% 53%;
     --gunmetal: 217 10% 65%;

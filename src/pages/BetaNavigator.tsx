@@ -85,7 +85,7 @@ export default function BetaNavigator() {
                 <CardHeader className="pb-4">
                   <div className="flex items-start justify-between">
                     <div className="flex items-center space-x-3">
-                      <div className="p-3 rounded-xl bg-white/10 backdrop-blur-sm">
+                      <div className="p-3 rounded-xl bg-blue-900/30 backdrop-blur-sm border border-blue-700">
                         <Icon className="w-6 h-6 text-white" />
                       </div>
                       <div>
@@ -103,7 +103,7 @@ export default function BetaNavigator() {
                     <div className="grid grid-cols-2 gap-2">
                       {terminal.features.map((feature, index) => (
                         <div key={index} className="flex items-center space-x-2">
-                          <div className="w-1 h-1 bg-white/50 rounded-full"></div>
+                          <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
                           <span className="text-xs text-slate-300">{feature}</span>
                         </div>
                       ))}
@@ -113,7 +113,7 @@ export default function BetaNavigator() {
                   <div className="mt-6 pt-4 border-t border-white/10">
                     <Button 
                       onClick={() => navigate(terminal.path)}
-                      className="w-full bg-white/10 hover:bg-white/20 text-white border-0 backdrop-blur-sm"
+                      className="w-full bg-blue-900/30 hover:bg-blue-800/40 text-white border border-blue-700 backdrop-blur-sm"
                     >
                       Access {terminal.title}
                       <ArrowRight className="w-4 h-4 ml-2" />

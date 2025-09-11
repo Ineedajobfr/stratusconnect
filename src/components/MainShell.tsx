@@ -24,7 +24,7 @@ export default function MainShell({ header, children, footer }: {
           <input
             id="global-search"
             placeholder="Search or run a command"
-            className="ml-4 w-full rounded-md border border-line bg-white/5 px-3 py-1.5 text-sm outline-none focus:border-cyan-400/40"
+            className="ml-4 w-full rounded-md border border-blue-700 bg-blue-900/30 px-3 py-1.5 text-sm outline-none focus:border-cyan-400/40"
           />
           <div className="text-xs text-textDim tabular">UTC {utc}</div>
           {header}

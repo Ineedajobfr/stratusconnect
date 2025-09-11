@@ -363,7 +363,7 @@ export default function AviationCompliance({ userRole, userId }: AviationComplia
               {documents
                 .filter(doc => doc.status === 'expiring' || doc.status === 'expired')
                 .map((document) => (
-                  <div key={document.id} className="flex items-center justify-between p-2 bg-white rounded">
+                  <div key={document.id} className="flex items-center justify-between p-2 bg-blue-900/30 rounded border border-blue-700">
                     <div>
                       <span className="font-medium text-foreground">
                         {getDocumentTypeLabel(document.type)} - {document.number}
@@ -443,7 +443,7 @@ export default function AviationCompliance({ userRole, userId }: AviationComplia
       {/* Add Document Dialog */}
       {showAddDocument && (
         <Card className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <CardContent className="bg-white p-6 rounded-lg max-w-md w-full mx-4">
+          <CardContent className="bg-blue-900/30 p-6 rounded-lg max-w-md w-full mx-4 border border-blue-700">
             <h3 className="text-lg font-semibold text-foreground mb-4">Add Aviation Document</h3>
             <p className="text-gunmetal text-sm mb-4">
               This feature would allow users to upload and manage their aviation documents.

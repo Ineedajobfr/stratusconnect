@@ -203,12 +203,12 @@ export default function DemoMarketplace() {
             <p className="text-gunmetal">Bloomberg-style decision tools for aviation deals</p>
           </div>
           <div className="flex gap-2">
-            <Badge className="bg-green-100 text-green-800">
+            <Badge className="bg-blue-900/50 text-blue-100 border-blue-700">
               <Shield className="w-3 h-3 mr-1" />
               FCA Compliant
             </Badge>
             {isDemoMode && (
-              <Badge className="bg-yellow-100 text-yellow-800">
+              <Badge className="bg-blue-800/50 text-blue-100 border-blue-600">
                 <AlertTriangle className="w-3 h-3 mr-1" />
                 Demo Mode
               </Badge>
@@ -217,13 +217,13 @@ export default function DemoMarketplace() {
         </div>
 
         {/* Compliance Notice */}
-        <Card className="mb-8 border-green-200 bg-green-50">
+        <Card className="mb-8 border-blue-700 bg-blue-900/30">
           <CardContent className="p-4">
             <div className="flex items-start gap-3">
-              <Shield className="w-5 h-5 text-green-600 mt-0.5" />
+              <Shield className="w-5 h-5 text-blue-400 mt-0.5" />
               <div>
-                <h3 className="font-medium text-green-800">Transparent Fee Structure</h3>
-                <p className="text-green-700 text-sm mt-1">
+                <h3 className="font-medium text-blue-100">Transparent Fee Structure</h3>
+                <p className="text-blue-200 text-sm mt-1">
                   7% platform commission automatically deducted by Stripe Connect. No custody of client funds. 
                   All prices shown include fees. Net to operator clearly displayed.
                 </p>
@@ -374,13 +374,13 @@ export default function DemoMarketplace() {
 
         {/* Demo Notice */}
         {isDemoMode && (
-          <Card className="mt-8 bg-yellow-50 border-yellow-200">
+          <Card className="mt-8 bg-blue-900/30 border-blue-700">
             <CardContent className="p-4">
               <div className="flex items-start gap-3">
-                <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
+                <AlertTriangle className="w-5 h-5 text-blue-400 mt-0.5" />
                 <div>
-                  <h3 className="font-medium text-yellow-800">Demo Mode</h3>
-                  <p className="text-yellow-700 text-sm mt-1">
+                  <h3 className="font-medium text-blue-100">Demo Mode</h3>
+                  <p className="text-blue-200 text-sm mt-1">
                     This marketplace demonstrates advanced filtering, deal scoring, and comparison tools. 
                     In production, this would connect to real aircraft data and Stripe Connect for payments.
                   </p>

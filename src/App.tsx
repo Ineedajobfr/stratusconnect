@@ -24,18 +24,18 @@ const PilotTerminal = lazy(() => import("./pages/PilotTerminal"));
 const CrewTerminal = lazy(() => import("./pages/CrewTerminal"));
 const AdminTerminal = lazy(() => import("./pages/AdminTerminal"));
 const BetaNavigator = lazy(() => import("./pages/BetaNavigator"));
-const Status = lazy(() => import("./pages/Status"));
+const Status = lazy(() => import("./pages/CompliantStatus"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Cookies = lazy(() => import("./pages/Cookies"));
-const SLA = lazy(() => import("./pages/SLA"));
+const SLA = lazy(() => import("./pages/CompliantSLA"));
 
 // Secondary pages - loaded on demand
 const Demo = lazy(() => import("./pages/Demo"));
 const About = lazy(() => import("./pages/About"));
 const Fees = lazy(() => import("./pages/Fees"));
 const Payments = lazy(() => import("./pages/Payments"));
-const Terms = lazy(() => import("./pages/Terms"));
-const Privacy = lazy(() => import("./pages/Privacy"));
+const Terms = lazy(() => import("./pages/CompliantTerms"));
+const Privacy = lazy(() => import("./pages/CompliantPrivacy"));
 const AircraftIntelligence = lazy(() => import("./pages/AircraftIntelligence"));
 const Security = lazy(() => import("./pages/Security"));
 const Contact = lazy(() => import("./pages/Contact"));

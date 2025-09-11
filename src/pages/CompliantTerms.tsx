@@ -2,10 +2,8 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Shield, DollarSign, User, Building, AlertTriangle } from 'lucide-react';
-
 export default function CompliantTerms() {
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold text-foreground mb-8">Terms and Conditions</h1>
@@ -13,12 +11,12 @@ export default function CompliantTerms() {
           <div className="space-y-8">
             {/* Compliance Notice */}
             <Card className="border-blue-200 bg-blue-50">
-              <CardContent className="p-6">
+              <CardContent className="p-6 bg-slate-950">
                 <div className="flex items-start gap-3">
-                  <Shield className="w-6 h-6 text-blue-600 mt-1" />
+                  
                   <div>
-                    <h3 className="font-semibold text-blue-800 mb-2">FCA Compliant Platform</h3>
-                    <p className="text-blue-700 text-sm">
+                    <h3 className="font-semibold mb-2 text-slate-50">FCA Compliant Platform</h3>
+                    <p className="text-sm text-slate-50">
                       Stratus Connect operates as a regulated platform under FCA guidelines. 
                       All payment processing is handled by Stripe Connect, a regulated payment 
                       service provider. We never hold client funds directly.
@@ -82,12 +80,12 @@ export default function CompliantTerms() {
                     process, ensuring full compliance with FCA safeguarding requirements.
                   </p>
                   
-                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                  <div className="border border-yellow-200 rounded-lg p-4 bg-slate-950">
                     <div className="flex items-start gap-2">
-                      <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
+                      
                       <div>
-                        <h4 className="font-semibold text-yellow-800">Important Notice</h4>
-                        <p className="text-yellow-700 text-sm mt-1">
+                        <h4 className="font-semibold text-red-600">Important Notice</h4>
+                        <p className="text-sm mt-1 text-red-600">
                           We do not provide escrow services. All funds are processed directly between 
                           parties through Stripe Connect. Our role is limited to facilitating transactions 
                           and collecting our platform fee.
@@ -142,17 +140,17 @@ export default function CompliantTerms() {
                   </p>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="p-4 bg-gray-50 rounded-lg">
-                      <h4 className="font-semibold mb-2">Data Rights</h4>
+                    <div className="p-4 rounded-lg bg-slate-950">
+                      <h4 className="font-semibold mb-2 text-red-600">Data Rights</h4>
                       <ul className="text-sm text-gunmetal space-y-1">
-                        <li>• Right to access your data</li>
+                        <li className="bg-gray-950">• Right to access your data</li>
                         <li>• Right to rectification</li>
                         <li>• Right to erasure</li>
-                        <li>• Right to data portability</li>
+                        <li className="bg-inherit">• Right to data portability</li>
                       </ul>
                     </div>
-                    <div className="p-4 bg-gray-50 rounded-lg">
-                      <h4 className="font-semibold mb-2">Security Measures</h4>
+                    <div className="p-4 rounded-lg bg-slate-950">
+                      <h4 className="font-semibold mb-2 text-red-600">Security Measures</h4>
                       <ul className="text-sm text-gunmetal space-y-1">
                         <li>• TLS 1.3 encryption in transit</li>
                         <li>• AES 256 encryption at rest</li>
@@ -178,9 +176,9 @@ export default function CompliantTerms() {
                     data from UptimeRobot monitoring.
                   </p>
                   
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                    <h4 className="font-semibold text-blue-800 mb-2">Current Status</h4>
-                    <p className="text-blue-700 text-sm">
+                  <div className="border border-blue-200 rounded-lg p-4 bg-slate-950">
+                    <h4 className="font-semibold mb-2 text-red-600">Current Status</h4>
+                    <p className="text-sm text-red-600">
                       Live uptime and performance metrics are available at{' '}
                       <a href="/status" className="underline">/status</a>. 
                       We do not make static claims about performance.
@@ -223,9 +221,9 @@ export default function CompliantTerms() {
                     For questions about these terms or to exercise your data rights, please contact:
                   </p>
                   
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <p className="font-semibold">Stratus Connect Limited</p>
-                    <p className="text-sm text-gunmetal">
+                  <div className="rounded-lg p-4 bg-slate-950">
+                    <p className="font-semibold text-slate-50">Stratus Connect Limited</p>
+                    <p className="text-sm text-slate-50">
                       Email: legal@stratusconnect.com<br />
                       Address: [Registered Address]<br />
                       Company Number: [Company Number]
@@ -250,6 +248,5 @@ export default function CompliantTerms() {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 }

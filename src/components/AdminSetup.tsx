@@ -51,7 +51,7 @@ export const AdminSetup = () => {
       console.error('Error creating admin:', error);
       toast({
         title: 'Error',
-        description: (error as Error)?.message || 'Failed to create admin user',
+        description: (error as any)?.message || 'Failed to create admin user',
         variant: 'destructive'
       });
     } finally {

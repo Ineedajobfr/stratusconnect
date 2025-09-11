@@ -96,7 +96,7 @@ export default function CrewProfile() {
           bio: data.bio || ""
         });
       }
-    } catch (error: unknown) {
+    } catch (error: any) {
       console.error("Error fetching profile:", error);
     }
   };
@@ -129,7 +129,7 @@ export default function CrewProfile() {
       });
       setIsEditing(false);
       fetchProfile();
-    } catch (error: unknown) {
+    } catch (error: any) {
       toast({
         title: "Error",
         description: error.message || "Failed to save profile",

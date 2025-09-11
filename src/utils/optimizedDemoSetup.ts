@@ -14,7 +14,7 @@ export const setupDemoUsersOptimized = async () => {
     const setupPromise = supabase.functions.invoke('setup-demo-users-optimized');
     
     const result = await Promise.race([setupPromise, timeoutPromise]);
-    const { data, error } = result as { data: unknown; error: unknown };
+    const { data, error } = result as any;
     
     console.log('Setup response:', { data, error });
     

@@ -79,7 +79,7 @@ const AdminTerminal = () => {
             app_metadata: {},
             aud: 'authenticated',
             created_at: new Date().toISOString()
-          } as Record<string, unknown>);
+          } as any);
           setLoading(false);
           return;
         }
@@ -191,7 +191,7 @@ const AdminTerminal = () => {
         securityScore: 94
       });
 
-      setPendingUsers((pending as Record<string, unknown>[]) || []);
+      setPendingUsers((pending as any) || []);
     } catch (error) {
       console.error('Error fetching system data:', error);
     }

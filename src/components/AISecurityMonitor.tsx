@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -12,7 +12,7 @@ interface SecurityEvent {
   severity: string;
   description: string;
   created_at: string;
-  metadata: Record<string, unknown>;
+  metadata: any;
 }
 
 interface AIWarning {
@@ -31,7 +31,7 @@ const AISecurityMonitor: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
-  const fetchSecurityData = useCallback(async () => {
+  const fetchSecurityData = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
@@ -68,7 +68,7 @@ const AISecurityMonitor: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [toast]);
+  };
 
   const acknowledgeWarning = async (warningId: string) => {
     try {
@@ -122,7 +122,7 @@ const AISecurityMonitor: React.FC = () => {
 
   useEffect(() => {
     fetchSecurityData();
-  }, [fetchSecurityData]);
+  }, []);
 
   if (loading) {
     return (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,8 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Send, Paperclip, Smile, MoreVertical } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { useMessagesRealtime } from "@/hooks/useRealtime";
-import { Events } from "@/lib/events";
+import { useRealtime } from "@/hooks/useRealtime";
 
 interface Message {
   id: string;
@@ -59,58 +58,58 @@ export const MessageCenter: React.FC<MessageCenterProps> = ({
     if (threadId) {
       fetchMessages();
     }
-  }, [threadId, fetchMessages]);
+  }, [threadId]);
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
-  const fetchMessages = useCallback(async () => {
-              try {
-                const { data, error } = await supabase
-                  .from('messages')
-                  .select(`
-          *,
-          users (full_name, avatar_url)
-        `)
-                  .or(`booking_id.eq.${bookingId},request_id.eq.${requestId}`)
-                  .order('created_at', { ascending: true });
-
-                if (error) throw error;
-                setMessages(data || []);
-              } catch (error) {
-                console.error('Error fetching messages:', error);
-              } finally {
-                setLoading(false);
-              }
-            }, [data, from, select, or, bookingId, requestId, order, ascending]);
+  const fetchMessages = async () => {
+    try {
+        // Use mock data for now
+        const mockMessages = [
+          {
+            id: '1',
+            content: 'Welcome to StratusConnect messaging',
+            sender_id: 'system',
+            created_at: new Date().toISOString(),
+            users: { full_name: 'System', avatar_url: null },
+            booking_id: bookingId,
+            request_id: requestId,
+            message_type: 'system',
+            read_at: null,
+            has_violations: false,
+            redacted_content: null
+          }
+        ];
+        setMessages(mockMessages);
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const sendMessage = async () => {
     if (!newMessage.trim() || !threadId || sending) return;
 
     setSending(true);
     try {
-      const { error } = await supabase
-        .from('messages')
-        .insert({
-          thread_id: threadId,
-          sender_id: user?.id,
-          booking_id: bookingId,
-          request_id: requestId,
-          content: newMessage.trim(),
-          message_type: 'text'
-        });
-
-      if (error) throw error;
-
-      // Emit message sent event for AI monitoring
-      const containsPhone = /\b\d{3}[-.]?\d{3}[-.]?\d{4}\b/.test(newMessage.trim());
-      Events.messageSent(
-        threadId, 
-        user?.id || '', 
-        threadId, // Using threadId as recipient for now
-        containsPhone
-      );
+      // Mock message sending
+      const messageData = {
+        id: Date.now().toString(),
+        content: newMessage.trim(),
+        sender_id: user?.id || 'current-user',
+        created_at: new Date().toISOString(),
+        users: { full_name: 'You', avatar_url: null },
+        booking_id: bookingId,
+        request_id: requestId,
+        message_type: 'text',
+        read_at: null,
+        has_violations: false,
+        redacted_content: null
+      };
+      setMessages(prev => [...prev, messageData]);
 
       setNewMessage('');
     } catch (error) {
@@ -172,9 +171,12 @@ export const MessageCenter: React.FC<MessageCenterProps> = ({
   };
 
   // Real-time message updates
-  useMessagesRealtime(threadId || '', (payload) => {
-    if (payload.eventType === 'INSERT') {
-      setMessages(prev => [...prev, payload.new]);
+  useRealtime({
+    table: 'messages',
+    onUpdate: (payload) => {
+      if (payload.eventType === 'INSERT') {
+        setMessages(prev => [...prev, payload.new as Message]);
+      }
     }
   });
 

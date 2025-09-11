@@ -25,7 +25,7 @@ export const useOptimizedState = <T>(initialState: T) => {
 };
 
 // Batched state updates for better performance
-export const useBatchedState = <T extends Record<string, unknown>>(initialState: T) => {
+export const useBatchedState = <T extends Record<string, any>>(initialState: T) => {
   const [state, setState] = useState<T>(initialState);
   const pendingUpdates = useRef<Partial<T>>({});
   const timeoutRef = useRef<NodeJS.Timeout>();

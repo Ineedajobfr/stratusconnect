@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -48,7 +48,7 @@ export default function MessagingSystem() {
 
   useEffect(() => {
     fetchUserDeals();
-  }, [fetchUserDeals]);
+  }, []);
 
   useEffect(() => {
     if (selectedDeal) {
@@ -84,16 +84,16 @@ export default function MessagingSystem() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const fetchUserDeals = useCallback(async () => {
-              try {
-                const { data: { user } } = await supabase.auth.getUser();
-                if (!user) return;
+  const fetchUserDeals = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
 
-                setCurrentUserId(user.id);
+      setCurrentUserId(user.id);
 
-                const { data, error } = await supabase
-                  .from("deals")
-                  .select(`
+      const { data, error } = await supabase
+        .from("deals")
+        .select(`
           *,
           aircraft:aircraft_id (
             tail_number,
@@ -106,26 +106,26 @@ export default function MessagingSystem() {
             departure_date
           )
         `)
-                  .or(`operator_id.eq.${user.id},broker_id.eq.${user.id}`)
-                  .order("created_at", { ascending: false });
+        .or(`operator_id.eq.${user.id},broker_id.eq.${user.id}`)
+        .order("created_at", { ascending: false });
 
-                if (error) throw error;
-                setDeals(data || []);
-                
-                if (data && data.length > 0 && !selectedDeal) {
-                  setSelectedDeal(data[0]);
-                }
-              } catch (error) {
-                console.error("Error fetching deals:", error);
-                toast({
-                  title: "Error",
-                  description: "Failed to load your deals",
-                  variant: "destructive",
-                });
-              } finally {
-                setLoading(false);
-              }
-            }, [data, user, auth, getUser, id, from, select, or, order, ascending, length, selectedDeal, toast, title, description, variant]);
+      if (error) throw error;
+      setDeals(data || []);
+      
+      if (data && data.length > 0 && !selectedDeal) {
+        setSelectedDeal(data[0]);
+      }
+    } catch (error) {
+      console.error("Error fetching deals:", error);
+      toast({
+        title: "Error",
+        description: "Failed to load your deals",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const fetchMessages = async (dealId: string) => {
     try {
@@ -172,7 +172,7 @@ export default function MessagingSystem() {
 
       if (error) throw error;
       setNewMessage("");
-    } catch (error: unknown) {
+    } catch (error: any) {
       toast({
         title: "Error",
         description: "Failed to send message. Please try again.",

@@ -152,7 +152,7 @@ serve(async (req) => {
     }
 
     // Prepare update data
-    const updateData: Record<string, unknown> = {
+    const updateData: any = {
       status: newStatus,
       updated_at: new Date().toISOString()
     }

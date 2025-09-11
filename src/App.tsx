@@ -3,27 +3,28 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { lazy, Suspense, memo, useEffect } from "react";
+import { lazy, Suspense, memo } from "react";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { FullPageLoader } from "@/components/LoadingSpinner";
 import { NavigationOptimizer } from "@/components/NavigationOptimizer";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { logger } from "@/utils/performance";
-import { Events } from "@/lib/events";
+
+// Import new dashboard components
+import BrokerDashboard from "@/components/dashboard/BrokerDashboard";
+import OperatorDashboard from "@/components/dashboard/OperatorDashboard";
 
 // Lazy load pages for better performance - prioritize by usage frequency
 const Index = lazy(() => import("./pages/Index"));
 const Enter = lazy(() => import("./pages/Enter"));
 const BrokerTerminal = lazy(() => import("./pages/BrokerTerminal"));
 const OperatorTerminal = lazy(() => import("./pages/OperatorTerminal"));
+const PilotTerminal = lazy(() => import("./pages/PilotTerminal"));
 const CrewTerminal = lazy(() => import("./pages/CrewTerminal"));
 const AdminTerminal = lazy(() => import("./pages/AdminTerminal"));
 const BetaNavigator = lazy(() => import("./pages/BetaNavigator"));
 const PersonalityTest = lazy(() => import("./pages/PersonalityTest"));
-const AdminAgentReports = lazy(() => import("./pages/AdminAgentReports"));
-const VerifyCertificate = lazy(() => import("./pages/VerifyCertificate"));
-const CertificateManagement = lazy(() => import("./pages/CertificateManagement"));
 
 // Secondary pages - loaded on demand
 const Demo = lazy(() => import("./pages/Demo"));
@@ -38,6 +39,7 @@ const Contact = lazy(() => import("./pages/Contact"));
 const Compliance = lazy(() => import("./pages/Compliance"));
 const VerificationPending = lazy(() => import("./pages/VerificationPending"));
 const AdminConsole = lazy(() => import("./pages/AdminConsole"));
+const AdminSetup = lazy(() => import("./pages/AdminSetup"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const PublicProfile = lazy(() => import("./pages/PublicProfile"));
 const ProfileSettings = lazy(() => import("./pages/ProfileSettings"));
@@ -49,6 +51,12 @@ const DemoBrokerTerminal = lazy(() => import("./pages/DemoBrokerTerminal"));
 const DemoOperatorTerminal = lazy(() => import("./pages/DemoOperatorTerminal"));
 const DemoPilotTerminal = lazy(() => import("./pages/DemoPilotTerminal"));
 const DemoCrewTerminal = lazy(() => import("./pages/DemoCrewTerminal"));
+
+// Help pages
+const HelpBroker = lazy(() => import("./pages/HelpBroker"));
+const HelpOperator = lazy(() => import("./pages/HelpOperator"));
+const HelpPilot = lazy(() => import("./pages/HelpPilot"));
+const HelpCrew = lazy(() => import("./pages/HelpCrew"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -80,18 +88,6 @@ const MemoizedNavigationOptimizer = memo(NavigationOptimizer);
 const App = memo(() => {
   // Log app initialization in development only
   logger.debug('StratusConnect App initializing...');
-  
-  // Track page performance
-  useEffect(() => {
-    const startTime = performance.now();
-    const handleLoad = () => {
-      const loadTime = performance.now() - startTime;
-      Events.pageView(window.location.pathname, loadTime, loadTime);
-    };
-    
-    window.addEventListener('load', handleLoad);
-    return () => window.removeEventListener('load', handleLoad);
-  }, []);
 
   return (
     <ErrorBoundary>
@@ -126,13 +122,19 @@ const App = memo(() => {
               <Route path="/demo/pilot" element={<DemoPilotTerminal />} />
               <Route path="/demo/crew" element={<DemoCrewTerminal />} />
               
+              {/* Help pages */}
+              <Route path="/help/broker" element={<HelpBroker />} />
+              <Route path="/help/operator" element={<HelpOperator />} />
+              <Route path="/help/pilot" element={<HelpPilot />} />
+              <Route path="/help/crew" element={<HelpCrew />} />
+              
               {/* Public Beta Testing Routes - Protected for users/owners */}
               <Route path="/beta" element={<BetaNavigator />} />
               <Route 
                 path="/beta/broker" 
                 element={
                   <ProtectedRoute allowedRoles={['broker']}>
-                    <BrokerTerminal />
+                    <BrokerDashboard />
                   </ProtectedRoute>
                 } 
               />
@@ -140,7 +142,15 @@ const App = memo(() => {
                 path="/beta/operator" 
                 element={
                   <ProtectedRoute allowedRoles={['operator']}>
-                    <OperatorTerminal />
+                    <OperatorDashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/beta/pilot" 
+                element={
+                  <ProtectedRoute allowedRoles={['pilot']}>
+                    <PilotTerminal />
                   </ProtectedRoute>
                 } 
               />
@@ -165,10 +175,6 @@ const App = memo(() => {
         <Route path="/psych" element={<PersonalityTest />} />
         <Route path="/psych/run/:sessionId" element={<PersonalityTest />} />
         <Route path="/psych/report/:sessionId" element={<PersonalityTest />} />
-        
-        {/* Certificate Management Routes */}
-        <Route path="/verify" element={<VerifyCertificate />} />
-        <Route path="/admin/certificates" element={<ProtectedRoute allowedRoles={['admin']}><CertificateManagement /></ProtectedRoute>} />
               
               {/* Profile routes */}
               <Route path="/u/:username" element={<PublicProfile />} />
@@ -183,7 +189,7 @@ const App = memo(() => {
                 path="/terminal/broker" 
                 element={
                   <ProtectedRoute allowedRoles={['broker']}>
-                    <BrokerTerminal />
+                    <BrokerDashboard />
                   </ProtectedRoute>
                 } 
               />
@@ -191,7 +197,15 @@ const App = memo(() => {
                 path="/terminal/operator" 
                 element={
                   <ProtectedRoute allowedRoles={['operator']}>
-                    <OperatorTerminal />
+                    <OperatorDashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/terminal/pilot" 
+                element={
+                  <ProtectedRoute allowedRoles={['pilot']}>
+                    <PilotTerminal />
                   </ProtectedRoute>
                 } 
               />
@@ -212,16 +226,12 @@ const App = memo(() => {
                 } 
               />
               <Route 
-                path="/admin/ai-reports" 
-                element={
-                  <ProtectedRoute allowedRoles={['admin']}>
-                    <AdminAgentReports />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
                 path="/admin" 
                 element={<AdminConsole />} 
+              />
+              <Route 
+                path="/admin-setup" 
+                element={<AdminSetup />} 
               />
               
               {/* Catch all route */}

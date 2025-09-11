@@ -99,14 +99,14 @@ export default function CrewJobs() {
 
       if (error) throw error;
       setHiringRequests((data || []) as unknown as HiringRequest[]);
-    } catch (error: unknown) {
+    } catch (error: any) {
       console.error("Error fetching hiring requests:", error);
     }
   };
 
   const respondToRequest = async (requestId: string, status: 'accepted' | 'declined') => {
     try {
-      const updateData: Record<string, unknown> = { 
+      const updateData: any = { 
         status,
         updated_at: new Date().toISOString()
       };
@@ -135,10 +135,10 @@ export default function CrewJobs() {
       setSelectedRequest(null);
       setResponseMessage("");
       fetchHiringRequests();
-    } catch (error: unknown) {
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: (error as Error).message || "Failed to respond to request",
+        description: error.message || "Failed to respond to request",
         variant: "destructive",
       });
     }

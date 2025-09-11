@@ -13,6 +13,7 @@ interface User {
   companyName?: string;
   username?: string;
   avatarUrl?: string;
+  isDemoUser?: boolean;
 }
 
 interface AuthContextType {
@@ -24,6 +25,7 @@ interface AuthContextType {
   register: (data: RegisterData) => Promise<RegisterResult | null>;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
+  loginAsDemo: (role: string) => Promise<boolean>;
 }
 
 interface RegisterData {
@@ -53,6 +55,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [demoTimeout, setDemoTimeout] = useState<NodeJS.Timeout | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -86,62 +89,52 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      subscription.unsubscribe();
+      clearDemoTimeout();
+    };
   }, []);
 
   const fetchUserProfile = async (supabaseUser: SupabaseUser) => {
     try {
-      // Get user data and profile data separately
-      const { data: userData } = await supabase
-        .from('users')
-        .select('email, full_name, company_name, role, verification_status')
-        .eq('id', supabaseUser.id)
-        .maybeSingle();
-
-      const { data: profileData } = await supabase
-        .from('profiles')
-        .select('username, display_name, avatar_url, platform_role')
-        .eq('user_id', supabaseUser.id)
-        .maybeSingle();
-
-      if (userData) {
-        setUser({
-          id: supabaseUser.id,
-          email: userData.email,
-          fullName: userData.full_name || profileData?.display_name || '',
-          companyName: userData.company_name || '',
-          role: userData.role as 'broker' | 'operator' | 'pilot' | 'crew' | 'admin',
-          verificationStatus: userData.verification_status as 'pending' | 'approved' | 'rejected',
-          username: profileData?.username,
-          avatarUrl: profileData?.avatar_url,
-        });
-        setLoading(false);
-        return;
-      }
-
-      // Fallback to auth metadata (useful for demo users)
+      // Simplified version - just use auth metadata for now
       const meta = supabaseUser.user_metadata || {};
       const email = supabaseUser.email || '';
       const role = meta.role || 'broker';
       const fullName = meta.full_name || (email ? email.split('@')[0] : '');
       const verificationStatus = meta.verification_status || 
         (role === 'admin' ? 'approved' : 'pending');
+      
+      // Check if this is a demo user (these are actually admin access accounts, not demo users)
+      const isDemoUser = false; // No auto-logout for any @stratusconnect.org accounts
 
-      setUser({
+      const userData = {
         id: supabaseUser.id,
         email,
         fullName,
         companyName: meta.company_name || '',
         role,
         verificationStatus,
-        username: profileData?.username,
-        avatarUrl: profileData?.avatar_url,
-      });
+        username: meta.username,
+        avatarUrl: meta.avatar_url,
+        isDemoUser
+      };
+
+      setUser(userData);
+
+      // Set up auto-logout for demo users
+      if (isDemoUser) {
+        setupDemoAutoLogout();
+      } else {
+        clearDemoTimeout();
+      }
     } catch (error) {
       console.error('Profile fetch error:', error);
       // Final fallback to ensure login works
       const email = supabaseUser.email || '';
       const meta = supabaseUser.user_metadata || {};
+      const isDemoUser = false; // No auto-logout for any @stratusconnect.org accounts
+      
       setUser({
         id: supabaseUser.id,
         email,
@@ -149,8 +142,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         companyName: meta.company_name || '',
         role: meta.role || 'broker',
         verificationStatus: meta.verification_status || 
-          (email.endsWith('@stratusconnect.org') ? 'approved' : 'pending')
+          (email.endsWith('@stratusconnect.org') ? 'approved' : 'pending'),
+        isDemoUser
       });
+
+      if (isDemoUser) {
+        setupDemoAutoLogout();
+      } else {
+        clearDemoTimeout();
+      }
     }
     setLoading(false);
   };
@@ -162,74 +162,50 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const setupDemoAutoLogout = () => {
+    // Clear any existing timeout
+    clearDemoTimeout();
+    
+    // Set up auto-logout after 30 minutes for demo users
+    const timeout = setTimeout(() => {
+      toast({
+        title: 'Demo Session Expired',
+        description: 'Your demo session has ended. Please log in with your real account.',
+        variant: 'destructive'
+      });
+      logout();
+    }, 30 * 60 * 1000); // 30 minutes
+    
+    setDemoTimeout(timeout);
+  };
+
+  const clearDemoTimeout = () => {
+    if (demoTimeout) {
+      clearTimeout(demoTimeout);
+      setDemoTimeout(null);
+    }
+  };
+
+  const loginAsDemo = async (role: string): Promise<boolean> => {
+    // Only allow demo login for the specific demo accounts, not admin accounts
+    const demoCredentials = {
+      broker: { email: 'broker@stratusconnect.org', password: 'Bk7!mP9$qX2vL' },
+      operator: { email: 'operator@stratusconnect.org', password: 'Op3#nW8&zR5kM' },
+      pilot: { email: 'pilot@stratusconnect.org', password: 'Pl6#tF2&vB9xK' },
+      crew: { email: 'crew@stratusconnect.org', password: 'Cr9!uE4$tY7nQ' }
+    };
+
+    const creds = demoCredentials[role as keyof typeof demoCredentials];
+    if (!creds) return false;
+
+    return await login(creds.email, creds.password);
+  };
+
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
       setLoading(true);
       
-      // First check if this is an admin login
-      if (email === 'stratuscharters@gmail.com' || email === 'lordbroctree1@gmail.com') {
-        try {
-          const { data: adminResult, error: adminError } = await supabase
-            .rpc('authenticate_admin' as any, {
-              email_input: email,
-              password_input: password
-            });
-
-          if (!adminError && adminResult && typeof adminResult === 'object' && 'success' in adminResult) {
-            const result = adminResult as { success: boolean; user?: any; error?: string };
-            
-            if (result.success && result.user) {
-              const adminUser = result.user;
-              
-              // Create admin user session
-              setUser({
-                id: adminUser.id,
-                email: adminUser.email,
-                fullName: adminUser.display_name,
-                role: 'admin',
-                verificationStatus: 'approved',
-                username: adminUser.username
-              });
-
-              // Create a minimal session object for admin
-              const adminSession = {
-                access_token: 'admin_token_' + Date.now(),
-                refresh_token: 'admin_refresh_' + Date.now(),
-                expires_in: 3600,
-                expires_at: Math.floor(Date.now() / 1000) + 3600,
-                token_type: 'bearer' as const,
-                user: {
-                  id: adminUser.id,
-                  email: adminUser.email,
-                  app_metadata: {},
-                  user_metadata: {
-                    full_name: adminUser.display_name,
-                    role: 'admin'
-                  },
-                  aud: 'authenticated',
-                  created_at: new Date().toISOString(),
-                  updated_at: new Date().toISOString(),
-                  email_confirmed_at: new Date().toISOString(),
-                  last_sign_in_at: new Date().toISOString(),
-                  role: 'authenticated'
-                }
-              } as Session;
-              
-              setSession(adminSession);
-              
-              toast({
-                title: 'Admin Login Successful',
-                description: 'Welcome back, Admin!'
-              });
-              return true;
-            }
-          }
-        } catch (adminAuthError) {
-          console.error('Admin auth error:', adminAuthError);
-        }
-      }
-      
-      // Fall back to regular Supabase authentication
+      // Use regular Supabase authentication for all users
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
@@ -402,6 +378,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       await supabase.auth.signOut();
       
+      // Clear demo timeout
+      clearDemoTimeout();
+      
       // Clear user state immediately
       setUser(null);
       setSession(null);
@@ -428,7 +407,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     loginWithMagicLink,
     register,
     logout,
-    refreshUser
+    refreshUser,
+    loginAsDemo
   };
 
   return (

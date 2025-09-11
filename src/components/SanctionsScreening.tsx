@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -29,52 +29,52 @@ export default function SanctionsScreening() {
   const [screening, setScreening] = useState<SanctionsScreening | null>(null);
   const [matches, setMatches] = useState<SanctionsMatch[]>([]);
   const [isScreening, setIsScreening] = useState(false);
-  const [userProfile, setUserProfile] = useState<Record<string, unknown> | null>(null);
+  const [userProfile, setUserProfile] = useState<any>(null);
   const { toast } = useToast();
 
   useEffect(() => {
     fetchUserProfile();
     fetchLatestScreening();
-  }, [fetchUserProfile, fetchLatestScreening]);
+  }, []);
 
-  const fetchUserProfile = useCallback(async () => {
-              try {
-                const { data: { user } } = await supabase.auth.getUser();
-                if (!user) return;
+  const fetchUserProfile = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
 
-                const { data } = await supabase
-                  .from("profiles")
-                  .select("*")
-                  .eq("user_id", user.id)
-                  .single();
+      const { data } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("user_id", user.id)
+        .single();
 
-                setUserProfile(data);
-              } catch (error) {
-                console.error("Error fetching user profile:", error);
-              }
-            }, [data, user, auth, getUser, from, select, eq, id, single]);
+      setUserProfile(data);
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+    }
+  };
 
-  const fetchLatestScreening = useCallback(async () => {
-              try {
-                const { data: { user } } = await supabase.auth.getUser();
-                if (!user) return;
+  const fetchLatestScreening = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
 
-                const { data } = await supabase
-                  .from("sanctions_screenings")
-                  .select("*")
-                  .eq("user_id", user.id)
-                  .order("created_at", { ascending: false })
-                  .limit(1)
-                  .single();
+      const { data } = await supabase
+        .from("sanctions_screenings")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .single();
 
-                if (data) {
-                  setScreening(data as SanctionsScreening);
-                  fetchMatches(data.id);
-                }
-              } catch (error) {
-                console.error("Error fetching screening:", error);
-              }
-            }, [data, user, auth, getUser, from, select, eq, id, order, ascending, limit, single]);
+      if (data) {
+        setScreening(data as SanctionsScreening);
+        fetchMatches(data.id);
+      }
+    } catch (error) {
+      console.error("Error fetching screening:", error);
+    }
+  };
 
   const fetchMatches = async (screeningId: string) => {
     try {
@@ -143,10 +143,10 @@ export default function SanctionsScreening() {
       } else {
         throw new Error(data.error);
       }
-    } catch (error: unknown) {
+    } catch (error: any) {
       toast({
         title: "Screening Failed",
-        description: (error as Error).message || "Failed to perform sanctions screening",
+        description: error.message || "Failed to perform sanctions screening",
         variant: "destructive",
       });
     } finally {

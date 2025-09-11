@@ -51,8 +51,8 @@ export const ContentEditor = () => {
       setIsCreating(false);
       setFormData({ page_name: '', section_key: '', content: '', content_type: 'text' });
       refetch();
-    } catch (error: unknown) {
-      toast.error((error as Error).message || 'Failed to save content');
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to save content');
     }
   };
 
@@ -68,8 +68,8 @@ export const ContentEditor = () => {
       if (error) throw error;
       toast.success('Content deleted successfully');
       refetch();
-    } catch (error: unknown) {
-      toast.error((error as Error).message || 'Failed to delete content');
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to delete content');
     }
   };
 

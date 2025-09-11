@@ -8,11 +8,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { TrendingUp, TrendingDown, DollarSign, Users, Plane, Clock } from "lucide-react";
 
 interface AnalyticsData {
-  requests: Record<string, unknown>[];
-  quotes: Record<string, unknown>[];
-  bookings: Record<string, unknown>[];
-  revenue: Record<string, unknown>[];
-  performance: Record<string, unknown>[];
+  requests: any[];
+  quotes: any[];
+  bookings: any[];
+  revenue: any[];
+  performance: any[];
 }
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];

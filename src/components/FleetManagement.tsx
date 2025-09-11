@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -54,28 +54,28 @@ export default function FleetManagement() {
 
   useEffect(() => {
     fetchAircraft();
-  }, [fetchAircraft]);
+  }, []);
 
-  const fetchAircraft = useCallback(async () => {
-              try {
-                const { data, error } = await supabase
-                  .from("aircraft")
-                  .select("*")
-                  .order("created_at", { ascending: false });
+  const fetchAircraft = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("aircraft")
+        .select("*")
+        .order("created_at", { ascending: false });
 
-                if (error) throw error;
-                setAircraft(data || []);
-              } catch (error) {
-                console.error("Error fetching aircraft:", error);
-                toast({
-                  title: "Error",
-                  description: "Failed to load fleet data",
-                  variant: "destructive",
-                });
-              } finally {
-                setLoading(false);
-              }
-            }, [data, from, select, order, ascending, toast, title, description, variant]);
+      if (error) throw error;
+      setAircraft(data || []);
+    } catch (error) {
+      console.error("Error fetching aircraft:", error);
+      toast({
+        title: "Error",
+        description: "Failed to load fleet data",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const resetForm = () => {
     setFormData({
@@ -130,10 +130,10 @@ export default function FleetManagement() {
       setDialogOpen(false);
       resetForm();
       fetchAircraft();
-    } catch (error: unknown) {
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: (error as Error).message || "Failed to save aircraft",
+        description: error.message || "Failed to save aircraft",
         variant: "destructive",
       });
     } finally {
@@ -171,10 +171,10 @@ export default function FleetManagement() {
       
       toast({ title: "Success", description: "Aircraft removed from fleet" });
       fetchAircraft();
-    } catch (error: unknown) {
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: (error as Error).message || "Failed to delete aircraft",
+        description: error.message || "Failed to delete aircraft",
         variant: "destructive",
       });
     }

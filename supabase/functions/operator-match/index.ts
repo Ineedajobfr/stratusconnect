@@ -6,7 +6,7 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-function calculateOperatorScore(operator: Record<string, unknown>, context: Record<string, unknown>) {
+function calculateOperatorScore(operator: any, context: any) {
   const legality_ok = operator.certificate_no ? 1 : 0;
   const fleet_fit = operator.hasExactType ? 1 : operator.hasClass ? 0.6 : 0;
   const proximity = 1 - Math.min(context.km_to_origin / 2000, 1); // 0 to 1
@@ -73,11 +73,11 @@ serve(async (req) => {
 
     const scoredOperators = (operators || []).map(operator => {
       // Check if operator has aircraft matching the class
-      const hasExactType = operator.aircraft?.some((a: Record<string, unknown>) =>
-        typeToClass[a.icao_type as string] === cls
+      const hasExactType = operator.aircraft?.some((a: any) => 
+        typeToClass[a.icao_type] === cls
       );
-      const hasClass = operator.aircraft?.some((a: Record<string, unknown>) =>
-        typeToClass[a.icao_type as string]
+      const hasClass = operator.aircraft?.some((a: any) => 
+        typeToClass[a.icao_type]
       );
 
       // Calculate context for scoring

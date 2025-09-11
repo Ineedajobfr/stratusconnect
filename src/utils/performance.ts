@@ -3,7 +3,7 @@ import React from 'react';
 // Performance utilities and optimizations
 
 // Debounce function for search inputs and API calls
-export const debounce = <T extends (...args: unknown[]) => unknown>(
+export const debounce = <T extends (...args: any[]) => any>(
   func: T,
   wait: number
 ): ((...args: Parameters<T>) => void) => {
@@ -15,7 +15,7 @@ export const debounce = <T extends (...args: unknown[]) => unknown>(
 };
 
 // Throttle function for scroll events and frequent updates
-export const throttle = <T extends (...args: unknown[]) => unknown>(
+export const throttle = <T extends (...args: any[]) => any>(
   func: T,
   limit: number
 ): ((...args: Parameters<T>) => void) => {
@@ -38,7 +38,7 @@ export const logger = {
 };
 
 // Lazy loading helper for components
-export const createLazyComponent = <T extends React.ComponentType<unknown>>(
+export const createLazyComponent = <T extends React.ComponentType<any>>(
   factory: () => Promise<{ default: T }>
 ) => {
   return React.lazy(factory);
@@ -54,7 +54,7 @@ export const chunkArray = <T>(array: T[], size: number): T[][] => {
 };
 
 // Optimize re-renders with shallow comparison
-export const shallowEqual = (obj1: unknown, obj2: unknown): boolean => {
+export const shallowEqual = (obj1: any, obj2: any): boolean => {
   if (obj1 === obj2) return true;
   
   const keys1 = Object.keys(obj1);
@@ -62,7 +62,7 @@ export const shallowEqual = (obj1: unknown, obj2: unknown): boolean => {
   
   if (keys1.length !== keys2.length) return false;
   
-  for (let key of keys1) {
+  for (const key of keys1) {
     if (obj1[key] !== obj2[key]) return false;
   }
   

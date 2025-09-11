@@ -58,7 +58,7 @@ function levenshteinDistance(str1: string, str2: string): number {
   return matrix[str2.length][str1.length];
 }
 
-function calculateRiskLevel(matches: Record<string, unknown>[]): string {
+function calculateRiskLevel(matches: any[]): string {
   if (matches.length === 0) return 'low';
   
   const highestScore = Math.max(...matches.map(m => m.match_score));
@@ -127,7 +127,7 @@ serve(async (req) => {
     for (const entity of entities || []) {
       let maxScore = 0;
       let matchType = '';
-      let matchDetails: Record<string, unknown> = {};
+      let matchDetails: any = {};
 
       // Check name similarity
       const nameScore = calculateSimilarity(body.fullName, entity.name);

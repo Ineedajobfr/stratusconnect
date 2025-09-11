@@ -49,7 +49,7 @@ Deno.serve(async (req) => {
 
     console.log(`Found ${rows.length} responses`);
 
-    const records = rows.map((r: Record<string, unknown>) => ({
+    const records = rows.map((r: any) => ({
       item_id: r.item_id,
       module_code: r.psych_items?.psych_modules?.code,
       type: r.psych_items?.type,
@@ -65,7 +65,7 @@ Deno.serve(async (req) => {
     console.log("Calculated scores:", final);
 
     // Insert scores
-    const inserts = Object.entries(final).map(([trait, v]: [string, Record<string, unknown>]) => ({
+    const inserts = Object.entries(final).map(([trait, v]: [string, any]) => ({
       session_id,
       user_id,
       trait,
@@ -107,7 +107,7 @@ Deno.serve(async (req) => {
   }
 });
 
-function jsonResponse(obj: Record<string, unknown>, status = 200) {
+function jsonResponse(obj: any, status = 200) {
   return new Response(JSON.stringify(obj), {
     status,
     headers: { ...corsHeaders, "content-type": "application/json" }
@@ -123,7 +123,7 @@ function erf(x: number): number {
   return sign * y;
 }
 
-function scoreResponses(rows: Record<string, unknown>[]): Record<string, number> {
+function scoreResponses(rows: any[]): Record<string, number> {
   const totals: Record<string, number> = {};
   
   const add = (k: string, v: number) => {
@@ -170,7 +170,7 @@ async function fetchNorms(): Promise<Record<string, { mean: number; sd: number }
 }
 
 function normalizeWithNorms(raw: Record<string, number>, norms: Record<string, { mean: number; sd: number }>) {
-  const res: Record<string, unknown> = {};
+  const res: any = {};
   
   for (const [k, v] of Object.entries(raw)) {
     const n = norms[k] || { mean: 0, sd: 1 };

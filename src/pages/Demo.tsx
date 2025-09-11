@@ -6,7 +6,7 @@ import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { DemoBanner } from "@/components/DemoBanner";
-import { Plane, Users, BarChart3, Brain, Shield, Bot } from "lucide-react";
+import { Plane, Users, BarChart3 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function DemoSetup() {
@@ -15,52 +15,31 @@ export default function DemoSetup() {
   const demoOptions = [
     {
       title: "Broker Terminal",
-      description: "Explore marketplace listings and place bids on charter flights",
+      description: "Trading floor interface with live market data and quote management",
       icon: BarChart3,
       path: "/demo/broker",
       role: "broker"
     },
     {
       title: "Operator Terminal", 
-      description: "Manage fleet operations and create marketplace listings",
+      description: "Mission control center with real-time fleet tracking and operations",
       icon: Plane,
       path: "/demo/operator", 
       role: "operator"
     },
     {
       title: "Pilot Terminal",
-      description: "Manage crew schedules and certification tracking", 
+      description: "Advanced cockpit interface with flight controls and navigation", 
       icon: Users,
       path: "/demo/pilot",
       role: "pilot"
     },
     {
       title: "Crew Terminal",
-      description: "Manage flight certifications and view available positions", 
+      description: "Professional flight deck with crew coordination and safety monitoring", 
       icon: Users,
       path: "/demo/crew",
       role: "crew"
-    },
-    {
-      title: "Personality Test",
-      description: "Aviation-specific psychometric assessment for better matching and insights",
-      icon: Brain,
-      path: "/psych",
-      role: "psych"
-    },
-    {
-      title: "Fortress of Trust",
-      description: "Advanced verification and security system for aviation professionals",
-      icon: Shield,
-      path: "/verification-pending",
-      role: "verification"
-    },
-    {
-      title: "AI System Monitor",
-      description: "Real-time AI agent monitoring and platform intelligence dashboard",
-      icon: Bot,
-      path: "/admin/ai-reports",
-      role: "ai"
     }
   ];
 
@@ -85,7 +64,7 @@ export default function DemoSetup() {
                 Platform Demo
               </h1>
               <p className="text-xl lg:text-2xl text-gunmetal leading-relaxed">
-                Experience StratusConnect's aviation marketplace platform
+                Experience StratusConnect's mission-critical aviation platform with command center interfaces
               </p>
             </div>
             
@@ -101,7 +80,7 @@ export default function DemoSetup() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="text-center">
-                    <Button className="btn-terminal-primary w-full">
+                    <Button className="btn-terminal-accent w-full">
                       View Demo
                     </Button>
                   </CardContent>
@@ -111,7 +90,8 @@ export default function DemoSetup() {
 
             <div className="text-center">
               <p className="text-gunmetal text-sm mb-4">
-                New to StratusConnect? Start by exploring any terminal above.
+                New to StratusConnect? Start by exploring any terminal above.<br/>
+                <span className="text-accent">Each terminal features both standard and command center views!</span>
               </p>
               <Button 
                 variant="outline" 

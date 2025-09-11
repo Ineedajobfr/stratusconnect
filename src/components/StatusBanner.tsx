@@ -103,34 +103,34 @@ export function StatusBanner() {
   const isHealthy = activeIncidents.length === 0 && statusData.uptime > 99.9;
 
   return (
-    <div className={`border-b py-3 ${isHealthy ? 'bg-green-50 border-green-200' : 'bg-yellow-50 border-yellow-200'}`}>
+    <div className="border-b py-3 bg-gray-100 border-gray-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               {isHealthy ? (
-                <CheckCircle className="w-4 h-4 text-green-600" />
+                <CheckCircle className="w-4 h-4 text-green-700" />
               ) : (
-                <AlertTriangle className="w-4 h-4 text-yellow-600" />
+                <AlertTriangle className="w-4 h-4 text-green-700" />
               )}
-              <span className={`text-sm font-medium ${isHealthy ? 'text-green-800' : 'text-yellow-800'}`}>
+              <span className="text-sm font-medium text-green-700">
                 {isHealthy ? 'All systems operational' : 'Service issues detected'}
               </span>
             </div>
             
             <div className="hidden md:flex items-center gap-6 text-sm">
               <div className="flex items-center gap-1">
-                <Activity className="w-3 h-3 text-gray-500" />
-                <span className="text-gray-600">Uptime: {statusData.uptime}%</span>
+                <Activity className="w-3 h-3 text-green-700" />
+                <span className="text-green-700">Uptime: {statusData.uptime}%</span>
               </div>
               <div className="flex items-center gap-1">
-                <Clock className="w-3 h-3 text-gray-500" />
-                <span className="text-gray-600">P50: {statusData.p50Response}ms</span>
+                <Clock className="w-3 h-3 text-green-700" />
+                <span className="text-green-700">P50: {statusData.p50Response}ms</span>
               </div>
               {activeIncidents.length > 0 && (
                 <div className="flex items-center gap-1">
-                  <AlertTriangle className="w-3 h-3 text-yellow-600" />
-                  <span className="text-yellow-800">{activeIncidents.length} active incident(s)</span>
+                  <AlertTriangle className="w-3 h-3 text-green-700" />
+                  <span className="text-green-700">{activeIncidents.length} active incident(s)</span>
                 </div>
               )}
             </div>
@@ -138,7 +138,7 @@ export function StatusBanner() {
           
           <Link 
             to="/status" 
-            className="flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
+            className="flex items-center gap-1 text-sm font-medium text-green-700 hover:text-green-800 transition-colors"
           >
             <span>View live status</span>
             <ExternalLink className="w-3 h-3" />

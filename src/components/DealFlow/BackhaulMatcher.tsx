@@ -69,7 +69,7 @@ export function BackhaulMatcher({ rfqId, from, to, departureDate, passengers, on
   const findMatches = async () => {
     setLoading(true);
     
-    // Simulate API call to find empty legs and backhauls
+    // Free tier: Use mock data instead of real API calls
     const mockEmptyLegs: EmptyLeg[] = [
       {
         id: 'EL_001',

@@ -77,7 +77,7 @@ export function ReputationMetrics({ userId, userType, showRanking = true, showBa
   }, [userId, userType]);
 
   const loadMetrics = async () => {
-    // Mock data - in production would load from API
+    // Free tier: Use mock data instead of API calls
     const mockMetrics: ReputationMetrics = {
       userId,
       userType,

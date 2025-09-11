@@ -96,7 +96,7 @@ export function MonthlyStatements() {
 
   const loadStatements = async () => {
     setLoading(true);
-    // Mock data - in production would load from API
+    // Free tier: Use mock data instead of API calls
     const mockStatements: MonthlyStatement[] = [
       {
         id: 'STMT_001',

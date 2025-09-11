@@ -76,7 +76,7 @@ export function QuoteComposer({ rfqId, operatorId, route, aircraft, passengers, 
   }, [baseRate, positioning, surcharges, taxes, fuel, crew]);
 
   const calculatePriceBand = () => {
-    // In production, this would use historical data and ML
+    // Free tier: Use mock data instead of ML/historical data
     const basePricePerNm = 2500; // £25 per NM base
     const urgencyMultiplier = getUrgencyMultiplier();
     const aircraftMultiplier = getAircraftMultiplier(aircraft);

@@ -1,591 +1,668 @@
-import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
-import { useToast } from "@/hooks/use-toast";
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { 
-  Shield, Plus, DollarSign, ArrowRight, 
-  ArrowLeft, CheckCircle, Clock, AlertTriangle,
-  Lock, Unlock, Eye, History
-} from "lucide-react";
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from '@/components/ui/select';
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogTrigger 
+} from '@/components/ui/dialog';
+import { 
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { 
+  Shield, 
+  DollarSign, 
+  Clock, 
+  CheckCircle, 
+  XCircle, 
+  AlertTriangle,
+  Download,
+  Eye,
+  RefreshCw
+} from 'lucide-react';
+import { createPaymentProvider, EscrowIntent, EscrowRelease } from '@/lib/payment-providers';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
-interface EscrowAccount {
-  id: string;
-  deal_id: string;
-  account_id: string;
-  balance: number;
-  currency: string;
-  status: 'active' | 'frozen' | 'released' | 'closed';
-  created_at: string;
-  updated_at: string;
-  deals: {
-    final_amount: number;
-    status: string;
-    aircraft: {
-      tail_number: string;
-      manufacturer: string;
-      model: string;
-    };
-    operator_profile: {
-      full_name: string;
-      company_name: string;
-    };
-    broker_profile: {
-      full_name: string;
-      company_name: string;
-    };
-  };
+interface EscrowManagementProps {
+  dealId?: string;
+  userRole: 'broker' | 'operator' | 'admin';
 }
 
-interface Transaction {
-  id: string;
-  escrow_id: string;
-  type: 'deposit' | 'withdrawal' | 'transfer' | 'fee';
-  amount: number;
-  description: string;
-  created_at: string;
-  status: 'pending' | 'completed' | 'failed';
-}
-
-export default function EscrowManagement() {
-  const [escrowAccounts, setEscrowAccounts] = useState<EscrowAccount[]>([]);
-  const [availableDeals, setAvailableDeals] = useState<any[]>([]);
-  const [selectedAccount, setSelectedAccount] = useState<EscrowAccount | null>(null);
-  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [isTransactionDialogOpen, setIsTransactionDialogOpen] = useState(false);
-  const [currentUserId, setCurrentUserId] = useState<string>("");
+export default function EscrowManagement({ dealId, userRole }: EscrowManagementProps) {
+  const [escrowIntents, setEscrowIntents] = useState<EscrowIntent[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedIntent, setSelectedIntent] = useState<EscrowIntent | null>(null);
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const [showReleaseDialog, setShowReleaseDialog] = useState(false);
+  const [releaseAmount, setReleaseAmount] = useState('');
+  const [releaseReason, setReleaseReason] = useState('');
   const { toast } = useToast();
 
-  const [escrowForm, setEscrowForm] = useState({
-    deal_id: "",
-    initial_deposit: 0
-  });
-
-  const [transactionForm, setTransactionForm] = useState({
-    type: "deposit",
-    amount: 0,
-    description: ""
-  });
+  const paymentProvider = createPaymentProvider();
 
   useEffect(() => {
-    fetchUserData();
-    fetchEscrowAccounts();
-    fetchAvailableDeals();
-  }, []);
+    loadEscrowIntents();
+  }, [dealId]);
 
-  const fetchUserData = async () => {
+  const loadEscrowIntents = async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        setCurrentUserId(user.id);
-      }
+      setLoading(true);
+      
+      // Load from database
+      const { data, error } = await supabase
+        .from('escrow_intents')
+        .select('*')
+        .eq(dealId ? 'deal_id' : 'id', dealId || '')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      // Update status from payment provider
+      const updatedIntents = await Promise.all(
+        data.map(async (intent) => {
+          try {
+            const liveStatus = await paymentProvider.getEscrowStatus(intent.provider_intent_id);
+            return { ...intent, ...liveStatus };
+          } catch (error) {
+            console.error('Error fetching live status:', error);
+            return intent;
+          }
+        })
+      );
+
+      setEscrowIntents(updatedIntents);
     } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
-
-  const fetchEscrowAccounts = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
-
-      const { data, error } = await supabase
-        .from("escrow_accounts")
-        .select(`
-          *,
-          deals (
-            final_amount,
-            status,
-            aircraft (
-              tail_number,
-              manufacturer,
-              model
-            ),
-            operator_profile:profiles!deals_operator_id_fkey (
-              full_name,
-              company_name
-            ),
-            broker_profile:profiles!deals_broker_id_fkey (
-              full_name,
-              company_name
-            )
-          )
-        `)
-        .order("created_at", { ascending: false });
-
-      if (error) throw error;
-      setEscrowAccounts((data || []) as unknown as EscrowAccount[]);
-    } catch (error: any) {
+      console.error('Error loading escrow intents:', error);
       toast({
         title: "Error",
-        description: "Failed to fetch escrow accounts",
-        variant: "destructive",
+        description: "Failed to load escrow intents",
+        variant: "destructive"
       });
+    } finally {
+      setLoading(false);
     }
   };
 
-  const fetchAvailableDeals = async () => {
+  const createEscrowIntent = async (formData: FormData) => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      const amount = parseFloat(formData.get('amount') as string);
+      const currency = formData.get('currency') as string;
+      const buyerId = formData.get('buyerId') as string;
+      const sellerId = formData.get('sellerId') as string;
+      const description = formData.get('description') as string;
 
-      const { data, error } = await supabase
-        .from("deals")
-        .select(`
-          *,
-          aircraft:aircraft!deals_aircraft_id_fkey (
-            tail_number,
-            manufacturer,
-            model
-          ),
-          operator_profile:profiles!deals_operator_id_fkey (
-            full_name,
-            company_name
-          ),
-          broker_profile:profiles!deals_broker_id_fkey (
-            full_name,
-            company_name
-          )
-        `)
-        .in("status", ["accepted", "in_progress"])
-        .or(`operator_id.eq.${user.id},broker_id.eq.${user.id}`);
-
-      if (error) throw error;
-      setAvailableDeals(data || []);
-    } catch (error: any) {
-      console.error("Error fetching available deals:", error);
-    }
-  };
-
-  const createEscrowAccount = async () => {
-    if (!escrowForm.deal_id) {
-      toast({
-        title: "Error",
-        description: "Please select a deal",
-        variant: "destructive",
+      // Create escrow intent with payment provider
+      const intent = await paymentProvider.createEscrowIntent({
+        dealId: dealId || crypto.randomUUID(),
+        amount,
+        currency,
+        buyerId,
+        sellerId,
+        description,
+        expiresInDays: 30,
       });
-      return;
-    }
 
-    try {
-      const selectedDeal = availableDeals.find(d => d.id === escrowForm.deal_id);
-      if (!selectedDeal) throw new Error("Deal not found");
-
-      // Generate a unique account ID
-      const accountId = `ESC-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
-
+      // Store in database
       const { error } = await supabase
-        .from("escrow_accounts")
+        .from('escrow_intents')
         .insert({
-          deal_id: escrowForm.deal_id,
-          account_id: accountId,
-          balance: escrowForm.initial_deposit,
-          currency: 'USD',
-          status: 'active'
+          id: intent.id,
+          deal_id: intent.dealId,
+          provider_intent_id: intent.id,
+          amount: intent.amount,
+          currency: intent.currency,
+          buyer_id: intent.buyerId,
+          seller_id: intent.sellerId,
+          description: intent.description,
+          status: intent.status,
+          provider: paymentProvider.name,
+          created_at: intent.createdAt,
+          expires_at: intent.expiresAt,
         });
 
       if (error) throw error;
 
+      // Create audit log
+      await supabase
+        .from('audit_logs')
+        .insert({
+          action: 'escrow_intent_created',
+          entity_type: 'escrow_intent',
+          entity_id: intent.id,
+          details: {
+            amount: intent.amount,
+            currency: intent.currency,
+            buyer_id: intent.buyerId,
+            seller_id: intent.sellerId,
+          },
+          user_id: (await supabase.auth.getUser()).data.user?.id,
+        });
+
       toast({
-        title: "Success",
-        description: "Escrow account created successfully",
+        title: "Escrow Intent Created",
+        description: `Escrow intent created for ${currency} ${amount}`,
       });
 
-      setIsCreateDialogOpen(false);
-      setEscrowForm({ deal_id: "", initial_deposit: 0 });
-      fetchEscrowAccounts();
+      setShowCreateDialog(false);
+      loadEscrowIntents();
     } catch (error: any) {
+      console.error('Error creating escrow intent:', error);
       toast({
         title: "Error",
-        description: error.message || "Failed to create escrow account",
-        variant: "destructive",
+        description: error.message || "Failed to create escrow intent",
+        variant: "destructive"
       });
     }
   };
 
-  const processTransaction = async () => {
-    if (!selectedAccount || !transactionForm.amount) {
-      toast({
-        title: "Error",
-        description: "Please fill all required fields",
-        variant: "destructive",
-      });
-      return;
-    }
-
+  const fundEscrowIntent = async (intentId: string) => {
     try {
-      let newBalance = selectedAccount.balance;
+      const intent = await paymentProvider.fundEscrowIntent(intentId);
       
-      if (transactionForm.type === 'deposit') {
-        newBalance += transactionForm.amount;
-      } else if (transactionForm.type === 'withdrawal') {
-        if (transactionForm.amount > selectedAccount.balance) {
-          throw new Error("Insufficient balance for withdrawal");
-        }
-        newBalance -= transactionForm.amount;
-      }
+      // Update database
+      await supabase
+        .from('escrow_intents')
+        .update({ status: intent.status })
+        .eq('provider_intent_id', intentId);
 
-      const { error } = await supabase
-        .from("escrow_accounts")
-        .update({ balance: newBalance })
-        .eq("id", selectedAccount.id);
-
-      if (error) throw error;
+      // Create audit log
+      await supabase
+        .from('audit_logs')
+        .insert({
+          action: 'escrow_intent_funded',
+          entity_type: 'escrow_intent',
+          entity_id: intentId,
+          details: { status: intent.status },
+          user_id: (await supabase.auth.getUser()).data.user?.id,
+        });
 
       toast({
-        title: "Success",
-        description: `${transactionForm.type} processed successfully`,
+        title: "Escrow Funded",
+        description: "Funds have been secured in escrow",
       });
 
-      setIsTransactionDialogOpen(false);
-      setTransactionForm({ type: "deposit", amount: 0, description: "" });
-      setSelectedAccount(null);
-      fetchEscrowAccounts();
+      loadEscrowIntents();
     } catch (error: any) {
+      console.error('Error funding escrow:', error);
       toast({
         title: "Error",
-        description: error.message || "Failed to process transaction",
-        variant: "destructive",
+        description: error.message || "Failed to fund escrow",
+        variant: "destructive"
       });
     }
   };
 
-  const releaseEscrow = async (accountId: string) => {
-    try {
-      const { error } = await supabase
-        .from("escrow_accounts")
-        .update({ 
-          status: 'released',
-          balance: 0
-        })
-        .eq("id", accountId);
+  const releaseEscrow = async () => {
+    if (!selectedIntent || !releaseAmount || !releaseReason) return;
 
-      if (error) throw error;
+    try {
+      const release: EscrowRelease = {
+        intentId: selectedIntent.id,
+        amount: parseFloat(releaseAmount),
+        reason: releaseReason,
+        releasedBy: (await supabase.auth.getUser()).data.user?.id || '',
+        releasedAt: new Date().toISOString(),
+      };
+
+      const intent = await paymentProvider.releaseEscrow(selectedIntent.id, release);
+      
+      // Update database
+      await supabase
+        .from('escrow_intents')
+        .update({ status: intent.status })
+        .eq('provider_intent_id', selectedIntent.id);
+
+      // Create audit log
+      await supabase
+        .from('audit_logs')
+        .insert({
+          action: 'escrow_released',
+          entity_type: 'escrow_intent',
+          entity_id: selectedIntent.id,
+          details: {
+            amount: release.amount,
+            reason: release.reason,
+            status: intent.status,
+          },
+          user_id: release.releasedBy,
+        });
 
       toast({
-        title: "Success",
-        description: "Escrow funds released successfully",
+        title: "Escrow Released",
+        description: `${selectedIntent.currency} ${release.amount} released to seller`,
       });
 
-      fetchEscrowAccounts();
+      setShowReleaseDialog(false);
+      setSelectedIntent(null);
+      setReleaseAmount('');
+      setReleaseReason('');
+      loadEscrowIntents();
     } catch (error: any) {
+      console.error('Error releasing escrow:', error);
       toast({
         title: "Error",
-        description: "Failed to release escrow funds",
-        variant: "destructive",
+        description: error.message || "Failed to release escrow",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const refundEscrow = async (intentId: string) => {
+    try {
+      const intent = await paymentProvider.refundEscrow(intentId, 'Refund requested by user');
+      
+      // Update database
+      await supabase
+        .from('escrow_intents')
+        .update({ status: intent.status })
+        .eq('provider_intent_id', intentId);
+
+      // Create audit log
+      await supabase
+        .from('audit_logs')
+        .insert({
+          action: 'escrow_refunded',
+          entity_type: 'escrow_intent',
+          entity_id: intentId,
+          details: { status: intent.status },
+          user_id: (await supabase.auth.getUser()).data.user?.id,
+        });
+
+      toast({
+        title: "Escrow Refunded",
+        description: "Funds have been refunded to buyer",
+      });
+
+      loadEscrowIntents();
+    } catch (error: any) {
+      console.error('Error refunding escrow:', error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to refund escrow",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const generateReceipt = async (intentId: string) => {
+    try {
+      const receipt = await paymentProvider.generateReceipt(intentId);
+      
+      // Open receipt PDF in new tab
+      window.open(receipt.pdfUrl, '_blank');
+      
+      toast({
+        title: "Receipt Generated",
+        description: "Receipt PDF opened in new tab",
+      });
+    } catch (error: any) {
+      console.error('Error generating receipt:', error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to generate receipt",
+        variant: "destructive"
       });
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'active': return <Shield className="h-4 w-4 text-terminal-success" />;
-      case 'frozen': return <Lock className="h-4 w-4 text-terminal-warning" />;
-      case 'released': return <Unlock className="h-4 w-4 text-terminal-info" />;
-      case 'closed': return <CheckCircle className="h-4 w-4 text-slate-400" />;
-      default: return <AlertTriangle className="h-4 w-4 text-slate-400" />;
+      case 'pending':
+        return <Clock className="w-4 h-4 text-yellow-500" />;
+      case 'funded':
+        return <Shield className="w-4 h-4 text-green-500" />;
+      case 'released':
+        return <CheckCircle className="w-4 h-4 text-green-500" />;
+      case 'refunded':
+        return <XCircle className="w-4 h-4 text-red-500" />;
+      case 'disputed':
+        return <AlertTriangle className="w-4 h-4 text-orange-500" />;
+      default:
+        return <Clock className="w-4 h-4 text-gray-500" />;
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return 'bg-terminal-success';
-      case 'frozen': return 'bg-terminal-warning';
-      case 'released': return 'bg-terminal-info';
-      case 'closed': return 'bg-slate-500';
-      default: return 'bg-slate-500';
+      case 'pending':
+        return 'bg-yellow-100 text-yellow-800';
+      case 'funded':
+        return 'bg-green-100 text-green-800';
+      case 'released':
+        return 'bg-green-100 text-green-800';
+      case 'refunded':
+        return 'bg-red-100 text-red-800';
+      case 'disputed':
+        return 'bg-orange-100 text-orange-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
     }
   };
 
-  const totalEscrowBalance = escrowAccounts.reduce((sum, account) => sum + account.balance, 0);
-  const activeAccounts = escrowAccounts.filter(account => account.status === 'active').length;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <RefreshCw className="w-6 h-6 animate-spin" />
+        <span className="ml-2">Loading escrow intents...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <div>
-          <h2 className="text-2xl font-bold text-white">Escrow Management</h2>
-          <p className="text-slate-400">Secure fund management for transactions</p>
+        <h2 className="text-2xl font-bold text-foreground">Escrow Management</h2>
+        <div className="flex gap-2">
+          <Button
+            onClick={() => setShowCreateDialog(true)}
+            className="btn-terminal-accent"
+          >
+            <DollarSign className="w-4 h-4 mr-2" />
+            Create Escrow
+          </Button>
+          <Button
+            onClick={loadEscrowIntents}
+            variant="outline"
+          >
+            <RefreshCw className="w-4 h-4 mr-2" />
+            Refresh
+          </Button>
         </div>
-        <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="bg-terminal-success hover:bg-terminal-success/80">
-              <Plus className="mr-2 h-4 w-4" />
-              Create Escrow
+      </div>
+
+      <div className="grid gap-4">
+        {escrowIntents.map((intent) => (
+          <Card key={intent.id} className="terminal-card">
+            <CardHeader>
+              <div className="flex justify-between items-start">
+                <div>
+                  <CardTitle className="text-foreground flex items-center gap-2">
+                    {getStatusIcon(intent.status)}
+                    Escrow Intent #{intent.id.slice(-8)}
+                  </CardTitle>
+                  <p className="text-gunmetal text-sm mt-1">
+                    {intent.description}
+                  </p>
+                </div>
+                <Badge className={getStatusColor(intent.status)}>
+                  {intent.status.toUpperCase()}
+                </Badge>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                <div>
+                  <Label className="text-sm font-medium text-gunmetal">Amount</Label>
+                  <p className="text-foreground font-mono">
+                    {intent.currency} {intent.amount.toLocaleString()}
+                  </p>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-gunmetal">Buyer</Label>
+                  <p className="text-foreground text-sm">
+                    {intent.buyerId.slice(0, 8)}...
+                  </p>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-gunmetal">Seller</Label>
+                  <p className="text-foreground text-sm">
+                    {intent.sellerId.slice(0, 8)}...
+                  </p>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-gunmetal">Created</Label>
+                  <p className="text-foreground text-sm">
+                    {new Date(intent.createdAt).toLocaleDateString()}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-2">
+                <Button
+                  onClick={() => setSelectedIntent(intent)}
+                  variant="outline"
+                  size="sm"
+                >
+                  <Eye className="w-4 h-4 mr-2" />
+                  View Details
+                </Button>
+                
+                {intent.status === 'pending' && (
+                  <Button
+                    onClick={() => fundEscrowIntent(intent.id)}
+                    size="sm"
+                    className="btn-terminal-accent"
+                  >
+                    <Shield className="w-4 h-4 mr-2" />
+                    Fund
+                  </Button>
+                )}
+                
+                {intent.status === 'funded' && userRole !== 'broker' && (
+                  <Button
+                    onClick={() => {
+                      setSelectedIntent(intent);
+                      setShowReleaseDialog(true);
+                    }}
+                    size="sm"
+                    className="btn-terminal-accent"
+                  >
+                    <CheckCircle className="w-4 h-4 mr-2" />
+                    Release
+                  </Button>
+                )}
+                
+                {(intent.status === 'funded' || intent.status === 'pending') && (
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="destructive" size="sm">
+                        <XCircle className="w-4 h-4 mr-2" />
+                        Refund
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Refund Escrow</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Are you sure you want to refund this escrow? This action cannot be undone.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={() => refundEscrow(intent.id)}
+                          className="bg-red-600 hover:bg-red-700"
+                        >
+                          Refund
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                )}
+                
+                <Button
+                  onClick={() => generateReceipt(intent.id)}
+                  variant="outline"
+                  size="sm"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Receipt
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {escrowIntents.length === 0 && (
+        <Card className="terminal-card">
+          <CardContent className="text-center py-12">
+            <Shield className="w-16 h-16 mx-auto mb-4 text-accent opacity-60" />
+            <h3 className="text-xl font-semibold text-foreground mb-2">
+              No Escrow Intents
+            </h3>
+            <p className="text-gunmetal mb-4">
+              Create an escrow intent to secure funds for a transaction
+            </p>
+            <Button
+              onClick={() => setShowCreateDialog(true)}
+              className="btn-terminal-accent"
+            >
+              <DollarSign className="w-4 h-4 mr-2" />
+              Create First Escrow
             </Button>
-          </DialogTrigger>
-          <DialogContent className="bg-slate-800 border-slate-700">
-            <DialogHeader>
-              <DialogTitle className="text-white">Create Escrow Account</DialogTitle>
-              <DialogDescription className="text-slate-400">
-                Set up secure escrow for a deal
-              </DialogDescription>
-            </DialogHeader>
-            <div className="space-y-4">
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Create Escrow Dialog */}
+      <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Create Escrow Intent</DialogTitle>
+          </DialogHeader>
+          <form action={createEscrowIntent} className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="text-sm font-medium text-white mb-2 block">
-                  Select Deal
-                </label>
-                <Select value={escrowForm.deal_id} onValueChange={(value) => 
-                  setEscrowForm(prev => ({ ...prev, deal_id: value }))
-                }>
-                  <SelectTrigger className="bg-slate-700 border-slate-600 text-white">
-                    <SelectValue placeholder="Choose a deal" />
+                <Label htmlFor="amount">Amount</Label>
+                <Input
+                  id="amount"
+                  name="amount"
+                  type="number"
+                  step="0.01"
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="currency">Currency</Label>
+                <Select name="currency" required>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select currency" />
                   </SelectTrigger>
-                  <SelectContent className="bg-slate-700 border-slate-600">
-                    {availableDeals.map((deal) => (
-                      <SelectItem key={deal.id} value={deal.id} className="text-white">
-                        {deal.aircraft.manufacturer} {deal.aircraft.model} - ${deal.final_amount.toLocaleString()}
-                      </SelectItem>
-                    ))}
+                  <SelectContent>
+                    <SelectItem value="GBP">GBP (£)</SelectItem>
+                    <SelectItem value="EUR">EUR (€)</SelectItem>
+                    <SelectItem value="USD">USD ($)</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
-              <div>
-                <label className="text-sm font-medium text-white mb-2 block">
-                  Initial Deposit (USD)
-                </label>
-                <Input
-                  type="number"
-                  value={escrowForm.initial_deposit}
-                  onChange={(e) => setEscrowForm(prev => ({ 
-                    ...prev, 
-                    initial_deposit: parseFloat(e.target.value) || 0 
-                  }))}
-                  placeholder="0.00"
-                  className="bg-slate-700 border-slate-600 text-white"
-                />
-              </div>
-              <div className="flex justify-end space-x-2">
-                <Button 
-                  variant="outline" 
-                  onClick={() => setIsCreateDialogOpen(false)}
-                  className="border-slate-600 text-white hover:bg-slate-700"
-                >
-                  Cancel
-                </Button>
-                <Button onClick={createEscrowAccount} className="bg-terminal-success hover:bg-terminal-success/80">
-                  Create Account
-                </Button>
-              </div>
             </div>
-          </DialogContent>
-        </Dialog>
-      </div>
-
-      {/* Overview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="bg-slate-800/50 border-slate-700">
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <DollarSign className="h-5 w-5 text-terminal-success" />
-              <div>
-                <p className="text-sm text-slate-400">Total Balance</p>
-                <p className="text-xl font-bold text-white">
-                  ${totalEscrowBalance.toLocaleString()}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="bg-slate-800/50 border-slate-700">
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <Shield className="h-5 w-5 text-terminal-info" />
-              <div>
-                <p className="text-sm text-slate-400">Active Accounts</p>
-                <p className="text-xl font-bold text-white">{activeAccounts}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="bg-slate-800/50 border-slate-700">
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <CheckCircle className="h-5 w-5 text-terminal-success" />
-              <div>
-                <p className="text-sm text-slate-400">Total Accounts</p>
-                <p className="text-xl font-bold text-white">{escrowAccounts.length}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Escrow Accounts */}
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-white">Escrow Accounts</h3>
-        {escrowAccounts.length === 0 ? (
-          <Card className="bg-slate-800/50 border-slate-700">
-            <CardContent className="flex flex-col items-center justify-center py-12">
-              <Shield className="h-12 w-12 text-slate-500 mb-4" />
-              <p className="text-slate-400 text-center">No escrow accounts found</p>
-              <p className="text-slate-500 text-sm text-center">Create your first escrow account to get started</p>
-            </CardContent>
-          </Card>
-        ) : (
-          escrowAccounts.map((account) => (
-            <Card key={account.id} className="bg-slate-800/50 border-slate-700">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle className="text-white flex items-center space-x-2">
-                      <Shield className="h-5 w-5 text-primary" />
-                      <span>{account.account_id}</span>
-                    </CardTitle>
-                    <CardDescription className="text-slate-400">
-                      {account.deals.aircraft.manufacturer} {account.deals.aircraft.model} • {account.deals.aircraft.tail_number}
-                    </CardDescription>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Badge className={`${getStatusColor(account.status)} text-white`}>
-                      {getStatusIcon(account.status)}
-                      <span className="ml-1 capitalize">{account.status}</span>
-                    </Badge>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <p className="text-sm text-slate-400">Current Balance</p>
-                    <p className="text-2xl font-bold text-terminal-success">
-                      ${account.balance.toLocaleString()}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-slate-400">Deal Amount</p>
-                    <p className="text-lg font-semibold text-white">
-                      ${account.deals.final_amount.toLocaleString()}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-slate-400">Operator</p>
-                    <p className="text-sm text-slate-300">
-                      {account.deals.operator_profile.company_name}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-slate-400">Broker</p>
-                    <p className="text-sm text-slate-300">
-                      {account.deals.broker_profile.company_name}
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="flex justify-end space-x-2">
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    onClick={() => {
-                      setSelectedAccount(account);
-                      setIsTransactionDialogOpen(true);
-                    }}
-                    className="border-slate-600 text-white hover:bg-slate-700"
-                    disabled={account.status !== 'active'}
-                  >
-                    <ArrowRight className="mr-1 h-4 w-4" />
-                    Transaction
-                  </Button>
-                  
-                  {account.status === 'active' && account.balance > 0 && (
-                    <Button 
-                      size="sm" 
-                      onClick={() => releaseEscrow(account.id)}
-                      className="bg-terminal-info hover:bg-terminal-info/80"
-                    >
-                      <Unlock className="mr-1 h-4 w-4" />
-                      Release
-                    </Button>
-                  )}
-                  
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="border-slate-600 text-white hover:bg-slate-700"
-                  >
-                    <Eye className="mr-1 h-4 w-4" />
-                    Details
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))
-        )}
-      </div>
-
-      {/* Transaction Dialog */}
-      <Dialog open={isTransactionDialogOpen} onOpenChange={setIsTransactionDialogOpen}>
-        <DialogContent className="bg-slate-800 border-slate-700">
-          <DialogHeader>
-            <DialogTitle className="text-white">Process Transaction</DialogTitle>
-            <DialogDescription className="text-slate-400">
-              {selectedAccount && `Account: ${selectedAccount.account_id} (Balance: $${selectedAccount.balance.toLocaleString()})`}
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4">
+            
             <div>
-              <label className="text-sm font-medium text-white mb-2 block">
-                Transaction Type
-              </label>
-              <Select value={transactionForm.type} onValueChange={(value) => 
-                setTransactionForm(prev => ({ ...prev, type: value }))
-              }>
-                <SelectTrigger className="bg-slate-700 border-slate-600 text-white">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="bg-slate-700 border-slate-600">
-                  <SelectItem value="deposit" className="text-white">Deposit</SelectItem>
-                  <SelectItem value="withdrawal" className="text-white">Withdrawal</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-white mb-2 block">
-                Amount (USD)
-              </label>
+              <Label htmlFor="buyerId">Buyer ID</Label>
               <Input
-                type="number"
-                value={transactionForm.amount}
-                onChange={(e) => setTransactionForm(prev => ({ 
-                  ...prev, 
-                  amount: parseFloat(e.target.value) || 0 
-                }))}
-                placeholder="0.00"
-                className="bg-slate-700 border-slate-600 text-white"
+                id="buyerId"
+                name="buyerId"
+                required
               />
             </div>
+            
             <div>
-              <label className="text-sm font-medium text-white mb-2 block">
-                Description
-              </label>
+              <Label htmlFor="sellerId">Seller ID</Label>
               <Input
-                value={transactionForm.description}
-                onChange={(e) => setTransactionForm(prev => ({ 
-                  ...prev, 
-                  description: e.target.value 
-                }))}
-                placeholder="Transaction description"
-                className="bg-slate-700 border-slate-600 text-white"
+                id="sellerId"
+                name="sellerId"
+                required
               />
             </div>
-            <div className="flex justify-end space-x-2">
-              <Button 
-                variant="outline" 
-                onClick={() => {
-                  setIsTransactionDialogOpen(false);
-                  setSelectedAccount(null);
-                }}
-                className="border-slate-600 text-white hover:bg-slate-700"
+            
+            <div>
+              <Label htmlFor="description">Description</Label>
+              <Textarea
+                id="description"
+                name="description"
+                required
+              />
+            </div>
+            
+            <div className="flex justify-end gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setShowCreateDialog(false)}
               >
                 Cancel
               </Button>
-              <Button onClick={processTransaction} className="bg-terminal-success hover:bg-terminal-success/80">
-                Process
+              <Button type="submit" className="btn-terminal-accent">
+                Create Escrow
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Release Escrow Dialog */}
+      <Dialog open={showReleaseDialog} onOpenChange={setShowReleaseDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Release Escrow</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="releaseAmount">Release Amount</Label>
+              <Input
+                id="releaseAmount"
+                value={releaseAmount}
+                onChange={(e) => setReleaseAmount(e.target.value)}
+                type="number"
+                step="0.01"
+                max={selectedIntent?.amount}
+                required
+              />
+              {selectedIntent && (
+                <p className="text-sm text-gunmetal mt-1">
+                  Maximum: {selectedIntent.currency} {selectedIntent.amount}
+                </p>
+              )}
+            </div>
+            
+            <div>
+              <Label htmlFor="releaseReason">Release Reason</Label>
+              <Textarea
+                id="releaseReason"
+                value={releaseReason}
+                onChange={(e) => setReleaseReason(e.target.value)}
+                placeholder="Describe why funds are being released..."
+                required
+              />
+            </div>
+            
+            <div className="flex justify-end gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setShowReleaseDialog(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={releaseEscrow}
+                className="btn-terminal-accent"
+                disabled={!releaseAmount || !releaseReason}
+              >
+                Release Funds
               </Button>
             </div>
           </div>

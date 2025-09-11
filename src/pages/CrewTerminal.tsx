@@ -13,7 +13,7 @@ import { AviationNews } from "@/components/AviationNews";
 import { PrivacyOverlay } from "@/components/PrivacyOverlay";
 import { CrewAnalytics } from "@/components/analytics/CrewAnalytics";
 import { ProfileWidget } from "@/components/ProfileWidget";
-import { User, Briefcase, Award, Calendar, DollarSign, Globe, Shield, Brain } from "lucide-react";
+import { User, Briefcase, Award, Calendar, DollarSign, Globe, Shield } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { NavigationArrows } from "@/components/NavigationArrows";
 export default function CrewTerminal() {
@@ -29,10 +29,6 @@ export default function CrewTerminal() {
     id: "verification",
     label: "Fortress of Trust",
     icon: Shield
-  }, {
-    id: "psychometric",
-    label: "Personality Test",
-    icon: Brain
   }, {
     id: "jobs",
     label: "Job Requests",
@@ -110,33 +106,6 @@ export default function CrewTerminal() {
         return (
           <div className="space-y-6">
             <VerificationSystem />
-          </div>
-        );
-      case "psychometric":
-        return (
-          <div className="space-y-6">
-            <div className="terminal-card p-6">
-              <div className="flex items-center mb-6">
-                <Brain className="w-8 h-8 text-accent mr-3" />
-                <div>
-                  <h2 className="text-2xl font-bold text-foreground">Aviation Personality Assessment</h2>
-                  <p className="text-gunmetal">Complete your psychometric evaluation to enhance your crew profile and improve job matching</p>
-                </div>
-              </div>
-              <div className="text-center py-12">
-                <Brain className="w-16 h-16 mx-auto mb-6 text-accent opacity-60" />
-                <h3 className="text-xl font-semibold text-foreground mb-4">Personality Test</h3>
-                <p className="text-gunmetal mb-6 max-w-md mx-auto">
-                  Take our aviation-specific personality assessment to understand your working style, communication preferences, and how you work with operators and passengers.
-                </p>
-                <button 
-                  onClick={() => window.open('/psych', '_blank')}
-                  className="btn-terminal-accent px-6 py-3 rounded-lg font-medium transition-colors"
-                >
-                  Start Assessment
-                </button>
-              </div>
-            </div>
           </div>
         );
       case "jobs":

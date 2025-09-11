@@ -382,6 +382,72 @@ const AdminTerminal = () => {
         </div>
       )}
 
+      {activeTab === "ai-monitor" && (
+        <div className="space-y-6">
+          <Card className="terminal-card">
+            <CardHeader>
+              <CardTitle className="text-foreground flex items-center">
+                <Bot className="mr-2 h-5 w-5" />
+                AI System Monitor
+              </CardTitle>
+              <p className="text-gunmetal">Real-time AI agent monitoring and platform intelligence dashboard</p>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-sm font-medium text-slate-300">AI Agents Active</h3>
+                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                  </div>
+                  <p className="text-2xl font-bold text-white">12</p>
+                  <p className="text-xs text-slate-400">All systems operational</p>
+                </div>
+                <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-sm font-medium text-slate-300">Processing Queue</h3>
+                    <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                  </div>
+                  <p className="text-2xl font-bold text-white">47</p>
+                  <p className="text-xs text-slate-400">Tasks in queue</p>
+                </div>
+                <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-sm font-medium text-slate-300">Success Rate</h3>
+                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                  </div>
+                  <p className="text-2xl font-bold text-white">98.7%</p>
+                  <p className="text-xs text-slate-400">Last 24 hours</p>
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold text-foreground">Recent AI Activity</h3>
+                <div className="space-y-2">
+                  {[
+                    { agent: "Market Analyzer", action: "Processed 23 new listings", time: "2 minutes ago", status: "success" },
+                    { agent: "User Matcher", action: "Matched 5 broker-operator pairs", time: "5 minutes ago", status: "success" },
+                    { agent: "Security Scanner", action: "Completed security sweep", time: "8 minutes ago", status: "success" },
+                    { agent: "Price Optimizer", action: "Updated 12 pricing models", time: "12 minutes ago", status: "success" },
+                    { agent: "Notification Bot", action: "Sent 34 notifications", time: "15 minutes ago", status: "success" }
+                  ].map((activity, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 bg-slate-800/30 rounded-lg">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                        <div>
+                          <p className="text-sm font-medium text-white">{activity.agent}</p>
+                          <p className="text-xs text-slate-400">{activity.action}</p>
+                        </div>
+                      </div>
+                      <span className="text-xs text-slate-400">{activity.time}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
       {activeTab === "verification" && (
         <div className="space-y-6">
           <AdminAnalytics section="verification" />

@@ -24,7 +24,7 @@ const PilotTerminal = lazy(() => import("./pages/PilotTerminal"));
 const CrewTerminal = lazy(() => import("./pages/CrewTerminal"));
 const AdminTerminal = lazy(() => import("./pages/AdminTerminal"));
 const BetaNavigator = lazy(() => import("./pages/BetaNavigator"));
-const PersonalityTest = lazy(() => import("./pages/PersonalityTest"));
+const Status = lazy(() => import("./pages/Status"));
 
 // Secondary pages - loaded on demand
 const Demo = lazy(() => import("./pages/Demo"));
@@ -171,15 +171,12 @@ const App = memo(() => {
                 } 
               />
         
-        {/* Psychometric Test Routes */}
-        <Route path="/psych" element={<PersonalityTest />} />
-        <Route path="/psych/run/:sessionId" element={<PersonalityTest />} />
-        <Route path="/psych/report/:sessionId" element={<PersonalityTest />} />
               
               {/* Profile routes */}
               <Route path="/u/:username" element={<PublicProfile />} />
               <Route path="/settings/profile" element={<ProtectedRoute><ProfileSettings /></ProtectedRoute>} />
               <Route path="/directory" element={<ProtectedRoute><Directory /></ProtectedRoute>} />
+              <Route path="/status" element={<Status />} />
               
               {/* Legacy redirect */}
               <Route path="/login" element={<Navigate to="/enter" replace />} />

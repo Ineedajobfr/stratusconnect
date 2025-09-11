@@ -16,7 +16,7 @@ import {
   Fuel,
   CheckCircle,
   AlertTriangle,
-  Compare,
+  GitCompare,
   Save,
   Eye,
   Shield
@@ -183,7 +183,7 @@ export default function ListingCard({
             size="sm"
             disabled={!canCompare}
           >
-            <Compare className="w-4 h-4 mr-2" />
+            <GitCompare className="w-4 h-4 mr-2" />
             Compare
           </Button>
           

@@ -25,6 +25,9 @@ const CrewTerminal = lazy(() => import("./pages/CrewTerminal"));
 const AdminTerminal = lazy(() => import("./pages/AdminTerminal"));
 const BetaNavigator = lazy(() => import("./pages/BetaNavigator"));
 const Status = lazy(() => import("./pages/Status"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const Cookies = lazy(() => import("./pages/Cookies"));
+const SLA = lazy(() => import("./pages/SLA"));
 
 // Secondary pages - loaded on demand
 const Demo = lazy(() => import("./pages/Demo"));
@@ -177,6 +180,12 @@ const App = memo(() => {
               <Route path="/settings/profile" element={<ProtectedRoute><ProfileSettings /></ProtectedRoute>} />
               <Route path="/directory" element={<ProtectedRoute><Directory /></ProtectedRoute>} />
               <Route path="/status" element={<Status />} />
+              
+              {/* Legal pages */}
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/cookies" element={<Cookies />} />
+              <Route path="/sla" element={<SLA />} />
               
               {/* Legacy redirect */}
               <Route path="/login" element={<Navigate to="/enter" replace />} />

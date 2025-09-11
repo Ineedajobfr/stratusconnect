@@ -1,130 +1,292 @@
-import { useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { NavigationArrows } from "@/components/NavigationArrows";
-import { StratusConnectLogo } from "@/components/StratusConnectLogo";
-import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
+import React from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { FileText, Calendar, Shield, DollarSign, Users, AlertTriangle } from 'lucide-react';
 
 export default function Terms() {
-  const navigate = useNavigate();
-
   return (
-    <div className="relative min-h-screen bg-slate-900">
-      <StarfieldRunwayBackground intensity={0.7} starCount={260} />
-      
-      <div className="absolute top-4 left-4 z-40">
-        <StratusConnectLogo />
-      </div>
-      
-      <div className="absolute top-4 right-4 z-40">
-        <NavigationArrows />
-      </div>
-
-      <div className="relative z-10 container mx-auto px-4 py-16 max-w-4xl">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-6 text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.7)]">
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto px-4 py-8 max-w-4xl">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-foreground mb-4">
             Terms and Conditions
           </h1>
+          <div className="flex items-center justify-center gap-4 text-gunmetal">
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4" />
+              <span>Last Updated: January 15, 2025</span>
+            </div>
+            <Badge variant="outline">Version 1.0</Badge>
+          </div>
         </div>
 
-        <div className="prose prose-lg mx-auto text-white/90 leading-relaxed space-y-8">
-          <div>
-            <h2 className="text-2xl font-semibold mb-4 text-white">1. Definitions</h2>
-            <p>
-              <strong>Broker:</strong> Aviation intermediary facilitating charter transactions<br />
-              <strong>Operator:</strong> Entity providing aircraft and crew services<br />
-              <strong>Pilot:</strong> Licensed flight crew member<br />
-              <strong>Crew:</strong> Cabin crew or support personnel<br />
-              <strong>User:</strong> Any verified platform participant<br />
-              <strong>Platform:</strong> Stratus Connect system and services
-            </p>
-          </div>
+        {/* Terms Content */}
+        <div className="space-y-8">
+          {/* 1. Definitions */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <FileText className="w-5 h-5" />
+                1. Definitions
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-gunmetal">
+                In these Terms and Conditions, the following terms have the meanings set out below:
+              </p>
+              <div className="grid gap-3">
+                <div>
+                  <strong className="text-foreground">"Broker"</strong> means a person or entity that arranges aviation services between clients and operators.
+                </div>
+                <div>
+                  <strong className="text-foreground">"Operator"</strong> means a person or entity that provides aviation services including aircraft operations.
+                </div>
+                <div>
+                  <strong className="text-foreground">"Pilot"</strong> means a licensed pilot who operates aircraft.
+                </div>
+                <div>
+                  <strong className="text-foreground">"Crew"</strong> means flight crew members including pilots, co-pilots, and flight attendants.
+                </div>
+                <div>
+                  <strong className="text-foreground">"User"</strong> means any person who accesses or uses the Platform.
+                </div>
+                <div>
+                  <strong className="text-foreground">"Platform"</strong> means the Stratus Connect website, mobile application, and related services.
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
-          <div>
-            <h2 className="text-2xl font-semibold mb-4 text-white">2. Platform Access</h2>
-            <p>
-              Only verified users may transact on the platform. All accounts must maintain accurate 
-              and up-to-date information. Misrepresentation of credentials or identity results in 
-              immediate termination.
-            </p>
-          </div>
+          {/* 2. Platform Access */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Shield className="w-5 h-5" />
+                2. Platform Access
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-gunmetal">
+                Only verified users may transact on the Platform. All account information must be accurate and up-to-date. 
+                Misrepresentation of identity, qualifications, or capabilities will result in immediate account termination.
+              </p>
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <div className="flex items-start gap-2">
+                  <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
+                  <div>
+                    <p className="text-yellow-800 font-medium">Verification Required</p>
+                    <p className="text-yellow-700 text-sm mt-1">
+                      All users must complete identity verification and provide valid aviation credentials before accessing transaction features.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
-          <div>
-            <h2 className="text-2xl font-semibold mb-4 text-white">3. Use of Service</h2>
-            <p>
-              Users must comply with all aviation laws and regulations including EASA, CAA UK, 
-              and FAA US requirements. Stratus Connect is not responsible for regulatory breaches 
-              by users. The platform provides connection services only.
-            </p>
-          </div>
+          {/* 3. Use of Service */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Users className="w-5 h-5" />
+                3. Use of Service
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-gunmetal">
+                Users must comply with all applicable aviation regulations including EASA, CAA UK, and FAA US requirements. 
+                Stratus Connect provides connection and payment facilitation services only. We do not:
+              </p>
+              <ul className="list-disc list-inside space-y-2 text-gunmetal ml-4">
+                <li>Operate aircraft or provide flight services</li>
+                <li>Schedule flights or manage flight operations</li>
+                <li>Provide regulatory approvals or certifications</li>
+                <li>Guarantee the safety or compliance of any flight</li>
+              </ul>
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <p className="text-blue-800 font-medium">Aviation Compliance Notice</p>
+                <p className="text-blue-700 text-sm mt-1">
+                  Operational aviation compliance rests with Operators and Pilots. Users must ensure they meet all applicable 
+                  EASA Air OPS and FAA Part 135 obligations. Stratus Connect is a platform facilitator only.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
 
-          <div>
-            <h2 className="text-2xl font-semibold mb-4 text-white">4. Fees</h2>
-            <p>
-              Platform charges 7% commission on broker/operator transactions. Pilots and crew 
-              are not charged. No hidden fees, subscriptions, or data sales. Commission due 
-              only on completed transactions.
-            </p>
-          </div>
+          {/* 4. Fees */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <DollarSign className="w-5 h-5" />
+                4. Fees
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-gunmetal">
+                Stratus Connect charges the following fees:
+              </p>
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="grid gap-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-foreground font-medium">Broker-Operator Transactions</span>
+                    <span className="font-mono font-bold text-accent">7%</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-foreground font-medium">Operator Hiring Fee</span>
+                    <span className="font-mono font-bold text-accent">10%</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-foreground font-medium">Pilot/Crew Fees</span>
+                    <span className="font-mono font-bold text-green-600">0%</span>
+                  </div>
+                </div>
+              </div>
+              <p className="text-gunmetal text-sm">
+                Commission applies only to completed transactions. No fees are charged for pilot or crew participation.
+              </p>
+            </CardContent>
+          </Card>
 
-          <div>
-            <h2 className="text-2xl font-semibold mb-4 text-white">5. Payments</h2>
-            <p>
-              All transactions processed through escrow with regulated financial partners. 
-              Stratus Connect is not a financial custodian but facilitates secure payment 
-              processing with full audit trails and receipts.
-            </p>
-          </div>
+          {/* 5. Payments */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Shield className="w-5 h-5" />
+                5. Payments
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-gunmetal">
+                All transactions are processed through FCA or EU regulated payment partners using escrow or safeguarded e-money accounts. 
+                Stratus Connect never holds client funds directly.
+              </p>
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                <p className="text-green-800 font-medium">Regulated Payment Processing</p>
+                <p className="text-green-700 text-sm mt-1">
+                  Funds are protected until both parties confirm service completion. Digital receipts and immutable audit logs 
+                  are issued for every transaction state change.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
 
-          <div>
-            <h2 className="text-2xl font-semibold mb-4 text-white">6. Verification</h2>
-            <p>
-              Users must provide accurate ID, licenses, and certifications. Document verification 
-              is mandatory. False information results in account suspension. Expired credentials 
-              must be updated promptly.
-            </p>
-          </div>
+          {/* 6. Verification */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Shield className="w-5 h-5" />
+                6. Verification
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-gunmetal">
+                Users must provide accurate identification, licenses, and certifications. False or expired documents will result 
+                in account suspension until corrected. All verification documents are subject to periodic review.
+              </p>
+            </CardContent>
+          </Card>
 
-          <div>
-            <h2 className="text-2xl font-semibold mb-4 text-white">7. Data Protection</h2>
-            <p>
-              Full compliance with GDPR, UK DPA 2018, and aviation data standards. Data encrypted 
-              in transit and at rest. No data sales. Expired documents deleted unless legally 
-              required. Users retain data export and deletion rights.
-            </p>
-          </div>
+          {/* 7. Data Protection */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Shield className="w-5 h-5" />
+                7. Data Protection
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-gunmetal">
+                We comply with UK GDPR and the Data Protection Act 2018. Data is encrypted in transit and at rest. 
+                We do not sell personal data. Expired documents are deleted unless retention is required by law.
+              </p>
+              <p className="text-gunmetal">
+                Users may access, export, and request deletion of their data through our Data Subject Access Request (DSAR) system.
+              </p>
+            </CardContent>
+          </Card>
 
-          <div>
-            <h2 className="text-2xl font-semibold mb-4 text-white">8. Limitation of Liability</h2>
-            <p>
-              Stratus Connect provides platform services only. Not responsible for operational 
-              safety, flight regulatory compliance, or user disputes beyond escrow handling. 
-              Users responsible for service quality and aviation standards.
-            </p>
-          </div>
+          {/* 8. Limitation of Liability */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <AlertTriangle className="w-5 h-5" />
+                8. Limitation of Liability
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-gunmetal">
+                Stratus Connect provides connection and payment facilitation services only. We are not responsible for:
+              </p>
+              <ul className="list-disc list-inside space-y-2 text-gunmetal ml-4">
+                <li>Operational safety of any flight</li>
+                <li>Regulatory compliance of flight operations</li>
+                <li>Performance or conduct of users</li>
+                <li>Third-party service quality</li>
+              </ul>
+              <p className="text-gunmetal">
+                Our liability is limited to fees paid in the twelve months prior to any claim, except where law prohibits such limitation.
+              </p>
+            </CardContent>
+          </Card>
 
-          <div>
-            <h2 className="text-2xl font-semibold mb-4 text-white">9. Dispute Resolution</h2>
-            <p>
-              Commercial disputes handled through platform escrow process. Legal disputes 
-              governed by English law with exclusive jurisdiction of England and Wales courts. 
-              Mediation preferred before litigation.
-            </p>
-          </div>
+          {/* 9. Dispute Resolution */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <FileText className="w-5 h-5" />
+                9. Dispute Resolution
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-gunmetal">
+                Commercial disputes should first use the escrow process. Legal disputes are governed by English law and 
+                the courts of England and Wales. Mediation is preferred before litigation.
+              </p>
+            </CardContent>
+          </Card>
 
-          <div>
-            <h2 className="text-2xl font-semibold mb-4 text-white">10. Amendments</h2>
-            <p>
-              Terms may be updated with advance notice to users. Continued platform use 
-              constitutes acceptance of revised terms. Major changes require explicit consent.
-            </p>
-          </div>
+          {/* 10. Amendments */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <FileText className="w-5 h-5" />
+                10. Amendments
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-gunmetal">
+                We may update these terms with reasonable notice. Continued use confirms acceptance. 
+                Material changes require consent where required by law.
+              </p>
+            </CardContent>
+          </Card>
 
-          <div className="text-sm text-white/60 pt-8 border-t border-white/20">
-            <p><strong>Governing Law:</strong> England and Wales</p>
-            <p><strong>Jurisdiction:</strong> Courts of England and Wales</p>
-            <p><strong>Last Updated:</strong> January 2025</p>
-          </div>
+          {/* Governing Law */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <FileText className="w-5 h-5" />
+                Governing Law and Jurisdiction
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gunmetal">
+                These terms are governed by English law. Any disputes will be subject to the exclusive jurisdiction 
+                of the courts of England and Wales.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Footer */}
+        <div className="text-center mt-12 text-gunmetal text-sm">
+          <p>
+            For questions about these terms, please contact our legal team at legal@stratusconnect.com
+          </p>
+          <p className="mt-2">
+            This document is version 1.0, effective January 15, 2025.
+          </p>
         </div>
       </div>
     </div>

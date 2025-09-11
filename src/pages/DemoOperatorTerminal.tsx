@@ -6,8 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { 
   DollarSign, 
   FileText, 
@@ -36,13 +34,59 @@ import {
   UserPlus,
   Briefcase,
   CreditCard,
-  Building
+  Building,
+  Activity
 } from 'lucide-react';
+import { ComplianceNotice, EvidencePack } from '@/components/ComplianceNotice';
+import { evidenceReceiptGenerator } from '@/lib/evidence-receipt-generator';
+import { greenLightGateValidator } from '@/lib/green-light-gate';
+import { DisputesLane } from '@/components/Disputes/DisputesLane';
+import { ChargebacksPlaybook } from '@/components/Chargebacks/ChargebacksPlaybook';
+import { CancellationRules } from '@/components/Cancellation/CancellationRules';
+import { fxHandler } from '@/lib/fx-handler';
+import { invoiceVATHandler } from '@/lib/invoice-vat-handler';
+import { savedSearchesRealData } from '@/lib/saved-searches-real-data';
+import { ReMarketOnFallThrough } from '@/components/ReMarket/ReMarketOnFallThrough';
+import { AdminImpersonation } from '@/components/Admin/AdminImpersonation';
+import { WeekOneScoreboard } from '@/components/WeekOneScoreboard';
+import { liveFlowTester } from '@/lib/live-flow-tester';
+import { warRoomChecker } from '@/lib/war-room-checks';
+import { evidencePackGenerator } from '@/lib/evidence-pack-generator';
+import MultiLegRFQ from '@/components/DealFlow/MultiLegRFQ';
 import QuoteComposer from '@/components/DealFlow/QuoteComposer';
+import BackhaulMatcher from '@/components/DealFlow/BackhaulMatcher';
+import SavedSearches from '@/components/DealFlow/SavedSearches';
 import ReputationMetrics from '@/components/Reputation/ReputationMetrics';
 import MonthlyStatements from '@/components/Billing/MonthlyStatements';
 
+interface RFQ {
+  id: string;
+  route: string;
+  aircraft: string;
+  date: string;
+  price: number;
+  currency: string;
+  status: 'draft' | 'sent' | 'quoted' | 'accepted' | 'paid';
+  quotes: Quote[];
+  legs: number;
+  passengers: number;
+  specialRequirements: string;
+}
+
 interface Quote {
+  id: string;
+  operator: string;
+  price: number;
+  currency: string;
+  validUntil: string;
+  aircraft: string;
+  verified: boolean;
+  rating: number;
+  responseTime: number;
+  dealScore: number;
+}
+
+interface Deal {
   id: string;
   rfqId: string;
   broker: string;
@@ -51,133 +95,227 @@ interface Quote {
   date: string;
   price: number;
   currency: string;
-  status: 'draft' | 'sent' | 'accepted' | 'rejected' | 'expired';
-  responseTime: number;
-  dealScore: number;
-  specialRequirements: string;
+  status: 'pending' | 'confirmed' | 'in_progress' | 'completed' | 'cancelled';
+  platformFee: number;
+  netAmount: number;
+  auditHash: string;
 }
 
-interface Hiring {
+interface Pilot {
   id: string;
-  pilotId: string;
-  pilotName: string;
+  name: string;
   role: string;
-  salary: number;
+  rating: number;
+  experience: string;
+  verified: boolean;
+  available: boolean;
+  hourlyRate: number;
   currency: string;
-  status: 'pending' | 'accepted' | 'rejected' | 'completed';
-  kycStatus: 'pending' | 'verified' | 'rejected';
-  startDate: string;
-  endDate: string;
+  credentials: {
+    license: string;
+    medical: string;
+    typeRating: string[];
+    expiry: string;
+  };
+}
+
+interface Crew {
+  id: string;
+  name: string;
+  role: string;
+  rating: number;
+  experience: string;
+  verified: boolean;
+  available: boolean;
+  dailyRate: number;
+  currency: string;
+  credentials: {
+    training: string[];
+    certificates: string[];
+    expiry: string;
+  };
 }
 
 export default function DemoOperatorTerminal() {
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [quotes, setQuotes] = useState<Quote[]>([
+  const [showWeekOneScoreboard, setShowWeekOneScoreboard] = useState(false);
+  const [showWarRoomChecks, setShowWarRoomChecks] = useState(false);
+  const [showEvidencePack, setShowEvidencePack] = useState(false);
+  const [liveFlowResult, setLiveFlowResult] = useState<any>(null);
+  const [warRoomResult, setWarRoomResult] = useState<any>(null);
+  const [evidencePack, setEvidencePack] = useState<any>(null);
+  
+  const [rfqs, setRfqs] = useState<RFQ[]>([
     {
-      id: 'Q-001',
-      rfqId: 'RFQ-001',
-      broker: 'Elite Brokers Ltd',
+      id: 'RFQ-001',
       route: 'London - New York',
       aircraft: 'Gulfstream G650',
       date: '2024-01-20',
       price: 45000,
       currency: 'USD',
+      status: 'quoted',
+      legs: 1,
+      passengers: 8,
+      specialRequirements: 'VIP handling, customs clearance',
+      quotes: []
+    },
+    {
+      id: 'RFQ-002',
+      route: 'Paris - Dubai',
+      aircraft: 'Bombardier Global 6000',
+      date: '2024-01-22',
+      price: 38000,
+      currency: 'EUR',
       status: 'sent',
-      responseTime: 3.2,
-      dealScore: 89,
-      specialRequirements: 'VIP handling, customs clearance'
+      legs: 1,
+      passengers: 12,
+      specialRequirements: 'Pet transport, special catering',
+      quotes: []
+    }
+  ]);
+
+  const [quotes, setQuotes] = useState<Quote[]>([
+    {
+      id: 'Q-001',
+      operator: 'Elite Aviation',
+      price: 45000,
+      currency: 'USD',
+      validUntil: '2024-01-18T18:00:00Z',
+      aircraft: 'Gulfstream G650',
+      verified: true,
+      rating: 4.8,
+      responseTime: 15,
+      dealScore: 92
     },
     {
       id: 'Q-002',
-      rfqId: 'RFQ-002',
-      broker: 'SkyHigh Brokers',
-      route: 'Paris - Dubai',
-      aircraft: 'Global 6000',
-      date: '2024-01-25',
-      price: 32000,
-      currency: 'EUR',
-      status: 'accepted',
-      responseTime: 2.1,
-      dealScore: 94,
-      specialRequirements: 'Catering for dietary restrictions'
+      operator: 'Prime Wings',
+      price: 47000,
+      currency: 'USD',
+      validUntil: '2024-01-18T20:00:00Z',
+      aircraft: 'Gulfstream G650',
+      verified: true,
+      rating: 4.6,
+      responseTime: 25,
+      dealScore: 88
     }
   ]);
 
-  const [hirings, setHirings] = useState<Hiring[]>([
+  const [deals, setDeals] = useState<Deal[]>([
     {
-      id: 'H-001',
-      pilotId: 'P-001',
-      pilotName: 'Captain John Smith',
-      role: 'Pilot',
-      salary: 3000,
-      currency: 'GBP',
-      status: 'pending',
-      kycStatus: 'verified',
-      startDate: '2024-01-20',
-      endDate: '2024-01-25'
+      id: 'DEAL-001',
+      rfqId: 'RFQ-001',
+      broker: 'Elite Aviation Brokers',
+      route: 'London - New York',
+      aircraft: 'Gulfstream G650',
+      date: '2024-01-20',
+      price: 45000,
+      currency: 'USD',
+      status: 'completed',
+      platformFee: 3150,
+      netAmount: 41850,
+      auditHash: 'audit_hash_123'
+    }
+  ]);
+
+  const [pilots, setPilots] = useState<Pilot[]>([
+    {
+      id: 'PILOT-001',
+      name: 'Sarah Wilson',
+      role: 'Captain',
+      rating: 4.9,
+      experience: '15 years',
+      verified: true,
+      available: true,
+      hourlyRate: 150,
+      currency: 'USD',
+      credentials: {
+        license: 'ATPL',
+        medical: 'Class 1',
+        typeRating: ['G650', 'G550', 'Citation X'],
+        expiry: '2024-12-31'
+      }
     },
     {
-      id: 'H-002',
-      pilotId: 'P-002',
-      pilotName: 'First Officer Sarah Johnson',
-      role: 'Co-Pilot',
-      salary: 2500,
-      currency: 'GBP',
-      status: 'accepted',
-      kycStatus: 'verified',
-      startDate: '2024-01-22',
-      endDate: '2024-01-28'
+      id: 'PILOT-002',
+      name: 'Mike Johnson',
+      role: 'First Officer',
+      rating: 4.7,
+      experience: '8 years',
+      verified: true,
+      available: false,
+      hourlyRate: 120,
+      currency: 'USD',
+      credentials: {
+        license: 'CPL',
+        medical: 'Class 1',
+        typeRating: ['G650', 'Citation X'],
+        expiry: '2024-11-15'
+      }
     }
   ]);
 
-  const [kycStatus, setKycStatus] = useState({
-    verified: true,
-    lastChecked: '2024-01-15T10:00:00Z',
-    nextCheck: '2024-02-15T10:00:00Z',
-    sanctionsClear: true
-  });
-
-  const isDemoMode = import.meta.env.VITE_SC_DEMO_MODE === 'true';
-
-  const createHiringPayment = (hiring: Hiring) => {
-    const hiringFee = Math.round(hiring.salary * 0.10); // 10% hiring fee
-    const netToPilot = hiring.salary - hiringFee;
-    
-    if (!kycStatus.verified) {
-      alert('❌ Payment Blocked\n\nKYC verification required before payouts.\nPlease complete identity verification first.');
-      return;
+  const [crew, setCrew] = useState<Crew[]>([
+    {
+      id: 'CREW-001',
+      name: 'Emma Davis',
+      role: 'Flight Attendant',
+      rating: 4.8,
+      experience: '10 years',
+      verified: true,
+      available: true,
+      dailyRate: 300,
+      currency: 'USD',
+      credentials: {
+        training: ['Safety', 'Service', 'Emergency'],
+        certificates: ['FAA', 'EASA'],
+        expiry: '2024-10-20'
+      }
     }
+  ]);
 
-    alert(`👥 Hiring Payment Created\n\n` +
-      `Pilot: ${hiring.pilotName}\n` +
-      `Role: ${hiring.role}\n` +
-      `Salary: £${hiring.salary.toLocaleString()}\n` +
-      `Hiring Fee (10%): £${hiringFee.toLocaleString()}\n` +
-      `Net to Pilot: £${netToPilot.toLocaleString()}\n\n` +
-      `✅ KYC Verified\n` +
-      `🔒 Stripe Connect processing\n` +
-      `📋 Audit trail created`);
-  };
+  const [alerts, setAlerts] = useState([
+    {
+      id: 'ALERT-001',
+      type: 'quote_request',
+      message: 'New RFQ for London-New York route',
+      timestamp: '2024-01-16T10:30:00Z',
+      read: false
+    },
+    {
+      id: 'ALERT-002',
+      type: 'deal_confirmed',
+      message: 'Deal DEAL-001 confirmed and payment received',
+      timestamp: '2024-01-16T09:15:00Z',
+      read: true
+    }
+  ]);
 
-  const generateHiringReceipt = (hiring: Hiring) => {
-    const hiringFee = Math.round(hiring.salary * 0.10);
-    const netToPilot = hiring.salary - hiringFee;
+  const isDemoMode = true;
+
+  const handleQuoteAccept = (quoteId: string) => {
+    const quote = quotes.find(q => q.id === quoteId);
+    if (!quote) return;
+
+    const platformFee = Math.round(quote.price * 0.07);
+    const netAmount = quote.price - platformFee;
     const auditHash = `audit_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
     const receipt = {
-      transactionId: `HIRING_${Date.now()}`,
+      transactionId: `TXN_${Date.now()}`,
       timestamp: new Date().toISOString(),
+      broker: 'Demo Broker Ltd',
       operator: 'Demo Operator Ltd',
-      pilot: hiring.pilotName,
-      role: hiring.role,
-      salary: hiring.salary,
-      hiringFee: hiringFee,
-      netToPilot: netToPilot,
-      currency: hiring.currency,
+      route: 'London - New York',
+      aircraft: quote.aircraft,
+      totalPrice: quote.price,
+      platformFee: platformFee,
+      netToOperator: netAmount,
+      currency: quote.currency,
       auditHash: auditHash,
       status: 'completed',
       fcaCompliant: true,
-      kycVerified: kycStatus.verified
+      stripeTransactionId: `pi_${Date.now()}`
     };
 
     const receiptData = JSON.stringify(receipt, null, 2);
@@ -185,11 +323,30 @@ export default function DemoOperatorTerminal() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `hiring_receipt_${receipt.transactionId}.json`;
+    a.download = `receipt_${receipt.transactionId}.json`;
     a.click();
     URL.revokeObjectURL(url);
 
-    alert(`📄 Hiring Receipt generated with audit hash: ${auditHash}\n\n✅ FCA compliant transaction record`);
+    alert(`📄 Receipt generated with audit hash: ${auditHash}\n\n✅ FCA compliant transaction record`);
+  };
+
+  const runLiveFlowTests = async () => {
+    const result = await liveFlowTester.runLiveFlowTests();
+    setLiveFlowResult(result);
+    alert(`Live Flow Tests: ${result.allPassed ? 'PASSED' : 'FAILED'}\n\n${result.summary}`);
+  };
+
+  const runWarRoomChecks = async () => {
+    const result = await warRoomChecker.runAllChecks();
+    setWarRoomResult(result);
+    alert(`War Room Checks: ${result.allChecksPassed ? 'PASSED' : 'FAILED'}\n\n${result.summary}`);
+  };
+
+  const generateEvidencePack = async () => {
+    const pack = await evidencePackGenerator.generateEvidencePack();
+    setEvidencePack(pack);
+    evidencePackGenerator.downloadEvidencePack(pack);
+    alert('Evidence pack generated and downloaded!');
   };
 
   const renderDashboard = () => (
@@ -200,8 +357,8 @@ export default function DemoOperatorTerminal() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gunmetal">Active Quotes</p>
-                <p className="text-2xl font-bold text-foreground">{quotes.length}</p>
+                <p className="text-sm text-gunmetal">Active RFQs</p>
+                <p className="text-2xl font-bold text-foreground">{rfqs.length}</p>
                 <p className="text-xs text-green-600">+8% this week</p>
               </div>
               <FileText className="w-8 h-8 text-accent" />
@@ -213,9 +370,9 @@ export default function DemoOperatorTerminal() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gunmetal">Acceptance Rate</p>
-                <p className="text-2xl font-bold text-foreground">94%</p>
-                <p className="text-xs text-blue-600">Above average</p>
+                <p className="text-sm text-gunmetal">Quotes Sent</p>
+                <p className="text-2xl font-bold text-foreground">{quotes.length}</p>
+                <p className="text-xs text-blue-600">Avg 2.1 per RFQ</p>
               </div>
               <TrendingUp className="w-8 h-8 text-accent" />
             </div>
@@ -226,9 +383,11 @@ export default function DemoOperatorTerminal() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gunmetal">Revenue</p>
-                <p className="text-2xl font-bold text-foreground">$77K</p>
-                <p className="text-xs text-purple-600">This month</p>
+                <p className="text-sm text-gunmetal">Deals Closed</p>
+                <p className="text-2xl font-bold text-foreground">
+                  {deals.filter(deal => deal.status === 'completed').length}
+                </p>
+                <p className="text-xs text-purple-600">$1.8M volume</p>
               </div>
               <DollarSign className="w-8 h-8 text-accent" />
             </div>
@@ -239,8 +398,8 @@ export default function DemoOperatorTerminal() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gunmetal">Avg Response</p>
-                <p className="text-2xl font-bold text-foreground">2.7m</p>
+                <p className="text-sm text-gunmetal">Avg Response Time</p>
+                <p className="text-2xl font-bold text-foreground">3.2m</p>
                 <p className="text-xs text-green-600">Fast lane eligible</p>
               </div>
               <Clock className="w-8 h-8 text-accent" />
@@ -249,87 +408,347 @@ export default function DemoOperatorTerminal() {
         </Card>
       </div>
 
-      {/* KYC Status */}
-      <Card className={`terminal-card ${kycStatus.verified ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}`}>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Shield className="w-5 h-5" />
-            KYC & Compliance Status
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="flex items-center gap-3">
-              {kycStatus.verified ? (
-                <CheckCircle className="w-6 h-6 text-green-600" />
-              ) : (
-                <AlertTriangle className="w-6 h-6 text-red-600" />
-              )}
-              <div>
-                <p className="font-medium">Identity Verification</p>
-                <p className="text-sm text-gray-600">
-                  {kycStatus.verified ? 'Verified' : 'Pending'}
-                </p>
-              </div>
+      {/* Alerts */}
+      {alerts.length > 0 && (
+        <Card className="terminal-card border-blue-200 bg-blue-50">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-blue-800">
+              <Bell className="w-5 h-5" />
+              Recent Alerts
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              {alerts.slice(0, 3).map(alert => (
+                <div key={alert.id} className="flex items-center justify-between p-2 bg-white rounded">
+                  <div className="flex items-center gap-2">
+                    <div className={`w-2 h-2 rounded-full ${alert.read ? 'bg-gray-400' : 'bg-blue-600'}`} />
+                    <span className="text-sm">{alert.message}</span>
+                  </div>
+                  <span className="text-xs text-gray-500">
+                    {new Date(alert.timestamp).toLocaleTimeString()}
+                  </span>
+                </div>
+              ))}
             </div>
-            <div className="flex items-center gap-3">
-              {kycStatus.sanctionsClear ? (
-                <CheckCircle className="w-6 h-6 text-green-600" />
-              ) : (
-                <AlertTriangle className="w-6 h-6 text-red-600" />
-              )}
-              <div>
-                <p className="font-medium">Sanctions Screening</p>
-                <p className="text-sm text-gray-600">
-                  {kycStatus.sanctionsClear ? 'Clear' : 'Review Required'}
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <Clock className="w-6 h-6 text-blue-600" />
-              <div>
-                <p className="font-medium">Next Check</p>
-                <p className="text-sm text-gray-600">
-                  {new Date(kycStatus.nextCheck).toLocaleDateString()}
-                </p>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Recent Activity */}
       <Card className="terminal-card">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <BarChart3 className="w-5 h-5" />
+            <Activity className="w-5 h-5" />
             Recent Activity
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            {quotes.slice(0, 3).map(quote => (
-              <div key={quote.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                <div className="flex items-center gap-3">
-                  <div className={`w-2 h-2 rounded-full ${
-                    quote.status === 'accepted' ? 'bg-green-500' :
-                    quote.status === 'sent' ? 'bg-blue-500' :
-                    'bg-yellow-500'
-                  }`}></div>
-                  <div>
-                    <p className="font-medium">{quote.route}</p>
-                    <p className="text-sm text-gunmetal">{quote.broker} • {quote.aircraft}</p>
+            <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+              <CheckCircle className="w-5 h-5 text-green-600" />
+              <div>
+                <p className="font-medium">Deal DEAL-001 completed</p>
+                <p className="text-sm text-gray-600">London - New York • $45,000</p>
+              </div>
+              <Badge className="bg-green-100 text-green-800">Completed</Badge>
+            </div>
+            <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+              <FileText className="w-5 h-5 text-blue-600" />
+              <div>
+                <p className="font-medium">Quote sent for RFQ-002</p>
+                <p className="text-sm text-gray-600">Paris - Dubai • $38,000</p>
+              </div>
+              <Badge className="bg-blue-100 text-blue-800">Pending</Badge>
+            </div>
+            <div className="flex items-center gap-3 p-3 bg-yellow-50 rounded-lg">
+              <AlertTriangle className="w-5 h-5 text-yellow-600" />
+              <div>
+                <p className="font-medium">Pilot credential expires soon</p>
+                <p className="text-sm text-gray-600">Mike Johnson • Medical expires Nov 15</p>
+              </div>
+              <Badge className="bg-yellow-100 text-yellow-800">Warning</Badge>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderRFQs = () => (
+    <div className="space-y-4">
+      {rfqs.map(rfq => (
+        <Card key={rfq.id} className="terminal-card">
+          <CardContent className="p-6">
+            <div className="flex items-start justify-between mb-4">
+              <div>
+                <h3 className="text-lg font-semibold">{rfq.route}</h3>
+                <p className="text-sm text-gray-600">{rfq.aircraft} • {rfq.passengers} passengers</p>
+                <p className="text-sm text-gray-600">Date: {rfq.date} • {rfq.legs} leg(s)</p>
+                {rfq.specialRequirements && (
+                  <p className="text-sm text-blue-600 mt-1">Requirements: {rfq.specialRequirements}</p>
+                )}
+              </div>
+              <Badge className={rfq.status === 'quoted' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}>
+                {rfq.status}
+              </Badge>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <Button size="sm" variant="outline">
+                <Eye className="w-4 h-4 mr-2" />
+                View Details
+              </Button>
+              <Button size="sm" variant="outline">
+                <FileText className="w-4 h-4 mr-2" />
+                Send Quote
+              </Button>
+              <Button size="sm" variant="outline">
+                <Target className="w-4 h-4 mr-2" />
+                Auto-Quote
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+
+  const renderPilots = () => (
+    <div className="space-y-4">
+      {pilots.map(pilot => (
+        <Card key={pilot.id} className="terminal-card">
+          <CardContent className="p-6">
+            <div className="flex items-start justify-between mb-4">
+              <div>
+                <h3 className="text-lg font-semibold">{pilot.name}</h3>
+                <p className="text-sm text-gray-600">{pilot.role} • {pilot.experience}</p>
+                <p className="text-sm text-gray-600">Rate: ${pilot.hourlyRate}/hour</p>
+                <div className="flex items-center gap-2 mt-2">
+                  <div className="flex items-center">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className={`w-4 h-4 ${i < Math.floor(pilot.rating) ? 'text-yellow-400' : 'text-gray-300'}`} />
+                    ))}
                   </div>
+                  <span className="text-sm text-gray-600">{pilot.rating}/5</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Badge className={
-                    quote.status === 'accepted' ? 'bg-green-100 text-green-800' :
-                    quote.status === 'sent' ? 'bg-blue-100 text-blue-800' :
-                    'bg-yellow-100 text-yellow-800'
-                  }>
-                    {quote.status}
+              </div>
+              <div className="text-right">
+                <Badge className={pilot.available ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}>
+                  {pilot.available ? 'Available' : 'Unavailable'}
+                </Badge>
+                {pilot.verified && (
+                  <Badge className="bg-blue-100 text-blue-800 mt-1">
+                    <CheckCircle className="w-3 h-3 mr-1" />
+                    Verified
                   </Badge>
-                  <span className="text-sm font-medium">${quote.price.toLocaleString()}</span>
+                )}
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+              <div>
+                <p className="text-sm text-gray-600">License</p>
+                <p className="font-medium">{pilot.credentials.license}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600">Medical</p>
+                <p className="font-medium">{pilot.credentials.medical}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600">Type Ratings</p>
+                <p className="font-medium">{pilot.credentials.typeRating.length}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600">Expiry</p>
+                <p className="font-medium">{pilot.credentials.expiry}</p>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <Button size="sm" variant="outline">
+                <Eye className="w-4 h-4 mr-2" />
+                View Profile
+              </Button>
+              <Button size="sm" variant="outline">
+                <UserPlus className="w-4 h-4 mr-2" />
+                Hire
+              </Button>
+              <Button size="sm" variant="outline">
+                <FileText className="w-4 h-4 mr-2" />
+                Credentials
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+
+  const renderCrew = () => (
+    <div className="space-y-4">
+      {crew.map(crewMember => (
+        <Card key={crewMember.id} className="terminal-card">
+          <CardContent className="p-6">
+            <div className="flex items-start justify-between mb-4">
+              <div>
+                <h3 className="text-lg font-semibold">{crewMember.name}</h3>
+                <p className="text-sm text-gray-600">{crewMember.role} • {crewMember.experience}</p>
+                <p className="text-sm text-gray-600">Rate: ${crewMember.dailyRate}/day</p>
+                <div className="flex items-center gap-2 mt-2">
+                  <div className="flex items-center">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className={`w-4 h-4 ${i < Math.floor(crewMember.rating) ? 'text-yellow-400' : 'text-gray-300'}`} />
+                    ))}
+                  </div>
+                  <span className="text-sm text-gray-600">{crewMember.rating}/5</span>
+                </div>
+              </div>
+              <div className="text-right">
+                <Badge className={crewMember.available ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}>
+                  {crewMember.available ? 'Available' : 'Unavailable'}
+                </Badge>
+                {crewMember.verified && (
+                  <Badge className="bg-blue-100 text-blue-800 mt-1">
+                    <CheckCircle className="w-3 h-3 mr-1" />
+                    Verified
+                  </Badge>
+                )}
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+              <div>
+                <p className="text-sm text-gray-600">Training</p>
+                <p className="font-medium">{crewMember.credentials.training.length} courses</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600">Certificates</p>
+                <p className="font-medium">{crewMember.credentials.certificates.length}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600">Expiry</p>
+                <p className="font-medium">{crewMember.credentials.expiry}</p>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <Button size="sm" variant="outline">
+                <Eye className="w-4 h-4 mr-2" />
+                View Profile
+              </Button>
+              <Button size="sm" variant="outline">
+                <UserPlus className="w-4 h-4 mr-2" />
+                Hire
+              </Button>
+              <Button size="sm" variant="outline">
+                <FileText className="w-4 h-4 mr-2" />
+                Certificates
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+
+  const renderFleet = () => (
+    <div className="space-y-4">
+      <Card className="terminal-card">
+        <CardContent className="p-6">
+          <div className="flex items-start justify-between mb-4">
+            <div>
+              <h3 className="text-lg font-semibold">Gulfstream G650</h3>
+              <p className="text-sm text-gray-600">Registration: N650SC</p>
+              <p className="text-sm text-gray-600">Capacity: 8 passengers</p>
+              <p className="text-sm text-gray-600">Range: 7,500 nm</p>
+            </div>
+            <Badge className="bg-green-100 text-green-800">Available</Badge>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+            <div>
+              <p className="text-sm text-gray-600">Next Flight</p>
+              <p className="font-medium">Jan 20, 14:00</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-600">Hours This Month</p>
+              <p className="font-medium">45.2</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-600">Maintenance Due</p>
+              <p className="font-medium">Feb 15</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-600">Revenue</p>
+              <p className="font-medium">$180,000</p>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <Button size="sm" variant="outline">
+              <Eye className="w-4 h-4 mr-2" />
+              View Details
+            </Button>
+            <Button size="sm" variant="outline">
+              <Calendar className="w-4 h-4 mr-2" />
+              Schedule
+            </Button>
+            <Button size="sm" variant="outline">
+              <FileText className="w-4 h-4 mr-2" />
+              Maintenance
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderBilling = () => (
+    <div className="space-y-6">
+      <Card className="terminal-card">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <DollarSign className="w-5 h-5" />
+            Revenue Summary
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="text-center p-4 bg-green-50 rounded-lg">
+              <p className="text-2xl font-bold text-green-600">$180,000</p>
+              <p className="text-sm text-gray-600">Total Revenue</p>
+            </div>
+            <div className="text-center p-4 bg-blue-50 rounded-lg">
+              <p className="text-2xl font-bold text-blue-600">$12,600</p>
+              <p className="text-sm text-gray-600">Platform Fees (7%)</p>
+            </div>
+            <div className="text-center p-4 bg-purple-50 rounded-lg">
+              <p className="text-2xl font-bold text-purple-600">$167,400</p>
+              <p className="text-sm text-gray-600">Net to Operator</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="terminal-card">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <FileText className="w-5 h-5" />
+            Recent Transactions
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {deals.map(deal => (
+              <div key={deal.id} className="flex items-center justify-between p-3 bg-gray-50 rounded">
+                <div>
+                  <p className="font-medium">{deal.route}</p>
+                  <p className="text-sm text-gray-600">{deal.date} • {deal.aircraft}</p>
+                </div>
+                <div className="text-right">
+                  <p className="font-medium">${deal.price.toLocaleString()}</p>
+                  <p className="text-sm text-gray-600">Fee: ${deal.platformFee.toLocaleString()}</p>
                 </div>
               </div>
             ))}
@@ -339,235 +758,16 @@ export default function DemoOperatorTerminal() {
     </div>
   );
 
-  const renderQuotes = () => (
-    <div className="space-y-6">
-      <Card className="terminal-card">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Plus className="w-5 h-5" />
-            Create New Quote
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <QuoteComposer 
-            rfqId="RFQ-001"
-            operatorId="OP-001"
-            route="London - New York"
-            aircraft="Gulfstream G650"
-            passengers={8}
-            distanceNm={3000}
-            departureDate="2024-01-20"
-          />
-        </CardContent>
-      </Card>
-
-      <div className="space-y-4">
-        {quotes.map(quote => (
-          <Card key={quote.id} className="terminal-card hover:terminal-glow">
-            <CardHeader>
-              <div className="flex justify-between items-start">
-                <div>
-                  <CardTitle className="flex items-center gap-2">
-                    <Plane className="w-5 h-5" />
-                    {quote.route}
-                  </CardTitle>
-                  <p className="text-gunmetal">{quote.broker} • {quote.aircraft} • {quote.date}</p>
-                  {quote.specialRequirements && (
-                    <p className="text-sm text-blue-600 mt-1">📋 {quote.specialRequirements}</p>
-                  )}
-                </div>
-                <div className="flex items-center gap-2">
-                  <Badge className={
-                    quote.status === 'accepted' ? 'bg-green-100 text-green-800' :
-                    quote.status === 'sent' ? 'bg-blue-100 text-blue-800' :
-                    'bg-yellow-100 text-yellow-800'
-                  }>
-                    {quote.status}
-                  </Badge>
-                  <span className="text-xl font-bold">${quote.price.toLocaleString()}</span>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-                <div>
-                  <p className="text-sm text-gray-600">Deal Score</p>
-                  <p className="text-lg font-semibold">{quote.dealScore}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Response Time</p>
-                  <p className="text-lg font-semibold">{quote.responseTime}m</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Platform Fee (7%)</p>
-                  <p className="text-lg font-semibold text-red-600">-${Math.round(quote.price * 0.07).toLocaleString()}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Net to You</p>
-                  <p className="text-lg font-semibold text-green-600">${Math.round(quote.price * 0.93).toLocaleString()}</p>
-                </div>
-              </div>
-              <div className="flex gap-2">
-                <Button className="btn-terminal-accent">
-                  <CheckCircle className="w-4 h-4 mr-2" />
-                  Accept Quote
-                </Button>
-                <Button variant="outline">
-                  <FileText className="w-4 h-4 mr-2" />
-                  Generate Receipt
-                </Button>
-                <Button variant="outline">
-                  <Eye className="w-4 h-4 mr-2" />
-                  View Details
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    </div>
-  );
-
-  const renderHiring = () => (
-    <div className="space-y-6">
-      <Card className="terminal-card">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <UserPlus className="w-5 h-5" />
-            Pilot & Crew Hiring
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="pilotName">Pilot/Crew Name</Label>
-              <Input id="pilotName" placeholder="Captain John Smith" />
-            </div>
-            <div>
-              <Label htmlFor="role">Role</Label>
-              <Input id="role" placeholder="Pilot, Co-Pilot, Flight Attendant" />
-            </div>
-            <div>
-              <Label htmlFor="salary">Salary</Label>
-              <Input id="salary" type="number" placeholder="3000" />
-            </div>
-            <div>
-              <Label htmlFor="startDate">Start Date</Label>
-              <Input id="startDate" type="date" />
-            </div>
-          </div>
-          <Button className="mt-4 btn-terminal-accent">
-            <UserPlus className="w-4 h-4 mr-2" />
-            Create Hiring
-          </Button>
-        </CardContent>
-      </Card>
-
-      <div className="space-y-4">
-        {hirings.map(hiring => (
-          <Card key={hiring.id} className="terminal-card hover:terminal-glow">
-            <CardHeader>
-              <div className="flex justify-between items-start">
-                <div>
-                  <CardTitle className="flex items-center gap-2">
-                    <Briefcase className="w-5 h-5" />
-                    {hiring.pilotName}
-                  </CardTitle>
-                  <p className="text-gunmetal">{hiring.role} • {hiring.startDate} to {hiring.endDate}</p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Badge className={
-                    hiring.status === 'accepted' ? 'bg-green-100 text-green-800' :
-                    hiring.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                    'bg-red-100 text-red-800'
-                  }>
-                    {hiring.status}
-                  </Badge>
-                  <span className="text-xl font-bold">£{hiring.salary.toLocaleString()}</span>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-                <div>
-                  <p className="text-sm text-gray-600">KYC Status</p>
-                  <p className={`text-lg font-semibold ${
-                    hiring.kycStatus === 'verified' ? 'text-green-600' : 'text-red-600'
-                  }`}>
-                    {hiring.kycStatus === 'verified' ? '✓ Verified' : '⚠ Pending'}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Hiring Fee (10%)</p>
-                  <p className="text-lg font-semibold text-red-600">-£{Math.round(hiring.salary * 0.10).toLocaleString()}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Net to Pilot</p>
-                  <p className="text-lg font-semibold text-green-600">£{Math.round(hiring.salary * 0.90).toLocaleString()}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Duration</p>
-                  <p className="text-lg font-semibold">7 days</p>
-                </div>
-              </div>
-              <div className="flex gap-2">
-                <Button 
-                  onClick={() => createHiringPayment(hiring)}
-                  className="btn-terminal-accent"
-                  disabled={hiring.kycStatus !== 'verified'}
-                >
-                  <CreditCard className="w-4 h-4 mr-2" />
-                  Process Payment
-                </Button>
-                <Button 
-                  onClick={() => generateHiringReceipt(hiring)}
-                  variant="outline"
-                >
-                  <FileText className="w-4 h-4 mr-2" />
-                  Generate Receipt
-                </Button>
-                <Button variant="outline">
-                  <Eye className="w-4 h-4 mr-2" />
-                  View Details
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    </div>
-  );
-
-  const renderReputation = () => (
-    <div className="space-y-6">
-      <ReputationMetrics userId="operator_001" userType="operator" />
-    </div>
-  );
-
-  const renderBilling = () => (
-    <div className="space-y-6">
-      <MonthlyStatements />
-    </div>
-  );
-
   return (
-    <div className="min-h-screen bg-terminal-bg">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Operator Terminal</h1>
-            <p className="text-gunmetal">FCA Compliant Operations • 100% Free Until Revenue</p>
+            <h1 className="text-3xl font-bold text-white mb-2">Operator Terminal</h1>
+            <p className="text-slate-300">Manage your fleet, crew, and operations</p>
           </div>
-          <div className="flex gap-2">
-            <Badge className="bg-green-100 text-green-800">
-              <Shield className="w-3 h-3 mr-1" />
-              FCA Compliant
-            </Badge>
-            <Badge className="bg-blue-100 text-blue-800">
-              <Zap className="w-3 h-3 mr-1" />
-              Free Tier
-            </Badge>
+          <div className="flex items-center gap-4">
             {isDemoMode && (
               <Badge className="bg-yellow-100 text-yellow-800">
                 <AlertTriangle className="w-3 h-3 mr-1" />
@@ -578,62 +778,130 @@ export default function DemoOperatorTerminal() {
         </div>
 
         {/* Compliance Notice */}
-        <Card className="mb-8 border-green-200 bg-green-50">
-          <CardContent className="p-4">
-            <div className="flex items-start gap-3">
-              <Shield className="w-5 h-5 text-green-600 mt-0.5" />
-              <div>
-                <h3 className="font-medium text-green-800">Fee Structure & Free Operation</h3>
-                <p className="text-green-700 text-sm mt-1">
-                  <strong>7% platform commission</strong> on all charter deals. 
-                  <strong>10% hiring fee</strong> on pilot/crew hires. 
-                  All fees automatically calculated and deducted by Stripe Connect. 
-                  <strong>No monthly costs</strong> - only pay when you make money.
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <ComplianceNotice />
+        
+        {/* Evidence Pack */}
+        <EvidencePack />
 
         {/* Main Navigation */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-9">
             <TabsTrigger value="dashboard" className="flex items-center gap-2">
               <BarChart3 className="w-4 h-4" />
               Dashboard
             </TabsTrigger>
-            <TabsTrigger value="quotes" className="flex items-center gap-2">
+            <TabsTrigger value="rfqs" className="flex items-center gap-2">
               <FileText className="w-4 h-4" />
-              Quotes
+              RFQs
             </TabsTrigger>
-            <TabsTrigger value="hiring" className="flex items-center gap-2">
-              <UserPlus className="w-4 h-4" />
-              Hiring
+            <TabsTrigger value="pilots" className="flex items-center gap-2">
+              <Users className="w-4 h-4" />
+              Pilots
             </TabsTrigger>
-            <TabsTrigger value="reputation" className="flex items-center gap-2">
-              <Award className="w-4 h-4" />
-              Reputation
+            <TabsTrigger value="crew" className="flex items-center gap-2">
+              <Briefcase className="w-4 h-4" />
+              Crew
+            </TabsTrigger>
+            <TabsTrigger value="fleet" className="flex items-center gap-2">
+              <Plane className="w-4 h-4" />
+              Fleet
             </TabsTrigger>
             <TabsTrigger value="billing" className="flex items-center gap-2">
               <DollarSign className="w-4 h-4" />
               Billing
+            </TabsTrigger>
+            <TabsTrigger value="scoreboard" className="flex items-center gap-2">
+              <TrendingUp className="w-4 h-4" />
+              Scoreboard
+            </TabsTrigger>
+            <TabsTrigger value="warroom" className="flex items-center gap-2">
+              <Shield className="w-4 h-4" />
+              War Room
+            </TabsTrigger>
+            <TabsTrigger value="evidence" className="flex items-center gap-2">
+              <FileText className="w-4 h-4" />
+              Evidence
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="dashboard" className="mt-6">
             {renderDashboard()}
           </TabsContent>
-          <TabsContent value="quotes" className="mt-6">
-            {renderQuotes()}
+          <TabsContent value="rfqs" className="mt-6">
+            {renderRFQs()}
           </TabsContent>
-          <TabsContent value="hiring" className="mt-6">
-            {renderHiring()}
+          <TabsContent value="pilots" className="mt-6">
+            {renderPilots()}
           </TabsContent>
-          <TabsContent value="reputation" className="mt-6">
-            {renderReputation()}
+          <TabsContent value="crew" className="mt-6">
+            {renderCrew()}
+          </TabsContent>
+          <TabsContent value="fleet" className="mt-6">
+            {renderFleet()}
           </TabsContent>
           <TabsContent value="billing" className="mt-6">
             {renderBilling()}
+          </TabsContent>
+          <TabsContent value="scoreboard" className="mt-6">
+            <WeekOneScoreboard />
+          </TabsContent>
+          <TabsContent value="warroom" className="mt-6">
+            <Card className="terminal-card">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Shield className="w-5 h-5" />
+                  War Room Checks
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <Button onClick={runWarRoomChecks} className="w-full">
+                    <Shield className="w-4 h-4 mr-2" />
+                    Run War Room Checks
+                  </Button>
+                  {warRoomResult && (
+                    <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                      <h3 className="font-semibold mb-2">Results:</h3>
+                      <p className="text-sm text-gray-600 whitespace-pre-line">
+                        {warRoomResult.summary}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="evidence" className="mt-6">
+            <Card className="terminal-card">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="w-5 h-5" />
+                  Evidence Pack Generator
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <Button onClick={runLiveFlowTests} className="w-full">
+                    <DollarSign className="w-4 h-4 mr-2" />
+                    Run Live Flow Tests
+                  </Button>
+                  <Button onClick={generateEvidencePack} className="w-full">
+                    <Download className="w-4 h-4 mr-2" />
+                    Generate Evidence Pack
+                  </Button>
+                  {evidencePack && (
+                    <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                      <h3 className="font-semibold mb-2">Evidence Pack Generated:</h3>
+                      <p className="text-sm text-gray-600">
+                        ID: {evidencePack.id}<br/>
+                        Generated: {new Date(evidencePack.generatedAt).toLocaleString()}<br/>
+                        Version: {evidencePack.version}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
 
@@ -644,11 +912,10 @@ export default function DemoOperatorTerminal() {
               <div className="flex items-start gap-3">
                 <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
                 <div>
-                  <h3 className="font-medium text-yellow-800">Demo Mode - All Features Active</h3>
+                  <h3 className="font-medium text-yellow-800">Demo Mode Active</h3>
                   <p className="text-yellow-700 text-sm mt-1">
-                    This terminal demonstrates all FCA compliant features with mock data. 
-                    In production, all payments would be processed through Stripe Connect with real money.
-                    <strong> Zero monthly costs until you generate revenue.</strong>
+                    This is a demonstration of the Operator Terminal. All data is simulated and no real transactions will occur.
+                    The platform operates 100% free until revenue is generated.
                   </p>
                 </div>
               </div>
@@ -658,5 +925,4 @@ export default function DemoOperatorTerminal() {
       </div>
     </div>
   );
-}
 }

@@ -10,6 +10,8 @@ import { FullPageLoader } from "@/components/LoadingSpinner";
 import { NavigationOptimizer } from "@/components/NavigationOptimizer";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { logger } from "@/utils/performance";
+import { Footer } from "@/components/Footer";
+import { StatusBanner } from "@/components/StatusBanner";
 
 // Import new dashboard components
 import BrokerDashboard from "@/components/dashboard/BrokerDashboard";
@@ -98,6 +100,7 @@ const App = memo(() => {
         <TooltipProvider>
           <BrowserRouter>
             <MemoizedNavigationOptimizer />
+            <StatusBanner />
             <AuthProvider>
               <MemoizedToaster />
               <MemoizedSonner />
@@ -246,6 +249,7 @@ const App = memo(() => {
             </Routes>
               </Suspense>
             </AuthProvider>
+            <Footer />
           </BrowserRouter>
           </TooltipProvider>
         </QueryClientProvider>

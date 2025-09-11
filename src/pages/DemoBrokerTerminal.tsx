@@ -43,6 +43,10 @@ import { invoiceVATHandler } from '@/lib/invoice-vat-handler';
 import { savedSearchesRealData } from '@/lib/saved-searches-real-data';
 import { ReMarketOnFallThrough } from '@/components/ReMarket/ReMarketOnFallThrough';
 import { AdminImpersonation } from '@/components/Admin/AdminImpersonation';
+import { WeekOneScoreboard } from '@/components/WeekOneScoreboard';
+import { liveFlowTester } from '@/lib/live-flow-tester';
+import { warRoomChecker } from '@/lib/war-room-checks';
+import { evidencePackGenerator } from '@/lib/evidence-pack-generator';
 import MultiLegRFQ from '@/components/DealFlow/MultiLegRFQ';
 import QuoteComposer from '@/components/DealFlow/QuoteComposer';
 import BackhaulMatcher from '@/components/DealFlow/BackhaulMatcher';
@@ -79,6 +83,12 @@ interface Quote {
 
 export default function DemoBrokerTerminal() {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [showWeekOneScoreboard, setShowWeekOneScoreboard] = useState(false);
+  const [showWarRoomChecks, setShowWarRoomChecks] = useState(false);
+  const [showEvidencePack, setShowEvidencePack] = useState(false);
+  const [liveFlowResult, setLiveFlowResult] = useState<any>(null);
+  const [warRoomResult, setWarRoomResult] = useState<any>(null);
+  const [evidencePack, setEvidencePack] = useState<any>(null);
   const [rfqs, setRfqs] = useState<RFQ[]>([
     {
       id: 'RFQ-001',
@@ -218,6 +228,25 @@ export default function DemoBrokerTerminal() {
     URL.revokeObjectURL(url);
 
     alert(`📄 Receipt generated with audit hash: ${auditHash}\n\n✅ FCA compliant transaction record`);
+  };
+
+  const runLiveFlowTests = async () => {
+    const result = await liveFlowTester.runLiveFlowTests();
+    setLiveFlowResult(result);
+    alert(`Live Flow Tests: ${result.allPassed ? 'PASSED' : 'FAILED'}\n\n${result.summary}`);
+  };
+
+  const runWarRoomChecks = async () => {
+    const result = await warRoomChecker.runAllChecks();
+    setWarRoomResult(result);
+    alert(`War Room Checks: ${result.allChecksPassed ? 'PASSED' : 'FAILED'}\n\n${result.summary}`);
+  };
+
+  const generateEvidencePack = async () => {
+    const pack = await evidencePackGenerator.generateEvidencePack();
+    setEvidencePack(pack);
+    evidencePackGenerator.downloadEvidencePack(pack);
+    alert('Evidence pack generated and downloaded!');
   };
 
   const renderDashboard = () => (
@@ -613,7 +642,7 @@ export default function DemoBrokerTerminal() {
 
         {/* Main Navigation */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-6">
+          <TabsList className="grid w-full grid-cols-9">
             <TabsTrigger value="dashboard" className="flex items-center gap-2">
               <BarChart3 className="w-4 h-4" />
               Dashboard
@@ -638,6 +667,18 @@ export default function DemoBrokerTerminal() {
               <DollarSign className="w-4 h-4" />
               Billing
             </TabsTrigger>
+            <TabsTrigger value="scoreboard" className="flex items-center gap-2">
+              <TrendingUp className="w-4 h-4" />
+              Scoreboard
+            </TabsTrigger>
+            <TabsTrigger value="warroom" className="flex items-center gap-2">
+              <Shield className="w-4 h-4" />
+              War Room
+            </TabsTrigger>
+            <TabsTrigger value="evidence" className="flex items-center gap-2">
+              <FileText className="w-4 h-4" />
+              Evidence
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="dashboard" className="mt-6">
@@ -657,6 +698,67 @@ export default function DemoBrokerTerminal() {
           </TabsContent>
           <TabsContent value="billing" className="mt-6">
             {renderBilling()}
+          </TabsContent>
+          <TabsContent value="scoreboard" className="mt-6">
+            <WeekOneScoreboard />
+          </TabsContent>
+          <TabsContent value="warroom" className="mt-6">
+            <Card className="terminal-card">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Shield className="w-5 h-5" />
+                  War Room Checks
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <Button onClick={runWarRoomChecks} className="w-full">
+                    <Shield className="w-4 h-4 mr-2" />
+                    Run War Room Checks
+                  </Button>
+                  {warRoomResult && (
+                    <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                      <h3 className="font-semibold mb-2">Results:</h3>
+                      <p className="text-sm text-gray-600 whitespace-pre-line">
+                        {warRoomResult.summary}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="evidence" className="mt-6">
+            <Card className="terminal-card">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="w-5 h-5" />
+                  Evidence Pack Generator
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <Button onClick={runLiveFlowTests} className="w-full">
+                    <DollarSign className="w-4 h-4 mr-2" />
+                    Run Live Flow Tests
+                  </Button>
+                  <Button onClick={generateEvidencePack} className="w-full">
+                    <Download className="w-4 h-4 mr-2" />
+                    Generate Evidence Pack
+                  </Button>
+                  {evidencePack && (
+                    <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                      <h3 className="font-semibold mb-2">Evidence Pack Generated:</h3>
+                      <p className="text-sm text-gray-600">
+                        ID: {evidencePack.id}<br/>
+                        Generated: {new Date(evidencePack.generatedAt).toLocaleString()}<br/>
+                        Version: {evidencePack.version}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
 

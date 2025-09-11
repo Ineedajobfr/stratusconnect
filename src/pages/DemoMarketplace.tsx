@@ -9,7 +9,7 @@ import {
   Shield,
   AlertTriangle,
   CheckCircle,
-  Compare,
+  GitCompare,
   Save,
   Eye
 } from 'lucide-react';
@@ -246,7 +246,7 @@ export default function DemoMarketplace() {
               onClick={() => setShowCompare(true)}
               className="btn-terminal-accent flex items-center gap-2"
             >
-              <Compare className="w-4 h-4" />
+              <GitCompare className="w-4 h-4" />
               Compare ({compareList.length}/3)
             </Button>
           )}

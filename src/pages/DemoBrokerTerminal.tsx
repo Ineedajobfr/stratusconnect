@@ -30,7 +30,8 @@ import {
   Eye,
   Plus,
   Filter,
-  Download
+  Download,
+  Leaf
 } from 'lucide-react';
 import { ComplianceNotice, EvidencePack } from '@/components/ComplianceNotice';
 import { evidenceReceiptGenerator } from '@/lib/evidence-receipt-generator';
@@ -53,6 +54,11 @@ import { BackhaulMatcher } from '@/components/DealFlow/BackhaulMatcher';
 import { SavedSearches } from '@/components/DealFlow/SavedSearches';
 import { ReputationMetrics } from '@/components/Reputation/ReputationMetrics';
 import { MonthlyStatements } from '@/components/Billing/MonthlyStatements';
+import { RankingRulesPage } from '@/components/Ranking/RankingRulesPage';
+import { CarbonMethodologySelector } from '@/components/Carbon/CarbonMethodologySelector';
+import { SignedQuotePDFGenerator } from '@/lib/signed-quote-pdf';
+import { BadgeVerificationService } from '@/lib/badge-verification';
+import { CredentialGates } from '@/lib/credential-gates';
 
 interface RFQ {
   id: string;
@@ -642,7 +648,7 @@ export default function DemoBrokerTerminal() {
 
         {/* Main Navigation */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-9">
+          <TabsList className="grid w-full grid-cols-11">
             <TabsTrigger value="dashboard" className="flex items-center gap-2">
               <BarChart3 className="w-4 h-4" />
               Dashboard
@@ -662,6 +668,14 @@ export default function DemoBrokerTerminal() {
             <TabsTrigger value="reputation" className="flex items-center gap-2">
               <Award className="w-4 h-4" />
               Reputation
+            </TabsTrigger>
+            <TabsTrigger value="ranking" className="flex items-center gap-2">
+              <TrendingUp className="w-4 h-4" />
+              Ranking
+            </TabsTrigger>
+            <TabsTrigger value="carbon" className="flex items-center gap-2">
+              <Leaf className="w-4 h-4" />
+              Carbon
             </TabsTrigger>
             <TabsTrigger value="billing" className="flex items-center gap-2">
               <DollarSign className="w-4 h-4" />
@@ -728,6 +742,28 @@ export default function DemoBrokerTerminal() {
               </CardContent>
             </Card>
           </TabsContent>
+          <TabsContent value="ranking" className="mt-6">
+            <RankingRulesPage />
+          </TabsContent>
+          
+          <TabsContent value="carbon" className="mt-6">
+            <Card className="terminal-card">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Leaf className="w-5 h-5" />
+                  Carbon Methodology & Transparency
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CarbonMethodologySelector 
+                  onMethodologyChange={(methodology) => {
+                    console.log('Selected methodology:', methodology);
+                  }}
+                />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
           <TabsContent value="evidence" className="mt-6">
             <Card className="terminal-card">
               <CardHeader>

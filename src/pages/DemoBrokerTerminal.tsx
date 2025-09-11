@@ -6,33 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { 
-  DollarSign, 
-  FileText, 
-  Shield, 
-  CheckCircle, 
-  AlertTriangle,
-  TrendingUp,
-  Users,
-  Plane,
-  Clock,
-  Target,
-  Search,
-  Bell,
-  Award,
-  BarChart3,
-  Zap,
-  Star,
-  MapPin,
-  Calendar,
-  GitCompare,
-  Save,
-  Eye,
-  Plus,
-  Filter,
-  Download,
-  Leaf
-} from 'lucide-react';
+import { DollarSign, FileText, Shield, CheckCircle, AlertTriangle, TrendingUp, Users, Plane, Clock, Target, Search, Bell, Award, BarChart3, Zap, Star, MapPin, Calendar, GitCompare, Save, Eye, Plus, Filter, Download, Leaf } from 'lucide-react';
 import { ComplianceNotice, EvidencePack } from '@/components/ComplianceNotice';
 import { evidenceReceiptGenerator } from '@/lib/evidence-receipt-generator';
 import { greenLightGateValidator } from '@/lib/green-light-gate';
@@ -59,7 +33,6 @@ import { CarbonMethodologySelector } from '@/components/Carbon/CarbonMethodology
 import { SignedQuotePDFGenerator } from '@/lib/signed-quote-pdf';
 import { BadgeVerificationService } from '@/lib/badge-verification';
 import { CredentialGates } from '@/lib/credential-gates';
-
 interface RFQ {
   id: string;
   route: string;
@@ -73,7 +46,6 @@ interface RFQ {
   passengers: number;
   specialRequirements: string;
 }
-
 interface Quote {
   id: string;
   operator: string;
@@ -86,7 +58,6 @@ interface Quote {
   responseTime: number;
   dealScore: number;
 }
-
 export default function DemoBrokerTerminal() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [showWeekOneScoreboard, setShowWeekOneScoreboard] = useState(false);
@@ -95,118 +66,91 @@ export default function DemoBrokerTerminal() {
   const [liveFlowResult, setLiveFlowResult] = useState<any>(null);
   const [warRoomResult, setWarRoomResult] = useState<any>(null);
   const [evidencePack, setEvidencePack] = useState<any>(null);
-  const [rfqs, setRfqs] = useState<RFQ[]>([
-    {
-      id: 'RFQ-001',
-      route: 'London - New York',
-      aircraft: 'Gulfstream G650',
-      date: '2024-01-20',
+  const [rfqs, setRfqs] = useState<RFQ[]>([{
+    id: 'RFQ-001',
+    route: 'London - New York',
+    aircraft: 'Gulfstream G650',
+    date: '2024-01-20',
+    price: 45000,
+    currency: 'USD',
+    status: 'quoted',
+    legs: 1,
+    passengers: 8,
+    specialRequirements: 'VIP handling, customs clearance',
+    quotes: [{
+      id: 'Q-001',
+      operator: 'Elite Aviation',
       price: 45000,
       currency: 'USD',
-      status: 'quoted',
-      legs: 1,
-      passengers: 8,
-      specialRequirements: 'VIP handling, customs clearance',
-      quotes: [
-        {
-          id: 'Q-001',
-          operator: 'Elite Aviation',
-          price: 45000,
-          currency: 'USD',
-          validUntil: '2024-01-18T23:59:59Z',
-          aircraft: 'Gulfstream G650',
-          verified: true,
-          rating: 4.8,
-          responseTime: 3.2,
-          dealScore: 89
-        },
-        {
-          id: 'Q-002',
-          operator: 'SkyHigh Jets',
-          price: 48000,
-          currency: 'USD',
-          validUntil: '2024-01-19T12:00:00Z',
-          aircraft: 'Gulfstream G650',
-          verified: true,
-          rating: 4.6,
-          responseTime: 5.1,
-          dealScore: 76
-        }
-      ]
-    },
-    {
-      id: 'RFQ-002',
-      route: 'Paris - Dubai',
-      aircraft: 'Global 6000',
-      date: '2024-01-25',
-      price: 32000,
-      currency: 'EUR',
-      status: 'sent',
-      legs: 1,
-      passengers: 12,
-      specialRequirements: 'Catering for dietary restrictions',
-      quotes: []
-    }
-  ]);
-
-  const [savedSearches, setSavedSearches] = useState([
-    {
-      id: 'SS-001',
-      name: 'LHR to JFK Business',
-      from: 'LHR',
-      to: 'JFK',
-      dateFrom: '2024-01-20',
-      dateTo: '2024-01-25',
-      passengers: 8,
-      budgetMax: 50000,
+      validUntil: '2024-01-18T23:59:59Z',
+      aircraft: 'Gulfstream G650',
+      verified: true,
+      rating: 4.8,
+      responseTime: 3.2,
+      dealScore: 89
+    }, {
+      id: 'Q-002',
+      operator: 'SkyHigh Jets',
+      price: 48000,
       currency: 'USD',
-      alerts: 3,
-      lastAlert: '2024-01-16T14:30:00Z'
-    }
-  ]);
-
-  const [alerts, setAlerts] = useState([
-    {
-      id: 'ALERT-001',
-      type: 'price_drop',
-      title: 'Price Drop: LHR to JFK',
-      message: 'Gulfstream G650 dropped 18% to $41,000',
-      time: '2024-01-16T14:30:00Z',
-      unread: true
-    },
-    {
-      id: 'ALERT-002',
-      type: 'last_minute',
-      title: 'Last Minute: CDG to LHR',
-      message: 'Citation X available in 8 hours for $18,000',
-      time: '2024-01-16T16:45:00Z',
-      unread: true
-    }
-  ]);
-
+      validUntil: '2024-01-19T12:00:00Z',
+      aircraft: 'Gulfstream G650',
+      verified: true,
+      rating: 4.6,
+      responseTime: 5.1,
+      dealScore: 76
+    }]
+  }, {
+    id: 'RFQ-002',
+    route: 'Paris - Dubai',
+    aircraft: 'Global 6000',
+    date: '2024-01-25',
+    price: 32000,
+    currency: 'EUR',
+    status: 'sent',
+    legs: 1,
+    passengers: 12,
+    specialRequirements: 'Catering for dietary restrictions',
+    quotes: []
+  }]);
+  const [savedSearches, setSavedSearches] = useState([{
+    id: 'SS-001',
+    name: 'LHR to JFK Business',
+    from: 'LHR',
+    to: 'JFK',
+    dateFrom: '2024-01-20',
+    dateTo: '2024-01-25',
+    passengers: 8,
+    budgetMax: 50000,
+    currency: 'USD',
+    alerts: 3,
+    lastAlert: '2024-01-16T14:30:00Z'
+  }]);
+  const [alerts, setAlerts] = useState([{
+    id: 'ALERT-001',
+    type: 'price_drop',
+    title: 'Price Drop: LHR to JFK',
+    message: 'Gulfstream G650 dropped 18% to $41,000',
+    time: '2024-01-16T14:30:00Z',
+    unread: true
+  }, {
+    id: 'ALERT-002',
+    type: 'last_minute',
+    title: 'Last Minute: CDG to LHR',
+    message: 'Citation X available in 8 hours for $18,000',
+    time: '2024-01-16T16:45:00Z',
+    unread: true
+  }]);
   const isDemoMode = import.meta.env.VITE_SC_DEMO_MODE === 'true';
-
   const createPaymentIntent = (rfq: RFQ, quote: Quote) => {
     const platformFee = Math.round(quote.price * 0.07);
     const netToOperator = quote.price - platformFee;
-    
-    alert(`🚀 Payment Intent Created\n\n` +
-      `Route: ${rfq.route}\n` +
-      `Aircraft: ${quote.aircraft}\n` +
-      `Operator: ${quote.operator}\n` +
-      `Total Price: $${quote.price.toLocaleString()}\n` +
-      `Platform Fee (7%): $${platformFee.toLocaleString()}\n` +
-      `Net to Operator: $${netToOperator.toLocaleString()}\n\n` +
-      `✅ FCA Compliant - No custody of funds\n` +
-      `🔒 Stripe Connect processing\n` +
-      `📋 Immutable audit trail created`);
+    alert(`🚀 Payment Intent Created\n\n` + `Route: ${rfq.route}\n` + `Aircraft: ${quote.aircraft}\n` + `Operator: ${quote.operator}\n` + `Total Price: $${quote.price.toLocaleString()}\n` + `Platform Fee (7%): $${platformFee.toLocaleString()}\n` + `Net to Operator: $${netToOperator.toLocaleString()}\n\n` + `✅ FCA Compliant - No custody of funds\n` + `🔒 Stripe Connect processing\n` + `📋 Immutable audit trail created`);
   };
-
   const generateReceipt = (rfq: RFQ, quote: Quote) => {
     const platformFee = Math.round(quote.price * 0.07);
     const netToOperator = quote.price - platformFee;
     const auditHash = `audit_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
     const receipt = {
       transactionId: `TXN_${Date.now()}`,
       timestamp: new Date().toISOString(),
@@ -223,40 +167,35 @@ export default function DemoBrokerTerminal() {
       fcaCompliant: true,
       stripeTransactionId: `pi_${Date.now()}`
     };
-
     const receiptData = JSON.stringify(receipt, null, 2);
-    const blob = new Blob([receiptData], { type: 'application/json' });
+    const blob = new Blob([receiptData], {
+      type: 'application/json'
+    });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
     a.download = `receipt_${receipt.transactionId}.json`;
     a.click();
     URL.revokeObjectURL(url);
-
     alert(`📄 Receipt generated with audit hash: ${auditHash}\n\n✅ FCA compliant transaction record`);
   };
-
   const runLiveFlowTests = async () => {
     const result = await liveFlowTester.runLiveFlowTests();
     setLiveFlowResult(result);
     alert(`Live Flow Tests: ${result.allPassed ? 'PASSED' : 'FAILED'}\n\n${result.summary}`);
   };
-
   const runWarRoomChecks = async () => {
     const result = await warRoomChecker.runAllChecks();
     setWarRoomResult(result);
     alert(`War Room Checks: ${result.allChecksPassed ? 'PASSED' : 'FAILED'}\n\n${result.summary}`);
   };
-
   const generateEvidencePack = async () => {
     const pack = await evidencePackGenerator.generateEvidencePack();
     setEvidencePack(pack);
     evidencePackGenerator.downloadEvidencePack(pack);
     alert('Evidence pack generated and downloaded!');
   };
-
-  const renderDashboard = () => (
-    <div className="space-y-6">
+  const renderDashboard = () => <div className="space-y-6">
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card className="terminal-card hover:terminal-glow">
@@ -317,43 +256,31 @@ export default function DemoBrokerTerminal() {
       </div>
 
       {/* Alerts */}
-      {alerts.length > 0 && (
-        <Card className="terminal-card border-blue-200 bg-blue-50">
-          <CardHeader>
+      {alerts.length > 0 && <Card className="terminal-card border-blue-200 bg-blue-50">
+          <CardHeader className="bg-slate-900">
             <CardTitle className="flex items-center gap-2 text-blue-800">
               <Bell className="w-5 h-5" />
               Live Alerts ({alerts.filter(a => a.unread).length} unread)
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="bg-slate-900">
             <div className="space-y-3">
-              {alerts.map(alert => (
-                <div key={alert.id} className={`p-3 rounded-lg border ${
-                  alert.unread ? 'bg-blue-100 border-blue-200' : 'bg-gray-50 border-gray-200'
-                }`}>
-                  <div className="flex items-start justify-between">
+              {alerts.map(alert => <div key={alert.id} className={`p-3 rounded-lg border ${alert.unread ? 'bg-blue-100 border-blue-200' : 'bg-gray-50 border-gray-200'}`}>
+                  <div className="flex items-start justify-between bg-slate-50">
                     <div className="flex items-start gap-3">
-                      {alert.type === 'price_drop' ? (
-                        <TrendingUp className="w-4 h-4 text-green-600 mt-0.5" />
-                      ) : (
-                        <Clock className="w-4 h-4 text-orange-600 mt-0.5" />
-                      )}
+                      {alert.type === 'price_drop' ? <TrendingUp className="w-4 h-4 text-green-600 mt-0.5" /> : <Clock className="w-4 h-4 text-orange-600 mt-0.5" />}
                       <div>
                         <h4 className="font-medium">{alert.title}</h4>
-                        <p className="text-sm text-gray-600">{alert.message}</p>
-                        <p className="text-xs text-gray-500">{new Date(alert.time).toLocaleString()}</p>
+                        <p className="text-sm text-slate-950">{alert.message}</p>
+                        <p className="text-xs text-slate-950">{new Date(alert.time).toLocaleString()}</p>
                       </div>
                     </div>
-                    {alert.unread && (
-                      <Badge className="bg-blue-600 text-white">New</Badge>
-                    )}
+                    {alert.unread && <Badge className="bg-blue-600 text-white">New</Badge>}
                   </div>
-                </div>
-              ))}
+                </div>)}
             </div>
           </CardContent>
-        </Card>
-      )}
+        </Card>}
 
       {/* Recent Activity */}
       <Card className="terminal-card">
@@ -365,37 +292,28 @@ export default function DemoBrokerTerminal() {
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            {rfqs.slice(0, 3).map(rfq => (
-              <div key={rfq.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+            {rfqs.slice(0, 3).map(rfq => <div key={rfq.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                 <div className="flex items-center gap-3">
                   <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                   <div>
                     <p className="font-medium">{rfq.route}</p>
-                    <p className="text-sm text-gunmetal">{rfq.aircraft} • {rfq.quotes.length} quotes • {rfq.passengers} pax</p>
+                    <p className="text-sm text-slate-950">{rfq.aircraft} • {rfq.quotes.length} quotes • {rfq.passengers} pax</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Badge className={
-                    rfq.status === 'paid' ? 'bg-green-100 text-green-800' :
-                    rfq.status === 'quoted' ? 'bg-blue-100 text-blue-800' :
-                    'bg-yellow-100 text-yellow-800'
-                  }>
+                  <Badge className={rfq.status === 'paid' ? 'bg-green-100 text-green-800' : rfq.status === 'quoted' ? 'bg-blue-100 text-blue-800' : 'bg-yellow-100 text-yellow-800'}>
                     {rfq.status}
                   </Badge>
                   <Button size="sm" variant="outline">
                     <Eye className="w-4 h-4" />
                   </Button>
                 </div>
-              </div>
-            ))}
+              </div>)}
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
-
-  const renderRFQs = () => (
-    <div className="space-y-6">
+    </div>;
+  const renderRFQs = () => <div className="space-y-6">
       <Card className="terminal-card">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -409,8 +327,7 @@ export default function DemoBrokerTerminal() {
       </Card>
 
       <div className="space-y-4">
-        {rfqs.map(rfq => (
-          <Card key={rfq.id} className="terminal-card hover:terminal-glow">
+        {rfqs.map(rfq => <Card key={rfq.id} className="terminal-card hover:terminal-glow">
             <CardHeader>
               <div className="flex justify-between items-start">
                 <div>
@@ -419,16 +336,10 @@ export default function DemoBrokerTerminal() {
                     {rfq.route}
                   </CardTitle>
                   <p className="text-gunmetal">{rfq.aircraft} • {rfq.date} • {rfq.legs} leg(s) • {rfq.passengers} pax</p>
-                  {rfq.specialRequirements && (
-                    <p className="text-sm text-blue-600 mt-1">📋 {rfq.specialRequirements}</p>
-                  )}
+                  {rfq.specialRequirements && <p className="text-sm text-blue-600 mt-1">📋 {rfq.specialRequirements}</p>}
                 </div>
                 <div className="flex items-center gap-2">
-                  <Badge className={
-                    rfq.status === 'paid' ? 'bg-green-100 text-green-800' :
-                    rfq.status === 'quoted' ? 'bg-blue-100 text-blue-800' :
-                    'bg-yellow-100 text-yellow-800'
-                  }>
+                  <Badge className={rfq.status === 'paid' ? 'bg-green-100 text-green-800' : rfq.status === 'quoted' ? 'bg-blue-100 text-blue-800' : 'bg-yellow-100 text-yellow-800'}>
                     {rfq.status}
                   </Badge>
                   <Button size="sm" variant="outline">
@@ -438,14 +349,12 @@ export default function DemoBrokerTerminal() {
               </div>
             </CardHeader>
             <CardContent>
-              {rfq.quotes.length > 0 ? (
-                <div className="space-y-3">
+              {rfq.quotes.length > 0 ? <div className="space-y-3">
                   <h4 className="font-semibold flex items-center gap-2">
                     <Target className="w-4 h-4" />
                     Quotes Received ({rfq.quotes.length})
                   </h4>
-                  {rfq.quotes.map(quote => (
-                    <div key={quote.id} className="p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+                  {rfq.quotes.map(quote => <div key={quote.id} className="p-4 border rounded-lg hover:bg-gray-50 transition-colors">
                       <div className="flex justify-between items-start mb-3">
                         <div className="flex items-center gap-3">
                           <div>
@@ -464,35 +373,24 @@ export default function DemoBrokerTerminal() {
                         </div>
                       </div>
                       <div className="flex items-center gap-2 mb-3">
-                        {quote.verified ? (
-                          <Badge className="bg-green-100 text-green-800">
+                        {quote.verified ? <Badge className="bg-green-100 text-green-800">
                             <CheckCircle className="w-3 h-3 mr-1" />
                             Verified
-                          </Badge>
-                        ) : (
-                          <Badge className="bg-yellow-100 text-yellow-800">
+                          </Badge> : <Badge className="bg-yellow-100 text-yellow-800">
                             <AlertTriangle className="w-3 h-3 mr-1" />
                             Unverified
-                          </Badge>
-                        )}
+                          </Badge>}
                         <Badge variant="outline" className="text-blue-600">
                           <Clock className="w-3 h-3 mr-1" />
                           {quote.responseTime}m response
                         </Badge>
                       </div>
                       <div className="flex gap-2">
-                        <Button
-                          onClick={() => createPaymentIntent(rfq, quote)}
-                          className="btn-terminal-accent"
-                          disabled={!quote.verified}
-                        >
+                        <Button onClick={() => createPaymentIntent(rfq, quote)} className="btn-terminal-accent" disabled={!quote.verified}>
                           <DollarSign className="w-4 h-4 mr-2" />
                           Create Payment
                         </Button>
-                        <Button
-                          onClick={() => generateReceipt(rfq, quote)}
-                          variant="outline"
-                        >
+                        <Button onClick={() => generateReceipt(rfq, quote)} variant="outline">
                           <FileText className="w-4 h-4 mr-2" />
                           Generate Receipt
                         </Button>
@@ -505,25 +403,17 @@ export default function DemoBrokerTerminal() {
                           Save
                         </Button>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8 text-gray-500">
+                    </div>)}
+                </div> : <div className="text-center py-8 text-gray-500">
                   <Plane className="w-12 h-12 mx-auto mb-4 opacity-50" />
                   <p>No quotes received yet</p>
                   <p className="text-sm">Operators typically respond within 2-5 minutes</p>
-                </div>
-              )}
+                </div>}
             </CardContent>
-          </Card>
-        ))}
+          </Card>)}
       </div>
-    </div>
-  );
-
-  const renderMarketplace = () => (
-    <div className="space-y-6">
+    </div>;
+  const renderMarketplace = () => <div className="space-y-6">
       <Card className="terminal-card">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -548,8 +438,7 @@ export default function DemoBrokerTerminal() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[1, 2, 3, 4, 5, 6].map(i => (
-              <Card key={i} className="p-4 hover:terminal-glow transition-all">
+            {[1, 2, 3, 4, 5, 6].map(i => <Card key={i} className="p-4 hover:terminal-glow transition-all">
                 <div className="flex items-start justify-between mb-3">
                   <div>
                     <h3 className="font-semibold">Elite Aviation</h3>
@@ -587,34 +476,21 @@ export default function DemoBrokerTerminal() {
                     <Save className="w-4 h-4" />
                   </Button>
                 </div>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
-
-  const renderSavedSearches = () => (
-    <div className="space-y-6">
+    </div>;
+  const renderSavedSearches = () => <div className="space-y-6">
       <SavedSearches />
-    </div>
-  );
-
-  const renderReputation = () => (
-    <div className="space-y-6">
+    </div>;
+  const renderReputation = () => <div className="space-y-6">
       <ReputationMetrics userId="broker_001" userType="broker" />
-    </div>
-  );
-
-  const renderBilling = () => (
-    <div className="space-y-6">
+    </div>;
+  const renderBilling = () => <div className="space-y-6">
       <MonthlyStatements />
-    </div>
-  );
-
-  return (
-    <div className="min-h-screen bg-terminal-bg">
+    </div>;
+  return <div className="min-h-screen bg-terminal-bg">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
@@ -623,20 +499,15 @@ export default function DemoBrokerTerminal() {
             <p className="text-gunmetal">FCA Compliant Trading Floor • 100% Free Until Revenue</p>
           </div>
           <div className="flex gap-2">
-            <Badge className="bg-green-100 text-green-800">
+            <Badge className="text-green-800 bg-slate-900">
               <Shield className="w-3 h-3 mr-1" />
               FCA Compliant
             </Badge>
-            <Badge className="bg-blue-100 text-blue-800">
-              <Zap className="w-3 h-3 mr-1" />
-              Free Tier
-            </Badge>
-            {isDemoMode && (
-              <Badge className="bg-yellow-100 text-yellow-800">
+            
+            {isDemoMode && <Badge className="bg-yellow-100 text-yellow-800">
                 <AlertTriangle className="w-3 h-3 mr-1" />
                 Demo Mode
-              </Badge>
-            )}
+              </Badge>}
           </div>
         </div>
 
@@ -730,14 +601,12 @@ export default function DemoBrokerTerminal() {
                     <Shield className="w-4 h-4 mr-2" />
                     Run War Room Checks
                   </Button>
-                  {warRoomResult && (
-                    <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                  {warRoomResult && <div className="mt-4 p-4 bg-gray-50 rounded-lg">
                       <h3 className="font-semibold mb-2">Results:</h3>
                       <p className="text-sm text-gray-600 whitespace-pre-line">
                         {warRoomResult.summary}
                       </p>
-                    </div>
-                  )}
+                    </div>}
                 </div>
               </CardContent>
             </Card>
@@ -755,11 +624,9 @@ export default function DemoBrokerTerminal() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <CarbonMethodologySelector 
-                  onMethodologyChange={(methodology) => {
-                    console.log('Selected methodology:', methodology);
-                  }}
-                />
+                <CarbonMethodologySelector onMethodologyChange={methodology => {
+                console.log('Selected methodology:', methodology);
+              }} />
               </CardContent>
             </Card>
           </TabsContent>
@@ -782,16 +649,14 @@ export default function DemoBrokerTerminal() {
                     <Download className="w-4 h-4 mr-2" />
                     Generate Evidence Pack
                   </Button>
-                  {evidencePack && (
-                    <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                  {evidencePack && <div className="mt-4 p-4 bg-gray-50 rounded-lg">
                       <h3 className="font-semibold mb-2">Evidence Pack Generated:</h3>
                       <p className="text-sm text-gray-600">
-                        ID: {evidencePack.id}<br/>
-                        Generated: {new Date(evidencePack.generatedAt).toLocaleString()}<br/>
+                        ID: {evidencePack.id}<br />
+                        Generated: {new Date(evidencePack.generatedAt).toLocaleString()}<br />
                         Version: {evidencePack.version}
                       </p>
-                    </div>
-                  )}
+                    </div>}
                 </div>
               </CardContent>
             </Card>
@@ -799,8 +664,7 @@ export default function DemoBrokerTerminal() {
         </Tabs>
 
         {/* Demo Notice */}
-        {isDemoMode && (
-          <Card className="mt-8 bg-yellow-50 border-yellow-200">
+        {isDemoMode && <Card className="mt-8 bg-yellow-50 border-yellow-200">
             <CardContent className="p-4">
               <div className="flex items-start gap-3">
                 <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
@@ -814,9 +678,7 @@ export default function DemoBrokerTerminal() {
                 </div>
               </div>
             </CardContent>
-          </Card>
-        )}
+          </Card>}
       </div>
-    </div>
-  );
+    </div>;
 }

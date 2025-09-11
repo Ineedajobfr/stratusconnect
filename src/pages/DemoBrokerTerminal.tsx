@@ -32,6 +32,17 @@ import {
   Filter,
   Download
 } from 'lucide-react';
+import { ComplianceNotice, EvidencePack } from '@/components/ComplianceNotice';
+import { evidenceReceiptGenerator } from '@/lib/evidence-receipt-generator';
+import { greenLightGateValidator } from '@/lib/green-light-gate';
+import { DisputesLane } from '@/components/Disputes/DisputesLane';
+import { ChargebacksPlaybook } from '@/components/Chargebacks/ChargebacksPlaybook';
+import { CancellationRules } from '@/components/Cancellation/CancellationRules';
+import { fxHandler } from '@/lib/fx-handler';
+import { invoiceVATHandler } from '@/lib/invoice-vat-handler';
+import { savedSearchesRealData } from '@/lib/saved-searches-real-data';
+import { ReMarketOnFallThrough } from '@/components/ReMarket/ReMarketOnFallThrough';
+import { AdminImpersonation } from '@/components/Admin/AdminImpersonation';
 import MultiLegRFQ from '@/components/DealFlow/MultiLegRFQ';
 import QuoteComposer from '@/components/DealFlow/QuoteComposer';
 import BackhaulMatcher from '@/components/DealFlow/BackhaulMatcher';
@@ -595,23 +606,10 @@ export default function DemoBrokerTerminal() {
         </div>
 
         {/* Compliance Notice */}
-        <Card className="mb-8 border-green-200 bg-green-50">
-          <CardContent className="p-4">
-            <div className="flex items-start gap-3">
-              <Shield className="w-5 h-5 text-green-600 mt-0.5" />
-              <div>
-                <h3 className="font-medium text-green-800">Fee Structure & Free Operation</h3>
-                <p className="text-green-700 text-sm mt-1">
-                  <strong>7% platform commission</strong> on all broker-operator deals. 
-                  <strong>10% hiring fee</strong> on operator pilot/crew hires. 
-                  <strong>0% fees</strong> for pilots and crew. 
-                  All fees automatically calculated and deducted by Stripe Connect. 
-                  <strong>No monthly costs</strong> - only pay when you make money.
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <ComplianceNotice />
+        
+        {/* Evidence Pack */}
+        <EvidencePack />
 
         {/* Main Navigation */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">

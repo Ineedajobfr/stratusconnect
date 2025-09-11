@@ -49,7 +49,7 @@ serve(async (req) => {
     
     // Determine risk level
     let riskLevel = 'low'
-    let warnings = []
+    const warnings = []
     
     // Check for negative sentiment with high confidence
     if (sentiment.label === 'NEGATIVE' && sentiment.score > 0.8) {

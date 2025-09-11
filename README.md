@@ -2,9 +2,8 @@
 
 [![Deploy to GitHub Pages](https://github.com/Ineedajobfr/stratusconnect/actions/workflows/deploy.yml/badge.svg)](https://github.com/Ineedajobfr/stratusconnect/actions/workflows/deploy.yml)
 
-**🌐 Live Demo:** [https://ineedajobfr.github.io/stratusconnect/](https://ineedajobfr.github.io/stratusconnect/)
-
-**📱 Mobile Demo:** [https://ineedajobfr.github.io/stratusconnect/](https://ineedajobfr.github.io/stratusconnect/) (Mobile Optimized)
+**🌐 Live Demo:** stratusconnect.netlify.app
+**📱 Mobile Demo:** stratusconnect.netlify.app
 
 ## ✈️ About StratusConnect
 

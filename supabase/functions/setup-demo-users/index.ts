@@ -177,7 +177,7 @@ serve(async (req) => {
       },
       // Regular demo users
       {
-        email: broker@stratusconnect.org',
+        email: 'broker@stratusconnect.org',
         password: 'Bk7!mP9$qX2vL',
         role: 'broker',
         fullName: 'Alexandra Mitchell',

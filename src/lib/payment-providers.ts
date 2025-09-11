@@ -344,27 +344,30 @@ export function createPaymentProvider(): PaymentProvider {
   const isSandbox = process.env.VITE_PAYMENT_SANDBOX === 'true';
 
   switch (provider.toLowerCase()) {
-    case 'shieldpay':
+    case 'shieldpay': {
       const shieldpayKey = process.env.VITE_SHIELDPAY_API_KEY;
       if (!shieldpayKey) {
         throw new Error('VITE_SHIELDPAY_API_KEY environment variable is required');
       }
       return new ShieldpayProvider(shieldpayKey, isSandbox);
+    }
     
-    case 'mangopay':
+    case 'mangopay': {
       const mangopayClientId = process.env.VITE_MANGOPAY_CLIENT_ID;
       const mangopayApiKey = process.env.VITE_MANGOPAY_API_KEY;
       if (!mangopayClientId || !mangopayApiKey) {
         throw new Error('VITE_MANGOPAY_CLIENT_ID and VITE_MANGOPAY_API_KEY environment variables are required');
       }
       return new MangopayProvider(mangopayClientId, mangopayApiKey, isSandbox);
+    }
     
-    case 'lemonway':
+    case 'lemonway': {
       const lemonwayKey = process.env.VITE_LEMONWAY_API_KEY;
       if (!lemonwayKey) {
         throw new Error('VITE_LEMONWAY_API_KEY environment variable is required');
       }
       return new LemonwayProvider(lemonwayKey, isSandbox);
+    }
     
     default:
       throw new Error(`Unsupported payment provider: ${provider}`);

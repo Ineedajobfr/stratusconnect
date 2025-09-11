@@ -57,8 +57,8 @@ Aircraft: {{aircraft_make}} {{aircraft_model}}
 Tail Number: {{tail_number}}
 
 CHARTER DETAILS:
-Charter Amount: $\{\{charter_amount\}\}
-Flight Date: \{\{flight_date\}\}
+Charter Amount: ${{charter_amount}}
+Flight Date: {{flight_date}}
 
 TERMS AND CONDITIONS:
 1. Payment terms: Net 30 days
@@ -82,8 +82,8 @@ Aircraft: {{aircraft_make}} {{aircraft_model}}
 Tail Number: {{tail_number}}
 
 SALE DETAILS:
-Purchase Price: $\{\{sale_amount\}\}
-Closing Date: \{\{closing_date\}\}
+Purchase Price: ${{sale_amount}}
+Closing Date: {{closing_date}}
 
 TERMS AND CONDITIONS:
 1. Title transfer upon full payment

@@ -321,7 +321,7 @@ export function ServiceLevelAgreement() {
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold mb-4">3. Service Credits</h3>
+                <h2 className="text-2xl font-semibold mb-4">3. Service Credits</h2>
                 <div className="overflow-x-auto">
                   <table className="w-full border-collapse border border-gray-300">
                     <thead>

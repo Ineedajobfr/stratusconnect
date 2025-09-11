@@ -54,6 +54,7 @@ const DemoBrokerTerminal = lazy(() => import("./pages/DemoBrokerTerminal"));
 const DemoOperatorTerminal = lazy(() => import("./pages/DemoOperatorTerminal"));
 const DemoPilotTerminal = lazy(() => import("./pages/DemoPilotTerminal"));
 const DemoCrewTerminal = lazy(() => import("./pages/DemoCrewTerminal"));
+const DemoMarketplace = lazy(() => import("./pages/DemoMarketplace"));
 
 // Help pages
 const HelpBroker = lazy(() => import("./pages/HelpBroker"));
@@ -124,6 +125,7 @@ const App = memo(() => {
               <Route path="/demo/operator" element={<DemoOperatorTerminal />} />
               <Route path="/demo/pilot" element={<DemoPilotTerminal />} />
               <Route path="/demo/crew" element={<DemoCrewTerminal />} />
+            <Route path="/demo/marketplace" element={<DemoMarketplace />} />
               
               {/* Help pages */}
               <Route path="/help/broker" element={<HelpBroker />} />

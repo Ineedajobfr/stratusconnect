@@ -47,6 +47,40 @@ export default function CompliantStatus() {
     }
   };
 
+  const createDemoIncident = async () => {
+    try {
+      const incident = await compliantMonitoring.createIncident({
+        name: 'Demo Incident - Service Degradation',
+        status: 'investigating',
+        description: 'This is a demo incident to test the status page functionality. No actual service issues.',
+        affected_services: ['API', 'Web Interface']
+      });
+      
+      setIncidents(prev => [incident, ...prev]);
+      alert('Demo incident created successfully');
+    } catch (error) {
+      console.error('Error creating incident:', error);
+      alert('Failed to create demo incident');
+    }
+  };
+
+  const resolveIncident = async (incidentId: string) => {
+    try {
+      await compliantMonitoring.resolveIncident(incidentId);
+      setIncidents(prev => 
+        prev.map(inc => 
+          inc.id === incidentId 
+            ? { ...inc, status: 'resolved' as const, resolved_at: new Date().toISOString() }
+            : inc
+        )
+      );
+      alert('Incident resolved successfully');
+    } catch (error) {
+      console.error('Error resolving incident:', error);
+      alert('Failed to resolve incident');
+    }
+  };
+
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'up':
@@ -291,10 +325,23 @@ export default function CompliantStatus() {
         {incidents.length > 0 && (
           <Card className="mb-8">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <AlertCircle className="w-5 h-5" />
-                Recent Incidents
-              </CardTitle>
+              <div className="flex justify-between items-center">
+                <CardTitle className="flex items-center gap-2">
+                  <AlertCircle className="w-5 h-5" />
+                  Recent Incidents
+                </CardTitle>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={createDemoIncident}
+                    variant="outline"
+                    size="sm"
+                    className="text-yellow-600 border-yellow-600 hover:bg-yellow-50"
+                  >
+                    <AlertTriangle className="w-4 h-4 mr-1" />
+                    Create Demo Incident
+                  </Button>
+                </div>
+              </div>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -309,9 +356,21 @@ export default function CompliantStatus() {
                     <p className="text-gunmetal text-sm mb-2">{incident.description}</p>
                     <div className="flex justify-between items-center text-sm text-gunmetal">
                       <span>Started: {new Date(incident.started_at).toLocaleString()}</span>
-                      {incident.resolved_at && (
-                        <span>Resolved: {new Date(incident.resolved_at).toLocaleString()}</span>
-                      )}
+                      <div className="flex gap-2">
+                        {incident.resolved_at ? (
+                          <span>Resolved: {new Date(incident.resolved_at).toLocaleString()}</span>
+                        ) : (
+                          <Button
+                            onClick={() => resolveIncident(incident.id)}
+                            variant="outline"
+                            size="sm"
+                            className="text-green-600 border-green-600 hover:bg-green-50"
+                          >
+                            <CheckCircle className="w-3 h-3 mr-1" />
+                            Resolve
+                          </Button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}

@@ -261,6 +261,18 @@ class CompliantMonitoringService {
   }
 
   /**
+   * Resolve incident (for admin use)
+   */
+  async resolveIncident(incidentId: string): Promise<void> {
+    const incident = this.incidents.find(inc => inc.id === incidentId);
+    if (incident) {
+      incident.status = 'resolved';
+      incident.resolved_at = new Date().toISOString();
+      await this.persistIncidents();
+    }
+  }
+
+  /**
    * Update incident status
    */
   async updateIncident(incidentId: string, status: Incident['status']): Promise<Incident | null> {

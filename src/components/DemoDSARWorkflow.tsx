@@ -74,6 +74,124 @@ export default function DemoDSARWorkflow() {
     setShowCreateForm(false);
   };
 
+  const downloadData = (requestId: string) => {
+    // Generate mock user data export
+    const userData = {
+      requestId: requestId,
+      timestamp: new Date().toISOString(),
+      user: {
+        id: 'user_12345',
+        email: 'demo@stratusconnect.com',
+        name: 'Demo User',
+        role: 'broker',
+        createdAt: '2023-01-15T10:30:00Z',
+        lastLogin: '2024-01-15T14:20:00Z'
+      },
+      profile: {
+        company: 'Demo Aviation Ltd',
+        phone: '+44 20 1234 5678',
+        address: '123 Aviation Street, London, UK',
+        preferences: {
+          currency: 'GBP',
+          timezone: 'Europe/London',
+          notifications: true
+        }
+      },
+      transactions: [
+        {
+          id: 'TXN_001',
+          type: 'broker_deal',
+          amount: 45000,
+          currency: 'USD',
+          date: '2024-01-10T14:30:00Z',
+          status: 'completed'
+        },
+        {
+          id: 'TXN_002',
+          type: 'platform_fee',
+          amount: 3150,
+          currency: 'USD',
+          date: '2024-01-10T14:30:00Z',
+          status: 'completed'
+        }
+      ],
+      auditLog: [
+        {
+          action: 'login',
+          timestamp: '2024-01-15T14:20:00Z',
+          ip: '192.168.1.100',
+          userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        },
+        {
+          action: 'create_payment_intent',
+          timestamp: '2024-01-10T14:30:00Z',
+          ip: '192.168.1.100',
+          details: 'Broker deal: London-New York'
+        }
+      ],
+      metadata: {
+        exportReason: 'GDPR Data Subject Access Request',
+        dataRetention: 'Financial records: 6 years, Personal data: until deletion requested',
+        processingBasis: 'Contract performance and legitimate interest'
+      }
+    };
+
+    const dataStr = JSON.stringify(userData, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `stratusconnect_data_export_${requestId}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+
+    alert(`Data export downloaded for request ${requestId}\n\nThis includes all personal data, transactions, and audit logs as required by GDPR.`);
+  };
+
+  const processErasure = (requestId: string) => {
+    setRequests(prev => 
+      prev.map(req => 
+        req.id === requestId 
+          ? { ...req, status: 'processing' as const }
+          : req
+      )
+    );
+    
+    // Simulate processing time
+    setTimeout(() => {
+      setRequests(prev => 
+        prev.map(req => 
+          req.id === requestId 
+            ? { ...req, status: 'completed' as const, completedAt: new Date().toISOString() }
+            : req
+        )
+      );
+      alert(`Data erasure completed for request ${requestId}\n\nAll personal data has been deleted except financial records (retained for 6 years as required by law).`);
+    }, 2000);
+  };
+
+  const processRectification = (requestId: string) => {
+    setRequests(prev => 
+      prev.map(req => 
+        req.id === requestId 
+          ? { ...req, status: 'processing' as const }
+          : req
+      )
+    );
+    
+    // Simulate processing time
+    setTimeout(() => {
+      setRequests(prev => 
+        prev.map(req => 
+          req.id === requestId 
+            ? { ...req, status: 'completed' as const, completedAt: new Date().toISOString() }
+            : req
+        )
+      );
+      alert(`Data rectification completed for request ${requestId}\n\nPersonal data has been corrected as requested.`);
+    }, 1500);
+  };
+
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'pending':
@@ -203,6 +321,7 @@ export default function DemoDSARWorkflow() {
               <div className="flex gap-2">
                 {request.status === 'completed' && request.type === 'export' && (
                   <Button
+                    onClick={() => downloadData(request.id)}
                     variant="outline"
                     size="sm"
                   >
@@ -213,11 +332,36 @@ export default function DemoDSARWorkflow() {
                 
                 {request.status === 'completed' && request.type === 'access' && (
                   <Button
+                    onClick={() => downloadData(request.id)}
                     variant="outline"
                     size="sm"
                   >
                     <Eye className="w-4 h-4 mr-2" />
                     View Data
+                  </Button>
+                )}
+
+                {request.status === 'pending' && request.type === 'erasure' && (
+                  <Button
+                    onClick={() => processErasure(request.id)}
+                    variant="outline"
+                    size="sm"
+                    className="text-red-600 border-red-600 hover:bg-red-50"
+                  >
+                    <Trash2 className="w-4 h-4 mr-2" />
+                    Process Erasure
+                  </Button>
+                )}
+
+                {request.status === 'pending' && request.type === 'rectification' && (
+                  <Button
+                    onClick={() => processRectification(request.id)}
+                    variant="outline"
+                    size="sm"
+                    className="text-blue-600 border-blue-600 hover:bg-blue-50"
+                  >
+                    <FileText className="w-4 h-4 mr-2" />
+                    Process Rectification
                   </Button>
                 )}
               </div>

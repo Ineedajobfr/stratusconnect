@@ -9,6 +9,7 @@ import { useShortcuts } from "@/hooks/use-shortcuts";
 import { useRef } from "react";
 import { BarChart3, MessageSquare, TrendingUp, DollarSign, Clock, Users, Globe, Bookmark, FileText, Settings, AlertTriangle, Star, Calendar, Shield } from "lucide-react";
 import type { User } from '@supabase/supabase-js';
+import DemoMarketplace from './DemoMarketplace';
 
 export default function BrokerTerminal() {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -156,6 +157,8 @@ export default function BrokerTerminal() {
             }
           />
         );
+      case "marketplace":
+        return <DemoMarketplace />;
       default:
         return (
           <div className="space-y-6">

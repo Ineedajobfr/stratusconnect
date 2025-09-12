@@ -10,6 +10,9 @@ import { DemoBanner } from "@/components/DemoBanner";
 import DemoStatusWidget from "@/components/DemoStatusWidget";
 import DemoDSARWorkflow from "@/components/DemoDSARWorkflow";
 import DemoFeeStructure from "@/components/DemoFeeStructure";
+import DemoDepositGate from "@/components/demo/DemoDepositGate";
+import DemoEvidenceBundle from "@/components/demo/DemoEvidenceBundle";
+import DemoSignedQuotePDF from "@/components/demo/DemoSignedQuotePDF";
 import { 
   Plane, 
   Users, 
@@ -20,7 +23,8 @@ import {
   FileText,
   Calculator,
   CheckCircle,
-  AlertTriangle
+  AlertTriangle,
+  Download
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -63,20 +67,38 @@ export default function DemoSetup() {
 
   const complianceFeatures = [
     {
-      title: "FCA Compliant Payments",
-      description: "Stripe Connect integration with 7% broker-operator commission",
+      title: "Universal Compliance: Deposit Gate",
+      description: "Deposit-before-contact on every deal. No exceptions, no tiers, no opt-outs.",
+      icon: Shield,
+      component: <DemoDepositGate />
+    },
+    {
+      title: "Universal Compliance: Evidence Bundles",
+      description: "One-click evidence bundle export with SHA-256 hashes for instant dispute resolution",
+      icon: FileText,
+      component: <DemoEvidenceBundle />
+    },
+    {
+      title: "Universal Compliance: Signed Quote PDFs",
+      description: "Every accepted quote generates signed PDF with cancellation grid and audit hash",
+      icon: Download,
+      component: <DemoSignedQuotePDF />
+    },
+    {
+      title: "Simple Pricing: 7%/10%/0%",
+      description: "7% broker-operator deals, 10% operator hiring, 0% pilot/crew. No tiers, no add-ons.",
       icon: DollarSign,
       component: <DemoFeeStructure />
     },
     {
-      title: "KYC/AML Screening",
-      description: "Identity verification and sanctions screening before payouts",
+      title: "KYC/AML Gates",
+      description: "Identity verification and sanctions screening before payouts - universal enforcement",
       icon: Shield,
       component: <div className="p-4 text-center text-gunmetal">KYC verification workflow demo</div>
     },
     {
-      title: "Real-Time Monitoring",
-      description: "Live uptime and performance metrics from UptimeRobot",
+      title: "Live Status Monitoring",
+      description: "Real-time uptime and performance metrics from UptimeRobot - no static claims",
       icon: Activity,
       component: <DemoStatusWidget />
     },

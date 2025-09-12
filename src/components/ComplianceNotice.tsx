@@ -63,14 +63,14 @@ export function EvidencePack() {
               <div>
                 <h4 className="font-medium mb-2 text-slate-50">Compliance Evidence</h4>
                 <ul className="space-y-1">
-                  <li>• KYC blocks payout before verification</li>
+                  <li className="bg-transparent">• KYC blocks payout before verification</li>
                   <li>• DSAR export file downloadable</li>
                   <li>• RLS policies active on all tables</li>
                   <li>• Contact reveal only after deposit</li>
                 </ul>
               </div>
               <div>
-                <h4 className="font-medium mb-2">Monitoring Evidence</h4>
+                <h4 className="font-medium mb-2 text-slate-50">Monitoring Evidence</h4>
                 <ul className="space-y-1">
                   <li>• Status page with live data</li>
                   <li>• Two test incidents opened/closed</li>
@@ -79,7 +79,7 @@ export function EvidencePack() {
                 </ul>
               </div>
               <div>
-                <h4 className="font-medium mb-2">Security Evidence</h4>
+                <h4 className="font-medium mb-2 text-slate-50">Security Evidence</h4>
                 <ul className="space-y-1">
                   <li>• Supabase RLS policies enforced</li>
                   <li>• MFA available for all users</li>

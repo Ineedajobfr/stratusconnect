@@ -260,138 +260,122 @@ export default function DemoBrokerTerminal() {
     <div className="space-y-6">
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="terminal-card hover:terminal-glow">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gunmetal">Active RFQs</p>
-                <p className="text-2xl font-bold text-foreground">{rfqs.length}</p>
-                <p className="text-xs text-accent">+12% this week</p>
-              </div>
-              <FileText className="w-8 h-8 text-accent" />
+        <Brand.Card>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-muted">Active RFQs</p>
+              <p className="text-2xl font-bold text-body">{rfqs.length}</p>
+              <p className="text-xs text-accent">+12% this week</p>
             </div>
-          </CardContent>
-        </Card>
+            <FileText className="w-8 h-8 text-accent" />
+          </div>
+        </Brand.Card>
 
-        <Card className="terminal-card hover:terminal-glow">
-          <CardContent className="p4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gunmetal">Quotes Received</p>
-                <p className="text-2xl font-bold text-foreground">
-                  {rfqs.reduce((sum, rfq) => sum + rfq.quotes.length, 0)}
-                </p>
-                <p className="text-xs text-accent">Avg 2.3 per RFQ</p>
-              </div>
-              <TrendingUp className="w-8 h-8 text-accent" />
+        <Brand.Card>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-muted">Quotes Received</p>
+              <p className="text-2xl font-bold text-body">
+                {rfqs.reduce((sum, rfq) => sum + rfq.quotes.length, 0)}
+              </p>
+              <p className="text-xs text-accent">Avg 2.3 per RFQ</p>
             </div>
-          </CardContent>
-        </Card>
+            <TrendingUp className="w-8 h-8 text-accent" />
+          </div>
+        </Brand.Card>
 
-        <Card className="terminal-card hover:terminal-glow">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gunmetal">Deals Closed</p>
-                <p className="text-2xl font-bold text-foreground">
-                  {rfqs.filter(rfq => rfq.status === 'paid').length}
-                </p>
-                <p className="text-xs text-accent">$2.1M volume</p>
-              </div>
-              <DollarSign className="w-8 h-8 text-accent" />
+        <Brand.Card>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-muted">Deals Closed</p>
+              <p className="text-2xl font-bold text-body">
+                {rfqs.filter(rfq => rfq.status === 'paid').length}
+              </p>
+              <p className="text-xs text-accent">$2.1M volume</p>
             </div>
-          </CardContent>
-        </Card>
+            <DollarSign className="w-8 h-8 text-accent" />
+          </div>
+        </Brand.Card>
 
-        <Card className="terminal-card hover:terminal-glow">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gunmetal">Avg Response Time</p>
-                <p className="text-2xl font-bold text-foreground">2.3m</p>
-                <p className="text-xs text-accent">Fast lane eligible</p>
-              </div>
-              <Clock className="w-8 h-8 text-accent" />
+        <Brand.Card>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-muted">Avg Response Time</p>
+              <p className="text-2xl font-bold text-body">2.3m</p>
+              <p className="text-xs text-accent">Fast lane eligible</p>
             </div>
-          </CardContent>
-        </Card>
+            <Clock className="w-8 h-8 text-accent" />
+          </div>
+        </Brand.Card>
       </div>
 
       {/* Alerts */}
       {alerts.length > 0 && (
-        <Card className="terminal-card">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-body">
-              <Bell className="w-5 h-5" />
-              Live Alerts ({alerts.filter(a => a.unread).length} unread)
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {alerts.map(alert => (
-                <div key={alert.id} className={`p-3 rounded-lg border ${
-                  alert.unread ? 'bg-elev border-default' : 'bg-surface border-default'
-                }`}>
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-start gap-3">
-                      {alert.type === 'price_drop' ? (
-                        <TrendingUp className="w-4 h-4 text-accent mt-0.5" />
-                      ) : (
-                        <Clock className="w-4 h-4 text-accent mt-0.5" />
-                      )}
-                      <div>
-                        <h4 className="font-medium">{alert.title}</h4>
-                        <p className="text-sm text-muted">{alert.message}</p>
-                        <p className="text-xs text-muted">{new Date(alert.time).toLocaleString()}</p>
-                      </div>
-                    </div>
-                    {alert.unread && (
-                      <Badge className="bg-accent/20 text-accent">New</Badge>
+        <Brand.Card>
+          <Brand.SectionTitle>
+            <Bell className="w-5 h-5 inline mr-2" />
+            Live Alerts ({alerts.filter(a => a.unread).length} unread)
+          </Brand.SectionTitle>
+          <div className="space-y-3">
+            {alerts.map(alert => (
+              <Brand.Panel key={alert.id} className={alert.unread ? 'bg-elev' : 'bg-surface'}>
+                <div className="flex items-start justify-between">
+                  <div className="flex items-start gap-3">
+                    {alert.type === 'price_drop' ? (
+                      <TrendingUp className="w-4 h-4 text-accent mt-0.5" />
+                    ) : (
+                      <Clock className="w-4 h-4 text-accent mt-0.5" />
                     )}
+                    <div>
+                      <h4 className="font-medium text-body">{alert.title}</h4>
+                      <p className="text-sm text-muted">{alert.message}</p>
+                      <p className="text-xs text-muted">{new Date(alert.time).toLocaleString()}</p>
+                    </div>
                   </div>
+                  {alert.unread && (
+                    <Brand.StatusChip status="info">New</Brand.StatusChip>
+                  )}
                 </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+              </Brand.Panel>
+            ))}
+          </div>
+        </Brand.Card>
       )}
 
       {/* Recent Activity */}
-      <Card className="terminal-card">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <BarChart3 className="w-5 h-5" />
-            Recent Activity
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-3">
-            {rfqs.slice(0, 3).map(rfq => (
-              <div key={rfq.id} className="flex items-center justify-between p-3 bg-surface rounded-lg hover:bg-elev transition-colors">
+      <Brand.Card>
+        <Brand.SectionTitle>
+          <BarChart3 className="w-5 h-5 inline mr-2" />
+          Recent Activity
+        </Brand.SectionTitle>
+        <div className="space-y-3">
+          {rfqs.slice(0, 3).map(rfq => (
+            <Brand.Panel key={rfq.id} className="hover:bg-elev transition-colors">
+              <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-2 h-2 bg-accent rounded-full"></div>
                   <div>
-                    <p className="font-medium">{rfq.route}</p>
-                    <p className="text-sm text-gunmetal">{rfq.aircraft} • {rfq.quotes.length} quotes • {rfq.passengers} pax</p>
+                    <p className="font-medium text-body">{rfq.route}</p>
+                    <p className="text-sm text-muted">{rfq.aircraft} • {rfq.quotes.length} quotes • {rfq.passengers} pax</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Badge className={
-                    rfq.status === 'paid' ? 'bg-accent/20 text-accent' :
-                    rfq.status === 'quoted' ? 'bg-accent/20 text-accent' :
-                    'bg-warn/20 text-warn'
+                  <Brand.StatusChip status={
+                    rfq.status === 'paid' ? 'success' :
+                    rfq.status === 'quoted' ? 'info' :
+                    'warn'
                   }>
                     {rfq.status}
-                  </Badge>
-                  <Button size="sm" variant="outline">
+                  </Brand.StatusChip>
+                  <Brand.Secondary size="sm">
                     <Eye className="w-4 h-4" />
-                  </Button>
+                  </Brand.Secondary>
                 </div>
               </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+            </Brand.Panel>
+          ))}
+        </div>
+      </Brand.Card>
     </div>
   );
 

@@ -12,70 +12,55 @@
   font-variant-numeric: tabular-nums; 
 }
 
-@layer base {
-  :root {
-    /* Sleek Dark Palette - Reference Style */
-    --background: 217 32% 6%;
-    --foreground: 0 0% 98%;
-    --card: 270 40% 8%;
-    --card-foreground: 0 0% 98%;
-    --popover: 217 30% 6%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 217 30% 8%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 217 20% 15%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 217 25% 10%;
-    --muted-foreground: 217 10% 70%;
-    --accent: 25 70% 45%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 72.2% 50.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 217 20% 15%;
-    --input: 217 25% 8%;
-    --ring: 25 70% 45%;
-    --radius: 1rem;
-    
-    /* Sidebar colors */
-    --sidebar-background: 220 15% 6%;
-    --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 208 26% 44%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 15% 12%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 220 15% 18%;
-    --sidebar-ring: 0 0% 100%;
-    
-    /* Terminal specific colors - Ultra Sleek */
-    --terminal-bg: 217 32% 5%;
-    --terminal-card: 270 40% 8%;
-    --terminal-border: 217 20% 12%;
-    --terminal-glow: 25 70% 45%;
-    --gunmetal: 217 10% 65%;
-    
-    /* Data display colors - Neon Accent */
-    --data-positive: 134 61% 41%;
-    --data-negative: 0 72% 51%;
-    --data-neutral: 217 10% 75%;
-    --data-warning: 25 70% 45%;
-    
-    /* Terminal Status Colors */
-    --terminal-success: 142 76% 36%;
-    --terminal-warning: 38 92% 50%;
-    --terminal-danger: 0 84% 60%;
-    --terminal-info: 208 26% 44%;
-    
-    /* Chart colors */
-    --chart-1: 208 26% 44%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    
-    /* Gradients - Ultra Sleek */
-    --gradient-terminal: linear-gradient(135deg, hsl(217, 32%, 2%) 0%, hsl(217, 30%, 4%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(217, 30%, 4%) 0%, hsl(217, 25%, 6%) 100%);
-  }
+/* === StratusConnect Dark Terminal Palette ===
+   Keep values in HSL triplets so Tailwind can use opacity
+   White is for text only. No light backgrounds.
+*/
+:root {
+  /* Core */
+  --background:        217 32% 6%;   /* page bg: deep blue-grey */
+  --foreground:          0  0% 98%;  /* near-white text */
+  --card:               270 40% 8%;  /* primary card */
+  --card-foreground:      0  0% 98%;
+  --popover:            217 30% 6%;
+  --popover-foreground:   0  0% 98%;
+
+  --primary:            217 30% 8%;  /* subtle dark for selected tabs etc */
+  --primary-foreground:   0  0% 98%;
+
+  --secondary:          217 20% 15%;
+  --secondary-foreground: 0  0% 98%;
+  --muted:              217 25% 10%;
+  --muted-foreground:   217 10% 70%;
+  --border:             217 20% 15%;
+  --input:              217 25% 8%;
+  --ring:                25 70% 45%; /* Stratus orange focus */
+
+  /* Terminal tokens */
+  --terminal-bg:        217 32% 5%;
+  --terminal-card:      270 40% 8%;
+  --terminal-border:    217 20% 12%;
+  --terminal-glow:       25 70% 45%;
+  --gunmetal:           217 10% 65%; /* secondary text */
+
+  /* Accents and status */
+  --accent:              25 70% 45%; /* Stratus orange */
+  --accent-foreground:    0  0% 98%;
+  --terminal-success:   142 76% 36%;
+  --terminal-warning:    38 92% 50%;
+  --terminal-danger:      0 84% 60%;
+  --terminal-info:      208 26% 44%;
+
+  /* Data + charts */
+  --data-positive:      134 61% 41%;
+  --data-negative:        0 72% 51%;
+  --data-neutral:       217 10% 75%;
+  --data-warning:        25 70% 45%;
+  --chart-1:            208 26% 44%;
+  --chart-2:            173 58% 39%;
+  --chart-3:            197 37% 24%;
+  --chart-4:             43 74% 66%;
+  --chart-5:             27 87% 67%;
 }
 
 @layer base {
@@ -148,31 +133,31 @@
 
   /* Status indicators */
   .status-success {
-    @apply bg-success/20 text-success border border-success/30 px-2 py-1 text-xs font-medium;
+    @apply bg-terminal-success/20 text-terminal-success border border-terminal-success/30 px-2 py-1 text-xs font-medium;
   }
 
   .status-warning {
-    @apply bg-warning/20 text-warning border border-warning/30 px-2 py-1 text-xs font-medium;
+    @apply bg-terminal-warning/20 text-terminal-warning border border-terminal-warning/30 px-2 py-1 text-xs font-medium;
   }
 
   .status-error {
-    @apply bg-error/20 text-error border border-error/30 px-2 py-1 text-xs font-medium;
+    @apply bg-terminal-danger/20 text-terminal-danger border border-terminal-danger/30 px-2 py-1 text-xs font-medium;
   }
 
   .status-info {
-    @apply bg-info/20 text-info border border-info/30 px-2 py-1 text-xs font-medium;
+    @apply bg-terminal-info/20 text-terminal-info border border-terminal-info/30 px-2 py-1 text-xs font-medium;
   }
 
   .status-active {
-    @apply bg-success/20 text-success border border-success/30 px-2 py-1 text-xs font-medium;
+    @apply bg-terminal-success/20 text-terminal-success border border-terminal-success/30 px-2 py-1 text-xs font-medium;
   }
 
   .status-pending {
-    @apply bg-warning/20 text-warning border border-warning/30 px-2 py-1 text-xs font-medium;
+    @apply bg-terminal-warning/20 text-terminal-warning border border-terminal-warning/30 px-2 py-1 text-xs font-medium;
   }
 
   .status-processing {
-    @apply bg-info/20 text-info border border-info/30 px-2 py-1 text-xs font-medium;
+    @apply bg-terminal-info/20 text-terminal-info border border-terminal-info/30 px-2 py-1 text-xs font-medium;
   }
 
   /* Button variants - Bloomberg style */
@@ -189,11 +174,11 @@
   }
 
   .btn-terminal-success {
-    @apply bg-success/20 text-success border border-success/30 hover:bg-success/30 px-4 py-2 font-medium transition-all duration-150;
+    @apply bg-terminal-success/20 text-terminal-success border border-terminal-success/30 hover:bg-terminal-success/30 px-4 py-2 font-medium transition-all duration-150;
   }
 
   .btn-terminal-danger {
-    @apply bg-error/20 text-error border border-error/30 hover:bg-error/30 px-4 py-2 font-medium transition-all duration-150;
+    @apply bg-terminal-danger/20 text-terminal-danger border border-terminal-danger/30 hover:bg-terminal-danger/30 px-4 py-2 font-medium transition-all duration-150;
   }
 
   /* Input styles - Bloomberg terminal */

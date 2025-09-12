@@ -36,21 +36,21 @@ export default function Index() {
   };
 
   return (
-    <div className="min-h-screen bg-terminal-bg relative overflow-hidden">
+    <div className="min-h-screen bg-app relative overflow-hidden">
       <StarfieldRunwayBackground />
       
       {/* Hero Section */}
-      <div className="relative z-10 pt-16 pb-8">
+      <div className="relative z-10 pt-20 pb-16">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <div className="mb-8">
             <Badge variant="secondary" className="mb-4 px-4 py-2 text-sm">
               <Zap className="w-4 h-4 mr-2" />
               Next-Generation Aviation Platform
             </Badge>
-            <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6">
+            <h1 className="text-5xl md:text-7xl font-bold text-body mb-6">
               Welcome to <span className="text-accent">StratusConnect</span>
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-muted max-w-4xl mx-auto leading-relaxed">
               The industry's most secure and efficient platform connecting brokers, operators, pilots, and crew. 
               Built on zero-trust architecture with military-grade encryption.
             </p>
@@ -79,7 +79,7 @@ export default function Index() {
       </div>
 
       {/* Terminal Access Section */}
-      <div className="relative z-10 py-16">
+      <div className="relative z-10 py-24">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-foreground mb-4">Choose Your Terminal</h2>
@@ -231,7 +231,7 @@ export default function Index() {
       </div>
 
       {/* Security & Trust Features */}
-      <div className="relative z-10 py-16 bg-terminal-card/20">
+      <div className="relative z-10 py-24">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-foreground mb-4">Fortress of Trust</h2>
@@ -279,7 +279,7 @@ export default function Index() {
       </div>
 
       {/* Escrow & Payment Security */}
-      <div className="relative z-10 py-16">
+      <div className="relative z-10 py-24">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-foreground mb-4">Secure Escrow System</h2>
@@ -327,19 +327,19 @@ export default function Index() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <CheckCircle className="w-5 h-5 text-white" />
                   <span className="text-muted-foreground">FDIC-insured escrow accounts</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <CheckCircle className="w-5 h-5 text-white" />
                   <span className="text-muted-foreground">Real-time transaction monitoring</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <CheckCircle className="w-5 h-5 text-white" />
                   <span className="text-muted-foreground">Dispute resolution system</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <CheckCircle className="w-5 h-5 text-white" />
                   <span className="text-muted-foreground">24/7 fraud protection</span>
                 </div>
               </CardContent>

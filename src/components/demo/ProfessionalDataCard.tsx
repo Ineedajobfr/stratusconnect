@@ -43,7 +43,7 @@ export const ProfessionalDataCard: React.FC<DataCardProps> = ({
             )}
             {trend && (
               <div className={`flex items-center mt-1 text-xs ${
-                trend.isPositive ? 'text-green-400' : 'text-red-400'
+                trend.isPositive ? 'text-white' : 'text-red-400'
               }`}>
                 <span>{trend.isPositive ? '+' : ''}{trend.value}%</span>
                 <span className="ml-1">vs last month</span>
@@ -145,7 +145,7 @@ export const ProfessionalFlightCard: React.FC<FlightCardProps> = ({
           {(earnings || rating) && (
             <div className="flex items-center justify-between pt-2 border-t border-gray-700">
               {earnings && (
-                <span className="text-green-400 font-medium">${earnings.toLocaleString()}</span>
+                <span className="text-white font-medium">${earnings.toLocaleString()}</span>
               )}
               {rating && (
                 <div className="flex items-center space-x-1">

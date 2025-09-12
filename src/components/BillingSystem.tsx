@@ -131,7 +131,7 @@ export default function BillingSystem() {
 
       if (error) throw error;
       setBillingSchedules((data || []) as unknown as BillingSchedule[]);
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: "Failed to fetch billing schedules",
@@ -153,7 +153,7 @@ export default function BillingSystem() {
 
       if (error) throw error;
       setPayments((data || []) as Payment[]);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error fetching payments:", error);
     }
   };
@@ -186,7 +186,7 @@ export default function BillingSystem() {
 
       if (error) throw error;
       setAvailableDeals(data || []);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error fetching available deals:", error);
     }
   };
@@ -269,7 +269,7 @@ export default function BillingSystem() {
         installment_interval: 30
       });
       fetchBillingSchedules();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: error.message || "Failed to create billing schedule",

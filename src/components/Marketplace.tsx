@@ -236,7 +236,7 @@ export default function Marketplace() {
         description: "",
       });
       fetchListings();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: error.message || "Failed to create listing",
@@ -267,7 +267,7 @@ export default function Marketplace() {
       setBidAmount("");
       setBidMessage("");
       fetchBidsForListing(selectedListing.id);
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: error.message || "Failed to place bid",
@@ -327,7 +327,7 @@ export default function Marketplace() {
 
       toast({ title: "Success", description: "Bid accepted! A deal has been created." });
       fetchListings();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: error.message || "Failed to accept bid",

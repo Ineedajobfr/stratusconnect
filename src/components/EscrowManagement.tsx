@@ -167,7 +167,7 @@ export default function EscrowManagement({ dealId, userRole }: EscrowManagementP
 
       setShowCreateDialog(false);
       loadEscrowIntents();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error creating escrow intent:', error);
       toast({
         title: "Error",
@@ -204,7 +204,7 @@ export default function EscrowManagement({ dealId, userRole }: EscrowManagementP
       });
 
       loadEscrowIntents();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error funding escrow:', error);
       toast({
         title: "Error",
@@ -259,7 +259,7 @@ export default function EscrowManagement({ dealId, userRole }: EscrowManagementP
       setReleaseAmount('');
       setReleaseReason('');
       loadEscrowIntents();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error releasing escrow:', error);
       toast({
         title: "Error",
@@ -296,7 +296,7 @@ export default function EscrowManagement({ dealId, userRole }: EscrowManagementP
       });
 
       loadEscrowIntents();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error refunding escrow:', error);
       toast({
         title: "Error",
@@ -317,7 +317,7 @@ export default function EscrowManagement({ dealId, userRole }: EscrowManagementP
         title: "Receipt Generated",
         description: "Receipt PDF opened in new tab",
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error generating receipt:', error);
       toast({
         title: "Error",
@@ -349,9 +349,9 @@ export default function EscrowManagement({ dealId, userRole }: EscrowManagementP
       case 'pending':
         return 'bg-yellow-100 text-yellow-800';
       case 'funded':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-100 text-white';
       case 'released':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-100 text-white';
       case 'refunded':
         return 'bg-red-100 text-red-800';
       case 'disputed':

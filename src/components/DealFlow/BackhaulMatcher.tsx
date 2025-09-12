@@ -242,8 +242,8 @@ export function BackhaulMatcher({ rfqId, from, to, departureDate, passengers, on
                 
                 return (
                   <Card key={match.emptyLegId} className={`p-4 ${
-                    match.confidence === 'high' ? 'border-green-200 bg-green-50' :
-                    match.confidence === 'medium' ? 'border-yellow-200 bg-yellow-50' :
+                    match.confidence === 'high' ? 'border-green-200 bg-slate-800' :
+                    match.confidence === 'medium' ? 'border-yellow-200 bg-slate-800' :
                     'border-gray-200'
                   }`}>
                     <div className="flex items-start justify-between">
@@ -251,7 +251,7 @@ export function BackhaulMatcher({ rfqId, from, to, departureDate, passengers, on
                         <div className="flex items-center gap-2 mb-2">
                           <h3 className="font-semibold">{leg.operatorName}</h3>
                           <Badge variant="outline" className={
-                            match.confidence === 'high' ? 'text-green-600' :
+                            match.confidence === 'high' ? 'text-white' :
                             match.confidence === 'medium' ? 'text-yellow-600' :
                             'text-gray-600'
                           }>
@@ -296,7 +296,7 @@ export function BackhaulMatcher({ rfqId, from, to, departureDate, passengers, on
                           </div>
                           <div>
                             <span className="text-gray-600">Price to Win: </span>
-                            <span className="font-medium text-green-600">£{(match.priceToWin / 100).toLocaleString()}</span>
+                            <span className="font-medium text-white">£{(match.priceToWin / 100).toLocaleString()}</span>
                           </div>
                           <div>
                             <span className="text-gray-600">Net to Operator: </span>

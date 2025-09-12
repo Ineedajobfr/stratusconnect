@@ -66,7 +66,7 @@ export default function DemoStatusWidget() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'up':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-100 text-white';
       case 'degraded':
         return 'bg-yellow-100 text-yellow-800';
       case 'down':

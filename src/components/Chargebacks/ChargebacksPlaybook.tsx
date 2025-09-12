@@ -18,6 +18,7 @@ import {
   Calendar,
   User,
   CreditCard,
+  Plus,
   Building
 } from 'lucide-react';
 
@@ -50,7 +51,7 @@ export interface ChargebackEvent {
   type: 'created' | 'evidence_submitted' | 'status_changed' | 'won' | 'lost' | 'expired';
   description: string;
   timestamp: string;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
 }
 
 export interface ChargebacksPlaybookProps {
@@ -149,13 +150,13 @@ export function ChargebacksPlaybook({ dealId, dealType, totalAmount, currency, b
       case 'under_review':
         return 'bg-blue-100 text-blue-800';
       case 'won':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-100 text-white';
       case 'lost':
         return 'bg-red-100 text-red-800';
       case 'expired':
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-purple-900/30 text-purple-200';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-purple-900/30 text-purple-200';
     }
   };
 
@@ -229,9 +230,9 @@ export function ChargebacksPlaybook({ dealId, dealType, totalAmount, currency, b
                     <h4 className="font-medium mb-2">Evidence ({chargeback.evidence.length})</h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       {chargeback.evidence.map(evidence => (
-                        <div key={evidence.id} className="flex items-center gap-2 p-2 bg-gray-50 rounded">
+                        <div key={evidence.id} className="flex items-center gap-2 p-2 bg-purple-900/20 rounded border border-purple-700">
                           {getEvidenceTypeIcon(evidence.type)}
-                          <span className="text-sm">{evidence.name}</span>
+                          <span className="text-sm text-white">{evidence.name}</span>
                           <Button size="sm" variant="ghost">
                             <Download className="w-4 h-4" />
                           </Button>

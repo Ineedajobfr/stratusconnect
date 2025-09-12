@@ -1,0 +1,8 @@
+pre-commit:
+  commands:
+    ban-colours:
+      run: |
+        if git diff --cached --name-only | grep -E '\.(tsx|ts|js|jsx|css)$' \
+        | xargs grep -nE 'bg-white|text-black|bg-yellow|bg-gray-50|#fff(fff)?' --color=never; then
+          echo "❌ Banned light colour found. Use tokens: bg-app, bg-surface, bg-elev, text-body."; exit 1;
+        fi

@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Core palette (from your dark navy + slate screens) */
+:root {
+  /* RGB triplets to keep alpha utilities working */
+  --sc-bg:        10 17 31;   /* #0A111F  page background (deep navy) */
+  --sc-surface:   15 23 42;   /* #0F172A  primary card (slate-900) */
+  --sc-surface-2: 18 27 47;   /* #121B2F  elevated card/input */
+  --sc-border:    30 41 59;   /* #1E293B  subtle borders */
+  --sc-text:     229 231 235; /* #E5E7EB  foreground */
+  --sc-muted:    148 163 184; /* #94A3B8  secondary text */
+
+  --sc-accent:   249 115 22;  /* #F97316  Stratus orange */
+  --sc-info:      56 189 248; /* #38BDF8  cyan for metrics */
+  --sc-success:   34 197  94; /* #22C55E */
+  --sc-warning:  234 179   8; /* #EAB308 */
+  --sc-danger:   239  68  68; /* #EF4444 */
+}
+
+/* Force dark everywhere */
+html, body, #root { height: 100%; }
+html { color-scheme: dark; }
+body { @apply bg-app text-body; }
+
+/* Kill stray whites from user-agent and third-party styles */
+* { border-color: rgb(var(--sc-border)) !important; }
+::selection { background: rgba(var(--sc-accent), .25); color: rgb(var(--sc-text)); }
+
+/* Base elements */
+@layer base {
+  h1,h2,h3,h4 { @apply text-body; }
+  p,span,small,li,dt,dd { @apply text-body; }
+  a { color: rgb(var(--sc-info)); }
+  hr { @apply border-default; }
+
+  /* Forms default to dark surfaces */
+  input, textarea, select {
+    @apply bg-elev text-body border border-default rounded-lg;
+  }
+  button {
+    @apply rounded-xl font-semibold;
+  }
+
+  /* Tables */
+  table { @apply w-full bg-surface text-body rounded-xl overflow-hidden; }
+  th { @apply bg-elev text-muted font-medium; }
+  td { @apply bg-surface; }
+
+  /* Cards and panels */
+  .card { @apply bg-surface text-body border border-default rounded-xl shadow-card; }
+  .panel { @apply bg-elev text-body border border-default rounded-xl; }
+
+  /* Status chips */
+  .chip { @apply px-2 py-1 rounded-lg text-xs; }
+  .chip-accent  { background: rgb(var(--sc-accent)); color: #0b0f1a; }
+  .chip-info    { background: rgba(var(--sc-info), .15); color: rgb(var(--sc-info)); }
+  .chip-success { background: rgba(var(--sc-success), .15); color: rgb(var(--sc-success)); }
+  .chip-warn    { background: rgba(var(--sc-warning), .15); color: rgb(var(--sc-warning)); }
+}
+
+/* Shadcn / Radix tokens (if you use them) */
+:root, .dark {
+  --background: var(--sc-bg);
+  --foreground: var(--sc-text);
+  --card: var(--sc-surface);
+  --popover: var(--sc-surface-2);
+  --border: var(--sc-border);
+  --muted: var(--sc-muted);
+  --primary: var(--sc-accent);
+  --ring: var(--sc-accent);
+}

@@ -206,17 +206,17 @@ export default function PilotDashboard() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'available': return 'bg-green-500/20 text-green-400 border-green-500/30';
+      case 'available': return 'bg-green-500/20 text-white border-green-500/30';
       case 'booked': return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
       case 'blocked': return 'bg-red-500/20 text-red-400 border-red-500/30';
-      case 'open': return 'bg-green-500/20 text-green-400 border-green-500/30';
+      case 'open': return 'bg-green-500/20 text-white border-green-500/30';
       case 'applied': return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
-      case 'accepted': return 'bg-green-500/20 text-green-400 border-green-500/30';
+      case 'accepted': return 'bg-green-500/20 text-white border-green-500/30';
       case 'declined': return 'bg-red-500/20 text-red-400 border-red-500/30';
       case 'upcoming': return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
       case 'in_progress': return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
-      case 'completed': return 'bg-green-500/20 text-green-400 border-green-500/30';
-      case 'verified': return 'bg-green-500/20 text-green-400 border-green-500/30';
+      case 'completed': return 'bg-green-500/20 text-white border-green-500/30';
+      case 'verified': return 'bg-green-500/20 text-white border-green-500/30';
       case 'pending': return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
       case 'incomplete': return 'bg-red-500/20 text-red-400 border-red-500/30';
       default: return 'bg-slate-500/20 text-slate-400 border-slate-500/30';
@@ -355,7 +355,7 @@ export default function PilotDashboard() {
                         <div className="space-y-2">
                           {profile.typeRatings.map((rating, index) => (
                             <div key={index} className="flex items-center space-x-2">
-                              <CheckCircle className="h-4 w-4 text-green-400" />
+                              <CheckCircle className="h-4 w-4 text-white" />
                               <span className="text-slate-300">{rating}</span>
                             </div>
                           ))}
@@ -367,7 +367,7 @@ export default function PilotDashboard() {
                         <div className="space-y-2">
                           {profile.languages.map((language, index) => (
                             <div key={index} className="flex items-center space-x-2">
-                              <CheckCircle className="h-4 w-4 text-green-400" />
+                              <CheckCircle className="h-4 w-4 text-white" />
                               <span className="text-slate-300">{language}</span>
                             </div>
                           ))}
@@ -428,19 +428,19 @@ export default function PilotDashboard() {
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
                         <span className="text-slate-400">Pilot License</span>
-                        <CheckCircle className="h-5 w-5 text-green-400" />
+                        <CheckCircle className="h-5 w-5 text-white" />
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-slate-400">Identity Verification</span>
-                        <CheckCircle className="h-5 w-5 text-green-400" />
+                        <CheckCircle className="h-5 w-5 text-white" />
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-slate-400">Background Check</span>
-                        <CheckCircle className="h-5 w-5 text-green-400" />
+                        <CheckCircle className="h-5 w-5 text-white" />
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-slate-400">Sanctions Screening</span>
-                        <CheckCircle className="h-5 w-5 text-green-400" />
+                        <CheckCircle className="h-5 w-5 text-white" />
                       </div>
                     </div>
                   </CardContent>

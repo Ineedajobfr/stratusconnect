@@ -57,7 +57,7 @@ Aircraft: {{aircraft_make}} {{aircraft_model}}
 Tail Number: {{tail_number}}
 
 CHARTER DETAILS:
-Charter Amount: ${{charter_amount}}
+Charter Amount: ${charter_amount}
 Flight Date: {{flight_date}}
 
 TERMS AND CONDITIONS:
@@ -82,7 +82,7 @@ Aircraft: {{aircraft_make}} {{aircraft_model}}
 Tail Number: {{tail_number}}
 
 SALE DETAILS:
-Purchase Price: ${{sale_amount}}
+Purchase Price: ${sale_amount}
 Closing Date: {{closing_date}}
 
 TERMS AND CONDITIONS:
@@ -157,7 +157,7 @@ export default function ContractManagement() {
 
       if (error) throw error;
       setContracts((data || []) as unknown as Contract[]);
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: "Failed to fetch contracts",
@@ -194,7 +194,7 @@ export default function ContractManagement() {
 
       if (error) throw error;
       setAvailableDeals(data || []);
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: "Failed to fetch available deals",
@@ -253,7 +253,7 @@ export default function ContractManagement() {
       setIsCreateDialogOpen(false);
       setContractForm({ deal_id: "", template: "charter", custom_content: "" });
       fetchContracts();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: error.message || "Failed to create contract",
@@ -291,7 +291,7 @@ export default function ContractManagement() {
       });
 
       fetchContracts();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: "Failed to sign contract",

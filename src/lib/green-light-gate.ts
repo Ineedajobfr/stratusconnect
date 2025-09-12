@@ -6,7 +6,7 @@ export interface EvidenceValidation {
   status: 'PASS' | 'FAIL' | 'PENDING';
   evidence: string;
   timestamp: string;
-  details?: any;
+  details?: Record<string, unknown>;
 }
 
 export interface GreenLightGate {
@@ -349,7 +349,7 @@ class GreenLightGateValidator {
   /**
    * Add evidence to the validation list
    */
-  private addEvidence(test: string, status: 'PASS' | 'FAIL' | 'PENDING', evidence: string, details?: any): void {
+  private addEvidence(test: string, status: 'PASS' | 'FAIL' | 'PENDING', evidence: string, details?: Record<string, unknown>): void {
     this.evidence.push({
       test,
       status,

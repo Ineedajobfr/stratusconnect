@@ -71,7 +71,7 @@ export default function Terms() {
                 Only verified users may transact on the Platform. All account information must be accurate and up-to-date. 
                 Misrepresentation of identity, qualifications, or capabilities will result in immediate account termination.
               </p>
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+              <div className="bg-slate-800 border border-yellow-200 rounded-lg p-4">
                 <div className="flex items-start gap-2">
                   <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
                   <div>
@@ -104,7 +104,7 @@ export default function Terms() {
                 <li>Provide regulatory approvals or certifications</li>
                 <li>Guarantee the safety or compliance of any flight</li>
               </ul>
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div className="bg-slate-800 border border-blue-200 rounded-lg p-4">
                 <p className="text-blue-800 font-medium">Aviation Compliance Notice</p>
                 <p className="text-blue-700 text-sm mt-1">
                   Operational aviation compliance rests with Operators and Pilots. Users must ensure they meet all applicable 
@@ -126,7 +126,7 @@ export default function Terms() {
               <p className="text-gunmetal">
                 Stratus Connect charges the following fees:
               </p>
-              <div className="bg-gray-50 rounded-lg p-4">
+              <div className="bg-slate-800 rounded-lg p-4">
                 <div className="grid gap-3">
                   <div className="flex justify-between items-center">
                     <span className="text-foreground font-medium">Broker-Operator Transactions</span>
@@ -161,7 +161,7 @@ export default function Terms() {
                 All transactions are processed through FCA or EU regulated payment partners using escrow or safeguarded e-money accounts. 
                 Stratus Connect never holds client funds directly.
               </p>
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+              <div className="bg-slate-800 border border-green-200 rounded-lg p-4">
                 <p className="text-green-800 font-medium">Regulated Payment Processing</p>
                 <p className="text-green-700 text-sm mt-1">
                   Funds are protected until both parties confirm service completion. Digital receipts and immutable audit logs 

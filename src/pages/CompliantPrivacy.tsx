@@ -12,7 +12,7 @@ export default function CompliantPrivacy() {
           
           <div className="space-y-8">
             {/* Compliance Notice */}
-            <Card className="border-blue-200 bg-blue-50">
+            <Card className="border-blue-200 bg-slate-800">
               <CardContent className="p-6">
                 <div className="flex items-start gap-3">
                   <Shield className="w-6 h-6 text-blue-600 mt-1" />
@@ -40,7 +40,7 @@ export default function CompliantPrivacy() {
                     our platform. We are responsible for determining how and why personal data is processed.
                   </p>
                   
-                  <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="bg-slate-800 rounded-lg p-4">
                     <p className="font-semibold">Contact Information</p>
                     <p className="text-sm text-gunmetal">
                       Email: privacy@stratusconnect.com<br />
@@ -145,7 +145,7 @@ export default function CompliantPrivacy() {
                   </p>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="flex items-start gap-3 p-4 bg-blue-50 rounded-lg">
+                    <div className="flex items-start gap-3 p-4 bg-slate-800 rounded-lg">
                       <Eye className="w-5 h-5 text-blue-600 mt-0.5" />
                       <div>
                         <h4 className="font-semibold text-blue-800">Right of Access</h4>
@@ -155,17 +155,17 @@ export default function CompliantPrivacy() {
                       </div>
                     </div>
                     
-                    <div className="flex items-start gap-3 p-4 bg-green-50 rounded-lg">
-                      <Shield className="w-5 h-5 text-green-600 mt-0.5" />
+                    <div className="flex items-start gap-3 p-4 bg-slate-800 rounded-lg">
+                      <Shield className="w-5 h-5 text-white mt-0.5" />
                       <div>
-                        <h4 className="font-semibold text-green-800">Right to Rectification</h4>
-                        <p className="text-green-700 text-sm">
+                        <h4 className="font-semibold text-white">Right to Rectification</h4>
+                        <p className="text-white text-sm">
                           Correct inaccurate or incomplete personal data
                         </p>
                       </div>
                     </div>
                     
-                    <div className="flex items-start gap-3 p-4 bg-red-50 rounded-lg">
+                    <div className="flex items-start gap-3 p-4 bg-slate-800 rounded-lg">
                       <Trash2 className="w-5 h-5 text-red-600 mt-0.5" />
                       <div>
                         <h4 className="font-semibold text-red-800">Right to Erasure</h4>
@@ -186,7 +186,7 @@ export default function CompliantPrivacy() {
                     </div>
                   </div>
                   
-                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                  <div className="bg-slate-800 border border-yellow-200 rounded-lg p-4">
                     <div className="flex items-start gap-2">
                       <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
                       <div>
@@ -215,19 +215,19 @@ export default function CompliantPrivacy() {
                   </p>
                   
                   <div className="space-y-3">
-                    <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <div className="flex justify-between items-center p-3 bg-slate-800 rounded-lg">
                       <span className="font-medium">Financial records</span>
                       <Badge variant="outline">6 years</Badge>
                     </div>
-                    <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <div className="flex justify-between items-center p-3 bg-slate-800 rounded-lg">
                       <span className="font-medium">KYC/AML documents</span>
                       <Badge variant="outline">5 years</Badge>
                     </div>
-                    <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <div className="flex justify-between items-center p-3 bg-slate-800 rounded-lg">
                       <span className="font-medium">Account data</span>
                       <Badge variant="outline">Until account closure + 1 year</Badge>
                     </div>
-                    <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <div className="flex justify-between items-center p-3 bg-slate-800 rounded-lg">
                       <span className="font-medium">Marketing data</span>
                       <Badge variant="outline">Until consent withdrawn</Badge>
                     </div>
@@ -308,7 +308,7 @@ export default function CompliantPrivacy() {
                     our cookie settings.
                   </p>
                   
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <div className="bg-slate-800 border border-blue-200 rounded-lg p-4">
                     <h4 className="font-semibold text-blue-800 mb-2">Cookie Categories</h4>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                       <div>
@@ -341,7 +341,7 @@ export default function CompliantPrivacy() {
                     your data rights, please contact us:
                   </p>
                   
-                  <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="bg-slate-800 rounded-lg p-4">
                     <p className="font-semibold">Data Protection Officer</p>
                     <p className="text-sm text-gunmetal">
                       Email: dpo@stratusconnect.com<br />
@@ -350,7 +350,7 @@ export default function CompliantPrivacy() {
                     </p>
                   </div>
                   
-                  <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                  <div className="bg-slate-800 border border-red-200 rounded-lg p-4">
                     <div className="flex items-start gap-2">
                       <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5" />
                       <div>

@@ -35,7 +35,7 @@ export default function Privacy() {
               <p className="text-gunmetal">
                 Stratus Connect Limited is the data controller for personal data processed through our platform.
               </p>
-              <div className="bg-gray-50 rounded-lg p-4">
+              <div className="bg-slate-800 rounded-lg p-4">
                 <p className="font-medium text-foreground">Contact Information</p>
                 <p className="text-gunmetal text-sm mt-1">
                   Email: privacy@stratusconnect.com<br />
@@ -81,7 +81,7 @@ export default function Privacy() {
                 </div>
               </div>
               
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+              <div className="bg-slate-800 border border-yellow-200 rounded-lg p-4">
                 <div className="flex items-start gap-2">
                   <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
                   <div>
@@ -168,23 +168,23 @@ export default function Privacy() {
                 We retain personal data only as long as necessary for the purposes outlined above:
               </p>
               <div className="grid gap-3">
-                <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                <div className="flex justify-between items-center p-3 bg-slate-800 rounded-lg">
                   <span className="text-foreground font-medium">Account Data</span>
                   <span className="text-gunmetal">Until account closure + 7 years</span>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                <div className="flex justify-between items-center p-3 bg-slate-800 rounded-lg">
                   <span className="text-foreground font-medium">Financial Records</span>
                   <span className="text-gunmetal">7 years (legal requirement)</span>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                <div className="flex justify-between items-center p-3 bg-slate-800 rounded-lg">
                   <span className="text-foreground font-medium">Aviation Credentials</span>
                   <span className="text-gunmetal">Until expiry + 2 years</span>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                <div className="flex justify-between items-center p-3 bg-slate-800 rounded-lg">
                   <span className="text-foreground font-medium">Marketing Data</span>
                   <span className="text-gunmetal">Until consent withdrawn</span>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                <div className="flex justify-between items-center p-3 bg-slate-800 rounded-lg">
                   <span className="text-foreground font-medium">Technical Data</span>
                   <span className="text-gunmetal">2 years</span>
                 </div>
@@ -242,7 +242,7 @@ export default function Privacy() {
                 </div>
               </div>
               
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div className="bg-slate-800 border border-blue-200 rounded-lg p-4">
                 <p className="text-blue-800 font-medium">Exercise Your Rights</p>
                 <p className="text-blue-700 text-sm mt-1">
                   To exercise any of these rights, contact us at privacy@stratusconnect.com or use our DSAR portal. 
@@ -322,7 +322,7 @@ export default function Privacy() {
               <p className="text-gunmetal">
                 If you have questions about this privacy notice or wish to exercise your rights, contact us:
               </p>
-              <div className="bg-gray-50 rounded-lg p-4">
+              <div className="bg-slate-800 rounded-lg p-4">
                 <p className="font-medium text-foreground">Data Protection Officer</p>
                 <p className="text-gunmetal text-sm mt-1">
                   Email: dpo@stratusconnect.com<br />

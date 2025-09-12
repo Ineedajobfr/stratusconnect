@@ -19,7 +19,7 @@ interface Task {
   status: 'pending' | 'in_progress' | 'completed' | 'cancelled' | 'snoozed';
   assigned_to?: string;
   created_at: string;
-  meta_json?: any;
+  meta_json?: Record<string, unknown>;
 }
 
 const priorityColors = {
@@ -186,7 +186,7 @@ export const TaskInbox: React.FC = () => {
       </div>
 
       <div className="flex gap-4">
-        <Select value={filter} onValueChange={(value: any) => setFilter(value)}>
+        <Select value={filter} onValueChange={(value: Record<string, unknown>) => setFilter(value)}>
           <SelectTrigger className="w-48">
             <SelectValue placeholder="Filter by status" />
           </SelectTrigger>

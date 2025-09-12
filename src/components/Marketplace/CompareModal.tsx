@@ -79,7 +79,7 @@ export default function CompareModal({
                   const fees = computeFees(listing.priceMinor);
 
                   return (
-                    <tr key={listing.id} className="border-b hover:bg-gray-50">
+                    <tr key={listing.id} className="border-b hover:bg-slate-800">
                       <td className="p-3">
                         <div className="flex items-center gap-2">
                           {listing.operatorVerified ? (
@@ -96,7 +96,7 @@ export default function CompareModal({
                             </Badge>
                           )}
                           {listing.operatorVerified && (
-                            <Badge className="bg-green-100 text-green-800 text-xs">
+                            <Badge className="bg-green-100 text-white text-xs">
                               Verified
                             </Badge>
                           )}
@@ -151,7 +151,7 @@ export default function CompareModal({
                         <div className="text-xs text-gunmetal">7%</div>
                       </td>
                       <td className="p-3">
-                        <div className="font-mono text-sm text-green-600">
+                        <div className="font-mono text-sm text-white">
                           {money(fees.toOperatorMinor, listing.currency)}
                         </div>
                       </td>
@@ -183,7 +183,7 @@ export default function CompareModal({
           </div>
 
           {/* Summary */}
-          <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+          <div className="mt-6 p-4 bg-slate-800 rounded-lg">
             <h3 className="font-semibold mb-3">Comparison Summary</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
               <div>

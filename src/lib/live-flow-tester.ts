@@ -9,7 +9,7 @@ export interface LiveFlowTest {
   amount: number;
   currency: string;
   status: 'pending' | 'processing' | 'completed' | 'failed';
-  receipt?: any;
+  receipt?: Record<string, unknown>;
   auditHash?: string;
   createdAt: string;
   completedAt?: string;

@@ -116,19 +116,19 @@ export const NotificationCenter: React.FC = () => {
   const getNotificationColor = (type: string) => {
     switch (type) {
       case 'quote_submitted':
-        return 'bg-blue-50 border-blue-200';
+        return 'bg-slate-800 border-blue-200';
       case 'quote_accepted':
-        return 'bg-green-50 border-green-200';
+        return 'bg-slate-800 border-green-200';
       case 'flight_delay':
-        return 'bg-yellow-50 border-yellow-200';
+        return 'bg-slate-800 border-yellow-200';
       case 'admin_alert':
-        return 'bg-red-50 border-red-200';
+        return 'bg-slate-800 border-red-200';
       case 'crew_assigned':
         return 'bg-purple-50 border-purple-200';
       case 'booking_created':
-        return 'bg-green-50 border-green-200';
+        return 'bg-slate-800 border-green-200';
       default:
-        return 'bg-gray-50 border-gray-200';
+        return 'bg-slate-800 border-gray-200';
     }
   };
 
@@ -199,7 +199,7 @@ export const NotificationCenter: React.FC = () => {
               key={notification.id} 
               className={`transition-colors ${
                 !notification.read 
-                  ? 'border-l-4 border-l-blue-500 bg-blue-50/50' 
+                  ? 'border-l-4 border-l-blue-500 bg-slate-800/50' 
                   : 'opacity-75'
               }`}
             >

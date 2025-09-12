@@ -121,13 +121,13 @@ export function DepositGate({ dealId, totalAmount, currency, broker, operator, o
 
   if (contactRevealed) {
     return (
-      <Card className="terminal-card border-green-200 bg-green-50">
+      <Card className="terminal-card border-green-200 bg-slate-800">
         <CardContent className="p-6">
           <div className="flex items-center gap-3 mb-4">
-            <CheckCircle className="w-6 h-6 text-green-600" />
+            <CheckCircle className="w-6 h-6 text-white" />
             <div>
-              <h3 className="text-lg font-semibold text-green-800">Contacts Revealed</h3>
-              <p className="text-green-700">All communications are now watermarked and audited</p>
+              <h3 className="text-lg font-semibold text-white">Contacts Revealed</h3>
+              <p className="text-white">All communications are now watermarked and audited</p>
             </div>
           </div>
           
@@ -171,7 +171,7 @@ export function DepositGate({ dealId, totalAmount, currency, broker, operator, o
 
   if (depositComplete) {
     return (
-      <Card className="terminal-card border-blue-200 bg-blue-50">
+      <Card className="terminal-card border-blue-200 bg-slate-800">
         <CardContent className="p-6">
           <div className="flex items-center gap-3 mb-4">
             <Shield className="w-6 h-6 text-blue-600" />
@@ -216,7 +216,7 @@ export function DepositGate({ dealId, totalAmount, currency, broker, operator, o
   }
 
   return (
-    <Card className="terminal-card border-red-200 bg-red-50">
+    <Card className="terminal-card border-red-200 bg-slate-800">
       <CardContent className="p-6">
         <div className="flex items-center gap-3 mb-4">
           <Lock className="w-6 h-6 text-red-600" />
@@ -272,7 +272,7 @@ export function DepositGate({ dealId, totalAmount, currency, broker, operator, o
           </div>
         </div>
         
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+        <div className="bg-slate-800 border border-yellow-200 rounded-lg p-4 mb-4">
           <div className="flex items-start gap-3">
             <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
             <div>

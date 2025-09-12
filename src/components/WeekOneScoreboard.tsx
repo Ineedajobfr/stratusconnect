@@ -94,13 +94,13 @@ export function WeekOneScoreboard({ onMetricsUpdate }: WeekOneScoreboardProps) {
   }, [onMetricsUpdate]);
 
   const getPerformanceColor = (value: number, thresholds: { good: number; warning: number }) => {
-    if (value >= thresholds.good) return 'text-green-600';
+    if (value >= thresholds.good) return 'text-white';
     if (value >= thresholds.warning) return 'text-yellow-600';
     return 'text-red-600';
   };
 
   const getPerformanceBadge = (value: number, thresholds: { good: number; warning: number }) => {
-    if (value >= thresholds.good) return 'bg-green-100 text-green-800';
+    if (value >= thresholds.good) return 'bg-green-100 text-white';
     if (value >= thresholds.warning) return 'bg-yellow-100 text-yellow-800';
     return 'bg-red-100 text-red-800';
   };
@@ -181,14 +181,14 @@ export function WeekOneScoreboard({ onMetricsUpdate }: WeekOneScoreboardProps) {
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <Target className="w-5 h-5 text-green-600" />
+                <Target className="w-5 h-5 text-white" />
                 <h3 className="font-semibold">Quote Response Rate</h3>
               </div>
               <Badge className={getPerformanceBadge(metrics.quoteResponseRate, { good: 80, warning: 60 })}>
                 {getPerformanceLabel(metrics.quoteResponseRate, { good: 80, warning: 60 })}
               </Badge>
             </div>
-            <div className="text-3xl font-bold text-green-600 mb-2">
+            <div className="text-3xl font-bold text-white mb-2">
               {metrics.quoteResponseRate}%
             </div>
             <div className="text-sm text-gray-600">
@@ -289,14 +289,14 @@ export function WeekOneScoreboard({ onMetricsUpdate }: WeekOneScoreboardProps) {
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <DollarSign className="w-5 h-5 text-green-600" />
+                <DollarSign className="w-5 h-5 text-white" />
                 <h3 className="font-semibold">Time to Payout</h3>
               </div>
               <Badge className={getPerformanceBadge(metrics.timeToPayout, { good: 4, warning: 8 })}>
                 {getPerformanceLabel(metrics.timeToPayout, { good: 4, warning: 8 })}
               </Badge>
             </div>
-            <div className="text-3xl font-bold text-green-600 mb-2">
+            <div className="text-3xl font-bold text-white mb-2">
               {metrics.timeToPayout}h
             </div>
             <div className="text-sm text-gray-600">
@@ -344,7 +344,7 @@ export function WeekOneScoreboard({ onMetricsUpdate }: WeekOneScoreboardProps) {
               <div className="text-sm text-gray-600">Total Deals</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-green-600 mb-1">
+              <div className="text-2xl font-bold text-white mb-1">
                 {new Intl.NumberFormat('en-GB', {
                   style: 'currency',
                   currency: metrics.currency

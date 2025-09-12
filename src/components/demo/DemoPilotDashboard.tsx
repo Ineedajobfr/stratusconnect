@@ -323,11 +323,11 @@ export const DemoPilotDashboard: React.FC = () => {
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="text-center p-4 bg-gray-700 rounded-lg">
-                    <div className="text-2xl font-bold text-green-400">99.2%</div>
+                    <div className="text-2xl font-bold text-white">99.2%</div>
                     <div className="text-sm text-gray-400">Safety Rating</div>
                   </div>
                   <div className="text-center p-4 bg-gray-700 rounded-lg">
-                    <div className="text-2xl font-bold text-green-400">0</div>
+                    <div className="text-2xl font-bold text-white">0</div>
                     <div className="text-sm text-gray-400">Safety Incidents</div>
                   </div>
                   <div className="text-center p-4 bg-gray-700 rounded-lg">
@@ -338,15 +338,15 @@ export const DemoPilotDashboard: React.FC = () => {
                 <div className="space-y-3">
                   <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
                     <span className="text-white">Background Check</span>
-                    <CheckCircle className="h-5 w-5 text-green-400" />
+                    <CheckCircle className="h-5 w-5 text-white" />
                   </div>
                   <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
                     <span className="text-white">Drug Testing</span>
-                    <CheckCircle className="h-5 w-5 text-green-400" />
+                    <CheckCircle className="h-5 w-5 text-white" />
                   </div>
                   <div className="flex items-center justify-between p-3 bg-gray-700 rounded">
                     <span className="text-white">Security Clearance</span>
-                    <CheckCircle className="h-5 w-5 text-green-400" />
+                    <CheckCircle className="h-5 w-5 text-white" />
                   </div>
                 </div>
               </CardContent>
@@ -542,11 +542,11 @@ export const DemoPilotDashboard: React.FC = () => {
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                   <div className="text-center p-4 bg-gray-700 rounded-lg">
-                    <div className="text-2xl font-bold text-green-400">$52,800</div>
+                    <div className="text-2xl font-bold text-white">$52,800</div>
                     <div className="text-sm text-gray-400">This Month</div>
                   </div>
                   <div className="text-center p-4 bg-gray-700 rounded-lg">
-                    <div className="text-2xl font-bold text-green-400">$445,200</div>
+                    <div className="text-2xl font-bold text-white">$445,200</div>
                     <div className="text-sm text-gray-400">This Year</div>
                   </div>
                   <div className="text-center p-4 bg-gray-700 rounded-lg">
@@ -564,7 +564,7 @@ export const DemoPilotDashboard: React.FC = () => {
                             <p className="text-sm text-gray-400">{assignment.date}</p>
                           </div>
                           <div className="text-right">
-                            <div className="text-green-400 font-medium">${assignment.earnings}</div>
+                            <div className="text-white font-medium">${assignment.earnings}</div>
                             <div className="text-sm text-gray-400">Paid</div>
                           </div>
                         </div>

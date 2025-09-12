@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -34,7 +34,7 @@ interface IntegrationLog {
   integration_id: string;
   event_type: 'sync' | 'error' | 'webhook' | 'test';
   message: string;
-  response_data: any;
+  response_data: Record<string, unknown> | null;
   created_at: string;
 }
 
@@ -111,7 +111,7 @@ export default function APIIntegrations() {
     }
   };
 
-  const fetchIntegrations = async () => {
+  const fetchIntegrations = useCallback(async () => {
     try {
       const { data, error } = await supabase
         .from("api_integrations")
@@ -120,14 +120,14 @@ export default function APIIntegrations() {
 
       if (error) throw error;
       setIntegrations((data || []) as APIIntegration[]);
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: "Failed to fetch API integrations",
         variant: "destructive",
       });
     }
-  };
+  }, [toast]);
 
   const createIntegration = async () => {
     if (!integrationForm.integration_name || !integrationForm.api_endpoint) {
@@ -166,7 +166,7 @@ export default function APIIntegrations() {
         auto_sync: true
       });
       fetchIntegrations();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: error.message || "Failed to create integration",
@@ -202,7 +202,7 @@ export default function APIIntegrations() {
       });
 
       fetchIntegrations();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: "Failed to test integration",
@@ -228,7 +228,7 @@ export default function APIIntegrations() {
       });
 
       fetchIntegrations();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: "Failed to sync integration",
@@ -254,7 +254,7 @@ export default function APIIntegrations() {
       });
 
       fetchIntegrations();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: "Failed to update integration status",

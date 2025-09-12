@@ -25,7 +25,7 @@ export function RankingRulesPage() {
       description: 'Average time to first quote in minutes',
       icon: <Clock className="w-5 h-5" />,
       tiers: [
-        { range: '0-5 min', points: 25, color: 'text-green-600' },
+        { range: '0-5 min', points: 25, color: 'text-white' },
         { range: '5-10 min', points: 20, color: 'text-yellow-600' },
         { range: '10-15 min', points: 15, color: 'text-orange-600' },
         { range: '15+ min', points: 5, color: 'text-red-600' }
@@ -37,7 +37,7 @@ export function RankingRulesPage() {
       description: 'Percentage of quotes accepted by brokers',
       icon: <CheckCircle className="w-5 h-5" />,
       tiers: [
-        { range: '90%+', points: 20, color: 'text-green-600' },
+        { range: '90%+', points: 20, color: 'text-white' },
         { range: '80-90%', points: 15, color: 'text-yellow-600' },
         { range: '70-80%', points: 10, color: 'text-orange-600' },
         { range: '<70%', points: 5, color: 'text-red-600' }
@@ -49,7 +49,7 @@ export function RankingRulesPage() {
       description: 'Percentage of accepted deals completed successfully',
       icon: <Target className="w-5 h-5" />,
       tiers: [
-        { range: '99%+', points: 20, color: 'text-green-600' },
+        { range: '99%+', points: 20, color: 'text-white' },
         { range: '97-99%', points: 15, color: 'text-yellow-600' },
         { range: '95-97%', points: 10, color: 'text-orange-600' },
         { range: '<95%', points: 5, color: 'text-red-600' }
@@ -61,7 +61,7 @@ export function RankingRulesPage() {
       description: 'Percentage of deals resulting in disputes',
       icon: <AlertTriangle className="w-5 h-5" />,
       tiers: [
-        { range: '0%', points: 15, color: 'text-green-600' },
+        { range: '0%', points: 15, color: 'text-white' },
         { range: '0-1%', points: 12, color: 'text-yellow-600' },
         { range: '1-3%', points: 8, color: 'text-orange-600' },
         { range: '3%+', points: 0, color: 'text-red-600' }
@@ -73,7 +73,7 @@ export function RankingRulesPage() {
       description: 'Percentage of payments processed through platform',
       icon: <DollarSign className="w-5 h-5" />,
       tiers: [
-        { range: '100%', points: 10, color: 'text-green-600' },
+        { range: '100%', points: 10, color: 'text-white' },
         { range: '95-99%', points: 8, color: 'text-yellow-600' },
         { range: '90-95%', points: 5, color: 'text-orange-600' },
         { range: '<90%', points: 0, color: 'text-red-600' }
@@ -85,7 +85,7 @@ export function RankingRulesPage() {
       description: 'Verification and compliance status',
       icon: <Shield className="w-5 h-5" />,
       tiers: [
-        { range: 'Verified + Clean', points: 10, color: 'text-green-600' },
+        { range: 'Verified + Clean', points: 10, color: 'text-white' },
         { range: 'Verified + Pending', points: 7, color: 'text-yellow-600' },
         { range: 'Pending Review', points: 3, color: 'text-orange-600' },
         { range: 'Not Verified', points: 0, color: 'text-red-600' }
@@ -141,24 +141,24 @@ export function RankingRulesPage() {
         </div>
 
         {/* Overview */}
-        <Card className="mb-8 border-green-200 bg-green-50">
+        <Card className="mb-8 border-green-200 bg-slate-800">
           <CardContent className="p-6">
             <div className="flex items-start gap-3">
-              <BarChart3 className="w-6 h-6 text-green-600 mt-1" />
+              <BarChart3 className="w-6 h-6 text-white mt-1" />
               <div>
-                <h3 className="text-lg font-semibold text-green-800 mb-2">Merit-Based Ranking System</h3>
-                <p className="text-green-700 mb-4">
+                <h3 className="text-lg font-semibold text-white mb-2">Merit-Based Ranking System</h3>
+                <p className="text-white mb-4">
                   Our ranking algorithm rewards operators who provide fast, reliable service while staying within our platform ecosystem. 
                   The system is designed to surface the best operators while discouraging off-platform behavior.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-green-600">100</div>
-                    <div className="text-sm text-green-700">Base Points</div>
+                    <div className="text-2xl font-bold text-white">100</div>
+                    <div className="text-sm text-white">Base Points</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-green-600">+15</div>
-                    <div className="text-sm text-green-700">Max Bonus</div>
+                    <div className="text-2xl font-bold text-white">+15</div>
+                    <div className="text-sm text-white">Max Bonus</div>
                   </div>
                   <div className="text-center">
                     <div className="text-2xl font-bold text-red-600">-30</div>
@@ -194,7 +194,7 @@ export function RankingRulesPage() {
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
                     {factor.tiers.map((tier, tierIndex) => (
-                      <div key={tierIndex} className="text-center p-2 bg-gray-50 rounded">
+                      <div key={tierIndex} className="text-center p-2 bg-slate-800 rounded">
                         <div className={`font-medium ${tier.color}`}>{tier.range}</div>
                         <div className="text-sm text-gray-600">{tier.points} pts</div>
                       </div>
@@ -217,11 +217,11 @@ export function RankingRulesPage() {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {bonusFactors.map((factor, index) => (
-                <div key={index} className="flex items-start gap-3 p-3 bg-green-50 rounded-lg">
+                <div key={index} className="flex items-start gap-3 p-3 bg-slate-800 rounded-lg">
                   {factor.icon}
                   <div>
-                    <h4 className="font-medium text-green-800">{factor.factor}</h4>
-                    <p className="text-sm text-green-700">{factor.description}</p>
+                    <h4 className="font-medium text-white">{factor.factor}</h4>
+                    <p className="text-sm text-white">{factor.description}</p>
                   </div>
                 </div>
               ))}
@@ -240,7 +240,7 @@ export function RankingRulesPage() {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {penaltyFactors.map((factor, index) => (
-                <div key={index} className="flex items-start gap-3 p-3 bg-red-50 rounded-lg">
+                <div key={index} className="flex items-start gap-3 p-3 bg-slate-800 rounded-lg">
                   {factor.icon}
                   <div>
                     <h4 className="font-medium text-red-800">{factor.factor}</h4>
@@ -263,9 +263,9 @@ export function RankingRulesPage() {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="text-center p-4 bg-green-100 rounded-lg">
-                <div className="text-2xl font-bold text-green-600">Tier 1</div>
-                <div className="text-sm text-green-700">90+ points</div>
-                <div className="text-xs text-green-600 mt-1">Elite Operators</div>
+                <div className="text-2xl font-bold text-white">Tier 1</div>
+                <div className="text-sm text-white">90+ points</div>
+                <div className="text-xs text-white mt-1">Elite Operators</div>
               </div>
               <div className="text-center p-4 bg-blue-100 rounded-lg">
                 <div className="text-2xl font-bold text-blue-600">Tier 2</div>
@@ -287,7 +287,7 @@ export function RankingRulesPage() {
         </Card>
 
         {/* Transparency Notice */}
-        <Card className="border-blue-200 bg-blue-50">
+        <Card className="border-blue-200 bg-slate-800">
           <CardContent className="p-6">
             <div className="flex items-start gap-3">
               <Shield className="w-6 h-6 text-blue-600 mt-1" />

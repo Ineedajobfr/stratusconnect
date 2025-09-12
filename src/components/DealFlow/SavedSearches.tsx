@@ -187,7 +187,7 @@ export function SavedSearches() {
   const getAlertIcon = (type: string) => {
     switch (type) {
       case 'price_drop':
-        return <TrendingDown className="w-4 h-4 text-green-600" />;
+        return <TrendingDown className="w-4 h-4 text-white" />;
       case 'last_minute':
         return <Clock className="w-4 h-4 text-orange-600" />;
       case 'new_match':
@@ -214,9 +214,9 @@ export function SavedSearches() {
     <div className="space-y-6">
       {/* Alerts */}
       {alerts.length > 0 && (
-        <Card className="terminal-card">
+        <Card className="card">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-body">
               <Bell className="w-5 h-5" />
               Active Alerts ({alerts.filter(a => !a.read).length})
             </CardTitle>
@@ -227,7 +227,7 @@ export function SavedSearches() {
                 <div
                   key={alert.id}
                   className={`p-3 rounded-lg border ${
-                    alert.read ? 'bg-gray-50 border-gray-200' : 'bg-blue-50 border-blue-200'
+                    alert.read ? 'bg-surface border-default' : 'bg-elev border-default'
                   }`}
                 >
                   <div className="flex items-start justify-between">
@@ -298,7 +298,7 @@ export function SavedSearches() {
                     <div className="flex items-center gap-2 mb-2">
                       <h3 className="font-semibold">{search.name}</h3>
                       <Badge variant="outline" className={
-                        search.active ? 'text-green-600' : 'text-gray-600'
+                        search.active ? 'text-white' : 'text-gray-600'
                       }>
                         {search.active ? 'Active' : 'Inactive'}
                       </Badge>
@@ -338,7 +338,7 @@ export function SavedSearches() {
                         </Badge>
                       )}
                       {search.priceDropAlert && (
-                        <Badge variant="outline" className="text-green-600">
+                        <Badge variant="outline" className="text-white">
                           Price Drop Alert ({search.alertThreshold}%)
                         </Badge>
                       )}

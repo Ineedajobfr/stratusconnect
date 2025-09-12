@@ -3,8 +3,8 @@ import { supabase } from '@/integrations/supabase/client';
 
 interface RealtimePayload {
   eventType: 'INSERT' | 'UPDATE' | 'DELETE';
-  new: Record<string, any>;
-  old: Record<string, any>;
+  new: Record<string, unknown>;
+  old: Record<string, unknown>;
   schema: string;
   table: string;
 }

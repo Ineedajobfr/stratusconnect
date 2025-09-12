@@ -26,10 +26,10 @@ export function TermsAndConditions() {
             <div className="space-y-6">
               <div className="bg-blue-900/30 border border-blue-700 rounded-lg p-4">
                 <div className="flex items-start gap-3">
-                  <Shield className="w-5 h-5 text-green-600 mt-0.5" />
+                  <Shield className="w-5 h-5 text-white mt-0.5" />
                   <div>
-                    <h3 className="font-medium text-green-800">FCA Compliant Platform</h3>
-                    <p className="text-green-700 text-sm mt-1">
+                    <h3 className="font-medium text-white">FCA Compliant Platform</h3>
+                    <p className="text-white text-sm mt-1">
                       StratusConnect operates as a regulated payment platform. We never hold client funds. 
                       All payments are processed through Stripe Connect with clear fee disclosure.
                     </p>
@@ -51,7 +51,7 @@ export function TermsAndConditions() {
 
               <section>
                 <h2 className="text-2xl font-semibold mb-4">2. Fee Structure</h2>
-                <div className="bg-gray-50 rounded-lg p-4">
+                <div className="bg-slate-800 rounded-lg p-4">
                   <h3 className="font-semibold mb-2">Platform Fees (Enforced in Code)</h3>
                   <ul className="list-disc list-inside space-y-1">
                     <li><strong>7% platform commission</strong> on all broker-operator charter deals</li>
@@ -206,7 +206,7 @@ export function PrivacyNotice() {
 
               <section>
                 <h2 className="text-2xl font-semibold mb-4">5. Your Rights</h2>
-                <div className="bg-gray-50 rounded-lg p-4">
+                <div className="bg-slate-800 rounded-lg p-4">
                   <h3 className="font-semibold mb-2">GDPR Data Rights</h3>
                   <ul className="list-disc list-inside space-y-1">
                     <li><strong>Access:</strong> Request a copy of your personal data</li>
@@ -279,10 +279,10 @@ export function ServiceLevelAgreement() {
             <div className="space-y-6">
               <div className="bg-blue-900/30 border border-blue-700 rounded-lg p-4">
                 <div className="flex items-start gap-3">
-                  <Shield className="w-5 h-5 text-green-600 mt-0.5" />
+                  <Shield className="w-5 h-5 text-white mt-0.5" />
                   <div>
-                    <h3 className="font-medium text-green-800">Live Monitoring</h3>
-                    <p className="text-green-700 text-sm mt-1">
+                    <h3 className="font-medium text-white">Live Monitoring</h3>
+                    <p className="text-white text-sm mt-1">
                       Our SLA is based on real-time monitoring data from UptimeRobot. 
                       No static claims are made. Check our status page for live metrics.
                     </p>
@@ -307,7 +307,7 @@ export function ServiceLevelAgreement() {
 
               <section>
                 <h2 className="text-2xl font-semibold mb-4">2. Response Time Targets</h2>
-                <div className="bg-gray-50 rounded-lg p-4">
+                <div className="bg-slate-800 rounded-lg p-4">
                   <h3 className="font-semibold mb-2">API Response Times (Live Data)</h3>
                   <ul className="list-disc list-inside space-y-1">
                     <li><strong>P50:</strong> &lt; 200ms (median response time)</li>
@@ -325,7 +325,7 @@ export function ServiceLevelAgreement() {
                 <div className="overflow-x-auto">
                   <table className="w-full border-collapse border border-gray-300">
                     <thead>
-                      <tr className="bg-gray-50">
+                      <tr className="bg-slate-800">
                         <th className="border border-gray-300 px-4 py-2 text-left">Uptime</th>
                         <th className="border border-gray-300 px-4 py-2 text-left">Service Credit</th>
                       </tr>

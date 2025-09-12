@@ -271,7 +271,7 @@ export function MultiLegRFQ() {
           </div>
 
           {/* Trip Summary */}
-          <Card className="p-4 bg-gray-50">
+          <Card className="p-4 bg-slate-800">
             <h3 className="font-semibold mb-2">Trip Summary</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
               <div className="flex items-center gap-2">
@@ -344,7 +344,7 @@ export function MultiLegRFQ() {
             {rfq.attachments.length > 0 && (
               <div className="mt-4 space-y-2">
                 {rfq.attachments.map(attachment => (
-                  <div key={attachment.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                  <div key={attachment.id} className="flex items-center justify-between p-2 bg-slate-800 rounded">
                     <div className="flex items-center gap-2">
                       <FileText className="w-4 h-4" />
                       <span className="text-sm">{attachment.name}</span>

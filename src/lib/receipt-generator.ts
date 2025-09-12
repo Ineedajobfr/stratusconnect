@@ -60,9 +60,9 @@ class ReceiptGenerator {
    */
   async generateDealReceipt(data: {
     transactionId: string;
-    broker: any;
-    operator: any;
-    deal: any;
+    broker: Record<string, unknown>;
+    operator: Record<string, unknown>;
+    deal: Record<string, unknown>;
     totalAmount: number;
     currency: string;
     stripePaymentIntentId: string;
@@ -118,7 +118,7 @@ class ReceiptGenerator {
    */
   async generateHiringReceipt(data: {
     transactionId: string;
-    operator: any;
+    operator: Record<string, unknown>;
     pilot?: any;
     crew?: any;
     totalAmount: number;

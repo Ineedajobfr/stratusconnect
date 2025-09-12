@@ -39,7 +39,7 @@ interface DSARRequest {
   completedAt?: string;
   description: string;
   userId: string;
-  requestData?: any;
+  requestData?: Record<string, unknown>;
 }
 
 export default function DSARWorkflow() {
@@ -88,7 +88,7 @@ export default function DSARWorkflow() {
       case 'processing':
         return <AlertTriangle className="w-4 h-4 text-blue-500" />;
       case 'completed':
-        return <CheckCircle className="w-4 h-4 text-green-500" />;
+        return <CheckCircle className="w-4 h-4 text-white" />;
       case 'rejected':
         return <AlertTriangle className="w-4 h-4 text-red-500" />;
       default:
@@ -103,7 +103,7 @@ export default function DSARWorkflow() {
       case 'processing':
         return 'bg-blue-100 text-blue-800';
       case 'completed':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-100 text-white';
       case 'rejected':
         return 'bg-red-100 text-red-800';
       default:
@@ -141,7 +141,7 @@ export default function DSARWorkflow() {
             <DialogHeader>
               <DialogTitle>Create DSAR Request</DialogTitle>
             </DialogHeader>
-            <form action={createDSARRequest} className="space-y-4">
+            <form onSubmit={createDSARRequest} className="space-y-4">
               <div>
                 <Label htmlFor="type">Request Type</Label>
                 <Select name="type" required>
@@ -185,7 +185,7 @@ export default function DSARWorkflow() {
       </div>
 
       {/* Compliance Notice */}
-      <Card className="bg-blue-50 border-blue-200">
+      <Card className="bg-slate-800 border-blue-200">
         <CardContent className="p-4">
           <div className="flex items-start gap-3">
             <Shield className="w-5 h-5 text-blue-600 mt-0.5" />

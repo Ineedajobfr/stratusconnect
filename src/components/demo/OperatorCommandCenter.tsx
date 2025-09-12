@@ -219,11 +219,11 @@ export const OperatorCommandCenter: React.FC = () => {
             </CardHeader>
             <CardContent className="space-y-2">
               <div className="flex items-center space-x-2">
-                <CheckCircle className="h-4 w-4 text-green-400" />
+                <CheckCircle className="h-4 w-4 text-white" />
                 <span className="text-white text-sm font-mono">FAST LICENST LAPSED</span>
               </div>
               <div className="flex items-center space-x-2">
-                <CheckCircle className="h-4 w-4 text-green-400" />
+                <CheckCircle className="h-4 w-4 text-white" />
                 <span className="text-white text-sm font-mono">NON APPROXED ACC</span>
               </div>
             </CardContent>

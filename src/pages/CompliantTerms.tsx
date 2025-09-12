@@ -12,7 +12,7 @@ export default function CompliantTerms() {
           
           <div className="space-y-8">
             {/* Compliance Notice */}
-            <Card className="border-blue-200 bg-blue-50">
+            <Card className="border-blue-200 bg-slate-800">
               <CardContent className="p-6">
                 <div className="flex items-start gap-3">
                   <Shield className="w-6 h-6 text-blue-600 mt-1" />
@@ -49,10 +49,10 @@ export default function CompliantTerms() {
                     </div>
                     <div className="p-4 border rounded-lg">
                       <div className="flex items-center gap-2 mb-2">
-                        <User className="w-5 h-5 text-green-600" />
+                        <User className="w-5 h-5 text-white" />
                         <span className="font-semibold">Operator Hiring</span>
                       </div>
-                      <p className="text-2xl font-bold text-green-600">10%</p>
+                      <p className="text-2xl font-bold text-white">10%</p>
                       <p className="text-sm text-gunmetal">Hiring fee when operators hire through platform</p>
                     </div>
                     <div className="p-4 border rounded-lg">
@@ -82,7 +82,7 @@ export default function CompliantTerms() {
                     process, ensuring full compliance with FCA safeguarding requirements.
                   </p>
                   
-                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                  <div className="bg-slate-800 border border-yellow-200 rounded-lg p-4">
                     <div className="flex items-start gap-2">
                       <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
                       <div>
@@ -142,7 +142,7 @@ export default function CompliantTerms() {
                   </p>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="p-4 bg-gray-50 rounded-lg">
+                    <div className="p-4 bg-slate-800 rounded-lg">
                       <h4 className="font-semibold mb-2">Data Rights</h4>
                       <ul className="text-sm text-gunmetal space-y-1">
                         <li>• Right to access your data</li>
@@ -151,7 +151,7 @@ export default function CompliantTerms() {
                         <li>• Right to data portability</li>
                       </ul>
                     </div>
-                    <div className="p-4 bg-gray-50 rounded-lg">
+                    <div className="p-4 bg-slate-800 rounded-lg">
                       <h4 className="font-semibold mb-2">Security Measures</h4>
                       <ul className="text-sm text-gunmetal space-y-1">
                         <li>• TLS 1.3 encryption in transit</li>
@@ -178,7 +178,7 @@ export default function CompliantTerms() {
                     data from UptimeRobot monitoring.
                   </p>
                   
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <div className="bg-slate-800 border border-blue-200 rounded-lg p-4">
                     <h4 className="font-semibold text-blue-800 mb-2">Current Status</h4>
                     <p className="text-blue-700 text-sm">
                       Live uptime and performance metrics are available at{' '}
@@ -223,7 +223,7 @@ export default function CompliantTerms() {
                     For questions about these terms or to exercise your data rights, please contact:
                   </p>
                   
-                  <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="bg-slate-800 rounded-lg p-4">
                     <p className="font-semibold">Stratus Connect Limited</p>
                     <p className="text-sm text-gunmetal">
                       Email: legal@stratusconnect.com<br />

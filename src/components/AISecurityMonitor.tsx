@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -6,13 +6,21 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { AlertTriangle, Shield, Eye, Clock } from 'lucide-react';
 
+interface SecurityEventMetadata {
+  user_agent?: string;
+  ip_address?: string;
+  location?: string;
+  device_info?: Record<string, unknown>;
+  additional_data?: Record<string, unknown>;
+}
+
 interface SecurityEvent {
   id: string;
   event_type: string;
   severity: string;
   description: string;
   created_at: string;
-  metadata: any;
+  metadata: SecurityEventMetadata;
 }
 
 interface AIWarning {
@@ -31,7 +39,7 @@ const AISecurityMonitor: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
-  const fetchSecurityData = async () => {
+  const fetchSecurityData = useCallback(async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
@@ -68,7 +76,7 @@ const AISecurityMonitor: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [toast]);
 
   const acknowledgeWarning = async (warningId: string) => {
     try {
@@ -122,7 +130,7 @@ const AISecurityMonitor: React.FC = () => {
 
   useEffect(() => {
     fetchSecurityData();
-  }, []);
+  }, [fetchSecurityData]);
 
   if (loading) {
     return (

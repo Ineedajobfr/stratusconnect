@@ -185,7 +185,7 @@ export function QuoteComposer({ rfqId, operatorId, route, aircraft, passengers, 
         <CardContent className="space-y-6">
           {/* Price Band Suggestion */}
           {priceBand && (
-            <Card className="p-4 bg-blue-50 border-blue-200">
+            <Card className="p-4 bg-slate-800 border-blue-200">
               <div className="flex items-center gap-2 mb-2">
                 <Target className="w-4 h-4 text-blue-600" />
                 <h3 className="font-semibold text-blue-800">Price to Win</h3>
@@ -333,9 +333,9 @@ export function QuoteComposer({ rfqId, operatorId, route, aircraft, passengers, 
           {/* Margin Guard */}
           {marginBreakdown && (
             <Card className={`p-4 border-2 ${
-              marginStatus.status === 'danger' ? 'border-red-200 bg-red-50' :
-              marginStatus.status === 'warning' ? 'border-yellow-200 bg-yellow-50' :
-              'border-green-200 bg-green-50'
+              marginStatus.status === 'danger' ? 'border-red-200 bg-slate-800' :
+              marginStatus.status === 'warning' ? 'border-yellow-200 bg-slate-800' :
+              'border-green-200 bg-slate-800'
             }`}>
               <div className="flex items-center gap-2 mb-4">
                 {MarginIcon && <MarginIcon className={`w-5 h-5 text-${marginStatus.color}-600`} />}
@@ -365,7 +365,7 @@ export function QuoteComposer({ rfqId, operatorId, route, aircraft, passengers, 
                   <span className={`font-medium ${
                     marginStatus.status === 'danger' ? 'text-red-600' :
                     marginStatus.status === 'warning' ? 'text-yellow-600' :
-                    'text-green-600'
+                    'text-white'
                   }`}>
                     £{(marginBreakdown.margin / 100).toLocaleString()}
                   </span>

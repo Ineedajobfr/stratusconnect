@@ -105,7 +105,7 @@ export default function AdvancedAnalytics() {
 
       if (error) throw error;
       setMarketTrends((data || []) as MarketTrend[]);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error fetching market trends:", error);
     }
   };
@@ -124,7 +124,7 @@ export default function AdvancedAnalytics() {
 
       if (error) throw error;
       setPerformanceMetrics(data || []);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error fetching performance metrics:", error);
     }
   };

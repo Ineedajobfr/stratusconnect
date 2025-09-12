@@ -66,9 +66,9 @@ export default function SLA() {
               </p>
               
               <div className="grid gap-4">
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                  <h4 className="font-medium text-green-800 mb-2">Included in Uptime Calculation</h4>
-                  <ul className="text-green-700 text-sm space-y-1">
+                <div className="bg-slate-800 border border-green-200 rounded-lg p-4">
+                  <h4 className="font-medium text-white mb-2">Included in Uptime Calculation</h4>
+                  <ul className="text-white text-sm space-y-1">
                     <li>• Platform API availability</li>
                     <li>• User authentication services</li>
                     <li>• Payment processing systems</li>
@@ -76,7 +76,7 @@ export default function SLA() {
                   </ul>
                 </div>
                 
-                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <div className="bg-slate-800 border border-yellow-200 rounded-lg p-4">
                   <h4 className="font-medium text-yellow-800 mb-2">Excluded from Uptime Calculation</h4>
                   <ul className="text-yellow-700 text-sm space-y-1">
                     <li>• Scheduled maintenance (72+ hour notice)</li>
@@ -142,7 +142,7 @@ export default function SLA() {
                 </table>
               </div>
               
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div className="bg-slate-800 border border-blue-200 rounded-lg p-4">
                 <p className="text-blue-800 font-medium">Service Credit Process</p>
                 <p className="text-blue-700 text-sm mt-1">
                   Service credits are automatically calculated and applied to your next billing cycle. 
@@ -166,19 +166,19 @@ export default function SLA() {
               </p>
               
               <div className="grid gap-4">
-                <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                <div className="flex justify-between items-center p-3 bg-slate-800 rounded-lg">
                   <span className="text-foreground font-medium">API Response Time (P95)</span>
                   <span className="text-gunmetal">&lt; 500ms</span>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                <div className="flex justify-between items-center p-3 bg-slate-800 rounded-lg">
                   <span className="text-foreground font-medium">Database Query Time (P95)</span>
                   <span className="text-gunmetal">&lt; 100ms</span>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                <div className="flex justify-between items-center p-3 bg-slate-800 rounded-lg">
                   <span className="text-foreground font-medium">Payment Processing Time</span>
                   <span className="text-gunmetal">&lt; 2 seconds</span>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                <div className="flex justify-between items-center p-3 bg-slate-800 rounded-lg">
                   <span className="text-foreground font-medium">Error Rate</span>
                   <span className="text-gunmetal">&lt; 0.1%</span>
                 </div>
@@ -222,7 +222,7 @@ export default function SLA() {
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm font-bold">4</div>
+                  <div className="w-6 h-6 bg-green-100 text-white rounded-full flex items-center justify-center text-sm font-bold">4</div>
                   <div>
                     <h4 className="font-medium text-foreground">Resolution</h4>
                     <p className="text-gunmetal text-sm">Critical issues resolved within 4 hours</p>
@@ -306,7 +306,7 @@ export default function SLA() {
                 For SLA-related questions or to report service issues:
               </p>
               
-              <div className="bg-gray-50 rounded-lg p-4">
+              <div className="bg-slate-800 rounded-lg p-4">
                 <p className="font-medium text-foreground">Support Channels</p>
                 <div className="grid gap-2 mt-2 text-sm text-gunmetal">
                   <div>Email: support@stratusconnect.com</div>
@@ -315,7 +315,7 @@ export default function SLA() {
                 </div>
               </div>
               
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div className="bg-slate-800 border border-blue-200 rounded-lg p-4">
                 <p className="text-blue-800 font-medium">Escalation Process</p>
                 <p className="text-blue-700 text-sm mt-1">
                   If you believe we have not met our SLA commitments, please contact our support team 

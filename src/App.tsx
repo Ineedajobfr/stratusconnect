@@ -95,13 +95,14 @@ const App = memo(() => {
   logger.debug('StratusConnect App initializing...');
 
   return (
-    <ErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <BrowserRouter>
-            <MemoizedNavigationOptimizer />
-            <StatusBanner />
-            <AuthProvider>
+    <div className="min-h-screen bg-app text-body">
+      <ErrorBoundary>
+        <QueryClientProvider client={queryClient}>
+          <TooltipProvider>
+            <BrowserRouter>
+              <MemoizedNavigationOptimizer />
+              <StatusBanner />
+              <AuthProvider>
               <MemoizedToaster />
               <MemoizedSonner />
               <Suspense fallback={<FullPageLoader />}>
@@ -248,12 +249,13 @@ const App = memo(() => {
               <Route path="*" element={<NotFound />} />
             </Routes>
               </Suspense>
-            </AuthProvider>
-            <Footer />
-          </BrowserRouter>
-          </TooltipProvider>
-        </QueryClientProvider>
-      </ErrorBoundary>
+              </AuthProvider>
+              <Footer />
+            </BrowserRouter>
+            </TooltipProvider>
+          </QueryClientProvider>
+        </ErrorBoundary>
+      </div>
   );
 });
 

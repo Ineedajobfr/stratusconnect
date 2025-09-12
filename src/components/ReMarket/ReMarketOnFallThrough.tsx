@@ -431,7 +431,7 @@ export function ReMarketOnFallThrough({ dealId, onDealReMatched }: ReMarketOnFal
                       </p>
                     </div>
                     <div className="text-right text-sm">
-                      <p className="font-semibold text-green-600">
+                      <p className="font-semibold text-white">
                         Match Score: {match.matchScore}%
                       </p>
                       <p className="text-gray-500">
@@ -482,7 +482,7 @@ export function ReMarketOnFallThrough({ dealId, onDealReMatched }: ReMarketOnFal
                   )}
 
                   {match.status === 'accepted' && (
-                    <div className="flex items-center gap-2 text-green-600">
+                    <div className="flex items-center gap-2 text-white">
                       <CheckCircle className="w-4 h-4" />
                       <span className="text-sm">Quote accepted - Deal re-matched!</span>
                     </div>

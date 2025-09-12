@@ -104,7 +104,7 @@ export const QuoteCard: React.FC<QuoteCardProps> = ({
       
       <CardContent className="pt-0">
         {quote.aircraft && (
-          <div className="mb-3 p-2 bg-gray-50 rounded-md">
+          <div className="mb-3 p-2 bg-slate-800 rounded-md">
             <div className="flex items-center gap-2 text-sm">
               <Plane className="h-4 w-4 text-gray-600" />
               <span className="font-medium">{quote.aircraft.model}</span>

@@ -112,7 +112,7 @@ export default function DemoSetup() {
                 Experience StratusConnect's FCA compliant aviation platform
               </p>
               <div className="flex justify-center gap-4 mb-6">
-                <Badge className="bg-green-100 text-green-800">
+                <Badge className="bg-green-100 text-white">
                   <CheckCircle className="w-3 h-3 mr-1" />
                   FCA Compliant
                 </Badge>

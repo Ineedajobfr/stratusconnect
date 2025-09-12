@@ -150,7 +150,7 @@ export class BadgeVerificationService {
     return 'Unknown source';
   }
 
-  static generateBadgeAuditLog(verification: BadgeVerification): any {
+  static generateBadgeAuditLog(verification: BadgeVerification): Record<string, unknown> {
     return {
       event: 'badge_verified',
       operatorId: verification.operatorId,

@@ -22,7 +22,7 @@ interface HelpContent {
   items: Array<{
     section: string;
     description: string;
-    icon?: any;
+    icon?: Record<string, unknown>;
     locked?: boolean;
   }>;
   demoNote?: string;

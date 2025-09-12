@@ -67,14 +67,14 @@ export const StrikeManagement = () => {
       
       // Handle the query result and map to correct type
       const mappedStrikes: Strike[] = (data || [])
-        .filter((item: any) => item.profiles && item.profiles.display_name)
-        .map((item: any) => ({
+        .filter((item: Record<string, unknown>) => item.profiles && item.profiles.display_name)
+        .map((item: Record<string, unknown>) => ({
           ...item,
           profiles: item.profiles
         }));
       
       setStrikes(mappedStrikes);
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: 'Error',
         description: error.message || 'Failed to fetch strikes',
@@ -173,7 +173,7 @@ export const StrikeManagement = () => {
       // Reset form and refresh
       setNewStrike({ user_email: '', reason: '', notes: '', severity: 'minor' });
       fetchStrikes();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: 'Error',
         description: error.message || 'Failed to issue strike',
@@ -206,7 +206,7 @@ export const StrikeManagement = () => {
       });
 
       fetchStrikes();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: 'Error',
         description: error.message || 'Failed to resolve strike',

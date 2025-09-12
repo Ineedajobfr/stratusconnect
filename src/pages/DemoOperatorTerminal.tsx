@@ -141,9 +141,9 @@ export default function DemoOperatorTerminal() {
   const [showWeekOneScoreboard, setShowWeekOneScoreboard] = useState(false);
   const [showWarRoomChecks, setShowWarRoomChecks] = useState(false);
   const [showEvidencePack, setShowEvidencePack] = useState(false);
-  const [liveFlowResult, setLiveFlowResult] = useState<any>(null);
-  const [warRoomResult, setWarRoomResult] = useState<any>(null);
-  const [evidencePack, setEvidencePack] = useState<any>(null);
+  const [liveFlowResult, setLiveFlowResult] = useState<Record<string, unknown> | null>(null);
+  const [warRoomResult, setWarRoomResult] = useState<Record<string, unknown> | null>(null);
+  const [evidencePack, setEvidencePack] = useState<Record<string, unknown> | null>(null);
   
   const [rfqs, setRfqs] = useState<RFQ[]>([
     {
@@ -359,7 +359,7 @@ export default function DemoOperatorTerminal() {
               <div>
                 <p className="text-sm text-gunmetal">Active RFQs</p>
                 <p className="text-2xl font-bold text-foreground">{rfqs.length}</p>
-                <p className="text-xs text-green-600">+8% this week</p>
+                <p className="text-xs text-white">+8% this week</p>
               </div>
               <FileText className="w-8 h-8 text-accent" />
             </div>
@@ -400,7 +400,7 @@ export default function DemoOperatorTerminal() {
               <div>
                 <p className="text-sm text-gunmetal">Avg Response Time</p>
                 <p className="text-2xl font-bold text-foreground">3.2m</p>
-                <p className="text-xs text-green-600">Fast lane eligible</p>
+                <p className="text-xs text-white">Fast lane eligible</p>
               </div>
               <Clock className="w-8 h-8 text-accent" />
             </div>
@@ -410,9 +410,9 @@ export default function DemoOperatorTerminal() {
 
       {/* Alerts */}
       {alerts.length > 0 && (
-        <Card className="terminal-card border-blue-200 bg-blue-50">
+        <Card className="card">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-blue-800">
+            <CardTitle className="flex items-center gap-2 text-body">
               <Bell className="w-5 h-5" />
               Recent Alerts
             </CardTitle>
@@ -420,12 +420,12 @@ export default function DemoOperatorTerminal() {
           <CardContent>
             <div className="space-y-2">
               {alerts.slice(0, 3).map(alert => (
-                <div key={alert.id} className="flex items-center justify-between p-2 bg-blue-900/30 rounded border border-blue-700">
+                <div key={alert.id} className="flex items-center justify-between p-2 bg-elev rounded border border-default">
                   <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${alert.read ? 'bg-gray-400' : 'bg-blue-600'}`} />
-                    <span className="text-sm">{alert.message}</span>
+                    <div className={`w-2 h-2 rounded-full ${alert.read ? 'bg-muted' : 'bg-info'}`} />
+                    <span className="text-sm text-body">{alert.message}</span>
                   </div>
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-muted">
                     {new Date(alert.timestamp).toLocaleTimeString()}
                   </span>
                 </div>
@@ -445,29 +445,29 @@ export default function DemoOperatorTerminal() {
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
-              <CheckCircle className="w-5 h-5 text-green-600" />
+            <div className="flex items-center gap-3 p-3 bg-slate-800 rounded-lg">
+              <CheckCircle className="w-5 h-5 text-white" />
               <div>
                 <p className="font-medium">Deal DEAL-001 completed</p>
                 <p className="text-sm text-gray-600">London - New York • $45,000</p>
               </div>
-              <Badge className="bg-green-100 text-green-800">Completed</Badge>
+              <Badge className="bg-green-900 text-green-100">Completed</Badge>
             </div>
-            <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+            <div className="flex items-center gap-3 p-3 bg-slate-800 rounded-lg">
               <FileText className="w-5 h-5 text-blue-600" />
               <div>
                 <p className="font-medium">Quote sent for RFQ-002</p>
                 <p className="text-sm text-gray-600">Paris - Dubai • $38,000</p>
               </div>
-              <Badge className="bg-blue-100 text-blue-800">Pending</Badge>
+              <Badge className="bg-blue-900 text-blue-100">Pending</Badge>
             </div>
-            <div className="flex items-center gap-3 p-3 bg-yellow-50 rounded-lg">
+            <div className="flex items-center gap-3 p-3 bg-slate-800 rounded-lg">
               <AlertTriangle className="w-5 h-5 text-yellow-600" />
               <div>
                 <p className="font-medium">Pilot credential expires soon</p>
                 <p className="text-sm text-gray-600">Mike Johnson • Medical expires Nov 15</p>
               </div>
-              <Badge className="bg-yellow-100 text-yellow-800">Warning</Badge>
+              <Badge className="bg-yellow-900 text-yellow-100">Warning</Badge>
             </div>
           </div>
         </CardContent>
@@ -489,7 +489,7 @@ export default function DemoOperatorTerminal() {
                   <p className="text-sm text-blue-600 mt-1">Requirements: {rfq.specialRequirements}</p>
                 )}
               </div>
-              <Badge className={rfq.status === 'quoted' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}>
+              <Badge className={rfq.status === 'quoted' ? 'bg-green-900 text-green-100' : 'bg-yellow-900 text-yellow-100'}>
                 {rfq.status}
               </Badge>
             </div>
@@ -534,11 +534,11 @@ export default function DemoOperatorTerminal() {
                 </div>
               </div>
               <div className="text-right">
-                <Badge className={pilot.available ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}>
+                <Badge className={pilot.available ? 'bg-green-900 text-green-100' : 'bg-red-900 text-red-100'}>
                   {pilot.available ? 'Available' : 'Unavailable'}
                 </Badge>
                 {pilot.verified && (
-                  <Badge className="bg-blue-100 text-blue-800 mt-1">
+                  <Badge className="bg-blue-900 text-blue-100 mt-1">
                     <CheckCircle className="w-3 h-3 mr-1" />
                     Verified
                   </Badge>
@@ -605,11 +605,11 @@ export default function DemoOperatorTerminal() {
                 </div>
               </div>
               <div className="text-right">
-                <Badge className={crewMember.available ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}>
+                <Badge className={crewMember.available ? 'bg-green-900 text-green-100' : 'bg-red-900 text-red-100'}>
                   {crewMember.available ? 'Available' : 'Unavailable'}
                 </Badge>
                 {crewMember.verified && (
-                  <Badge className="bg-blue-100 text-blue-800 mt-1">
+                  <Badge className="bg-blue-900 text-blue-100 mt-1">
                     <CheckCircle className="w-3 h-3 mr-1" />
                     Verified
                   </Badge>
@@ -663,7 +663,7 @@ export default function DemoOperatorTerminal() {
               <p className="text-sm text-gray-600">Capacity: 8 passengers</p>
               <p className="text-sm text-gray-600">Range: 7,500 nm</p>
             </div>
-            <Badge className="bg-green-100 text-green-800">Available</Badge>
+            <Badge className="bg-green-900 text-green-100">Available</Badge>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
@@ -715,11 +715,11 @@ export default function DemoOperatorTerminal() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="text-center p-4 bg-green-50 rounded-lg">
-              <p className="text-2xl font-bold text-green-600">$180,000</p>
+            <div className="text-center p-4 bg-slate-800 rounded-lg">
+              <p className="text-2xl font-bold text-white">$180,000</p>
               <p className="text-sm text-gray-600">Total Revenue</p>
             </div>
-            <div className="text-center p-4 bg-blue-50 rounded-lg">
+            <div className="text-center p-4 bg-slate-800 rounded-lg">
               <p className="text-2xl font-bold text-blue-600">$12,600</p>
               <p className="text-sm text-gray-600">Platform Fees (7%)</p>
             </div>
@@ -741,14 +741,14 @@ export default function DemoOperatorTerminal() {
         <CardContent>
           <div className="space-y-3">
             {deals.map(deal => (
-              <div key={deal.id} className="flex items-center justify-between p-3 bg-gray-50 rounded">
+              <div key={deal.id} className="flex items-center justify-between p-3 bg-purple-900/20 rounded border border-purple-700">
                 <div>
-                  <p className="font-medium">{deal.route}</p>
-                  <p className="text-sm text-gray-600">{deal.date} • {deal.aircraft}</p>
+                  <p className="font-medium text-white">{deal.route}</p>
+                  <p className="text-sm text-white/70">{deal.date} • {deal.aircraft}</p>
                 </div>
                 <div className="text-right">
-                  <p className="font-medium">${deal.price.toLocaleString()}</p>
-                  <p className="text-sm text-gray-600">Fee: ${deal.platformFee.toLocaleString()}</p>
+                  <p className="font-medium text-white">${deal.price.toLocaleString()}</p>
+                  <p className="text-sm text-white/70">Fee: ${deal.platformFee.toLocaleString()}</p>
                 </div>
               </div>
             ))}
@@ -769,7 +769,7 @@ export default function DemoOperatorTerminal() {
           </div>
           <div className="flex items-center gap-4">
             {isDemoMode && (
-              <Badge className="bg-yellow-100 text-yellow-800">
+              <Badge className="bg-yellow-900 text-yellow-100">
                 <AlertTriangle className="w-3 h-3 mr-1" />
                 Demo Mode
               </Badge>
@@ -860,7 +860,7 @@ export default function DemoOperatorTerminal() {
                     Run War Room Checks
                   </Button>
                   {warRoomResult && (
-                    <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                    <div className="mt-4 p-4 bg-purple-900/20 rounded-lg border border-purple-700">
                       <h3 className="font-semibold mb-2">Results:</h3>
                       <p className="text-sm text-gray-600 whitespace-pre-line">
                         {warRoomResult.summary}
@@ -890,7 +890,7 @@ export default function DemoOperatorTerminal() {
                     Generate Evidence Pack
                   </Button>
                   {evidencePack && (
-                    <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                    <div className="mt-4 p-4 bg-purple-900/20 rounded-lg border border-purple-700">
                       <h3 className="font-semibold mb-2">Evidence Pack Generated:</h3>
                       <p className="text-sm text-gray-600">
                         ID: {evidencePack.id}<br/>
@@ -907,7 +907,7 @@ export default function DemoOperatorTerminal() {
 
         {/* Demo Notice */}
         {isDemoMode && (
-          <Card className="mt-8 bg-yellow-50 border-yellow-200">
+          <Card className="mt-8 bg-slate-800 border-yellow-200">
             <CardContent className="p-4">
               <div className="flex items-start gap-3">
                 <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />

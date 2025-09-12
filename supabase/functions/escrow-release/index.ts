@@ -114,7 +114,7 @@ Deno.serve(async (req) => {
   }
 });
 
-function jsonResponse(obj: any, status = 200) {
+function jsonResponse(obj: Record<string, unknown>, status = 200) {
   return new Response(JSON.stringify(obj), {
     status,
     headers: { ...corsHeaders, "content-type": "application/json" }

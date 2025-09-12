@@ -12,7 +12,7 @@ export default function CompliantSLA() {
           
           <div className="space-y-8">
             {/* Compliance Notice */}
-            <Card className="border-blue-200 bg-blue-50">
+            <Card className="border-blue-200 bg-slate-800">
               <CardContent className="p-6">
                 <div className="flex items-start gap-3">
                   <Shield className="w-6 h-6 text-blue-600 mt-1" />
@@ -47,15 +47,15 @@ export default function CompliantSLA() {
                     
                     <div className="p-4 border rounded-lg">
                       <div className="flex items-center gap-2 mb-2">
-                        <Shield className="w-5 h-5 text-green-600" />
+                        <Shield className="w-5 h-5 text-white" />
                         <span className="font-semibold">Response Time</span>
                       </div>
-                      <p className="text-2xl font-bold text-green-600">&lt; 2s</p>
+                      <p className="text-2xl font-bold text-white">&lt; 2s</p>
                       <p className="text-sm text-gunmetal">Average response time</p>
                     </div>
                   </div>
                   
-                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                  <div className="bg-slate-800 border border-yellow-200 rounded-lg p-4">
                     <div className="flex items-start gap-2">
                       <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
                       <div>
@@ -88,7 +88,7 @@ export default function CompliantSLA() {
                   <div className="overflow-x-auto">
                     <table className="w-full border-collapse border border-gray-300">
                       <thead>
-                        <tr className="bg-gray-50">
+                        <tr className="bg-slate-800">
                           <th className="border border-gray-300 px-4 py-2 text-left">Uptime</th>
                           <th className="border border-gray-300 px-4 py-2 text-left">Service Credit</th>
                           <th className="border border-gray-300 px-4 py-2 text-left">Status</th>
@@ -99,7 +99,7 @@ export default function CompliantSLA() {
                           <td className="border border-gray-300 px-4 py-2">99.9% - 100%</td>
                           <td className="border border-gray-300 px-4 py-2">0%</td>
                           <td className="border border-gray-300 px-4 py-2">
-                            <Badge className="bg-green-100 text-green-800">Target Met</Badge>
+                            <Badge className="bg-green-100 text-white">Target Met</Badge>
                           </td>
                         </tr>
                         <tr>
@@ -180,17 +180,17 @@ export default function CompliantSLA() {
                   </p>
                   
                   <div className="space-y-3">
-                    <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
+                    <div className="flex items-center gap-3 p-3 bg-slate-800 rounded-lg">
+                      <CheckCircle className="w-5 h-5 text-white" />
                       <div>
-                        <h4 className="font-semibold text-green-800">Real-time Monitoring</h4>
-                        <p className="text-green-700 text-sm">
+                        <h4 className="font-semibold text-white">Real-time Monitoring</h4>
+                        <p className="text-white text-sm">
                           Platform health checked every 5 minutes
                         </p>
                       </div>
                     </div>
                     
-                    <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+                    <div className="flex items-center gap-3 p-3 bg-slate-800 rounded-lg">
                       <Shield className="w-5 h-5 text-blue-600" />
                       <div>
                         <h4 className="font-semibold text-blue-800">Incident Tracking</h4>
@@ -227,7 +227,7 @@ export default function CompliantSLA() {
                   </p>
                   
                   <div className="space-y-3">
-                    <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-start gap-3 p-3 bg-slate-800 rounded-lg">
                       <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">1</div>
                       <div>
                         <h4 className="font-semibold">Incident Detection</h4>
@@ -237,7 +237,7 @@ export default function CompliantSLA() {
                       </div>
                     </div>
                     
-                    <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-start gap-3 p-3 bg-slate-800 rounded-lg">
                       <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">2</div>
                       <div>
                         <h4 className="font-semibold">Incident Resolution</h4>
@@ -247,7 +247,7 @@ export default function CompliantSLA() {
                       </div>
                     </div>
                     
-                    <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-start gap-3 p-3 bg-slate-800 rounded-lg">
                       <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">3</div>
                       <div>
                         <h4 className="font-semibold">Credit Calculation</h4>
@@ -257,7 +257,7 @@ export default function CompliantSLA() {
                       </div>
                     </div>
                     
-                    <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-start gap-3 p-3 bg-slate-800 rounded-lg">
                       <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">4</div>
                       <div>
                         <h4 className="font-semibold">Credit Application</h4>
@@ -291,7 +291,7 @@ export default function CompliantSLA() {
                     <li>Issues related to user's internet connection or devices</li>
                   </ul>
                   
-                  <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                  <div className="bg-slate-800 border border-red-200 rounded-lg p-4">
                     <div className="flex items-start gap-2">
                       <XCircle className="w-5 h-5 text-red-600 mt-0.5" />
                       <div>
@@ -318,7 +318,7 @@ export default function CompliantSLA() {
                     For questions about this SLA or to report service issues:
                   </p>
                   
-                  <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="bg-slate-800 rounded-lg p-4">
                     <p className="font-semibold">Support Team</p>
                     <p className="text-sm text-gunmetal">
                       Email: support@stratusconnect.com<br />

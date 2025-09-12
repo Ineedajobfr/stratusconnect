@@ -50,20 +50,20 @@ export default function DemoFeeStructure() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-foreground">Fee Structure Calculator</h2>
-        <Badge className="bg-green-100 text-green-800">
+        <Badge className="bg-green-900/30 text-white">
           <Shield className="w-3 h-3 mr-1" />
           FCA Compliant
         </Badge>
       </div>
 
       {/* Compliance Notice */}
-      <Card className="bg-green-50 border-green-200">
+      <Card className="bg-purple-900/20 border-purple-700">
         <CardContent className="p-4">
           <div className="flex items-start gap-3">
-            <Shield className="w-5 h-5 text-green-600 mt-0.5" />
+            <Shield className="w-5 h-5 text-white mt-0.5" />
             <div>
-              <h3 className="font-medium text-green-800">Transparent Fee Structure</h3>
-              <p className="text-green-700 text-sm mt-1">
+              <h3 className="font-medium text-white">Transparent Fee Structure</h3>
+              <p className="text-white/70 text-sm mt-1">
                 All fees are clearly disclosed and automatically calculated. No hidden charges. 
                 Platform fees are deducted by Stripe Connect during payment processing.
               </p>
@@ -85,10 +85,10 @@ export default function DemoFeeStructure() {
         
         <Card className="text-center p-4">
           <div className="flex items-center justify-center mb-2">
-            <User className="w-8 h-8 text-green-600" />
+            <User className="w-8 h-8 text-white" />
           </div>
           <h3 className="font-semibold text-foreground">Operator Hiring</h3>
-          <p className="text-3xl font-bold text-green-600">10%</p>
+          <p className="text-3xl font-bold text-white">10%</p>
           <p className="text-sm text-gunmetal">Hiring fee</p>
         </Card>
         
@@ -139,7 +139,7 @@ export default function DemoFeeStructure() {
           </div>
 
           {/* Fee Breakdown */}
-          <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+          <div className="bg-slate-800 rounded-lg p-4 space-y-3">
             <div className="flex justify-between items-center">
               <span className="text-gunmetal">Transaction Amount</span>
               <span className="font-mono font-semibold">
@@ -157,7 +157,7 @@ export default function DemoFeeStructure() {
             <div className="border-t pt-3">
               <div className="flex justify-between items-center">
                 <span className="text-foreground font-semibold">Net Amount</span>
-                <span className="font-mono font-bold text-green-600 text-lg">
+                <span className="font-mono font-bold text-white text-lg">
                   ${fees.netAmount.toLocaleString()}
                 </span>
               </div>
@@ -224,13 +224,13 @@ export default function DemoFeeStructure() {
 
       {/* Demo Notice */}
       {isDemoMode && (
-        <Card className="bg-yellow-50 border-yellow-200">
+        <Card className="bg-purple-900/20 border-purple-700">
           <CardContent className="p-4">
             <div className="flex items-start gap-3">
-              <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
+              <AlertTriangle className="w-5 h-5 text-yellow-400 mt-0.5" />
               <div>
-                <h3 className="font-medium text-yellow-800">Demo Mode</h3>
-                <p className="text-yellow-700 text-sm mt-1">
+                <h3 className="font-medium text-white">Demo Mode</h3>
+                <p className="text-white/70 text-sm mt-1">
                   This calculator demonstrates the fee structure. In production, fees are 
                   automatically calculated and deducted by Stripe Connect during payment processing.
                 </p>

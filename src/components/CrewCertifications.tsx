@@ -87,7 +87,7 @@ export default function CrewCertifications() {
 
       if (error) throw error;
       setCertifications((data || []) as CrewCertification[]);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error fetching certifications:", error);
     }
   };
@@ -138,7 +138,7 @@ export default function CrewCertifications() {
         document_url: ""
       });
       fetchCertifications();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: error.message || "Failed to add certification",

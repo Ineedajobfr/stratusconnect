@@ -14,7 +14,8 @@ import {
   Calendar,
   Timer,
   Percent,
-  FileText
+  FileText,
+  Plus
 } from 'lucide-react';
 
 export interface CancellationRule {
@@ -214,13 +215,13 @@ export function CancellationRules({ dealId, departureTime, totalAmount, currency
       case 'pending':
         return 'bg-yellow-100 text-yellow-800';
       case 'approved':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-100 text-white';
       case 'rejected':
         return 'bg-red-100 text-red-800';
       case 'processed':
         return 'bg-blue-100 text-blue-800';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-purple-900/30 text-purple-200';
     }
   };
 
@@ -245,7 +246,7 @@ export function CancellationRules({ dealId, departureTime, totalAmount, currency
                   <h3 className="font-semibold">{applicableRule.name}</h3>
                   <p className="text-sm text-gray-600">{applicableRule.description}</p>
                 </div>
-                <Badge className="bg-green-100 text-green-800">
+                <Badge className="bg-green-100 text-white">
                   <CheckCircle className="w-3 h-3 mr-1" />
                   Active
                 </Badge>
@@ -264,7 +265,7 @@ export function CancellationRules({ dealId, departureTime, totalAmount, currency
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Refund Amount</p>
-                  <p className="text-lg font-semibold text-green-600">
+                  <p className="text-lg font-semibold text-white">
                     {currency} {(totalAmount - calculateCancellationFee(applicableRule)).toLocaleString()}
                   </p>
                 </div>
@@ -284,7 +285,7 @@ export function CancellationRules({ dealId, departureTime, totalAmount, currency
                   <div className="space-y-2">
                     {applicableRule.tiers.map((tier, index) => (
                       <div key={index} className={`flex items-center justify-between p-2 rounded ${
-                        hoursBefore >= tier.hoursBefore ? 'bg-green-50 border border-green-200' : 'bg-gray-50'
+                        hoursBefore >= tier.hoursBefore ? 'bg-green-900/30 border border-green-700' : 'bg-purple-900/20'
                       }`}>
                         <span className="text-sm">{tier.description}</span>
                         <span className="text-sm font-medium">{tier.feePercentage}%</span>
@@ -368,7 +369,7 @@ export function CancellationRules({ dealId, departureTime, totalAmount, currency
                     </div>
                     <div>
                       <p className="text-sm text-gray-600">Refund Amount</p>
-                      <p className="font-semibold text-green-600">{request.currency} {request.refundAmount.toLocaleString()}</p>
+                      <p className="font-semibold text-white">{request.currency} {request.refundAmount.toLocaleString()}</p>
                     </div>
                   </div>
 
@@ -386,7 +387,7 @@ export function CancellationRules({ dealId, departureTime, totalAmount, currency
                         size="sm"
                         onClick={() => processCancellation(request.id, false)}
                         variant="outline"
-                        className="border-red-300 text-red-600 hover:bg-red-50"
+                        className="border-red-300 text-red-600 hover:bg-slate-800"
                       >
                         <X className="w-4 h-4 mr-2" />
                         Reject
@@ -425,7 +426,7 @@ export function CancellationRules({ dealId, departureTime, totalAmount, currency
                 />
               </div>
               
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+              <div className="bg-slate-800 border border-yellow-200 rounded-lg p-4">
                 <div className="flex items-start gap-3">
                   <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
                   <div>

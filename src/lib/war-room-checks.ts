@@ -6,7 +6,7 @@ export interface WarRoomCheck {
   name: string;
   description: string;
   status: 'pending' | 'running' | 'passed' | 'failed' | 'warning';
-  result?: any;
+  result?: Record<string, unknown>;
   error?: string;
   timestamp: string;
   critical: boolean;

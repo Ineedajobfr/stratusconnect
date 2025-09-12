@@ -134,7 +134,7 @@ export default function Cookies() {
             </CardHeader>
             <CardContent className="space-y-6">
               {/* Necessary Cookies */}
-              <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-center justify-between p-4 bg-slate-800 rounded-lg">
                 <div className="flex items-center gap-3">
                   <Shield className="w-5 h-5 text-green-500" />
                   <div>
@@ -150,7 +150,7 @@ export default function Cookies() {
               </div>
 
               {/* Analytics Cookies */}
-              <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-center justify-between p-4 bg-slate-800 rounded-lg">
                 <div className="flex items-center gap-3">
                   <BarChart3 className="w-5 h-5 text-blue-500" />
                   <div>
@@ -165,7 +165,7 @@ export default function Cookies() {
               </div>
 
               {/* Marketing Cookies */}
-              <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-center justify-between p-4 bg-slate-800 rounded-lg">
                 <div className="flex items-center gap-3">
                   <Eye className="w-5 h-5 text-purple-500" />
                   <div>
@@ -228,7 +228,7 @@ export default function Cookies() {
                 <p className="text-gunmetal text-sm mt-1 mb-3">
                   These cookies are essential for the website to function properly. They cannot be disabled.
                 </p>
-                <div className="bg-gray-50 rounded-lg p-3">
+                <div className="bg-slate-800 rounded-lg p-3">
                   <p className="text-sm font-medium text-foreground mb-2">Examples:</p>
                   <ul className="text-sm text-gunmetal space-y-1">
                     <li>• Authentication cookies (session management)</li>
@@ -249,7 +249,7 @@ export default function Cookies() {
                   These cookies help us understand how visitors interact with our website by collecting 
                   and reporting information anonymously.
                 </p>
-                <div className="bg-gray-50 rounded-lg p-3">
+                <div className="bg-slate-800 rounded-lg p-3">
                   <p className="text-sm font-medium text-foreground mb-2">Examples:</p>
                   <ul className="text-sm text-gunmetal space-y-1">
                     <li>• Google Analytics (_ga, _gid, _gat)</li>
@@ -269,7 +269,7 @@ export default function Cookies() {
                 <p className="text-gunmetal text-sm mt-1 mb-3">
                   These cookies are used to deliver advertisements that are relevant to you and your interests.
                 </p>
-                <div className="bg-gray-50 rounded-lg p-3">
+                <div className="bg-slate-800 rounded-lg p-3">
                   <p className="text-sm font-medium text-foreground mb-2">Examples:</p>
                   <ul className="text-sm text-gunmetal space-y-1">
                     <li>• Facebook Pixel (_fbp, _fbc)</li>
@@ -368,7 +368,7 @@ export default function Cookies() {
                 <li>Contact us at privacy@stratusconnect.com</li>
               </ul>
               
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+              <div className="bg-slate-800 border border-yellow-200 rounded-lg p-4">
                 <div className="flex items-start gap-2">
                   <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
                   <div>
@@ -395,7 +395,7 @@ export default function Cookies() {
               <p className="text-gunmetal">
                 If you have questions about our use of cookies, please contact us:
               </p>
-              <div className="bg-gray-50 rounded-lg p-4 mt-4">
+              <div className="bg-slate-800 rounded-lg p-4 mt-4">
                 <p className="font-medium text-foreground">Privacy Team</p>
                 <p className="text-gunmetal text-sm mt-1">
                   Email: privacy@stratusconnect.com<br />

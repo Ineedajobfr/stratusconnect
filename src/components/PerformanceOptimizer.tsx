@@ -2,7 +2,7 @@ import { memo, useCallback, useMemo } from 'react';
 import { debounce } from 'lodash-es';
 
 // Debounced search hook for better performance
-export const useDebounceCallback = (callback: (...args: any[]) => void, delay: number) => {
+export const useDebounceCallback = (callback: (...args: unknown[]) => void, delay: number) => {
   return useMemo(() => debounce(callback, delay), [callback, delay]);
 };
 
@@ -23,8 +23,8 @@ export const VirtualList = memo(({
   itemHeight = 50, 
   containerHeight = 400 
 }: {
-  items: any[];
-  renderItem: (item: any, index: number) => React.ReactNode;
+  items: unknown[];
+  renderItem: (item: unknown, index: number) => React.ReactNode;
   itemHeight?: number;
   containerHeight?: number;
 }) => {

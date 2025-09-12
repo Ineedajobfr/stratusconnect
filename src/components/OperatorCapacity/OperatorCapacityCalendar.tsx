@@ -163,7 +163,7 @@ export function OperatorCapacityCalendar() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'available':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-100 text-white';
       case 'booked':
         return 'bg-blue-100 text-blue-800';
       case 'maintenance':
@@ -211,7 +211,7 @@ export function OperatorCapacityCalendar() {
 
       {/* Add Capacity Slot Form */}
       {showAddSlot && (
-        <Card className="terminal-card border-blue-200 bg-blue-50">
+        <Card className="terminal-card border-blue-200 bg-slate-800">
           <CardHeader>
             <CardTitle>Add Capacity Slot</CardTitle>
           </CardHeader>
@@ -321,7 +321,7 @@ export function OperatorCapacityCalendar() {
                       <span className="ml-1">{slot.status}</span>
                     </Badge>
                     {slot.instantQuoteEnabled && (
-                      <Badge className="bg-green-100 text-green-800">
+                      <Badge className="bg-green-100 text-white">
                         <Zap className="w-3 h-3 mr-1" />
                         Instant Quotes
                       </Badge>
@@ -404,7 +404,7 @@ export function OperatorCapacityCalendar() {
           <CardContent>
             <div className="space-y-3">
               {instantQuotes.map(quote => (
-                <div key={quote.id} className="flex items-center justify-between p-3 bg-gray-50 rounded">
+                <div key={quote.id} className="flex items-center justify-between p-3 bg-slate-800 rounded">
                   <div>
                     <p className="font-medium">{quote.route}</p>
                     <p className="text-sm text-gray-600">
@@ -415,7 +415,7 @@ export function OperatorCapacityCalendar() {
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="font-medium text-green-600">
+                    <p className="font-medium text-white">
                       {quote.currency} {quote.price.toLocaleString()}
                     </p>
                     <p className="text-sm text-gray-500">

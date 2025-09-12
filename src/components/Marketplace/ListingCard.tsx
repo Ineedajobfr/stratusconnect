@@ -64,7 +64,7 @@ export default function ListingCard({
           <div className="flex-1">
             <CardTitle className="flex items-center gap-2 mb-2">
               {listing.operatorVerified ? (
-                <CheckCircle className="w-5 h-5 text-green-500" />
+                <CheckCircle className="w-5 h-5 text-white" />
               ) : (
                 <AlertTriangle className="w-5 h-5 text-yellow-500" />
               )}
@@ -90,7 +90,7 @@ export default function ListingCard({
                 </Badge>
               )}
               {listing.operatorVerified && (
-                <Badge className="bg-green-100 text-green-800">
+                <Badge className="bg-green-100 text-white">
                   Verified
                 </Badge>
               )}
@@ -161,7 +161,7 @@ export default function ListingCard({
           <div>
             <div className="text-sm font-medium text-gunmetal">CO2 Est.</div>
             <div className="text-foreground text-sm flex items-center gap-1">
-              <Leaf className="w-3 h-3 text-green-500" />
+              <Leaf className="w-3 h-3 text-white" />
               {listing.carbonPerPax ? `${listing.carbonPerPax} t/pax` : `${co2} t/pax`}
             </div>
           </div>
@@ -204,7 +204,7 @@ export default function ListingCard({
                   <Zap className="w-3 h-3 text-yellow-500" />
                   Quote Speed
                 </div>
-                <div className="text-foreground text-sm text-green-600">
+                <div className="text-foreground text-sm text-white">
                   Instant
                 </div>
               </div>
@@ -215,7 +215,7 @@ export default function ListingCard({
                   <Target className="w-3 h-3 text-orange-500" />
                   Auto-Match
                 </div>
-                <div className="text-foreground text-sm text-green-600">
+                <div className="text-foreground text-sm text-white">
                   Enabled
                 </div>
               </div>
@@ -224,9 +224,9 @@ export default function ListingCard({
         )}
 
         {/* Fee Breakdown */}
-        <div className="bg-gray-50 rounded-lg p-4 mb-4">
+        <div className="bg-slate-800 rounded-lg p-4 mb-4">
           <div className="flex items-center gap-2 mb-2">
-            <Shield className="w-4 h-4 text-green-600" />
+            <Shield className="w-4 h-4 text-white" />
             <span className="font-semibold text-foreground">FCA Compliant Fee Structure</span>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
@@ -244,7 +244,7 @@ export default function ListingCard({
             </div>
             <div>
               <span className="text-gunmetal">Net to Operator:</span>
-              <div className="font-mono font-semibold text-green-600">
+              <div className="font-mono font-semibold text-white">
                 {money(fees.toOperatorMinor, listing.currency)}
               </div>
             </div>
@@ -301,7 +301,7 @@ export default function ListingCard({
 
         {/* Compliance Notice */}
         {isDemoMode && (
-          <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+          <div className="mt-4 p-3 bg-slate-800 border border-yellow-200 rounded-lg">
             <div className="flex items-start gap-2">
               <AlertTriangle className="w-4 h-4 text-yellow-600 mt-0.5" />
               <div>

@@ -28,7 +28,7 @@ export default function FeeStructureDisplay({ showDetails = true, className = ''
         <h3 className="text-lg font-semibold text-foreground">Fee Structure</h3>
         <div className="flex items-center gap-2">
           {isValid ? (
-            <Badge className="bg-green-100 text-green-800">
+            <Badge className="bg-green-100 text-white">
               <CheckCircle className="w-3 h-3 mr-1" />
               Verified
             </Badge>
@@ -86,7 +86,7 @@ export default function FeeStructureDisplay({ showDetails = true, className = ''
                 <span>{feeStructure.operatorHiring.label}</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-2xl font-bold text-green-600">
+                <span className="text-2xl font-bold text-white">
                   {feeStructure.operatorHiring.percentage}
                 </span>
                 <Lock className="w-4 h-4 text-gray-400" />
@@ -140,7 +140,7 @@ export default function FeeStructureDisplay({ showDetails = true, className = ''
 
       {/* Summary */}
       {showDetails && (
-        <Card className="bg-gray-50">
+        <Card className="bg-slate-800">
           <CardContent className="p-4">
             <div className="flex items-center gap-2 mb-2">
               <Percent className="w-4 h-4 text-accent" />
@@ -154,7 +154,7 @@ export default function FeeStructureDisplay({ showDetails = true, className = ''
                 <div className="text-gunmetal">Broker-Operator</div>
               </div>
               <div className="text-center">
-                <div className="font-bold text-green-600">
+                <div className="font-bold text-white">
                   {FEE_STRUCTURE_CONSTANTS.OPERATOR_HIRING_FEE}%
                 </div>
                 <div className="text-gunmetal">Operator Hiring</div>
@@ -171,7 +171,7 @@ export default function FeeStructureDisplay({ showDetails = true, className = ''
       )}
 
       {/* Important Notice */}
-      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+      <div className="bg-slate-800 border border-yellow-200 rounded-lg p-4">
         <div className="flex items-start gap-2">
           <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
           <div>

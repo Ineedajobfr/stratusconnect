@@ -143,7 +143,7 @@ export default function SanctionsScreening() {
       } else {
         throw new Error(data.error);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Screening Failed",
         description: error.message || "Failed to perform sanctions screening",

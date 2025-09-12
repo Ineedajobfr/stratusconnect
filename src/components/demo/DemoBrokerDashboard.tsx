@@ -389,7 +389,7 @@ export const DemoBrokerDashboard: React.FC = () => {
                         {request.quotes && request.quotes.length > 0 && (
                           <div className="pt-2 border-t border-slate-600">
                             <div className="flex items-center justify-between">
-                              <span className="text-green-400">{request.quotes.length} Quotes</span>
+                              <span className="text-white">{request.quotes.length} Quotes</span>
                               <span className="text-orange-400">${request.quotes[0].price.toLocaleString()}</span>
                             </div>
                           </div>
@@ -427,7 +427,7 @@ export const DemoBrokerDashboard: React.FC = () => {
                       <div className="space-y-2 text-sm text-slate-300">
                         <div className="flex items-center justify-between">
                           <span>{new Date(booking.created_at).toLocaleDateString()}</span>
-                          <span className="text-green-400 font-medium">${booking.total_price.toLocaleString()}</span>
+                          <span className="text-white font-medium">${booking.total_price.toLocaleString()}</span>
                         </div>
                         
                         <div className="pt-2 border-t border-slate-600">
@@ -455,7 +455,7 @@ export const DemoBrokerDashboard: React.FC = () => {
                   <div className="space-y-4">
                     <div className="flex justify-between">
                       <span className="text-slate-300">Success Rate</span>
-                      <span className="text-green-400 font-semibold">94.2%</span>
+                      <span className="text-white font-semibold">94.2%</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-300">Avg Response Time</span>
@@ -476,7 +476,7 @@ export const DemoBrokerDashboard: React.FC = () => {
                   <div className="space-y-4">
                     <div className="flex justify-between">
                       <span className="text-slate-300">This Month</span>
-                      <span className="text-green-400 font-semibold">$425,000</span>
+                      <span className="text-white font-semibold">$425,000</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-300">Last Month</span>
@@ -484,7 +484,7 @@ export const DemoBrokerDashboard: React.FC = () => {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-300">Growth</span>
-                      <span className="text-green-400 font-semibold">+11.8%</span>
+                      <span className="text-white font-semibold">+11.8%</span>
                     </div>
                   </div>
                 </CardContent>

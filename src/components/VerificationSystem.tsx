@@ -138,7 +138,7 @@ export default function VerificationSystem() {
       });
 
       fetchDocuments();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: error.message || "Failed to upload document",

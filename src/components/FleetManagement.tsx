@@ -130,7 +130,7 @@ export default function FleetManagement() {
       setDialogOpen(false);
       resetForm();
       fetchAircraft();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: error.message || "Failed to save aircraft",
@@ -171,7 +171,7 @@ export default function FleetManagement() {
       
       toast({ title: "Success", description: "Aircraft removed from fleet" });
       fetchAircraft();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: error.message || "Failed to delete aircraft",

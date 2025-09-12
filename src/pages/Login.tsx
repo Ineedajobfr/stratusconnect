@@ -130,7 +130,7 @@ export default function Login() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <Alert className="border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950">
+            <Alert className="border-green-200 bg-slate-800 dark:border-green-800 dark:bg-green-950">
               <Shield className="h-4 w-4 text-green-600" />
               <AlertDescription className="text-green-800 dark:text-green-200">
                 Your account is pending admin approval. You'll be notified when approved.
@@ -393,7 +393,7 @@ export default function Login() {
                 </div>
                 
                 {registerData.password && registerData.password !== registerData.confirmPassword && (
-                  <Alert className="border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950">
+                  <Alert className="border-red-200 bg-slate-800 dark:border-red-800 dark:bg-red-950">
                     <AlertDescription className="text-red-800 dark:text-red-200">
                       Passwords do not match
                     </AlertDescription>
@@ -403,7 +403,7 @@ export default function Login() {
                 {registerData.password && (registerData.password.length < 12 || 
                   !/[a-zA-Z]/.test(registerData.password) || 
                   !/[0-9]/.test(registerData.password)) && (
-                  <Alert className="border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-950">
+                  <Alert className="border-yellow-200 bg-slate-800 dark:border-yellow-800 dark:bg-yellow-950">
                     <AlertDescription className="text-yellow-800 dark:text-yellow-200">
                       Password must be at least 12 characters with letters and numbers
                     </AlertDescription>

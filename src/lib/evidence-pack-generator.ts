@@ -10,8 +10,8 @@ export interface EvidencePack {
   generatedAt: string;
   version: string;
   receipts: {
-    charter: any;
-    hiring: any;
+    charter: Record<string, unknown>;
+    hiring: Record<string, unknown>;
   };
   statusScreenshot: {
     uptime: number;
@@ -50,8 +50,8 @@ export interface EvidencePack {
     dataIntegrity: boolean;
     testData: string;
   };
-  warRoomChecks: any;
-  greenLightGate: any;
+  warRoomChecks: Record<string, unknown>;
+  greenLightGate: Record<string, unknown>;
   summary: string;
 }
 
@@ -228,11 +228,11 @@ CREATE POLICY "Operators can create hires" ON hires
    * Generate summary
    */
   private generateSummary(
-    charterReceipt: any,
-    hiringReceipt: any,
-    statusScreenshot: any,
-    warRoomChecks: any,
-    greenLightGate: any
+    charterReceipt: Record<string, unknown>,
+    hiringReceipt: Record<string, unknown>,
+    statusScreenshot: Record<string, unknown>,
+    warRoomChecks: Record<string, unknown>,
+    greenLightGate: Record<string, unknown>
   ): string {
     let summary = 'EVIDENCE PACK SUMMARY\n';
     summary += '====================\n\n';

@@ -108,7 +108,7 @@ class MonitoringLiveService {
       }
 
       const monitors = data.monitors || [];
-      const primaryMonitor = monitors.find((m: any) => 
+      const primaryMonitor = monitors.find((m: Record<string, unknown>) => 
         m.friendly_name === 'Stratus Connect' || 
         m.url.includes(this.appBaseUrl)
       ) || monitors[0];
@@ -139,7 +139,7 @@ class MonitoringLiveService {
   /**
    * Calculate uptime metrics from UptimeRobot data
    */
-  private calculateUptimeMetrics(monitor: any): UptimeMetrics {
+  private calculateUptimeMetrics(monitor: Record<string, unknown>): UptimeMetrics {
     const uptime_24h = this.calculateUptime(monitor.custom_uptime_ranges, 1);
     const uptime_7d = this.calculateUptime(monitor.custom_uptime_ranges, 7);
     const uptime_30d = this.calculateUptime(monitor.custom_uptime_ranges, 30);
@@ -168,10 +168,10 @@ class MonitoringLiveService {
   /**
    * Calculate uptime percentage for given period
    */
-  private calculateUptime(ranges: any[], days: number): number {
+  private calculateUptime(ranges: Record<string, unknown>[], days: number): number {
     if (!ranges || ranges.length === 0) return 0;
     
-    const range = ranges.find((r: any) => r.range === days);
+    const range = ranges.find((r: Record<string, unknown>) => r.range === days);
     if (!range) return 0;
     
     return parseFloat(range.ratio) || 0;
@@ -180,19 +180,19 @@ class MonitoringLiveService {
   /**
    * Calculate average response time for given period
    */
-  private calculateResponseTime(logs: any[], hours: number): number {
+  private calculateResponseTime(logs: Record<string, unknown>[], hours: number): number {
     if (!logs || logs.length === 0) return 0;
     
     const cutoff = new Date();
     cutoff.setHours(cutoff.getHours() - hours);
     
-    const recentLogs = logs.filter((log: any) => 
+    const recentLogs = logs.filter((log: Record<string, unknown>) => 
       new Date(log.datetime * 1000) > cutoff && log.type === 1
     );
     
     if (recentLogs.length === 0) return 0;
     
-    const totalResponseTime = recentLogs.reduce((sum: number, log: any) => 
+    const totalResponseTime = recentLogs.reduce((sum: number, log: Record<string, unknown>) => 
       sum + (log.duration || 0), 0
     );
     
@@ -202,13 +202,13 @@ class MonitoringLiveService {
   /**
    * Count incidents in given period
    */
-  private countIncidents(logs: any[], hours: number): number {
+  private countIncidents(logs: Record<string, unknown>[], hours: number): number {
     if (!logs || logs.length === 0) return 0;
     
     const cutoff = new Date();
     cutoff.setHours(cutoff.getHours() - hours);
     
-    return logs.filter((log: any) => 
+    return logs.filter((log: Record<string, unknown>) => 
       new Date(log.datetime * 1000) > cutoff && log.type === 0
     ).length;
   }
@@ -216,10 +216,10 @@ class MonitoringLiveService {
   /**
    * Get last incident timestamp
    */
-  private getLastIncident(logs: any[]): string | null {
+  private getLastIncident(logs: Record<string, unknown>[]): string | null {
     if (!logs || logs.length === 0) return null;
     
-    const incidentLogs = logs.filter((log: any) => log.type === 0);
+    const incidentLogs = logs.filter((log: Record<string, unknown>) => log.type === 0);
     if (incidentLogs.length === 0) return null;
     
     const lastIncident = incidentLogs[incidentLogs.length - 1];

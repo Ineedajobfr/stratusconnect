@@ -304,7 +304,7 @@ export default function EnhancedMessaging() {
           action_url: `/messages/${selectedDeal.id}`
         }]);
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: error.message || "Failed to send message",
@@ -368,7 +368,7 @@ export default function EnhancedMessaging() {
       });
 
       fetchMessages(selectedDeal.id);
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: error.message || "Failed to upload file",

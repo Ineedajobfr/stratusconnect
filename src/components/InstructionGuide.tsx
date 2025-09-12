@@ -24,7 +24,7 @@ interface InstructionStep {
   id: string;
   title: string;
   description: string;
-  icon: any;
+  icon: React.ComponentType<{ className?: string }>;
   category: 'getting-started' | 'navigation' | 'features' | 'security' | 'advanced';
   estimatedTime: string;
   difficulty: 'beginner' | 'intermediate' | 'advanced';

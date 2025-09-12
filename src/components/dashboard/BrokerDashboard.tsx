@@ -154,7 +154,7 @@ export default function BrokerDashboard() {
     switch (status) {
       case 'pending': return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
       case 'quotes_received': return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
-      case 'booked': return 'bg-green-500/20 text-green-400 border-green-500/30';
+      case 'booked': return 'bg-green-500/20 text-white border-green-500/30';
       default: return 'bg-slate-500/20 text-slate-400 border-slate-500/30';
     }
   };
@@ -355,7 +355,7 @@ export default function BrokerDashboard() {
                       </div>
                       <div className="text-right">
                         <div className="text-lg font-bold text-orange-400">${leg.price.toLocaleString()}</div>
-                        <div className="text-sm text-green-400">{leg.discount}% off</div>
+                        <div className="text-sm text-white">{leg.discount}% off</div>
                         <div className="text-sm text-slate-400">{leg.operator}</div>
                       </div>
                     </div>
@@ -428,7 +428,7 @@ export default function BrokerDashboard() {
                       <div className="text-slate-400 mb-2">{leg.aircraft}</div>
                       <div className="text-slate-400 mb-4">{leg.date} • {leg.seats} seats</div>
                       <div className="text-2xl font-bold text-orange-400 mb-2">${leg.price.toLocaleString()}</div>
-                      <div className="text-green-400 mb-4">{leg.discount}% off regular price</div>
+                      <div className="text-white mb-4">{leg.discount}% off regular price</div>
                       <div className="text-slate-400 mb-4">{leg.operator}</div>
                       <Button className="btn-terminal-accent w-full">
                         <Eye className="h-4 w-4 mr-2" />
@@ -709,7 +709,7 @@ export default function BrokerDashboard() {
                     <div className="text-2xl font-bold text-white">Sarah Brooks</div>
                     <div className="text-slate-400">Senior Aviation Broker • Elite Charters</div>
                     <div className="flex items-center space-x-2 mt-2">
-                      <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
+                      <Badge className="bg-green-500/20 text-white border-green-500/30">
                         Verified
                       </Badge>
                       <div className="flex items-center space-x-1">
@@ -726,7 +726,7 @@ export default function BrokerDashboard() {
                     <div className="text-slate-400 text-sm">Charters Booked</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-green-400">$2.4M</div>
+                    <div className="text-3xl font-bold text-white">$2.4M</div>
                     <div className="text-slate-400 text-sm">Total Volume</div>
                   </div>
                   <div className="text-center">
@@ -754,10 +754,10 @@ export default function BrokerDashboard() {
                   ].map((item, index) => (
                     <div key={index} className="flex items-center justify-between p-3 bg-slate-700 rounded-lg">
                       <div className="flex items-center space-x-3">
-                        <div className="text-green-400">{item.icon}</div>
+                        <div className="text-white">{item.icon}</div>
                         <span className="text-white">{item.name}</span>
                       </div>
-                      <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
+                      <Badge className="bg-green-500/20 text-white border-green-500/30">
                         {item.status}
                       </Badge>
                     </div>

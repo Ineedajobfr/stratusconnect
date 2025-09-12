@@ -390,13 +390,13 @@ This bundle provides comprehensive evidence that the service was delivered as ag
 
   if (bundleGenerated && bundle) {
     return (
-      <Card className="terminal-card border-green-200 bg-green-50">
+      <Card className="terminal-card border-green-200 bg-slate-800">
         <CardContent className="p-6">
           <div className="flex items-center gap-3 mb-4">
-            <CheckCircle className="w-6 h-6 text-green-600" />
+            <CheckCircle className="w-6 h-6 text-white" />
             <div>
-              <h3 className="text-lg font-semibold text-green-800">Evidence Bundle Generated</h3>
-              <p className="text-green-700">Complete chargeback evidence ready for submission</p>
+              <h3 className="text-lg font-semibold text-white">Evidence Bundle Generated</h3>
+              <p className="text-white">Complete chargeback evidence ready for submission</p>
             </div>
           </div>
           
@@ -448,7 +448,7 @@ This bundle provides comprehensive evidence that the service was delivered as ag
   }
 
   return (
-    <Card className="terminal-card border-red-200 bg-red-50">
+    <Card className="terminal-card border-red-200 bg-slate-800">
       <CardContent className="p-6">
         <div className="flex items-center gap-3 mb-4">
           <AlertTriangle className="w-6 h-6 text-red-600" />
@@ -459,7 +459,7 @@ This bundle provides comprehensive evidence that the service was delivered as ag
         </div>
         
         <div className="space-y-4">
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+          <div className="bg-slate-800 border border-yellow-200 rounded-lg p-4">
             <h4 className="font-medium text-yellow-800 mb-2">Evidence Package Includes:</h4>
             <ul className="text-yellow-700 text-sm space-y-1">
               <li>• Signed quote with terms and cancellation grid</li>

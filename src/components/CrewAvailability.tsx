@@ -82,7 +82,7 @@ export default function CrewAvailability() {
 
       if (error) throw error;
       setAvailabilities((data || []) as CrewAvailability[]);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error fetching availabilities:", error);
     }
   };
@@ -135,7 +135,7 @@ export default function CrewAvailability() {
         notes: ""
       });
       fetchAvailabilities();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: error.message || "Failed to add availability",
@@ -159,7 +159,7 @@ export default function CrewAvailability() {
       });
 
       fetchAvailabilities();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: "Failed to delete availability period",

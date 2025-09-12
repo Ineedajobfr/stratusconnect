@@ -317,7 +317,7 @@ export default function EnhancedMarketplace() {
       });
 
       fetchSavedSearches();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: error.message || "Failed to save search",

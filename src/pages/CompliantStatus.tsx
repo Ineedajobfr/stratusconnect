@@ -84,7 +84,7 @@ export default function CompliantStatus() {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'up':
-        return <CheckCircle className="w-5 h-5 text-green-500" />;
+        return <CheckCircle className="w-5 h-5 text-white" />;
       case 'down':
         return <XCircle className="w-5 h-5 text-red-500" />;
       case 'paused':
@@ -97,7 +97,7 @@ export default function CompliantStatus() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'up':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-100 text-white';
       case 'down':
         return 'bg-red-100 text-red-800';
       case 'paused':
@@ -116,7 +116,7 @@ export default function CompliantStatus() {
       case 'monitoring':
         return 'bg-yellow-100 text-yellow-800';
       case 'resolved':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-100 text-white';
       default:
         return 'bg-gray-100 text-gray-800';
     }
@@ -179,7 +179,7 @@ export default function CompliantStatus() {
         </div>
 
         {/* Compliance Notice */}
-        <Card className="mb-8 border-blue-200 bg-blue-50">
+        <Card className="mb-8 border-blue-200 bg-slate-800">
           <CardContent className="p-4">
             <div className="flex items-start gap-3">
               <Shield className="w-5 h-5 text-blue-600 mt-0.5" />
@@ -335,7 +335,7 @@ export default function CompliantStatus() {
                     onClick={createDemoIncident}
                     variant="outline"
                     size="sm"
-                    className="text-yellow-600 border-yellow-600 hover:bg-yellow-50"
+                    className="text-yellow-600 border-yellow-600 hover:bg-slate-800"
                   >
                     <AlertTriangle className="w-4 h-4 mr-1" />
                     Create Demo Incident
@@ -364,7 +364,7 @@ export default function CompliantStatus() {
                             onClick={() => resolveIncident(incident.id)}
                             variant="outline"
                             size="sm"
-                            className="text-green-600 border-green-600 hover:bg-green-50"
+                            className="text-white border-green-600 hover:bg-slate-800"
                           >
                             <CheckCircle className="w-3 h-3 mr-1" />
                             Resolve
@@ -389,20 +389,20 @@ export default function CompliantStatus() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+              <div className="flex justify-between items-center p-3 bg-slate-800 rounded-lg">
                 <span className="text-foreground font-medium">Target Uptime</span>
                 <span className="font-mono font-semibold">99.9%</span>
               </div>
-              <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+              <div className="flex justify-between items-center p-3 bg-slate-800 rounded-lg">
                 <span className="text-foreground font-medium">Current Uptime (7d)</span>
                 <span className="font-mono font-semibold">
                   {metrics ? formatUptime(metrics.uptime_7d) : 'N/A'}
                 </span>
               </div>
-              <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+              <div className="flex justify-between items-center p-3 bg-slate-800 rounded-lg">
                 <span className="text-foreground font-medium">SLA Status</span>
                 <span className={`font-semibold ${
-                  metrics && metrics.uptime_7d >= 99.9 ? 'text-green-600' : 'text-red-600'
+                  metrics && metrics.uptime_7d >= 99.9 ? 'text-white' : 'text-red-600'
                 }`}>
                   {metrics && metrics.uptime_7d >= 99.9 ? 'COMPLIANT' : 'NON-COMPLIANT'}
                 </span>

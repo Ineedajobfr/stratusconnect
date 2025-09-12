@@ -220,11 +220,11 @@ export const InteractiveAnalytics: React.FC = () => {
           </div>
           <div className="flex items-center justify-center space-x-2">
             {currentData.trend === 'up' ? (
-              <TrendingUp className="h-4 w-4 text-green-400" />
+              <TrendingUp className="h-4 w-4 text-white" />
             ) : (
               <TrendingDown className="h-4 w-4 text-red-400" />
             )}
-            <span className={`text-sm ${currentData.trend === 'up' ? 'text-green-400' : 'text-red-400'}`}>
+            <span className={`text-sm ${currentData.trend === 'up' ? 'text-white' : 'text-red-400'}`}>
               {currentData.change}% vs previous period
             </span>
           </div>
@@ -331,7 +331,7 @@ export const InteractiveSystemStatus: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'operational': return 'text-green-400';
+      case 'operational': return 'text-white';
       case 'degraded': return 'text-yellow-400';
       case 'down': return 'text-red-400';
       default: return 'text-gray-400';

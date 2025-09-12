@@ -147,7 +147,7 @@ export default function CompliantEscrowManagement({
 
       setShowCreateDialog(false);
       loadData();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error creating payment intent:', error);
       toast({
         title: "Error",
@@ -192,7 +192,7 @@ export default function CompliantEscrowManagement({
 
       setShowCreateDialog(false);
       loadData();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error creating hiring payment:', error);
       toast({
         title: "Error",
@@ -209,7 +209,7 @@ export default function CompliantEscrowManagement({
         title: "Payment Processing",
         description: "Redirecting to secure payment processing...",
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error processing payment:', error);
       toast({
         title: "Error",
@@ -230,7 +230,7 @@ export default function CompliantEscrowManagement({
       case 'processing':
         return <RefreshCw className="w-4 h-4 text-blue-500 animate-spin" />;
       case 'succeeded':
-        return <CheckCircle className="w-4 h-4 text-green-500" />;
+        return <CheckCircle className="w-4 h-4 text-white" />;
       case 'canceled':
         return <XCircle className="w-4 h-4 text-red-500" />;
       default:
@@ -249,11 +249,11 @@ export default function CompliantEscrowManagement({
       case 'processing':
         return 'bg-blue-100 text-blue-800';
       case 'succeeded':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-100 text-white';
       case 'canceled':
         return 'bg-red-100 text-red-800';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-purple-900/30 text-purple-200';
     }
   };
 
@@ -294,13 +294,13 @@ export default function CompliantEscrowManagement({
       </div>
 
       {/* Compliance Notice */}
-      <Card className="bg-green-50 border-green-200">
+      <Card className="bg-slate-800 border-green-200">
         <CardContent className="p-4">
           <div className="flex items-start gap-3">
-            <Shield className="w-5 h-5 text-green-600 mt-0.5" />
+            <Shield className="w-5 h-5 text-white mt-0.5" />
             <div>
-              <h3 className="font-medium text-green-800">FCA Compliant Payments</h3>
-              <p className="text-green-700 text-sm mt-1">
+              <h3 className="font-medium text-white">FCA Compliant Payments</h3>
+              <p className="text-white text-sm mt-1">
                 All payments are processed through Stripe Connect. Stratus Connect never holds client funds. 
                 Our platform fee is automatically deducted by Stripe during processing. All transactions are 
                 safeguarded and compliant with FCA regulations.
@@ -312,13 +312,13 @@ export default function CompliantEscrowManagement({
 
       {/* KYC Status */}
       {kycStatus && (
-        <Card className={kycStatus.status === 'verified' ? 'bg-green-50 border-green-200' : 'bg-yellow-50 border-yellow-200'}>
+        <Card className={kycStatus.status === 'verified' ? 'bg-slate-800 border-green-200' : 'bg-slate-800 border-yellow-200'}>
           <CardContent className="p-4">
             <div className="flex items-start gap-3">
-              <User className="w-5 h-5 text-green-600 mt-0.5" />
+              <User className="w-5 h-5 text-white mt-0.5" />
               <div>
-                <h3 className="font-medium text-green-800">KYC Status</h3>
-                <p className="text-green-700 text-sm mt-1">
+                <h3 className="font-medium text-white">KYC Status</h3>
+                <p className="text-white text-sm mt-1">
                   {kycStatus.status === 'verified' 
                     ? 'Identity verified. You can send and receive payments.'
                     : 'Identity verification required before processing payments.'
@@ -345,7 +345,7 @@ export default function CompliantEscrowManagement({
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="text-center p-4 bg-blue-50 rounded-lg">
+            <div className="text-center p-4 bg-slate-800 rounded-lg">
               <Building className="w-8 h-8 mx-auto mb-2 text-blue-600" />
               <h3 className="font-semibold text-foreground">Broker-Operator</h3>
               <p className="text-2xl font-bold text-blue-600">
@@ -353,21 +353,21 @@ export default function CompliantEscrowManagement({
               </p>
               <p className="text-sm text-gunmetal">Platform commission</p>
             </div>
-            <div className="text-center p-4 bg-green-50 rounded-lg">
-              <User className="w-8 h-8 mx-auto mb-2 text-green-600" />
+            <div className="text-center p-4 bg-slate-800 rounded-lg">
+              <User className="w-8 h-8 mx-auto mb-2 text-white" />
               <h3 className="font-semibold text-foreground">Operator Hiring</h3>
-              <p className="text-2xl font-bold text-green-600">
+              <p className="text-2xl font-bold text-white">
                 {getFeeStructure().operatorHiringFee}%
               </p>
               <p className="text-sm text-gunmetal">Hiring fee</p>
             </div>
-            <div className="text-center p-4 bg-gray-50 rounded-lg">
-              <User className="w-8 h-8 mx-auto mb-2 text-gray-600" />
-              <h3 className="font-semibold text-foreground">Pilots & Crew</h3>
-              <p className="text-2xl font-bold text-gray-600">
+            <div className="text-center p-4 bg-purple-900/20 rounded-lg border border-purple-700">
+              <User className="w-8 h-8 mx-auto mb-2 text-white/70" />
+              <h3 className="font-semibold text-white">Pilots & Crew</h3>
+              <p className="text-2xl font-bold text-white">
                 {getFeeStructure().pilotCrewFee}%
               </p>
-              <p className="text-sm text-gunmetal">Always free</p>
+              <p className="text-sm text-white/70">Always free</p>
             </div>
           </div>
         </CardContent>
@@ -483,7 +483,7 @@ export default function CompliantEscrowManagement({
           <DialogHeader>
             <DialogTitle>Create Payment Intent</DialogTitle>
           </DialogHeader>
-          <form action={userRole === 'operator' ? createHiringPayment : createBrokerOperatorPayment} className="space-y-4">
+          <form onSubmit={userRole === 'operator' ? createHiringPayment : createBrokerOperatorPayment} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="amount">Amount</Label>

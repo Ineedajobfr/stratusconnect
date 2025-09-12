@@ -169,7 +169,7 @@ export const CrewCard: React.FC<CrewCardProps> = ({
               </div>
               
               {isLicenceExpired() && (
-                <div className="p-2 bg-red-50 border border-red-200 rounded-md">
+                <div className="p-2 bg-slate-800 border border-red-200 rounded-md">
                   <p className="text-xs text-red-600 font-medium">
                     ⚠️ Licence expired - cannot be assigned
                   </p>
@@ -177,7 +177,7 @@ export const CrewCard: React.FC<CrewCardProps> = ({
               )}
               
               {isLicenceExpiringSoon() && !isLicenceExpired() && (
-                <div className="p-2 bg-yellow-50 border border-yellow-200 rounded-md">
+                <div className="p-2 bg-slate-800 border border-yellow-200 rounded-md">
                   <p className="text-xs text-yellow-600 font-medium">
                     ⚠️ Licence expires soon - renewal needed
                   </p>

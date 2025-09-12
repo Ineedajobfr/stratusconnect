@@ -177,7 +177,7 @@ export const PilotCockpit: React.FC = () => {
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span className="text-slate-400">On-Time Rate</span>
-                        <span className="text-green-400">98.5%</span>
+                        <span className="text-white">98.5%</span>
                   </div>
                       <div className="w-full bg-slate-700 rounded-full h-2">
                         <div className="bg-green-500 h-2 rounded-full" style={{width: '98.5%'}}></div>
@@ -289,7 +289,7 @@ export const PilotCockpit: React.FC = () => {
               </div>
                     <div className="flex justify-between">
                       <span className="text-slate-400">Medical:</span>
-                      <span className="text-green-400">Valid until Dec 2025</span>
+                      <span className="text-white">Valid until Dec 2025</span>
                 </div>
                     <div className="flex justify-between">
                       <span className="text-slate-400">Total Hours:</span>
@@ -311,7 +311,7 @@ export const PilotCockpit: React.FC = () => {
                   <div className="space-y-3">
                     <div className="flex justify-between">
                       <span className="text-slate-400">On-Time Rate:</span>
-                      <span className="text-green-400">98.5%</span>
+                      <span className="text-white">98.5%</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-400">Rating:</span>
@@ -346,7 +346,7 @@ export const PilotCockpit: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex items-start space-x-3 p-3 bg-slate-700 rounded-lg">
-                  <CheckCircle className="h-5 w-5 text-green-400 mt-0.5" />
+                  <CheckCircle className="h-5 w-5 text-white mt-0.5" />
                   <div className="flex-1">
                     <div className="font-semibold text-white">Flight Confirmed</div>
                     <div className="text-sm text-slate-400">Charter Flight #CF-2025-000 has been confirmed</div>

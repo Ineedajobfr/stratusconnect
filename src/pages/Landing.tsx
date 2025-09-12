@@ -72,7 +72,7 @@ export default function Landing() {
       </nav>
 
       {/* Hero Section */}
-      <section className="px-6 py-20 bg-terminal-bg bg-slate-900">
+      <section className="px-6 py-24 bg-terminal-bg">
         <div className="max-w-5xl mx-auto">
           <div className="max-w-3xl">
             <h1 className="text-5xl text-foreground tracking-tight mb-6 font-bold">
@@ -88,7 +88,7 @@ export default function Landing() {
       </section>
 
       {/* Terminal Access */}
-      <section className="px-6 py-20 bg-terminal-card/30 bg-slate-900">
+      <section className="px-6 py-24 bg-terminal-bg">
         <div className="max-w-5xl mx-auto">
           <div className="mb-12 text-center">
             <h2 className="text-3xl font-semibold text-foreground mb-4">Terminal Access</h2>

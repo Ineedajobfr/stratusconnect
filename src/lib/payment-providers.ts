@@ -41,7 +41,7 @@ export interface PaymentProvider {
   refundEscrow(intentId: string, reason: string): Promise<EscrowIntent>;
   getEscrowStatus(intentId: string): Promise<EscrowIntent>;
   generateReceipt(intentId: string): Promise<PaymentReceipt>;
-  handleWebhook(payload: any, signature: string): Promise<WebhookEvent>;
+  handleWebhook(payload: Record<string, unknown>, signature: string): Promise<WebhookEvent>;
 }
 
 export interface CreateEscrowParams {
@@ -59,7 +59,7 @@ export interface WebhookEvent {
   intentId: string;
   status: string;
   timestamp: string;
-  data: any;
+  data: Record<string, unknown>;
 }
 
 // Shieldpay Implementation
@@ -210,7 +210,7 @@ export class ShieldpayProvider implements PaymentProvider {
     };
   }
 
-  async handleWebhook(payload: any, signature: string): Promise<WebhookEvent> {
+  async handleWebhook(payload: Record<string, unknown>, signature: string): Promise<WebhookEvent> {
     // Verify webhook signature
     const isValid = await this.verifyWebhookSignature(payload, signature);
     if (!isValid) {
@@ -226,7 +226,7 @@ export class ShieldpayProvider implements PaymentProvider {
     };
   }
 
-  private async verifyWebhookSignature(payload: any, signature: string): Promise<boolean> {
+  private async verifyWebhookSignature(payload: Record<string, unknown>, signature: string): Promise<boolean> {
     // Implement webhook signature verification
     // This would use the webhook secret to verify the signature
     return true; // Placeholder
@@ -289,7 +289,7 @@ export class MangopayProvider implements PaymentProvider {
     throw new Error('Mangopay implementation not yet complete');
   }
 
-  async handleWebhook(payload: any, signature: string): Promise<WebhookEvent> {
+  async handleWebhook(payload: Record<string, unknown>, signature: string): Promise<WebhookEvent> {
     throw new Error('Mangopay implementation not yet complete');
   }
 }
@@ -333,7 +333,7 @@ export class LemonwayProvider implements PaymentProvider {
     throw new Error('Lemonway implementation not yet complete');
   }
 
-  async handleWebhook(payload: any, signature: string): Promise<WebhookEvent> {
+  async handleWebhook(payload: Record<string, unknown>, signature: string): Promise<WebhookEvent> {
     throw new Error('Lemonway implementation not yet complete');
   }
 }

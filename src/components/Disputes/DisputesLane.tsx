@@ -18,6 +18,7 @@ import {
   Download,
   Shield,
   DollarSign,
+  Plus,
   Calendar,
   User,
   MessageSquare
@@ -61,7 +62,7 @@ export interface DisputeEvent {
   description: string;
   actor: string;
   timestamp: string;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
 }
 
 export interface DisputesLaneProps {
@@ -174,28 +175,28 @@ export function DisputesLane({ dealId, dealType, totalAmount, currency, broker, 
   const getDisputeTypeColor = (type: string) => {
     switch (type) {
       case 'payment_dispute':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-900 text-red-100';
       case 'service_dispute':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-900 text-yellow-100';
       case 'cancellation_dispute':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-blue-900 text-blue-100';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-purple-900/30 text-purple-200';
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'open':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-900 text-red-100';
       case 'investigating':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-900 text-yellow-100';
       case 'resolved':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-100 text-white';
       case 'closed':
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-purple-900/30 text-purple-200';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-purple-900/30 text-purple-200';
     }
   };
 
@@ -254,9 +255,9 @@ export function DisputesLane({ dealId, dealType, totalAmount, currency, broker, 
                     <h4 className="font-medium mb-2">Evidence ({dispute.evidence.length})</h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       {dispute.evidence.map(evidence => (
-                        <div key={evidence.id} className="flex items-center gap-2 p-2 bg-gray-50 rounded">
-                          <FileText className="w-4 h-4 text-gray-500" />
-                          <span className="text-sm">{evidence.name}</span>
+                        <div key={evidence.id} className="flex items-center gap-2 p-2 bg-purple-900/20 rounded border border-purple-700">
+                          <FileText className="w-4 h-4 text-white/70" />
+                          <span className="text-sm text-white">{evidence.name}</span>
                           <Button size="sm" variant="ghost">
                             <Download className="w-4 h-4" />
                           </Button>
@@ -301,8 +302,8 @@ export function DisputesLane({ dealId, dealType, totalAmount, currency, broker, 
 
                   {/* Resolution */}
                   {dispute.resolution && (
-                    <div className="mb-4 p-3 bg-green-50 rounded-lg">
-                      <h4 className="font-medium text-green-800 mb-2">Resolution</h4>
+                    <div className="mb-4 p-3 bg-slate-800 rounded-lg">
+                      <h4 className="font-medium text-white mb-2">Resolution</h4>
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                         <div>
                           <span className="text-gray-600">Type:</span>

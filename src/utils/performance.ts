@@ -3,7 +3,7 @@ import React from 'react';
 // Performance utilities and optimizations
 
 // Debounce function for search inputs and API calls
-export const debounce = <T extends (...args: any[]) => any>(
+export const debounce = <T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
 ): ((...args: Parameters<T>) => void) => {
@@ -15,7 +15,7 @@ export const debounce = <T extends (...args: any[]) => any>(
 };
 
 // Throttle function for scroll events and frequent updates
-export const throttle = <T extends (...args: any[]) => any>(
+export const throttle = <T extends (...args: unknown[]) => unknown>(
   func: T,
   limit: number
 ): ((...args: Parameters<T>) => void) => {
@@ -54,7 +54,7 @@ export const chunkArray = <T>(array: T[], size: number): T[][] => {
 };
 
 // Optimize re-renders with shallow comparison
-export const shallowEqual = (obj1: any, obj2: any): boolean => {
+export const shallowEqual = (obj1: unknown, obj2: unknown): boolean => {
   if (obj1 === obj2) return true;
   
   const keys1 = Object.keys(obj1);

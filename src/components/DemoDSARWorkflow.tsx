@@ -214,7 +214,7 @@ export default function DemoDSARWorkflow() {
       case 'processing':
         return 'bg-blue-100 text-blue-800';
       case 'completed':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-100 text-white';
       case 'rejected':
         return 'bg-red-100 text-red-800';
       default:
@@ -251,7 +251,7 @@ export default function DemoDSARWorkflow() {
       </div>
 
       {/* Compliance Notice */}
-      <Card className="bg-blue-50 border-blue-200">
+      <Card className="bg-slate-800 border-blue-200">
         <CardContent className="p-4">
           <div className="flex items-start gap-3">
             <Shield className="w-5 h-5 text-blue-600 mt-0.5" />
@@ -346,7 +346,7 @@ export default function DemoDSARWorkflow() {
                     onClick={() => processErasure(request.id)}
                     variant="outline"
                     size="sm"
-                    className="text-red-600 border-red-600 hover:bg-red-50"
+                    className="text-red-600 border-red-600 hover:bg-slate-800"
                   >
                     <Trash2 className="w-4 h-4 mr-2" />
                     Process Erasure
@@ -358,7 +358,7 @@ export default function DemoDSARWorkflow() {
                     onClick={() => processRectification(request.id)}
                     variant="outline"
                     size="sm"
-                    className="text-blue-600 border-blue-600 hover:bg-blue-50"
+                    className="text-blue-600 border-blue-600 hover:bg-slate-800"
                   >
                     <FileText className="w-4 h-4 mr-2" />
                     Process Rectification
@@ -426,7 +426,7 @@ export default function DemoDSARWorkflow() {
 
       {/* Demo Notice */}
       {isDemoMode && (
-        <Card className="bg-yellow-50 border-yellow-200">
+        <Card className="bg-slate-800 border-yellow-200">
           <CardContent className="p-4">
             <div className="flex items-start gap-3">
               <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />

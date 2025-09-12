@@ -60,7 +60,7 @@ export const NewRequestForm: React.FC<NewRequestFormProps> = ({
       if (error) throw error;
 
       onSuccess();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error creating request:', error);
       setErrors({ submit: error.message || 'Failed to create request' });
     } finally {
@@ -68,7 +68,7 @@ export const NewRequestForm: React.FC<NewRequestFormProps> = ({
     }
   };
 
-  const handleInputChange = (field: string, value: any) => {
+  const handleInputChange = (field: string, value: Record<string, unknown>) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));
@@ -281,7 +281,7 @@ export const NewRequestForm: React.FC<NewRequestFormProps> = ({
 
           {/* Error Message */}
           {errors.submit && (
-            <div className="p-3 bg-red-50 border border-red-200 rounded-md">
+            <div className="p-3 bg-slate-800 border border-red-200 rounded-md">
               <p className="text-sm text-red-600">{errors.submit}</p>
             </div>
           )}

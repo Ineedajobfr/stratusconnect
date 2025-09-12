@@ -270,7 +270,7 @@ export const UnifiedTerminalLayout: React.FC<UnifiedTerminalLayoutProps> = ({
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 <div className="text-sm text-slate-400">
-                  TERMINAL STATUS: <span className="text-green-400">OPERATIONAL</span>
+                  TERMINAL STATUS: <span className="text-white">OPERATIONAL</span>
                 </div>
                 <div className="text-sm text-slate-400">
                   USER: <span className="text-orange-400">{user.name}</span>
@@ -319,32 +319,37 @@ export const UnifiedTerminalLayout: React.FC<UnifiedTerminalLayoutProps> = ({
 };
 
 // Icon components for consistency
+interface IconProps {
+  className?: string;
+  [key: string]: unknown;
+}
+
 export const TerminalIcons = {
-  Profile: (props: any) => <User className="h-4 w-4" {...props} />,
-  Trust: (props: any) => <Shield className="h-4 w-4" {...props} />,
-  Jobs: (props: any) => <Award className="h-4 w-4" {...props} />,
-  Schedule: (props: any) => <Calendar className="h-4 w-4" {...props} />,
-  Certifications: (props: any) => <FileText className="h-4 w-4" {...props} />,
-  Licenses: (props: any) => <FileText className="h-4 w-4" {...props} />,
-  Logbook: (props: any) => <Plane className="h-4 w-4" {...props} />,
-  Earnings: (props: any) => <DollarSign className="h-4 w-4" {...props} />,
-  Network: (props: any) => <Users className="h-4 w-4" {...props} />,
-  Training: (props: any) => <Award className="h-4 w-4" {...props} />,
-  News: (props: any) => <FileText className="h-4 w-4" {...props} />,
-  Requests: (props: any) => <Plane className="h-4 w-4" {...props} />,
-  Bookings: (props: any) => <CheckCircle className="h-4 w-4" {...props} />,
-  Fleet: (props: any) => <Plane className="h-4 w-4" {...props} />,
-  Crew: (props: any) => <Users className="h-4 w-4" {...props} />,
-  Analytics: (props: any) => <BarChart3 className="h-4 w-4" {...props} />,
-  Settings: (props: any) => <Settings className="h-4 w-4" {...props} />,
-  Location: (props: any) => <MapPin className="h-4 w-4" {...props} />,
-  Time: (props: any) => <Clock className="h-4 w-4" {...props} />,
-  Dashboard: (props: any) => <BarChart3 className="h-4 w-4" {...props} />,
-  Dispatch: (props: any) => <Plane className="h-4 w-4" {...props} />,
-  Maintenance: (props: any) => <Settings className="h-4 w-4" {...props} />,
-  Marketplace: (props: any) => <BarChart3 className="h-4 w-4" {...props} />,
-  Communications: (props: any) => <MessageCircle className="h-4 w-4" {...props} />,
-  Compliance: (props: any) => <Shield className="h-4 w-4" {...props} />,
-  FileText: (props: any) => <FileText className="h-4 w-4" {...props} />,
-  Star: (props: any) => <Star className="h-4 w-4" {...props} />
+  Profile: (props: IconProps) => <User className="h-4 w-4" {...props} />,
+  Trust: (props: IconProps) => <Shield className="h-4 w-4" {...props} />,
+  Jobs: (props: IconProps) => <Award className="h-4 w-4" {...props} />,
+  Schedule: (props: IconProps) => <Calendar className="h-4 w-4" {...props} />,
+  Certifications: (props: IconProps) => <FileText className="h-4 w-4" {...props} />,
+  Licenses: (props: IconProps) => <FileText className="h-4 w-4" {...props} />,
+  Logbook: (props: IconProps) => <Plane className="h-4 w-4" {...props} />,
+  Earnings: (props: IconProps) => <DollarSign className="h-4 w-4" {...props} />,
+  Network: (props: IconProps) => <Users className="h-4 w-4" {...props} />,
+  Training: (props: IconProps) => <Award className="h-4 w-4" {...props} />,
+  News: (props: IconProps) => <FileText className="h-4 w-4" {...props} />,
+  Requests: (props: IconProps) => <Plane className="h-4 w-4" {...props} />,
+  Bookings: (props: IconProps) => <CheckCircle className="h-4 w-4" {...props} />,
+  Fleet: (props: IconProps) => <Plane className="h-4 w-4" {...props} />,
+  Crew: (props: IconProps) => <Users className="h-4 w-4" {...props} />,
+  Analytics: (props: IconProps) => <BarChart3 className="h-4 w-4" {...props} />,
+  Settings: (props: IconProps) => <Settings className="h-4 w-4" {...props} />,
+  Location: (props: IconProps) => <MapPin className="h-4 w-4" {...props} />,
+  Time: (props: IconProps) => <Clock className="h-4 w-4" {...props} />,
+  Dashboard: (props: IconProps) => <BarChart3 className="h-4 w-4" {...props} />,
+  Dispatch: (props: IconProps) => <Plane className="h-4 w-4" {...props} />,
+  Maintenance: (props: IconProps) => <Settings className="h-4 w-4" {...props} />,
+  Marketplace: (props: IconProps) => <BarChart3 className="h-4 w-4" {...props} />,
+  Communications: (props: IconProps) => <MessageCircle className="h-4 w-4" {...props} />,
+  Compliance: (props: IconProps) => <Shield className="h-4 w-4" {...props} />,
+  FileText: (props: IconProps) => <FileText className="h-4 w-4" {...props} />,
+  Star: (props: IconProps) => <Star className="h-4 w-4" {...props} />
 };

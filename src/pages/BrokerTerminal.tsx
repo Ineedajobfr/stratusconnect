@@ -115,7 +115,7 @@ export default function BrokerTerminal() {
                         <td className="px-3 py-2 font-mono text-xs">JFK → LAX</td>
                         <td className="px-3 py-2 text-xs">G650</td>
                         <td className="px-3 py-2 font-mono text-xs tabular">$45,000</td>
-                        <td className="px-3 py-2 text-xs text-green-400">Active</td>
+                        <td className="px-3 py-2 text-xs text-white">Active</td>
                       </tr>
                       <tr>
                         <td className="px-3 py-2 font-mono text-xs">LHR → CDG</td>
@@ -127,7 +127,7 @@ export default function BrokerTerminal() {
                         <td className="px-3 py-2 font-mono text-xs">SFO → NRT</td>
                         <td className="px-3 py-2 text-xs">B777</td>
                         <td className="px-3 py-2 font-mono text-xs tabular">$78,000</td>
-                        <td className="px-3 py-2 text-xs text-green-400">Active</td>
+                        <td className="px-3 py-2 text-xs text-white">Active</td>
                       </tr>
                     </tbody>
                   </table>
@@ -139,7 +139,7 @@ export default function BrokerTerminal() {
                 <div className="text-sm font-semibold">Risk & Alerts</div>
                 <div className="space-y-2">
                   <div className="text-xs text-textDim">Market Risk</div>
-                  <div className="text-lg font-mono tabular text-green-400">Low</div>
+                  <div className="text-lg font-mono tabular text-white">Low</div>
                 </div>
                 <div className="space-y-2">
                   <div className="text-xs text-textDim">Messages</div>
@@ -207,7 +207,7 @@ export default function BrokerTerminal() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6">
               <h1 className="text-2xl font-bold text-white">Broker Terminal</h1>
-              <div className="flex items-center space-x-2 text-green-400 text-sm">
+              <div className="flex items-center space-x-2 text-white text-sm">
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                 <span className="font-mono">MARKET ACTIVE</span>
               </div>

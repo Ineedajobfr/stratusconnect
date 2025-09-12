@@ -130,7 +130,7 @@ export default function ReputationSystem() {
       // Calculate average ratings
       if (ratings && ratings.length > 0) {
         const categories = ['communication', 'reliability', 'professionalism', 'timeliness'];
-        const avgRatings: any = { totalReviews: ratings.length };
+        const avgRatings: Record<string, unknown> = { totalReviews: ratings.length };
         
         categories.forEach(category => {
           const categoryRatings = ratings.filter(r => r.category === category);
@@ -267,7 +267,7 @@ export default function ReputationSystem() {
           timeliness: ""
         }
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: error.message || "Failed to submit rating",
@@ -321,9 +321,9 @@ export default function ReputationSystem() {
 
       {/* Reputation Overview */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="bg-slate-800/50 border-slate-700">
+        <Card className="card">
           <CardHeader>
-            <CardTitle className="text-white flex items-center">
+            <CardTitle className="text-body flex items-center">
               <Star className="mr-2 h-5 w-5 text-terminal-warning" />
               Overall Rating
             </CardTitle>
@@ -352,9 +352,9 @@ export default function ReputationSystem() {
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-800/50 border-slate-700">
+        <Card className="card">
           <CardHeader>
-            <CardTitle className="text-white flex items-center">
+            <CardTitle className="text-body flex items-center">
               <CheckCircle className="mr-2 h-5 w-5 text-terminal-success" />
               Deal History
             </CardTitle>
@@ -377,9 +377,9 @@ export default function ReputationSystem() {
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-800/50 border-slate-700">
+        <Card className="card">
           <CardHeader>
-            <CardTitle className="text-white flex items-center">
+            <CardTitle className="text-body flex items-center">
               <Trophy className="mr-2 h-5 w-5 text-terminal-warning" />
               Achievements
             </CardTitle>
@@ -389,11 +389,11 @@ export default function ReputationSystem() {
               {achievements.slice(0, 6).map((achievement) => (
                 <div
                   key={achievement.id}
-                  className="flex flex-col items-center p-2 bg-slate-700/30 rounded text-center"
+                  className="flex flex-col items-center p-2 bg-elev rounded text-center"
                   title={achievement.description}
                 >
                   {getAchievementIcon(achievement.badge_icon)}
-                  <span className="text-xs text-slate-400 mt-1 truncate w-full">
+                  <span className="text-xs text-muted mt-1 truncate w-full">
                     {achievement.achievement_name}
                   </span>
                 </div>
@@ -502,7 +502,7 @@ export default function ReputationSystem() {
 
       {/* Rate Completed Deals */}
       {completedDeals.length > 0 && (
-        <Card className="bg-slate-800/50 border-slate-700">
+        <Card className="card">
           <CardHeader>
             <CardTitle className="text-white">Rate Your Recent Partners</CardTitle>
             <CardDescription className="text-slate-400">

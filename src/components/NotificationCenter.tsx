@@ -133,7 +133,7 @@ export default function NotificationCenter() {
         title: "All notifications marked as read",
         description: "Your notification center has been cleared",
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
         description: error.message || "Failed to mark notifications as read",

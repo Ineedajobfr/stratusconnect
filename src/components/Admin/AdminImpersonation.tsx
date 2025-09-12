@@ -45,7 +45,7 @@ export interface ImpersonationAction {
   action: string;
   description: string;
   timestamp: string;
-  details: any;
+  details: Record<string, unknown>;
   riskLevel: 'low' | 'medium' | 'high' | 'critical';
 }
 
@@ -137,7 +137,7 @@ export function AdminImpersonation({ onImpersonationStarted, onImpersonationEnde
     onImpersonationEnded(updatedSession);
   };
 
-  const logAction = (sessionId: string, action: string, description: string, details: any, riskLevel: ImpersonationAction['riskLevel'] = 'low') => {
+  const logAction = (sessionId: string, action: string, description: string, details: Record<string, unknown>, riskLevel: ImpersonationAction['riskLevel'] = 'low') => {
     const newAction: ImpersonationAction = {
       id: `ACTION_${Date.now()}`,
       sessionId,

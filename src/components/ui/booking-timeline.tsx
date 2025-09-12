@@ -193,7 +193,7 @@ export const BookingTimeline: React.FC<BookingTimelineProps> = ({
                   </div>
 
                   {flight.delay_reason && (
-                    <div className="mt-2 p-2 bg-yellow-50 rounded-md">
+                    <div className="mt-2 p-2 bg-slate-800 rounded-md">
                       <div className="flex items-center gap-2 text-sm text-yellow-800">
                         <AlertCircle className="h-4 w-4" />
                         <span className="font-medium">Delay Reason:</span>
@@ -217,7 +217,7 @@ export const BookingTimeline: React.FC<BookingTimelineProps> = ({
 
       {/* Summary */}
       {showDetails && (
-        <div className="mt-4 p-3 bg-gray-50 rounded-md">
+        <div className="mt-4 p-3 bg-slate-800 rounded-md">
           <div className="flex justify-between text-sm">
             <span className="font-medium">Total Flights:</span>
             <span>{flights.length}</span>

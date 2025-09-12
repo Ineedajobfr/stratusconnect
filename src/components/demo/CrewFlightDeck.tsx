@@ -181,7 +181,7 @@ export const CrewFlightDeck: React.FC = () => {
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span className="text-slate-400">Service Rating</span>
-                        <span className="text-green-400">4.9/5.0</span>
+                        <span className="text-white">4.9/5.0</span>
                   </div>
                       <div className="w-full bg-slate-700 rounded-full h-2">
                         <div className="bg-green-500 h-2 rounded-full" style={{width: '98%'}}></div>
@@ -362,7 +362,7 @@ export const CrewFlightDeck: React.FC = () => {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-400">Certifications:</span>
-                      <span className="text-green-400">Valid until Mar 2025</span>
+                      <span className="text-white">Valid until Mar 2025</span>
               </div>
                     <div className="flex justify-between">
                       <span className="text-slate-400">Experience:</span>
@@ -384,11 +384,11 @@ export const CrewFlightDeck: React.FC = () => {
                   <div className="space-y-3">
                     <div className="flex justify-between">
                       <span className="text-slate-400">Service Rating:</span>
-                      <span className="text-green-400">4.9/5.0</span>
+                      <span className="text-white">4.9/5.0</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-400">Punctuality:</span>
-                      <span className="text-green-400">100%</span>
+                      <span className="text-white">100%</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-400">This Month:</span>

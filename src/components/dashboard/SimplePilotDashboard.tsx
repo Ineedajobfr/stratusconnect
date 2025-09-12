@@ -165,9 +165,9 @@ export default function SimplePilotDashboard() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-slate-400 text-sm">Rating</p>
-                    <p className="text-3xl font-bold text-green-400">{pilotData.rating}</p>
+                    <p className="text-3xl font-bold text-white">{pilotData.rating}</p>
                   </div>
-                  <Star className="h-8 w-8 text-green-400" />
+                  <Star className="h-8 w-8 text-white" />
                 </div>
               </CardContent>
             </Card>
@@ -212,7 +212,7 @@ export default function SimplePilotDashboard() {
                   <div className="text-2xl font-bold text-white">{pilotData.name}</div>
                   <div className="text-slate-400">ATPL • {pilotData.totalHours.toLocaleString()} hours</div>
                   <div className="flex items-center space-x-2 mt-2">
-                    <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
+                    <Badge className="bg-green-500/20 text-white border-green-500/30">
                       Verified
                     </Badge>
                     <div className="flex items-center space-x-1">
@@ -233,7 +233,7 @@ export default function SimplePilotDashboard() {
                           <div className="w-2 h-2 bg-green-400 rounded-full" />
                           <span className="text-slate-300">{license.name}</span>
                         </div>
-                        <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
+                        <Badge className="bg-green-500/20 text-white border-green-500/30">
                           {license.status}
                         </Badge>
                       </div>
@@ -298,10 +298,10 @@ export default function SimplePilotDashboard() {
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between p-3 bg-green-500/10 rounded-lg">
                   <div className="flex items-center space-x-2">
-                    <CheckCircle className="h-5 w-5 text-green-400" />
+                    <CheckCircle className="h-5 w-5 text-white" />
                     <span className="text-white">Available for assignments</span>
                   </div>
-                  <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
+                  <Badge className="bg-green-500/20 text-white border-green-500/30">
                     Active
                   </Badge>
                 </div>
@@ -387,9 +387,9 @@ export default function SimplePilotDashboard() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-slate-400 text-sm">Avg per Flight</p>
-                    <p className="text-3xl font-bold text-green-400">$1,542</p>
+                    <p className="text-3xl font-bold text-white">$1,542</p>
                   </div>
-                  <BarChart3 className="h-8 w-8 text-green-400" />
+                  <BarChart3 className="h-8 w-8 text-white" />
                 </div>
               </CardContent>
             </Card>
@@ -454,7 +454,7 @@ export default function SimplePilotDashboard() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <Badge className="bg-green-500/20 text-green-400 border-green-500/30 mb-1">
+                      <Badge className="bg-green-500/20 text-white border-green-500/30 mb-1">
                         {license.status}
                       </Badge>
                       <div className="text-sm text-slate-400">Expires: {license.expiry}</div>

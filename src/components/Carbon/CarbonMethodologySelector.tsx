@@ -17,7 +17,7 @@ import {
 import { BadgeVerificationService } from '@/lib/badge-verification';
 
 export interface CarbonMethodologySelectorProps {
-  onMethodologyChange: (methodology: any) => void;
+  onMethodologyChange: (methodology: Record<string, unknown>) => void;
   selectedMethodology?: string;
 }
 
@@ -38,7 +38,7 @@ export function CarbonMethodologySelector({
 
   const getConfidenceColor = (confidence: string) => {
     switch (confidence) {
-      case 'high': return 'text-green-600 bg-green-100';
+      case 'high': return 'text-white bg-green-100';
       case 'medium': return 'text-yellow-600 bg-yellow-100';
       case 'low': return 'text-red-600 bg-red-100';
       default: return 'text-gray-600 bg-gray-100';
@@ -88,7 +88,7 @@ export function CarbonMethodologySelector({
             </div>
 
             {currentMethodology && (
-              <div className="p-4 bg-gray-50 rounded-lg">
+              <div className="p-4 bg-slate-800 rounded-lg">
                 <div className="flex items-start gap-3">
                   {getConfidenceIcon(currentMethodology.confidence)}
                   <div className="flex-1">
@@ -128,7 +128,7 @@ export function CarbonMethodologySelector({
       </Card>
 
       {/* Footer Citation */}
-      <Card className="border-blue-200 bg-blue-50">
+      <Card className="border-blue-200 bg-slate-800">
         <CardContent className="p-4">
           <div className="flex items-start gap-3">
             <BookOpen className="w-5 h-5 text-blue-600 mt-0.5" />
@@ -151,7 +151,7 @@ export function CarbonMethodologySelector({
       </Card>
 
       {/* Disclaimer */}
-      <Card className="border-yellow-200 bg-yellow-50">
+      <Card className="border-yellow-200 bg-slate-800">
         <CardContent className="p-4">
           <div className="flex items-start gap-3">
             <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />

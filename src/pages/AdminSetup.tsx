@@ -80,7 +80,7 @@ export default function AdminSetup() {
       }
 
       return { success: true, message: 'Account created successfully' };
-    } catch (error: any) {
+    } catch (error: unknown) {
       return { success: false, message: error.message };
     }
   };
@@ -133,7 +133,7 @@ export default function AdminSetup() {
           variant: "destructive",
         });
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Login Error",
         description: error.message || "Failed to login",

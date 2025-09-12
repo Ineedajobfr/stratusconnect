@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Label } from '@/components/ui/label';
 import { 
   AlertTriangle, 
   CheckCircle, 
@@ -126,7 +127,7 @@ export default function AviationCompliance({ userRole, userId }: AviationComplia
   const getStatusIcon = (status: AviationDocument['status']) => {
     switch (status) {
       case 'valid':
-        return <CheckCircle className="w-4 h-4 text-green-500" />;
+        return <CheckCircle className="w-4 h-4 text-white" />;
       case 'expiring':
         return <AlertTriangle className="w-4 h-4 text-yellow-500" />;
       case 'expired':
@@ -145,7 +146,7 @@ export default function AviationCompliance({ userRole, userId }: AviationComplia
       case 'expired':
         return 'bg-red-100 text-red-800';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-purple-900/30 text-purple-200';
     }
   };
 
@@ -235,7 +236,7 @@ export default function AviationCompliance({ userRole, userId }: AviationComplia
       </div>
 
       {/* Compliance Notice */}
-      <Card className="bg-blue-50 border-blue-200">
+      <Card className="bg-slate-800 border-blue-200">
         <CardContent className="p-4">
           <div className="flex items-start gap-3">
             <Shield className="w-5 h-5 text-blue-600 mt-0.5" />
@@ -263,7 +264,7 @@ export default function AviationCompliance({ userRole, userId }: AviationComplia
           <div className="space-y-3">
             {getComplianceRequirements().map((requirement, index) => (
               <div key={index} className="flex items-center gap-3">
-                <CheckCircle className="w-4 h-4 text-green-500" />
+                <CheckCircle className="w-4 h-4 text-white" />
                 <span className="text-gunmetal">{requirement}</span>
               </div>
             ))}
@@ -351,7 +352,7 @@ export default function AviationCompliance({ userRole, userId }: AviationComplia
 
       {/* Expiry Warnings */}
       {documents.some(doc => doc.status === 'expiring' || doc.status === 'expired') && (
-        <Card className="border-yellow-200 bg-yellow-50">
+        <Card className="border-yellow-200 bg-slate-800">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-yellow-800">
               <AlertTriangle className="w-5 h-5" />
@@ -399,7 +400,7 @@ export default function AviationCompliance({ userRole, userId }: AviationComplia
               href="https://www.faa.gov"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 p-3 border rounded-lg hover:bg-gray-50"
+              className="flex items-center gap-2 p-3 border rounded-lg hover:bg-purple-900/20"
             >
               <Plane className="w-4 h-4 text-blue-500" />
               <div>
@@ -413,7 +414,7 @@ export default function AviationCompliance({ userRole, userId }: AviationComplia
               href="https://www.easa.europa.eu"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 p-3 border rounded-lg hover:bg-gray-50"
+              className="flex items-center gap-2 p-3 border rounded-lg hover:bg-purple-900/20"
             >
               <Plane className="w-4 h-4 text-blue-500" />
               <div>
@@ -427,7 +428,7 @@ export default function AviationCompliance({ userRole, userId }: AviationComplia
               href="https://www.caa.co.uk"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 p-3 border rounded-lg hover:bg-gray-50"
+              className="flex items-center gap-2 p-3 border rounded-lg hover:bg-purple-900/20"
             >
               <Plane className="w-4 h-4 text-blue-500" />
               <div>

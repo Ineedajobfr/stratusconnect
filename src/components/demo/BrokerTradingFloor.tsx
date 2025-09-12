@@ -70,9 +70,9 @@ export const BrokerTradingFloor: React.FC = () => {
           <div className="flex items-center space-x-6">
             <div className="text-center">
               <div className="text-sm text-gray-400">BROKER</div>
-              <div className="text-lg font-mono font-bold text-green-400">BROKER-001</div>
+              <div className="text-lg font-mono font-bold text-white">BROKER-001</div>
             </div>
-            <div className="text-2xl font-mono text-green-400">
+            <div className="text-2xl font-mono text-white">
               {formatTime(currentTime)}
             </div>
           </div>
@@ -98,15 +98,15 @@ export const BrokerTradingFloor: React.FC = () => {
           {/* Market Overview */}
           <Card className="bg-gray-800 border-gray-700">
             <CardHeader className="pb-2">
-              <CardTitle className="text-green-400 text-sm font-mono">MARKET OVERVIEW</CardTitle>
+              <CardTitle className="text-white text-sm font-mono">MARKET OVERVIEW</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="text-2xl font-mono font-bold text-white">
                 {formatCurrency(marketData.totalValue)}
               </div>
               <div className="flex items-center space-x-2">
-                <Up className="h-4 w-4 text-green-400" />
-                <span className="text-green-400 text-sm">+2.4%</span>
+                <Up className="h-4 w-4 text-white" />
+                <span className="text-white text-sm">+2.4%</span>
                 <span className="text-gray-400 text-sm">vs yesterday</span>
               </div>
               <div className="grid grid-cols-2 gap-2 text-xs">
@@ -125,7 +125,7 @@ export const BrokerTradingFloor: React.FC = () => {
           {/* Portfolio */}
           <Card className="bg-gray-800 border-gray-700">
             <CardHeader className="pb-2">
-              <CardTitle className="text-green-400 text-sm font-mono">PORTFOLIO</CardTitle>
+              <CardTitle className="text-white text-sm font-mono">PORTFOLIO</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
               <div className="flex items-center justify-between p-2 bg-gray-700 rounded">
@@ -134,7 +134,7 @@ export const BrokerTradingFloor: React.FC = () => {
                   <div className="text-gray-400 text-xs">Gulfstream G550</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-green-400 text-sm font-mono">$45K</div>
+                  <div className="text-white text-sm font-mono">$45K</div>
                   <div className="text-xs text-gray-400">+12%</div>
                 </div>
               </div>
@@ -144,7 +144,7 @@ export const BrokerTradingFloor: React.FC = () => {
                   <div className="text-gray-400 text-xs">Falcon 7X</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-green-400 text-sm font-mono">$85K</div>
+                  <div className="text-white text-sm font-mono">$85K</div>
                   <div className="text-xs text-gray-400">+8%</div>
                 </div>
               </div>
@@ -164,7 +164,7 @@ export const BrokerTradingFloor: React.FC = () => {
           {/* Active Requests */}
           <Card className="bg-gray-800 border-gray-700">
             <CardHeader className="pb-2">
-              <CardTitle className="text-green-400 text-sm font-mono flex items-center justify-between">
+              <CardTitle className="text-white text-sm font-mono flex items-center justify-between">
                 ACTIVE REQUESTS
                 <Badge className="bg-green-500 text-black text-xs">{marketData.pendingRequests}</Badge>
               </CardTitle>
@@ -189,7 +189,7 @@ export const BrokerTradingFloor: React.FC = () => {
           {/* Market Map */}
           <Card className="bg-gray-800 border-gray-700 h-64">
             <CardHeader className="pb-2">
-              <CardTitle className="text-green-400 text-sm font-mono">GLOBAL MARKET ACTIVITY</CardTitle>
+              <CardTitle className="text-white text-sm font-mono">GLOBAL MARKET ACTIVITY</CardTitle>
             </CardHeader>
             <CardContent className="p-0 h-full">
               <div className="relative h-full bg-gradient-to-br from-gray-900 to-black rounded-lg overflow-hidden">
@@ -209,22 +209,22 @@ export const BrokerTradingFloor: React.FC = () => {
                 <div className="absolute top-32 left-80 w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
                 
                 {/* Market labels */}
-                <div className="absolute top-16 left-28 text-xs text-green-400 font-mono">$45K</div>
+                <div className="absolute top-16 left-28 text-xs text-white font-mono">$45K</div>
                 <div className="absolute top-20 left-44 text-xs text-yellow-400 font-mono">$32K</div>
-                <div className="absolute top-24 left-60 text-xs text-green-400 font-mono">$85K</div>
+                <div className="absolute top-24 left-60 text-xs text-white font-mono">$85K</div>
                 <div className="absolute top-28 left-76 text-xs text-red-400 font-mono">$28K</div>
               </div>
             </CardContent>
           </Card>
 
           {/* Live Market Feed */}
-          <Card className="bg-gray-800 border-gray-700">
+          <Card className="card">
             <CardHeader className="pb-2">
-              <CardTitle className="text-green-400 text-sm font-mono flex items-center justify-between">
+              <CardTitle className="text-white text-sm font-mono flex items-center justify-between">
                 LIVE MARKET FEED
                 <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-xs text-gray-400">LIVE</span>
+                  <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
+                  <span className="text-xs text-muted">LIVE</span>
                 </div>
               </CardTitle>
             </CardHeader>
@@ -232,7 +232,7 @@ export const BrokerTradingFloor: React.FC = () => {
               <div className="space-y-2 max-h-32 overflow-y-auto">
                 <div className="flex items-center justify-between text-xs font-mono">
                   <span className="text-white">14:32:15</span>
-                  <span className="text-green-400">NEW QUOTE: JFK→LAX $45K</span>
+                  <span className="text-white">NEW QUOTE: JFK→LAX $45K</span>
                   <span className="text-gray-400">Elite Aviation</span>
                 </div>
                 <div className="flex items-center justify-between text-xs font-mono">
@@ -260,7 +260,7 @@ export const BrokerTradingFloor: React.FC = () => {
           {/* Performance Metrics */}
           <Card className="bg-gray-800 border-gray-700">
             <CardHeader className="pb-2">
-              <CardTitle className="text-green-400 text-sm font-mono">PERFORMANCE</CardTitle>
+              <CardTitle className="text-white text-sm font-mono">PERFORMANCE</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="grid grid-cols-2 gap-2">
@@ -269,14 +269,14 @@ export const BrokerTradingFloor: React.FC = () => {
                   <div className="text-xs text-gray-400">Completed</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-mono text-green-400">94.2%</div>
+                  <div className="text-2xl font-mono text-white">94.2%</div>
                   <div className="text-xs text-gray-400">Success Rate</div>
                 </div>
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between text-xs">
                   <span className="text-gray-400">This Month</span>
-                  <span className="text-green-400">+18.5%</span>
+                  <span className="text-white">+18.5%</span>
                 </div>
                 <div className="w-full bg-gray-700 rounded-full h-2">
                   <div className="bg-green-500 h-2 rounded-full" style={{width: '78%'}}></div>
@@ -288,7 +288,7 @@ export const BrokerTradingFloor: React.FC = () => {
           {/* Market Alerts */}
           <Card className="bg-gray-800 border-gray-700">
             <CardHeader className="pb-2">
-              <CardTitle className="text-green-400 text-sm font-mono">MARKET ALERTS</CardTitle>
+              <CardTitle className="text-white text-sm font-mono">MARKET ALERTS</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
               <div className="flex items-center space-x-2 p-2 bg-red-900/20 border border-red-500/30 rounded">
@@ -300,8 +300,8 @@ export const BrokerTradingFloor: React.FC = () => {
                 <span className="text-yellow-400 text-xs font-mono">PRICE DROP: MIA→LHR</span>
               </div>
               <div className="flex items-center space-x-2 p-2 bg-green-900/20 border border-green-500/30 rounded">
-                <CheckCircle className="h-4 w-4 text-green-400" />
-                <span className="text-green-400 text-xs font-mono">NEW OPERATOR: LAX</span>
+                <CheckCircle className="h-4 w-4 text-white" />
+                <span className="text-white text-xs font-mono">NEW OPERATOR: LAX</span>
               </div>
             </CardContent>
           </Card>
@@ -309,7 +309,7 @@ export const BrokerTradingFloor: React.FC = () => {
           {/* Quick Actions */}
           <Card className="bg-gray-800 border-gray-700">
             <CardHeader className="pb-2">
-              <CardTitle className="text-green-400 text-sm font-mono">QUICK ACTIONS</CardTitle>
+              <CardTitle className="text-white text-sm font-mono">QUICK ACTIONS</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
               <Button className="w-full bg-green-500 hover:bg-green-600 text-black text-xs font-mono">
@@ -327,7 +327,7 @@ export const BrokerTradingFloor: React.FC = () => {
           {/* Client Status */}
           <Card className="bg-gray-800 border-gray-700">
             <CardHeader className="pb-2">
-              <CardTitle className="text-green-400 text-sm font-mono">CLIENT STATUS</CardTitle>
+              <CardTitle className="text-white text-sm font-mono">CLIENT STATUS</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
               <div className="flex items-center justify-between">

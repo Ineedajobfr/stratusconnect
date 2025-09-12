@@ -47,10 +47,10 @@ export default function Index() {
               <Zap className="w-4 h-4 mr-2" />
               Next-Generation Aviation Platform
             </Badge>
-            <h1 className="text-5xl md:text-7xl font-bold text-body mb-6">
+            <h1 className="text-5xl md:text-7xl font-bold text-body mb-6 hero-glow">
               Welcome to <span className="text-accent">StratusConnect</span>
             </h1>
-            <p className="text-xl md:text-2xl text-muted max-w-4xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-muted max-w-4xl mx-auto leading-relaxed text-glow-subtle">
               The industry's most secure and efficient platform connecting brokers, operators, pilots, and crew. 
               Built on zero-trust architecture with military-grade encryption.
             </p>
@@ -82,8 +82,8 @@ export default function Index() {
       <div className="relative z-10 py-24">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-foreground mb-4">Choose Your Terminal</h2>
-            <p className="text-xl text-muted-foreground">Access your personalized workspace</p>
+            <h2 className="text-4xl font-bold text-foreground mb-4 title-glow">Choose Your Terminal</h2>
+            <p className="text-xl text-muted-foreground subtitle-glow">Access your personalized workspace</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -95,8 +95,8 @@ export default function Index() {
                     <Building2 className="w-8 h-8 text-accent" />
                   </div>
                   <div>
-                    <CardTitle className="text-2xl">Broker Terminal</CardTitle>
-                    <CardDescription>Quote management & client relations</CardDescription>
+                    <CardTitle className="text-2xl title-glow">Broker Terminal</CardTitle>
+                    <CardDescription className="subtitle-glow">Quote management & client relations</CardDescription>
                   </div>
                 </div>
               </CardHeader>
@@ -130,8 +130,8 @@ export default function Index() {
                     <Plane className="w-8 h-8 text-accent" />
                   </div>
                   <div>
-                    <CardTitle className="text-2xl">Operator Terminal</CardTitle>
-                    <CardDescription>Fleet management & optimization</CardDescription>
+                    <CardTitle className="text-2xl title-glow">Operator Terminal</CardTitle>
+                    <CardDescription className="subtitle-glow">Fleet management & optimization</CardDescription>
                   </div>
                 </div>
               </CardHeader>
@@ -165,8 +165,8 @@ export default function Index() {
                     <UserCheck className="w-8 h-8 text-accent" />
                   </div>
                   <div>
-                    <CardTitle className="text-2xl">Pilot Terminal</CardTitle>
-                    <CardDescription>Flight assignments & credentials</CardDescription>
+                    <CardTitle className="text-2xl title-glow">Pilot Terminal</CardTitle>
+                    <CardDescription className="subtitle-glow">Flight assignments & credentials</CardDescription>
                   </div>
                 </div>
               </CardHeader>
@@ -200,8 +200,8 @@ export default function Index() {
                     <Users className="w-8 h-8 text-accent" />
                   </div>
                   <div>
-                    <CardTitle className="text-2xl">Crew Terminal</CardTitle>
-                    <CardDescription>Service excellence & scheduling</CardDescription>
+                    <CardTitle className="text-2xl title-glow">Crew Terminal</CardTitle>
+                    <CardDescription className="subtitle-glow">Service excellence & scheduling</CardDescription>
                   </div>
                 </div>
               </CardHeader>

@@ -305,8 +305,8 @@ export default function BrokerDashboard() {
               {/* Recent Trip Requests */}
               <Card className="bg-slate-800 border-slate-700">
                 <CardHeader>
-                  <CardTitle className="text-orange-400">Recent Trip Requests</CardTitle>
-                  <CardDescription>Your latest client requests and their status</CardDescription>
+                  <CardTitle className="text-orange-400 title-glow">Recent Trip Requests</CardTitle>
+                  <CardDescription className="subtitle-glow">Your latest client requests and their status</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {tripRequests.slice(0, 3).map((request) => (
@@ -337,8 +337,8 @@ export default function BrokerDashboard() {
               {/* Empty Leg Opportunities */}
               <Card className="bg-slate-800 border-slate-700">
                 <CardHeader>
-                  <CardTitle className="text-orange-400">Empty Leg Opportunities</CardTitle>
-                  <CardDescription>Special deals and repositioning flights</CardDescription>
+                  <CardTitle className="text-orange-400 title-glow">Empty Leg Opportunities</CardTitle>
+                  <CardDescription className="subtitle-glow">Special deals and repositioning flights</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {emptyLegs.map((leg) => (
@@ -367,7 +367,7 @@ export default function BrokerDashboard() {
             {/* Quick Actions */}
             <Card className="bg-slate-800 border-slate-700">
               <CardHeader>
-                <CardTitle className="text-orange-400">Quick Actions</CardTitle>
+                <CardTitle className="text-orange-400 title-glow">Quick Actions</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -400,7 +400,7 @@ export default function BrokerDashboard() {
 
           {/* Marketplace Tab */}
           <TabsContent value="marketplace" className="space-y-6">
-            <h2 className="text-2xl font-bold text-white">Marketplace</h2>
+            <h2 className="text-2xl font-bold text-white title-glow">Marketplace</h2>
             
             <div className="flex items-center space-x-4">
               <div className="relative flex-1">

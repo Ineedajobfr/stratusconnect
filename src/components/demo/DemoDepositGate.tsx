@@ -68,35 +68,35 @@ export default function DemoDepositGate() {
   return (
     <div className="space-y-6">
       {/* Deal Summary */}
-      <Card className="border-orange-200 bg-orange-50">
+      <Card className="border-slate-400 bg-slate-900">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-orange-900">
+          <CardTitle className="flex items-center gap-2 text-white">
             <Shield className="h-5 w-5" />
             Universal Compliance: Deposit Gate
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-orange-700 mb-4">
+          <p className="text-slate-300 mb-4">
             <strong>Every deal requires a deposit before contact details are revealed.</strong> This ensures serious inquiries only and protects all parties from time-wasters.
           </p>
           
-          <div className="bg-white rounded-lg p-4 space-y-3">
+          <div className="bg-slate-800 rounded-lg p-4 space-y-3">
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <Label className="text-orange-800 font-medium">Route</Label>
-                <p className="text-gray-700">{dealData.route}</p>
+                <Label className="text-slate-300 font-medium">Route</Label>
+                <p className="text-slate-100">{dealData.route}</p>
               </div>
               <div>
-                <Label className="text-orange-800 font-medium">Aircraft</Label>
-                <p className="text-gray-700">{dealData.aircraft}</p>
+                <Label className="text-slate-300 font-medium">Aircraft</Label>
+                <p className="text-slate-100">{dealData.aircraft}</p>
               </div>
               <div>
-                <Label className="text-orange-800 font-medium">Departure</Label>
-                <p className="text-gray-700">{dealData.departureDate}</p>
+                <Label className="text-slate-300 font-medium">Departure</Label>
+                <p className="text-slate-100">{dealData.departureDate}</p>
               </div>
               <div>
-                <Label className="text-orange-800 font-medium">Parties</Label>
-                <p className="text-gray-700">{dealData.broker} → {dealData.operator}</p>
+                <Label className="text-slate-300 font-medium">Parties</Label>
+                <p className="text-slate-100">{dealData.broker} → {dealData.operator}</p>
               </div>
             </div>
           </div>

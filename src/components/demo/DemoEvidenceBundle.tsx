@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { 
   FileText, 
   Download, 
@@ -20,7 +21,8 @@ import {
   CheckCircle,
   Zap,
   Hash,
-  Archive
+  Archive,
+  ChevronDown
 } from 'lucide-react';
 
 export default function DemoEvidenceBundle() {
@@ -146,35 +148,35 @@ export default function DemoEvidenceBundle() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="border-orange-200 bg-orange-50">
+      <Card className="border-slate-400 bg-slate-900">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-orange-900">
+          <CardTitle className="flex items-center gap-2 text-white">
             <Archive className="h-5 w-5" />
             Universal Compliance: Evidence Bundle Export
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-orange-700 mb-4">
+          <p className="text-slate-300 mb-4">
             <strong>One-click evidence bundle generation for all deals.</strong> Complete audit trail with SHA-256 hashes for instant dispute resolution.
           </p>
           
-          <div className="bg-white rounded-lg p-4 space-y-2">
+          <div className="bg-slate-800 rounded-lg p-4 space-y-2">
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <Label className="text-orange-800 font-medium">Deal ID</Label>
-                <p className="text-gray-700">{dealData.dealId}</p>
+                <Label className="text-slate-300 font-medium">Deal ID</Label>
+                <p className="text-slate-100">{dealData.dealId}</p>
               </div>
               <div>
-                <Label className="text-orange-800 font-medium">Dispute ID</Label>
-                <p className="text-gray-700">{dealData.disputeId}</p>
+                <Label className="text-slate-300 font-medium">Dispute ID</Label>
+                <p className="text-slate-100">{dealData.disputeId}</p>
               </div>
               <div>
-                <Label className="text-orange-800 font-medium">Route</Label>
-                <p className="text-gray-700">{dealData.route}</p>
+                <Label className="text-slate-300 font-medium">Route</Label>
+                <p className="text-slate-100">{dealData.route}</p>
               </div>
               <div>
-                <Label className="text-orange-800 font-medium">Amount</Label>
-                <p className="text-gray-700">£{(dealData.amount / 100).toLocaleString()}</p>
+                <Label className="text-slate-300 font-medium">Amount</Label>
+                <p className="text-slate-100">£{(dealData.amount / 100).toLocaleString()}</p>
               </div>
             </div>
           </div>
@@ -182,44 +184,62 @@ export default function DemoEvidenceBundle() {
       </Card>
 
       {/* Evidence Files */}
-      <Card>
+      <Card className="border-slate-400 bg-slate-900">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-white">
             <FileText className="h-5 w-5" />
             Evidence Files ({evidenceFiles.length})
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-3">
+          <div className="space-y-2">
             {evidenceFiles.map((file) => (
-              <div key={file.id} className="flex items-center justify-between p-3 border rounded-lg">
-                <div className="flex items-center gap-3">
-                  {getFileIcon(file.type)}
-                  <div>
-                    <p className="font-medium">{file.title}</p>
-                    <p className="text-sm text-gray-600">{file.content}</p>
-                    <div className="flex items-center gap-4 text-xs text-gray-500 mt-1">
-                      <span>{new Date(file.timestamp).toLocaleString()}</span>
+              <Collapsible key={file.id}>
+                <CollapsibleTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-between p-3 h-auto border border-slate-600 bg-slate-800 hover:bg-slate-700 text-white"
+                  >
+                    <div className="flex items-center gap-3">
+                      {getFileIcon(file.type)}
+                      <div className="text-left">
+                        <p className="font-medium">{file.title}</p>
+                        <p className="text-sm text-slate-300">{file.content}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Badge variant="outline" className="text-xs bg-slate-700 border-slate-500 text-slate-200">
+                        <Hash className="h-3 w-3 mr-1" />
+                        {file.hash.substring(0, 12)}...
+                      </Badge>
+                      <ChevronDown className="h-4 w-4" />
+                    </div>
+                  </Button>
+                </CollapsibleTrigger>
+                <CollapsibleContent className="border border-slate-600 border-t-0 rounded-b-lg bg-slate-800">
+                  <div className="p-3 text-sm text-slate-300">
+                    <div className="flex items-center gap-4 mb-2">
+                      <span className="flex items-center gap-1">
+                        <Clock className="h-3 w-3" />
+                        {new Date(file.timestamp).toLocaleString()}
+                      </span>
                       <span>{file.size}</span>
                     </div>
+                    <div className="text-xs text-slate-400">
+                      <p className="font-mono break-all">{file.hash}</p>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Badge variant="outline" className="text-xs">
-                    <Hash className="h-3 w-3 mr-1" />
-                    {file.hash.substring(0, 12)}...
-                  </Badge>
-                </div>
-              </div>
+                </CollapsibleContent>
+              </Collapsible>
             ))}
           </div>
         </CardContent>
       </Card>
 
       {/* Bundle Generation */}
-      <Card className={`border-2 ${bundleGenerated ? 'border-green-200 bg-green-50' : 'border-blue-200 bg-blue-50'}`}>
+      <Card className="border-slate-400 bg-slate-900">
         <CardHeader>
-          <CardTitle className={`flex items-center gap-2 ${bundleGenerated ? 'text-green-800' : 'text-blue-800'}`}>
+          <CardTitle className="flex items-center gap-2 text-white">
             {bundleGenerated ? <CheckCircle className="h-5 w-5" /> : <Zap className="h-5 w-5" />}
             {bundleGenerated ? 'Bundle Ready' : 'Generate Evidence Bundle'}
           </CardTitle>
@@ -228,14 +248,14 @@ export default function DemoEvidenceBundle() {
           {!bundleGenerated ? (
             <>
               <div className="space-y-3">
-                <p className="text-blue-700">
+                <p className="text-slate-300">
                   Click below to generate a complete evidence bundle with all deal documentation, 
                   chat transcripts, payment receipts, and audit hashes.
                 </p>
                 
-                <div className="bg-white rounded-lg p-4">
-                  <h4 className="font-medium mb-2">Bundle Contents:</h4>
-                  <ul className="text-sm text-gray-600 space-y-1">
+                <div className="bg-slate-800 rounded-lg p-4">
+                  <h4 className="font-medium mb-2 text-white">Bundle Contents:</h4>
+                  <ul className="text-sm text-slate-300 space-y-1">
                     <li>• Signed quote PDF with cancellation grid</li>
                     <li>• Complete chat transcript</li>
                     <li>• Chronological deal timeline</li>

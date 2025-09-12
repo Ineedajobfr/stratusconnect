@@ -96,35 +96,35 @@ export default function DemoSignedQuotePDF() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="border-orange-200 bg-orange-50">
+      <Card className="border-slate-400 bg-slate-900">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-orange-900">
+          <CardTitle className="flex items-center gap-2 text-white">
             <FileText className="h-5 w-5" />
             Universal Compliance: Signed Quote PDF
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-orange-700 mb-4">
+          <p className="text-slate-300 mb-4">
             <strong>Every accepted quote generates a signed PDF with cancellation grid, terms, and audit hash.</strong> 
             This creates a legally binding document with complete transparency.
           </p>
           
-          <div className="bg-white rounded-lg p-4 space-y-2">
+          <div className="bg-slate-800 rounded-lg p-4 space-y-2">
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <Label className="text-orange-800 font-medium">Quote ID</Label>
+                <Label className="text-slate-300 font-medium">Quote ID</Label>
                 <p className="text-gray-700">{quoteData.quoteId}</p>
               </div>
               <div>
-                <Label className="text-orange-800 font-medium">Deal ID</Label>
+                <Label className="text-slate-300 font-medium">Deal ID</Label>
                 <p className="text-gray-700">{quoteData.dealId}</p>
               </div>
               <div>
-                <Label className="text-orange-800 font-medium">Route</Label>
+                <Label className="text-slate-300 font-medium">Route</Label>
                 <p className="text-gray-700">{quoteData.flight.route}</p>
               </div>
               <div>
-                <Label className="text-orange-800 font-medium">Aircraft</Label>
+                <Label className="text-slate-300 font-medium">Aircraft</Label>
                 <p className="text-gray-700">{quoteData.flight.aircraft}</p>
               </div>
             </div>

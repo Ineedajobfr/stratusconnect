@@ -338,8 +338,8 @@ export default function OperatorDashboard() {
               {/* Recent Requests */}
               <Card className="bg-slate-800 border-slate-700">
                 <CardHeader>
-                  <CardTitle className="text-orange-400">Recent Trip Requests</CardTitle>
-                  <CardDescription>Latest requests from brokers</CardDescription>
+                  <CardTitle className="text-orange-400 title-glow">Recent Trip Requests</CardTitle>
+                  <CardDescription className="subtitle-glow">Latest requests from brokers</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {tripRequests.slice(0, 3).map((request) => (
@@ -370,8 +370,8 @@ export default function OperatorDashboard() {
               {/* Fleet Status */}
               <Card className="bg-slate-800 border-slate-700">
                 <CardHeader>
-                  <CardTitle className="text-orange-400">Fleet Status</CardTitle>
-                  <CardDescription>Current aircraft availability</CardDescription>
+                  <CardTitle className="text-orange-400 title-glow">Fleet Status</CardTitle>
+                  <CardDescription className="subtitle-glow">Current aircraft availability</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {fleet.map((aircraft) => (
@@ -403,7 +403,7 @@ export default function OperatorDashboard() {
             {/* Quick Actions */}
             <Card className="bg-slate-800 border-slate-700">
               <CardHeader>
-                <CardTitle className="text-orange-400">Quick Actions</CardTitle>
+                <CardTitle className="text-orange-400 title-glow">Quick Actions</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">

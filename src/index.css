@@ -50,6 +50,11 @@
   --terminal-warning:    38 92% 50%;
   --terminal-danger:      0 84% 60%;
   --terminal-info:      208 26% 44%;
+  
+  /* Text glow effects */
+  --text-glow-primary: 0 0 20px hsl(var(--accent) / 0.5), 0 0 40px hsl(var(--accent) / 0.3);
+  --text-glow-accent: 0 0 15px hsl(var(--terminal-glow) / 0.6), 0 0 30px hsl(var(--terminal-glow) / 0.4);
+  --text-glow-subtle: 0 0 10px hsl(var(--foreground) / 0.3), 0 0 20px hsl(var(--foreground) / 0.1);
 
   /* Data + charts */
   --data-positive:      134 61% 41%;
@@ -192,14 +197,42 @@
 
   .terminal-header {
     @apply text-foreground font-semibold text-lg tracking-tight;
+    text-shadow: var(--text-glow-primary);
   }
 
   .terminal-subheader {
     @apply text-gunmetal text-sm font-medium uppercase tracking-wide;
+    text-shadow: var(--text-glow-subtle);
   }
 
   .terminal-value {
     @apply text-foreground font-medium tabular-nums;
+    text-shadow: var(--text-glow-accent);
+  }
+  
+  /* Glow utility classes */
+  .text-glow-primary {
+    text-shadow: var(--text-glow-primary);
+  }
+  
+  .text-glow-accent {
+    text-shadow: var(--text-glow-accent);
+  }
+  
+  .text-glow-subtle {
+    text-shadow: var(--text-glow-subtle);
+  }
+  
+  .hero-glow {
+    text-shadow: 0 0 30px hsl(var(--accent) / 0.8), 0 0 60px hsl(var(--accent) / 0.5), 0 0 90px hsl(var(--accent) / 0.3);
+  }
+  
+  .title-glow {
+    text-shadow: 0 0 20px hsl(var(--terminal-glow) / 0.6), 0 0 40px hsl(var(--terminal-glow) / 0.4);
+  }
+  
+  .subtitle-glow {
+    text-shadow: 0 0 15px hsl(var(--foreground) / 0.4), 0 0 30px hsl(var(--foreground) / 0.2);
   }
 
   .terminal-blur {

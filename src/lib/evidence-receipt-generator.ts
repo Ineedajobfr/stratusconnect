@@ -105,9 +105,14 @@ class EvidenceReceiptGenerator {
     const netToOperator = data.totalAmount - platformFee;
     
     const receipt: EvidenceReceipt = {
-      transactionId: `HIRING_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      transactionId: `HIRE_${Date.now()}`,
       timestamp: new Date().toISOString(),
-      type: 'hiring',
+      type: 'hiring' as const,
+      broker: {
+        id: 'broker_001',
+        name: 'Demo Broker Ltd',
+        company: 'Demo Broker Ltd'
+      },
       operator: data.operator,
       pilot: data.pilot,
       deal: {

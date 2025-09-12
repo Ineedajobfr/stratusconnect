@@ -11,7 +11,7 @@ import { FullPageLoader } from "@/components/LoadingSpinner";
 import { NavigationOptimizer } from "@/components/NavigationOptimizer";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { logger } from "@/utils/performance";
-import { Footer } from "@/components/Footer";
+
 import { StatusBanner } from "@/components/StatusBanner";
 
 // Import new dashboard components
@@ -270,13 +270,12 @@ const App = memo(() => {
               <Route path="*" element={<NotFound />} />
             </Routes>
               </Suspense>
-              </AuthProvider>
-              <Footer />
-            </BrowserRouter>
-            </TooltipProvider>
-          </QueryClientProvider>
-        </ErrorBoundary>
-      </div>
+            </AuthProvider>
+          </BrowserRouter>
+          </TooltipProvider>
+        </QueryClientProvider>
+      </ErrorBoundary>
+    </div>
   );
 });
 

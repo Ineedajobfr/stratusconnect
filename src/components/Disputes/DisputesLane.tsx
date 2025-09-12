@@ -21,7 +21,8 @@ import {
   Plus,
   Calendar,
   User,
-  MessageSquare
+  MessageSquare,
+  Plus
 } from 'lucide-react';
 
 export interface Dispute {

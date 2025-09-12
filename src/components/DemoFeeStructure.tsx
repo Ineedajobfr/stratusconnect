@@ -12,6 +12,7 @@ import {
   Shield,
   AlertTriangle
 } from 'lucide-react';
+import { calcDealFees, calcHiringFees, calcPilotCrewFees, getFeePercentage } from '@/lib/fees';
 
 export default function DemoFeeStructure() {
   const [transactionAmount, setTransactionAmount] = useState(50000);
@@ -24,14 +25,17 @@ export default function DemoFeeStructure() {
     let feePercent = 0;
     
     if (transactionType === 'broker-operator') {
-      feePercent = 7;
-      platformFee = Math.round(transactionAmount * 0.07);
+      const fees = calcDealFees(transactionAmount);
+      platformFee = fees.platform;
+      feePercent = getFeePercentage('charter');
     } else if (transactionType === 'operator-hiring') {
-      feePercent = 10;
-      platformFee = Math.round(transactionAmount * 0.10);
+      const fees = calcHiringFees(transactionAmount);
+      platformFee = fees.hiring;
+      feePercent = getFeePercentage('hiring');
     } else if (transactionType === 'pilot-crew') {
-      feePercent = 0;
-      platformFee = 0;
+      const fees = calcPilotCrewFees(transactionAmount);
+      platformFee = fees.platform;
+      feePercent = getFeePercentage('pilot-crew');
     }
     
     const netAmount = transactionAmount - platformFee;

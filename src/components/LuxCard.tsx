@@ -9,7 +9,7 @@ export default function LuxCard({
         <img src={image} alt={title} className="h-full w-full object-cover opacity-90 transition-opacity duration-200 group-hover:opacity-100" />
       </div>
       <div className="p-6">
-        <div className="mb-3 h-px w-8 bg-white/20" />
+        <div className="mb-3 h-px w-8 bg-orange-500/20" />
         <h3 className="text-xl font-semibold tracking-tight">{title}</h3>
         <p className="mt-1 text-sm text-textDim">{subtitle}</p>
         <div className="mt-5 flex items-center gap-4">

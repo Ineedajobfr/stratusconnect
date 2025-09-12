@@ -119,8 +119,8 @@ class ReceiptGenerator {
   async generateHiringReceipt(data: {
     transactionId: string;
     operator: Record<string, unknown>;
-    pilot?: any;
-    crew?: any;
+    pilot?: Record<string, unknown>;
+    crew?: Record<string, unknown>;
     totalAmount: number;
     currency: string;
     stripePaymentIntentId: string;

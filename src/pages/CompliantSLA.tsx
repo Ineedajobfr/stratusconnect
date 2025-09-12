@@ -99,14 +99,14 @@ export default function CompliantSLA() {
                           <td className="border border-gray-300 px-4 py-2">99.9% - 100%</td>
                           <td className="border border-gray-300 px-4 py-2">0%</td>
                           <td className="border border-gray-300 px-4 py-2">
-                            <Badge className="bg-green-100 text-white">Target Met</Badge>
+                            <Badge className="bg-green-900/20 text-green-400 border-green-500/30">Target Met</Badge>
                           </td>
                         </tr>
                         <tr>
                           <td className="border border-gray-300 px-4 py-2">99.0% - 99.9%</td>
                           <td className="border border-gray-300 px-4 py-2">5%</td>
                           <td className="border border-gray-300 px-4 py-2">
-                            <Badge className="bg-yellow-100 text-yellow-800">Minor Impact</Badge>
+                            <Badge className="bg-yellow-900/20 text-yellow-400 border-yellow-500/30">Minor Impact</Badge>
                           </td>
                         </tr>
                         <tr>
@@ -120,7 +120,7 @@ export default function CompliantSLA() {
                           <td className="border border-gray-300 px-4 py-2">&lt; 95.0%</td>
                           <td className="border border-gray-300 px-4 py-2">25%</td>
                           <td className="border border-gray-300 px-4 py-2">
-                            <Badge className="bg-red-100 text-red-800">Major Impact</Badge>
+                            <Badge className="bg-red-900/20 text-red-400 border-red-500/30">Major Impact</Badge>
                           </td>
                         </tr>
                       </tbody>

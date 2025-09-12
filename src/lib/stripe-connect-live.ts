@@ -44,7 +44,7 @@ export interface WebhookEvent {
   id: string;
   type: string;
   data: {
-    object: any;
+    object: Record<string, unknown>;
   };
   created: number;
 }
@@ -308,7 +308,7 @@ class StripeConnectLive {
   /**
    * Log audit event
    */
-  private async logAuditEvent(event: any): Promise<void> {
+  private async logAuditEvent(event: Record<string, unknown>): Promise<void> {
     // In production, store in Supabase audit_log table
     console.log('Audit Event:', event);
   }
@@ -316,7 +316,7 @@ class StripeConnectLive {
   /**
    * Update deal status in database
    */
-  private async updateDealStatus(dealId: string, status: string, receipt?: any): Promise<void> {
+  private async updateDealStatus(dealId: string, status: string, receipt?: Record<string, unknown>): Promise<void> {
     // In production, update Supabase deals table
     console.log(`Updating deal ${dealId} to status ${status}`, receipt);
   }

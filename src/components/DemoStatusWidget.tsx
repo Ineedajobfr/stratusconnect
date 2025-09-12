@@ -66,13 +66,13 @@ export default function DemoStatusWidget() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'up':
-        return 'bg-green-100 text-white';
+        return 'bg-green-900/20 text-green-400 border-green-500/30';
       case 'degraded':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-900/20 text-yellow-400 border-yellow-500/30';
       case 'down':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-900/20 text-red-400 border-red-500/30';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-slate-900/20 text-slate-400 border-slate-500/30';
     }
   };
 
@@ -87,7 +87,7 @@ export default function DemoStatusWidget() {
           <button
             onClick={refreshMetrics}
             disabled={loading}
-            className="p-1 hover:bg-gray-100 rounded"
+            className="p-1 hover:bg-orange-500/20 rounded"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
           </button>

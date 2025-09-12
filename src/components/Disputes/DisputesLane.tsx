@@ -377,7 +377,7 @@ export function DisputesLane({ dealId, dealType, totalAmount, currency, broker, 
                 <select
                   id="disputeType"
                   value={newDispute.type}
-                  onChange={(e) => setNewDispute(prev => ({ ...prev, type: e.target.value as any }))}
+                  onChange={(e) => setNewDispute(prev => ({ ...prev, type: e.target.value as string }))}
                   className="w-full p-2 border rounded-md"
                 >
                   <option value="payment_dispute">Payment Dispute</option>

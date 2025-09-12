@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -68,14 +68,14 @@ export default function CompliantEscrowManagement({
   const [loading, setLoading] = useState(true);
   const [selectedIntent, setSelectedIntent] = useState<PaymentIntent | null>(null);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
-  const [kycStatus, setKycStatus] = useState<any>(null);
+  const [kycStatus, setKycStatus] = useState<Record<string, unknown> | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
     loadData();
-  }, [userId]);
+  }, [userId, loadData]);
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
       setLoading(true);
       
@@ -100,7 +100,7 @@ export default function CompliantEscrowManagement({
     } finally {
       setLoading(false);
     }
-  };
+  }, [userId, toast]);
 
   const loadPaymentIntents = async (): Promise<PaymentIntent[]> => {
     // In production, this would fetch from your API
@@ -241,17 +241,17 @@ export default function CompliantEscrowManagement({
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'requires_payment_method':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-900/20 text-yellow-400 border-yellow-500/30';
       case 'requires_confirmation':
-        return 'bg-orange-100 text-orange-800';
+        return 'bg-orange-900/20 text-orange-400 border-orange-500/30';
       case 'requires_action':
-        return 'bg-orange-100 text-orange-800';
+        return 'bg-orange-900/20 text-orange-400 border-orange-500/30';
       case 'processing':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-blue-900/20 text-blue-400 border-blue-500/30';
       case 'succeeded':
-        return 'bg-green-100 text-white';
+        return 'bg-green-900/20 text-green-400 border-green-500/30';
       case 'canceled':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-900/20 text-red-400 border-red-500/30';
       default:
         return 'bg-purple-900/30 text-purple-200';
     }

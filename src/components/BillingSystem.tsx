@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -66,7 +66,7 @@ interface Payment {
 export default function BillingSystem() {
   const [billingSchedules, setBillingSchedules] = useState<BillingSchedule[]>([]);
   const [payments, setPayments] = useState<Payment[]>([]);
-  const [availableDeals, setAvailableDeals] = useState<any[]>([]);
+  const [availableDeals, setAvailableDeals] = useState<Record<string, unknown>[]>([]);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string>("");
   const { toast } = useToast();
@@ -88,7 +88,7 @@ export default function BillingSystem() {
     fetchBillingSchedules();
     fetchPayments();
     fetchAvailableDeals();
-  }, []);
+  }, [fetchBillingSchedules]);
 
   const fetchUserData = async () => {
     try {
@@ -101,7 +101,7 @@ export default function BillingSystem() {
     }
   };
 
-  const fetchBillingSchedules = async () => {
+  const fetchBillingSchedules = useCallback(async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
@@ -138,7 +138,7 @@ export default function BillingSystem() {
         variant: "destructive",
       });
     }
-  };
+  }, [toast]);
 
   const fetchPayments = async () => {
     try {

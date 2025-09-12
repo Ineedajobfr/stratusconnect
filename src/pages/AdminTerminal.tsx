@@ -108,8 +108,14 @@ const AdminTerminal = () => {
           return;
         }
 
-        // Only allow admin users, not demo users
-        if (userData?.role === 'admin' && !session.user.email?.includes('demo')) {
+        // HEAVY DEMO PROTECTION - Only allow verified admin users
+        const isDemoUser = 
+          session.user.email?.includes('demo') ||
+          session.user.email?.includes('test') ||
+          session.user.user_metadata?.demo === true ||
+          session.user.app_metadata?.demo === true;
+        
+        if (userData?.role === 'admin' && !isDemoUser) {
           setUser(session.user);
         } else {
           setUser(null);
@@ -136,7 +142,13 @@ const AdminTerminal = () => {
               .eq('id', session.user.id)
               .single();
 
-            if (userData?.role === 'admin' && !session.user.email?.includes('demo')) {
+            const isDemoUser = 
+              session.user.email?.includes('demo') ||
+              session.user.email?.includes('test') ||
+              session.user.user_metadata?.demo === true ||
+              session.user.app_metadata?.demo === true;
+              
+            if (userData?.role === 'admin' && !isDemoUser) {
               setUser(session.user);
             } else {
               setUser(null);

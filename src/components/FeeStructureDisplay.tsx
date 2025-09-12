@@ -28,12 +28,12 @@ export default function FeeStructureDisplay({ showDetails = true, className = ''
         <h3 className="text-lg font-semibold text-foreground">Fee Structure</h3>
         <div className="flex items-center gap-2">
           {isValid ? (
-            <Badge className="bg-green-100 text-white">
+            <Badge className="bg-green-900/20 text-green-400 border-green-500/30">
               <CheckCircle className="w-3 h-3 mr-1" />
               Verified
             </Badge>
           ) : (
-            <Badge className="bg-red-100 text-red-800">
+            <Badge className="bg-red-900/20 text-red-400 border-red-500/30">
               <AlertTriangle className="w-3 h-3 mr-1" />
               Invalid
             </Badge>

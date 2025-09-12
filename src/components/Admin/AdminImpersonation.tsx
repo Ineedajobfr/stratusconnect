@@ -158,13 +158,13 @@ export function AdminImpersonation({ onImpersonationStarted, onImpersonationEnde
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'active':
-        return 'bg-green-100 text-green-800';
+        return 'bg-orange-900/20 text-orange-400 border-orange-500/30';
       case 'ended':
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-slate-800 text-slate-300 border-slate-600';
       case 'expired':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-900/20 text-red-400 border-red-500/30';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-slate-800 text-slate-300 border-slate-600';
     }
   };
 
@@ -179,7 +179,7 @@ export function AdminImpersonation({ onImpersonationStarted, onImpersonationEnde
       case 'critical':
         return 'bg-red-100 text-red-800';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-slate-800 text-slate-300 border-slate-600';
     }
   };
 

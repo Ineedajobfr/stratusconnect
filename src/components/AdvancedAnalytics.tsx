@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -82,7 +82,7 @@ export default function AdvancedAnalytics() {
     fetchMarketTrends();
     fetchPerformanceMetrics();
     generateMockData();
-  }, [selectedRoute, selectedPeriod]);
+  }, [selectedRoute, selectedPeriod, generateMockData]);
 
   const fetchUserData = async () => {
     try {
@@ -129,7 +129,7 @@ export default function AdvancedAnalytics() {
     }
   };
 
-  const generateMockData = async () => {
+  const generateMockData = useCallback(async () => {
     if (marketTrends.length === 0) {
       // Generate some mock market trends for demonstration
       const mockTrends = [
@@ -185,7 +185,7 @@ export default function AdvancedAnalytics() {
         console.error("Error generating mock data:", error);
       }
     }
-  };
+  }, [marketTrends, mockPriceData]);
 
   const refreshAnalytics = async () => {
     setIsLoading(true);

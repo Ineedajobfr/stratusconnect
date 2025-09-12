@@ -169,15 +169,15 @@ export function ReputationMetrics({ userId, userType, showRanking = true, showBa
   const getTierColor = (tier: string) => {
     switch (tier) {
       case 'Bronze':
-        return 'text-amber-600 bg-amber-100';
+        return 'text-amber-400 bg-amber-900/20 border-amber-500/30';
       case 'Silver':
-        return 'text-gray-600 bg-gray-100';
+        return 'text-slate-400 bg-slate-900/20 border-slate-500/30';
       case 'Gold':
-        return 'text-yellow-600 bg-yellow-100';
+        return 'text-yellow-400 bg-yellow-900/20 border-yellow-500/30';
       case 'Platinum':
-        return 'text-purple-600 bg-purple-100';
+        return 'text-purple-400 bg-purple-900/20 border-purple-500/30';
       default:
-        return 'text-gray-600 bg-gray-100';
+        return 'text-slate-400 bg-slate-900/20 border-slate-500/30';
     }
   };
 
@@ -241,7 +241,7 @@ export function ReputationMetrics({ userId, userType, showRanking = true, showBa
               <Progress value={metrics.overallRating * 20} className="w-full" />
             </div>
             {metrics.verified && (
-              <Badge className="bg-blue-100 text-blue-800">
+              <Badge className="bg-blue-900/20 text-blue-400 border-blue-500/30">
                 <CheckCircle className="w-3 h-3 mr-1" />
                 Verified
               </Badge>

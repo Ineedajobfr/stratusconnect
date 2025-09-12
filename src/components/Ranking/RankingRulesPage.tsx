@@ -188,7 +188,7 @@ export function RankingRulesPage() {
                       <h4 className="font-semibold">{factor.factor}</h4>
                       <p className="text-sm text-gray-600">{factor.description}</p>
                     </div>
-                    <Badge className="ml-auto bg-blue-100 text-blue-800">
+                    <Badge className="ml-auto bg-blue-900/20 text-blue-400 border-blue-500/30">
                       {factor.weight} points
                     </Badge>
                   </div>
@@ -262,24 +262,24 @@ export function RankingRulesPage() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="text-center p-4 bg-green-100 rounded-lg">
-                <div className="text-2xl font-bold text-white">Tier 1</div>
-                <div className="text-sm text-white">90+ points</div>
-                <div className="text-xs text-white mt-1">Elite Operators</div>
+              <div className="text-center p-4 bg-green-900/20 rounded-lg border border-green-500/30">
+                <div className="text-2xl font-bold text-green-400">Tier 1</div>
+                <div className="text-sm text-green-400">90+ points</div>
+                <div className="text-xs text-green-400 mt-1">Elite Operators</div>
               </div>
-              <div className="text-center p-4 bg-blue-100 rounded-lg">
-                <div className="text-2xl font-bold text-blue-600">Tier 2</div>
-                <div className="text-sm text-blue-700">75-89 points</div>
-                <div className="text-xs text-blue-600 mt-1">Premium Operators</div>
+              <div className="text-center p-4 bg-blue-900/20 rounded-lg border border-blue-500/30">
+                <div className="text-2xl font-bold text-blue-400">Tier 2</div>
+                <div className="text-sm text-blue-400">75-89 points</div>
+                <div className="text-xs text-blue-400 mt-1">Premium Operators</div>
               </div>
-              <div className="text-center p-4 bg-yellow-100 rounded-lg">
-                <div className="text-2xl font-bold text-yellow-600">Tier 3</div>
-                <div className="text-sm text-yellow-700">60-74 points</div>
-                <div className="text-xs text-yellow-600 mt-1">Standard Operators</div>
+              <div className="text-center p-4 bg-yellow-900/20 rounded-lg border border-yellow-500/30">
+                <div className="text-2xl font-bold text-yellow-400">Tier 3</div>
+                <div className="text-sm text-yellow-400">60-74 points</div>
+                <div className="text-xs text-yellow-400 mt-1">Standard Operators</div>
               </div>
-              <div className="text-center p-4 bg-red-100 rounded-lg">
-                <div className="text-2xl font-bold text-red-600">Tier 4</div>
-                <div className="text-sm text-red-700">Below 60</div>
+              <div className="text-center p-4 bg-red-900/20 rounded-lg border border-red-500/30">
+                <div className="text-2xl font-bold text-red-400">Tier 4</div>
+                <div className="text-sm text-red-400">Below 60</div>
                 <div className="text-xs text-red-600 mt-1">Under Review</div>
               </div>
             </div>

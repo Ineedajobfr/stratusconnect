@@ -84,13 +84,13 @@ export default function ListingCard({
                 {scoreInfo.label} ({score})
               </Badge>
               {listing.emptyLeg && (
-                <Badge className="bg-blue-100 text-blue-800">
+                <Badge className="bg-blue-900/20 text-blue-400 border-blue-500/30">
                   Empty Leg
                   {listing.discountPct && ` -${listing.discountPct}%`}
                 </Badge>
               )}
               {listing.operatorVerified && (
-                <Badge className="bg-green-100 text-white">
+                <Badge className="bg-green-900/20 text-green-400 border-green-500/30">
                   Verified
                 </Badge>
               )}
@@ -107,7 +107,7 @@ export default function ListingCard({
                 </Badge>
               )}
               {listing.instantQuote && (
-                <Badge className="bg-yellow-100 text-yellow-800">
+                <Badge className="bg-yellow-900/20 text-yellow-400 border-yellow-500/30">
                   <Zap className="w-3 h-3 mr-1" />
                   Instant Quote
                 </Badge>

@@ -208,7 +208,7 @@ export class CredentialGates {
     return this.checks.get(credentialId) || [];
   }
 
-  static generateAuditLog(credential: Credential, action: string): any {
+  static generateAuditLog(credential: Credential, action: string): Record<string, unknown> {
     return {
       event: 'credential_action',
       credentialId: credential.id,

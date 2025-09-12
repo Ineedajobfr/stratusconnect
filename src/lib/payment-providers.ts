@@ -232,7 +232,7 @@ export class ShieldpayProvider implements PaymentProvider {
     return true; // Placeholder
   }
 
-  private mapToEscrowIntent(data: any): EscrowIntent {
+  private mapToEscrowIntent(data: Record<string, unknown>): EscrowIntent {
     return {
       id: data.id,
       dealId: data.external_reference,

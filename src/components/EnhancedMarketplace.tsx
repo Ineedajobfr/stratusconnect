@@ -61,7 +61,7 @@ export default function EnhancedMarketplace() {
   const [userRole, setUserRole] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
-  const [savedSearches, setSavedSearches] = useState<any[]>([]);
+  const [savedSearches, setSavedSearches] = useState<Record<string, unknown>[]>([]);
   const [realTimeUpdates, setRealTimeUpdates] = useState(0);
   const { toast } = useToast();
 

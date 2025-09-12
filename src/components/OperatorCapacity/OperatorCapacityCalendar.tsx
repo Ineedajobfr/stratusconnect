@@ -163,13 +163,13 @@ export function OperatorCapacityCalendar() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'available':
-        return 'bg-green-100 text-white';
+        return 'bg-green-900/20 text-green-400 border-green-500/30';
       case 'booked':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-blue-900/20 text-blue-400 border-blue-500/30';
       case 'maintenance':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-900/20 text-red-400 border-red-500/30';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-slate-900/20 text-slate-400 border-slate-500/30';
     }
   };
 
@@ -321,7 +321,7 @@ export function OperatorCapacityCalendar() {
                       <span className="ml-1">{slot.status}</span>
                     </Badge>
                     {slot.instantQuoteEnabled && (
-                      <Badge className="bg-green-100 text-white">
+                      <Badge className="bg-green-900/20 text-green-400 border-green-500/30">
                         <Zap className="w-3 h-3 mr-1" />
                         Instant Quotes
                       </Badge>

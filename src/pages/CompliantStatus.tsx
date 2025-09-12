@@ -97,28 +97,28 @@ export default function CompliantStatus() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'up':
-        return 'bg-green-100 text-white';
+        return 'bg-green-900/20 text-green-400 border-green-500/30';
       case 'down':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-900/20 text-red-400 border-red-500/30';
       case 'paused':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-900/20 text-yellow-400 border-yellow-500/30';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-slate-900/20 text-slate-400 border-slate-500/30';
     }
   };
 
   const getIncidentStatusColor = (status: string) => {
     switch (status) {
       case 'investigating':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-900/20 text-red-400 border-red-500/30';
       case 'identified':
-        return 'bg-orange-100 text-orange-800';
+        return 'bg-orange-900/20 text-orange-400 border-orange-500/30';
       case 'monitoring':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-900/20 text-yellow-400 border-yellow-500/30';
       case 'resolved':
-        return 'bg-green-100 text-white';
+        return 'bg-green-900/20 text-green-400 border-green-500/30';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-slate-900/20 text-slate-400 border-slate-500/30';
     }
   };
 
@@ -441,7 +441,7 @@ export default function CompliantStatus() {
                       {metrics.current_status.toUpperCase()}
                     </Badge>
                   ) : (
-                    <Badge className="bg-gray-100 text-gray-800">UNKNOWN</Badge>
+                    <Badge className="bg-slate-800 text-slate-300 border-slate-600">UNKNOWN</Badge>
                   )}
                 </span>
               </div>

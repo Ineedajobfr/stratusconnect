@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -101,7 +101,7 @@ export default function ContractManagement() {
   const [selectedContract, setSelectedContract] = useState<Contract | null>(null);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string>("");
-  const [availableDeals, setAvailableDeals] = useState<any[]>([]);
+  const [availableDeals, setAvailableDeals] = useState<Record<string, unknown>[]>([]);
   const { toast } = useToast();
 
   const [contractForm, setContractForm] = useState({
@@ -114,7 +114,7 @@ export default function ContractManagement() {
     fetchUserData();
     fetchContracts();
     fetchAvailableDeals();
-  }, []);
+  }, [fetchContracts, fetchAvailableDeals]);
 
   const fetchUserData = async () => {
     try {
@@ -127,7 +127,7 @@ export default function ContractManagement() {
     }
   };
 
-  const fetchContracts = async () => {
+  const fetchContracts = useCallback(async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
@@ -164,9 +164,9 @@ export default function ContractManagement() {
         variant: "destructive",
       });
     }
-  };
+  }, [toast]);
 
-  const fetchAvailableDeals = async () => {
+  const fetchAvailableDeals = useCallback(async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
@@ -201,7 +201,7 @@ export default function ContractManagement() {
         variant: "destructive",
       });
     }
-  };
+  }, [toast]);
 
   const createContract = async () => {
     if (!contractForm.deal_id) {
@@ -268,7 +268,7 @@ export default function ContractManagement() {
       if (!contract) return;
 
       const isOperator = contract.deals.operator_profile && currentUserId === contract.deals.operator_profile.full_name;
-      const updateData: any = { status: 'signed' };
+      const updateData: Record<string, unknown> = { status: 'signed' };
 
       if (isOperator) {
         updateData.signed_by_operator = currentUserId;

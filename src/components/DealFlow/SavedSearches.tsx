@@ -200,13 +200,13 @@ export function SavedSearches() {
   const getAlertBadgeColor = (type: string) => {
     switch (type) {
       case 'price_drop':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-900/20 text-green-400 border-green-500/30';
       case 'last_minute':
-        return 'bg-orange-100 text-orange-800';
+        return 'bg-orange-900/20 text-orange-400 border-orange-500/30';
       case 'new_match':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-blue-900/20 text-blue-400 border-blue-500/30';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-slate-900/20 text-slate-400 border-slate-500/30';
     }
   };
 

@@ -1,7 +1,7 @@
 // Quote Composer with Price to Win and Margin Guard
 // FCA Compliant Aviation Platform
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -68,14 +68,14 @@ export function QuoteComposer({ rfqId, operatorId, route, aircraft, passengers, 
   // Calculate price band based on route, aircraft, and timing
   useEffect(() => {
     calculatePriceBand();
-  }, [route, aircraft, distanceNm, departureDate]);
+  }, [route, aircraft, distanceNm, departureDate, calculatePriceBand]);
 
   // Calculate margin breakdown when values change
   useEffect(() => {
     calculateMarginBreakdown();
-  }, [baseRate, positioning, surcharges, taxes, fuel, crew]);
+  }, [baseRate, positioning, surcharges, taxes, fuel, crew, calculateMarginBreakdown]);
 
-  const calculatePriceBand = () => {
+  const calculatePriceBand = useCallback(() => {
     // Free tier: Use mock data instead of ML/historical data
     const basePricePerNm = 2500; // £25 per NM base
     const urgencyMultiplier = getUrgencyMultiplier();
@@ -92,7 +92,7 @@ export function QuoteComposer({ rfqId, operatorId, route, aircraft, passengers, 
       suggested: Math.round(suggestedPrice),
       confidence: distanceNm > 500 ? 'high' : distanceNm > 200 ? 'medium' : 'low'
     });
-  };
+  }, [route, aircraft, distanceNm, departureDate]);
 
   const getUrgencyMultiplier = () => {
     const daysUntilDeparture = Math.ceil((new Date(departureDate).getTime() - Date.now()) / (1000 * 60 * 60 * 24));
@@ -114,7 +114,7 @@ export function QuoteComposer({ rfqId, operatorId, route, aircraft, passengers, 
     return multipliers[aircraft] || 1.0;
   };
 
-  const calculateMarginBreakdown = () => {
+  const calculateMarginBreakdown = useCallback(() => {
     const total = baseRate + positioning + surcharges + taxes + fuel + crew;
     const platformFee = Math.round(total * 0.07); // 7% platform fee
     const netToOperator = total - platformFee;
@@ -132,7 +132,7 @@ export function QuoteComposer({ rfqId, operatorId, route, aircraft, passengers, 
       netToOperator,
       margin
     });
-  };
+  }, [baseRate, positioning, surcharges, taxes, fuel, crew]);
 
   const getMarginStatus = () => {
     if (!marginBreakdown) return { status: 'unknown', color: 'gray', icon: null };

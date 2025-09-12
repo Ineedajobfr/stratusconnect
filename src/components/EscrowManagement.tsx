@@ -347,17 +347,17 @@ export default function EscrowManagement({ dealId, userRole }: EscrowManagementP
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-900/20 text-yellow-400 border-yellow-500/30';
       case 'funded':
-        return 'bg-green-100 text-white';
+        return 'bg-green-900/20 text-green-400 border-green-500/30';
       case 'released':
-        return 'bg-green-100 text-white';
+        return 'bg-green-900/20 text-green-400 border-green-500/30';
       case 'refunded':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-900/20 text-red-400 border-red-500/30';
       case 'disputed':
-        return 'bg-orange-100 text-orange-800';
+        return 'bg-orange-900/20 text-orange-400 border-orange-500/30';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-slate-900/20 text-slate-400 border-slate-500/30';
     }
   };
 

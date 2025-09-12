@@ -92,7 +92,7 @@ export const LoginModal = ({ isOpen, onClose, selectedRole }: LoginModalProps) =
       navigate(role.route);
       onClose();
     } catch (error) {
-      toast({ title: "Demo login failed", description: (error as any)?.message || "Demo accounts may not be set up yet", variant: "destructive" });
+      toast({ title: "Demo login failed", description: (error as Error)?.message || "Demo accounts may not be set up yet", variant: "destructive" });
     } finally {
       setLoading(false);
     }

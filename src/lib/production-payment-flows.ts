@@ -31,8 +31,8 @@ class ProductionPaymentFlows {
    * Charter Deal Flow - £10,000 with 7% fee
    */
   async processCharterDeal(deal: CharterDealFlow): Promise<{
-    paymentIntent: any;
-    receipt: any;
+    paymentIntent: Record<string, unknown>;
+    receipt: Record<string, unknown>;
     auditHash: string;
   }> {
     const totalAmount = 1000000; // £10,000 in pennies
@@ -94,8 +94,8 @@ class ProductionPaymentFlows {
    * Hiring Flow - £3,000 with 10% fee
    */
   async processHiringFlow(hire: HiringFlow): Promise<{
-    paymentIntent: any;
-    receipt: any;
+    paymentIntent: Record<string, unknown>;
+    receipt: Record<string, unknown>;
     auditHash: string;
   }> {
     const totalAmount = 300000; // £3,000 in pennies

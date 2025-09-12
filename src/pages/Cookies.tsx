@@ -306,31 +306,31 @@ export default function Cookies() {
                       <td className="p-2 font-mono text-gunmetal">session_id</td>
                       <td className="p-2 text-gunmetal">User session management</td>
                       <td className="p-2 text-gunmetal">Session</td>
-                      <td className="p-2"><Badge className="bg-green-100 text-green-800">Necessary</Badge></td>
+                      <td className="p-2"><Badge className="bg-green-900/20 text-green-400 border-green-500/30">Necessary</Badge></td>
                     </tr>
                     <tr className="border-b">
                       <td className="p-2 font-mono text-gunmetal">csrf_token</td>
                       <td className="p-2 text-gunmetal">Security protection</td>
                       <td className="p-2 text-gunmetal">Session</td>
-                      <td className="p-2"><Badge className="bg-green-100 text-green-800">Necessary</Badge></td>
+                      <td className="p-2"><Badge className="bg-green-900/20 text-green-400 border-green-500/30">Necessary</Badge></td>
                     </tr>
                     <tr className="border-b">
                       <td className="p-2 font-mono text-gunmetal">cookie_preferences</td>
                       <td className="p-2 text-gunmetal">Remember cookie choices</td>
                       <td className="p-2 text-gunmetal">1 year</td>
-                      <td className="p-2"><Badge className="bg-green-100 text-green-800">Necessary</Badge></td>
+                      <td className="p-2"><Badge className="bg-green-900/20 text-green-400 border-green-500/30">Necessary</Badge></td>
                     </tr>
                     <tr className="border-b">
                       <td className="p-2 font-mono text-gunmetal">_ga</td>
                       <td className="p-2 text-gunmetal">Google Analytics</td>
                       <td className="p-2 text-gunmetal">2 years</td>
-                      <td className="p-2"><Badge className="bg-blue-100 text-blue-800">Analytics</Badge></td>
+                      <td className="p-2"><Badge className="bg-blue-900/20 text-blue-400 border-blue-500/30">Analytics</Badge></td>
                     </tr>
                     <tr className="border-b">
                       <td className="p-2 font-mono text-gunmetal">_gid</td>
                       <td className="p-2 text-gunmetal">Google Analytics</td>
                       <td className="p-2 text-gunmetal">24 hours</td>
-                      <td className="p-2"><Badge className="bg-blue-100 text-blue-800">Analytics</Badge></td>
+                      <td className="p-2"><Badge className="bg-blue-900/20 text-blue-400 border-blue-500/30">Analytics</Badge></td>
                     </tr>
                     <tr className="border-b">
                       <td className="p-2 font-mono text-gunmetal">_fbp</td>

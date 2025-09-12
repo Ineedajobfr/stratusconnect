@@ -43,6 +43,29 @@ export const ProtectedRoute = ({
     return <Navigate to="/verification-pending" replace />;
   }
 
+  // HEAVY DEMO PROTECTION - Block ALL demo users from admin routes
+  if (allowedRoles?.includes('admin')) {
+    // Check for demo indicators
+    const isDemoUser = 
+      user.email?.includes('demo') ||
+      user.email?.includes('test') ||
+      user.user_metadata?.demo === true ||
+      user.app_metadata?.demo === true ||
+      user.role === 'demo' ||
+      (user.user_metadata?.role === 'demo');
+    
+    if (isDemoUser) {
+      console.warn('SECURITY ALERT: Demo user attempted to access admin route:', user.email);
+      return <Navigate to="/unauthorized" replace />;
+    }
+    
+    // Additional admin verification - must be explicitly admin role
+    if (user.role !== 'admin' && user.user_metadata?.role !== 'admin') {
+      console.warn('SECURITY ALERT: Non-admin user attempted to access admin route:', user.email, 'Role:', user.role);
+      return <Navigate to="/unauthorized" replace />;
+    }
+  }
+
   // Check role permissions - require explicit role match
   if (allowedRoles && !allowedRoles.includes(user.role)) {
     // Redirect to user's appropriate terminal

@@ -38,10 +38,10 @@ export function CarbonMethodologySelector({
 
   const getConfidenceColor = (confidence: string) => {
     switch (confidence) {
-      case 'high': return 'text-white bg-green-100';
-      case 'medium': return 'text-yellow-600 bg-yellow-100';
-      case 'low': return 'text-red-600 bg-red-100';
-      default: return 'text-gray-600 bg-gray-100';
+      case 'high': return 'text-green-400 bg-green-900/20 border-green-500/30';
+      case 'medium': return 'text-yellow-400 bg-yellow-900/20 border-yellow-500/30';
+      case 'low': return 'text-red-400 bg-red-900/20 border-red-500/30';
+      default: return 'text-slate-400 bg-slate-900/20 border-slate-500/30';
     }
   };
 

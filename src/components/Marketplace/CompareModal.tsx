@@ -91,12 +91,12 @@ export default function CompareModal({
                         </div>
                         <div className="flex gap-1 mt-1">
                           {listing.emptyLeg && (
-                            <Badge className="bg-blue-100 text-blue-800 text-xs">
+                            <Badge className="bg-blue-900/20 text-blue-400 border-blue-500/30 text-xs">
                               Empty Leg
                             </Badge>
                           )}
                           {listing.operatorVerified && (
-                            <Badge className="bg-green-100 text-white text-xs">
+                            <Badge className="bg-green-900/20 text-green-400 border-green-500/30 text-xs">
                               Verified
                             </Badge>
                           )}

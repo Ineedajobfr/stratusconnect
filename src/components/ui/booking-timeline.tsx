@@ -48,21 +48,21 @@ export const BookingTimeline: React.FC<BookingTimelineProps> = ({
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'scheduled':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-blue-900/20 text-blue-400 border-blue-500/30';
       case 'boarding':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-900/20 text-yellow-400 border-yellow-500/30';
       case 'departed':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-900/20 text-green-400 border-green-500/30';
       case 'in_flight':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-900/20 text-green-400 border-green-500/30';
       case 'landed':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-900/20 text-green-400 border-green-500/30';
       case 'delayed':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-900/20 text-yellow-400 border-yellow-500/30';
       case 'cancelled':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-900/20 text-red-400 border-red-500/30';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-slate-900/20 text-slate-400 border-slate-500/30';
     }
   };
 
@@ -136,7 +136,7 @@ export const BookingTimeline: React.FC<BookingTimelineProps> = ({
           {getStatusDisplay(getCurrentStatus())}
         </Badge>
         {isCompleted() && (
-          <Badge className="bg-green-100 text-green-800">
+          <Badge className="bg-green-900/20 text-green-400 border-green-500/30">
             <CheckCircle className="h-3 w-3 mr-1" />
             Completed
           </Badge>
@@ -209,7 +209,7 @@ export const BookingTimeline: React.FC<BookingTimelineProps> = ({
 
             {/* Timeline connector */}
             {index < flights.length - 1 && (
-              <div className="absolute -bottom-2 left-6 w-0.5 h-4 bg-gray-200"></div>
+              <div className="absolute -bottom-2 left-6 w-0.5 h-4 bg-orange-500/30"></div>
             )}
           </Card>
         ))}

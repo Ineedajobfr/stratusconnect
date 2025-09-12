@@ -201,7 +201,7 @@ export default function SLA() {
               
               <div className="space-y-3">
                 <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-sm font-bold">1</div>
+                  <div className="w-6 h-6 bg-red-900/20 text-red-400 border border-red-500/30 rounded-full flex items-center justify-center text-sm font-bold">1</div>
                   <div>
                     <h4 className="font-medium text-foreground">Detection & Alerting</h4>
                     <p className="text-gunmetal text-sm">Automated monitoring detects issues within 1 minute</p>
@@ -215,14 +215,14 @@ export default function SLA() {
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center text-sm font-bold">3</div>
+                  <div className="w-6 h-6 bg-yellow-900/20 text-yellow-400 border border-yellow-500/30 rounded-full flex items-center justify-center text-sm font-bold">3</div>
                   <div>
                     <h4 className="font-medium text-foreground">Status Update</h4>
                     <p className="text-gunmetal text-sm">Public status page updated within 30 minutes</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 bg-green-100 text-white rounded-full flex items-center justify-center text-sm font-bold">4</div>
+                  <div className="w-6 h-6 bg-green-900/20 text-green-400 border border-green-500/30 rounded-full flex items-center justify-center text-sm font-bold">4</div>
                   <div>
                     <h4 className="font-medium text-foreground">Resolution</h4>
                     <p className="text-gunmetal text-sm">Critical issues resolved within 4 hours</p>

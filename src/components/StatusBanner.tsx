@@ -103,7 +103,7 @@ export function StatusBanner() {
   const isHealthy = activeIncidents.length === 0 && statusData.uptime > 99.9;
 
   return (
-    <div className="border-b py-3 bg-gray-100 border-gray-300">
+    <div className="border-b py-3 bg-slate-900/20 border-slate-700">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">

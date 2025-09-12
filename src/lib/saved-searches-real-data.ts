@@ -51,7 +51,7 @@ export interface SearchResult {
   searchId: string;
   score: number;
   matchedAt: string;
-  data: any; // The actual listing data
+  data: Record<string, unknown>; // The actual listing data
 }
 
 export interface PriceDropAlert {
@@ -257,7 +257,7 @@ class SavedSearchesRealData {
   /**
    * Filter and score listings based on criteria
    */
-  private filterAndScoreListings(listings: any[], criteria: SearchCriteria): any[] {
+  private filterAndScoreListings(listings: Record<string, unknown>[], criteria: SearchCriteria): Record<string, unknown>[] {
     return listings
       .filter(listing => this.matchesCriteria(listing, criteria))
       .map(listing => ({
@@ -270,7 +270,7 @@ class SavedSearchesRealData {
   /**
    * Check if listing matches search criteria
    */
-  private matchesCriteria(listing: any, criteria: SearchCriteria): boolean {
+  private matchesCriteria(listing: Record<string, unknown>, criteria: SearchCriteria): boolean {
     // Route matching
     if (criteria.routes.length > 0) {
       const route = `${listing.from}-${listing.to}`;
@@ -331,7 +331,7 @@ class SavedSearchesRealData {
   /**
    * Calculate relevance score for listing
    */
-  private calculateScore(listing: any, criteria: SearchCriteria): number {
+  private calculateScore(listing: Record<string, unknown>, criteria: SearchCriteria): number {
     let score = 0;
 
     // Base score

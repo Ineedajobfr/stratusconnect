@@ -53,7 +53,7 @@ export default function Marketplace() {
   const [bids, setBids] = useState<{ [key: string]: Bid[] }>({});
   const [loading, setLoading] = useState(true);
   const [userRole, setUserRole] = useState<string>("");
-  const [aircraft, setAircraft] = useState<any[]>([]);
+  const [aircraft, setAircraft] = useState<Record<string, unknown>[]>([]);
   const [bidDialogOpen, setBidDialogOpen] = useState(false);
   const [listingDialogOpen, setListingDialogOpen] = useState(false);
   const [selectedListing, setSelectedListing] = useState<MarketplaceListing | null>(null);

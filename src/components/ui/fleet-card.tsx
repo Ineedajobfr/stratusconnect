@@ -45,15 +45,15 @@ export const FleetCard: React.FC<FleetCardProps> = ({
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'available':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-900/20 text-green-400 border-green-500/30';
       case 'in_use':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-blue-900/20 text-blue-400 border-blue-500/30';
       case 'maintenance':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-900/20 text-yellow-400 border-yellow-500/30';
       case 'grounded':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-900/20 text-red-400 border-red-500/30';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-slate-900/20 text-slate-400 border-slate-500/30';
     }
   };
 
@@ -115,7 +115,7 @@ export const FleetCard: React.FC<FleetCardProps> = ({
 
           {/* Aircraft Photo Placeholder */}
           {aircraft.photo_url ? (
-            <div className="w-full h-32 bg-gray-100 rounded-md overflow-hidden">
+            <div className="w-full h-32 bg-slate-900/20 rounded-md overflow-hidden border border-slate-700">
               <img 
                 src={aircraft.photo_url} 
                 alt={aircraft.model}
@@ -123,8 +123,8 @@ export const FleetCard: React.FC<FleetCardProps> = ({
               />
             </div>
           ) : (
-            <div className="w-full h-32 bg-gray-100 rounded-md flex items-center justify-center">
-              <Plane className="h-8 w-8 text-gray-400" />
+            <div className="w-full h-32 bg-slate-900/20 rounded-md flex items-center justify-center border border-slate-700">
+              <Plane className="h-8 w-8 text-slate-400" />
             </div>
           )}
 

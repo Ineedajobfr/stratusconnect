@@ -226,7 +226,7 @@ export const MessageCenter: React.FC<MessageCenterProps> = ({
                     className={`inline-block max-w-xs lg:max-w-md px-3 py-2 rounded-lg ${
                       isOwnMessage(message)
                         ? 'bg-blue-500 text-white'
-                        : 'bg-gray-100 text-gray-900'
+                        : 'bg-slate-900/20 text-slate-300 border border-slate-700'
                     }`}
                   >
                     <p className="text-sm">{message.content}</p>

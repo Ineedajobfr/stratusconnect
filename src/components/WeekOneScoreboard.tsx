@@ -100,9 +100,9 @@ export function WeekOneScoreboard({ onMetricsUpdate }: WeekOneScoreboardProps) {
   };
 
   const getPerformanceBadge = (value: number, thresholds: { good: number; warning: number }) => {
-    if (value >= thresholds.good) return 'bg-green-100 text-white';
-    if (value >= thresholds.warning) return 'bg-yellow-100 text-yellow-800';
-    return 'bg-red-100 text-red-800';
+    if (value >= thresholds.good) return 'bg-green-900/20 text-green-400 border-green-500/30';
+    if (value >= thresholds.warning) return 'bg-yellow-900/20 text-yellow-400 border-yellow-500/30';
+    return 'bg-red-900/20 text-red-400 border-red-500/30';
   };
 
   const getPerformanceLabel = (value: number, thresholds: { good: number; warning: number }) => {
@@ -140,7 +140,7 @@ export function WeekOneScoreboard({ onMetricsUpdate }: WeekOneScoreboardProps) {
               <BarChart3 className="w-5 h-5" />
               Week One Live Scoreboard
             </CardTitle>
-            <Badge className="bg-blue-100 text-blue-800">
+            <Badge className="bg-blue-900/20 text-blue-400 border-blue-500/30">
               <Activity className="w-3 h-3 mr-1" />
               Live
             </Badge>

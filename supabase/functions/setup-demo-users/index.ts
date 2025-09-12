@@ -26,7 +26,7 @@ async function createUserProfile(supabaseClient: unknown, userId: string, userDa
     // Clear and recreate experience
     await supabaseClient.from('experience').delete().eq('user_id', userId);
     if (userData.experience?.length > 0) {
-      const experienceData = userData.experience.map((exp: any) => ({
+      const experienceData = userData.experience.map((exp: Record<string, unknown>) => ({
         ...exp,
         user_id: userId
       }));
@@ -37,7 +37,7 @@ async function createUserProfile(supabaseClient: unknown, userId: string, userDa
     // Clear and recreate credentials
     await supabaseClient.from('credentials').delete().eq('user_id', userId);
     if (userData.credentials?.length > 0) {
-      const credentialsData = userData.credentials.map((cred: any) => ({
+      const credentialsData = userData.credentials.map((cred: Record<string, unknown>) => ({
         ...cred,
         user_id: userId
       }));
@@ -350,7 +350,7 @@ serve(async (req) => {
           if (msg.includes('already') && msg.includes('registered')) {
             // User exists, get their ID and update metadata
             const { data: list } = await supabaseClient.auth.admin.listUsers();
-            const existing = list?.users?.find((u: any) => u.email === userData.email);
+            const existing = list?.users?.find((u: Record<string, unknown>) => u.email === userData.email);
             
             if (existing) {
               // Update existing user's metadata and password

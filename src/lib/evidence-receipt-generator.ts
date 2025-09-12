@@ -142,7 +142,7 @@ class EvidenceReceiptGenerator {
   /**
    * Generate real audit hash using SHA-256
    */
-  private async generateAuditHash(data: any): Promise<string> {
+  private async generateAuditHash(data: Record<string, unknown>): Promise<string> {
     const jsonString = JSON.stringify(data, null, 2);
     const encoder = new TextEncoder();
     const dataBuffer = encoder.encode(jsonString);

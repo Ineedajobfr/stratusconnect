@@ -146,13 +146,13 @@ export function ChargebacksPlaybook({ dealId, dealType, totalAmount, currency, b
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'warning':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-900/20 text-yellow-400 border-yellow-500/30';
       case 'under_review':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-blue-900/20 text-blue-400 border-blue-500/30';
       case 'won':
-        return 'bg-green-100 text-white';
+        return 'bg-green-900/20 text-green-400 border-green-500/30';
       case 'lost':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-900/20 text-red-400 border-red-500/30';
       case 'expired':
         return 'bg-purple-900/30 text-purple-200';
       default:

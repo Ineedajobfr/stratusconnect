@@ -29,7 +29,7 @@ export default function SanctionsScreening() {
   const [screening, setScreening] = useState<SanctionsScreening | null>(null);
   const [matches, setMatches] = useState<SanctionsMatch[]>([]);
   const [isScreening, setIsScreening] = useState(false);
-  const [userProfile, setUserProfile] = useState<any>(null);
+  const [userProfile, setUserProfile] = useState<Record<string, unknown> | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {

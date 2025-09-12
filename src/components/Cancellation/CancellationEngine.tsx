@@ -161,9 +161,9 @@ export function CancellationEngine({
   };
 
   const getFeeBadgeColor = (percentage: number) => {
-    if (percentage <= 25) return 'bg-green-100 text-white';
-    if (percentage <= 50) return 'bg-yellow-100 text-yellow-800';
-    return 'bg-red-100 text-red-800';
+    if (percentage <= 25) return 'bg-green-900/20 text-green-400 border-green-500/30';
+    if (percentage <= 50) return 'bg-yellow-900/20 text-yellow-400 border-yellow-500/30';
+    return 'bg-red-900/20 text-red-400 border-red-500/30';
   };
 
   return (

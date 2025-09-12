@@ -321,7 +321,7 @@ class StripeConnectService {
   /**
    * Handle webhook events
    */
-  async handleWebhookEvent(event: any): Promise<void> {
+  async handleWebhookEvent(event: Record<string, unknown>): Promise<void> {
     // Log webhook event for audit
     await this.logWebhookEvent(event);
 
@@ -343,7 +343,7 @@ class StripeConnectService {
   /**
    * Handle successful payment
    */
-  private async handlePaymentSucceeded(paymentIntent: any): Promise<void> {
+  private async handlePaymentSucceeded(paymentIntent: Record<string, unknown>): Promise<void> {
     // Update deal status, send notifications, etc.
     console.log('Payment succeeded:', paymentIntent.id);
   }
@@ -351,7 +351,7 @@ class StripeConnectService {
   /**
    * Handle failed payment
    */
-  private async handlePaymentFailed(paymentIntent: any): Promise<void> {
+  private async handlePaymentFailed(paymentIntent: Record<string, unknown>): Promise<void> {
     // Handle payment failure, notify users, etc.
     console.log('Payment failed:', paymentIntent.id);
   }
@@ -359,7 +359,7 @@ class StripeConnectService {
   /**
    * Handle account updates
    */
-  private async handleAccountUpdated(account: any): Promise<void> {
+  private async handleAccountUpdated(account: Record<string, unknown>): Promise<void> {
     // Update account status in database
     console.log('Account updated:', account.id);
   }
@@ -367,7 +367,7 @@ class StripeConnectService {
   /**
    * Log webhook event for audit
    */
-  private async logWebhookEvent(event: any): Promise<void> {
+  private async logWebhookEvent(event: Record<string, unknown>): Promise<void> {
     // In production, this would log to audit database
     console.log('Webhook event logged:', {
       id: event.id,

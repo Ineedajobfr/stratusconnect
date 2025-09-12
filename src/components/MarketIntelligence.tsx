@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -60,9 +60,9 @@ export default function MarketIntelligence() {
   useEffect(() => {
     fetchMarketData();
     generateMockAnalytics(); // Generate some mock data for demonstration
-  }, [selectedTimeframe, selectedRegion]);
+  }, [selectedTimeframe, selectedRegion, fetchMarketData, generateMockAnalytics]);
 
-  const fetchMarketData = async () => {
+  const fetchMarketData = useCallback(async () => {
     try {
       // Fetch real marketplace data
       const { data: listings } = await supabase
@@ -91,7 +91,7 @@ export default function MarketIntelligence() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [toast]);
 
   const processListingsIntoAnalytics = (listings: Record<string, unknown>[]) => {
     const routeMap = new Map<string, Record<string, unknown>[]>();
@@ -153,7 +153,7 @@ export default function MarketIntelligence() {
     });
   };
 
-  const generateMockAnalytics = async () => {
+  const generateMockAnalytics = useCallback(async () => {
     // Generate some mock analytics for demonstration
     const mockRoutes = ['KJFK-KLAX', 'KBOS-KMIA', 'KORD-KLAS', 'KATL-KPHX', 'KSEA-KSAN'];
     const mockAircraftTypes = ['Light Jet', 'Mid-Size Jet', 'Heavy Jet', 'Turboprop'];
@@ -179,7 +179,7 @@ export default function MarketIntelligence() {
     });
 
     setAnalytics(prev => [...prev, ...mockAnalytics].slice(0, 50));
-  };
+  }, []);
 
   const getTrendIcon = (direction: string) => {
     switch (direction) {

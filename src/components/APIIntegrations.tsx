@@ -98,7 +98,7 @@ export default function APIIntegrations() {
   useEffect(() => {
     fetchUserData();
     fetchIntegrations();
-  }, []);
+  }, [fetchIntegrations]);
 
   const fetchUserData = async () => {
     try {

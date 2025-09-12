@@ -28,6 +28,7 @@ const AdminTerminal = lazy(() => import("./pages/AdminTerminal"));
 const BetaNavigator = lazy(() => import("./pages/BetaNavigator"));
 const Status = lazy(() => import("./pages/CompliantStatus"));
 const Cookies = lazy(() => import("./pages/Cookies"));
+const Unauthorized = lazy(() => import("./pages/Unauthorized"));
 const SLA = lazy(() => import("./pages/CompliantSLA"));
 
 // Secondary pages - loaded on demand
@@ -238,12 +239,31 @@ const App = memo(() => {
               />
               <Route 
                 path="/admin" 
-                element={<AdminConsole />} 
+                element={
+                  <ProtectedRoute allowedRoles={['admin']} requireApproved={true}>
+                    <AdminConsole />
+                  </ProtectedRoute>
+                } 
               />
               <Route 
                 path="/admin-setup" 
-                element={<AdminSetup />} 
+                element={
+                  <ProtectedRoute allowedRoles={['admin']} requireApproved={true}>
+                    <AdminSetup />
+                  </ProtectedRoute>
+                } 
               />
+              <Route 
+                path="/secure-admin-setup" 
+                element={
+                  <ProtectedRoute allowedRoles={['admin']} requireApproved={true}>
+                    <SecureAdminSetup />
+                  </ProtectedRoute>
+                } 
+              />
+              
+              {/* Security routes */}
+              <Route path="/unauthorized" element={<Unauthorized />} />
               
               {/* Catch all route */}
               <Route path="*" element={<NotFound />} />

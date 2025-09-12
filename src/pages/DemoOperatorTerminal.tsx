@@ -52,12 +52,12 @@ import { WeekOneScoreboard } from '@/components/WeekOneScoreboard';
 import { liveFlowTester } from '@/lib/live-flow-tester';
 import { warRoomChecker } from '@/lib/war-room-checks';
 import { evidencePackGenerator } from '@/lib/evidence-pack-generator';
-import MultiLegRFQ from '@/components/DealFlow/MultiLegRFQ';
-import QuoteComposer from '@/components/DealFlow/QuoteComposer';
-import BackhaulMatcher from '@/components/DealFlow/BackhaulMatcher';
-import SavedSearches from '@/components/DealFlow/SavedSearches';
-import ReputationMetrics from '@/components/Reputation/ReputationMetrics';
-import MonthlyStatements from '@/components/Billing/MonthlyStatements';
+import { MultiLegRFQ } from '@/components/DealFlow/MultiLegRFQ';
+import { QuoteComposer } from '@/components/DealFlow/QuoteComposer';
+import { BackhaulMatcher } from '@/components/DealFlow/BackhaulMatcher';
+import { SavedSearches } from '@/components/DealFlow/SavedSearches';
+import { ReputationMetrics } from '@/components/Reputation/ReputationMetrics';
+import { MonthlyStatements } from '@/components/Billing/MonthlyStatements';
 
 interface RFQ {
   id: string;
@@ -141,9 +141,9 @@ export default function DemoOperatorTerminal() {
   const [showWeekOneScoreboard, setShowWeekOneScoreboard] = useState(false);
   const [showWarRoomChecks, setShowWarRoomChecks] = useState(false);
   const [showEvidencePack, setShowEvidencePack] = useState(false);
-  const [liveFlowResult, setLiveFlowResult] = useState<Record<string, unknown> | null>(null);
-  const [warRoomResult, setWarRoomResult] = useState<Record<string, unknown> | null>(null);
-  const [evidencePack, setEvidencePack] = useState<Record<string, unknown> | null>(null);
+  const [liveFlowResult, setLiveFlowResult] = useState<unknown>(null);
+  const [warRoomResult, setWarRoomResult] = useState<unknown>(null);
+  const [evidencePack, setEvidencePack] = useState<unknown>(null);
   
   const [rfqs, setRfqs] = useState<RFQ[]>([
     {
@@ -451,7 +451,7 @@ export default function DemoOperatorTerminal() {
                 <p className="font-medium">Deal DEAL-001 completed</p>
                 <p className="text-sm text-gray-600">London - New York • $45,000</p>
               </div>
-              <Badge className="bg-green-900 text-green-100">Completed</Badge>
+              <Badge className="bg-slate-800 text-orange-400 border-orange-500/30">Completed</Badge>
             </div>
             <div className="flex items-center gap-3 p-3 bg-slate-800 rounded-lg">
               <FileText className="w-5 h-5 text-blue-600" />
@@ -459,7 +459,7 @@ export default function DemoOperatorTerminal() {
                 <p className="font-medium">Quote sent for RFQ-002</p>
                 <p className="text-sm text-gray-600">Paris - Dubai • $38,000</p>
               </div>
-              <Badge className="bg-blue-900 text-blue-100">Pending</Badge>
+              <Badge className="bg-slate-800 text-orange-400 border-orange-500/30">Pending</Badge>
             </div>
             <div className="flex items-center gap-3 p-3 bg-slate-800 rounded-lg">
               <AlertTriangle className="w-5 h-5 text-yellow-600" />
@@ -467,7 +467,7 @@ export default function DemoOperatorTerminal() {
                 <p className="font-medium">Pilot credential expires soon</p>
                 <p className="text-sm text-gray-600">Mike Johnson • Medical expires Nov 15</p>
               </div>
-              <Badge className="bg-yellow-900 text-yellow-100">Warning</Badge>
+              <Badge className="bg-orange-900/20 text-orange-400 border-orange-500/30">Warning</Badge>
             </div>
           </div>
         </CardContent>
@@ -489,7 +489,7 @@ export default function DemoOperatorTerminal() {
                   <p className="text-sm text-blue-600 mt-1">Requirements: {rfq.specialRequirements}</p>
                 )}
               </div>
-              <Badge className={rfq.status === 'quoted' ? 'bg-green-900 text-green-100' : 'bg-yellow-900 text-yellow-100'}>
+              <Badge className={rfq.status === 'quoted' ? 'bg-slate-800 text-orange-400 border-orange-500/30' : 'bg-orange-900/20 text-orange-400 border-orange-500/30'}>
                 {rfq.status}
               </Badge>
             </div>
@@ -534,11 +534,11 @@ export default function DemoOperatorTerminal() {
                 </div>
               </div>
               <div className="text-right">
-                <Badge className={pilot.available ? 'bg-green-900 text-green-100' : 'bg-red-900 text-red-100'}>
+                <Badge className={pilot.available ? 'bg-slate-800 text-orange-400 border-orange-500/30' : 'bg-slate-800 text-slate-300 border-slate-600'}>
                   {pilot.available ? 'Available' : 'Unavailable'}
                 </Badge>
                 {pilot.verified && (
-                  <Badge className="bg-blue-900 text-blue-100 mt-1">
+                  <Badge className="bg-slate-800 text-orange-400 border-orange-500/30 mt-1">
                     <CheckCircle className="w-3 h-3 mr-1" />
                     Verified
                   </Badge>
@@ -605,11 +605,11 @@ export default function DemoOperatorTerminal() {
                 </div>
               </div>
               <div className="text-right">
-                <Badge className={crewMember.available ? 'bg-green-900 text-green-100' : 'bg-red-900 text-red-100'}>
+                <Badge className={crewMember.available ? 'bg-slate-800 text-orange-400 border-orange-500/30' : 'bg-slate-800 text-slate-300 border-slate-600'}>
                   {crewMember.available ? 'Available' : 'Unavailable'}
                 </Badge>
                 {crewMember.verified && (
-                  <Badge className="bg-blue-900 text-blue-100 mt-1">
+                  <Badge className="bg-slate-800 text-orange-400 border-orange-500/30 mt-1">
                     <CheckCircle className="w-3 h-3 mr-1" />
                     Verified
                   </Badge>
@@ -663,7 +663,7 @@ export default function DemoOperatorTerminal() {
               <p className="text-sm text-gray-600">Capacity: 8 passengers</p>
               <p className="text-sm text-gray-600">Range: 7,500 nm</p>
             </div>
-            <Badge className="bg-green-900 text-green-100">Available</Badge>
+            <Badge className="bg-slate-800 text-orange-400 border-orange-500/30">Available</Badge>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
@@ -723,9 +723,9 @@ export default function DemoOperatorTerminal() {
               <p className="text-2xl font-bold text-blue-600">$12,600</p>
               <p className="text-sm text-gray-600">Platform Fees (7%)</p>
             </div>
-            <div className="text-center p-4 bg-purple-50 rounded-lg">
-              <p className="text-2xl font-bold text-purple-600">$167,400</p>
-              <p className="text-sm text-gray-600">Net to Operator</p>
+            <div className="text-center p-4 bg-slate-800 rounded-lg border border-orange-500/30">
+              <p className="text-2xl font-bold text-orange-400">$167,400</p>
+              <p className="text-sm text-slate-300">Net to Operator</p>
             </div>
           </div>
         </CardContent>
@@ -741,7 +741,7 @@ export default function DemoOperatorTerminal() {
         <CardContent>
           <div className="space-y-3">
             {deals.map(deal => (
-              <div key={deal.id} className="flex items-center justify-between p-3 bg-purple-900/20 rounded border border-purple-700">
+              <div key={deal.id} className="flex items-center justify-between p-3 bg-slate-800 rounded border border-orange-500/30">
                 <div>
                   <p className="font-medium text-white">{deal.route}</p>
                   <p className="text-sm text-white/70">{deal.date} • {deal.aircraft}</p>
@@ -769,7 +769,7 @@ export default function DemoOperatorTerminal() {
           </div>
           <div className="flex items-center gap-4">
             {isDemoMode && (
-              <Badge className="bg-yellow-900 text-yellow-100">
+              <Badge className="bg-orange-900/20 text-orange-400 border-orange-500/30">
                 <AlertTriangle className="w-3 h-3 mr-1" />
                 Demo Mode
               </Badge>
@@ -860,10 +860,10 @@ export default function DemoOperatorTerminal() {
                     Run War Room Checks
                   </Button>
                   {warRoomResult && (
-                    <div className="mt-4 p-4 bg-purple-900/20 rounded-lg border border-purple-700">
+                    <div className="mt-4 p-4 bg-slate-800 rounded-lg border border-orange-500/30">
                       <h3 className="font-semibold mb-2">Results:</h3>
                       <p className="text-sm text-gray-600 whitespace-pre-line">
-                        {warRoomResult.summary}
+                        {(warRoomResult as Record<string, unknown>)?.summary as string || 'No summary available'}
                       </p>
                     </div>
                   )}
@@ -890,12 +890,12 @@ export default function DemoOperatorTerminal() {
                     Generate Evidence Pack
                   </Button>
                   {evidencePack && (
-                    <div className="mt-4 p-4 bg-purple-900/20 rounded-lg border border-purple-700">
+                    <div className="mt-4 p-4 bg-slate-800 rounded-lg border border-orange-500/30">
                       <h3 className="font-semibold mb-2">Evidence Pack Generated:</h3>
                       <p className="text-sm text-gray-600">
-                        ID: {evidencePack.id}<br/>
-                        Generated: {new Date(evidencePack.generatedAt).toLocaleString()}<br/>
-                        Version: {evidencePack.version}
+                        ID: {(evidencePack as Record<string, unknown>)?.id as string || 'N/A'}<br/>
+                        Generated: {new Date((evidencePack as Record<string, unknown>)?.generatedAt as string || Date.now()).toLocaleString()}<br/>
+                        Version: {(evidencePack as Record<string, unknown>)?.version as string || 'N/A'}
                       </p>
                     </div>
                   )}

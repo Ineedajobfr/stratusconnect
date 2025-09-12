@@ -48,13 +48,13 @@ export const QuoteCard: React.FC<QuoteCardProps> = ({
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'pending':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-blue-900/20 text-blue-400 border-blue-500/30';
       case 'accepted':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-900/20 text-green-400 border-green-500/30';
       case 'rejected':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-900/20 text-red-400 border-red-500/30';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-slate-900/20 text-slate-400 border-slate-500/30';
     }
   };
 

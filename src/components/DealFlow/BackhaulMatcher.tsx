@@ -1,7 +1,7 @@
 // Backhaul and Empty Leg Auto-Match
 // FCA Compliant Aviation Platform
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -64,9 +64,9 @@ export function BackhaulMatcher({ rfqId, from, to, departureDate, passengers, on
 
   useEffect(() => {
     findMatches();
-  }, [from, to, departureDate, passengers, searchRadius]);
+  }, [from, to, departureDate, passengers, searchRadius, findMatches]);
 
-  const findMatches = async () => {
+  const findMatches = useCallback(async () => {
     setLoading(true);
     
     // Free tier: Use mock data instead of real API calls
@@ -140,7 +140,7 @@ export function BackhaulMatcher({ rfqId, from, to, departureDate, passengers, on
     setEmptyLegs(filteredLegs);
     setMatches(scoredMatches.sort((a, b) => b.matchScore - a.matchScore));
     setLoading(false);
-  };
+  }, [from, to, departureDate, passengers, searchRadius]);
 
   const isWithinRadius = (airport1: string, airport2: string) => {
     // Simplified distance check - in production would use actual coordinates

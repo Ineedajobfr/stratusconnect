@@ -242,7 +242,7 @@ export default function FiltersDrawer({
             <Label htmlFor="sortBy">Sort By</Label>
             <Select 
               value={filters.sortBy} 
-              onValueChange={(value) => updateFilter('sortBy', value as any)}
+              onValueChange={(value) => updateFilter('sortBy', value as string)}
             >
               <SelectTrigger>
                 <SelectValue />

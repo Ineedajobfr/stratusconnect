@@ -318,7 +318,7 @@ class MonitoringLiveService {
   /**
    * Log audit event
    */
-  private async logAuditEvent(event: any): Promise<void> {
+  private async logAuditEvent(event: Record<string, unknown>): Promise<void> {
     try {
       await supabase
         .from('audit_log')

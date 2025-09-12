@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -43,9 +43,9 @@ export default function AviationCompliance({ userRole, userId }: AviationComplia
 
   useEffect(() => {
     loadDocuments();
-  }, [userId]);
+  }, [userId, loadDocuments]);
 
-  const loadDocuments = async () => {
+  const loadDocuments = useCallback(async () => {
     try {
       setLoading(true);
       // In a real implementation, this would load from the database
@@ -103,7 +103,7 @@ export default function AviationCompliance({ userRole, userId }: AviationComplia
     } finally {
       setLoading(false);
     }
-  };
+  }, [toast]);
 
   const getDocumentTypeLabel = (type: AviationDocument['type']) => {
     switch (type) {
@@ -140,11 +140,11 @@ export default function AviationCompliance({ userRole, userId }: AviationComplia
   const getStatusColor = (status: AviationDocument['status']) => {
     switch (status) {
       case 'valid':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-900/20 text-green-400 border-green-500/30';
       case 'expiring':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-900/20 text-yellow-400 border-yellow-500/30';
       case 'expired':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-900/20 text-red-400 border-red-500/30';
       default:
         return 'bg-purple-900/30 text-purple-200';
     }

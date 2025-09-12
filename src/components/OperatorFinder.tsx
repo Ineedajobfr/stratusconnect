@@ -65,9 +65,9 @@ export default function OperatorFinder() {
   };
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return 'bg-green-100 text-green-800';
-    if (score >= 60) return 'bg-yellow-100 text-yellow-800';
-    return 'bg-gray-100 text-gray-800';
+    if (score >= 80) return 'bg-green-900/20 text-green-400 border-green-500/30';
+    if (score >= 60) return 'bg-yellow-900/20 text-yellow-400 border-yellow-500/30';
+    return 'bg-slate-900/20 text-slate-400 border-slate-500/30';
   };
 
   return (

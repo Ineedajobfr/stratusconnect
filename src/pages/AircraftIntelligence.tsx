@@ -91,8 +91,8 @@ export default function AircraftIntelligence() {
               <Card>
                 <CardContent className="p-4">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 bg-green-100 rounded-lg">
-                      <TrendingUp className="h-4 w-4 text-green-600" />
+                    <div className="p-2 bg-green-900/20 rounded-lg border border-green-500/30">
+                      <TrendingUp className="h-4 w-4 text-green-400" />
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Live Signals</p>
@@ -105,8 +105,8 @@ export default function AircraftIntelligence() {
               <Card>
                 <CardContent className="p-4">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 bg-blue-100 rounded-lg">
-                      <Users className="h-4 w-4 text-blue-600" />
+                    <div className="p-2 bg-blue-900/20 rounded-lg border border-blue-500/30">
+                      <Users className="h-4 w-4 text-blue-400" />
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Operators</p>

@@ -45,9 +45,9 @@ export class SignedQuotePDFGenerator {
   static generateQuoteData(
     quoteId: string,
     dealId: string,
-    broker: any,
-    operator: any,
-    route: any,
+    broker: Record<string, unknown>,
+    operator: Record<string, unknown>,
+    route: Record<string, unknown>,
     aircraft: string,
     passengers: number,
     departureDate: string,
@@ -190,7 +190,7 @@ Version: 1.0
     URL.revokeObjectURL(url);
   }
 
-  static generateAuditEntry(quoteData: SignedQuoteData): any {
+  static generateAuditEntry(quoteData: SignedQuoteData): Record<string, unknown> {
     return {
       event: 'quote_signed',
       quoteId: quoteData.quoteId,

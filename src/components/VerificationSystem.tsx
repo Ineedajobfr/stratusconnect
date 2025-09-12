@@ -71,7 +71,7 @@ export default function VerificationSystem() {
         .select("platform_role")
         .eq("user_id", user.id)
         .single();
-      setUserRole((data as any)?.platform_role || "");
+      setUserRole((data as Record<string, unknown>)?.platform_role as string || "");
       }
     } catch (error) {
       console.error("Error fetching user role:", error);

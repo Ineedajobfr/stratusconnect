@@ -117,7 +117,7 @@ class KYCLiveService {
    */
   private async runSanctionsScreening(userId: string, kycData: KYCData): Promise<SanctionsResult> {
     const screeningDate = new Date().toISOString();
-    const matches: any[] = [];
+    const matches: Record<string, unknown>[] = [];
     let totalRiskScore = 0;
 
     // Screen against each sanctions list
@@ -156,13 +156,13 @@ class KYCLiveService {
    * Screen against specific sanctions provider
    */
   private async screenAgainstProvider(provider: string, kycData: KYCData): Promise<{
-    matches: any[];
+    matches: Record<string, unknown>[];
     riskScore: number;
   }> {
     // In production, integrate with real sanctions screening APIs
     // For now, simulate screening logic
     
-    const matches: any[] = [];
+    const matches: Record<string, unknown>[] = [];
     let riskScore = 0;
 
     // Simulate name matching
@@ -326,7 +326,7 @@ class KYCLiveService {
   /**
    * Log audit event
    */
-  private async logAuditEvent(event: any): Promise<void> {
+  private async logAuditEvent(event: Record<string, unknown>): Promise<void> {
     try {
       await supabase
         .from('audit_log')

@@ -11,7 +11,7 @@ export interface SmokeTestResult {
   status: 'PASS' | 'FAIL' | 'SKIP';
   message: string;
   duration: number;
-  details?: any;
+  details?: Record<string, unknown>;
 }
 
 class DayOneSmokeTests {
@@ -449,7 +449,7 @@ class DayOneSmokeTests {
   /**
    * Add test result
    */
-  private addResult(test: string, status: 'PASS' | 'FAIL' | 'SKIP', message: string, duration: number, details?: any): void {
+  private addResult(test: string, status: 'PASS' | 'FAIL' | 'SKIP', message: string, duration: number, details?: Record<string, unknown>): void {
     this.results.push({
       test,
       status,

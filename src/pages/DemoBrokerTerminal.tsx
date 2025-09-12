@@ -264,10 +264,10 @@ export default function DemoBrokerTerminal() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted">Active RFQs</p>
-              <p className="text-2xl font-bold text-body">{rfqs.length}</p>
-              <p className="text-xs text-accent">+12% this week</p>
+              <p className="text-2xl font-bold text-body accent-glow">{rfqs.length}</p>
+              <p className="text-xs text-accent accent-glow">+12% this week</p>
             </div>
-            <FileText className="w-8 h-8 text-accent" />
+            <FileText className="w-8 h-8 text-accent icon-glow" />
           </div>
         </Brand.Card>
 
@@ -275,12 +275,12 @@ export default function DemoBrokerTerminal() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted">Quotes Received</p>
-              <p className="text-2xl font-bold text-body">
+              <p className="text-2xl font-bold text-body accent-glow">
                 {rfqs.reduce((sum, rfq) => sum + rfq.quotes.length, 0)}
               </p>
-              <p className="text-xs text-accent">Avg 2.3 per RFQ</p>
+              <p className="text-xs text-accent accent-glow">Avg 2.3 per RFQ</p>
             </div>
-            <TrendingUp className="w-8 h-8 text-accent" />
+            <TrendingUp className="w-8 h-8 text-accent icon-glow" />
           </div>
         </Brand.Card>
 
@@ -288,12 +288,12 @@ export default function DemoBrokerTerminal() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted">Deals Closed</p>
-              <p className="text-2xl font-bold text-body">
+              <p className="text-2xl font-bold text-body accent-glow">
                 {rfqs.filter(rfq => rfq.status === 'paid').length}
               </p>
-              <p className="text-xs text-accent">$2.1M volume</p>
+              <p className="text-xs text-accent accent-glow">$2.1M volume</p>
             </div>
-            <DollarSign className="w-8 h-8 text-accent" />
+            <DollarSign className="w-8 h-8 text-accent icon-glow" />
           </div>
         </Brand.Card>
 
@@ -301,10 +301,10 @@ export default function DemoBrokerTerminal() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted">Avg Response Time</p>
-              <p className="text-2xl font-bold text-body">2.3m</p>
-              <p className="text-xs text-accent">Fast lane eligible</p>
+              <p className="text-2xl font-bold text-body accent-glow">2.3m</p>
+              <p className="text-xs text-accent accent-glow">Fast lane eligible</p>
             </div>
-            <Clock className="w-8 h-8 text-accent" />
+            <Clock className="w-8 h-8 text-accent icon-glow" />
           </div>
         </Brand.Card>
       </div>
@@ -603,21 +603,21 @@ export default function DemoBrokerTerminal() {
       <header className="sticky top-0 z-20 bg-app/80 backdrop-blur border-b border-default">
         <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
           <div>
-            <Brand.PageTitle>Broker Terminal</Brand.PageTitle>
-            <p className="text-muted">FCA Compliant Trading Floor • 100% Free Until Revenue</p>
+            <Brand.PageTitle className="hero-glow">Broker Terminal</Brand.PageTitle>
+            <p className="text-muted text-glow-subtle">FCA Compliant Trading Floor • 100% Free Until Revenue</p>
           </div>
           <div className="flex gap-2">
             <Brand.StatusChip status="success">
-              <Shield className="w-3 h-3 mr-1" />
+              <Shield className="w-3 h-3 mr-1 icon-glow" />
               FCA Compliant
             </Brand.StatusChip>
             <Brand.StatusChip status="info">
-              <Zap className="w-3 h-3 mr-1" />
+              <Zap className="w-3 h-3 mr-1 icon-glow" />
               Free Tier
             </Brand.StatusChip>
             {isDemoMode && (
               <Brand.StatusChip status="warn">
-                <AlertTriangle className="w-3 h-3 mr-1" />
+                <AlertTriangle className="w-3 h-3 mr-1 icon-glow" />
                 Demo Mode
               </Brand.StatusChip>
             )}
@@ -637,47 +637,47 @@ export default function DemoBrokerTerminal() {
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-11">
             <TabsTrigger value="dashboard" className="flex items-center gap-2">
-              <BarChart3 className="w-4 h-4" />
+              <BarChart3 className="w-4 h-4 icon-glow" />
               Dashboard
             </TabsTrigger>
             <TabsTrigger value="rfqs" className="flex items-center gap-2">
-              <FileText className="w-4 h-4" />
+              <FileText className="w-4 h-4 icon-glow" />
               RFQs & Quotes
             </TabsTrigger>
             <TabsTrigger value="marketplace" className="flex items-center gap-2">
-              <Search className="w-4 h-4" />
+              <Search className="w-4 h-4 icon-glow" />
               Marketplace
             </TabsTrigger>
             <TabsTrigger value="searches" className="flex items-center gap-2">
-              <Bell className="w-4 h-4" />
+              <Bell className="w-4 h-4 icon-glow" />
               Saved Searches
             </TabsTrigger>
             <TabsTrigger value="reputation" className="flex items-center gap-2">
-              <Award className="w-4 h-4" />
+              <Award className="w-4 h-4 icon-glow" />
               Reputation
             </TabsTrigger>
             <TabsTrigger value="ranking" className="flex items-center gap-2">
-              <TrendingUp className="w-4 h-4" />
+              <TrendingUp className="w-4 h-4 icon-glow" />
               Ranking
             </TabsTrigger>
             <TabsTrigger value="carbon" className="flex items-center gap-2">
-              <Leaf className="w-4 h-4" />
+              <Leaf className="w-4 h-4 icon-glow" />
               Carbon
             </TabsTrigger>
             <TabsTrigger value="billing" className="flex items-center gap-2">
-              <DollarSign className="w-4 h-4" />
+              <DollarSign className="w-4 h-4 icon-glow" />
               Billing
             </TabsTrigger>
             <TabsTrigger value="scoreboard" className="flex items-center gap-2">
-              <TrendingUp className="w-4 h-4" />
+              <TrendingUp className="w-4 h-4 icon-glow" />
               Scoreboard
             </TabsTrigger>
             <TabsTrigger value="warroom" className="flex items-center gap-2">
-              <Shield className="w-4 h-4" />
+              <Shield className="w-4 h-4 icon-glow" />
               War Room
             </TabsTrigger>
             <TabsTrigger value="evidence" className="flex items-center gap-2">
-              <FileText className="w-4 h-4" />
+              <FileText className="w-4 h-4 icon-glow" />
               Evidence
             </TabsTrigger>
           </TabsList>

@@ -47,10 +47,10 @@ export default function Index() {
               <Zap className="w-4 h-4 mr-2" />
               Next-Generation Aviation Platform
             </Badge>
-            <h1 className="text-5xl md:text-7xl font-bold text-body mb-6">
-              Welcome to <span className="text-accent">StratusConnect</span>
+            <h1 className="text-5xl md:text-7xl font-bold text-body mb-6 hero-glow">
+              Welcome to <span className="text-accent accent-glow">StratusConnect</span>
             </h1>
-            <p className="text-xl md:text-2xl text-muted max-w-4xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-muted max-w-4xl mx-auto leading-relaxed text-glow-subtle">
               The industry's most secure and efficient platform connecting brokers, operators, pilots, and crew. 
               Built on zero-trust architecture with military-grade encryption.
             </p>
@@ -59,20 +59,20 @@ export default function Index() {
           {/* Quick Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
             <div className="text-center">
-              <div className="text-3xl font-bold text-accent">99.9%</div>
-              <div className="text-sm text-muted-foreground">Uptime</div>
+              <div className="text-3xl font-bold text-accent accent-glow">99.9%</div>
+              <div className="text-sm text-muted-foreground text-glow-subtle">Uptime</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-accent">15k+</div>
-              <div className="text-sm text-muted-foreground">Active Users</div>
+              <div className="text-3xl font-bold text-accent accent-glow">15k+</div>
+              <div className="text-sm text-muted-foreground text-glow-subtle">Active Users</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-accent">$2B+</div>
-              <div className="text-sm text-muted-foreground">Transactions</div>
+              <div className="text-3xl font-bold text-accent accent-glow">$2B+</div>
+              <div className="text-sm text-muted-foreground text-glow-subtle">Transactions</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-accent">50ms</div>
-              <div className="text-sm text-muted-foreground">Avg Response</div>
+              <div className="text-3xl font-bold text-accent accent-glow">50ms</div>
+              <div className="text-sm text-muted-foreground text-glow-subtle">Avg Response</div>
             </div>
           </div>
         </div>
@@ -82,8 +82,8 @@ export default function Index() {
       <div className="relative z-10 py-24">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-foreground mb-4">Choose Your Terminal</h2>
-            <p className="text-xl text-muted-foreground">Access your personalized workspace</p>
+            <h2 className="text-4xl font-bold text-foreground mb-4 title-glow">Choose Your Terminal</h2>
+            <p className="text-xl text-muted-foreground text-glow-subtle">Access your personalized workspace</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -92,29 +92,29 @@ export default function Index() {
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
                   <div className="p-3 bg-accent/20 rounded-xl">
-                    <Building2 className="w-8 h-8 text-accent" />
+                    <Building2 className="w-8 h-8 text-accent icon-glow" />
                   </div>
                   <div>
-                    <CardTitle className="text-2xl">Broker Terminal</CardTitle>
-                    <CardDescription>Quote management & client relations</CardDescription>
+                    <CardTitle className="text-2xl title-glow">Broker Terminal</CardTitle>
+                    <CardDescription className="subtitle-glow">Quote management & client relations</CardDescription>
                   </div>
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground mb-6">
+                <p className="text-muted-foreground mb-6 text-glow-subtle">
                   Speed creates advantage. Win more quotes with real-time market intelligence and automated workflows.
                 </p>
                 <div className="flex space-x-3">
                   <Button 
                     onClick={() => handleAccessTerminal("broker")} 
-                    className="flex-1 btn-terminal-accent"
+                    className="flex-1 btn-terminal-accent button-glow"
                   >
-                    Access Terminal <ArrowRight className="w-4 h-4 ml-2" />
+                    Access Terminal <ArrowRight className="w-4 h-4 ml-2 icon-glow" />
                   </Button>
                   <Button 
                     onClick={() => handleDemoAccess("/demo/broker")} 
                     variant="outline"
-                    className="px-6"
+                    className="px-6 button-glow"
                   >
                     Demo
                   </Button>
@@ -127,29 +127,29 @@ export default function Index() {
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
                   <div className="p-3 bg-accent/20 rounded-xl">
-                    <Plane className="w-8 h-8 text-accent" />
+                    <Plane className="w-8 h-8 text-accent icon-glow" />
                   </div>
                   <div>
-                    <CardTitle className="text-2xl">Operator Terminal</CardTitle>
-                    <CardDescription>Fleet management & optimization</CardDescription>
+                    <CardTitle className="text-2xl title-glow">Operator Terminal</CardTitle>
+                    <CardDescription className="subtitle-glow">Fleet management & optimization</CardDescription>
                   </div>
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground mb-6">
+                <p className="text-muted-foreground mb-6 text-glow-subtle">
                   Fill the legs. Lift the yield. Control the risk with comprehensive fleet analytics and crew coordination.
                 </p>
                 <div className="flex space-x-3">
                   <Button 
                     onClick={() => handleAccessTerminal("operator")} 
-                    className="flex-1 btn-terminal-accent"
+                    className="flex-1 btn-terminal-accent button-glow"
                   >
-                    Access Terminal <ArrowRight className="w-4 h-4 ml-2" />
+                    Access Terminal <ArrowRight className="w-4 h-4 ml-2 icon-glow" />
                   </Button>
                   <Button 
                     onClick={() => handleDemoAccess("/demo/operator")} 
                     variant="outline"
-                    className="px-6"
+                    className="px-6 button-glow"
                   >
                     Demo
                   </Button>
@@ -162,29 +162,29 @@ export default function Index() {
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
                   <div className="p-3 bg-accent/20 rounded-xl">
-                    <UserCheck className="w-8 h-8 text-accent" />
+                    <UserCheck className="w-8 h-8 text-accent icon-glow" />
                   </div>
                   <div>
-                    <CardTitle className="text-2xl">Pilot Terminal</CardTitle>
-                    <CardDescription>Flight assignments & credentials</CardDescription>
+                    <CardTitle className="text-2xl title-glow">Pilot Terminal</CardTitle>
+                    <CardDescription className="subtitle-glow">Flight assignments & credentials</CardDescription>
                   </div>
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground mb-6">
+                <p className="text-muted-foreground mb-6 text-glow-subtle">
                   Credentials speak. Availability sells. Fly the missions that match your experience and schedule.
                 </p>
                 <div className="flex space-x-3">
                   <Button 
                     onClick={() => handleAccessTerminal("pilot")} 
-                    className="flex-1 btn-terminal-accent"
+                    className="flex-1 btn-terminal-accent button-glow"
                   >
-                    Access Terminal <ArrowRight className="w-4 h-4 ml-2" />
+                    Access Terminal <ArrowRight className="w-4 h-4 ml-2 icon-glow" />
                   </Button>
                   <Button 
                     onClick={() => handleDemoAccess("/demo/pilot")} 
                     variant="outline"
-                    className="px-6"
+                    className="px-6 button-glow"
                   >
                     Demo
                   </Button>
@@ -197,29 +197,29 @@ export default function Index() {
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
                   <div className="p-3 bg-accent/20 rounded-xl">
-                    <Users className="w-8 h-8 text-accent" />
+                    <Users className="w-8 h-8 text-accent icon-glow" />
                   </div>
                   <div>
-                    <CardTitle className="text-2xl">Crew Terminal</CardTitle>
-                    <CardDescription>Service excellence & scheduling</CardDescription>
+                    <CardTitle className="text-2xl title-glow">Crew Terminal</CardTitle>
+                    <CardDescription className="subtitle-glow">Service excellence & scheduling</CardDescription>
                   </div>
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground mb-6">
+                <p className="text-muted-foreground mb-6 text-glow-subtle">
                   Professional service wins repeat work. Your calendar is your shop window for premium opportunities.
                 </p>
                 <div className="flex space-x-3">
                   <Button 
                     onClick={() => handleAccessTerminal("crew")} 
-                    className="flex-1 btn-terminal-accent"
+                    className="flex-1 btn-terminal-accent button-glow"
                   >
-                    Access Terminal <ArrowRight className="w-4 h-4 ml-2" />
+                    Access Terminal <ArrowRight className="w-4 h-4 ml-2 icon-glow" />
                   </Button>
                   <Button 
                     onClick={() => handleDemoAccess("/demo/crew")} 
                     variant="outline"
-                    className="px-6"
+                    className="px-6 button-glow"
                   >
                     Demo
                   </Button>

@@ -106,7 +106,7 @@ export default function AdminConsole() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'approved':
-        return <Badge variant="default" className="bg-green-600">Approved</Badge>;
+        return <Badge variant="default" className="bg-accent">Approved</Badge>;
       case 'rejected':
         return <Badge variant="destructive">Rejected</Badge>;
       case 'pending':
@@ -118,15 +118,15 @@ export default function AdminConsole() {
 
   const getRoleBadge = (role: string) => {
     const colors = {
-      admin: "bg-red-600 hover:bg-red-700",
-      broker: "bg-blue-600 hover:bg-blue-700", 
-      operator: "bg-purple-600 hover:bg-purple-700",
-      crew: "bg-green-600 hover:bg-green-700",
-      pilot: "bg-yellow-600 hover:bg-yellow-700"
+      admin: "bg-accent hover:bg-accent/80",
+      broker: "bg-accent hover:bg-accent/80", 
+      operator: "bg-accent hover:bg-accent/80",
+      crew: "bg-accent hover:bg-accent/80",
+      pilot: "bg-accent hover:bg-accent/80"
     };
     
     return (
-      <Badge className={colors[role as keyof typeof colors] || "bg-gray-600 hover:bg-gray-700"}>
+      <Badge className={colors[role as keyof typeof colors] || "bg-accent hover:bg-accent/80"}>
         {role.charAt(0).toUpperCase() + role.slice(1)}
       </Badge>
     );

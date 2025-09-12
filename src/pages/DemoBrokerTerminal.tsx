@@ -266,7 +266,7 @@ export default function DemoBrokerTerminal() {
               <div>
                 <p className="text-sm text-gunmetal">Active RFQs</p>
                 <p className="text-2xl font-bold text-foreground">{rfqs.length}</p>
-                <p className="text-xs text-white">+12% this week</p>
+                <p className="text-xs text-accent">+12% this week</p>
               </div>
               <FileText className="w-8 h-8 text-accent" />
             </div>
@@ -281,7 +281,7 @@ export default function DemoBrokerTerminal() {
                 <p className="text-2xl font-bold text-foreground">
                   {rfqs.reduce((sum, rfq) => sum + rfq.quotes.length, 0)}
                 </p>
-                <p className="text-xs text-blue-600">Avg 2.3 per RFQ</p>
+                <p className="text-xs text-accent">Avg 2.3 per RFQ</p>
               </div>
               <TrendingUp className="w-8 h-8 text-accent" />
             </div>
@@ -296,7 +296,7 @@ export default function DemoBrokerTerminal() {
                 <p className="text-2xl font-bold text-foreground">
                   {rfqs.filter(rfq => rfq.status === 'paid').length}
                 </p>
-                <p className="text-xs text-purple-600">$2.1M volume</p>
+                <p className="text-xs text-accent">$2.1M volume</p>
               </div>
               <DollarSign className="w-8 h-8 text-accent" />
             </div>
@@ -309,7 +309,7 @@ export default function DemoBrokerTerminal() {
               <div>
                 <p className="text-sm text-gunmetal">Avg Response Time</p>
                 <p className="text-2xl font-bold text-foreground">2.3m</p>
-                <p className="text-xs text-white">Fast lane eligible</p>
+                <p className="text-xs text-accent">Fast lane eligible</p>
               </div>
               <Clock className="w-8 h-8 text-accent" />
             </div>
@@ -319,7 +319,7 @@ export default function DemoBrokerTerminal() {
 
       {/* Alerts */}
       {alerts.length > 0 && (
-        <Card className="card">
+        <Card className="terminal-card">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-body">
               <Bell className="w-5 h-5" />
@@ -335,9 +335,9 @@ export default function DemoBrokerTerminal() {
                   <div className="flex items-start justify-between">
                     <div className="flex items-start gap-3">
                       {alert.type === 'price_drop' ? (
-                        <TrendingUp className="w-4 h-4 text-white mt-0.5" />
+                        <TrendingUp className="w-4 h-4 text-accent mt-0.5" />
                       ) : (
-                        <Clock className="w-4 h-4 text-orange-600 mt-0.5" />
+                        <Clock className="w-4 h-4 text-accent mt-0.5" />
                       )}
                       <div>
                         <h4 className="font-medium">{alert.title}</h4>
@@ -346,7 +346,7 @@ export default function DemoBrokerTerminal() {
                       </div>
                     </div>
                     {alert.unread && (
-                      <Badge className="chip-info">New</Badge>
+                      <Badge className="bg-accent/20 text-accent">New</Badge>
                     )}
                   </div>
                 </div>
@@ -367,9 +367,9 @@ export default function DemoBrokerTerminal() {
         <CardContent>
           <div className="space-y-3">
             {rfqs.slice(0, 3).map(rfq => (
-              <div key={rfq.id} className="flex items-center justify-between p-3 bg-card rounded-lg hover:bg-card/80 transition-colors">
+              <div key={rfq.id} className="flex items-center justify-between p-3 bg-surface rounded-lg hover:bg-elev transition-colors">
                 <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <div className="w-2 h-2 bg-accent rounded-full"></div>
                   <div>
                     <p className="font-medium">{rfq.route}</p>
                     <p className="text-sm text-gunmetal">{rfq.aircraft} • {rfq.quotes.length} quotes • {rfq.passengers} pax</p>
@@ -377,9 +377,9 @@ export default function DemoBrokerTerminal() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Badge className={
-                    rfq.status === 'paid' ? 'bg-green-900/30 text-white' :
-                    rfq.status === 'quoted' ? 'bg-purple-900/30 text-purple-300' :
-                    'bg-yellow-900 text-yellow-100'
+                    rfq.status === 'paid' ? 'bg-accent/20 text-accent' :
+                    rfq.status === 'quoted' ? 'bg-accent/20 text-accent' :
+                    'bg-warn/20 text-warn'
                   }>
                     {rfq.status}
                   </Badge>
@@ -421,14 +421,14 @@ export default function DemoBrokerTerminal() {
                   </CardTitle>
                   <p className="text-gunmetal">{rfq.aircraft} • {rfq.date} • {rfq.legs} leg(s) • {rfq.passengers} pax</p>
                   {rfq.specialRequirements && (
-                    <p className="text-sm text-blue-600 mt-1">📋 {rfq.specialRequirements}</p>
+                    <p className="text-sm text-accent mt-1">📋 {rfq.specialRequirements}</p>
                   )}
                 </div>
                 <div className="flex items-center gap-2">
                   <Badge className={
-                    rfq.status === 'paid' ? 'bg-green-900/30 text-white' :
-                    rfq.status === 'quoted' ? 'bg-purple-900/30 text-purple-300' :
-                    'bg-yellow-900 text-yellow-100'
+                    rfq.status === 'paid' ? 'bg-accent/20 text-accent' :
+                    rfq.status === 'quoted' ? 'bg-accent/20 text-accent' :
+                    'bg-warn/20 text-warn'
                   }>
                     {rfq.status}
                   </Badge>
@@ -446,7 +446,7 @@ export default function DemoBrokerTerminal() {
                     Quotes Received ({rfq.quotes.length})
                   </h4>
                   {rfq.quotes.map(quote => (
-                    <div key={quote.id} className="p-4 border rounded-lg hover:bg-card/80 transition-colors">
+                    <div key={quote.id} className="p-4 border rounded-lg hover:bg-elev transition-colors">
                       <div className="flex justify-between items-start mb-3">
                         <div className="flex items-center gap-3">
                           <div>
@@ -454,29 +454,29 @@ export default function DemoBrokerTerminal() {
                             <p className="text-sm text-gunmetal">{quote.aircraft}</p>
                           </div>
                           <div className="flex items-center gap-1">
-                            <Star className="w-4 h-4 text-yellow-500" />
+                            <Star className="w-4 h-4 text-warn" />
                             <span className="text-sm font-medium">{quote.rating}</span>
                           </div>
                         </div>
                         <div className="text-right">
                           <p className="text-xl font-bold">${quote.price.toLocaleString()}</p>
                           <p className="text-sm text-gunmetal">Valid until: {new Date(quote.validUntil).toLocaleDateString()}</p>
-                          <p className="text-xs text-white">Deal Score: {quote.dealScore}</p>
+                          <p className="text-xs text-accent">Deal Score: {quote.dealScore}</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-2 mb-3">
                         {quote.verified ? (
-                          <Badge className="bg-green-900/30 text-white">
+                          <Badge className="bg-accent/20 text-accent">
                             <CheckCircle className="w-3 h-3 mr-1" />
                             Verified
                           </Badge>
                         ) : (
-                          <Badge className="bg-yellow-900/30 text-yellow-400">
+                          <Badge className="bg-warn/20 text-warn">
                             <AlertTriangle className="w-3 h-3 mr-1" />
                             Unverified
                           </Badge>
                         )}
-                        <Badge variant="outline" className="text-blue-600">
+                        <Badge variant="outline" className="text-accent">
                           <Clock className="w-3 h-3 mr-1" />
                           {quote.responseTime}m response
                         </Badge>
@@ -510,7 +510,7 @@ export default function DemoBrokerTerminal() {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-8 text-gray-500">
+                <div className="text-center py-8 text-gunmetal">
                   <Plane className="w-12 h-12 mx-auto mb-4 opacity-50" />
                   <p>No quotes received yet</p>
                   <p className="text-sm">Operators typically respond within 2-5 minutes</p>
@@ -535,15 +535,15 @@ export default function DemoBrokerTerminal() {
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div className="flex items-center gap-2">
-              <Filter className="w-4 h-4 text-gray-500" />
+              <Filter className="w-4 h-4 text-gunmetal" />
               <span className="text-sm font-medium">Filters</span>
             </div>
             <div className="flex items-center gap-2">
-              <GitCompare className="w-4 h-4 text-gray-500" />
+              <GitCompare className="w-4 h-4 text-gunmetal" />
               <span className="text-sm font-medium">Compare Mode</span>
             </div>
             <div className="flex items-center gap-2">
-              <Bell className="w-4 h-4 text-gray-500" />
+              <Bell className="w-4 h-4 text-gunmetal" />
               <span className="text-sm font-medium">Alerts Active</span>
             </div>
           </div>
@@ -554,27 +554,27 @@ export default function DemoBrokerTerminal() {
                 <div className="flex items-start justify-between mb-3">
                   <div>
                     <h3 className="font-semibold">Elite Aviation</h3>
-                    <p className="text-sm text-gray-600">Gulfstream G650</p>
+                    <p className="text-sm text-gunmetal">Gulfstream G650</p>
                   </div>
-                  <Badge className="bg-green-900/30 text-white">Verified</Badge>
+                  <Badge className="bg-accent/20 text-accent">Verified</Badge>
                 </div>
                 <div className="space-y-2 mb-4">
                   <div className="flex items-center gap-2 text-sm">
-                    <MapPin className="w-4 h-4 text-gray-500" />
+                    <MapPin className="w-4 h-4 text-gunmetal" />
                     <span>LHR → JFK</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm">
-                    <Calendar className="w-4 h-4 text-gray-500" />
+                    <Calendar className="w-4 h-4 text-gunmetal" />
                     <span>Jan 20, 2024</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm">
-                    <Users className="w-4 h-4 text-gray-500" />
+                    <Users className="w-4 h-4 text-gunmetal" />
                     <span>8 seats</span>
                   </div>
                 </div>
                 <div className="flex items-center justify-between mb-3">
                   <div className="text-2xl font-bold">$45,000</div>
-                  <div className="text-sm text-gray-600">$2,100/NM</div>
+                  <div className="text-sm text-gunmetal">$2,100/NM</div>
                 </div>
                 <div className="flex gap-2">
                   <Button size="sm" className="flex-1">
@@ -734,9 +734,9 @@ export default function DemoBrokerTerminal() {
                     Run War Room Checks
                   </Button>
                   {warRoomResult && (
-                    <div className="mt-4 p-4 bg-card rounded-lg">
+                    <div className="mt-4 p-4 bg-surface rounded-lg">
                       <h3 className="font-semibold mb-2">Results:</h3>
-                      <p className="text-sm text-gray-600 whitespace-pre-line">
+                      <p className="text-sm text-gunmetal whitespace-pre-line">
                         {warRoomResult.summary}
                       </p>
                     </div>
@@ -786,9 +786,9 @@ export default function DemoBrokerTerminal() {
                     Generate Evidence Pack
                   </Button>
                   {evidencePack && (
-                    <div className="mt-4 p-4 bg-card rounded-lg">
+                    <div className="mt-4 p-4 bg-surface rounded-lg">
                       <h3 className="font-semibold mb-2">Evidence Pack Generated:</h3>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gunmetal">
                         ID: {evidencePack.id}<br/>
                         Generated: {new Date(evidencePack.generatedAt).toLocaleString()}<br/>
                         Version: {evidencePack.version}

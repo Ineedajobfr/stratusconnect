@@ -483,10 +483,10 @@ export default function DemoOperatorTerminal() {
             <div className="flex items-start justify-between mb-4">
               <div>
                 <h3 className="text-lg font-semibold">{rfq.route}</h3>
-                <p className="text-sm text-gray-600">{rfq.aircraft} • {rfq.passengers} passengers</p>
-                <p className="text-sm text-gray-600">Date: {rfq.date} • {rfq.legs} leg(s)</p>
+                <p className="text-sm text-gunmetal">{rfq.aircraft} • {rfq.passengers} passengers</p>
+                <p className="text-sm text-gunmetal">Date: {rfq.date} • {rfq.legs} leg(s)</p>
                 {rfq.specialRequirements && (
-                  <p className="text-sm text-blue-600 mt-1">Requirements: {rfq.specialRequirements}</p>
+                  <p className="text-sm text-accent mt-1">Requirements: {rfq.specialRequirements}</p>
                 )}
               </div>
               <Badge className={rfq.status === 'quoted' ? 'bg-slate-800 text-orange-400 border-orange-500/30' : 'bg-orange-900/20 text-orange-400 border-orange-500/30'}>

@@ -107,10 +107,10 @@ export default function Directory() {
 
   const getRoleBadgeColor = (role: string) => {
     switch (role) {
-      case 'broker': return 'bg-blue-500/20 text-blue-400';
-      case 'operator': return 'bg-green-500/20 text-green-400';
-      case 'pilot': case 'crew': return 'bg-purple-500/20 text-purple-400';
-      case 'admin': return 'bg-red-500/20 text-red-400';
+      case 'broker': return 'bg-accent/20 text-accent';
+      case 'operator': return 'bg-accent/20 text-accent';
+      case 'pilot': case 'crew': return 'bg-accent/20 text-accent';
+      case 'admin': return 'bg-accent/20 text-accent';
       default: return 'bg-muted text-muted-foreground';
     }
   };

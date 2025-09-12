@@ -1,11 +1,14 @@
+# lefthook.yml
 pre-commit:
   commands:
     ban-light-colours:
       run: |
-        CHANGED=$(git diff --cached --name-only | grep -E '\.(tsx|ts|js|jsx|css)$' || true)
-        if [ -n "$CHANGED" ]; then
-          BAD=$(echo "$CHANGED" | xargs grep -nE 'bg-white|bg-gray-50|bg-slate-50|text-black|text-slate-900|#fff(fff)?|#000000|bg-yellow' --color=never || true)
-          if [ -n "$BAD" ]; then
-            echo "$BAD"; echo "❌ Use Stratus tokens: bg-app, bg-surface, bg-elev, text-body, border-default."; exit 1;
+        FILES=$(git diff --cached --name-only | grep -E '\.(tsx|ts|js|jsx|css)$' || true)
+        if [ -n "$FILES" ]; then
+          HITS=$(echo "$FILES" | xargs grep -nE 'bg-white|bg-gray-50|bg-slate-50|text-black|text-slate-900|#fff(fff)?|#ffffff|bg-yellow' --color=never || true)
+          if [ -n "$HITS" ]; then
+            echo "$HITS"
+            echo "❌ Light colours are banned. Use bg-app, bg-surface, bg-elev, text-body, border-default."
+            exit 1
           fi
         fi

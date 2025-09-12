@@ -51,6 +51,7 @@ const PublicProfile = lazy(() => import("./pages/PublicProfile"));
 const ProfileSettings = lazy(() => import("./pages/ProfileSettings"));
 const Directory = lazy(() => import("./pages/Directory"));
 const Auth = lazy(() => import("./pages/Auth"));
+const SecureAdminSetup = lazy(() => import("./pages/SecureAdminSetup"));
 
 // Demo terminals
 const DemoBrokerTerminal = lazy(() => import("./pages/DemoBrokerTerminal"));

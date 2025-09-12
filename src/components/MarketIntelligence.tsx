@@ -93,9 +93,9 @@ export default function MarketIntelligence() {
     }
   };
 
-  const processListingsIntoAnalytics = (listings: any[]) => {
-    const routeMap = new Map<string, any[]>();
-    const aircraftMap = new Map<string, any[]>();
+  const processListingsIntoAnalytics = (listings: Record<string, unknown>[]) => {
+    const routeMap = new Map<string, Record<string, unknown>[]>();
+    const aircraftMap = new Map<string, Record<string, unknown>[]>();
 
     listings.forEach(listing => {
       const route = `${listing.departure_location}-${listing.destination}`;

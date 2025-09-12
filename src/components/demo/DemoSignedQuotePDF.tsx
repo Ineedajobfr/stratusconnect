@@ -113,19 +113,19 @@ export default function DemoSignedQuotePDF() {
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
                 <Label className="text-slate-300 font-medium">Quote ID</Label>
-                <p className="text-gray-700">{quoteData.quoteId}</p>
+                <p className="text-slate-100">{quoteData.quoteId}</p>
               </div>
               <div>
                 <Label className="text-slate-300 font-medium">Deal ID</Label>
-                <p className="text-gray-700">{quoteData.dealId}</p>
+                <p className="text-slate-100">{quoteData.dealId}</p>
               </div>
               <div>
                 <Label className="text-slate-300 font-medium">Route</Label>
-                <p className="text-gray-700">{quoteData.flight.route}</p>
+                <p className="text-slate-100">{quoteData.flight.route}</p>
               </div>
               <div>
                 <Label className="text-slate-300 font-medium">Aircraft</Label>
-                <p className="text-gray-700">{quoteData.flight.aircraft}</p>
+                <p className="text-slate-100">{quoteData.flight.aircraft}</p>
               </div>
             </div>
           </div>
@@ -156,7 +156,7 @@ export default function DemoSignedQuotePDF() {
               <div className="grid grid-cols-2 gap-6">
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-2">Broker Details</h3>
-                  <div className="text-sm text-gray-700 space-y-1">
+                  <div className="text-sm text-slate-100 space-y-1">
                     <p><strong>{quoteData.broker.name}</strong></p>
                     <p>{quoteData.broker.company}</p>
                     <p>{quoteData.broker.email}</p>
@@ -166,7 +166,7 @@ export default function DemoSignedQuotePDF() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-2">Operator Details</h3>
-                  <div className="text-sm text-gray-700 space-y-1">
+                  <div className="text-sm text-slate-100 space-y-1">
                     <p><strong>{quoteData.operator.name}</strong></p>
                     <p>{quoteData.operator.company}</p>
                     <p>{quoteData.operator.email}</p>
@@ -178,7 +178,7 @@ export default function DemoSignedQuotePDF() {
 
               <div>
                 <h3 className="font-semibold text-gray-900 mb-2">Flight Details</h3>
-                <div className="grid grid-cols-2 gap-4 text-sm text-gray-700">
+                <div className="grid grid-cols-2 gap-4 text-sm text-slate-100">
                   <div>
                     <p><strong>Route:</strong> {quoteData.flight.route}</p>
                     <p><strong>Aircraft:</strong> {quoteData.flight.aircraft}</p>
@@ -236,7 +236,7 @@ export default function DemoSignedQuotePDF() {
             {/* Terms and Conditions */}
             <div className="mb-6">
               <h3 className="font-semibold text-gray-900 mb-2">Terms and Conditions</h3>
-              <div className="space-y-1 text-sm text-gray-700">
+              <div className="space-y-1 text-sm text-slate-100">
                 {quoteData.terms.map((term, index) => (
                   <p key={index} className="flex items-start gap-2">
                     <span className="text-gray-400">•</span>

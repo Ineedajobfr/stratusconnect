@@ -52,21 +52,21 @@ export default function OperatorHelpManual() {
 
         {/* Universal Compliance */}
         <TabsContent value="compliance" className="space-y-6">
-          <Card className="border-orange-200 bg-orange-50">
+          <Card className="border-slate-400 bg-slate-900">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-orange-900">
+              <CardTitle className="flex items-center gap-2 text-white">
                 <Shield className="h-5 w-5" />
                 Universal Compliance - Your Protection
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-orange-700 mb-4">
+              <p className="text-slate-300 mb-4">
                 <strong>Every deal includes universal compliance protection.</strong> This protects your business 
                 from disputes, ensures serious inquiries, and provides complete audit trails.
               </p>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-white rounded-lg p-4">
+                <div className="bg-slate-800 rounded-lg p-4">
                   <h4 className="font-semibold mb-2 flex items-center gap-2">
                     <CreditCard className="h-4 w-4 text-blue-600" />
                     Deposit Gate Protection
@@ -81,7 +81,7 @@ export default function OperatorHelpManual() {
                   </ul>
                 </div>
 
-                <div className="bg-white rounded-lg p-4">
+                <div className="bg-slate-800 rounded-lg p-4">
                   <h4 className="font-semibold mb-2 flex items-center gap-2">
                     <FileText className="h-4 w-4 text-green-600" />
                     Signed Quote PDFs
@@ -96,7 +96,7 @@ export default function OperatorHelpManual() {
                   </ul>
                 </div>
 
-                <div className="bg-white rounded-lg p-4">
+                <div className="bg-slate-800 rounded-lg p-4">
                   <h4 className="font-semibold mb-2 flex items-center gap-2">
                     <Hash className="h-4 w-4 text-purple-600" />
                     Immutable Receipts
@@ -111,7 +111,7 @@ export default function OperatorHelpManual() {
                   </ul>
                 </div>
 
-                <div className="bg-white rounded-lg p-4">
+                <div className="bg-slate-800 rounded-lg p-4">
                   <h4 className="font-semibold mb-2 flex items-center gap-2">
                     <Archive className="h-4 w-4 text-red-600" />
                     Evidence Bundles
@@ -132,21 +132,21 @@ export default function OperatorHelpManual() {
 
         {/* Simple Pricing */}
         <TabsContent value="pricing" className="space-y-6">
-          <Card className="border-green-200 bg-green-50">
+          <Card className="border-slate-400 bg-slate-900">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-green-900">
+              <CardTitle className="flex items-center gap-2 text-white">
                 <DollarSign className="h-5 w-5" />
                 Simple Pricing - Clear Revenue Model
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-green-700 mb-6">
+              <p className="text-slate-300 mb-6">
                 <strong>One clear pricing structure.</strong> No hidden fees, no compliance add-ons, 
                 no confusing tiers. You know exactly what you'll receive.
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-white rounded-lg p-6">
+                <div className="bg-slate-800 rounded-lg p-6">
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                     <Plane className="h-6 w-6 text-blue-600" />
                   </div>
@@ -163,7 +163,7 @@ export default function OperatorHelpManual() {
                   </div>
                 </div>
 
-                <div className="bg-white rounded-lg p-6">
+                <div className="bg-slate-800 rounded-lg p-6">
                   <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                     <Users className="h-6 w-6 text-orange-600" />
                   </div>
@@ -181,7 +181,7 @@ export default function OperatorHelpManual() {
                 </div>
               </div>
 
-              <div className="mt-6 bg-white rounded-lg p-4">
+              <div className="mt-6 bg-slate-800 rounded-lg p-4">
                 <h4 className="font-semibold mb-2">What's Included in Every Deal</h4>
                 <div className="grid grid-cols-2 gap-2 text-sm">
                   <div className="flex items-center gap-2">
@@ -227,21 +227,21 @@ export default function OperatorHelpManual() {
 
         {/* Performance Programme */}
         <TabsContent value="performance" className="space-y-6">
-          <Card className="border-blue-200 bg-blue-50">
+          <Card className="border-slate-400 bg-slate-900">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-blue-900">
+              <CardTitle className="flex items-center gap-2 text-white">
                 <BarChart3 className="h-5 w-5" />
                 Performance Programme - Earn Recognition
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-blue-700 mb-6">
+              <p className="text-slate-300 mb-6">
                 <strong>Earn visibility and speed advantages through operational excellence.</strong> 
                 Fast quotes, reliable service, and dispute-free operations drive your Command Rating.
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-white rounded-lg p-4">
+                <div className="bg-slate-800 rounded-lg p-4">
                   <h4 className="font-semibold mb-3 flex items-center gap-2">
                     <Zap className="h-4 w-4 text-yellow-600" />
                     Merit Points for Operators
@@ -266,7 +266,7 @@ export default function OperatorHelpManual() {
                   </div>
                 </div>
 
-                <div className="bg-white rounded-lg p-4">
+                <div className="bg-slate-800 rounded-lg p-4">
                   <h4 className="font-semibold mb-3 flex items-center gap-2">
                     <TrendingUp className="h-4 w-4 text-green-600" />
                     Performance Metrics
@@ -292,7 +292,7 @@ export default function OperatorHelpManual() {
                 </div>
               </div>
 
-              <div className="mt-6 bg-white rounded-lg p-4">
+              <div className="mt-6 bg-slate-800 rounded-lg p-4">
                 <h4 className="font-semibold mb-3">Command Rating Benefits</h4>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                   <div>
@@ -339,15 +339,15 @@ export default function OperatorHelpManual() {
 
         {/* Quote Workflow */}
         <TabsContent value="workflow" className="space-y-6">
-          <Card className="border-purple-200 bg-purple-50">
+          <Card className="border-slate-400 bg-slate-900">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-purple-900">
+              <CardTitle className="flex items-center gap-2 text-white">
                 <Clock className="h-5 w-5" />
                 Quote Response Workflow
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-purple-700 mb-6">
+              <p className="text-slate-300 mb-6">
                 <strong>From RFQ notification to completion with universal compliance protection.</strong>
               </p>
 
@@ -431,7 +431,7 @@ export default function OperatorHelpManual() {
                 </div>
               </div>
 
-              <div className="mt-6 bg-white rounded-lg p-4">
+              <div className="mt-6 bg-slate-800 rounded-lg p-4">
                 <h4 className="font-semibold mb-2">Key Benefits for Operators</h4>
                 <div className="grid grid-cols-2 gap-2 text-sm">
                   <div className="flex items-center gap-2">
@@ -458,7 +458,7 @@ export default function OperatorHelpManual() {
                   <TrendingUp className="h-4 w-4 text-blue-600" />
                   Performance Tips
                 </h4>
-                <div className="text-sm text-blue-700 space-y-1">
+                <div className="text-sm text-slate-300 space-y-1">
                   <p>• Respond to RFQs within 5 minutes for Merit Points</p>
                   <p>• Maintain 95%+ on-time completion rate</p>
                   <p>• Keep dispute rate below 2%</p>

@@ -50,21 +50,21 @@ export default function BrokerHelpManual() {
 
         {/* Universal Compliance */}
         <TabsContent value="compliance" className="space-y-6">
-          <Card className="border-orange-200 bg-orange-50">
+          <Card className="border-slate-400 bg-slate-900">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-orange-900">
+              <CardTitle className="flex items-center gap-2 text-white">
                 <Shield className="h-5 w-5" />
                 Universal Compliance - No Exceptions
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-orange-700 mb-4">
+              <p className="text-slate-300 mb-4">
                 <strong>Every deal includes universal compliance features.</strong> No tiers, no add-ons, no opt-outs. 
                 This ensures your time is protected and builds trust in the marketplace.
               </p>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-white rounded-lg p-4">
+                <div className="bg-slate-800 rounded-lg p-4">
                   <h4 className="font-semibold mb-2 flex items-center gap-2">
                     <CreditCard className="h-4 w-4 text-blue-600" />
                     Deposit Gate
@@ -79,7 +79,7 @@ export default function BrokerHelpManual() {
                   </ul>
                 </div>
 
-                <div className="bg-white rounded-lg p-4">
+                <div className="bg-slate-800 rounded-lg p-4">
                   <h4 className="font-semibold mb-2 flex items-center gap-2">
                     <FileText className="h-4 w-4 text-green-600" />
                     Signed Quote PDFs
@@ -94,7 +94,7 @@ export default function BrokerHelpManual() {
                   </ul>
                 </div>
 
-                <div className="bg-white rounded-lg p-4">
+                <div className="bg-slate-800 rounded-lg p-4">
                   <h4 className="font-semibold mb-2 flex items-center gap-2">
                     <Hash className="h-4 w-4 text-purple-600" />
                     Immutable Receipts
@@ -109,7 +109,7 @@ export default function BrokerHelpManual() {
                   </ul>
                 </div>
 
-                <div className="bg-white rounded-lg p-4">
+                <div className="bg-slate-800 rounded-lg p-4">
                   <h4 className="font-semibold mb-2 flex items-center gap-2">
                     <Archive className="h-4 w-4 text-red-600" />
                     Evidence Bundles
@@ -130,20 +130,20 @@ export default function BrokerHelpManual() {
 
         {/* Simple Pricing */}
         <TabsContent value="pricing" className="space-y-6">
-          <Card className="border-green-200 bg-green-50">
+          <Card className="border-slate-400 bg-slate-900">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-green-900">
+              <CardTitle className="flex items-center gap-2 text-white">
                 <DollarSign className="h-5 w-5" />
                 Simple Pricing - No Tiers, No Add-ons
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-green-700 mb-6">
+              <p className="text-slate-300 mb-6">
                 <strong>One clear pricing structure.</strong> No confusing tiers, no hidden fees, no compliance add-ons.
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-white rounded-lg p-6 text-center">
+                <div className="bg-slate-800 rounded-lg p-6 text-center">
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                     <Plane className="h-6 w-6 text-blue-600" />
                   </div>
@@ -157,7 +157,7 @@ export default function BrokerHelpManual() {
                   </div>
                 </div>
 
-                <div className="bg-white rounded-lg p-6 text-center">
+                <div className="bg-slate-800 rounded-lg p-6 text-center">
                   <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                     <Users className="h-6 w-6 text-orange-600" />
                   </div>
@@ -171,7 +171,7 @@ export default function BrokerHelpManual() {
                   </div>
                 </div>
 
-                <div className="bg-white rounded-lg p-6 text-center">
+                <div className="bg-slate-800 rounded-lg p-6 text-center">
                   <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                     <CheckCircle className="h-6 w-6 text-green-600" />
                   </div>
@@ -186,7 +186,7 @@ export default function BrokerHelpManual() {
                 </div>
               </div>
 
-              <div className="mt-6 bg-white rounded-lg p-4">
+              <div className="mt-6 bg-slate-800 rounded-lg p-4">
                 <h4 className="font-semibold mb-2">What's Included in Every Deal</h4>
                 <div className="grid grid-cols-2 gap-2 text-sm">
                   <div className="flex items-center gap-2">
@@ -221,21 +221,21 @@ export default function BrokerHelpManual() {
 
         {/* Performance Programme */}
         <TabsContent value="performance" className="space-y-6">
-          <Card className="border-blue-200 bg-blue-50">
+          <Card className="border-slate-400 bg-slate-900">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-blue-900">
+              <CardTitle className="flex items-center gap-2 text-white">
                 <BarChart3 className="h-5 w-5" />
                 Performance Programme - Merit-Based Advantages
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-blue-700 mb-6">
+              <p className="text-slate-300 mb-6">
                 <strong>Earn visibility and speed advantages through performance.</strong> No safety bypasses, 
                 no compliance overrides - just professional recognition for excellence.
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-white rounded-lg p-4">
+                <div className="bg-slate-800 rounded-lg p-4">
                   <h4 className="font-semibold mb-3 flex items-center gap-2">
                     <Zap className="h-4 w-4 text-yellow-600" />
                     Merit Points System
@@ -260,7 +260,7 @@ export default function BrokerHelpManual() {
                   </div>
                 </div>
 
-                <div className="bg-white rounded-lg p-4">
+                <div className="bg-slate-800 rounded-lg p-4">
                   <h4 className="font-semibold mb-3 flex items-center gap-2">
                     <Eye className="h-4 w-4 text-purple-600" />
                     Command Ratings
@@ -290,7 +290,7 @@ export default function BrokerHelpManual() {
                 </div>
               </div>
 
-              <div className="mt-6 bg-white rounded-lg p-4">
+              <div className="mt-6 bg-slate-800 rounded-lg p-4">
                 <h4 className="font-semibold mb-3">Perks by Command Rating</h4>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                   <div>
@@ -336,15 +336,15 @@ export default function BrokerHelpManual() {
 
         {/* Deal Workflow */}
         <TabsContent value="workflow" className="space-y-6">
-          <Card className="border-purple-200 bg-purple-50">
+          <Card className="border-slate-400 bg-slate-900">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-purple-900">
+              <CardTitle className="flex items-center gap-2 text-white">
                 <Clock className="h-5 w-5" />
                 Complete Deal Workflow
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-purple-700 mb-6">
+              <p className="text-slate-300 mb-6">
                 <strong>From RFQ to completion with universal compliance at every step.</strong>
               </p>
 
@@ -428,7 +428,7 @@ export default function BrokerHelpManual() {
                 </div>
               </div>
 
-              <div className="mt-6 bg-white rounded-lg p-4">
+              <div className="mt-6 bg-slate-800 rounded-lg p-4">
                 <h4 className="font-semibold mb-2">Key Benefits for Brokers</h4>
                 <div className="grid grid-cols-2 gap-2 text-sm">
                   <div className="flex items-center gap-2">

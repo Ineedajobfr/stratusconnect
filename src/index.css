@@ -63,6 +63,33 @@
   --chart-5:             27 87% 67%;
 }
 
+/* Custom utility classes */
+@layer utilities {
+  .bg-app {
+    background-color: hsl(var(--terminal-bg));
+  }
+  
+  .bg-surface {
+    background-color: hsl(var(--terminal-card));
+  }
+  
+  .bg-elev {
+    background-color: hsl(var(--card));
+  }
+  
+  .text-body {
+    color: hsl(var(--foreground));
+  }
+  
+  .text-muted {
+    color: hsl(var(--muted-foreground));
+  }
+  
+  .border-default {
+    border-color: hsl(var(--terminal-border));
+  }
+}
+
 @layer base {
   * {
     @apply border-border;

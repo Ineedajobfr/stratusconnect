@@ -817,7 +817,7 @@ export default function DemoBrokerTerminal() {
             </div>
           </Brand.Card>
         )}
-      </div>
+      </main>
     </div>
   );
 }

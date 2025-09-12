@@ -1,4 +1,4 @@
-/ Green Light Gate - Evidence Validation
+// Green Light Gate - Evidence Validation
 // FCA Compliant Aviation Platform
 
 export interface EvidenceValidation {

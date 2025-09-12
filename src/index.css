@@ -88,7 +88,8 @@
   }
   
   body {
-    @apply bg-terminal-bg text-foreground font-inter;
+    @apply text-foreground font-inter;
+    background: hsl(var(--terminal-bg));
     font-feature-settings: "kern" 1, "liga" 1;
     letter-spacing: -0.01em;
   }

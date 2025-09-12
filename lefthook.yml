@@ -1,8 +1,11 @@
 pre-commit:
   commands:
-    ban-colours:
+    ban-light-colours:
       run: |
-        if git diff --cached --name-only | grep -E '\.(tsx|ts|js|jsx|css)$' \
-        | xargs grep -nE 'bg-white|text-black|bg-yellow|bg-gray-50|#fff(fff)?' --color=never; then
-          echo "❌ Banned light colour found. Use tokens: bg-app, bg-surface, bg-elev, text-body."; exit 1;
+        CHANGED=$(git diff --cached --name-only | grep -E '\.(tsx|ts|js|jsx|css)$' || true)
+        if [ -n "$CHANGED" ]; then
+          BAD=$(echo "$CHANGED" | xargs grep -nE 'bg-white|bg-gray-50|bg-slate-50|text-black|text-slate-900|#fff(fff)?|#000000|bg-yellow' --color=never || true)
+          if [ -n "$BAD" ]; then
+            echo "$BAD"; echo "❌ Use Stratus tokens: bg-app, bg-surface, bg-elev, text-body, border-default."; exit 1;
+          fi
         fi

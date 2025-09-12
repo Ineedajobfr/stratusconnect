@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Brand } from '@/components/Brand';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   DollarSign, 
@@ -614,31 +615,33 @@ export default function DemoBrokerTerminal() {
   );
 
   return (
-    <div className="min-h-screen bg-terminal-bg">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
+    <div className="min-h-screen bg-app text-body">
+      <header className="sticky top-0 z-20 bg-app/80 backdrop-blur border-b border-default">
+        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Broker Terminal</h1>
-            <p className="text-gunmetal">FCA Compliant Trading Floor • 100% Free Until Revenue</p>
+            <Brand.PageTitle>Broker Terminal</Brand.PageTitle>
+            <p className="text-muted">FCA Compliant Trading Floor • 100% Free Until Revenue</p>
           </div>
           <div className="flex gap-2">
-            <Badge className="bg-green-900/30 text-white">
+            <Brand.StatusChip status="success">
               <Shield className="w-3 h-3 mr-1" />
               FCA Compliant
-            </Badge>
-            <Badge className="bg-purple-900/30 text-purple-300">
+            </Brand.StatusChip>
+            <Brand.StatusChip status="info">
               <Zap className="w-3 h-3 mr-1" />
               Free Tier
-            </Badge>
+            </Brand.StatusChip>
             {isDemoMode && (
-              <Badge className="bg-yellow-900/30 text-yellow-400">
+              <Brand.StatusChip status="warn">
                 <AlertTriangle className="w-3 h-3 mr-1" />
                 Demo Mode
-              </Badge>
+              </Brand.StatusChip>
             )}
           </div>
         </div>
+      </header>
+
+      <main className="max-w-7xl mx-auto p-6 space-y-6">
 
         {/* Compliance Notice */}
         <ComplianceNotice />
@@ -800,21 +803,19 @@ export default function DemoBrokerTerminal() {
 
         {/* Demo Notice */}
         {isDemoMode && (
-          <Card className="mt-8 bg-slate-800 border-yellow-200">
-            <CardContent className="p-4">
-              <div className="flex items-start gap-3">
-                <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
-                <div>
-                  <h3 className="font-medium text-yellow-800">Demo Mode - All Features Active</h3>
-                  <p className="text-yellow-700 text-sm mt-1">
-                    This terminal demonstrates all FCA compliant features with mock data. 
-                    In production, all payments would be processed through Stripe Connect with real money.
-                    <strong> Zero monthly costs until you generate revenue.</strong>
-                  </p>
-                </div>
+          <Brand.Card className="mt-8">
+            <div className="flex items-start gap-3">
+              <AlertTriangle className="w-5 h-5 text-warn mt-0.5" />
+              <div>
+                <h3 className="font-medium text-body">Demo Mode - All Features Active</h3>
+                <p className="text-muted text-sm mt-1">
+                  This terminal demonstrates all FCA compliant features with mock data. 
+                  In production, all payments would be processed through Stripe Connect with real money.
+                  <strong> Zero monthly costs until you generate revenue.</strong>
+                </p>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </Brand.Card>
         )}
       </div>
     </div>

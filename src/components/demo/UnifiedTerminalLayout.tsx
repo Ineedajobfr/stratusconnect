@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 import { 
   Calendar, 
   Clock, 
@@ -108,18 +109,15 @@ export const UnifiedTerminalLayout: React.FC<UnifiedTerminalLayoutProps> = ({
           <header className="p-6 border-b border-slate-700">
             {/* StratusConnect Logo */}
             <div className="flex items-center justify-between mb-6">
-              <button
-                onClick={() => navigate('/')}
-                className="flex items-center space-x-3 hover:opacity-80 transition-opacity"
-              >
+              <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
                   <span className="text-black font-bold text-lg">SC</span>
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-white">StratusConnect</h1>
+                  <StratusConnectLogo className="text-xl" />
                   <p className="text-slate-400 text-xs">Aviation Platform</p>
                 </div>
-              </button>
+              </div>
 
               {/* Navigation Controls */}
               <div className="flex items-center space-x-2">

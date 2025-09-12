@@ -265,7 +265,7 @@ export default function DemoBrokerTerminal() {
           </CardHeader>
           <CardContent className="bg-slate-900">
             <div className="space-y-3">
-              {alerts.map(alert => <div key={alert.id} className={`p-3 rounded-lg border ${alert.unread ? 'bg-blue-100 border-blue-200' : 'bg-gray-50 border-gray-200'}`}>
+              {alerts.map(alert => <div key={alert.id} className={`p-3 rounded-lg border bg-slate-700 ${alert.unread ? 'border-blue-200' : 'border-gray-200'}`}>
                   <div className="flex items-start justify-between bg-slate-50">
                     <div className="flex items-start gap-3">
                       {alert.type === 'price_drop' ? <TrendingUp className="w-4 h-4 text-green-600 mt-0.5" /> : <Clock className="w-4 h-4 text-orange-600 mt-0.5" />}

@@ -789,8 +789,20 @@ export default function DemoBrokerTerminal() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="ranking" className="mt-6">
+            <TabsContent value="ranking" className="mt-6">
             <div className="space-y-6">
+              {/* Ranking Rules Link */}
+              <div className="flex justify-end">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => window.open('/ranking-rules', '_blank')}
+                  className="button-glow"
+                >
+                  <FileText className="w-4 h-4 mr-2" />
+                  View Ranking Rules
+                </Button>
+              </div>
               {/* League Status Card */}
               <Card className="terminal-card border-accent border-2">
                 <CardHeader>
@@ -811,7 +823,7 @@ export default function DemoBrokerTerminal() {
                     </div>
                     <div className="text-center">
                       <div className="text-3xl font-bold text-foreground mb-1">
-                        220
+                        567
                       </div>
                       <div className="text-sm text-muted-foreground subtitle-glow">
                         Total Points
@@ -830,10 +842,21 @@ export default function DemoBrokerTerminal() {
                   <div className="mt-6">
                     <div className="flex justify-between text-sm mb-2">
                       <span className="text-muted-foreground">Progress to Platinum League</span>
-                      <span className="text-accent font-semibold">80 points to go</span>
+                      <span className="text-accent font-semibold">133 points to go</span>
                     </div>
                     <div className="w-full bg-terminal-border rounded-full h-2">
-                      <div className="bg-accent h-2 rounded-full" style={{ width: '73%' }}></div>
+                      <div className="bg-accent h-2 rounded-full" style={{ width: '81%' }}></div>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-4 flex items-center justify-between text-sm">
+                    <div className="flex items-center space-x-1">
+                      <TrendingUp className="w-4 h-4 text-green-500" />
+                      <span className="text-muted-foreground">+23 this week</span>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <Clock className="w-4 h-4 text-orange-500" />
+                      <span className="text-muted-foreground">14 day streak</span>
                     </div>
                   </div>
                 </CardContent>
@@ -850,11 +873,11 @@ export default function DemoBrokerTerminal() {
                 <CardContent>
                   <div className="grid md:grid-cols-2 gap-4">
                     {[
-                      { name: "Submit a quote within 5 minutes", points: 15, completed: true },
-                      { name: "Complete a deal on time", points: 40, completed: false },
-                      { name: "Close a dispute-free deal", points: 20, completed: true },
-                      { name: "Respond to saved-search alert within 10 minutes", points: 10, completed: false },
-                      { name: "Keep credentials up to date", points: 10, completed: true },
+                      { name: "Quality RFQ Week", description: "Post 3 quality RFQs that pass basic checks this week", points: 15, completed: true, progress: 100 },
+                      { name: "Fast Response Week", description: "Respond to 2 saved search alerts within 10 minutes this week", points: 20, completed: false, progress: 50 },
+                      { name: "On-Time Completion Week", description: "Complete 2 deals on time with no disputes this week", points: 80, completed: true, progress: 100 },
+                      { name: "Credentials Current Week", description: "Keep all credentials valid and current this week", points: 10, completed: true, progress: 100 },
+                      { name: "Compliance Clean Week", description: "Maintain clean compliance status this week", points: 5, completed: true, progress: 100 },
                     ].map((challenge, index) => (
                       <div key={index} className={`p-4 rounded-lg border ${
                         challenge.completed 
@@ -868,13 +891,21 @@ export default function DemoBrokerTerminal() {
                             }`}>
                               {challenge.completed ? <CheckCircle className="w-4 h-4" /> : <span className="text-xs">+</span>}
                             </div>
-                            <div>
+                            <div className="flex-1">
                               <div className="font-semibold text-foreground">{challenge.name}</div>
-                              <div className="text-sm text-muted-foreground">{challenge.points} points</div>
+                              <div className="text-sm text-muted-foreground mb-1">{challenge.description}</div>
+                              {!challenge.completed && challenge.progress !== undefined && (
+                                <div className="w-full bg-terminal-border rounded-full h-1.5">
+                                  <div 
+                                    className="bg-accent h-1.5 rounded-full transition-all duration-300" 
+                                    style={{ width: `${challenge.progress}%` }}
+                                  />
+                                </div>
+                              )}
                             </div>
                           </div>
                           <Badge variant={challenge.completed ? "default" : "outline"}>
-                            {challenge.completed ? "Completed" : `+${challenge.points}`}
+                            {challenge.completed ? "✓" : `+${challenge.points}`}
                           </Badge>
                         </div>
                       </div>
@@ -894,10 +925,11 @@ export default function DemoBrokerTerminal() {
                 <CardContent>
                   <div className="space-y-3">
                     {[
-                      { action: "Quote submitted fast", points: 15, time: "2 hours ago" },
-                      { action: "Deal completed on time", points: 40, time: "1 day ago" },
-                      { action: "RFQ posted", points: 5, time: "2 days ago" },
-                      { action: "Dispute-free deal closed", points: 20, time: "3 days ago" },
+                      { action: "Submitted quote for NYC-LAX route in 3 minutes", points: 15, time: "2 hours ago" },
+                      { action: "Completed London-Dubai charter on schedule with no disputes", points: 40, time: "1 day ago" },
+                      { action: "Posted quality RFQ for Tokyo-Singapore route", points: 5, time: "2 days ago" },
+                      { action: "Closed Paris-Milan deal without disputes", points: 20, time: "3 days ago" },
+                      { action: "Responded to Europe-Asia alert in 8 minutes", points: 10, time: "4 days ago" },
                     ].map((activity, index) => (
                       <div key={index} className="flex items-center justify-between p-3 bg-terminal-card/50 rounded-lg">
                         <div className="flex items-center gap-3">

@@ -5,6 +5,8 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 import { 
   Lock, 
   DollarSign, 
@@ -45,6 +47,8 @@ export function DepositGate({ dealId, totalAmount, currency, broker, operator, o
   const [isProcessing, setIsProcessing] = useState(false);
   const [depositComplete, setDepositComplete] = useState(false);
   const [contactRevealed, setContactRevealed] = useState(false);
+  const [paymentIntentId, setPaymentIntentId] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const platformFee = Math.round(depositAmount * 0.07);
   const netAmount = depositAmount - platformFee;
@@ -83,29 +87,95 @@ export function DepositGate({ dealId, totalAmount, currency, broker, operator, o
   const processDeposit = async () => {
     setIsProcessing(true);
     
-    // Simulate Stripe payment processing
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    const depositData: DepositData = {
-      depositId: `DEP_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      amount: depositAmount,
-      currency,
-      platformFee,
-      netAmount,
-      timestamp: new Date().toISOString(),
-      auditHash: `audit_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      signedTerms: generateSignedTerms(),
-      contactRevealed: false
-    };
+    try {
+      // Check if user has deposit capability
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        throw new Error('User not authenticated');
+      }
 
-    setDepositComplete(true);
-    setIsProcessing(false);
-    onDepositSuccess(depositData);
+      // Create payment intent via Supabase function
+      const { data: paymentData, error } = await supabase.functions.invoke('create-deposit-payment', {
+        body: {
+          dealId,
+          amount: depositAmount,
+          currency,
+          userId: user.id,
+          metadata: {
+            deal_id: dealId,
+            broker,
+            operator,
+            deposit_type: 'contact_reveal'
+          }
+        }
+      });
+
+      if (error) throw error;
+
+      setPaymentIntentId(paymentData.payment_intent_id);
+      
+      const depositData: DepositData = {
+        depositId: paymentData.payment_intent_id,
+        amount: depositAmount,
+        currency,
+        platformFee,
+        netAmount,
+        timestamp: new Date().toISOString(),
+        auditHash: paymentData.audit_hash,
+        signedTerms: generateSignedTerms(),
+        contactRevealed: false
+      };
+
+      setDepositComplete(true);
+      onDepositSuccess(depositData);
+      
+      toast({
+        title: 'Deposit Created',
+        description: 'Payment intent created successfully. Complete payment to reveal contacts.',
+      });
+    } catch (error) {
+      console.error('Deposit processing error:', error);
+      toast({
+        title: 'Deposit Failed',
+        description: error instanceof Error ? error.message : 'Failed to create deposit',
+        variant: 'destructive'
+      });
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
-  const revealContacts = () => {
-    setContactRevealed(true);
-    alert('🔓 Contacts revealed! All communications are now watermarked and audited.');
+  const revealContacts = async () => {
+    try {
+      if (!paymentIntentId) {
+        throw new Error('No payment intent found');
+      }
+
+      // Check payment status before revealing contacts
+      const { data: paymentStatus, error } = await supabase.functions.invoke('check-payment-status', {
+        body: { paymentIntentId }
+      });
+
+      if (error) throw error;
+
+      if (!['requires_capture', 'succeeded'].includes(paymentStatus.status)) {
+        throw new Error('Payment must be completed before contacts can be revealed');
+      }
+
+      setContactRevealed(true);
+      
+      toast({
+        title: 'Contacts Revealed',
+        description: 'All communications are now watermarked and audited.',
+      });
+    } catch (error) {
+      console.error('Contact reveal error:', error);
+      toast({
+        title: 'Cannot Reveal Contacts',
+        description: error instanceof Error ? error.message : 'Payment verification failed',
+        variant: 'destructive'
+      });
+    }
   };
 
   const downloadSignedTerms = () => {

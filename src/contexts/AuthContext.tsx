@@ -14,6 +14,7 @@ interface User {
   username?: string;
   avatarUrl?: string;
   isDemoUser?: boolean;
+  accountType?: 'individual' | 'enterprise_client' | 'enterprise_supplier';
 }
 
 interface AuthContextType {
@@ -108,6 +109,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       // Check if this is a demo user (these are actually admin access accounts, not demo users)
       const isDemoUser = false; // No auto-logout for any @stratusconnect.org accounts
 
+      // Determine account type based on role and company
+      const accountType = meta.account_type || 
+        (role === 'broker' && meta.company_name ? 'enterprise_client' : 
+         ['operator', 'pilot', 'crew'].includes(role) && meta.company_name ? 'enterprise_supplier' : 
+         'individual');
+
       const userData = {
         id: supabaseUser.id,
         email,
@@ -117,7 +124,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         verificationStatus,
         username: meta.username,
         avatarUrl: meta.avatar_url,
-        isDemoUser
+        isDemoUser,
+        accountType
       };
 
       setUser(userData);
@@ -135,6 +143,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const meta = supabaseUser.user_metadata || {};
       const isDemoUser = false; // No auto-logout for any @stratusconnect.org accounts
       
+      // Determine account type based on role and company
+      const accountType = meta.account_type || 
+        (meta.role === 'broker' && meta.company_name ? 'enterprise_client' : 
+         ['operator', 'pilot', 'crew'].includes(meta.role || 'broker') && meta.company_name ? 'enterprise_supplier' : 
+         'individual');
+
       setUser({
         id: supabaseUser.id,
         email,
@@ -143,7 +157,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         role: meta.role || 'broker',
         verificationStatus: meta.verification_status || 
           (email.endsWith('@stratusconnect.org') ? 'approved' : 'pending'),
-        isDemoUser
+        isDemoUser,
+        accountType
       });
 
       if (isDemoUser) {

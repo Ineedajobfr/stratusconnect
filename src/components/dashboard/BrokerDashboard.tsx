@@ -11,6 +11,9 @@ import { NotificationsCenter } from '@/components/notifications/NotificationsCen
 import { TaskInbox } from '@/components/tasks/TaskInbox';
 import { NavigationControls } from '@/components/NavigationControls';
 import StarfieldBackground from '@/components/StarfieldBackground';
+import { showLeagueUI, showPerformanceReport } from '@/lib/flags';
+import { useAuth } from '@/contexts/AuthContext';
+import PerformanceReport from '@/components/PerformanceReport';
 import { 
   BarChart3, 
   Plane, 
@@ -69,6 +72,7 @@ interface Quote {
 
 export default function BrokerDashboard() {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const { user } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
 
@@ -213,7 +217,7 @@ export default function BrokerDashboard() {
 
       <div className="p-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="bg-slate-800 border-slate-700 grid grid-cols-9">
+          <TabsList className={`bg-slate-800 border-slate-700 grid ${user && showPerformanceReport(user) ? 'grid-cols-10' : 'grid-cols-9'}`}>
             <TabsTrigger value="dashboard" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
               <BarChart3 className="h-4 w-4 mr-2" />
               Dashboard
@@ -246,6 +250,12 @@ export default function BrokerDashboard() {
               <Star className="h-4 w-4 mr-2" />
               Saved Jets
             </TabsTrigger>
+            {user && showPerformanceReport(user) && (
+              <TabsTrigger value="performance" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+                <BarChart3 className="h-4 w-4 mr-2" />
+                Performance
+              </TabsTrigger>
+            )}
             <TabsTrigger value="profile" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
               <Users className="h-4 w-4 mr-2" />
               Profile
@@ -804,6 +814,18 @@ export default function BrokerDashboard() {
           <TabsContent value="tasks" className="space-y-6">
             <TaskInbox />
           </TabsContent>
+
+          {/* Performance Tab - Conditional based on account type */}
+          {user && showPerformanceReport(user) && (
+            <TabsContent value="performance" className="space-y-6">
+              <h2 className="text-2xl font-bold text-white">Performance Report</h2>
+              <PerformanceReport 
+                userId={user.id} 
+                userRole={user.role}
+                className="w-full"
+              />
+            </TabsContent>
+          )}
         </Tabs>
       </div>
     </div>

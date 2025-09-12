@@ -10,6 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Slider } from '@/components/ui/slider';
+import { calcDealFees } from '@/lib/fees';
 import { 
   Calculator, 
   TrendingUp, 
@@ -116,8 +117,7 @@ export function QuoteComposer({ rfqId, operatorId, route, aircraft, passengers, 
 
   const calculateMarginBreakdown = useCallback(() => {
     const total = baseRate + positioning + surcharges + taxes + fuel + crew;
-    const platformFee = Math.round(total * 0.07); // 7% platform fee
-    const netToOperator = total - platformFee;
+    const { platform: platformFee, net: netToOperator } = calcDealFees(total);
     const margin = netToOperator - (fuel + crew); // Margin after direct costs
     
     setMarginBreakdown({

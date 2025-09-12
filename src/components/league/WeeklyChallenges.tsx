@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { WEEKLY_CHALLENGES } from '@/lib/league-constants';
+import { getDemoChallenges } from '@/lib/demo-gamification-data';
 import { Zap, Target, Clock, Shield, CheckCircle } from 'lucide-react';
 
 interface WeeklyChallengesProps {
@@ -18,6 +18,8 @@ const challengeIcons = {
 };
 
 export default function WeeklyChallenges({ onLearn }: WeeklyChallengesProps) {
+  const challenges = getDemoChallenges();
+  
   return (
     <Card className="terminal-card">
       <CardHeader>
@@ -40,33 +42,51 @@ export default function WeeklyChallenges({ onLearn }: WeeklyChallengesProps) {
       </CardHeader>
       <CardContent>
         <div className="grid md:grid-cols-2 gap-4">
-          {WEEKLY_CHALLENGES.map((challenge) => {
-            const IconComponent = challengeIcons[challenge.code as keyof typeof challengeIcons] || Zap;
+          {challenges.map((challenge) => {
+            const IconComponent = challengeIcons[challenge.id as keyof typeof challengeIcons] || Zap;
             
             return (
               <div 
-                key={challenge.code} 
-                className="terminal-card p-4 hover:border-accent/30 transition-colors"
+                key={challenge.id} 
+                className={`terminal-card p-4 transition-colors ${
+                  challenge.completed 
+                    ? 'bg-accent/10 border-accent/30' 
+                    : 'hover:border-accent/30'
+                }`}
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-start space-x-3">
-                    <div className="p-2 bg-accent/20 rounded-lg">
-                      <IconComponent className="w-5 h-5 text-accent icon-glow" />
+                    <div className={`p-2 rounded-lg ${
+                      challenge.completed ? 'bg-accent text-white' : 'bg-accent/20'
+                    }`}>
+                      {challenge.completed ? (
+                        <CheckCircle className="w-5 h-5" />
+                      ) : (
+                        <IconComponent className="w-5 h-5 text-accent icon-glow" />
+                      )}
                     </div>
                     <div className="flex-1">
                       <div className="font-semibold text-foreground mb-1">
-                        {challenge.label}
+                        {challenge.name}
                       </div>
-                      <div className="text-sm text-muted-foreground subtitle-glow">
+                      <div className="text-sm text-muted-foreground subtitle-glow mb-2">
                         {challenge.description}
                       </div>
+                      {!challenge.completed && challenge.progress !== undefined && (
+                        <div className="w-full bg-terminal-border rounded-full h-1.5">
+                          <div 
+                            className="bg-accent h-1.5 rounded-full transition-all duration-300" 
+                            style={{ width: `${challenge.progress}%` }}
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                   <Badge 
-                    variant="outline" 
-                    className="text-accent border-accent/30"
+                    variant={challenge.completed ? "default" : "outline"}
+                    className={challenge.completed ? "bg-accent" : "text-accent border-accent/30"}
                   >
-                    +{challenge.points}
+                    {challenge.completed ? "✓" : `+${challenge.points}`}
                   </Badge>
                 </div>
               </div>

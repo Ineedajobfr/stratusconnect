@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { XP_RULES, STARTING_LEAGUE_CODE, PROMOTE_TOP_PCT, DEMOTE_BOTTOM_PCT } from "./league-constants";
+import { verifyEligibilityForXpEvent, VerificationStatus } from "./verification-gate";
 
 const supabase = createClient(import.meta.env.VITE_SUPABASE_URL!, import.meta.env.VITE_SUPABASE_ANON_KEY!);
 
@@ -47,15 +48,25 @@ export async function ensureMembership(userId: string) {
   return season.id;
 }
 
-// Record an XP event safely
+// Record an XP event safely with verification gate
 export async function recordXpEvent(opts: {
   userId: string;
   type: keyof typeof XP_RULES;
   meta?: Record<string, any>;
+  verificationStatus?: VerificationStatus;
 }) {
-  const { userId, type, meta = {} } = opts;
+  const { userId, type, meta = {}, verificationStatus } = opts;
   const points = XP_RULES[type];
   if (!points) return;
+
+  // Verify eligibility if verification status provided
+  if (verificationStatus) {
+    const eligibility = verifyEligibilityForXpEvent(verificationStatus, type);
+    if (!eligibility.eligible) {
+      console.warn(`User ${userId} not eligible for ${type}: ${eligibility.reason}`);
+      return;
+    }
+  }
 
   const seasonId = await ensureMembership(userId);
 
@@ -66,7 +77,11 @@ export async function recordXpEvent(opts: {
       season_id: seasonId,
       event_type: type,
       points,
-      meta
+      meta: {
+        ...meta,
+        verified: true,
+        timestamp: new Date().toISOString()
+      }
     });
   if (evErr) throw evErr;
 

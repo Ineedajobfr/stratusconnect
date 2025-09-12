@@ -100,10 +100,14 @@ export function estimateCO2Tonnes(distanceNm: number, seats: number) {
   return Number(perPaxTonnes.toFixed(2));
 }
 
+import { calcDealFees } from './fees';
+
 export function computeFees(priceMinor: number) {
-  const platformFeeMinor = Math.round(priceMinor * 0.07);
-  const toOperatorMinor = priceMinor - platformFeeMinor;
-  return { platformFeeMinor, toOperatorMinor };
+  const fees = calcDealFees(priceMinor);
+  return { 
+    platformFeeMinor: fees.platform, 
+    toOperatorMinor: fees.net 
+  };
 }
 
 export const MOCK_LISTINGS: Listing[] = [

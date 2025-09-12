@@ -19,63 +19,66 @@ import LeagueBadge from '@/components/league/LeagueBadge';
 import { TierProgressCard } from '@/components/league/TierProgressCard';
 import WeeklyLeaderboard from '@/components/league/WeeklyLeaderboard';
 import WeeklyChallenges from '@/components/league/WeeklyChallenges';
-import { getUserLeagueStats, getCurrentLeaderboard, getUserXpEvents } from '@/lib/gamification';
+import { 
+  getDemoUserStats, 
+  getDemoLeaderboard, 
+  getDemoXpEvents, 
+  getDemoChallenges,
+  getDemoAchievements,
+  getDemoPerformanceMetrics,
+  getDemoSeasonInfo,
+  DEMO_CURRENT_USER
+} from '@/lib/demo-gamification-data';
 
-interface UserStats {
-  user_id: string;
+interface DemoUser {
+  id: string;
+  name: string;
+  role: 'broker' | 'operator' | 'pilot' | 'crew';
+  league: string;
   points: number;
   rank: number;
-  league_code: string;
-  league_name: string;
-  sort_order: number;
-  color_hsl: string;
+  weeklyChange: number;
+  streak: number;
+  avatar?: string;
 }
 
-interface XpEvent {
+interface DemoXpEvent {
   id: string;
-  event_type: string;
+  type: string;
   points: number;
-  meta: Record<string, any>;
-  created_at: string;
+  description: string;
+  timestamp: string;
+  meta?: Record<string, any>;
 }
 
 export default function DemoBrokerRanking() {
-  const [userStats, setUserStats] = useState<UserStats | null>(null);
-  const [leaderboard, setLeaderboard] = useState<any[]>([]);
-  const [xpEvents, setXpEvents] = useState<XpEvent[]>([]);
+  const [userStats, setUserStats] = useState<DemoUser | null>(null);
+  const [leaderboard, setLeaderboard] = useState<DemoUser[]>([]);
+  const [xpEvents, setXpEvents] = useState<DemoXpEvent[]>([]);
+  const [challenges, setChallenges] = useState<any[]>([]);
+  const [achievements, setAchievements] = useState<any[]>([]);
+  const [performanceMetrics, setPerformanceMetrics] = useState<any>(null);
+  const [seasonInfo, setSeasonInfo] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
 
-  // Mock user ID - in real app, get from auth context
-  const userId = 'demo-user-123';
+  // Demo user ID
+  const userId = 'demo-user';
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // In a real app, these would be actual API calls
-        // For demo, we'll use mock data
-        setUserStats({
-          user_id: userId,
-          points: 220,
-          rank: 12,
-          league_code: 'gold',
-          league_name: 'Gold League',
-          sort_order: 3,
-          color_hsl: '38 92% 50%'
-        });
-
-        setLeaderboard([
-          { user_id: 'user-1', points: 450, rank: 1, league_code: 'diamond', league_name: 'Diamond League' },
-          { user_id: 'user-2', points: 420, rank: 2, league_code: 'diamond', league_name: 'Diamond League' },
-          { user_id: 'user-3', points: 380, rank: 3, league_code: 'emerald', league_name: 'Emerald League' },
-          // ... more mock data
-        ]);
-
-        setXpEvents([
-          { id: '1', event_type: 'quote_submitted_fast', points: 15, meta: {}, created_at: new Date().toISOString() },
-          { id: '2', event_type: 'deal_completed_on_time', points: 40, meta: {}, created_at: new Date().toISOString() },
-          { id: '3', event_type: 'rfq_posted', points: 5, meta: {}, created_at: new Date().toISOString() },
-        ]);
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 800));
+        
+        // Load demo data
+        setUserStats(DEMO_CURRENT_USER);
+        setLeaderboard(getDemoLeaderboard(30));
+        setXpEvents(getDemoXpEvents(userId, 10));
+        setChallenges(getDemoChallenges());
+        setAchievements(getDemoAchievements());
+        setPerformanceMetrics(getDemoPerformanceMetrics());
+        setSeasonInfo(getDemoSeasonInfo());
       } catch (error) {
         console.error('Failed to fetch ranking data:', error);
       } finally {
@@ -156,11 +159,18 @@ export default function DemoBrokerRanking() {
                   </div>
                   
                   <div className="flex items-center justify-between">
-                    <LeagueBadge code={userStats.league_code} name={userStats.league_name} size="lg" />
+                    <div className="flex items-center space-x-3">
+                      <div className="text-3xl">{userStats.avatar}</div>
+                      <LeagueBadge code={userStats.league} name={`${userStats.league.charAt(0).toUpperCase() + userStats.league.slice(1)} League`} size="lg" />
+                    </div>
                     <div className="flex items-center space-x-4 text-sm">
                       <div className="flex items-center space-x-1">
                         <TrendingUp className="w-4 h-4 text-green-500" />
-                        <span>+15 this week</span>
+                        <span>+{userStats.weeklyChange} this week</span>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <Clock className="w-4 h-4 text-orange-500" />
+                        <span>{userStats.streak} day streak</span>
                       </div>
                     </div>
                   </div>
@@ -170,8 +180,8 @@ export default function DemoBrokerRanking() {
             
             <div>
               <TierProgressCard 
-                leagueCode={userStats.league_code}
-                leagueName={userStats.league_name}
+                leagueCode={userStats.league}
+                leagueName={`${userStats.league.charAt(0).toUpperCase() + userStats.league.slice(1)} League`}
                 points={userStats.points}
               />
             </div>
@@ -225,17 +235,17 @@ export default function DemoBrokerRanking() {
               <CardContent>
                 <div className="space-y-4">
                   {xpEvents.map((event) => (
-                    <div key={event.id} className="flex items-center justify-between p-3 bg-terminal-card/50 rounded-lg">
+                    <div key={event.id} className="flex items-center justify-between p-3 bg-terminal-card/50 rounded-lg hover:bg-terminal-card/70 transition-colors">
                       <div className="flex items-center space-x-3">
                         <div className="p-2 bg-accent/20 rounded-lg">
                           <Zap className="w-4 h-4 text-accent" />
                         </div>
                         <div>
                           <div className="font-semibold text-foreground">
-                            {event.event_type.replace(/_/g, ' ').toUpperCase()}
+                            {event.description}
                           </div>
                           <div className="text-sm text-muted-foreground">
-                            {new Date(event.created_at).toLocaleDateString()}
+                            {new Date(event.timestamp).toLocaleDateString()} at {new Date(event.timestamp).toLocaleTimeString()}
                           </div>
                         </div>
                       </div>

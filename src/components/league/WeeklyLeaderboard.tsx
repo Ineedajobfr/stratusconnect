@@ -2,28 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import LeagueBadge from './LeagueBadge';
-import { getCurrentLeaderboard } from '@/lib/gamification';
+import { getDemoLeaderboard, DemoUser } from '@/lib/demo-gamification-data';
 import { Trophy, Medal, Award, Crown } from 'lucide-react';
 
-interface LeaderboardEntry {
-  user_id: string;
-  points: number;
-  rank: number;
-  league_code: string;
-  league_name: string;
-  sort_order: number;
-  color_hsl: string;
-}
-
 export default function WeeklyLeaderboard() {
-  const [rows, setRows] = useState<LeaderboardEntry[]>([]);
+  const [rows, setRows] = useState<DemoUser[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
-        const data = await getCurrentLeaderboard(30);
-        setRows(data || []);
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 500));
+        const data = getDemoLeaderboard(30);
+        setRows(data);
       } catch (error) {
         console.error('Failed to fetch leaderboard:', error);
       } finally {
@@ -79,9 +71,9 @@ export default function WeeklyLeaderboard() {
               No rankings available yet. Start earning points to appear on the leaderboard!
             </div>
           ) : (
-            rows.map((r, i) => (
+            rows.map((user, i) => (
               <div 
-                key={r.user_id} 
+                key={user.id} 
                 className={`py-3 px-4 rounded-lg transition-colors ${
                   i < 3 ? 'bg-accent/5 border border-accent/20' : 'hover:bg-terminal-card/50'
                 }`}
@@ -89,23 +81,29 @@ export default function WeeklyLeaderboard() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     <div className="flex items-center justify-center w-8">
-                      {getPositionIcon(r.rank)}
+                      {getPositionIcon(user.rank)}
                     </div>
                     <div className="flex items-center gap-3">
-                      <LeagueBadge code={r.league_code} name={r.league_name} size="sm" />
+                      <div className="text-2xl">{user.avatar}</div>
+                      <div className="flex items-center gap-2">
+                        <LeagueBadge code={user.league} name={`${user.league.charAt(0).toUpperCase() + user.league.slice(1)} League`} size="sm" />
+                        <Badge variant="outline" className="text-xs">
+                          {user.role}
+                        </Badge>
+                      </div>
                       <div>
                         <div className="font-semibold text-foreground">
-                          User #{r.user_id.slice(-6)}
+                          {user.name}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          {r.league_name}
+                          {user.streak} day streak • +{user.weeklyChange} this week
                         </div>
                       </div>
                     </div>
                   </div>
                   <div className="text-right">
                     <div className="text-body font-bold text-accent accent-glow">
-                      {r.points} pts
+                      {user.points} pts
                     </div>
                     {i < 3 && (
                       <div className="text-xs text-muted-foreground">

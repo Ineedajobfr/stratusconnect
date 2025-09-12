@@ -9,13 +9,15 @@ import {
   Clock,
   RefreshCw
 } from 'lucide-react';
+import { liveStatusHandler } from '@/lib/live-status-handler';
 
 export default function DemoStatusWidget() {
   const [metrics, setMetrics] = useState({
-    uptime: 99.9,
-    responseTime: 150,
-    status: 'up',
-    lastUpdated: new Date().toISOString()
+    uptime: null as number | null,
+    responseTime: null as number | null,
+    status: 'unknown' as string,
+    lastUpdated: new Date().toISOString(),
+    dataSource: 'unavailable' as string
   });
 
   const [loading, setLoading] = useState(false);
@@ -24,21 +26,35 @@ export default function DemoStatusWidget() {
 
   const refreshMetrics = async () => {
     setLoading(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
     
-    // In demo mode, show realistic but static data
-    if (isDemoMode) {
-      setMetrics({
-        uptime: 99.9,
-        responseTime: 150,
-        status: 'up',
-        lastUpdated: new Date().toISOString()
-      });
-    } else {
-      // In production, this would call the real monitoring API
-      // const realMetrics = await fetch('/api/status').then(r => r.json());
-      // setMetrics(realMetrics);
+    try {
+      if (isDemoMode) {
+        // In demo mode, show realistic but static data
+        setMetrics({
+          uptime: 99.9,
+          responseTime: 150,
+          status: 'operational',
+          lastUpdated: new Date().toISOString(),
+          dataSource: 'demo'
+        });
+      } else {
+        // Use live status handler for real data
+        const liveMetrics = await liveStatusHandler.getSystemMetrics();
+        setMetrics({
+          uptime: liveMetrics.uptime,
+          responseTime: liveMetrics.responseTime,
+          status: liveMetrics.status,
+          lastUpdated: liveMetrics.lastUpdated,
+          dataSource: liveMetrics.dataSource
+        });
+      }
+    } catch (error) {
+      console.error('Error refreshing metrics:', error);
+      setMetrics(prev => ({
+        ...prev,
+        status: 'unknown',
+        dataSource: 'unavailable'
+      }));
     }
     
     setLoading(false);
@@ -52,12 +68,14 @@ export default function DemoStatusWidget() {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'up':
+      case 'operational':
         return <CheckCircle className="w-4 h-4 text-green-500" />;
       case 'degraded':
         return <AlertTriangle className="w-4 h-4 text-yellow-500" />;
-      case 'down':
+      case 'outage':
         return <XCircle className="w-4 h-4 text-red-500" />;
+      case 'unknown':
+        return <AlertTriangle className="w-4 h-4 text-gray-500" />;
       default:
         return <Clock className="w-4 h-4 text-gray-500" />;
     }
@@ -65,12 +83,14 @@ export default function DemoStatusWidget() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'up':
+      case 'operational':
         return 'bg-green-900/20 text-green-400 border-green-500/30';
       case 'degraded':
         return 'bg-yellow-900/20 text-yellow-400 border-yellow-500/30';
-      case 'down':
+      case 'outage':
         return 'bg-red-900/20 text-red-400 border-red-500/30';
+      case 'unknown':
+        return 'bg-gray-900/20 text-gray-400 border-gray-500/30';
       default:
         return 'bg-slate-900/20 text-slate-400 border-slate-500/30';
     }
@@ -110,7 +130,7 @@ export default function DemoStatusWidget() {
           <div className="flex justify-between items-center">
             <span className="text-gunmetal">Uptime (24h)</span>
             <span className="font-mono font-semibold">
-              {isDemoMode ? `${metrics.uptime}%` : 'N/A'}
+              {metrics.uptime !== null ? `${metrics.uptime.toFixed(2)}%` : 'N/A'}
             </span>
           </div>
 
@@ -118,7 +138,7 @@ export default function DemoStatusWidget() {
           <div className="flex justify-between items-center">
             <span className="text-gunmetal">Response Time</span>
             <span className="font-mono font-semibold">
-              {isDemoMode ? `${metrics.responseTime}ms` : 'N/A'}
+              {metrics.responseTime !== null ? `${metrics.responseTime}ms` : 'N/A'}
             </span>
           </div>
 
@@ -130,14 +150,17 @@ export default function DemoStatusWidget() {
             </span>
           </div>
 
-          {/* Demo Notice */}
-          {isDemoMode && (
-            <div className="pt-2 border-t">
-              <p className="text-xs text-yellow-600">
-                Demo Mode: Showing sample data. In production, this displays live metrics from UptimeRobot.
-              </p>
-            </div>
-          )}
+          {/* Data Source Notice */}
+          <div className="pt-2 border-t">
+            <p className="text-xs text-gray-500">
+              {isDemoMode 
+                ? 'Demo Mode: Showing sample data. In production, this displays live metrics.'
+                : metrics.dataSource === 'unavailable'
+                  ? 'Live data unavailable. Contact support if this persists.'
+                  : `Data source: ${metrics.dataSource}`
+              }
+            </p>
+          </div>
         </div>
       </CardContent>
     </Card>

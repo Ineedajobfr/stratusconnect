@@ -12,18 +12,39 @@ export default function CompliantTerms() {
           
           <div className="space-y-8">
             {/* Compliance Notice */}
-            <Card className="border-blue-200 bg-slate-800">
+            <Card className="border-slate-400 bg-slate-900">
               <CardContent className="p-6">
                 <div className="flex items-start gap-3">
                   <Shield className="w-6 h-6 text-blue-600 mt-1" />
                   <div>
-                    <h3 className="font-semibold text-blue-800 mb-2">Universal Compliance Platform</h3>
-                    <p className="text-blue-700 text-sm">
+                    <h3 className="font-semibold text-white mb-2">Universal Compliance Platform</h3>
+                    <p className="text-slate-300 text-sm">
                       Stratus Connect operates as a regulated platform under FCA guidelines with 
                       universal compliance features on every deal: regulated payments through Stripe Connect, 
                       deposit-before-contact, signed terms, immutable receipts, and evidence bundles. 
                       We never hold client funds directly.
                     </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Non-Circumvention Notice */}
+            <Card className="border-red-200 bg-red-50">
+              <CardContent className="p-6">
+                <div className="flex items-start gap-3">
+                  <AlertTriangle className="w-6 h-6 text-red-600 mt-1" />
+                  <div>
+                    <h3 className="font-semibold text-red-900 mb-2">Non-Circumvention Agreement</h3>
+                    <p className="text-red-800 text-sm mb-3">
+                      <strong>CRITICAL:</strong> All parties introduced through Stratus Connect are bound by strict non-circumvention terms.
+                    </p>
+                    <div className="space-y-2 text-sm text-red-700">
+                      <p><strong>12-Month Restriction:</strong> Direct dealings outside Stratus Connect for any party introduced through our platform are prohibited for twelve months from first introduction.</p>
+                      <p><strong>Off-Platform Fee:</strong> Violations trigger an off-platform settlement fee equal to our standard platform fee (7% for deals, 10% for hiring) plus reasonable enforcement costs.</p>
+                      <p><strong>Evidence by Default:</strong> All contact reveals, file access, and signatures are watermarked and traceable for enforcement purposes.</p>
+                      <p><strong>English Law:</strong> This agreement is governed by English law and subject to English jurisdiction.</p>
+                    </div>
                   </div>
                 </div>
               </CardContent>

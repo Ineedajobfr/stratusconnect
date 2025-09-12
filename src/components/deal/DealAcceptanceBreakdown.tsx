@@ -167,13 +167,13 @@ export function DealAcceptanceBreakdown({
       </Card>
 
       {/* Deposit Gate Notice */}
-      <Card className="border-orange-200 bg-orange-50">
+      <Card className="border-slate-400 bg-slate-900">
         <CardContent className="pt-6">
           <div className="flex items-start gap-3">
             <Shield className="h-5 w-5 text-orange-600 mt-0.5" />
             <div>
-              <h4 className="font-medium text-orange-900">Deposit Required</h4>
-              <p className="text-sm text-orange-700 mt-1">
+              <h4 className="font-medium text-white">Deposit Required</h4>
+              <p className="text-sm text-slate-300 mt-1">
                 Contact details will be revealed after deposit payment is confirmed. 
                 This ensures serious inquiries only and protects all parties.
               </p>

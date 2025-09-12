@@ -289,13 +289,13 @@ export default function DemoSignedQuotePDF() {
       </Card>
 
       {/* Compliance Features */}
-      <Card className="border-green-200 bg-green-50">
+      <Card className="border-slate-400 bg-slate-900">
         <CardContent className="pt-6">
           <div className="flex items-start gap-3">
             <Shield className="h-5 w-5 text-green-600 mt-0.5" />
             <div>
-              <h4 className="font-medium text-green-900">Complete Legal Documentation</h4>
-              <p className="text-sm text-green-700 mt-1">
+              <h4 className="font-medium text-white">Complete Legal Documentation</h4>
+              <p className="text-sm text-slate-300 mt-1">
                 Every signed quote includes cancellation grids, complete terms, audit hashes, and compliance verification. 
                 This creates a legally binding document that protects all parties and ensures complete transparency.
               </p>

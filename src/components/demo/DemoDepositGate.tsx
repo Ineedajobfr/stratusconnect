@@ -128,7 +128,7 @@ export default function DemoDepositGate() {
       </Card>
 
       {/* Deposit Gate */}
-      <Card className={`border-2 ${depositComplete ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}`}>
+      <Card className="border-slate-400 bg-slate-900">
         <CardHeader>
           <CardTitle className={`flex items-center gap-2 ${depositComplete ? 'text-green-800' : 'text-red-800'}`}>
             {depositComplete ? <CheckCircle className="h-5 w-5" /> : <Lock className="h-5 w-5" />}

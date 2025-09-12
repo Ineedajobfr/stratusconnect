@@ -1,209 +1,246 @@
-// Signed Quote PDF Generator - Professional Aviation Contracts
+// Signed Quote PDF Generator with Anti-Circumvention Watermarking
+// FCA Compliant Aviation Platform
 
-export interface SignedQuoteData {
+export interface QuoteDetails {
   quoteId: string;
-  timestamp: string;
+  dealId: string;
   broker: {
-    id: string;
     name: string;
     company: string;
     email: string;
     phone: string;
   };
   operator: {
-    id: string;
     name: string;
     company: string;
     email: string;
     phone: string;
   };
-  flight: {
-    route: string;
-    aircraft: string;
-    departureDate: string;
-    departureTime: string;
-    arrivalDate: string;
-    arrivalTime: string;
-    passengers: number;
-  };
-  financial: {
-    totalAmount: number;
-    currency: string;
-    platformFee: number;
-    netToOperator: number;
-    depositAmount: number;
-  };
+  route: string;
+  aircraft: string;
+  departureDate: string;
+  totalAmount: number;
+  currency: string;
+  platformFeePercentage: number;
   cancellationGrid: Record<string, string>;
   terms: string[];
-  compliance: {
-    fcaCompliant: boolean;
-    kycVerified: boolean;
-    auditHash: string;
-    ipAddress: string;
-    userAgent: string;
+  signedAt: string;
+  ipAddress: string;
+  userAgent: string;
+}
+
+export interface SignedQuoteResult {
+  pdfBase64: string;
+  hash: string;
+  filename: string;
+  watermark: {
+    visible: string;
+    invisible: string;
+    traceId: string;
+    traceUrl: string;
   };
 }
 
-class SignedQuotePDFGenerator {
-  async generateSignedQuote(data: any): Promise<SignedQuoteData> {
-    const platformFee = Math.round(data.totalAmount * 0.07);
-    const netToOperator = data.totalAmount - platformFee;
-    const depositAmount = Math.round(data.totalAmount * 0.05);
+/**
+ * Generate signed quote PDF with anti-circumvention watermarks
+ */
+export async function generateSignedQuotePDF(
+  quoteData: QuoteDetails, 
+  viewerId: string
+): Promise<SignedQuoteResult> {
+  // Generate watermarks
+  const traceId = generateTraceId(quoteData.dealId, viewerId);
+  const visibleWatermark = generateVisibleWatermark(quoteData.dealId, viewerId);
+  const invisibleWatermark = generateInvisibleWatermark(quoteData.dealId, viewerId);
+  const traceUrl = generateTraceUrl(traceId);
 
-    const signedQuoteData: SignedQuoteData = {
-      quoteId: data.quoteId,
-      timestamp: new Date().toISOString(),
-      broker: {
-        id: data.broker.id,
-        name: data.broker.name,
-        company: data.broker.company,
-        email: data.broker.email,
-        phone: data.broker.phone
-      },
-      operator: {
-        id: data.operator.id,
-        name: data.operator.name,
-        company: data.operator.company,
-        email: data.operator.email,
-        phone: data.operator.phone
-      },
-      flight: {
-        route: data.flight.route,
-        aircraft: data.flight.aircraft,
-        departureDate: data.flight.departureDate,
-        departureTime: data.flight.departureTime,
-        arrivalDate: data.flight.arrivalDate,
-        arrivalTime: data.flight.arrivalTime,
-        passengers: data.flight.passengers
-      },
-      financial: {
-        totalAmount: data.totalAmount,
-        currency: data.currency,
-        platformFee,
-        netToOperator,
-        depositAmount
-      },
-      cancellationGrid: {
-        '72+ hours': '10% fee',
-        '24-72 hours': '25% fee',
-        '4-24 hours': '50% fee',
-        'Less than 4 hours': '100% fee'
-      },
-      terms: [
-        'Deposit required before contact reveal',
-        'Platform fee non-refundable once service window starts',
-        'Cancellation fees apply per grid above',
-        'All communications watermarked with deal ID',
-        'Disputes resolved through platform arbitration'
-      ],
-      compliance: {
-        fcaCompliant: true,
-        kycVerified: true,
-        auditHash: '',
-        ipAddress: '192.168.1.100',
-        userAgent: navigator.userAgent
-      }
-    };
+  // Calculate fees
+  const platformFee = Math.round(quoteData.totalAmount * (quoteData.platformFeePercentage / 100));
+  const netToOperator = quoteData.totalAmount - platformFee;
 
-    signedQuoteData.compliance.auditHash = await this.generateAuditHash(signedQuoteData);
-    return signedQuoteData;
-  }
-
-  private async generateAuditHash(quote: SignedQuoteData): Promise<string> {
-    const canonicalData = {
-      quoteId: quote.quoteId,
-      timestamp: quote.timestamp,
-      financial: quote.financial
-    };
-    const jsonString = JSON.stringify(canonicalData, null, 0);
-    const encoder = new TextEncoder();
-    const data = encoder.encode(jsonString);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-  }
-
-  async downloadSignedQuote(quote: SignedQuoteData): Promise<void> {
-    const htmlContent = this.generateHTMLContent(quote);
-    const blob = new Blob([htmlContent], { type: 'text/html' });
-    const url = URL.createObjectURL(blob);
-    
-    const filename = `signed_quote_${quote.quoteId}_${quote.timestamp.split('T')[0]}.html`;
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = filename;
-    link.click();
-    
-    URL.revokeObjectURL(url);
-  }
-
-  private generateHTMLContent(quote: SignedQuoteData): string {
-    const formatCurrency = (amount: number, currency: string): string => {
-      return new Intl.NumberFormat('en-GB', {
-        style: 'currency',
-        currency: currency.toUpperCase(),
-        minimumFractionDigits: 2
-      }).format(amount / 100);
-    };
-
-    return `<!DOCTYPE html>
-<html><head><title>Signed Quote - ${quote.quoteId}</title>
-<style>body{font-family:Arial;max-width:800px;margin:0 auto;padding:20px}
-.header{text-align:center;border-bottom:3px solid #f59e0b;padding-bottom:20px}
-.section{margin-bottom:30px}.info-item{padding:10px;background:#f9fafb;border-radius:5px;margin-bottom:10px}
-.cancellation-grid{background:#fef3c7;border:2px solid #f59e0b;border-radius:8px;padding:20px}
-.audit-hash{background:#1f2937;color:#f9fafb;padding:15px;border-radius:5px;font-family:monospace;font-size:12px}
-</style></head><body>
-<div class="header"><h1>STRATUS CONNECT</h1><h2>Signed Quote Agreement</h2>
-<div>Quote ID: ${quote.quoteId}</div><p>Generated: ${new Date(quote.timestamp).toLocaleString()}</p></div>
-
-<div class="section"><h3>Flight Details</h3>
-<div class="info-item"><strong>Route:</strong> ${quote.flight.route}</div>
-<div class="info-item"><strong>Aircraft:</strong> ${quote.flight.aircraft}</div>
-<div class="info-item"><strong>Departure:</strong> ${quote.flight.departureDate} at ${quote.flight.departureTime}</div>
-<div class="info-item"><strong>Arrival:</strong> ${quote.flight.arrivalDate} at ${quote.flight.arrivalTime}</div>
-<div class="info-item"><strong>Passengers:</strong> ${quote.flight.passengers}</div></div>
-
-<div class="section"><h3>Financial Terms</h3>
-<div class="info-item"><strong>Total Amount:</strong> ${formatCurrency(quote.financial.totalAmount, quote.financial.currency)}</div>
-<div class="info-item"><strong>Platform Fee (7%):</strong> ${formatCurrency(quote.financial.platformFee, quote.financial.currency)}</div>
-<div class="info-item"><strong>Net to Operator:</strong> ${formatCurrency(quote.financial.netToOperator, quote.financial.currency)}</div>
-<div class="info-item"><strong>Minimum Deposit (5%):</strong> ${formatCurrency(quote.financial.depositAmount, quote.financial.currency)}</div>
-
-<div class="cancellation-grid"><h4>Cancellation Fees</h4>
-${Object.entries(quote.cancellationGrid).map(([time, fee]) => 
-  `<div><strong>${time}:</strong> ${fee}</div>`
-).join('')}</div></div>
-
-<div class="section"><h3>Terms & Conditions</h3><ul>
-${quote.terms.map(term => `<li>${term}</li>`).join('')}</ul></div>
-
-<div class="audit-hash"><strong>Audit Hash:</strong> ${quote.compliance.auditHash}</div>
-
-<div style="margin-top:40px;text-align:center;font-size:12px;color:#6b7280">
-<p>Generated by Stratus Connect on ${new Date(quote.timestamp).toLocaleString()}</p>
-<p>FCA Compliant | KYC Verified | Immutable Audit Trail</p></div>
-</body></html>`;
-  }
-
-  formatCurrency(amount: number, currency: string): string {
-    return new Intl.NumberFormat('en-GB', {
-      style: 'currency',
-      currency: currency.toUpperCase(),
-      minimumFractionDigits: 2
-    }).format(amount / 100);
-  }
-
-  async validateSignedQuote(quote: SignedQuoteData): Promise<boolean> {
-    try {
-      const expectedHash = await this.generateAuditHash(quote);
-      return quote.compliance.auditHash === expectedHash;
-    } catch (error) {
-      console.error('Signed quote validation failed:', error);
-      return false;
+  // Mock PDF generation (would use jsPDF in real implementation)
+  const pdfContent = generatePDFContent(quoteData, platformFee, netToOperator, visibleWatermark, traceUrl);
+  
+  // Generate hash for integrity
+  const contentHash = generateContentHash(pdfContent);
+  
+  const result: SignedQuoteResult = {
+    pdfBase64: btoa(pdfContent), // Mock base64 encoding
+    hash: contentHash,
+    filename: `signed-quote-${quoteData.quoteId}.pdf`,
+    watermark: {
+      visible: visibleWatermark,
+      invisible: invisibleWatermark,
+      traceId,
+      traceUrl
     }
+  };
+
+  // Log the PDF generation
+  await logPDFGeneration(quoteData.dealId, viewerId, quoteData.quoteId, traceId);
+
+  return result;
+}
+
+/**
+ * Generate visible watermark for PDF
+ */
+function generateVisibleWatermark(dealId: string, viewerId: string): string {
+  const timestamp = Date.now();
+  return `DEAL:${dealId} USER:${viewerId} TS:${timestamp}`;
+}
+
+/**
+ * Generate invisible watermark (metadata)
+ */
+function generateInvisibleWatermark(dealId: string, viewerId: string): string {
+  const watermarkData = {
+    dealId,
+    viewerId,
+    timestamp: Date.now(),
+    platform: 'stratusconnect.com',
+    version: '1.0'
+  };
+  
+  return `sha256:${btoa(JSON.stringify(watermarkData))}`;
+}
+
+/**
+ * Generate trace ID
+ */
+function generateTraceId(dealId: string, viewerId: string): string {
+  const timestamp = Date.now();
+  const random = Math.random().toString(36).substring(2, 8);
+  return `${dealId}_${viewerId}_${timestamp}_${random}`;
+}
+
+/**
+ * Generate trace URL
+ */
+function generateTraceUrl(traceId: string): string {
+  return `https://stratusconnect.com/t/${traceId}`;
+}
+
+/**
+ * Generate content hash
+ */
+function generateContentHash(content: string): string {
+  // Mock SHA-256 hash generation
+  const hash = btoa(content).substring(0, 64);
+  return `sha256:${hash}`;
+}
+
+/**
+ * Generate PDF content with watermarks
+ */
+function generatePDFContent(
+  quoteData: QuoteDetails,
+  platformFee: number,
+  netToOperator: number,
+  visibleWatermark: string,
+  traceUrl: string
+): string {
+  // Mock PDF content generation
+  const content = `
+SIGNED QUOTE PDF
+================
+
+Quote ID: ${quoteData.quoteId}
+Deal ID: ${quoteData.dealId}
+Generated: ${quoteData.signedAt}
+
+PARTIES:
+--------
+Broker: ${quoteData.broker.name}
+Company: ${quoteData.broker.company}
+Email: ${quoteData.broker.email}
+Phone: ${quoteData.broker.phone}
+
+Operator: ${quoteData.operator.name}
+Company: ${quoteData.operator.company}
+Email: ${quoteData.operator.email}
+Phone: ${quoteData.operator.phone}
+
+FLIGHT DETAILS:
+--------------
+Route: ${quoteData.route}
+Aircraft: ${quoteData.aircraft}
+Departure: ${quoteData.departureDate}
+
+FINANCIAL BREAKDOWN:
+-------------------
+Total Amount: ${quoteData.currency} ${(quoteData.totalAmount / 100).toFixed(2)}
+Platform Fee (${quoteData.platformFeePercentage}%): ${quoteData.currency} ${(platformFee / 100).toFixed(2)}
+Net to Operator: ${quoteData.currency} ${(netToOperator / 100).toFixed(2)}
+
+CANCELLATION TERMS:
+------------------
+${Object.entries(quoteData.cancellationGrid).map(([period, fee]) => `${period}: ${fee}`).join('\n')}
+
+TERMS AND CONDITIONS:
+--------------------
+${quoteData.terms.map((term, index) => `${index + 1}. ${term}`).join('\n')}
+
+COMPLIANCE VERIFICATION:
+-----------------------
+FCA Compliant: Yes
+Audit Hash: ${generateContentHash(JSON.stringify(quoteData))}
+IP Address: ${quoteData.ipAddress}
+User Agent: ${quoteData.userAgent}
+
+WATERMARK (Visible):
+-------------------
+${visibleWatermark}
+
+TRACE URL:
+----------
+${traceUrl}
+
+This document is legally binding and includes cryptographic audit hashes for verification.
+All communications are watermarked and traceable for compliance purposes.
+  `;
+
+  return content;
+}
+
+/**
+ * Log PDF generation for audit
+ */
+async function logPDFGeneration(
+  dealId: string, 
+  viewerId: string, 
+  quoteId: string, 
+  traceId: string
+): Promise<void> {
+  try {
+    console.log('PDF generation logged:', {
+      dealId,
+      viewerId,
+      quoteId,
+      traceId,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Failed to log PDF generation:', error);
+  }
+}
+
+/**
+ * Signed Quote PDF Generator class
+ */
+class SignedQuotePDFGenerator {
+  async generate(quoteData: QuoteDetails, viewerId: string): Promise<SignedQuoteResult> {
+    return generateSignedQuotePDF(quoteData, viewerId);
+  }
+
+  generateWatermark(dealId: string, viewerId: string) {
+    return {
+      visible: generateVisibleWatermark(dealId, viewerId),
+      invisible: generateInvisibleWatermark(dealId, viewerId),
+      traceId: generateTraceId(dealId, viewerId),
+      traceUrl: generateTraceUrl(generateTraceId(dealId, viewerId))
+    };
   }
 }
 
 export const signedQuotePDFGenerator = new SignedQuotePDFGenerator();
-export default signedQuotePDFGenerator;

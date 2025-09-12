@@ -331,13 +331,13 @@ export default function DemoEvidenceBundle() {
       </Card>
 
       {/* Dispute Resolution Benefits */}
-      <Card className="border-green-200 bg-green-50">
+      <Card className="border-slate-400 bg-slate-900">
         <CardContent className="pt-6">
           <div className="flex items-start gap-3">
             <Shield className="h-5 w-5 text-green-600 mt-0.5" />
             <div>
-              <h4 className="font-medium text-green-900">Instant Dispute Resolution</h4>
-              <p className="text-sm text-green-700 mt-1">
+              <h4 className="font-medium text-white">Instant Dispute Resolution</h4>
+              <p className="text-sm text-slate-300 mt-1">
                 This evidence bundle can be submitted to Stripe within <strong>2 minutes</strong> of a dispute notification. 
                 Every file includes SHA-256 hashes for cryptographic verification. No gaps, no missing data, no delays.
               </p>

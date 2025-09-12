@@ -3,6 +3,7 @@
 
 import { stripeConnectLive } from './stripe-connect-live';
 import { receiptGenerator } from './receipt-generator';
+import { calcDealFees, calcHiringFees } from './fees';
 import { kycLiveService } from './kyc-aml-live';
 
 export interface CharterDealFlow {
@@ -36,8 +37,7 @@ class ProductionPaymentFlows {
     auditHash: string;
   }> {
     const totalAmount = 1000000; // £10,000 in pennies
-    const platformFee = Math.round(totalAmount * 0.07); // £700 exactly
-    const netToOperator = totalAmount - platformFee; // £9,300
+    const { platform: platformFee, net: netToOperator } = calcDealFees(totalAmount); // £700 exactly
 
     console.log('🏛️ Charter Deal Payment Flow');
     console.log(`Total Amount: £${(totalAmount / 100).toLocaleString()}`);

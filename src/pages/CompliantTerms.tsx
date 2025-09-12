@@ -17,11 +17,12 @@ export default function CompliantTerms() {
                 <div className="flex items-start gap-3">
                   <Shield className="w-6 h-6 text-blue-600 mt-1" />
                   <div>
-                    <h3 className="font-semibold text-blue-800 mb-2">FCA Compliant Platform</h3>
+                    <h3 className="font-semibold text-blue-800 mb-2">Universal Compliance Platform</h3>
                     <p className="text-blue-700 text-sm">
-                      Stratus Connect operates as a regulated platform under FCA guidelines. 
-                      All payment processing is handled by Stripe Connect, a regulated payment 
-                      service provider. We never hold client funds directly.
+                      Stratus Connect operates as a regulated platform under FCA guidelines with 
+                      universal compliance features on every deal: regulated payments through Stripe Connect, 
+                      deposit-before-contact, signed terms, immutable receipts, and evidence bundles. 
+                      We never hold client funds directly.
                     </p>
                   </div>
                 </div>

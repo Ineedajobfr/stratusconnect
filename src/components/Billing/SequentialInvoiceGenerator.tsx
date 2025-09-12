@@ -436,3 +436,4 @@ export function SequentialInvoiceGenerator() {
     </Card>
   );
 }
+

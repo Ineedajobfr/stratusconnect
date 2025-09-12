@@ -1,0 +1,138 @@
+[1mdiff --git a/src/components/dashboard/BrokerDashboard.tsx b/src/components/dashboard/BrokerDashboard.tsx[m
+[1mindex 593a41f..f36b92f 100644[m
+[1m--- a/src/components/dashboard/BrokerDashboard.tsx[m
+[1m+++ b/src/components/dashboard/BrokerDashboard.tsx[m
+[36m@@ -305,8 +305,8 @@[m [mexport default function BrokerDashboard() {[m
+               {/* Recent Trip Requests */}[m
+               <Card className="bg-slate-800 border-slate-700">[m
+                 <CardHeader>[m
+[31m-                  <CardTitle className="text-orange-400">Recent Trip Requests</CardTitle>[m
+[31m-                  <CardDescription>Your latest client requests and their status</CardDescription>[m
+[32m+[m[32m                  <CardTitle className="text-orange-400 title-glow">Recent Trip Requests</CardTitle>[m
+[32m+[m[32m                  <CardDescription className="subtitle-glow">Your latest client requests and their status</CardDescription>[m
+                 </CardHeader>[m
+                 <CardContent className="space-y-4">[m
+                   {tripRequests.slice(0, 3).map((request) => ([m
+[36m@@ -337,8 +337,8 @@[m [mexport default function BrokerDashboard() {[m
+               {/* Empty Leg Opportunities */}[m
+               <Card className="bg-slate-800 border-slate-700">[m
+                 <CardHeader>[m
+[31m-                  <CardTitle className="text-orange-400">Empty Leg Opportunities</CardTitle>[m
+[31m-                  <CardDescription>Special deals and repositioning flights</CardDescription>[m
+[32m+[m[32m                  <CardTitle className="text-orange-400 title-glow">Empty Leg Opportunities</CardTitle>[m
+[32m+[m[32m                  <CardDescription className="subtitle-glow">Special deals and repositioning flights</CardDescription>[m
+                 </CardHeader>[m
+                 <CardContent className="space-y-4">[m
+                   {emptyLegs.map((leg) => ([m
+[36m@@ -367,7 +367,7 @@[m [mexport default function BrokerDashboard() {[m
+             {/* Quick Actions */}[m
+             <Card className="bg-slate-800 border-slate-700">[m
+               <CardHeader>[m
+[31m-                <CardTitle className="text-orange-400">Quick Actions</CardTitle>[m
+[32m+[m[32m                <CardTitle className="text-orange-400 title-glow">Quick Actions</CardTitle>[m
+               </CardHeader>[m
+               <CardContent>[m
+                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">[m
+[36m@@ -400,7 +400,7 @@[m [mexport default function BrokerDashboard() {[m
+ [m
+           {/* Marketplace Tab */}[m
+           <TabsContent value="marketplace" className="space-y-6">[m
+[31m-            <h2 className="text-2xl font-bold text-white">Marketplace</h2>[m
+[32m+[m[32m            <h2 className="text-2xl font-bold text-white title-glow">Marketplace</h2>[m
+             [m
+             <div className="flex items-center space-x-4">[m
+               <div className="relative flex-1">[m
+[1mdiff --git a/src/components/dashboard/OperatorDashboard.tsx b/src/components/dashboard/OperatorDashboard.tsx[m
+[1mindex 3fd2c17..afa8919 100644[m
+[1m--- a/src/components/dashboard/OperatorDashboard.tsx[m
+[1m+++ b/src/components/dashboard/OperatorDashboard.tsx[m
+[36m@@ -338,8 +338,8 @@[m [mexport default function OperatorDashboard() {[m
+               {/* Recent Requests */}[m
+               <Card className="bg-slate-800 border-slate-700">[m
+                 <CardHeader>[m
+[31m-                  <CardTitle className="text-orange-400">Recent Trip Requests</CardTitle>[m
+[31m-                  <CardDescription>Latest requests from brokers</CardDescription>[m
+[32m+[m[32m                  <CardTitle className="text-orange-400 title-glow">Recent Trip Requests</CardTitle>[m
+[32m+[m[32m                  <CardDescription className="subtitle-glow">Latest requests from brokers</CardDescription>[m
+                 </CardHeader>[m
+                 <CardContent className="space-y-4">[m
+                   {tripRequests.slice(0, 3).map((request) => ([m
+[36m@@ -370,8 +370,8 @@[m [mexport default function OperatorDashboard() {[m
+               {/* Fleet Status */}[m
+               <Card className="bg-slate-800 border-slate-700">[m
+                 <CardHeader>[m
+[31m-                  <CardTitle className="text-orange-400">Fleet Status</CardTitle>[m
+[31m-                  <CardDescription>Current aircraft availability</CardDescription>[m
+[32m+[m[32m                  <CardTitle className="text-orange-400 title-glow">Fleet Status</CardTitle>[m
+[32m+[m[32m                  <CardDescription className="subtitle-glow">Current aircraft availability</CardDescription>[m
+                 </CardHeader>[m
+                 <CardContent className="space-y-4">[m
+                   {fleet.map((aircraft) => ([m
+[36m@@ -403,7 +403,7 @@[m [mexport default function OperatorDashboard() {[m
+             {/* Quick Actions */}[m
+             <Card className="bg-slate-800 border-slate-700">[m
+               <CardHeader>[m
+[31m-                <CardTitle className="text-orange-400">Quick Actions</CardTitle>[m
+[32m+[m[32m                <CardTitle className="text-orange-400 title-glow">Quick Actions</CardTitle>[m
+               </CardHeader>[m
+               <CardContent>[m
+                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">[m
+[1mdiff --git a/src/index.css b/src/index.css[m
+[1mindex 9d5ce63..d1d6003 100644[m
+[1m--- a/src/index.css[m
+[1m+++ b/src/index.css[m
+[36m@@ -50,6 +50,11 @@[m
+   --terminal-warning:    38 92% 50%;[m
+   --terminal-danger:      0 84% 60%;[m
+   --terminal-info:      208 26% 44%;[m
+[32m+[m[41m  [m
+[32m+[m[32m  /* Text glow effects */[m
+[32m+[m[32m  --text-glow-primary: 0 0 20px hsl(var(--accent) / 0.5), 0 0 40px hsl(var(--accent) / 0.3);[m
+[32m+[m[32m  --text-glow-accent: 0 0 15px hsl(var(--terminal-glow) / 0.6), 0 0 30px hsl(var(--terminal-glow) / 0.4);[m
+[32m+[m[32m  --text-glow-subtle: 0 0 10px hsl(var(--foreground) / 0.3), 0 0 20px hsl(var(--foreground) / 0.1);[m
+ [m
+   /* Data + charts */[m
+   --data-positive:      134 61% 41%;[m
+[36m@@ -192,14 +197,42 @@[m
+ [m
+   .terminal-header {[m
+     @apply text-foreground font-semibold text-lg tracking-tight;[m
+[32m+[m[32m    text-shadow: var(--text-glow-primary);[m
+   }[m
+ [m
+   .terminal-subheader {[m
+     @apply text-gunmetal text-sm font-medium uppercase tracking-wide;[m
+[32m+[m[32m    text-shadow: var(--text-glow-subtle);[m
+   }[m
+ [m
+   .terminal-value {[m
+     @apply text-foreground font-medium tabular-nums;[m
+[32m+[m[32m    text-shadow: var(--text-glow-accent);[m
+[32m+[m[32m  }[m
+[32m+[m[41m  [m
+[32m+[m[32m  /* Glow utility classes */[m
+[32m+[m[32m  .text-glow-primary {[m
+[32m+[m[32m    text-shadow: var(--text-glow-primary);[m
+[32m+[m[32m  }[m
+[32m+[m[41m  [m
+[32m+[m[32m  .text-glow-accent {[m
+[32m+[m[32m    text-shadow: var(--text-glow-accent);[m
+[32m+[m[32m  }[m
+[32m+[m[41m  [m
+[32m+[m[32m  .text-glow-subtle {[m
+[32m+[m[32m    text-shadow: var(--text-glow-subtle);[m
+[32m+[m[32m  }[m
+[32m+[m[41m  [m
+[32m+[m[32m  .hero-glow {[m
+[32m+[m[32m    text-shadow: 0 0 30px hsl(var(--accent) / 0.8), 0 0 60px hsl(var(--accent) / 0.5), 0 0 90px hsl(var(--accent) / 0.3);[m
+[32m+[m[32m  }[m
+[32m+[m[41m  [m
+[32m+[m[32m  .title-glow {[m
+[32m+[m[32m    text-shadow: 0 0 20px hsl(var(--terminal-glow) / 0.6), 0 0 40px hsl(var(--terminal-glow) / 0.4);[m
+[32m+[m[32m  }[m
+[32m+[m[41m  [m
+[32m+[m[32m  .subtitle-glow {[m
+[32m+[m[32m    text-shadow: 0 0 15px hsl(var(--foreground) / 0.4), 0 0 30px hsl(var(--foreground) / 0.2);[m
+   }[m
+ [m
+   .terminal-blur {[m

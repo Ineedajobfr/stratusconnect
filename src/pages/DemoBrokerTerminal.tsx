@@ -32,7 +32,8 @@ import {
   Plus,
   Filter,
   Download,
-  Leaf
+  Leaf,
+  Trophy
 } from 'lucide-react';
 import { ComplianceNotice, EvidencePack } from '@/components/ComplianceNotice';
 import { evidenceReceiptGenerator } from '@/lib/evidence-receipt-generator';
@@ -613,7 +614,7 @@ export default function DemoBrokerTerminal() {
             </Brand.StatusChip>
             <Brand.StatusChip status="info">
               <Zap className="w-3 h-3 mr-1 icon-glow" />
-              Free Tier
+              Gold League
             </Brand.StatusChip>
             {isDemoMode && (
               <Brand.StatusChip status="warn">
@@ -679,6 +680,10 @@ export default function DemoBrokerTerminal() {
             <TabsTrigger value="evidence" className="flex items-center gap-2">
               <FileText className="w-4 h-4 icon-glow" />
               Evidence
+            </TabsTrigger>
+            <TabsTrigger value="ranking" className="flex items-center gap-2">
+              <Trophy className="w-4 h-4 icon-glow" />
+              Ranking
             </TabsTrigger>
           </TabsList>
 
@@ -782,6 +787,137 @@ export default function DemoBrokerTerminal() {
                 </div>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="ranking" className="mt-6">
+            <div className="space-y-6">
+              {/* League Status Card */}
+              <Card className="terminal-card border-accent border-2">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 title-glow">
+                    <Trophy className="w-6 h-6 text-accent" />
+                    Your League Status
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-accent accent-glow mb-1">
+                        Gold League
+                      </div>
+                      <div className="text-sm text-muted-foreground subtitle-glow">
+                        Current League
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-foreground mb-1">
+                        220
+                      </div>
+                      <div className="text-sm text-muted-foreground subtitle-glow">
+                        Total Points
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-foreground mb-1">
+                        #12
+                      </div>
+                      <div className="text-sm text-muted-foreground subtitle-glow">
+                        Global Rank
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-6">
+                    <div className="flex justify-between text-sm mb-2">
+                      <span className="text-muted-foreground">Progress to Platinum League</span>
+                      <span className="text-accent font-semibold">80 points to go</span>
+                    </div>
+                    <div className="w-full bg-terminal-border rounded-full h-2">
+                      <div className="bg-accent h-2 rounded-full" style={{ width: '73%' }}></div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Weekly Challenges */}
+              <Card className="terminal-card">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 title-glow">
+                    <Target className="w-6 h-6 text-accent" />
+                    Weekly Challenges
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {[
+                      { name: "Submit a quote within 5 minutes", points: 15, completed: true },
+                      { name: "Complete a deal on time", points: 40, completed: false },
+                      { name: "Close a dispute-free deal", points: 20, completed: true },
+                      { name: "Respond to saved-search alert within 10 minutes", points: 10, completed: false },
+                      { name: "Keep credentials up to date", points: 10, completed: true },
+                    ].map((challenge, index) => (
+                      <div key={index} className={`p-4 rounded-lg border ${
+                        challenge.completed 
+                          ? 'bg-accent/10 border-accent/30' 
+                          : 'bg-terminal-card/50 border-terminal-border'
+                      }`}>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                              challenge.completed ? 'bg-accent text-white' : 'bg-terminal-border'
+                            }`}>
+                              {challenge.completed ? <CheckCircle className="w-4 h-4" /> : <span className="text-xs">+</span>}
+                            </div>
+                            <div>
+                              <div className="font-semibold text-foreground">{challenge.name}</div>
+                              <div className="text-sm text-muted-foreground">{challenge.points} points</div>
+                            </div>
+                          </div>
+                          <Badge variant={challenge.completed ? "default" : "outline"}>
+                            {challenge.completed ? "Completed" : `+${challenge.points}`}
+                          </Badge>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Recent Activity */}
+              <Card className="terminal-card">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 title-glow">
+                    <Zap className="w-6 h-6 text-accent" />
+                    Recent Activity
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {[
+                      { action: "Quote submitted fast", points: 15, time: "2 hours ago" },
+                      { action: "Deal completed on time", points: 40, time: "1 day ago" },
+                      { action: "RFQ posted", points: 5, time: "2 days ago" },
+                      { action: "Dispute-free deal closed", points: 20, time: "3 days ago" },
+                    ].map((activity, index) => (
+                      <div key={index} className="flex items-center justify-between p-3 bg-terminal-card/50 rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 bg-accent/20 rounded-lg">
+                            <Zap className="w-4 h-4 text-accent" />
+                          </div>
+                          <div>
+                            <div className="font-semibold text-foreground">{activity.action}</div>
+                            <div className="text-sm text-muted-foreground">{activity.time}</div>
+                          </div>
+                        </div>
+                        <Badge variant="outline" className="text-accent">
+                          +{activity.points}
+                        </Badge>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
         </Tabs>
 

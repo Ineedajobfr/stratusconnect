@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { AlertTriangle, Shield, Eye, Clock } from 'lucide-react';
+import type { Json } from '@/integrations/supabase/types';
 
 interface SecurityEventMetadata {
   user_agent?: string;
@@ -20,7 +21,14 @@ interface SecurityEvent {
   severity: string;
   description: string;
   created_at: string;
-  metadata: SecurityEventMetadata;
+  metadata: Json;
+  blocked?: boolean;
+  resolved?: boolean;
+  resolved_at?: string | null;
+  resolved_by?: string | null;
+  ip_hash?: string | null;
+  user_agent_hash?: string | null;
+  user_id?: string | null;
 }
 
 interface AIWarning {

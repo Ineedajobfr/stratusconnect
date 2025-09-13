@@ -95,11 +95,6 @@ export default function APIIntegrations() {
 
   const [webhookUrl, setWebhookUrl] = useState("");
 
-  useEffect(() => {
-    fetchUserData();
-    fetchIntegrations();
-  }, [fetchIntegrations]);
-
   const fetchUserData = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
@@ -121,13 +116,19 @@ export default function APIIntegrations() {
       if (error) throw error;
       setIntegrations((data || []) as APIIntegration[]);
     } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Failed to fetch API integrations";
       toast({
         title: "Error",
-        description: "Failed to fetch API integrations",
+        description: errorMessage,
         variant: "destructive",
       });
     }
   }, [toast]);
+
+  useEffect(() => {
+    fetchUserData();
+    fetchIntegrations();
+  }, [fetchIntegrations]);
 
   const createIntegration = async () => {
     if (!integrationForm.integration_name || !integrationForm.api_endpoint) {
@@ -167,9 +168,10 @@ export default function APIIntegrations() {
       });
       fetchIntegrations();
     } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Failed to create integration";
       toast({
         title: "Error",
-        description: error.message || "Failed to create integration",
+        description: errorMessage,
         variant: "destructive",
       });
     }

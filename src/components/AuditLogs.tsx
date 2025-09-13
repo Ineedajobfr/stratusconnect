@@ -7,6 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { FileText, Search, User, Database, Shield, Clock } from 'lucide-react';
 import { toast } from 'sonner';
+import { safeJsonCast } from '@/utils/errorHandler';
 
 interface AuditLog {
   id: string;

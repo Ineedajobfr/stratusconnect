@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { Label } from '@/components/ui/label';
 import { 
   AlertTriangle, 
   CheckCircle, 
@@ -41,10 +40,6 @@ export default function AviationCompliance({ userRole, userId }: AviationComplia
   const [loading, setLoading] = useState(true);
   const [showAddDocument, setShowAddDocument] = useState(false);
   const { toast } = useToast();
-
-  useEffect(() => {
-    loadDocuments();
-  }, [userId, loadDocuments]);
 
   const loadDocuments = useCallback(async () => {
     try {
@@ -106,6 +101,10 @@ export default function AviationCompliance({ userRole, userId }: AviationComplia
     }
   }, [toast]);
 
+  useEffect(() => {
+    loadDocuments();
+  }, [loadDocuments]);
+
   const getDocumentTypeLabel = (type: AviationDocument['type']) => {
     switch (type) {
       case 'pilot_license':
@@ -121,103 +120,50 @@ export default function AviationCompliance({ userRole, userId }: AviationComplia
       case 'part_135':
         return 'Part 135 Certificate';
       default:
-        return type;
+        return 'Document';
     }
   };
 
   const getStatusIcon = (status: AviationDocument['status']) => {
     switch (status) {
       case 'valid':
-        return <CheckCircle className="w-4 h-4 text-white" />;
+        return <CheckCircle className="h-4 w-4 text-green-500" />;
       case 'expiring':
-        return <AlertTriangle className="w-4 h-4 text-yellow-500" />;
+        return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
       case 'expired':
-        return <AlertCircle className="w-4 h-4 text-red-500" />;
+        return <AlertCircle className="h-4 w-4 text-red-500" />;
       default:
-        return <Clock className="w-4 h-4 text-gray-500" />;
+        return <Clock className="h-4 w-4 text-gray-500" />;
     }
   };
 
-  const getStatusColor = (status: AviationDocument['status']) => {
+  const getStatusBadgeVariant = (status: AviationDocument['status']) => {
     switch (status) {
       case 'valid':
-        return 'bg-green-900/20 text-green-400 border-green-500/30';
+        return 'default';
       case 'expiring':
-        return 'bg-yellow-900/20 text-yellow-400 border-yellow-500/30';
+        return 'secondary';
       case 'expired':
-        return 'bg-red-900/20 text-red-400 border-red-500/30';
+        return 'destructive';
       default:
-        return 'bg-purple-900/30 text-purple-200';
+        return 'outline';
     }
   };
 
-  const getRegulatoryAuthorityInfo = (authority: AviationDocument['regulatoryAuthority']) => {
-    switch (authority) {
-      case 'FAA':
-        return {
-          name: 'Federal Aviation Administration',
-          website: 'https://www.faa.gov',
-          region: 'United States',
-        };
-      case 'EASA':
-        return {
-          name: 'European Union Aviation Safety Agency',
-          website: 'https://www.easa.europa.eu',
-          region: 'European Union',
-        };
-      case 'CAA':
-        return {
-          name: 'Civil Aviation Authority',
-          website: 'https://www.caa.co.uk',
-          region: 'United Kingdom',
-        };
-      default:
-        return {
-          name: 'Other Regulatory Authority',
-          website: '#',
-          region: 'Various',
-        };
-    }
+  const getDocumentsByStatus = (status: AviationDocument['status']) => {
+    return documents.filter(doc => doc.status === status);
   };
 
-  const getComplianceRequirements = () => {
-    const requirements = {
-      broker: [
-        'Valid business license',
-        'Insurance coverage',
-        'Compliance with aviation regulations',
-      ],
-      operator: [
-        'Air Operator Certificate (AOC)',
-        'Part 135 Certificate (if applicable)',
-        'Insurance coverage',
-        'Maintenance program approval',
-        'Operations manual approval',
-      ],
-      pilot: [
-        'Commercial Pilot License',
-        'Medical Certificate (current)',
-        'Type Ratings (as required)',
-        'Currency requirements',
-        'Training records',
-      ],
-      crew: [
-        'Crew member certificate',
-        'Medical certificate (if required)',
-        'Training records',
-        'Security clearance (if required)',
-      ],
-    };
-
-    return requirements[userRole] || [];
-  };
+  const validDocuments = getDocumentsByStatus('valid');
+  const expiringDocuments = getDocumentsByStatus('expiring');
+  const expiredDocuments = getDocumentsByStatus('expired');
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center p-8">
+      <div className="flex items-center justify-center h-64">
         <div className="text-center">
-          <Clock className="w-8 h-8 animate-spin mx-auto mb-4 text-accent" />
-          <p className="text-gunmetal">Loading aviation compliance...</p>
+          <Clock className="h-8 w-8 animate-spin mx-auto mb-2" />
+          <p>Loading compliance data...</p>
         </div>
       </div>
     );
@@ -225,30 +171,160 @@ export default function AviationCompliance({ userRole, userId }: AviationComplia
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-foreground">Aviation Compliance</h2>
-        <Button
-          onClick={() => setShowAddDocument(true)}
-          className="btn-terminal-accent"
-        >
-          <FileText className="w-4 h-4 mr-2" />
-          Add Document
-        </Button>
-      </div>
-
-      {/* Compliance Notice */}
-      <Card className="bg-slate-800 border-blue-200">
-        <CardContent className="p-4">
-          <div className="flex items-start gap-3">
-            <Shield className="w-5 h-5 text-blue-600 mt-0.5" />
-            <div>
-              <h3 className="font-medium text-blue-800">Compliance Notice</h3>
-              <p className="text-blue-700 text-sm mt-1">
-                Stratus Connect is a platform facilitator only. Operational aviation compliance 
-                rests with Operators and Pilots. Users must ensure they meet all applicable 
-                EASA Air OPS and FAA Part 135 obligations.
-              </p>
+      {/* Compliance Overview */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Shield className="h-5 w-5" />
+            Aviation Compliance Overview
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg">
+              <CheckCircle className="h-8 w-8 text-green-500" />
+              <div>
+                <p className="text-2xl font-bold text-green-700">{validDocuments.length}</p>
+                <p className="text-sm text-green-600">Valid Documents</p>
+              </div>
             </div>
+            
+            <div className="flex items-center gap-3 p-4 bg-yellow-50 rounded-lg">
+              <AlertTriangle className="h-8 w-8 text-yellow-500" />
+              <div>
+                <p className="text-2xl font-bold text-yellow-700">{expiringDocuments.length}</p>
+                <p className="text-sm text-yellow-600">Expiring Soon</p>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-3 p-4 bg-red-50 rounded-lg">
+              <AlertCircle className="h-8 w-8 text-red-500" />
+              <div>
+                <p className="text-2xl font-bold text-red-700">{expiredDocuments.length}</p>
+                <p className="text-sm text-red-600">Expired Documents</p>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Documents requiring attention */}
+      {(expiringDocuments.length > 0 || expiredDocuments.length > 0) && (
+        <Card className="border-yellow-200 bg-yellow-50">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-yellow-800">
+              <AlertTriangle className="h-5 w-5" />
+              Action Required
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {expiredDocuments.map((doc) => (
+              <div key={doc.id} className="flex items-center justify-between p-3 bg-red-100 rounded-lg">
+                <div className="flex items-center gap-3">
+                  <AlertCircle className="h-4 w-4 text-red-500" />
+                  <div>
+                    <p className="font-medium text-red-800">{doc.name}</p>
+                    <p className="text-sm text-red-600">Expired on {new Date(doc.expiryDate).toLocaleDateString()}</p>
+                  </div>
+                </div>
+                <Badge variant="destructive">Expired</Badge>
+              </div>
+            ))}
+            
+            {expiringDocuments.map((doc) => (
+              <div key={doc.id} className="flex items-center justify-between p-3 bg-yellow-100 rounded-lg">
+                <div className="flex items-center gap-3">
+                  <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                  <div>
+                    <p className="font-medium text-yellow-800">{doc.name}</p>
+                    <p className="text-sm text-yellow-600">
+                      Expires in {doc.daysUntilExpiry} days ({new Date(doc.expiryDate).toLocaleDateString()})
+                    </p>
+                  </div>
+                </div>
+                <Badge variant="secondary">Expiring</Badge>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      )}
+
+      {/* All Documents */}
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <FileText className="h-5 w-5" />
+            Aviation Documents
+          </CardTitle>
+          <Button 
+            onClick={() => setShowAddDocument(true)}
+            size="sm"
+          >
+            Add Document
+          </Button>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {documents.map((document) => (
+              <div key={document.id} className="border rounded-lg p-4">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      {getStatusIcon(document.status)}
+                      <h3 className="font-medium">{document.name}</h3>
+                      <Badge variant={getStatusBadgeVariant(document.status)}>
+                        {document.status}
+                      </Badge>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-muted-foreground">
+                      <div>
+                        <Label className="font-medium">Document Number</Label>
+                        <p>{document.number}</p>
+                      </div>
+                      <div>
+                        <Label className="font-medium">Issued By</Label>
+                        <p>{document.issuedBy}</p>
+                      </div>
+                      <div>
+                        <Label className="font-medium">Issue Date</Label>
+                        <p>{new Date(document.issueDate).toLocaleDateString()}</p>
+                      </div>
+                      <div>
+                        <Label className="font-medium">Expiry Date</Label>
+                        <p>{new Date(document.expiryDate).toLocaleDateString()}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <Badge variant="outline">
+                        {document.regulatoryAuthority}
+                      </Badge>
+                      {document.requiredFor.map((role) => (
+                        <Badge key={role} variant="secondary" className="text-xs">
+                          Required for {role}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-2 ml-4">
+                    <Button variant="outline" size="sm">
+                      <ExternalLink className="h-3 w-3 mr-1" />
+                      View
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ))}
+            
+            {documents.length === 0 && (
+              <div className="text-center py-8 text-muted-foreground">
+                <Plane className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                <p>No aviation documents found</p>
+                <p className="text-sm">Add your first document to get started</p>
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -257,210 +333,32 @@ export default function AviationCompliance({ userRole, userId }: AviationComplia
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Plane className="w-5 h-5" />
-            Regulatory Requirements for {userRole.charAt(0).toUpperCase() + userRole.slice(1)}s
+            <Shield className="h-5 w-5" />
+            Regulatory Requirements
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-3">
-            {getComplianceRequirements().map((requirement, index) => (
-              <div key={index} className="flex items-center gap-3">
-                <CheckCircle className="w-4 h-4 text-white" />
-                <span className="text-gunmetal">{requirement}</span>
-              </div>
-            ))}
+          <div className="space-y-4">
+            <div className="p-4 border rounded-lg">
+              <h4 className="font-medium mb-2">FAA Requirements</h4>
+              <ul className="text-sm text-muted-foreground space-y-1">
+                <li>• Commercial pilots must renew medical certificates every 12 months</li>
+                <li>• Type ratings must be renewed every 24 months</li>
+                <li>• Part 135 operators require current AOC</li>
+              </ul>
+            </div>
+            
+            <div className="p-4 border rounded-lg">
+              <h4 className="font-medium mb-2">EASA Requirements</h4>
+              <ul className="text-sm text-muted-foreground space-y-1">
+                <li>• Class 1 medical certificates valid for 12 months (under 40) or 6 months (over 40)</li>
+                <li>• Type ratings require recurrent training every 12 months</li>
+                <li>• Air operator certificates require annual renewal</li>
+              </ul>
+            </div>
           </div>
         </CardContent>
       </Card>
-
-      {/* Documents List */}
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-foreground">Aviation Documents</h3>
-        
-        {documents.map((document) => (
-          <Card key={document.id} className="terminal-card">
-            <CardHeader>
-              <div className="flex justify-between items-start">
-                <div>
-                  <CardTitle className="text-foreground flex items-center gap-2">
-                    {getStatusIcon(document.status)}
-                    {getDocumentTypeLabel(document.type)}
-                  </CardTitle>
-                  <p className="text-gunmetal text-sm mt-1">
-                    {document.name} - {document.number}
-                  </p>
-                </div>
-                <Badge className={getStatusColor(document.status)}>
-                  {document.status.toUpperCase()}
-                </Badge>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-                <div>
-                  <Label className="text-sm font-medium text-gunmetal">Issued By</Label>
-                  <p className="text-foreground text-sm">{document.issuedBy}</p>
-                </div>
-                <div>
-                  <Label className="text-sm font-medium text-gunmetal">Issue Date</Label>
-                  <p className="text-foreground text-sm">
-                    {new Date(document.issueDate).toLocaleDateString()}
-                  </p>
-                </div>
-                <div>
-                  <Label className="text-sm font-medium text-gunmetal">Expiry Date</Label>
-                  <p className="text-foreground text-sm">
-                    {new Date(document.expiryDate).toLocaleDateString()}
-                  </p>
-                </div>
-                <div>
-                  <Label className="text-sm font-medium text-gunmetal">Days Until Expiry</Label>
-                  <p className="text-foreground text-sm font-mono">
-                    {document.daysUntilExpiry} days
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-gunmetal">Regulatory Authority:</span>
-                  <a
-                    href={getRegulatoryAuthorityInfo(document.regulatoryAuthority).website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-accent hover:underline flex items-center gap-1"
-                  >
-                    {getRegulatoryAuthorityInfo(document.regulatoryAuthority).name}
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                </div>
-                
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm">
-                    <FileText className="w-4 h-4 mr-2" />
-                    View
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    <Calendar className="w-4 h-4 mr-2" />
-                    Renewal
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {/* Expiry Warnings */}
-      {documents.some(doc => doc.status === 'expiring' || doc.status === 'expired') && (
-        <Card className="border-yellow-200 bg-slate-800">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-yellow-800">
-              <AlertTriangle className="w-5 h-5" />
-              Document Expiry Warnings
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              {documents
-                .filter(doc => doc.status === 'expiring' || doc.status === 'expired')
-                .map((document) => (
-                  <div key={document.id} className="flex items-center justify-between p-2 bg-blue-900/30 rounded border border-blue-700">
-                    <div>
-                      <span className="font-medium text-foreground">
-                        {getDocumentTypeLabel(document.type)} - {document.number}
-                      </span>
-                      <span className="text-gunmetal text-sm ml-2">
-                        {document.status === 'expired' 
-                          ? 'Expired' 
-                          : `Expires in ${document.daysUntilExpiry} days`
-                        }
-                      </span>
-                    </div>
-                    <Button size="sm" variant="outline">
-                      Renew Now
-                    </Button>
-                  </div>
-                ))}
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Regulatory Links */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <ExternalLink className="w-5 h-5" />
-            Regulatory Authority Links
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-3">
-            <a
-              href="https://www.faa.gov"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 p-3 border rounded-lg hover:bg-purple-900/20"
-            >
-              <Plane className="w-4 h-4 text-blue-500" />
-              <div>
-                <p className="font-medium text-foreground">Federal Aviation Administration (FAA)</p>
-                <p className="text-gunmetal text-sm">United States aviation regulations</p>
-              </div>
-              <ExternalLink className="w-4 h-4 text-gray-400 ml-auto" />
-            </a>
-            
-            <a
-              href="https://www.easa.europa.eu"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 p-3 border rounded-lg hover:bg-purple-900/20"
-            >
-              <Plane className="w-4 h-4 text-blue-500" />
-              <div>
-                <p className="font-medium text-foreground">European Union Aviation Safety Agency (EASA)</p>
-                <p className="text-gunmetal text-sm">European aviation regulations</p>
-              </div>
-              <ExternalLink className="w-4 h-4 text-gray-400 ml-auto" />
-            </a>
-            
-            <a
-              href="https://www.caa.co.uk"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 p-3 border rounded-lg hover:bg-purple-900/20"
-            >
-              <Plane className="w-4 h-4 text-blue-500" />
-              <div>
-                <p className="font-medium text-foreground">Civil Aviation Authority (CAA)</p>
-                <p className="text-gunmetal text-sm">United Kingdom aviation regulations</p>
-              </div>
-              <ExternalLink className="w-4 h-4 text-gray-400 ml-auto" />
-            </a>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Add Document Dialog */}
-      {showAddDocument && (
-        <Card className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <CardContent className="bg-blue-900/30 p-6 rounded-lg max-w-md w-full mx-4 border border-blue-700">
-            <h3 className="text-lg font-semibold text-foreground mb-4">Add Aviation Document</h3>
-            <p className="text-gunmetal text-sm mb-4">
-              This feature would allow users to upload and manage their aviation documents.
-            </p>
-            <div className="flex gap-2">
-              <Button
-                onClick={() => setShowAddDocument(false)}
-                className="btn-terminal-accent"
-              >
-                Close
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      )}
     </div>
   );
 }

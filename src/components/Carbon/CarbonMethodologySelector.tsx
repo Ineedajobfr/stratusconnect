@@ -33,7 +33,7 @@ export function CarbonMethodologySelector({
   const handleMethodologyChange = (value: string) => {
     setSelected(value);
     const methodology = BadgeVerificationService.getCarbonMethodology(value);
-    onMethodologyChange(methodology);
+    onMethodologyChange(methodology as unknown as Record<string, unknown>);
   };
 
   const getConfidenceColor = (confidence: string) => {

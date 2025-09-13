@@ -441,6 +441,97 @@
     @apply bg-accent;
   }
   
+  /* Glow Effects */
+  .glow-text-sm {
+    text-shadow: 
+      0 0 10px hsl(var(--accent) / 0.4),
+      0 0 20px hsl(var(--accent) / 0.2),
+      0 0 30px hsl(var(--accent) / 0.1);
+  }
+
+  .glow-text {
+    text-shadow: 
+      0 0 15px hsl(var(--accent) / 0.6),
+      0 0 30px hsl(var(--accent) / 0.3),
+      0 0 45px hsl(var(--accent) / 0.1);
+  }
+
+  .glow-text-lg {
+    text-shadow: 
+      0 0 20px hsl(var(--accent) / 0.8),
+      0 0 40px hsl(var(--accent) / 0.4),
+      0 0 60px hsl(var(--accent) / 0.2);
+  }
+
+  .glow-white-sm {
+    text-shadow: 
+      0 0 10px rgba(255, 255, 255, 0.6),
+      0 0 20px rgba(255, 255, 255, 0.3),
+      0 0 30px rgba(255, 255, 255, 0.1);
+  }
+
+  .glow-white {
+    text-shadow: 
+      0 0 15px rgba(255, 255, 255, 0.8),
+      0 0 30px rgba(255, 255, 255, 0.4),
+      0 0 45px rgba(255, 255, 255, 0.2);
+  }
+
+  /* Hero and Title Glow Effects */
+  .hero-glow {
+    text-shadow: 
+      0 0 20px rgba(255, 255, 255, 0.8),
+      0 0 40px rgba(255, 255, 255, 0.4),
+      0 0 60px rgba(255, 255, 255, 0.2);
+  }
+
+  .accent-glow {
+    text-shadow: 
+      0 0 15px hsl(var(--accent) / 0.8),
+      0 0 30px hsl(var(--accent) / 0.4),
+      0 0 45px hsl(var(--accent) / 0.2);
+  }
+
+  .title-glow {
+    text-shadow: 
+      0 0 12px rgba(255, 255, 255, 0.6),
+      0 0 24px rgba(255, 255, 255, 0.3),
+      0 0 36px rgba(255, 255, 255, 0.1);
+  }
+
+  .subtitle-glow {
+    text-shadow: 
+      0 0 8px rgba(255, 255, 255, 0.4),
+      0 0 16px rgba(255, 255, 255, 0.2),
+      0 0 24px rgba(255, 255, 255, 0.1);
+  }
+
+  .text-glow-subtle {
+    text-shadow: 
+      0 0 6px rgba(255, 255, 255, 0.3),
+      0 0 12px rgba(255, 255, 255, 0.15),
+      0 0 18px rgba(255, 255, 255, 0.075);
+  }
+
+  .icon-glow {
+    filter: 
+      drop-shadow(0 0 8px hsl(var(--accent) / 0.6))
+      drop-shadow(0 0 16px hsl(var(--accent) / 0.3));
+  }
+
+  .button-glow {
+    box-shadow: 
+      0 0 15px hsl(var(--accent) / 0.3),
+      0 0 30px hsl(var(--accent) / 0.1);
+  }
+
+  .terminal-glow {
+    box-shadow: 
+      0 0 20px hsl(var(--accent) / 0.4),
+      0 0 40px hsl(var(--accent) / 0.2),
+      inset 0 0 30px rgba(255, 255, 255, 0.05);
+  }
+
   /* Rotating turbine animation */
   @keyframes rotate-slow {
     from { transform: rotate(0deg); }

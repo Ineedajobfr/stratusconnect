@@ -9,7 +9,7 @@ import {
   TrendingUp, TrendingDown, BarChart3, 
   PieChart, LineChart, Activity, 
   Target, Zap, AlertCircle, 
-  Calendar, Filter, RefreshCw
+  Calendar, Filter, RefreshCw, DollarSign
 } from "lucide-react";
 import { LineChart as RechartsLineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart as RechartsPieChart, Cell, Pie } from 'recharts';
 
@@ -77,61 +77,8 @@ export default function AdvancedAnalytics() {
     { type: 'Turboprop', count: 12, value: 12, utilization: 65 },
   ];
 
-  useEffect(() => {
-    fetchUserData();
-    fetchMarketTrends();
-    fetchPerformanceMetrics();
-    generateMockData();
-  }, [selectedRoute, selectedPeriod, generateMockData]);
-
-  const fetchUserData = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        setCurrentUserId(user.id);
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
-
-  const fetchMarketTrends = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("market_trends")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(50);
-
-      if (error) throw error;
-      setMarketTrends((data || []) as MarketTrend[]);
-    } catch (error: unknown) {
-      console.error("Error fetching market trends:", error);
-    }
-  };
-
-  const fetchPerformanceMetrics = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
-
-      const { data, error } = await supabase
-        .from("performance_metrics")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("period_start", { ascending: false })
-        .limit(100);
-
-      if (error) throw error;
-      setPerformanceMetrics(data || []);
-    } catch (error: unknown) {
-      console.error("Error fetching performance metrics:", error);
-    }
-  };
-
   const generateMockData = useCallback(async () => {
     if (marketTrends.length === 0) {
-      // Generate some mock market trends for demonstration
       const mockTrends = [
         {
           route: 'NYC-LAX',
@@ -186,6 +133,59 @@ export default function AdvancedAnalytics() {
       }
     }
   }, [marketTrends, mockPriceData]);
+
+  useEffect(() => {
+    fetchUserData();
+    fetchMarketTrends();
+    fetchPerformanceMetrics();
+    generateMockData();
+  }, [selectedRoute, selectedPeriod, generateMockData]);
+
+  const fetchUserData = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setCurrentUserId(user.id);
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+  const fetchMarketTrends = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("market_trends")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(50);
+
+      if (error) throw error;
+      setMarketTrends((data || []) as MarketTrend[]);
+    } catch (error: unknown) {
+      console.error("Error fetching market trends:", error);
+    }
+  };
+
+  const fetchPerformanceMetrics = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from("performance_metrics")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("period_start", { ascending: false })
+        .limit(100);
+
+      if (error) throw error;
+      setPerformanceMetrics(data || []);
+    } catch (error: unknown) {
+      console.error("Error fetching performance metrics:", error);
+    }
+  };
+
 
   const refreshAnalytics = async () => {
     setIsLoading(true);
@@ -542,6 +542,3 @@ export default function AdvancedAnalytics() {
     </div>
   );
 }
-
-// Add missing import
-import { DollarSign } from "lucide-react";

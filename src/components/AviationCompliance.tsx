@@ -41,11 +41,69 @@ export default function AviationCompliance({ userRole, userId }: AviationComplia
   const [showAddDocument, setShowAddDocument] = useState(false);
   const { toast } = useToast();
 
+  const loadDocuments = useCallback(async () => {
+    try {
+      setLoading(true);
+      // In a real implementation, this would load from the database
+      // For now, we'll use mock data
+      const mockDocuments: AviationDocument[] = [
+        {
+          id: '1',
+          type: 'pilot_license',
+          name: 'Commercial Pilot License',
+          number: 'CPL-123456',
+          issuedBy: 'FAA',
+          issueDate: '2020-01-15',
+          expiryDate: '2025-01-15',
+          status: 'valid',
+          daysUntilExpiry: 365,
+          regulatoryAuthority: 'FAA',
+          requiredFor: ['pilot', 'operator'],
+        },
+        {
+          id: '2',
+          type: 'medical_certificate',
+          name: 'First Class Medical Certificate',
+          number: 'MED-789012',
+          issuedBy: 'FAA',
+          issueDate: '2024-01-01',
+          expiryDate: '2025-01-01',
+          status: 'expiring',
+          daysUntilExpiry: 30,
+          regulatoryAuthority: 'FAA',
+          requiredFor: ['pilot'],
+        },
+        {
+          id: '3',
+          type: 'type_rating',
+          name: 'Boeing 737 Type Rating',
+          number: 'TR-345678',
+          issuedBy: 'EASA',
+          issueDate: '2023-06-01',
+          expiryDate: '2025-06-01',
+          status: 'valid',
+          daysUntilExpiry: 150,
+          regulatoryAuthority: 'EASA',
+          requiredFor: ['pilot'],
+        },
+      ];
+      
+      setDocuments(mockDocuments);
+    } catch (error) {
+      console.error('Error loading documents:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load aviation documents",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  }, [toast]);
+
   useEffect(() => {
     loadDocuments();
   }, [userId, loadDocuments]);
-
-  const loadDocuments = useCallback(async () => {
     try {
       setLoading(true);
       // In a real implementation, this would load from the database

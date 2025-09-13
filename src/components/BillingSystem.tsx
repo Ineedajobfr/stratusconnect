@@ -66,7 +66,7 @@ interface Payment {
 export default function BillingSystem() {
   const [billingSchedules, setBillingSchedules] = useState<BillingSchedule[]>([]);
   const [payments, setPayments] = useState<Payment[]>([]);
-  const [availableDeals, setAvailableDeals] = useState<Record<string, unknown>[]>([]);
+  const [availableDeals, setAvailableDeals] = useState<any[]>([]);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string>("");
   const { toast } = useToast();
@@ -88,7 +88,7 @@ export default function BillingSystem() {
     fetchBillingSchedules();
     fetchPayments();
     fetchAvailableDeals();
-  }, [fetchBillingSchedules]);
+  }, []);
 
   const fetchUserData = async () => {
     try {
@@ -201,12 +201,12 @@ export default function BillingSystem() {
       return;
     }
 
-    try {
-      const selectedDeal = availableDeals.find(d => d.id === billingForm.deal_id);
+  try {
+      const selectedDeal = availableDeals.find((d: any) => d.id === billingForm.deal_id) as any;
       if (!selectedDeal) throw new Error("Deal not found");
 
-      let scheduleData = {};
-      const totalAmount = selectedDeal.final_amount;
+      let scheduleData = {} as any;
+      const totalAmount: number = Number(selectedDeal.final_amount) || 0;
 
       if (billingForm.billing_type === 'milestone') {
         const milestones = billingForm.milestones.map((milestone) => {
@@ -348,7 +348,7 @@ export default function BillingSystem() {
                       <SelectValue placeholder="Choose a deal" />
                     </SelectTrigger>
                     <SelectContent className="bg-slate-700 border-slate-600">
-                      {availableDeals.map((deal) => (
+                      {availableDeals.map((deal: any) => (
                         <SelectItem key={deal.id} value={deal.id} className="text-white">
                           {deal.aircraft.manufacturer} {deal.aircraft.model} - ${deal.final_amount.toLocaleString()}
                         </SelectItem>

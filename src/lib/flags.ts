@@ -1,6 +1,6 @@
 // Feature Flags - Control feature visibility and behavior
 export const FLAGS = {
-  performanceProgramme: process.env.VITE_PERFORMANCE_PROGRAMME === "true",
+  performanceProgramme: import.meta.env.VITE_PERFORMANCE_PROGRAMME === "true",
 };
 
 export interface User {

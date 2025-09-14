@@ -3,11 +3,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { Brand } from '@/components/Brand';
+import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import { 
   Play, 
   Pause, 
-  SkipForward, 
-  SkipBack, 
   CheckCircle, 
   Circle, 
   ArrowRight,
@@ -26,7 +26,13 @@ import {
   Clock,
   AlertCircle,
   CheckSquare,
-  Eye
+  Eye,
+  Trophy,
+  Plane,
+  TrendingUp,
+  Bell,
+  FileText,
+  UserCheck
 } from 'lucide-react';
 
 interface TutorialStep {
@@ -169,178 +175,189 @@ export function BrokerTutorial() {
   const currentStepData = tutorialSteps[currentStep];
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white p-6">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-white mb-2">
-              StratusConnect Broker Tutorial
-            </h1>
-            <p className="text-slate-400">
-              Master the elite aviation brokerage platform
-            </p>
-          </div>
+    <div className="min-h-screen bg-app text-body">
+      {/* Header matching broker demo terminal */}
+      <header className="sticky top-0 z-20 bg-app/80 backdrop-blur border-b border-default">
+        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30">
-              Step {currentStep + 1} of {tutorialSteps.length}
-            </Badge>
+            <StratusConnectLogo className="text-xl" />
+            <div>
+              <Brand.PageTitle className="hero-glow">Broker Tutorial</Brand.PageTitle>
+              <p className="text-muted text-glow-subtle">Master the Elite Aviation Brokerage Platform</p>
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <Button
+              onClick={() => window.location.href = '/beta/broker'}
+              className="bg-orange-500 hover:bg-orange-600 text-white"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Terminal
+            </Button>
+            <Brand.StatusChip status="success">
+              <Shield className="w-3 h-3 mr-1 icon-glow" />
+              FCA Compliant
+            </Brand.StatusChip>
+            <Brand.StatusChip status="info">
+              <Trophy className="w-3 h-3 mr-1 icon-glow" />
+              Tutorial Mode
+            </Brand.StatusChip>
+          </div>
+        </div>
+      </header>
+
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        {/* Progress Section */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-lg font-semibold text-body mb-2">
+                Tutorial Progress
+              </h2>
+              <div className="flex items-center space-x-4">
+                <Brand.StatusChip status="info">
+                  <Circle className="w-3 h-3 mr-1 icon-glow" />
+                  Step {currentStep + 1} of {tutorialSteps.length}
+                </Brand.StatusChip>
+                <Brand.StatusChip status="success">
+                  <CheckCircle className="w-3 h-3 mr-1 icon-glow" />
+                  {completedSteps.size} Completed
+                </Brand.StatusChip>
+              </div>
+            </div>
             <Button
               onClick={togglePlayPause}
               className="bg-orange-500 hover:bg-orange-600 text-white"
             >
-              {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+              {isPlaying ? <Pause className="h-4 w-4 mr-2" /> : <Play className="h-4 w-4 mr-2" />}
+              {isPlaying ? 'Pause' : 'Play'} Tutorial
             </Button>
           </div>
-        </div>
-        
-        {/* Progress Bar */}
-        <div className="mt-4">
-          <Progress value={progress} className="h-2 bg-slate-700" />
-          <div className="flex justify-between text-sm text-slate-400 mt-2">
+          
+          {/* Progress Bar */}
+          <div className="w-full bg-elev rounded-full h-2 mb-2">
+            <div 
+              className="bg-[hsl(var(--accent))] h-2 rounded-full transition-all duration-500"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          <div className="flex justify-between text-sm text-muted">
             <span>{Math.round(progress)}% Complete</span>
             <span>{tutorialSteps.length - currentStep - 1} steps remaining</span>
           </div>
         </div>
-      </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Main Tutorial Content */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Current Step */}
-          <Card className="bg-slate-800 border-slate-700">
-            <CardHeader>
-              <div className="flex items-center space-x-3">
-                <div className="p-2 bg-orange-500/20 rounded-lg">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Main Tutorial Content */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Current Step Card */}
+            <Brand.Card className="border border-default">
+              <div className="flex items-start space-x-4 mb-6">
+                <div className="p-3 bg-[hsl(var(--accent))]/20 rounded-xl">
                   {currentStepData.icon}
                 </div>
-                <div>
-                  <CardTitle className="text-white text-xl">
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold text-body mb-2">
                     {currentStepData.title}
-                  </CardTitle>
-                  <div className="flex items-center space-x-2 mt-1">
+                  </h3>
+                  <div className="flex items-center space-x-2 mb-4">
                     {currentStepData.completed ? (
-                      <CheckCircle className="h-4 w-4 text-green-400" />
+                      <Brand.StatusChip status="success">
+                        <CheckCircle className="w-3 h-3 mr-1 icon-glow" />
+                        Completed
+                      </Brand.StatusChip>
                     ) : (
-                      <Circle className="h-4 w-4 text-slate-400" />
+                      <Brand.StatusChip status="info">
+                        <Circle className="w-3 h-3 mr-1 icon-glow" />
+                        In Progress
+                      </Brand.StatusChip>
                     )}
-                    <span className="text-sm text-slate-400">
-                      {currentStepData.completed ? 'Completed' : 'In Progress'}
-                    </span>
                   </div>
                 </div>
               </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <p className="text-slate-300 text-lg leading-relaxed">
+              
+              <p className="text-body/80 text-lg leading-relaxed mb-6">
                 {currentStepData.description}
               </p>
               
-              <div className="bg-slate-700 rounded-lg p-4 border border-slate-600">
+              <div className="bg-elev rounded-xl p-4 border border-default mb-6">
                 <div className="flex items-center space-x-2 mb-2">
-                  <AlertCircle className="h-4 w-4 text-orange-400" />
-                  <span className="text-orange-400 font-medium">Action Required:</span>
+                  <AlertCircle className="h-4 w-4 text-[hsl(var(--accent))]" />
+                  <span className="text-[hsl(var(--accent))] font-medium">Action Required:</span>
                 </div>
-                <p className="text-slate-300">{currentStepData.action}</p>
+                <p className="text-body/80">{currentStepData.action}</p>
               </div>
 
               {/* Navigation Controls */}
               <div className="flex items-center justify-between">
-                <Button
+                <Brand.Secondary
                   onClick={prevStep}
                   disabled={currentStep === 0}
-                  variant="outline"
-                  className="border-slate-600 text-slate-300 hover:bg-slate-700"
+                  className="disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <ArrowLeft className="h-4 w-4 mr-2" />
                   Previous
-                </Button>
+                </Brand.Secondary>
                 
                 <div className="flex items-center space-x-2">
-                  <Button
+                  <Brand.Primary
                     onClick={() => markStepComplete(currentStepData.id)}
                     disabled={currentStepData.completed}
-                    className="bg-green-500 hover:bg-green-600 text-white"
+                    className="disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <CheckCircle className="h-4 w-4 mr-2" />
                     Mark Complete
-                  </Button>
+                  </Brand.Primary>
                 </div>
 
-                <Button
+                <Brand.Primary
                   onClick={nextStep}
                   disabled={currentStep === tutorialSteps.length - 1}
-                  className="bg-orange-500 hover:bg-orange-600 text-white"
+                  className="disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Next
                   <ArrowRight className="h-4 w-4 ml-2" />
-                </Button>
+                </Brand.Primary>
               </div>
-            </CardContent>
-          </Card>
+            </Brand.Card>
 
-          {/* Quick Tips */}
-          <Card className="bg-slate-800 border-slate-700">
-            <CardHeader>
-              <CardTitle className="text-white flex items-center space-x-2">
-                <HelpCircle className="h-5 w-5 text-orange-400" />
-                <span>Quick Tips</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <div className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-black text-xs font-bold">1</span>
-                  </div>
-                  <p className="text-slate-300 text-sm">
-                    Always include detailed trip requirements to get accurate quotes
-                  </p>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-black text-xs font-bold">2</span>
-                  </div>
-                  <p className="text-slate-300 text-sm">
-                    Compare multiple quotes before accepting to ensure best value
-                  </p>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-black text-xs font-bold">3</span>
-                  </div>
-                  <p className="text-slate-300 text-sm">
-                    Use the messaging system to build relationships with operators
-                  </p>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-black text-xs font-bold">4</span>
-                  </div>
-                  <p className="text-slate-300 text-sm">
-                    Save your favorite operators for quick access to trusted partners
-                  </p>
-                </div>
+            {/* Quick Tips */}
+            <Brand.Card className="border border-default">
+              <div className="flex items-center space-x-2 mb-4">
+                <HelpCircle className="h-5 w-5 text-[hsl(var(--accent))]" />
+                <h3 className="text-lg font-semibold text-body">Quick Tips</h3>
               </div>
-            </CardContent>
-          </Card>
-        </div>
+              <div className="space-y-4">
+                {[
+                  "Always include detailed trip requirements to get accurate quotes",
+                  "Compare multiple quotes before accepting to ensure best value",
+                  "Use the messaging system to build relationships with operators",
+                  "Save your favorite operators for quick access to trusted partners"
+                ].map((tip, index) => (
+                  <div key={index} className="flex items-start space-x-3">
+                    <div className="w-6 h-6 bg-[hsl(var(--accent))] rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-white text-xs font-bold">{index + 1}</span>
+                    </div>
+                    <p className="text-body/80 text-sm">{tip}</p>
+                  </div>
+                ))}
+              </div>
+            </Brand.Card>
+          </div>
 
-        {/* Sidebar - Step Overview */}
-        <div className="space-y-6">
-          <Card className="bg-slate-800 border-slate-700">
-            <CardHeader>
-              <CardTitle className="text-white">Tutorial Steps</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
+          {/* Sidebar */}
+          <div className="space-y-6">
+            {/* Step Overview */}
+            <Brand.Card className="border border-default">
+              <h3 className="text-lg font-semibold text-body mb-4">Tutorial Steps</h3>
+              <div className="space-y-2 max-h-96 overflow-y-auto">
                 {tutorialSteps.map((step, index) => (
                   <div
                     key={step.id}
                     className={`flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-colors ${
                       index === currentStep
-                        ? 'bg-orange-500/20 border border-orange-500/30'
-                        : 'hover:bg-slate-700'
+                        ? 'bg-[hsl(var(--accent))]/20 border border-[hsl(var(--accent))]/30'
+                        : 'hover:bg-elev'
                     }`}
                     onClick={() => setCurrentStep(index)}
                   >
@@ -348,14 +365,14 @@ export function BrokerTutorial() {
                       {step.completed ? (
                         <CheckCircle className="h-4 w-4 text-green-400" />
                       ) : index === currentStep ? (
-                        <div className="w-4 h-4 bg-orange-400 rounded-full" />
+                        <div className="w-4 h-4 bg-[hsl(var(--accent))] rounded-full" />
                       ) : (
-                        <Circle className="h-4 w-4 text-slate-400" />
+                        <Circle className="h-4 w-4 text-muted" />
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className={`text-sm font-medium ${
-                        index === currentStep ? 'text-orange-400' : 'text-slate-300'
+                        index === currentStep ? 'text-[hsl(var(--accent))]' : 'text-body/80'
                       }`}>
                         {step.title}
                       </p>
@@ -363,64 +380,42 @@ export function BrokerTutorial() {
                   </div>
                 ))}
               </div>
-            </CardContent>
-          </Card>
+            </Brand.Card>
 
-          {/* Key Features */}
-          <Card className="bg-slate-800 border-slate-700">
-            <CardHeader>
-              <CardTitle className="text-white">Key Features</CardTitle>
-            </CardHeader>
-            <CardContent>
+            {/* Key Features */}
+            <Brand.Card className="border border-default">
+              <h3 className="text-lg font-semibold text-body mb-4">Key Features</h3>
               <div className="space-y-3">
-                <div className="flex items-center space-x-3">
-                  <Shield className="h-4 w-4 text-green-400" />
-                  <span className="text-sm text-slate-300">Universal Compliance</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <DollarSign className="h-4 w-4 text-blue-400" />
-                  <span className="text-sm text-slate-300">7% Platform Fee</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <MessageCircle className="h-4 w-4 text-purple-400" />
-                  <span className="text-sm text-slate-300">Secure Messaging</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <BarChart3 className="h-4 w-4 text-orange-400" />
-                  <span className="text-sm text-slate-300">Performance Analytics</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <Eye className="h-4 w-4 text-cyan-400" />
-                  <span className="text-sm text-slate-300">Transparent Pricing</span>
-                </div>
+                {[
+                  { icon: <Shield className="h-4 w-4 text-green-400" />, text: "Universal Compliance" },
+                  { icon: <DollarSign className="h-4 w-4 text-blue-400" />, text: "7% Platform Fee" },
+                  { icon: <MessageCircle className="h-4 w-4 text-purple-400" />, text: "Secure Messaging" },
+                  { icon: <BarChart3 className="h-4 w-4 text-[hsl(var(--accent))]" />, text: "Performance Analytics" },
+                  { icon: <Eye className="h-4 w-4 text-cyan-400" />, text: "Transparent Pricing" }
+                ].map((feature, index) => (
+                  <div key={index} className="flex items-center space-x-3">
+                    {feature.icon}
+                    <span className="text-sm text-body/80">{feature.text}</span>
+                  </div>
+                ))}
               </div>
-            </CardContent>
-          </Card>
+            </Brand.Card>
 
-          {/* Support */}
-          <Card className="bg-slate-800 border-slate-700">
-            <CardHeader>
-              <CardTitle className="text-white">Need Help?</CardTitle>
-            </CardHeader>
-            <CardContent>
+            {/* Support */}
+            <Brand.Card className="border border-default">
+              <h3 className="text-lg font-semibold text-body mb-4">Need Help?</h3>
               <div className="space-y-3">
-                <Button
-                  variant="outline"
-                  className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700"
-                >
+                <Brand.Secondary className="w-full justify-start">
                   <HelpCircle className="h-4 w-4 mr-2" />
                   Contact Support
-                </Button>
-                <Button
-                  variant="outline"
-                  className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700"
-                >
+                </Brand.Secondary>
+                <Brand.Secondary className="w-full justify-start">
                   <BookOpen className="h-4 w-4 mr-2" />
                   View Documentation
-                </Button>
+                </Brand.Secondary>
               </div>
-            </CardContent>
-          </Card>
+            </Brand.Card>
+          </div>
         </div>
       </div>
     </div>

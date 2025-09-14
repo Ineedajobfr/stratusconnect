@@ -12,7 +12,7 @@ interface CreateRequestPayload {
   departure_date: string;
   return_date?: string;
   passenger_count: number;
-  aircraft_preferences?: Record<string, any>;
+  aircraft_preferences?: Record<string, unknown>;
   notes?: string;
   budget_min?: number;
   budget_max?: number;

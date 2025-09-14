@@ -147,7 +147,7 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({ 
         error: 'Internal server error',
-        details: (error as any)?.message 
+        details: (error as Error)?.message 
       }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },

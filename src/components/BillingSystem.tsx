@@ -67,7 +67,7 @@ interface Payment {
 export default function BillingSystem() {
   const [billingSchedules, setBillingSchedules] = useState<BillingSchedule[]>([]);
   const [payments, setPayments] = useState<Payment[]>([]);
-  const [availableDeals, setAvailableDeals] = useState<any[]>([]);
+  const [availableDeals, setAvailableDeals] = useState<unknown[]>([]);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string>("");
   const { toast } = useToast();

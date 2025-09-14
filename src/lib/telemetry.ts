@@ -7,7 +7,7 @@ export interface TelemetryEvent {
   name: string;
   duration: number;
   timestamp: string;
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
 }
 
 export interface UptimeMetrics {
@@ -51,7 +51,7 @@ class TelemetryService {
   }
 
   // Track API request performance
-  trackApiRequest(name: string, duration: number, metadata: Record<string, any> = {}) {
+  trackApiRequest(name: string, duration: number, metadata: Record<string, unknown> = {}) {
     this.recordEvent({
       id: crypto.randomUUID(),
       type: 'api_request',
@@ -67,7 +67,7 @@ class TelemetryService {
   }
 
   // Track UI action performance
-  trackUIAction(name: string, duration: number, metadata: Record<string, any> = {}) {
+  trackUIAction(name: string, duration: number, metadata: Record<string, unknown> = {}) {
     this.recordEvent({
       id: crypto.randomUUID(),
       type: 'ui_action',
@@ -83,7 +83,7 @@ class TelemetryService {
   }
 
   // Track errors
-  trackError(error: Error, context: string, metadata: Record<string, any> = {}) {
+  trackError(error: Error, context: string, metadata: Record<string, unknown> = {}) {
     this.recordEvent({
       id: crypto.randomUUID(),
       type: 'error',
@@ -340,7 +340,7 @@ class TelemetryService {
 export const telemetry = new TelemetryService();
 
 // Performance monitoring wrapper
-export function withTelemetry<T extends any[], R>(
+export function withTelemetry<T extends unknown[], R>(
   fn: (...args: T) => R,
   name: string
 ): (...args: T) => R {

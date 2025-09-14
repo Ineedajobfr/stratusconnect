@@ -69,7 +69,7 @@ export default function CompliantEscrowManagement({
   const [loading, setLoading] = useState(true);
   const [selectedIntent, setSelectedIntent] = useState<PaymentIntent | null>(null);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
-  const [kycStatus, setKycStatus] = useState<any>(null);
+  const [kycStatus, setKycStatus] = useState<unknown>(null);
   const { toast } = useToast();
 
   const loadData = useCallback(async () => {

@@ -68,12 +68,8 @@ export default function CompliantEscrowManagement({
   const [loading, setLoading] = useState(true);
   const [selectedIntent, setSelectedIntent] = useState<PaymentIntent | null>(null);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
-  const [kycStatus, setKycStatus] = useState<Record<string, unknown> | null>(null);
+  const [kycStatus, setKycStatus] = useState<any>(null);
   const { toast } = useToast();
-
-  useEffect(() => {
-    loadData();
-  }, [userId, loadData]);
 
   const loadData = useCallback(async () => {
     try {
@@ -101,6 +97,10 @@ export default function CompliantEscrowManagement({
       setLoading(false);
     }
   }, [userId, toast]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   const loadPaymentIntents = async (): Promise<PaymentIntent[]> => {
     // In production, this would fetch from your API

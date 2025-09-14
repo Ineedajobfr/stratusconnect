@@ -46,11 +46,24 @@ export default function DSARWorkflow() {
   const [requests, setRequests] = useState<DSARRequest[]>([]);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState<DSARRequest | null>(null);
+  const [currentRequest, setCurrentRequest] = useState<{
+    type: 'access' | 'export' | 'erasure' | 'rectification';
+    email: string;
+    reason: string;
+    status: string;
+  }>({
+    type: 'access',
+    email: '',
+    reason: '',
+    status: 'pending'
+  });
 
-  const createDSARRequest = async (formData: FormData) => {
+  const createDSARRequest = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
     const request: DSARRequest = {
       id: crypto.randomUUID(),
-      type: formData.get('type') as string,
+      type: formData.get('type') as 'access' | 'export' | 'erasure' | 'rectification',
       status: 'pending',
       submittedAt: new Date().toISOString(),
       description: formData.get('description') as string,

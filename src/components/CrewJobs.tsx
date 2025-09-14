@@ -138,7 +138,7 @@ export default function CrewJobs() {
     } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to respond to request",
+        description: (error as Error)?.message || "Failed to respond to request",
         variant: "destructive",
       });
     }

@@ -141,7 +141,7 @@ export default function CrewCertifications() {
     } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to add certification",
+        description: (error as Error)?.message || "Failed to add certification",
         variant: "destructive",
       });
     }

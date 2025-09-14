@@ -20,6 +20,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { LoginModal } from "@/components/LoginModal";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
+import TimeZonesBar from "@/components/utility/TimeZonesBar";
 
 export default function Index() {
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
@@ -38,6 +39,7 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-app relative overflow-hidden">
       <StarfieldRunwayBackground />
+      <TimeZonesBar sticky />
       
       {/* Hero Section */}
       <div className="relative z-10 pt-20 pb-16">

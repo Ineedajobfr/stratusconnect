@@ -15,6 +15,8 @@ import { showLeagueUI, showPerformanceReport } from '@/lib/flags';
 import { useAuth } from '@/contexts/AuthContext';
 import PerformanceReport from '@/components/PerformanceReport';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
+import TimeZonesBar from '@/components/utility/TimeZonesBar';
+import SLAMeter from '@/components/utility/SLAMeter';
 import { 
   BarChart3, 
   Plane, 
@@ -209,6 +211,9 @@ export default function BrokerDashboard() {
         </div>
       </div>
 
+      {/* Time Zones Bar */}
+      <TimeZonesBar sticky />
+
       {/* Navigation Controls */}
       <div className="bg-slate-800/50 border-b border-slate-700 px-6 py-3">
         <NavigationControls 
@@ -270,7 +275,7 @@ export default function BrokerDashboard() {
           {/* Dashboard Tab */}
           <TabsContent value="dashboard" className="space-y-6">
             {/* Quick Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
               <Card className="bg-slate-800 border-slate-700">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium text-slate-400">Active Requests</CardTitle>
@@ -314,6 +319,8 @@ export default function BrokerDashboard() {
                   <p className="text-xs text-slate-400">3 unread</p>
           </CardContent>
         </Card>
+
+              <SLAMeter minutes={8} />
       </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

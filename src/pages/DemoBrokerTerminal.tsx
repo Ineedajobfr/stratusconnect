@@ -62,6 +62,7 @@ import { SignedQuotePDFGenerator } from '@/lib/signed-quote-pdf';
 import { BadgeVerificationService } from '@/lib/badge-verification';
 import { CredentialGates } from '@/lib/credential-gates';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
+import TimeZonesBar from '@/components/utility/TimeZonesBar';
 
 interface RFQ {
   id: string;
@@ -636,6 +637,8 @@ export default function DemoBrokerTerminal() {
           </div>
         </div>
       </header>
+
+      <TimeZonesBar sticky />
 
       <main className="max-w-7xl mx-auto p-6 space-y-6">
 

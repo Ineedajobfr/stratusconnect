@@ -1,3 +1,4 @@
+import { getErrorMessage } from '@/utils/errorHandler';
 import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -151,7 +152,7 @@ export default function CompliantEscrowManagement({
       console.error('Error creating payment intent:', error);
       toast({
         title: "Error",
-        description: error.message || "Failed to create payment intent",
+        description: getErrorMessage(error),
         variant: "destructive"
       });
     }
@@ -196,7 +197,7 @@ export default function CompliantEscrowManagement({
       console.error('Error creating hiring payment:', error);
       toast({
         title: "Error",
-        description: error.message || "Failed to create hiring payment",
+        description: getErrorMessage(error),
         variant: "destructive"
       });
     }
@@ -213,7 +214,7 @@ export default function CompliantEscrowManagement({
       console.error('Error processing payment:', error);
       toast({
         title: "Error",
-        description: error.message || "Failed to process payment",
+        description: getErrorMessage(error),
         variant: "destructive"
       });
     }
@@ -483,7 +484,15 @@ export default function CompliantEscrowManagement({
           <DialogHeader>
             <DialogTitle>Create Payment Intent</DialogTitle>
           </DialogHeader>
-          <form onSubmit={userRole === 'operator' ? createHiringPayment : createBrokerOperatorPayment} className="space-y-4">
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            const formData = new FormData(e.currentTarget);
+            if (userRole === 'operator') {
+              createHiringPayment(formData);
+            } else {
+              createBrokerOperatorPayment(formData);
+            }
+          }} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="amount">Amount</Label>

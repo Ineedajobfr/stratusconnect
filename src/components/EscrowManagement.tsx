@@ -138,7 +138,7 @@ export default function EscrowManagement({ dealId, userRole }: EscrowManagementP
       console.error('Error funding escrow:', error);
       toast({
         title: "Error",
-        description: error.message || "Failed to fund escrow",
+        description: getErrorMessage(error),
         variant: "destructive"
       });
     }
@@ -175,7 +175,7 @@ export default function EscrowManagement({ dealId, userRole }: EscrowManagementP
       console.error('Error releasing escrow:', error);
       toast({
         title: "Error",
-        description: error.message || "Failed to release escrow",
+        description: getErrorMessage(error),
         variant: "destructive"
       });
     }

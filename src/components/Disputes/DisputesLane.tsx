@@ -21,8 +21,7 @@ import {
   Plus,
   Calendar,
   User,
-  MessageSquare,
-  Plus
+  MessageSquare
 } from 'lucide-react';
 
 export interface Dispute {
@@ -79,8 +78,12 @@ export interface DisputesLaneProps {
 export function DisputesLane({ dealId, dealType, totalAmount, currency, broker, operator, pilot }: DisputesLaneProps) {
   const [disputes, setDisputes] = useState<Dispute[]>([]);
   const [showCreateForm, setShowCreateForm] = useState(false);
-  const [newDispute, setNewDispute] = useState({
-    type: 'payment_dispute' as const,
+  const [newDispute, setNewDispute] = useState<{
+    type: 'payment_dispute' | 'service_dispute' | 'cancellation_dispute';
+    reason: string;
+    description: string;
+  }>({
+    type: 'payment_dispute',
     reason: '',
     description: ''
   });

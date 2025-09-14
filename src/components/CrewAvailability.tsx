@@ -1,3 +1,4 @@
+import { getErrorMessage } from '@/utils/errorHandler';
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -138,7 +139,7 @@ export default function CrewAvailability() {
     } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to add availability",
+        description: getErrorMessage(error),
         variant: "destructive",
       });
     }

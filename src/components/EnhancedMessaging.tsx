@@ -307,7 +307,7 @@ export default function EnhancedMessaging() {
     } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to send message",
+        description: "Failed to send message",
         variant: "destructive",
       });
     } finally {

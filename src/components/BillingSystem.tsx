@@ -203,10 +203,10 @@ export default function BillingSystem() {
     }
 
   try {
-      const selectedDeal = availableDeals.find((d: any) => d.id === billingForm.deal_id) as any;
+      const selectedDeal = availableDeals.find((d: unknown) => (d as Record<string, unknown>).id === billingForm.deal_id) as Record<string, unknown>;
       if (!selectedDeal) throw new Error("Deal not found");
 
-      let scheduleData = {} as any;
+      let scheduleData = {} as Record<string, unknown>;
       const totalAmount: number = Number(selectedDeal.final_amount) || 0;
 
       if (billingForm.billing_type === 'milestone') {

@@ -3,9 +3,9 @@ export function redactSensitive(input: string): string {
   if (!input) return input;
 
   // Email mask
-  const emailRe = /([a-zA-Z0-9._%+\-]{1,64})@([a-zA-Z0-9.\-]{1,253})\.[A-Za-z]{2,}/g;
+  const emailRe = /([a-zA-Z0-9._%+-]{1,64})@([a-zA-Z0-9.-]{1,253})\.[A-Za-z]{2,}/g;
   // E.164 and common spaced numbers, keep last 2 digits
-  const phoneRe = /(?:\+?\d[\s\-()]*){7,15}/g;
+  const phoneRe = /(?:\+?\d[\s-()]*){7,15}/g;
 
   const masked = input
     .replace(emailRe, (m) => {

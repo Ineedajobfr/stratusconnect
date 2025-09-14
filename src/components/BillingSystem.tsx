@@ -349,7 +349,7 @@ export default function BillingSystem() {
                       <SelectValue placeholder="Choose a deal" />
                     </SelectTrigger>
                     <SelectContent className="bg-slate-700 border-slate-600">
-                      {availableDeals.map((deal: any) => (
+                      {availableDeals.map((deal: Record<string, unknown>) => (
                         <SelectItem key={deal.id} value={deal.id} className="text-white">
                           {deal.aircraft.manufacturer} {deal.aircraft.model} - ${deal.final_amount.toLocaleString()}
                         </SelectItem>

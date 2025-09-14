@@ -111,7 +111,7 @@ describe('Ranking Bias Cap Gauntlet Test', () => {
 
   it('should maintain fairness in ranking calculations', () => {
     // Mock ranking calculation
-    const calculateRankingScore = (operator: any) => {
+    const calculateRankingScore = (operator: Record<string, unknown>) => {
       const weights = {
         p50ResponseTime: 0.25,
         acceptanceRate: 0.20,

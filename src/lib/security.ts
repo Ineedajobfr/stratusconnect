@@ -59,7 +59,7 @@ export class AuditLogger {
     entityType: string,
     entityId: string,
     userId: string,
-    details: Record<string, any> = {},
+    details: Record<string, unknown> = {},
     metadata: {
       ipAddress?: string;
       userAgent?: string;

@@ -59,7 +59,7 @@ export function SequentialInvoiceGenerator() {
     notes: ''
   });
 
-  const [generatedInvoice, setGeneratedInvoice] = useState<any>(null);
+  const [generatedInvoice, setGeneratedInvoice] = useState<unknown>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -102,7 +102,7 @@ export function SequentialInvoiceGenerator() {
     }));
   };
 
-  const updateLineItem = (id: string, field: keyof LineItem, value: any) => {
+  const updateLineItem = (id: string, field: keyof LineItem, value: unknown) => {
     setFormData(prev => ({
       ...prev,
       lineItems: prev.lineItems.map(item =>

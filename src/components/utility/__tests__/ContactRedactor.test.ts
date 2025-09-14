@@ -36,8 +36,8 @@ describe('ContactRedactor', () => {
   });
 
   it('handles null/undefined input', () => {
-    expect(redactSensitive(null as any)).toBe(null);
-    expect(redactSensitive(undefined as any)).toBe(undefined);
+    expect(redactSensitive(null as never)).toBe(null);
+    expect(redactSensitive(undefined as never)).toBe(undefined);
   });
 
   it('preserves short phone numbers (less than 7 digits)', () => {

@@ -219,13 +219,13 @@ export default function ContractManagement() {
       let contractContent = contractForm.custom_content;
       if (!contractContent) {
         contractContent = CONTRACT_TEMPLATES[contractForm.template as keyof typeof CONTRACT_TEMPLATES]
-          .replace(/{{operator_name}}/g, (selectedDeal.operator_profile as any)?.full_name || 'N/A')
-          .replace(/{{operator_company}}/g, (selectedDeal.operator_profile as any)?.company_name || 'N/A')
-          .replace(/{{broker_name}}/g, (selectedDeal.broker_profile as any)?.full_name || 'N/A')
-          .replace(/{{broker_company}}/g, (selectedDeal.broker_profile as any)?.company_name || 'N/A')
-          .replace(/{{aircraft_make}}/g, (selectedDeal.aircraft as any)?.manufacturer || 'N/A')
-          .replace(/{{aircraft_model}}/g, (selectedDeal.aircraft as any)?.model || 'N/A')
-          .replace(/{{tail_number}}/g, (selectedDeal.aircraft as any)?.tail_number || 'N/A')
+          .replace(/{{operator_name}}/g, ((selectedDeal.operator_profile as Record<string, unknown>)?.full_name as string) || 'N/A')
+          .replace(/{{operator_company}}/g, ((selectedDeal.operator_profile as Record<string, unknown>)?.company_name as string) || 'N/A')
+          .replace(/{{broker_name}}/g, ((selectedDeal.broker_profile as Record<string, unknown>)?.full_name as string) || 'N/A')
+          .replace(/{{broker_company}}/g, ((selectedDeal.broker_profile as Record<string, unknown>)?.company_name as string) || 'N/A')
+          .replace(/{{aircraft_make}}/g, ((selectedDeal.aircraft as Record<string, unknown>)?.manufacturer as string) || 'N/A')
+          .replace(/{{aircraft_model}}/g, ((selectedDeal.aircraft as Record<string, unknown>)?.model as string) || 'N/A')
+          .replace(/{{tail_number}}/g, ((selectedDeal.aircraft as Record<string, unknown>)?.tail_number as string) || 'N/A')
           .replace(/\{\{charter_amount\}\}/g, selectedDeal.final_amount.toLocaleString())
           .replace(/\{\{sale_amount\}\}/g, selectedDeal.final_amount.toLocaleString())
           .replace(/{{flight_date}}/g, new Date().toLocaleDateString())
@@ -321,8 +321,8 @@ export default function ContractManagement() {
                     </SelectTrigger>
                     <SelectContent className="bg-slate-700 border-slate-600">
                       {availableDeals.map((deal) => (
-                        <SelectItem key={deal.id as any} value={deal.id as any} className="text-white">
-                          {(deal.aircraft as any)?.manufacturer} {(deal.aircraft as any)?.model} - ${deal.final_amount.toLocaleString()}
+                        <SelectItem key={deal.id as string} value={deal.id as string} className="text-white">
+                          {((deal.aircraft as Record<string, unknown>)?.manufacturer as string)} {((deal.aircraft as Record<string, unknown>)?.model as string)} - ${deal.final_amount.toLocaleString()}
                         </SelectItem>
                       ))}
                     </SelectContent>

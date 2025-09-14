@@ -19,7 +19,7 @@ export interface DemoXpEvent {
   points: number;
   description: string;
   timestamp: string;
-  meta?: Record<string, any>;
+  meta?: Record<string, unknown>;
 }
 
 export interface DemoChallenge {

@@ -52,7 +52,7 @@ export async function ensureMembership(userId: string) {
 export async function recordXpEvent(opts: {
   userId: string;
   type: keyof typeof XP_RULES;
-  meta?: Record<string, any>;
+  meta?: Record<string, unknown>;
   verificationStatus?: VerificationStatus;
 }) {
   const { userId, type, meta = {}, verificationStatus } = opts;

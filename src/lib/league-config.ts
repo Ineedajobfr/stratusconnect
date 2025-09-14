@@ -118,7 +118,7 @@ export function getThreshold(threshold: keyof typeof LeagueConfig.thresholds): n
 }
 
 export function getPoints(role: keyof typeof LeagueConfig.points, eventType: string): number {
-  const rolePoints = LeagueConfig.points[role] as any;
+  const rolePoints = LeagueConfig.points[role] as Record<string, number>;
   return rolePoints?.[eventType] || LeagueConfig.points.shared[eventType as keyof typeof LeagueConfig.points.shared] || 0;
 }
 
@@ -140,7 +140,7 @@ export function updateThreshold(threshold: keyof typeof LeagueConfig.thresholds,
 }
 
 export function updatePoints(role: keyof typeof LeagueConfig.points, eventType: string, points: number): void {
-  (LeagueConfig.points[role] as any)[eventType] = points;
+  (LeagueConfig.points[role] as Record<string, number>)[eventType] = points;
 }
 
 export function updateTarget(target: keyof typeof LeagueConfig.targets, value: number): void {
@@ -148,11 +148,11 @@ export function updateTarget(target: keyof typeof LeagueConfig.targets, value: n
 }
 
 export function togglePerk(perk: keyof typeof LeagueConfig.perks, enabled: boolean): void {
-  (LeagueConfig.perks as any)[perk] = enabled;
+  (LeagueConfig.perks as Record<string, boolean>)[perk] = enabled;
 }
 
 export function toggleComplianceGate(gate: keyof typeof LeagueConfig.complianceGates, enabled: boolean): void {
-  (LeagueConfig.complianceGates as any)[gate] = enabled;
+  (LeagueConfig.complianceGates as Record<string, boolean>)[gate] = enabled;
 }
 
 // Performance monitoring

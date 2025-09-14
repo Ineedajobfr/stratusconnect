@@ -6,7 +6,7 @@ export interface AnalyticsEvent {
   eventType: string;
   userId: string;
   timestamp: string;
-  properties: Record<string, any>;
+  properties: Record<string, unknown>;
   sessionId?: string;
 }
 

@@ -129,7 +129,7 @@ describe('Pricing Module', () => {
     });
 
     it('should throw error for unknown transaction type', () => {
-      expect(() => getFeeBreakdown(100000, 'unknown' as any)).toThrow();
+      expect(() => getFeeBreakdown(100000, 'unknown' as never)).toThrow();
     });
   });
 });

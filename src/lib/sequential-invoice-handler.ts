@@ -392,7 +392,7 @@ class SequentialInvoiceHandler {
   /**
    * Generate SHA256 audit hash
    */
-  private async generateAuditHash(data: any): Promise<string> {
+  private async generateAuditHash(data: Record<string, unknown>): Promise<string> {
     const encoder = new TextEncoder();
     const dataBuffer = encoder.encode(JSON.stringify(data));
     const hashBuffer = await crypto.subtle.digest('SHA-256', dataBuffer);

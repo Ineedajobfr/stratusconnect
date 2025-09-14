@@ -61,6 +61,7 @@ import { CarbonMethodologySelector } from '@/components/Carbon/CarbonMethodology
 import { SignedQuotePDFGenerator } from '@/lib/signed-quote-pdf';
 import { BadgeVerificationService } from '@/lib/badge-verification';
 import { CredentialGates } from '@/lib/credential-gates';
+import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 
 interface RFQ {
   id: string;
@@ -603,11 +604,21 @@ export default function DemoBrokerTerminal() {
     <div className="min-h-screen bg-app text-body">
       <header className="sticky top-0 z-20 bg-app/80 backdrop-blur border-b border-default">
         <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
-          <div>
-            <Brand.PageTitle className="hero-glow">Broker Terminal</Brand.PageTitle>
-            <p className="text-muted text-glow-subtle">FCA Compliant Trading Floor • 100% Free Until Revenue</p>
+          <div className="flex items-center space-x-4">
+            <StratusConnectLogo className="text-xl" />
+            <div>
+              <Brand.PageTitle className="hero-glow">Broker Terminal</Brand.PageTitle>
+              <p className="text-muted text-glow-subtle">FCA Compliant Trading Floor • 100% Free Until Revenue</p>
+            </div>
           </div>
           <div className="flex gap-2">
+            <Button
+              onClick={() => window.location.href = '/tutorial/broker'}
+              className="bg-orange-500 hover:bg-orange-600 text-white"
+            >
+              <Trophy className="h-4 w-4 mr-2" />
+              Tutorial
+            </Button>
             <Brand.StatusChip status="success">
               <Shield className="w-3 h-3 mr-1 icon-glow" />
               FCA Compliant

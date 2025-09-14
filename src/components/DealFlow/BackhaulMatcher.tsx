@@ -62,10 +62,6 @@ export function BackhaulMatcher({ rfqId, from, to, departureDate, passengers, on
   const [loading, setLoading] = useState(false);
   const [searchRadius, setSearchRadius] = useState(100); // NM
 
-  useEffect(() => {
-    findMatches();
-  }, [from, to, departureDate, passengers, searchRadius, findMatches]);
-
   const findMatches = useCallback(async () => {
     setLoading(true);
     
@@ -141,6 +137,10 @@ export function BackhaulMatcher({ rfqId, from, to, departureDate, passengers, on
     setMatches(scoredMatches.sort((a, b) => b.matchScore - a.matchScore));
     setLoading(false);
   }, [from, to, departureDate, passengers, searchRadius]);
+
+  useEffect(() => {
+    findMatches();
+  }, [findMatches]);
 
   const isWithinRadius = (airport1: string, airport2: string) => {
     // Simplified distance check - in production would use actual coordinates

@@ -66,16 +66,6 @@ export function QuoteComposer({ rfqId, operatorId, route, aircraft, passengers, 
   const [priceBand, setPriceBand] = useState<PriceBand | null>(null);
   const [marginBreakdown, setMarginBreakdown] = useState<MarginBreakdown | null>(null);
 
-  // Calculate price band based on route, aircraft, and timing
-  useEffect(() => {
-    calculatePriceBand();
-  }, [route, aircraft, distanceNm, departureDate, calculatePriceBand]);
-
-  // Calculate margin breakdown when values change
-  useEffect(() => {
-    calculateMarginBreakdown();
-  }, [baseRate, positioning, surcharges, taxes, fuel, crew, calculateMarginBreakdown]);
-
   const calculatePriceBand = useCallback(() => {
     // Free tier: Use mock data instead of ML/historical data
     const basePricePerNm = 2500; // £25 per NM base
@@ -133,6 +123,16 @@ export function QuoteComposer({ rfqId, operatorId, route, aircraft, passengers, 
       margin
     });
   }, [baseRate, positioning, surcharges, taxes, fuel, crew]);
+
+  // Calculate price band based on route, aircraft, and timing
+  useEffect(() => {
+    calculatePriceBand();
+  }, [calculatePriceBand]);
+
+  // Calculate margin breakdown when values change
+  useEffect(() => {
+    calculateMarginBreakdown();
+  }, [calculateMarginBreakdown]);
 
   const getMarginStatus = () => {
     if (!marginBreakdown) return { status: 'unknown', color: 'gray', icon: null };

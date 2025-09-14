@@ -14,6 +14,7 @@ import StarfieldBackground from '@/components/StarfieldBackground';
 import { showLeagueUI, showPerformanceReport } from '@/lib/flags';
 import { useAuth } from '@/contexts/AuthContext';
 import PerformanceReport from '@/components/PerformanceReport';
+import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import { 
   BarChart3, 
   Plane, 
@@ -35,7 +36,9 @@ import {
   Shield,
   FileText,
   CheckCircle,
-  UserCheck
+  UserCheck,
+  HelpCircle,
+  BookOpen
 } from "lucide-react";
 
 interface TripRequest {
@@ -179,16 +182,18 @@ export default function BrokerDashboard() {
       <div className="bg-slate-800 border-b border-slate-700 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
-                <BarChart3 className="h-4 w-4 text-black" />
-              </div>
-              <span className="text-xl font-bold">STRATUSCONNECT</span>
-            </div>
+            <StratusConnectLogo className="text-xl" />
             <div className="text-sm text-slate-400">BROKER TERMINAL</div>
           </div>
           
           <div className="flex items-center space-x-6">
+            <Button
+              onClick={() => window.location.href = '/tutorial/broker'}
+              className="bg-orange-500 hover:bg-orange-600 text-white"
+            >
+              <BookOpen className="h-4 w-4 mr-2" />
+              Tutorial
+            </Button>
             <NotificationsCenter />
             <div className="text-center">
               <div className="text-sm text-slate-400">BROKER</div>

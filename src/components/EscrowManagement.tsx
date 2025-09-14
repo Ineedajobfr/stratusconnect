@@ -45,6 +45,17 @@ import { createPaymentProvider, EscrowIntent, EscrowRelease } from '@/lib/paymen
 
 import { useToast } from '@/hooks/use-toast';
 
+// Helper function to extract error messages
+function getErrorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  if (typeof error === 'string') {
+    return error;
+  }
+  return 'An unknown error occurred';
+}
+
 interface EscrowManagementProps {
   dealId?: string;
   userRole: 'broker' | 'operator' | 'admin';
@@ -115,7 +126,7 @@ export default function EscrowManagement({ dealId, userRole }: EscrowManagementP
       console.error('Error creating escrow intent:', error);
       toast({
         title: "Error",
-        description: error.message || "Failed to create escrow intent",
+        description: (error as Error)?.message || "Failed to create escrow intent",
         variant: "destructive"
       });
     }

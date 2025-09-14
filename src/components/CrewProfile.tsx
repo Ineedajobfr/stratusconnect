@@ -132,7 +132,7 @@ export default function CrewProfile() {
     } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to save profile",
+        description: (error as Error)?.message || "Failed to save profile",
         variant: "destructive"
       });
     }

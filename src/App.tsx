@@ -36,6 +36,9 @@ const SLA = lazy(() => import("./pages/CompliantSLA"));
 const Demo = lazy(() => import("./pages/Demo"));
 const About = lazy(() => import("./pages/About"));
 const Fees = lazy(() => import("./pages/Fees"));
+
+// Tutorial components
+const BrokerTutorial = lazy(() => import("./components/help/BrokerTutorial"));
 const Payments = lazy(() => import("./pages/Payments"));
 const Terms = lazy(() => import("./pages/CompliantTerms"));
 const Privacy = lazy(() => import("./pages/CompliantPrivacy"));
@@ -138,6 +141,9 @@ const App = memo(() => {
               <Route path="/help/operator" element={<HelpOperator />} />
               <Route path="/help/pilot" element={<HelpPilot />} />
               <Route path="/help/crew" element={<HelpCrew />} />
+              
+              {/* Tutorial pages */}
+              <Route path="/tutorial/broker" element={<BrokerTutorial />} />
               
               {/* Public Beta Testing Routes - Protected for users/owners */}
               <Route path="/beta" element={<BetaNavigator />} />

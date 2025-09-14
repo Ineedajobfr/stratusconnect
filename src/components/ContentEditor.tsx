@@ -1,3 +1,4 @@
+import { getErrorMessage } from '@/utils/errorHandler';
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -52,7 +53,7 @@ export const ContentEditor = () => {
       setFormData({ page_name: '', section_key: '', content: '', content_type: 'text' });
       refetch();
     } catch (error: unknown) {
-      toast.error(error.message || 'Failed to save content');
+      toast.error(getErrorMessage(error));
     }
   };
 
@@ -69,7 +70,7 @@ export const ContentEditor = () => {
       toast.success('Content deleted successfully');
       refetch();
     } catch (error: unknown) {
-      toast.error(error.message || 'Failed to delete content');
+      toast.error(getErrorMessage(error));
     }
   };
 

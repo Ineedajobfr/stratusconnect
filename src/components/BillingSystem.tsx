@@ -1,3 +1,4 @@
+import { getErrorMessage } from "@/utils/errorHandler";
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -272,7 +273,7 @@ export default function BillingSystem() {
     } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to create billing schedule",
+        description: getErrorMessage(error),
         variant: "destructive",
       });
     }

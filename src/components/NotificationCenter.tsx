@@ -138,7 +138,7 @@ export default function NotificationCenter() {
     } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to mark notifications as read",
+        description: getErrorMessage(error),
         variant: "destructive",
       });
     }

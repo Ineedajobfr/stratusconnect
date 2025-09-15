@@ -22,7 +22,7 @@ interface HelpContent {
   items: Array<{
     section: string;
     description: string;
-    icon?: Record<string, unknown>;
+    icon?: React.ComponentType<any>;
     locked?: boolean;
   }>;
   demoNote?: string;

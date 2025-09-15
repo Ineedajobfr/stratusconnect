@@ -85,8 +85,7 @@ export function canRevealContact(deal: Deal, user: User): ContactRevealResult {
  * Enforce deposit gate universally
  */
 export function enforceDepositGate(dealId: string, userId: string): Promise<boolean> {
-  return new Promise((resolve) => {
-    (async () => {
+  return new Promise(async (resolve) => {
     try {
       // Get deal and user data
       const { data: deal } = await supabase
@@ -130,9 +129,6 @@ export function enforceDepositGate(dealId: string, userId: string): Promise<bool
       console.error('Deposit gate enforcement error:', error);
       resolve(false); // Fail secure
     }
-    })().catch(() => {
-      resolve(false);
-    });
   });
 }
 
@@ -202,7 +198,7 @@ export function isEvidenceBundleExportEnforced(): boolean {
 /**
  * Validate deal compliance before processing
  */
-export function validateDealCompliance(dealData: Record<string, unknown>) {
+export function validateDealCompliance(dealData: any) {
   const requiredFields = [
     'id', 'broker_id', 'operator_id', 'total_amount', 
     'payment_intent_status', 'parties'
@@ -281,7 +277,7 @@ class UniversalComplianceEnforcer {
     return getComplianceStatus();
   }
 
-  validateDealCompliance(dealData: Record<string, unknown>) {
+  validateDealCompliance(dealData: any) {
     return validateDealCompliance(dealData);
   }
 }

@@ -12,7 +12,7 @@ export type MeritAwardInput = {
   role: "broker" | "operator" | "pilot" | "crew";
   event: string;
   basePoints?: number;
-  meta?: Record<string, unknown>;
+  meta?: Record<string, any>;
   sourceKey: string; // idempotency e.g. "deal:123|rule:quote_accepted"
 };
 
@@ -91,7 +91,7 @@ export async function awardMeritPoints({
     // Get base points for the event
     let pts = basePoints;
     if (!pts) {
-      const rolePoints = LeagueConfig.points[role as keyof typeof LeagueConfig.points] as Record<string, number>;
+      const rolePoints = LeagueConfig.points[role as keyof typeof LeagueConfig.points] as any;
       pts = rolePoints?.[event] || LeagueConfig.points.shared[event as keyof typeof LeagueConfig.points.shared] || 0;
     }
     
@@ -193,7 +193,7 @@ export async function getUserStreak(userId: string): Promise<{
 }
 
 // Get user's daily quests
-export async function getUserDailyQuests(userId: string): Promise<unknown[]> {
+export async function getUserDailyQuests(userId: string): Promise<any[]> {
   const today = new Date().toISOString().split('T')[0];
   
   const { data, error } = await supabase
@@ -207,7 +207,7 @@ export async function getUserDailyQuests(userId: string): Promise<unknown[]> {
 }
 
 // Get user's weekly missions
-export async function getUserWeeklyMissions(userId: string): Promise<unknown[]> {
+export async function getUserWeeklyMissions(userId: string): Promise<any[]> {
   const seasonId = await activeSeasonId();
   
   const { data, error } = await supabase
@@ -311,7 +311,7 @@ export async function updateMissionProgress(userId: string, missionCode: string,
 }
 
 // Get user's recent Merit Point events
-export async function getUserMeritEvents(userId: string, limit: number = 10): Promise<unknown[]> {
+export async function getUserMeritEvents(userId: string, limit: number = 10): Promise<any[]> {
   const { data, error } = await supabase
     .from("sc_xp_events")
     .select("*")

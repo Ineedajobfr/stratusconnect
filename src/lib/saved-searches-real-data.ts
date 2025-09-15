@@ -201,7 +201,7 @@ class SavedSearchesRealData {
   /**
    * Fetch listings from API (simulated)
    */
-  private async fetchListings(criteria: SearchCriteria): Promise<unknown[]> {
+  private async fetchListings(criteria: SearchCriteria): Promise<any[]> {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 100));
     

@@ -52,7 +52,7 @@ export interface ServiceStatus {
 }
 
 class LiveStatusHandler {
-  private cache: Map<string, { data: unknown; timestamp: number }> = new Map();
+  private cache: Map<string, { data: any; timestamp: number }> = new Map();
   private readonly CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
   private readonly FALLBACK_DURATION = 30 * 60 * 1000; // 30 minutes
   private healthChecks: SystemHealthCheck[] = [];
@@ -432,7 +432,7 @@ class LiveStatusHandler {
   /**
    * Cache management
    */
-  private getCachedData(key: string): unknown | null {
+  private getCachedData(key: string): any | null {
     const cached = this.cache.get(key);
     if (!cached) return null;
 
@@ -445,7 +445,7 @@ class LiveStatusHandler {
     return cached.data;
   }
 
-  private setCachedData(key: string, data: unknown): void {
+  private setCachedData(key: string, data: any): void {
     this.cache.set(key, {
       data,
       timestamp: Date.now()

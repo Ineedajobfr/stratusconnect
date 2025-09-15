@@ -16,7 +16,7 @@ export interface AuditLogEntry {
   entityId: string;
   userId: string;
   timestamp: string;
-  details: Record<string, unknown>;
+  details: Record<string, any>;
   ipAddress: string;
   userAgent: string;
   sessionId: string;
@@ -27,7 +27,7 @@ export interface SecurityEvent {
   type: 'login' | 'logout' | 'permission_change' | 'data_access' | 'payment' | 'admin_action';
   severity: 'low' | 'medium' | 'high' | 'critical';
   description: string;
-  metadata: Record<string, unknown>;
+  metadata: Record<string, any>;
 }
 
 // Security configuration - locked in for compliance
@@ -59,7 +59,7 @@ export class AuditLogger {
     entityType: string,
     entityId: string,
     userId: string,
-    details: Record<string, unknown> = {},
+    details: Record<string, any> = {},
     metadata: {
       ipAddress?: string;
       userAgent?: string;

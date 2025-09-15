@@ -4,7 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { lazy, Suspense, memo, useState, useEffect } from "react";
+import { lazy, Suspense, memo } from "react";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { FullPageLoader } from "@/components/LoadingSpinner";
@@ -13,9 +13,6 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { logger } from "@/utils/performance";
 
 import { StatusBanner } from "@/components/StatusBanner";
-
-// Mobile shell import
-import StratusMobile from "./mobile";
 
 // Import new dashboard components
 import BrokerDashboard from "@/components/dashboard/BrokerDashboard";
@@ -103,38 +100,6 @@ const App = memo(() => {
   // Log app initialization in development only
   logger.debug('StratusConnect App initializing...');
 
-  // Mobile detection and feature flag
-  const [isMobile, setIsMobile] = useState(false);
-  const mobileV2 = import.meta.env.VITE_MOBILE_V2 !== "false";
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.matchMedia("(max-width: 767px)").matches);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  // Render mobile shell if conditions are met
-  if (mobileV2 && isMobile) {
-    return (
-      <div className="min-h-screen">
-        <ErrorBoundary>
-          <QueryClientProvider client={queryClient}>
-            <TooltipProvider>
-              <BrowserRouter>
-                <StratusMobile />
-              </BrowserRouter>
-            </TooltipProvider>
-          </QueryClientProvider>
-        </ErrorBoundary>
-      </div>
-    );
-  }
-
-  // Desktop app (unchanged)
   return (
     <div className="min-h-screen bg-app text-body" style={{ backgroundColor: 'hsl(217, 32%, 5%)', color: 'hsl(0, 0%, 98%)' }}>
       <ErrorBoundary>

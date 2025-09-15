@@ -209,7 +209,7 @@ export default function EscrowManagement({ dealId, userRole }: EscrowManagementP
       console.error('Error refunding escrow:', error);
       toast({
         title: "Error",
-        description: error.message || "Failed to refund escrow",
+        description: error instanceof Error ? error.message : "Failed to refund escrow",
         variant: "destructive"
       });
     }
@@ -230,7 +230,7 @@ export default function EscrowManagement({ dealId, userRole }: EscrowManagementP
       console.error('Error generating receipt:', error);
       toast({
         title: "Error",
-        description: error.message || "Failed to generate receipt",
+        description: error instanceof Error ? error.message : "Failed to generate receipt",
         variant: "destructive"
       });
     }

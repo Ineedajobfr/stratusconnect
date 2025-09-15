@@ -320,7 +320,7 @@ export default function EnhancedMarketplace() {
     } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to save search",
+        description: error instanceof Error ? error.message : "Failed to save search",
         variant: "destructive",
       });
     }

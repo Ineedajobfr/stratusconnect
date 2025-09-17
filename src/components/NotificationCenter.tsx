@@ -20,7 +20,7 @@ interface Notification {
   created_at: string;
 }
 
-import { getErrorMessage } from "@/utils/errorHandler";
+import { getErrorMessage } from '@/utils/errorHandler';
 
 export default function NotificationCenter() {
   const [notifications, setNotifications] = useState<Notification[]>([]);

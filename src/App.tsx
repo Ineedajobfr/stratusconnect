@@ -101,7 +101,7 @@ const App = memo(() => {
   logger.debug('StratusConnect App initializing...');
 
   return (
-    <div className="min-h-screen bg-app text-body" style={{ backgroundColor: 'hsl(217, 32%, 5%)', color: 'hsl(0, 0%, 98%)' }}>
+    <div className="min-h-screen bg-app text-body w-full overflow-x-hidden">
       <ErrorBoundary>
         <QueryClientProvider client={queryClient}>
           <TooltipProvider>

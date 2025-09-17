@@ -11,6 +11,7 @@ import { CalendarIcon, X } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
+import { getErrorMessage } from '@/utils/errorHandler';
 
 interface NewRequestFormProps {
   onClose: () => void;
@@ -62,13 +63,13 @@ export const NewRequestForm: React.FC<NewRequestFormProps> = ({
       onSuccess();
     } catch (error: unknown) {
       console.error('Error creating request:', error);
-      setErrors({ submit: error.message || 'Failed to create request' });
+      setErrors({ submit: getErrorMessage(error) });
     } finally {
       setLoading(false);
     }
   };
 
-  const handleInputChange = (field: string, value: Record<string, unknown>) => {
+  const handleInputChange = (field: string, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));

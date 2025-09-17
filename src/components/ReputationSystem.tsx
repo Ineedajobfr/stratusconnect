@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { getErrorMessage, safeParseNumber } from '@/utils/errorHandler';
 import { 
   Star, Trophy, Shield, Award, Users, TrendingUp, 
   MessageSquare, Clock, CheckCircle, Target, Zap,
@@ -141,7 +142,7 @@ export default function ReputationSystem() {
           }
         });
 
-        avgRatings.overall = (avgRatings.communication + avgRatings.reliability + avgRatings.professionalism + avgRatings.timeliness) / 4;
+        avgRatings.overall = (safeParseNumber(avgRatings.communication) + safeParseNumber(avgRatings.reliability) + safeParseNumber(avgRatings.professionalism) + safeParseNumber(avgRatings.timeliness)) / 4;
         
         setReputationScore(prev => ({ ...prev, ...avgRatings }));
       }
@@ -270,7 +271,7 @@ export default function ReputationSystem() {
     } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to submit rating",
+        description: getErrorMessage(error),
         variant: "destructive",
       });
     }

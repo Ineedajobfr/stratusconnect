@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 import { Shield, AlertTriangle, CheckCircle, Clock, Search, AlertCircle } from "lucide-react";
+import { getErrorMessage } from '@/utils/errorHandler';
 
 interface SanctionsScreening {
   id: string;
@@ -146,7 +147,7 @@ export default function SanctionsScreening() {
     } catch (error: unknown) {
       toast({
         title: "Screening Failed",
-        description: error.message || "Failed to perform sanctions screening",
+        description: getErrorMessage(error),
         variant: "destructive",
       });
     } finally {

@@ -56,3 +56,14 @@ export function safeJsonCast(value: unknown): Record<string, unknown> {
   }
   return {};
 }
+
+export function safeArrayCast<T>(value: unknown): T[] {
+  if (Array.isArray(value)) {
+    return value as T[];
+  }
+  return [];
+}
+
+export function safeObjectCast<T extends Record<string, any>>(value: unknown): T {
+  return safeJsonCast(value) as T;
+}

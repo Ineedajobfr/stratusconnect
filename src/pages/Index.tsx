@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { LoginModal } from "@/components/LoginModal";
-import { ModernBackground } from "@/components/ModernBackground";
+import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 import { useAuth } from "@/contexts/AuthContext";
 
 export default function Index() {
@@ -49,7 +49,7 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-app relative overflow-hidden">
-      <ModernBackground intensity={0.8} particleCount={300} />
+      <StarfieldRunwayBackground />
       
       {/* Hero Section */}
       <div className="relative z-10 pt-20 pb-16">

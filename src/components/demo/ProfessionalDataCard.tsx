@@ -17,6 +17,7 @@ interface DataCardProps {
     variant: 'default' | 'secondary' | 'destructive' | 'outline';
   };
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export const ProfessionalDataCard: React.FC<DataCardProps> = ({
@@ -26,10 +27,11 @@ export const ProfessionalDataCard: React.FC<DataCardProps> = ({
   icon: Icon,
   trend,
   badge,
-  className = ""
+  className = "",
+  style
 }) => {
   return (
-    <Card className={`bg-gray-800 border-gray-700 ${className}`}>
+    <Card className={`bg-gray-800 border-gray-700 ${className}`} style={style}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium text-gray-300">{title}</CardTitle>
         {Icon && <Icon className="h-4 w-4 text-gray-400" />}
@@ -71,6 +73,7 @@ interface FlightCardProps {
   earnings?: number;
   rating?: number;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export const ProfessionalFlightCard: React.FC<FlightCardProps> = ({
@@ -82,7 +85,8 @@ export const ProfessionalFlightCard: React.FC<FlightCardProps> = ({
   duration,
   earnings,
   rating,
-  className = ""
+  className = "",
+  style
 }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -119,7 +123,7 @@ export const ProfessionalFlightCard: React.FC<FlightCardProps> = ({
   };
 
   return (
-    <Card className={`bg-gray-800 border-gray-700 ${className}`}>
+    <Card className={`bg-gray-800 border-gray-700 ${className}`} style={style}>
       <CardContent className="p-4">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-2">
@@ -170,6 +174,7 @@ interface ProfileCardProps {
   typeRatings: string[];
   operatingRegions: string[];
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export const ProfessionalProfileCard: React.FC<ProfileCardProps> = ({
@@ -180,10 +185,11 @@ export const ProfessionalProfileCard: React.FC<ProfileCardProps> = ({
   location,
   typeRatings,
   operatingRegions,
-  className = ""
+  className = "",
+  style
 }) => {
   return (
-    <Card className={`bg-gray-800 border-gray-700 ${className}`}>
+    <Card className={`bg-gray-800 border-gray-700 ${className}`} style={style}>
       <CardContent className="p-6">
         <div className="flex items-start space-x-4">
           <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-lg">

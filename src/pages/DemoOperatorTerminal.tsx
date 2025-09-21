@@ -803,7 +803,7 @@ export default function DemoOperatorTerminal() {
 
         {/* Main Navigation */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-9 bg-terminal-card border-terminal-border text-xs overflow-x-auto">
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 bg-terminal-card border-terminal-border text-xs overflow-x-auto">
             <TabsTrigger value="dashboard" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Dashboard</TabsTrigger>
             <TabsTrigger value="rfqs" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">RFQs</TabsTrigger>
             <TabsTrigger value="pilots" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Pilots</TabsTrigger>

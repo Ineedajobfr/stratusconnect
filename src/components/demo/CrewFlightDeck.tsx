@@ -77,7 +77,7 @@ export const CrewFlightDeck: React.FC = () => {
 
       <div className="p-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="bg-terminal-card border-terminal-border grid grid-cols-2 sm:grid-cols-4 text-xs sm:text-sm">
+          <TabsList className="bg-terminal-card border-terminal-border grid grid-cols-2 sm:grid-cols-4 text-xs sm:text-sm tabs-modern">
             <TabsTrigger value="schedule" className="data-[state=active]:bg-accent data-[state=active]:text-white">
               <Calendar className="h-4 w-4 mr-2" />
               Schedule

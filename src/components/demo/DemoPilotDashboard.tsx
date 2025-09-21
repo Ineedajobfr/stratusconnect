@@ -229,7 +229,7 @@ export const DemoPilotDashboard: React.FC = () => {
         onMessageClick={() => console.log('Messages')}
       >
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-9 bg-terminal-card border-terminal-border text-xs overflow-x-auto">
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-9 bg-terminal-card border-terminal-border text-xs overflow-x-auto tabs-modern">
             <TabsTrigger value="profile" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Profile</TabsTrigger>
             <TabsTrigger value="trust" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Trust</TabsTrigger>
             <TabsTrigger value="requests" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Requests</TabsTrigger>

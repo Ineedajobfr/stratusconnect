@@ -12,42 +12,53 @@
   font-variant-numeric: tabular-nums; 
 }
 
-/* === StratusConnect Dark Slate Terminal Palette ===
-   Keep values in HSL triplets so Tailwind can use opacity
-   White is for text only. No light backgrounds.
-   Dark Slate - professional, modern appearance
+/* === StratusConnect Modern Terminal Palette ===
+   Enhanced with modern gradients, better contrast, and smooth animations
+   Professional, cutting-edge aviation platform design
 */
 :root {
-  /* Core - Dark Slate */
-  --background:        210 20% 6%;   /* page bg: dark slate, almost black */
-  --foreground:          0  0% 98%;  /* near-white text */
-  --card:               210 25% 8%;  /* primary card - dark slate with subtle depth */
+  /* Core - Modern Enhanced Dark */
+  --background:        210 25% 4%;   /* deeper, richer dark with subtle blue tint */
+  --foreground:          0  0% 98%;  /* crisp white text */
+  --card:               210 30% 8%;  /* enhanced card depth with better visibility */
   --card-foreground:      0  0% 98%;
-  --popover:            210 20% 6%;
+  --popover:            210 25% 4%;
   --popover-foreground:   0  0% 98%;
 
-  --primary:            210 25% 10%; /* subtle dark for selected tabs etc */
+  --primary:            210 30% 12%; /* richer primary with better contrast */
   --primary-foreground:   0  0% 98%;
 
-  --secondary:          210 20% 14%;
+  --secondary:          210 25% 16%;
   --secondary-foreground: 0  0% 98%;
-  --muted:              210 25% 10%;
-  --muted-foreground:   210 10% 70%;
-  --border:             210 20% 14%;
-  --input:              210 25% 8%;
-  --ring:                25 70% 45%; /* Stratus orange focus */
+  --muted:              210 30% 12%;
+  --muted-foreground:   210 15% 75%; /* improved contrast for better readability */
+  --border:             210 25% 18%;
+  --input:              210 30% 8%;
+  --ring:                25 70% 50%; /* enhanced orange focus with better visibility */
 
-        /* Terminal tokens - Dark Slate */
-        --terminal-bg:        210 20% 5%;
-        --terminal-card:      210 25% 12%;  /* Brighter cards for better visibility */
-        --terminal-border:    210 20% 18%;  /* Brighter borders */
-        --terminal-glow:       25 70% 45%;
-        --gunmetal:           210 10% 65%; /* secondary text */
+  /* Terminal tokens - Modern Enhanced */
+  --terminal-bg:        210 25% 3%;   /* deeper background for better contrast */
+  --terminal-card:      210 30% 10%;  /* enhanced card visibility */
+  --terminal-border:    210 25% 20%;  /* better border contrast */
+  --terminal-glow:       25 70% 50%;  /* enhanced glow effect */
+  --gunmetal:           210 15% 70%; /* improved secondary text contrast */
 
-  /* Accents and status */
-  --accent:              25 70% 45%; /* Stratus orange */
+  /* Accents and status - Enhanced */
+  --accent:              25 70% 50%; /* richer orange with better visibility */
   --accent-foreground:    0  0% 98%;
-  --terminal-success:   142 76% 36%;
+  --terminal-success:   142 80% 40%; /* enhanced success green */
+
+  /* Modern gradient additions */
+  --gradient-primary:    linear-gradient(135deg, hsl(210, 30%, 8%) 0%, hsl(210, 25%, 6%) 100%);
+  --gradient-accent:     linear-gradient(135deg, hsl(25, 70%, 50%) 0%, hsl(25, 60%, 45%) 100%);
+  --gradient-card:       linear-gradient(135deg, hsl(210, 30%, 10%) 0%, hsl(210, 25%, 8%) 100%);
+  --gradient-hero:       linear-gradient(135deg, hsl(210, 25%, 4%) 0%, hsl(210, 20%, 2%) 100%);
+  
+  /* Enhanced shadow system */
+  --shadow-soft:         0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-medium:       0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-large:        0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-glow:         0 0 20px rgba(25, 70%, 50%, 0.15);
   --terminal-warning:    38 92% 50%;
   --terminal-danger:      0 84% 60%;
   --terminal-info:      208 26% 44%;
@@ -577,5 +588,213 @@
   
   .animate-rotate-slow {
     animation: rotate-slow 100s linear infinite;
+  }
+}
+
+/* === MODERN ENHANCEMENTS === */
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Enhanced card hover effects */
+.terminal-card {
+  background: var(--gradient-card);
+  box-shadow: var(--shadow-soft);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.terminal-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+  border-color: hsl(var(--terminal-border));
+}
+
+/* Modern button enhancements */
+.btn-terminal-accent {
+  background: var(--gradient-accent);
+  box-shadow: var(--shadow-soft);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-terminal-accent:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-medium);
+  filter: brightness(1.1);
+}
+
+/* Enhanced glow effects */
+.terminal-glow {
+  box-shadow: var(--shadow-glow);
+}
+
+.accent-glow {
+  text-shadow: 0 0 20px hsl(var(--accent) / 0.5);
+}
+
+/* Smooth animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px hsl(var(--accent) / 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px hsl(var(--accent) / 0.6);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Animation classes */
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Enhanced tab styling */
+.tabs-modern .tabs-trigger {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.tabs-modern .tabs-trigger::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.tabs-modern .tabs-trigger:hover::before {
+  left: 100%;
+}
+
+/* Modern loading states */
+.loading-skeleton {
+  background: linear-gradient(90deg, hsl(var(--muted)) 25%, hsl(var(--muted) / 0.5) 50%, hsl(var(--muted)) 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Enhanced focus states */
+.focus-modern:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px hsl(var(--ring) / 0.3);
+  border-color: hsl(var(--ring));
+}
+
+/* Modern scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--terminal-bg));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--terminal-border));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--accent));
+}
+
+/* Enhanced text effects */
+.text-gradient {
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Modern backdrop blur effects */
+.backdrop-blur-modern {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Enhanced data tiles */
+.data-tile-modern {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid hsl(var(--terminal-border));
+}
+
+.data-tile-modern:hover {
+  background: hsl(var(--terminal-card));
+  border-color: hsl(var(--accent) / 0.3);
+  transform: translateX(4px);
+}
+
+/* Modern status indicators */
+.status-indicator {
+  position: relative;
+  display: inline-block;
+}
+
+.status-indicator::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: hsl(var(--terminal-success));
+  transform: translateY(-50%);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Enhanced mobile responsiveness */
+@media (max-width: 768px) {
+  .terminal-card {
+    margin: 0.5rem;
+    border-radius: 0.75rem;
+  }
+  
+  .btn-terminal-accent {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
   }
 }

@@ -54,15 +54,15 @@ export default function Index() {
       {/* Hero Section */}
       <div className="relative z-10 pt-20 pb-16">
         <div className="max-w-6xl mx-auto px-4 text-center">
-          <div className="mb-8">
-            <Badge variant="secondary" className="mb-4 px-4 py-2 text-sm">
+          <div className="mb-8 animate-fade-in-up">
+            <Badge variant="secondary" className="mb-4 px-4 py-2 text-sm backdrop-blur-modern border-terminal-border">
               <Zap className="w-4 h-4 mr-2" />
               Next-Generation Aviation Platform
             </Badge>
-            <h1 className="text-5xl md:text-7xl font-bold text-body mb-6 hero-glow">
-              Welcome to <span className="text-accent accent-glow">StratusConnect</span>
+            <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6">
+              Welcome to <span className="text-gradient">StratusConnect</span>
             </h1>
-            <p className="text-xl md:text-2xl text-muted max-w-4xl mx-auto leading-relaxed text-glow-subtle">
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
               The industry's most secure and efficient platform connecting brokers, operators, pilots, and crew. 
               Built on zero-trust architecture with military-grade encryption.
             </p>
@@ -100,15 +100,15 @@ export default function Index() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Broker Terminal */}
-            <Card className="group terminal-card hover:terminal-glow cursor-pointer transition-all duration-300">
+            <Card className="group terminal-card hover:terminal-glow cursor-pointer animate-fade-in-up">
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
-                  <div className="p-3 bg-accent/20 rounded-xl">
-                    <Building2 className="w-8 h-8 text-accent icon-glow" />
+                  <div className="p-3 bg-accent/20 rounded-xl animate-pulse-glow">
+                    <Building2 className="w-8 h-8 text-accent" />
                   </div>
                   <div>
-                    <CardTitle className="text-2xl title-glow">Broker Terminal</CardTitle>
-                    <CardDescription className="subtitle-glow">Quote management & client relations</CardDescription>
+                    <CardTitle className="text-2xl text-foreground">Broker Terminal</CardTitle>
+                    <CardDescription className="text-muted-foreground">Quote management & client relations</CardDescription>
                   </div>
                 </div>
               </CardHeader>
@@ -135,15 +135,15 @@ export default function Index() {
             </Card>
 
             {/* Operator Terminal */}
-            <Card className="group terminal-card hover:terminal-glow cursor-pointer transition-all duration-300">
+            <Card className="group terminal-card hover:terminal-glow cursor-pointer animate-fade-in-up" style={{animationDelay: '0.1s'}}>
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
-                  <div className="p-3 bg-accent/20 rounded-xl">
-                    <Plane className="w-8 h-8 text-accent icon-glow" />
+                  <div className="p-3 bg-accent/20 rounded-xl animate-pulse-glow">
+                    <Plane className="w-8 h-8 text-accent" />
                   </div>
                   <div>
-                    <CardTitle className="text-2xl title-glow">Operator Terminal</CardTitle>
-                    <CardDescription className="subtitle-glow">Fleet management & optimization</CardDescription>
+                    <CardTitle className="text-2xl text-foreground">Operator Terminal</CardTitle>
+                    <CardDescription className="text-muted-foreground">Fleet management & optimization</CardDescription>
                   </div>
                 </div>
               </CardHeader>
@@ -170,15 +170,15 @@ export default function Index() {
             </Card>
 
             {/* Pilot Terminal */}
-            <Card className="group terminal-card hover:terminal-glow cursor-pointer transition-all duration-300">
+            <Card className="group terminal-card hover:terminal-glow cursor-pointer animate-fade-in-up" style={{animationDelay: '0.2s'}}>
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
-                  <div className="p-3 bg-accent/20 rounded-xl">
-                    <UserCheck className="w-8 h-8 text-accent icon-glow" />
+                  <div className="p-3 bg-accent/20 rounded-xl animate-pulse-glow">
+                    <UserCheck className="w-8 h-8 text-accent" />
                   </div>
                   <div>
-                    <CardTitle className="text-2xl title-glow">Pilot Terminal</CardTitle>
-                    <CardDescription className="subtitle-glow">Flight assignments & credentials</CardDescription>
+                    <CardTitle className="text-2xl text-foreground">Pilot Terminal</CardTitle>
+                    <CardDescription className="text-muted-foreground">Flight assignments & credentials</CardDescription>
                   </div>
                 </div>
               </CardHeader>
@@ -205,15 +205,15 @@ export default function Index() {
             </Card>
 
             {/* Crew Terminal */}
-            <Card className="group terminal-card hover:terminal-glow cursor-pointer transition-all duration-300">
+            <Card className="group terminal-card hover:terminal-glow cursor-pointer animate-fade-in-up" style={{animationDelay: '0.3s'}}>
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
-                  <div className="p-3 bg-accent/20 rounded-xl">
-                    <Users className="w-8 h-8 text-accent icon-glow" />
+                  <div className="p-3 bg-accent/20 rounded-xl animate-pulse-glow">
+                    <Users className="w-8 h-8 text-accent" />
                   </div>
                   <div>
-                    <CardTitle className="text-2xl title-glow">Crew Terminal</CardTitle>
-                    <CardDescription className="subtitle-glow">Service excellence & scheduling</CardDescription>
+                    <CardTitle className="text-2xl text-foreground">Crew Terminal</CardTitle>
+                    <CardDescription className="text-muted-foreground">Service excellence & scheduling</CardDescription>
                   </div>
                 </div>
               </CardHeader>
@@ -495,22 +495,22 @@ export default function Index() {
       {/* Platform Fees & Pricing */}
       <div className="relative z-10 py-24">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center mb-12">
+          <div className="text-center mb-12 animate-fade-in-up">
             <h2 className="text-4xl font-bold text-foreground mb-4">Transparent Pricing</h2>
             <p className="text-xl text-muted-foreground">Fair fees that grow with your success</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
+            <Card className="terminal-card group hover:terminal-glow cursor-pointer animate-fade-in-up" style={{animationDelay: '0.1s'}}>
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <div className="p-2 bg-accent/20 rounded-lg">
+                    <div className="p-2 bg-accent/20 rounded-lg animate-pulse-glow">
                       <Percent className="w-6 h-6 text-accent" />
                     </div>
                     <div>
-                      <CardTitle className="text-xl">Broker & Operator Sales</CardTitle>
-                      <CardDescription>Transaction fees</CardDescription>
+                      <CardTitle className="text-xl text-foreground">Broker & Operator Sales</CardTitle>
+                      <CardDescription className="text-muted-foreground">Transaction fees</CardDescription>
                     </div>
                   </div>
                   <Dialog>

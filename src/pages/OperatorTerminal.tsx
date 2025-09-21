@@ -24,6 +24,7 @@ import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24W
 import { PersonalizedFeed } from "@/components/feed/PersonalizedFeed";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { User } from '@supabase/supabase-js';
+
 const OperatorTerminal = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [user, setUser] = useState<User | null>(null);
@@ -65,21 +66,23 @@ const OperatorTerminal = () => {
       data: {
         subscription
       }
-    } = supabase.auth.onAuthStateChange((event, session) => {
+    } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
-      setLoading(false);
     });
 
     return () => subscription.unsubscribe();
   }, [isBetaMode]);
+
   if (loading) {
     return <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
         <div className="text-white">Loading...</div>
       </div>;
   }
+
   if (!user && !isBetaMode) {
     return <AuthForm />;
   }
+
   const fleetData = [{
     id: "N425SC",
     model: "Gulfstream G550",
@@ -89,19 +92,20 @@ const OperatorTerminal = () => {
     utilization: "78%"
   }, {
     id: "N892AV",
-    model: "Citation X+",
+    model: "Bombardier Challenger 350",
     status: "In Flight",
-    location: "En Route MIA→LAX",
-    nextFlight: "Dec 29 09:00",
+    location: "LAX",
+    nextFlight: "Landing 16:30",
     utilization: "85%"
   }, {
     id: "N156JT",
-    model: "Falcon 7X",
+    model: "Cessna Citation X",
     status: "Maintenance",
     location: "TEB",
     nextFlight: "Jan 2 Available",
     utilization: "62%"
   }];
+
   const bookings = [{
     id: "BKG-2024-089",
     route: "JFK → LAX",
@@ -124,6 +128,7 @@ const OperatorTerminal = () => {
     revenue: "$12,800",
     status: "Confirmed"
   }];
+
   const menuItems = [{
     id: "dashboard",
     label: "Dashboard",
@@ -149,217 +154,214 @@ const OperatorTerminal = () => {
     label: "Aviation News",
     icon: Globe
   }, {
+    id: "analytics",
+    label: "Analytics",
+    icon: TrendingUp
+  }, {
+    id: "profile",
+    label: "Profile",
+    icon: Users
+  }, {
+    id: "settings",
+    label: "Settings",
+    icon: Settings
+  }, {
+    id: "privacy",
+    label: "Privacy",
+    icon: Shield
+  }, {
+    id: "help",
+    label: "Help",
+    icon: BarChart3
+  }, {
     id: "revenue",
     label: "Revenue",
     icon: DollarSign
   }];
+
   return (
     <>
       <OperatorHelpGuide activeTab={activeTab} showOnMount={true} />
       <TerminalLayout title="Operator Terminal" userRole="Verified Operator" menuItems={menuItems} activeTab={activeTab} onTabChange={setActiveTab} bannerText="Fill the legs. Lift the yield. Control the risk." terminalType="operator">
-      {activeTab === "dashboard" && (
-        <div className="space-y-8">
-          {/* Command Center Header */}
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-foreground tracking-tight">Fleet Command</h1>
-              <p className="text-gunmetal mt-2">Comprehensive fleet operations and performance oversight</p>
-            </div>
-            <div className="flex items-center space-x-6">
-              <div className="flex items-center space-x-2 text-data-positive text-sm">
-                <div className="w-2 h-2 bg-data-positive rounded-full terminal-pulse"></div>
-                <span className="font-mono">SYSTEMS OPERATIONAL</span>
+        {/* Terminal Content */}
+        <div className="max-w-7xl mx-auto px-6 py-8">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-11 bg-terminal-card border-terminal-border text-xs overflow-x-auto tabs-modern">
+              <TabsTrigger value="dashboard" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Dashboard</TabsTrigger>
+              <TabsTrigger value="fleet" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Fleet</TabsTrigger>
+              <TabsTrigger value="verification" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Trust</TabsTrigger>
+              <TabsTrigger value="marketplace" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Marketplace</TabsTrigger>
+              <TabsTrigger value="messages" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Messages</TabsTrigger>
+              <TabsTrigger value="news" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">News</TabsTrigger>
+              <TabsTrigger value="analytics" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Analytics</TabsTrigger>
+              <TabsTrigger value="profile" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Profile</TabsTrigger>
+              <TabsTrigger value="settings" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Settings</TabsTrigger>
+              <TabsTrigger value="privacy" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Privacy</TabsTrigger>
+              <TabsTrigger value="help" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Help</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="dashboard" className="space-y-6">
+              {/* Command Center Header */}
+              <div className="flex items-center justify-between animate-fade-in-up">
+                <div>
+                  <h1 className="text-3xl font-bold text-foreground tracking-tight">Fleet Command</h1>
+                  <p className="text-gunmetal mt-2">Comprehensive fleet operations and performance oversight</p>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-2 text-data-positive text-sm">
+                    <div className="w-2 h-2 bg-data-positive rounded-full terminal-pulse"></div>
+                    <span className="font-mono">FLEET ACTIVE</span>
+                  </div>
+                  <div className="text-gunmetal text-sm font-mono">
+                    {new Date().toLocaleTimeString()} UTC
+                  </div>
+                </div>
               </div>
-              <div className="text-gunmetal text-sm font-mono">
-                {new Date().toLocaleTimeString()} UTC
-              </div>
-            </div>
-          </div>
 
-          {/* Key Metrics Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <KPICard
-              title="Fleet Active"
-              value="15"
-              delta="12 ACTIVE • 2 FLIGHT • 1 MAINT"
-              icon={Plane}
-              variant="info"
-            />
-            <KPICard
-              title="Today's Bookings"
-              value="8"
-              delta="+33% VS LAST WEEK"
-              icon={Calendar}
-              variant="success"
-            />
-            <KPICard
-              title="Revenue (MTD)"
-              value="$1.2M"
-              delta="+24.8% VS LAST MONTH"
-              icon={DollarSign}
-              variant="warning"
-            />
-            <KPICard
-              title="Utilization"
-              value="74.5%"
-              delta="ABOVE INDUSTRY AVG"
-              icon={Gauge}
-              variant="info"
-            />
-          </div>
+              {/* Personalized Feed */}
+              <PersonalizedFeed />
 
-          {/* Profile Widget */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <ProfileWidget />
-          </div>
+              {/* Flight Tracking Widget */}
+              <Card className="terminal-card">
+                <CardHeader>
+                  <CardTitle className="text-cyan-400">Live Flight Tracking</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <FlightRadar24Widget />
+                </CardContent>
+              </Card>
 
-          {/* Fleet Status Overview */}
-          <Section 
-            title="Live Fleet Status"
-            subtitle="Real-time aircraft monitoring and dispatch"
-            actions={
-              <Button variant="outline" size="sm" className="btn-terminal-secondary">
-                <Settings className="w-4 h-4 mr-2" />
-                Manage Fleet
-              </Button>
-            }
-          >
-            <div className="space-y-0">
-              {fleetData.map((aircraft) => (
-                <DataTile
-                  key={aircraft.id}
-                  title={aircraft.model}
-                  subtitle={aircraft.id}
-                  status={aircraft.status}
-                  statusVariant={
-                    aircraft.status === 'Available' ? 'success' : 
-                    aircraft.status === 'In Flight' ? 'info' : 'warning'
-                  }
-                  metadata={[
-                    {
-                      label: "LOC",
-                      value: aircraft.location,
-                      icon: <MapPin className="w-3 h-3" />
-                    },
-                    {
-                      label: "NEXT",
-                      value: aircraft.nextFlight,
-                      icon: <Clock className="w-3 h-3" />
-                    },
-                    {
-                      label: "UTIL",
-                      value: aircraft.utilization,
-                      icon: <Gauge className="w-3 h-3" />
-                    }
-                  ]}
-                  actions={[
-                    { label: "Status", onClick: () => {} },
-                    { label: "Manage", onClick: () => {} }
-                  ]}
+              {/* KPI Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <KPICard
+                  title="Fleet Utilization"
+                  value="78%"
+                  change="+5.2%"
+                  trend="up"
+                  icon={Activity}
+                  className="animate-fade-in-up"
                 />
-              ))}
-            </div>
-          </Section>
-
-          {/* Recent Bookings */}
-          <Section 
-            title="Recent Bookings"
-            subtitle="Latest confirmed and pending reservations"
-            actions={
-              <Button variant="outline" size="sm" className="btn-terminal-secondary">
-                <BarChart3 className="w-4 h-4 mr-2" />
-                View All
-              </Button>
-            }
-          >
-            <div className="space-y-0">
-              {bookings.map((booking) => (
-                <DataTile
-                  key={booking.id}
-                  title={booking.route}
-                  subtitle={booking.id}
-                  status={booking.status}
-                  statusVariant={booking.status === 'Confirmed' ? 'success' : 'warning'}
-                  metadata={[
-                    {
-                      label: "CLIENT",
-                      value: booking.client,
-                      icon: <Users className="w-3 h-3" />
-                    },
-                    {
-                      label: "DATE",
-                      value: booking.date,
-                      icon: <Calendar className="w-3 h-3" />
-                    }
-                  ]}
-                  rightSlot={
-                    <div className="text-right">
-                      <div className="terminal-value text-data-positive font-mono mb-1">
-                        {booking.revenue}
-                      </div>
-                      {booking.status === 'Confirmed' && (
-                        <CheckCircle className="w-4 h-4 text-data-positive ml-auto" />
-                      )}
-                    </div>
-                  }
+                <KPICard
+                  title="Monthly Revenue"
+                  value="$2.4M"
+                  change="+12.3%"
+                  trend="up"
+                  icon={DollarSign}
+                  className="animate-fade-in-up"
+                  style={{animationDelay: '0.1s'}}
                 />
-              ))}
-            </div>
-          </Section>
-        </div>
-      )}
-
-      {activeTab === "fleet" && (
-        <div className="space-y-6">
-          <OperatorAnalytics section="fleet" />
-          <FleetManagement />
-        </div>
-      )}
-
-      {activeTab === "verification" && (
-        <div className="space-y-6">
-          <VerificationSystem />
-        </div>
-      )}
-
-
-      {activeTab === "marketplace" && <EnhancedMarketplace />}
-
-      {activeTab === "messages" && <EnhancedMessaging />}
-
-      {activeTab === "news" && (
-        <div className="space-y-6">
-          <AviationNews />
-        </div>
-      )}
-
-      {activeTab === "revenue" && (
-        <div className="space-y-6">
-          <OperatorAnalytics section="revenue" />
-          <Card className="terminal-card relative">
-            <PrivacyOverlay 
-              title="Revenue Analytics" 
-              description="Detailed financial reporting and revenue analytics require premium access. Contact support to unlock these features." 
-              onUnlock={() => console.log('Unlock revenue analytics')} 
-              icon="chart" 
-            />
-            <CardHeader className="border-b border-terminal-border">
-              <CardTitle className="terminal-subheader">Revenue Dashboard</CardTitle>
-            </CardHeader>
-            <CardContent className="p-12">
-              <div className="text-center text-gunmetal">
-                <DollarSign className="w-16 h-16 mx-auto mb-6 opacity-30" />
-                <p className="terminal-subheader mb-2">Financial Analytics</p>
-                <p className="text-sm font-mono">
-                  Revenue analytics and financial reporting
-                </p>
+                <KPICard
+                  title="Active Aircraft"
+                  value="12"
+                  change="+2"
+                  trend="up"
+                  icon={Plane}
+                  className="animate-fade-in-up"
+                  style={{animationDelay: '0.2s'}}
+                />
+                <KPICard
+                  title="Bookings Today"
+                  value="8"
+                  change="+3"
+                  trend="up"
+                  icon={Calendar}
+                  className="animate-fade-in-up"
+                  style={{animationDelay: '0.3s'}}
+                />
               </div>
-            </CardContent>
-          </Card>
+
+              {/* Fleet Status Grid */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <Section
+                  title="Fleet Status"
+                  subtitle="Real-time aircraft availability and status"
+                >
+                  <div className="space-y-3">
+                    {fleetData.map((aircraft, index) => (
+                      <DataTile
+                        key={aircraft.id}
+                        label={aircraft.id}
+                        value={aircraft.status}
+                        subtext={`${aircraft.model} • ${aircraft.location}`}
+                        status={aircraft.status === "Available" ? "success" : "warning"}
+                        className="data-tile-modern animate-slide-in-right"
+                        style={{animationDelay: `${index * 0.1}s`}}
+                      />
+                    ))}
+                  </div>
+                </Section>
+
+                <Section
+                  title="Recent Bookings"
+                  subtitle="Latest confirmed and pending bookings"
+                >
+                  <div className="space-y-3">
+                    {bookings.map((booking, index) => (
+                      <DataTile
+                        key={booking.id}
+                        label={booking.route}
+                        value={booking.revenue}
+                        subtext={`${booking.client} • ${booking.date}`}
+                        status={booking.status === "Confirmed" ? "success" : "warning"}
+                        className="data-tile-modern animate-slide-in-right"
+                        style={{animationDelay: `${index * 0.1}s`}}
+                      />
+                    ))}
+                  </div>
+                </Section>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="fleet">
+              <FleetManagement />
+            </TabsContent>
+
+            <TabsContent value="verification">
+              <VerificationSystem />
+            </TabsContent>
+
+            <TabsContent value="marketplace">
+              <EnhancedMarketplace />
+            </TabsContent>
+
+            <TabsContent value="messages">
+              <EnhancedMessaging />
+            </TabsContent>
+
+            <TabsContent value="news">
+              <AviationNews />
+            </TabsContent>
+
+            <TabsContent value="analytics">
+              <OperatorAnalytics />
+            </TabsContent>
+
+            <TabsContent value="profile">
+              <ProfileWidget />
+            </TabsContent>
+
+            <TabsContent value="settings">
+              <div className="space-y-6">
+                <h2 className="text-2xl font-bold text-foreground">Settings</h2>
+                <p className="text-muted-foreground">Terminal configuration and preferences</p>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="privacy">
+              <PrivacyOverlay />
+            </TabsContent>
+
+            <TabsContent value="help">
+              <div className="space-y-6">
+                <h2 className="text-2xl font-bold text-foreground">Help & Support</h2>
+                <p className="text-muted-foreground">Get assistance with your operator terminal</p>
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
-      )}
-    </TerminalLayout>
+      </TerminalLayout>
     </>
   );
 };
+
 export default OperatorTerminal;

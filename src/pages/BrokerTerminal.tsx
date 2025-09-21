@@ -249,7 +249,7 @@ export default function BrokerTerminal() {
       {/* Terminal Content */}
       <div className="max-w-7xl mx-auto px-6 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 bg-terminal-card border-terminal-border text-xs sm:text-sm">
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 bg-terminal-card border-terminal-border text-xs sm:text-sm tabs-modern">
             <TabsTrigger value="dashboard" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Dashboard</TabsTrigger>
             <TabsTrigger value="requests" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Requests</TabsTrigger>
             <TabsTrigger value="quotes" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Quotes</TabsTrigger>

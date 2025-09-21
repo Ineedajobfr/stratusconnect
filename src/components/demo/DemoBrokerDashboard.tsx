@@ -13,6 +13,7 @@ import { UnifiedTerminalLayout, TerminalIcons } from "./UnifiedTerminalLayout";
 import { ProfessionalDataCard, ProfessionalFlightCard } from "./ProfessionalDataCard";
 import { PilotTrackingMap } from "./PilotTrackingMap";
 import { BrokerTradingFloor } from "./BrokerTradingFloor";
+import { FlightRadar24Widget } from "../flight-tracking/FlightRadar24Widget";
 
 // Demo data
 const demoRequests = [
@@ -324,6 +325,15 @@ export const DemoBrokerDashboard: React.FC = () => {
               trend={{ value: 12, isPositive: true }}
             />
           </div>
+
+          {/* Flight Tracking */}
+          <FlightRadar24Widget 
+            tailNumbers={["N425SC", "N892AV", "N156JT"]}
+            role="broker"
+            showMap={true}
+            autoRefresh={true}
+            refreshInterval={30}
+          />
 
           {/* Pilot Tracking Map */}
           <PilotTrackingMap pilots={demoPilotTracking} />

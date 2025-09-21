@@ -11,23 +11,19 @@ import {
   EyeOff,
   RefreshCw,
   AlertCircle,
-  CheckCircle,
-  ExternalLink
+  CheckCircle
 } from "lucide-react";
+import { 
+  fetchAircraftPositions, 
+  formatCoordinates, 
+  formatAltitude, 
+  formatSpeed, 
+  formatHeading,
+  type AircraftData 
+} from "@/lib/flightradar24-api";
 
-interface AircraftPosition {
-  id: string;
-  tailNumber: string;
-  callsign: string;
-  latitude: number;
-  longitude: number;
-  altitude: number;
-  speed: number;
-  heading: number;
-  squawk: string;
-  timestamp: string;
-  status: "tracking" | "offline" | "error";
-}
+// Use the AircraftData type from the API module
+type AircraftPosition = AircraftData;
 
 interface FlightRadar24WidgetProps {
   tailNumbers?: string[];
@@ -63,14 +59,13 @@ export function FlightRadar24Widget({
     setError(null);
     
     try {
-      // Simulate FlightRadar24 API call
-      // In real implementation, you would call FlightRadar24's API or use their widget
-      const mockPositions = generateMockPositions(tailNumbers);
-      setAircraftPositions(mockPositions);
+      // Use the ad-free FlightRadar24 API
+      const positions = await fetchAircraftPositions(tailNumbers);
+      setAircraftPositions(positions);
       setLastUpdate(new Date());
     } catch (err) {
       setError("Failed to fetch aircraft positions");
-      console.error("FlightRadar24 API error:", err);
+      console.error("Flight tracking error:", err);
     } finally {
       setIsTracking(false);
     }
@@ -109,23 +104,7 @@ export function FlightRadar24Widget({
     }
   };
 
-  const formatCoordinates = (lat: number, lng: number) => {
-    return `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
-  };
-
-  const formatAltitude = (alt: number) => {
-    return `${alt.toLocaleString()} ft`;
-  };
-
-  const formatSpeed = (speed: number) => {
-    return `${speed} kts`;
-  };
-
-  const formatHeading = (heading: number) => {
-    const directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
-    const index = Math.round(heading / 45) % 8;
-    return `${heading}° ${directions[index]}`;
-  };
+  // Formatting functions are now imported from the API module
 
   return (
     <Card className="bg-terminal-card/50 border-terminal-border">
@@ -137,7 +116,7 @@ export function FlightRadar24Widget({
               Real-Time Aircraft Tracking
             </CardTitle>
             <CardDescription>
-              Live aircraft positions powered by FlightRadar24
+              Live aircraft positions - Ad-free tracking data
             </CardDescription>
           </div>
           <div className="flex items-center space-x-2">
@@ -215,36 +194,70 @@ export function FlightRadar24Widget({
                 </div>
 
                 {showDetails[aircraft.tailNumber] && (
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4 pt-4 border-t border-terminal-border">
-                    <div className="text-center">
-                      <div className="text-sm text-muted-foreground">Position</div>
-                      <div className="font-mono text-sm text-foreground">
-                        {formatCoordinates(aircraft.latitude, aircraft.longitude)}
+                  <div className="space-y-4 mt-4 pt-4 border-t border-terminal-border">
+                    {/* Flight Information */}
+                    {(aircraft.aircraftType || aircraft.origin || aircraft.destination) && (
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {aircraft.aircraftType && (
+                          <div className="text-center">
+                            <div className="text-sm text-muted-foreground">Aircraft Type</div>
+                            <div className="font-semibold text-foreground">{aircraft.aircraftType}</div>
+                          </div>
+                        )}
+                        {aircraft.origin && (
+                          <div className="text-center">
+                            <div className="text-sm text-muted-foreground">Origin</div>
+                            <div className="font-semibold text-foreground">{aircraft.origin}</div>
+                          </div>
+                        )}
+                        {aircraft.destination && (
+                          <div className="text-center">
+                            <div className="text-sm text-muted-foreground">Destination</div>
+                            <div className="font-semibold text-foreground">{aircraft.destination}</div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    
+                    {/* Technical Details */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      <div className="text-center">
+                        <div className="text-sm text-muted-foreground">Position</div>
+                        <div className="font-mono text-sm text-foreground">
+                          {formatCoordinates(aircraft.latitude, aircraft.longitude)}
+                        </div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-sm text-muted-foreground">Altitude</div>
+                        <div className="font-semibold text-foreground">
+                          {formatAltitude(aircraft.altitude)}
+                        </div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-sm text-muted-foreground">Speed</div>
+                        <div className="font-semibold text-foreground">
+                          {formatSpeed(aircraft.speed)}
+                        </div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-sm text-muted-foreground">Heading</div>
+                        <div className="flex items-center justify-center">
+                          <Navigation 
+                            className="h-4 w-4 mr-1 text-accent" 
+                            style={{ transform: `rotate(${aircraft.heading}deg)` }}
+                          />
+                          <span className="font-semibold text-foreground">
+                            {formatHeading(aircraft.heading)}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                    <div className="text-center">
-                      <div className="text-sm text-muted-foreground">Altitude</div>
-                      <div className="font-semibold text-foreground">
-                        {formatAltitude(aircraft.altitude)}
-                      </div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-sm text-muted-foreground">Speed</div>
-                      <div className="font-semibold text-foreground">
-                        {formatSpeed(aircraft.speed)}
-                      </div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-sm text-muted-foreground">Heading</div>
-                      <div className="flex items-center justify-center">
-                        <Navigation 
-                          className="h-4 w-4 mr-1 text-accent" 
-                          style={{ transform: `rotate(${aircraft.heading}deg)` }}
-                        />
-                        <span className="font-semibold text-foreground">
-                          {formatHeading(aircraft.heading)}
-                        </span>
-                      </div>
+                    
+                    {/* Additional Info */}
+                    <div className="flex items-center justify-between text-sm text-muted-foreground">
+                      <span>Squawk: {aircraft.squawk}</span>
+                      {aircraft.flightNumber && <span>Flight: {aircraft.flightNumber}</span>}
+                      <span>Updated: {new Date(aircraft.timestamp).toLocaleTimeString()}</span>
                     </div>
                   </div>
                 )}
@@ -299,18 +312,4 @@ export function FlightRadar24Widget({
 }
 
 // Mock data generator - replace with real FlightRadar24 API integration
-function generateMockPositions(tailNumbers: string[]): AircraftPosition[] {
-  return tailNumbers.map((tailNumber, index) => ({
-    id: `aircraft-${index}`,
-    tailNumber,
-    callsign: `${tailNumber.slice(0, 3)}${Math.floor(Math.random() * 100)}`,
-    latitude: 40.7128 + (Math.random() - 0.5) * 0.1,
-    longitude: -74.0060 + (Math.random() - 0.5) * 0.1,
-    altitude: 35000 + Math.random() * 10000,
-    speed: 450 + Math.random() * 100,
-    heading: Math.floor(Math.random() * 360),
-    squawk: Math.floor(1000 + Math.random() * 8000).toString(),
-    timestamp: new Date().toISOString(),
-    status: Math.random() > 0.1 ? "tracking" : "offline"
-  }));
-}
+// Mock data generator is now handled by the flightradar24-api module

@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { getErrorMessage } from "@/utils/errorHandler";
 
 interface ReviewModalProps {
   isOpen: boolean;
@@ -69,7 +70,7 @@ export default function ReviewModal({
     } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to submit review",
+        description: getErrorMessage(error),
         variant: "destructive"
       });
     } finally {

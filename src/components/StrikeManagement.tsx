@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { AlertTriangle, Plus, User, Clock, CheckCircle, XCircle } from 'lucide-react';
+import { getErrorMessage, safeObjectCast } from '@/utils/errorHandler';
 
 interface Strike {
   id: string;
@@ -65,19 +66,18 @@ export const StrikeManagement = () => {
 
       if (error) throw error;
       
-      // Handle the query result and map to correct type
       const mappedStrikes: Strike[] = (data || [])
-        .filter((item: Record<string, unknown>) => item.profiles && item.profiles.display_name)
-        .map((item: Record<string, unknown>) => ({
-          ...item,
-          profiles: item.profiles
-        }));
+        .filter((item) => {
+          return item.profiles && typeof item.profiles === 'object' && 
+                 !(item.profiles as any).error;
+        })
+        .map((item) => item as unknown as Strike);
       
       setStrikes(mappedStrikes);
     } catch (error: unknown) {
       toast({
         title: 'Error',
-        description: error.message || 'Failed to fetch strikes',
+        description: getErrorMessage(error),
         variant: 'destructive',
       });
     } finally {
@@ -176,7 +176,7 @@ export const StrikeManagement = () => {
     } catch (error: unknown) {
       toast({
         title: 'Error',
-        description: error.message || 'Failed to issue strike',
+        description: getErrorMessage(error),
         variant: 'destructive',
       });
     } finally {
@@ -209,7 +209,7 @@ export const StrikeManagement = () => {
     } catch (error: unknown) {
       toast({
         title: 'Error',
-        description: error.message || 'Failed to resolve strike',
+        description: getErrorMessage(error),
         variant: 'destructive',
       });
     }

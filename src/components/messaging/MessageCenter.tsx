@@ -175,7 +175,7 @@ export const MessageCenter: React.FC<MessageCenterProps> = ({
     table: 'messages',
     onUpdate: (payload) => {
       if (payload.eventType === 'INSERT') {
-        setMessages(prev => [...prev, payload.new as Message]);
+        setMessages(prev => [...prev, payload.new as unknown as Message]);
       }
     }
   });

@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Shield, AlertTriangle, Search, Activity, Clock, User, Globe } from 'lucide-react';
 import { toast } from 'sonner';
+import { safeObjectCast } from '@/utils/errorHandler';
 
 interface SecurityEvent {
   id: string;
@@ -48,7 +49,10 @@ export const SecurityMonitor = () => {
         .limit(100);
 
       if (error) throw error;
-      setEvents(data || []);
+      setEvents((data || []).map(item => ({
+        ...item,
+        metadata: safeObjectCast(item.metadata || {})
+      })) as SecurityEvent[]);
     } catch (error) {
       console.error('Error fetching security events:', error);
       toast.error('Failed to load security events');

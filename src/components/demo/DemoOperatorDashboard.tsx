@@ -9,6 +9,7 @@ import { UnifiedTerminalLayout, TerminalIcons } from "./UnifiedTerminalLayout";
 import { ProfessionalDataCard, ProfessionalFlightCard } from "./ProfessionalDataCard";
 import { AircraftTrackingMap } from "./AircraftTrackingMap";
 import { OperatorCommandCenter } from "./OperatorCommandCenter";
+import { FlightRadar24Widget } from "../flight-tracking/FlightRadar24Widget";
 
 // Demo data for operator
 const demoRequests = [

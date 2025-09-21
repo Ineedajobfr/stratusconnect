@@ -3,39 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
-import { 
-  Calendar, 
-  Clock, 
-  Users, 
-  BarChart3, 
-  Settings, 
-  User, 
-  Shield, 
-  Briefcase, 
-  Award, 
-  FileText, 
-  Plane, 
-  CheckCircle, 
-  DollarSign, 
-  MessageCircle, 
-  Bell, 
-  ChevronLeft, 
-  ChevronRight, 
-  LogOut,
-  MapPin,
-  Star,
-  Home
-} from "lucide-react";
+import { Calendar, Clock, Users, BarChart3, Settings, User, Shield, Briefcase, Award, FileText, Plane, CheckCircle, DollarSign, MessageCircle, Bell, ChevronLeft, ChevronRight, LogOut, MapPin, Star, Home } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { StarfieldRunwayBackground } from "../StarfieldRunwayBackground";
-
 interface User {
   name: string;
   role: string;
   status: 'available' | 'busy' | 'offline';
   avatar?: string;
 }
-
 interface SidebarItem {
   id: string;
   label: string;
@@ -43,7 +19,6 @@ interface SidebarItem {
   active?: boolean;
   badge?: number;
 }
-
 interface UnifiedTerminalLayoutProps {
   title: string;
   subtitle: string;
@@ -55,7 +30,6 @@ interface UnifiedTerminalLayoutProps {
   onNotificationClick?: () => void;
   onMessageClick?: () => void;
 }
-
 export const UnifiedTerminalLayout: React.FC<UnifiedTerminalLayoutProps> = ({
   title,
   subtitle,
@@ -80,7 +54,6 @@ export const UnifiedTerminalLayout: React.FC<UnifiedTerminalLayoutProps> = ({
         return 'bg-gray-500';
     }
   };
-
   const getStatusText = (status: string) => {
     switch (status) {
       case 'available':
@@ -93,9 +66,7 @@ export const UnifiedTerminalLayout: React.FC<UnifiedTerminalLayoutProps> = ({
         return status.toUpperCase();
     }
   };
-
-  return (
-    <div className="min-h-screen bg-slate-900 text-white relative">
+  return <div className="min-h-screen bg-slate-900 text-white relative">
       {/* Star Background */}
       <div className="absolute inset-0 z-0">
         <StarfieldRunwayBackground intensity={0.4} starCount={120} />
@@ -121,63 +92,32 @@ export const UnifiedTerminalLayout: React.FC<UnifiedTerminalLayoutProps> = ({
 
               {/* Navigation Controls */}
               <div className="flex items-center space-x-2">
-                {onNavigate && (
-                  <>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => onNavigate('back')}
-                      className="text-slate-400 hover:text-white hover:bg-slate-700"
-                    >
+                {onNavigate && <>
+                    <Button variant="ghost" size="sm" onClick={() => onNavigate('back')} className="text-slate-400 hover:text-white hover:bg-slate-700">
                       <ChevronLeft className="h-4 w-4" />
                     </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => onNavigate('forward')}
-                      className="text-slate-400 hover:text-white hover:bg-slate-700"
-                    >
+                    <Button variant="ghost" size="sm" onClick={() => onNavigate('forward')} className="text-slate-400 hover:text-white hover:bg-slate-700">
                       <ChevronRight className="h-4 w-4" />
                     </Button>
-                  </>
-                )}
+                  </>}
               </div>
             </div>
 
             {/* Terminal Actions */}
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-2">
-                {onNotificationClick && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={onNotificationClick}
-                    className="text-slate-400 hover:text-white hover:bg-slate-700 relative"
-                  >
+                {onNotificationClick && <Button variant="ghost" size="sm" onClick={onNotificationClick} className="text-slate-400 hover:text-white hover:bg-slate-700 relative">
                     <Bell className="h-4 w-4" />
                     <div className="absolute -top-1 -right-1 w-2 h-2 bg-orange-500 rounded-full"></div>
-                  </Button>
-                )}
+                  </Button>}
 
-                {onMessageClick && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={onMessageClick}
-                    className="text-slate-400 hover:text-white hover:bg-slate-700"
-                  >
+                {onMessageClick && <Button variant="ghost" size="sm" onClick={onMessageClick} className="text-slate-400 hover:text-white hover:bg-slate-700">
                     <MessageCircle className="h-4 w-4" />
-                  </Button>
-                )}
+                  </Button>}
               </div>
 
               {/* Home Button */}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => navigate('/')}
-                className="text-slate-400 hover:text-white hover:bg-slate-700"
-              >
+              <Button variant="ghost" size="sm" onClick={() => navigate('/')} className="text-slate-400 hover:text-white hover:bg-slate-700">
                 <Home className="h-4 w-4 mr-2" />
                 Home
               </Button>
@@ -186,37 +126,24 @@ export const UnifiedTerminalLayout: React.FC<UnifiedTerminalLayoutProps> = ({
             {/* Title Section */}
             <div className="mb-4">
               <h2 className="text-2xl font-bold text-orange-400">{title}</h2>
-              <p className="text-slate-400 text-sm">{subtitle}</p>
+              
             </div>
 
             {/* User Profile */}
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 <div className="flex items-center space-x-2">
-                  <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-semibold">
-                    {user.name.split(' ').map(n => n[0]).join('')}
-                  </div>
+                  
                 </div>
 
                 {/* Logout */}
-                {onLogout && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={onLogout}
-                    className="text-slate-400 hover:text-white hover:bg-slate-700"
-                  >
-                    <LogOut className="h-4 w-4" />
-                  </Button>
-                )}
+                {onLogout}
               </div>
             </div>
 
             {/* Status Badge */}
             <div className="mt-4">
-              <Badge 
-                className={`${getStatusColor(user.status)} text-white px-3 py-1`}
-              >
+              <Badge className={`${getStatusColor(user.status)} text-white px-3 py-1`}>
                 {getStatusText(user.status)}
               </Badge>
             </div>
@@ -225,28 +152,7 @@ export const UnifiedTerminalLayout: React.FC<UnifiedTerminalLayoutProps> = ({
           {/* Sidebar Navigation */}
           <div className="flex-1 p-6 overflow-y-auto">
             <div className="space-y-2">
-              {sidebarItems.map((item) => (
-                <div
-                  key={item.id}
-                  className={`
-                    flex items-center justify-between p-3 rounded-lg cursor-pointer transition-colors
-                    ${item.active 
-                      ? 'bg-orange-500 text-white' 
-                      : 'hover:bg-slate-700 text-slate-300 hover:text-white'
-                    }
-                  `}
-                >
-                  <div className="flex items-center space-x-3">
-                    {item.icon}
-                    <span className="text-sm font-medium">{item.label}</span>
-                  </div>
-                  {item.badge && (
-                    <Badge className="bg-orange-500 text-white">
-                      {item.badge}
-                    </Badge>
-                  )}
-                </div>
-              ))}
+              {sidebarItems.map(item => {})}
             </div>
           </div>
 
@@ -282,26 +188,14 @@ export const UnifiedTerminalLayout: React.FC<UnifiedTerminalLayoutProps> = ({
                   TIME: <span className="text-white">{new Date().toLocaleTimeString()}</span>
                 </div>
                 {/* Page Navigation */}
-                {onNavigate && (
-                  <div className="flex items-center space-x-2 ml-4">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => onNavigate('back')}
-                      className="text-slate-400 hover:text-white hover:bg-slate-700"
-                    >
+                {onNavigate && <div className="flex items-center space-x-2 ml-4">
+                    <Button variant="ghost" size="sm" onClick={() => onNavigate('back')} className="text-slate-400 hover:text-white hover:bg-slate-700">
                       <ChevronLeft className="h-4 w-4" />
                     </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => onNavigate('forward')}
-                      className="text-slate-400 hover:text-white hover:bg-slate-700"
-                    >
+                    <Button variant="ghost" size="sm" onClick={() => onNavigate('forward')} className="text-slate-400 hover:text-white hover:bg-slate-700">
                       <ChevronRight className="h-4 w-4" />
                     </Button>
-                  </div>
-                )}
+                  </div>}
               </div>
             </div>
           </div>
@@ -312,8 +206,7 @@ export const UnifiedTerminalLayout: React.FC<UnifiedTerminalLayoutProps> = ({
           </main>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
 
 // Icon components for consistency
@@ -321,7 +214,6 @@ interface IconProps {
   className?: string;
   [key: string]: unknown;
 }
-
 export const TerminalIcons = {
   Profile: (props: IconProps) => <User className="h-4 w-4" {...props} />,
   Trust: (props: IconProps) => <Shield className="h-4 w-4" {...props} />,

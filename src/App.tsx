@@ -37,7 +37,7 @@ const Unauthorized = lazy(() => import("./pages/Unauthorized"));
 const SLA = lazy(() => import("./pages/CompliantSLA"));
 
 // New unified navigation pages
-const NetworkPage = lazy(() => import("./components/network/ConnectionsPage"));
+const NetworkPage = lazy(() => import("./pages/NetworkPage"));
 
 // Secondary pages - loaded on demand
 const Demo = lazy(() => import("./pages/Demo"));
@@ -181,9 +181,7 @@ const App = memo(() => {
                 path="/network" 
                 element={
                   <ProtectedRoute>
-                    <UnifiedLayout title="My Network">
-                      <NetworkPage />
-                    </UnifiedLayout>
+                    <NetworkPage />
                   </ProtectedRoute>
                 } 
               />

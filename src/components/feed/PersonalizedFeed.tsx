@@ -62,6 +62,8 @@ export function PersonalizedFeed() {
   const [feedItems, setFeedItems] = useState<FeedItem[]>([]);
   const [quickStats, setQuickStats] = useState<QuickStats[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("dashboard");
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     if (user) {
@@ -79,6 +81,16 @@ export function PersonalizedFeed() {
     }, 1000);
   };
 
+  const getFleetTailNumbers = () => {
+    // Mock fleet data - in real implementation, this would come from the user's fleet
+    if (user?.role === "operator") {
+      return ["N123SC", "N456SC", "N789SC"];
+    } else if (user?.role === "broker") {
+      return ["N425SC", "N892AV", "N123CX"]; // Saved aircraft from trusted operators
+    }
+    return [];
+  };
+
   if (!user) {
     return <div>Please log in to view your personalized feed.</div>;
   }
@@ -87,9 +99,9 @@ export function PersonalizedFeed() {
 
   return (
     <div className="space-y-6">
-      {/* Welcome Header */}
+      {/* Welcome Header with Search */}
       <div className="bg-gradient-to-r from-accent/10 to-accent/5 rounded-lg p-6 border border-accent/20">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mb-4">
           <div>
             <h1 className="text-2xl font-bold text-foreground mb-2">
               Welcome back, {user.fullName}
@@ -108,6 +120,18 @@ export function PersonalizedFeed() {
               Messages
             </Button>
           </div>
+        </div>
+        
+        {/* Search Bar */}
+        <div className="relative max-w-md">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            type="text"
+            placeholder="Search flights, users, companies..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10 bg-terminal-bg/50 border-terminal-border focus:border-accent"
+          />
         </div>
       </div>
 
@@ -181,35 +205,107 @@ export function PersonalizedFeed() {
         </Card>
       )}
 
-      {/* Activity Feed */}
-      <Card className="bg-terminal-card/50 border-terminal-border">
-        <CardHeader>
-          <CardTitle className="flex items-center">
-            <Activity className="h-5 w-5 mr-2 text-accent" />
-            Activity Feed
-          </CardTitle>
-          <CardDescription>
-            Recent updates and opportunities in your network
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {isLoading ? (
+      {/* Flight Tracking Section */}
+      {(user.role === "operator" || user.role === "broker") && (
+        <FlightRadar24Widget 
+          tailNumbers={getFleetTailNumbers()}
+          role={user.role}
+          showMap={true}
+          autoRefresh={true}
+          refreshInterval={30}
+        />
+      )}
+
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Activity Feed */}
+        <div className="lg:col-span-2">
+          <Card className="bg-terminal-card/50 border-terminal-border">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <BarChart3 className="h-5 w-5 mr-2 text-accent" />
+                Activity Feed
+              </CardTitle>
+              <CardDescription>
+                Recent updates and opportunities in your network
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
               <div className="space-y-4">
-                {[...Array(3)].map((_, i) => (
-                  <div key={i} className="animate-pulse">
-                    <div className="h-20 bg-terminal-border/50 rounded-lg"></div>
+                {isLoading ? (
+                  <div className="space-y-4">
+                    {[...Array(3)].map((_, i) => (
+                      <div key={i} className="animate-pulse">
+                        <div className="h-20 bg-terminal-border/50 rounded-lg"></div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  feedItems.map((item) => (
+                    <FeedItemCard key={item.id} item={item} />
+                  ))
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Right Sidebar */}
+        <div className="space-y-6">
+          {/* Recent Messages */}
+          <Card className="bg-terminal-card/50 border-terminal-border">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <MessageCircle className="h-5 w-5 mr-2 text-accent" />
+                Recent Messages
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {generateRecentMessages(user.role).map((message, index) => (
+                  <div key={index} className="flex items-start space-x-3 p-3 bg-terminal-bg/50 rounded-lg">
+                    <Avatar className="h-8 w-8">
+                      <AvatarFallback className="text-xs">
+                        {message.sender.split(' ').map(n => n[0]).join('')}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-foreground">{message.sender}</p>
+                      <p className="text-xs text-muted-foreground truncate">{message.preview}</p>
+                      <p className="text-xs text-muted-foreground mt-1">{message.time}</p>
+                    </div>
                   </div>
                 ))}
               </div>
-            ) : (
-              feedItems.map((item) => (
-                <FeedItemCard key={item.id} item={item} />
-              ))
-            )}
-          </div>
-        </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
+
+          {/* Market Updates */}
+          <Card className="bg-terminal-card/50 border-terminal-border">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <TrendingUp className="h-5 w-5 mr-2 text-accent" />
+                Market Updates
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {generateMarketUpdates().map((update, index) => (
+                  <div key={index} className="p-3 bg-terminal-bg/50 rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <Badge variant="outline" className="text-xs">
+                        {update.category}
+                      </Badge>
+                      <span className="text-xs text-muted-foreground">{update.time}</span>
+                    </div>
+                    <p className="text-sm text-foreground">{update.message}</p>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 }
@@ -281,6 +377,36 @@ function FeedItemCard({ item }: { item: FeedItem }) {
 }
 
 // Mock data generators - replace with real API calls
+function generateRecentMessages(role: string) {
+  const baseMessages = [
+    { sender: "Sarah Johnson", preview: "Re: JFK → LAX Quote Request", time: "2 min ago" },
+    { sender: "Mike Chen", preview: "Fleet update for your client", time: "15 min ago" },
+    { sender: "David Rodriguez", preview: "Pilot availability confirmed", time: "1 hour ago" }
+  ];
+
+  if (role === "broker") {
+    return [
+      ...baseMessages,
+      { sender: "Elite Aviation", preview: "New empty leg opportunity", time: "2 hours ago" }
+    ];
+  } else if (role === "operator") {
+    return [
+      ...baseMessages,
+      { sender: "Global Charters", preview: "Request for G650 availability", time: "30 min ago" }
+    ];
+  }
+
+  return baseMessages;
+}
+
+function generateMarketUpdates() {
+  return [
+    { category: "Charter Rates", message: "Northeast region rates up 15%", time: "1 hour ago" },
+    { category: "Weather", message: "Winter storm affecting East Coast", time: "2 hours ago" },
+    { category: "Regulations", message: "New FAA requirements effective Jan 1", time: "1 day ago" }
+  ];
+}
+
 function generateFeedItems(role: string): FeedItem[] {
   const baseItems: FeedItem[] = [
     {
@@ -362,11 +488,57 @@ function generateQuickStats(role: string): QuickStats[] {
         icon: Plane
       },
       {
+        label: "Success Rate",
+        value: "87%",
+        change: "+3% this month",
+        trend: "up",
+        icon: TrendingUp
+      },
+      {
         label: "Revenue",
         value: "$45,200",
         change: "+12% this month",
         trend: "up",
         icon: DollarSign
+      },
+      {
+        label: "Messages",
+        value: 12,
+        change: "3 unread",
+        trend: "neutral",
+        icon: MessageCircle
+      }
+    ];
+  } else if (role === "operator") {
+    return [
+      ...baseStats,
+      {
+        label: "New Requests",
+        value: 5,
+        change: "+3 from yesterday",
+        trend: "up",
+        icon: Bell
+      },
+      {
+        label: "Active Quotes",
+        value: 8,
+        change: "2 expiring today",
+        trend: "neutral",
+        icon: DollarSign
+      },
+      {
+        label: "Fleet Utilization",
+        value: "78%",
+        change: "+5% from last month",
+        trend: "up",
+        icon: Plane
+      },
+      {
+        label: "Quote Success",
+        value: "65%",
+        change: "+8% from last month",
+        trend: "up",
+        icon: TrendingUp
       }
     ];
   } else if (role === "pilot") {
@@ -380,11 +552,57 @@ function generateQuickStats(role: string): QuickStats[] {
         icon: Plane
       },
       {
+        label: "Certifications",
+        value: 8,
+        change: "All current",
+        trend: "neutral",
+        icon: Award
+      },
+      {
         label: "Earnings",
         value: "$12,500",
         change: "+8% this month",
         trend: "up",
         icon: DollarSign
+      },
+      {
+        label: "Rating",
+        value: "4.9★",
+        change: "+0.1 this quarter",
+        trend: "up",
+        icon: Star
+      }
+    ];
+  } else if (role === "crew") {
+    return [
+      ...baseStats,
+      {
+        label: "Opportunities",
+        value: 6,
+        change: "+2 this week",
+        trend: "up",
+        icon: Briefcase
+      },
+      {
+        label: "Service Rating",
+        value: "4.8★",
+        change: "+0.2 this month",
+        trend: "up",
+        icon: Star
+      },
+      {
+        label: "Earnings",
+        value: "$8,400",
+        change: "+15% this month",
+        trend: "up",
+        icon: DollarSign
+      },
+      {
+        label: "Availability",
+        value: "85%",
+        change: "Next 30 days",
+        trend: "neutral",
+        icon: Calendar
       }
     ];
   }

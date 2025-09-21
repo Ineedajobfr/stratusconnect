@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -21,11 +21,20 @@ import { useNavigate } from "react-router-dom";
 import { LoginModal } from "@/components/LoginModal";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 import TimeZonesBar from "@/components/utility/TimeZonesBar";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Index() {
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const navigate = useNavigate();
+  const { user } = useAuth();
+
+  // Redirect authenticated users to their home page
+  useEffect(() => {
+    if (user) {
+      navigate("/home");
+    }
+  }, [user, navigate]);
 
   const handleAccessTerminal = (roleId: string) => {
     setSelectedRole(roleId);

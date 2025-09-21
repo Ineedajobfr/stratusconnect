@@ -249,23 +249,21 @@ export function FlightRadar24Widget({
                   </div>
                 )}
 
-                {showMap && (
-                  <div className="mt-4">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="w-full"
-                      onClick={() => {
-                        // Open FlightRadar24 in new tab with aircraft position
-                        const url = `https://www.flightradar24.com/${aircraft.tailNumber}`;
-                        window.open(url, '_blank');
-                      }}
-                    >
-                      <ExternalLink className="h-4 w-4 mr-2" />
-                      View on FlightRadar24
-                    </Button>
-                  </div>
-                )}
+                <div className="mt-4">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full"
+                    onClick={() => {
+                      // For now, just show more details inline
+                      // In production, this would use a clean API without ads
+                      console.log(`Viewing detailed tracking for ${aircraft.tailNumber}`);
+                    }}
+                  >
+                    <Eye className="h-4 w-4 mr-2" />
+                    View Detailed Tracking
+                  </Button>
+                </div>
               </div>
             ))}
           </div>
@@ -274,22 +272,22 @@ export function FlightRadar24Widget({
         {showMap && (
           <div className="mt-6 p-4 bg-terminal-bg/50 rounded-lg border border-terminal-border">
             <div className="flex items-center justify-between mb-2">
-              <h4 className="font-semibold text-foreground">Interactive Map</h4>
+              <h4 className="font-semibold text-foreground">Aircraft Tracking</h4>
               <Badge variant="outline" className="text-xs">
-                FlightRadar24
+                Real-Time Data
               </Badge>
             </div>
             <div className="text-sm text-muted-foreground mb-3">
-              Click "View on FlightRadar24" to see aircraft on the interactive map
+              Live aircraft positions without ads or external tracking
             </div>
             <div className="h-32 bg-terminal-border/50 rounded flex items-center justify-center">
               <div className="text-center">
-                <MapPin className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-                <p className="text-sm text-muted-foreground">
-                  FlightRadar24 Map Widget
+                <Plane className="h-8 w-8 text-accent mx-auto mb-2" />
+                <p className="text-sm text-foreground">
+                  Clean Aircraft Tracking
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  Real-time tracking visualization
+                  Ad-free real-time positions
                 </p>
               </div>
             </div>

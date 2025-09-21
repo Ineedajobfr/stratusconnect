@@ -65,7 +65,7 @@ Deno.serve(async (req) => {
     console.log("Calculated scores:", final);
 
     // Insert scores
-    const inserts = Object.entries(final).map(([trait, v]: [string, any]) => ({
+    const inserts = Object.entries(final).map(([trait, v]: [string, Record<string, unknown>]) => ({
       session_id,
       user_id,
       trait,

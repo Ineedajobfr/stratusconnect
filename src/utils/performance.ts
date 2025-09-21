@@ -38,7 +38,7 @@ export const logger = {
 };
 
 // Lazy loading helper for components
-export const createLazyComponent = <T extends React.ComponentType<any>>(
+export const createLazyComponent = <T extends React.ComponentType<unknown>>(
   factory: () => Promise<{ default: T }>
 ) => {
   return React.lazy(factory);

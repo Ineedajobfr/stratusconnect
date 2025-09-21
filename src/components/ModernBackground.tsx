@@ -22,7 +22,7 @@ export function ModernBackground({
     const ctx = canvas.getContext("2d", { alpha: true })!;
     let width = 0;
     let height = 0;
-    let dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+    const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
     let running = true;
 
     // Enhanced particle system

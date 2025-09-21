@@ -93,7 +93,7 @@ serve(async (req) => {
         });
 
         if (createErr) {
-          const msg = (createErr as any).message?.toLowerCase() || '';
+          const msg = (createErr as Error).message?.toLowerCase() || '';
           if (msg.includes('already') && msg.includes('registered')) {
             // Find existing
             const { data: list } = await supabaseClient.auth.admin.listUsers();

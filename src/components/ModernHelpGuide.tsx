@@ -21,7 +21,9 @@ import {
   Award,
   Briefcase,
   Clock,
-  MapPin
+  MapPin,
+  Search,
+  FileText
 } from 'lucide-react';
 
 interface HelpStep {
@@ -81,112 +83,204 @@ export const ModernHelpGuide: React.FC<ModernHelpGuideProps> = ({
 
     const terminalSpecificContent = {
       broker: {
+        title: "Broker Terminal Guide",
+        description: "Master the broker workflow: from RFQ creation to deal completion",
+        quickTips: [
+          "Start in Dashboard to see your active deals and market overview",
+          "Use RFQs & Quotes tab to create new requests and compare operator quotes",
+          "Marketplace shows available aircraft and empty legs you can book immediately",
+          "Saved Searches automatically alert you to price drops and new opportunities",
+          "Flight Tracking lets you monitor your client's flights in real-time",
+          "Reputation tab shows your performance metrics and ranking among brokers",
+          "Billing section handles invoicing, payments, and financial statements"
+        ],
         steps: [
           {
-            title: "Marketplace Access",
-            description: "Browse and manage aircraft listings, create RFQs, and track deals",
-            icon: Plane,
-            status: 'available' as const
-          },
-          {
-            title: "Client Management",
-            description: "Manage client relationships and communication",
-            icon: Users,
-            status: 'available' as const
-          },
-          {
-            title: "Deal Tracking",
-            description: "Monitor active deals and payment status",
+            title: "Dashboard Overview",
+            description: "Your command center showing active deals, market trends, and performance metrics. Track your success rate and earnings here.",
             icon: BarChart3,
             status: 'available' as const
           },
           {
-            title: "Trust & Verification",
-            description: "Access verification systems and compliance tools",
-            icon: Shield,
+            title: "RFQ Creation & Quote Management",
+            description: "Create detailed flight requests for your clients. Compare operator quotes side-by-side and negotiate the best deals.",
+            icon: Plane,
+            status: 'available' as const
+          },
+          {
+            title: "Marketplace & Saved Searches",
+            description: "Browse available aircraft and empty legs. Set up automated alerts for price drops and route availability.",
+            icon: Search,
+            status: 'available' as const
+          },
+          {
+            title: "Real-Time Flight Tracking",
+            description: "Monitor your client's flights live. Track aircraft positions, delays, and provide real-time updates to clients.",
+            icon: Globe,
+            status: 'available' as const
+          },
+          {
+            title: "Reputation & Ranking System",
+            description: "Build your broker reputation through successful deals. Higher rankings unlock premium features and better operator relationships.",
+            icon: Award,
+            status: 'available' as const
+          },
+          {
+            title: "Billing & Financial Management",
+            description: "Handle invoicing, track payments, and manage your commission structure. All transactions are FCA compliant.",
+            icon: DollarSign,
             status: 'available' as const
           }
         ]
       },
       operator: {
+        title: "Operator Terminal Guide",
+        description: "Maximize your fleet utilization and manage operations efficiently",
+        quickTips: [
+          "Dashboard shows your fleet status, bookings, and performance metrics",
+          "Requests tab displays incoming broker RFQs - respond quickly to win deals",
+          "Fleet tab manages aircraft availability, maintenance, and positioning",
+          "Crew tab helps you find and hire qualified pilots and cabin crew",
+          "Analytics tab tracks utilization rates, revenue, and operational efficiency",
+          "Flight Tracking monitors your aircraft in real-time",
+          "Billing handles invoicing, payments, and financial reporting"
+        ],
         steps: [
           {
-            title: "Fleet Management",
-            description: "Manage your aircraft fleet and availability",
+            title: "Request Management",
+            description: "View incoming broker requests and submit competitive quotes. Quick response times and competitive pricing win more deals.",
             icon: Plane,
             status: 'available' as const
           },
           {
-            title: "Booking Management",
-            description: "Handle incoming bookings and scheduling",
+            title: "Fleet Operations",
+            description: "Manage aircraft availability, schedule maintenance, and optimize fleet positioning for maximum utilization.",
             icon: Calendar,
             status: 'available' as const
           },
           {
-            title: "Crew Coordination",
-            description: "Manage pilot and crew assignments",
+            title: "Crew Management & Hiring",
+            description: "Find qualified pilots and cabin crew for your flights. Browse profiles, check certifications, and hire the best talent.",
             icon: Users,
             status: 'available' as const
           },
           {
-            title: "Analytics & Reports",
-            description: "View performance metrics and financial reports",
+            title: "Performance Analytics",
+            description: "Track fleet utilization, revenue per aircraft, and operational metrics. Identify opportunities to increase efficiency and profits.",
             icon: BarChart3,
+            status: 'available' as const
+          },
+          {
+            title: "Real-Time Flight Monitoring",
+            description: "Monitor your aircraft positions, track delays, and provide updates to clients. Ensure operational excellence.",
+            icon: Globe,
+            status: 'available' as const
+          },
+          {
+            title: "Financial Management",
+            description: "Handle invoicing, track payments, and manage your revenue streams. All transactions are FCA compliant.",
+            icon: DollarSign,
             status: 'available' as const
           }
         ]
       },
       pilot: {
+        title: "Pilot Terminal Guide",
+        description: "Manage your flying career and find new opportunities",
+        quickTips: [
+          "Profile tab showcases your experience, ratings, and certifications to operators",
+          "Schedule tab shows your upcoming flights and availability calendar",
+          "Jobs tab lists available positions - apply directly to operators",
+          "Licenses tab manages your certifications and tracks expiry dates",
+          "Logbook tab records your flight hours and experience",
+          "Earnings tab tracks your income and payment history",
+          "Network tab connects you with other aviation professionals"
+        ],
         steps: [
           {
-            title: "Flight Schedule",
-            description: "View upcoming flights and assignments",
+            title: "Professional Profile",
+            description: "Showcase your experience, ratings, and certifications. A complete profile attracts more job opportunities from operators.",
+            icon: Users,
+            status: 'available' as const
+          },
+          {
+            title: "Flight Schedule & Availability",
+            description: "Manage your schedule and set availability. Operators can see when you're free and book you for flights.",
             icon: Calendar,
             status: 'available' as const
           },
           {
-            title: "Job Pipeline",
-            description: "Browse and apply for available positions",
+            title: "Job Opportunities",
+            description: "Browse available pilot positions from operators. Apply directly and build relationships with charter companies.",
             icon: Briefcase,
             status: 'available' as const
           },
           {
-            title: "Certifications",
-            description: "Manage licenses and certifications",
+            title: "Certification Management",
+            description: "Track your licenses, ratings, and medical certificates. Get alerts before they expire to maintain compliance.",
             icon: Award,
             status: 'available' as const
           },
           {
-            title: "Earnings Tracking",
-            description: "Monitor flight earnings and payments",
+            title: "Digital Logbook",
+            description: "Record your flight hours, routes, and experience. Build a comprehensive record of your aviation career.",
+            icon: FileText,
+            status: 'available' as const
+          },
+          {
+            title: "Earnings & Payments",
+            description: "Track your income, view payment history, and manage your financial records. All payments are secure and compliant.",
             icon: DollarSign,
             status: 'available' as const
           }
         ]
       },
       crew: {
+        title: "Crew Terminal Guide",
+        description: "Manage your cabin crew career and find new opportunities",
+        quickTips: [
+          "Profile tab showcases your experience, specialties, and certifications to operators",
+          "Schedule tab shows your upcoming assignments and availability calendar",
+          "Assignments tab lists your confirmed flights and duties",
+          "Services tab highlights your special skills (catering, languages, medical)",
+          "Profile tab manages your certifications and tracks training requirements",
+          "Availability tab sets when you're free for new assignments",
+          "Network tab connects you with other cabin crew and operators"
+        ],
         steps: [
           {
-            title: "Assignments",
-            description: "View upcoming crew assignments and duties",
+            title: "Professional Profile",
+            description: "Showcase your experience, specialties, and certifications. Highlight your unique skills like languages, medical training, or catering expertise.",
+            icon: Users,
+            status: 'available' as const
+          },
+          {
+            title: "Assignment Management",
+            description: "View your confirmed flights, duties, and client requirements. Stay organized and prepared for each assignment.",
             icon: Calendar,
             status: 'available' as const
           },
           {
-            title: "Job Requests",
-            description: "Browse available crew positions",
+            title: "Job Opportunities",
+            description: "Browse available cabin crew positions from operators. Apply for flights that match your schedule and interests.",
             icon: Briefcase,
             status: 'available' as const
           },
           {
-            title: "Certifications",
-            description: "Manage crew certifications and training",
+            title: "Service Specialties",
+            description: "Highlight your special skills like fine dining service, medical training, or language abilities. These skills increase your value to operators.",
             icon: Award,
             status: 'available' as const
           },
           {
-            title: "Availability",
-            description: "Set your availability and schedule preferences",
+            title: "Certification Tracking",
+            description: "Manage your safety certifications, medical training, and service qualifications. Stay current with all requirements.",
+            icon: Shield,
+            status: 'available' as const
+          },
+          {
+            title: "Availability Management",
+            description: "Set your schedule preferences and availability. Operators can see when you're free and book you for flights.",
             icon: Clock,
             status: 'available' as const
           }

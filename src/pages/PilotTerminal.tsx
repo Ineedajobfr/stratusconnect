@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { KPICard } from "@/components/KPICard";
 import { Section } from "@/components/Section";
 import { DataTile } from "@/components/DataTile";
@@ -33,6 +33,7 @@ import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 export default function PilotTerminal() {
   const [activeSection, setActiveSection] = useState("dashboard");
   const location = useLocation();
+  const navigate = useNavigate();
   const isBetaMode = location.pathname.startsWith('/beta/');
 
   return (
@@ -51,9 +52,12 @@ export default function PilotTerminal() {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center">
+              <button 
+                onClick={() => navigate('/')}
+                className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center hover:bg-accent/80 transition-colors cursor-pointer"
+              >
                 <span className="text-white font-bold text-sm">SC</span>
-              </div>
+              </button>
               <div>
                 <h1 className="text-xl font-bold text-foreground">StratusConnect</h1>
                 <p className="text-sm text-gunmetal">Pilot Terminal</p>

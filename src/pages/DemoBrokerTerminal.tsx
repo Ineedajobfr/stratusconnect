@@ -650,15 +650,10 @@ export default function DemoBrokerTerminal() {
 
         <main className="relative z-10 max-w-7xl mx-auto p-6 space-y-6">
 
-        {/* Compliance Notice */}
-        <ComplianceNotice />
-        
-        {/* Evidence Pack */}
-        <EvidencePack />
 
         {/* Main Navigation */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-11">
+          <TabsList className="grid w-full grid-cols-10">
             <TabsTrigger value="dashboard" className="flex items-center gap-2">
               <BarChart3 className="w-4 h-4 icon-glow" />
               Dashboard
@@ -698,10 +693,6 @@ export default function DemoBrokerTerminal() {
             <TabsTrigger value="warroom" className="flex items-center gap-2">
               <Shield className="w-4 h-4 icon-glow" />
               War Room
-            </TabsTrigger>
-            <TabsTrigger value="evidence" className="flex items-center gap-2">
-              <FileText className="w-4 h-4 icon-glow" />
-              Evidence
             </TabsTrigger>
             <TabsTrigger value="ranking" className="flex items-center gap-2">
               <Trophy className="w-4 h-4 icon-glow" />
@@ -777,38 +768,6 @@ export default function DemoBrokerTerminal() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="evidence" className="mt-6">
-            <Card className="terminal-card">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <FileText className="w-5 h-5" />
-                  Evidence Pack Generator
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <Button onClick={runLiveFlowTests} className="w-full">
-                    <DollarSign className="w-4 h-4 mr-2" />
-                    Run Live Flow Tests
-                  </Button>
-                  <Button onClick={generateEvidencePack} className="w-full">
-                    <Download className="w-4 h-4 mr-2" />
-                    Generate Evidence Pack
-                  </Button>
-                  {evidencePack && (
-                    <div className="mt-4 p-4 bg-surface rounded-lg">
-                      <h3 className="font-semibold mb-2">Evidence Pack Generated:</h3>
-                      <p className="text-sm text-gunmetal">
-                        ID: {evidencePack.id}<br/>
-                        Generated: {new Date(evidencePack.generatedAt).toLocaleString()}<br/>
-                        Version: {evidencePack.version}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
 
             <TabsContent value="ranking" className="mt-6">
             <div className="space-y-6">

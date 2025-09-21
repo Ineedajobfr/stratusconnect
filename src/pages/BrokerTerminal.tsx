@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -21,6 +21,7 @@ export default function BrokerTerminal() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
   const location = useLocation();
   const isBetaMode = location.pathname.startsWith('/beta/');
   const searchRef = useRef<HTMLInputElement>(null);
@@ -222,9 +223,12 @@ export default function BrokerTerminal() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6">
                 <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center">
+                  <button 
+                    onClick={() => navigate('/')}
+                    className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center hover:bg-accent/80 transition-colors cursor-pointer"
+                  >
                     <span className="text-white font-bold text-sm">SC</span>
-                  </div>
+                  </button>
                   <div>
                     <h1 className="text-2xl font-bold text-foreground">StratusConnect</h1>
                     <p className="text-sm text-gunmetal">Broker Terminal</p>

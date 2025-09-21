@@ -13,6 +13,7 @@ import DemoMarketplace from './DemoMarketplace';
 import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24Widget";
 import { PersonalizedFeed } from "@/components/feed/PersonalizedFeed";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ModernStatus } from "@/components/ModernStatus";
 
 export default function BrokerTerminal() {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -210,10 +211,7 @@ export default function BrokerTerminal() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6">
               <h1 className="text-2xl font-bold text-white">Broker Terminal</h1>
-              <div className="flex items-center space-x-2 text-white text-sm">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                <span className="font-mono">MARKET ACTIVE</span>
-              </div>
+              <ModernStatus status="online" label="MARKET ACTIVE" size="sm" />
             </div>
             <div className="flex items-center space-x-4">
               <div className="text-slate-400 text-sm font-mono">

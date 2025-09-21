@@ -102,7 +102,7 @@ const navigationConfig: Record<string, NavigationItem[]> = {
 };
 
 export function UnifiedLayout({ children, title }: UnifiedLayoutProps) {
-  const { user, signOut } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -139,13 +139,13 @@ export function UnifiedLayout({ children, title }: UnifiedLayoutProps) {
 
   const handleLogout = useCallback(async () => {
     try {
-      await signOut();
+      await logout();
       navigate("/");
     } catch (error) {
       console.error("Logout error:", error);
       navigate("/");
     }
-  }, [signOut, navigate]);
+  }, [logout, navigate]);
 
   if (!user) {
     return <>{children}</>;

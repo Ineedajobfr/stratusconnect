@@ -29,7 +29,8 @@ import {
   FileText,
   Building2,
   UserCheck,
-  Settings
+  Settings,
+  Briefcase
 } from "lucide-react";
 import { getRoleConfig } from "@/lib/navigation-config";
 import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24Widget";

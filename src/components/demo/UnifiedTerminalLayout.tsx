@@ -137,7 +137,11 @@ export const UnifiedTerminalLayout: React.FC<UnifiedTerminalLayoutProps> = ({
                 </div>
 
                 {/* Logout */}
-                {onLogout}
+                {onLogout && (
+                  <Button variant="ghost" size="sm" onClick={onLogout} className="text-slate-400 hover:text-white hover:bg-slate-700">
+                    <LogOut className="h-4 w-4" />
+                  </Button>
+                )}
               </div>
             </div>
 
@@ -152,7 +156,15 @@ export const UnifiedTerminalLayout: React.FC<UnifiedTerminalLayoutProps> = ({
           {/* Sidebar Navigation */}
           <div className="flex-1 p-6 overflow-y-auto">
             <div className="space-y-2">
-              {sidebarItems.map(item => {})}
+              {sidebarItems.map(item => (
+                <div key={item.id} className="flex items-center space-x-2 p-2 rounded hover:bg-slate-700">
+                  {item.icon}
+                  <span className="text-white">{item.label}</span>
+                  {item.badge && (
+                    <Badge className="ml-auto">{item.badge}</Badge>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
 

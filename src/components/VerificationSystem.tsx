@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { Shield, Upload, CheckCircle, AlertCircle, Clock, FileText, Search } from "lucide-react";
 import SanctionsScreening from "./SanctionsScreening";
+import { getErrorMessage, safeObjectCast } from "@/utils/errorHandler";
 
 interface VerificationDocument {
   id: string;
@@ -71,7 +72,8 @@ export default function VerificationSystem() {
         .select("platform_role")
         .eq("user_id", user.id)
         .single();
-      setUserRole((data as Record<string, unknown>)?.platform_role as string || "");
+      const profileData = safeObjectCast(data || {});
+      setUserRole(profileData.platform_role as string || "");
       }
     } catch (error) {
       console.error("Error fetching user role:", error);
@@ -141,7 +143,7 @@ export default function VerificationSystem() {
     } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to upload document",
+        description: getErrorMessage(error),
         variant: "destructive",
       });
     } finally {

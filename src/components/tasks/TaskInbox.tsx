@@ -186,7 +186,7 @@ export const TaskInbox: React.FC = () => {
       </div>
 
       <div className="flex gap-4">
-        <Select value={filter} onValueChange={(value: Record<string, unknown>) => setFilter(value)}>
+        <Select value={filter} onValueChange={(value: string) => setFilter(value as "all" | "pending" | "completed" | "overdue")}>
           <SelectTrigger className="w-48">
             <SelectValue placeholder="Filter by status" />
           </SelectTrigger>

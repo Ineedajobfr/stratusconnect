@@ -1,7 +1,7 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Loader2 } from 'lucide-react';
-import { hasOwnerAccess } from '@/utils/ownerAccess';
+import { isOwner } from '@/utils/ownerAccess';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -29,7 +29,7 @@ export const ProtectedRoute = ({
   }
 
   // Owner bypass - allow access without authentication for specific emails
-  if (user && hasOwnerAccess(user)) {
+  if (user && isOwner(user.email)) {
     return <>{children}</>;
   }
 
@@ -45,14 +45,10 @@ export const ProtectedRoute = ({
 
   // HEAVY DEMO PROTECTION - Block ALL demo users from admin routes
   if (allowedRoles?.includes('admin')) {
-    // Check for demo indicators
+    // Check for demo indicators in email
     const isDemoUser = 
       user.email?.includes('demo') ||
-      user.email?.includes('test') ||
-      user.user_metadata?.demo === true ||
-      user.app_metadata?.demo === true ||
-      user.role === 'demo' ||
-      (user.user_metadata?.role === 'demo');
+      user.email?.includes('test');
     
     if (isDemoUser) {
       console.warn('SECURITY ALERT: Demo user attempted to access admin route:', user.email);
@@ -60,7 +56,7 @@ export const ProtectedRoute = ({
     }
     
     // Additional admin verification - must be explicitly admin role
-    if (user.role !== 'admin' && user.user_metadata?.role !== 'admin') {
+    if (user.role !== 'admin') {
       console.warn('SECURITY ALERT: Non-admin user attempted to access admin route:', user.email, 'Role:', user.role);
       return <Navigate to="/unauthorized" replace />;
     }

@@ -14,7 +14,7 @@ interface User {
   username?: string;
   avatarUrl?: string;
   isDemoUser?: boolean;
-  accountType?: 'individual' | 'enterprise_client' | 'enterprise_supplier';
+  accountType: 'individual' | 'enterprise_client' | 'enterprise_supplier';
 }
 
 interface AuthContextType {
@@ -343,7 +343,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             fullName: data.fullName,
             companyName: data.companyName,
             role: data.role,
-            verificationStatus: 'pending'
+            verificationStatus: 'pending',
+            accountType: data.role === 'broker' && data.companyName ? 'enterprise_client' : 
+                        ['operator', 'pilot', 'crew'].includes(data.role) && data.companyName ? 'enterprise_supplier' : 
+                        'individual'
           }
         };
       }
@@ -375,7 +378,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           fullName: data.fullName,
           companyName: data.companyName,
           role: data.role,
-          verificationStatus: 'pending'
+          verificationStatus: 'pending',
+          accountType: data.role === 'broker' && data.companyName ? 'enterprise_client' : 
+                      ['operator', 'pilot', 'crew'].includes(data.role) && data.companyName ? 'enterprise_supplier' : 
+                      'individual'
         }
       };
     } catch (error) {

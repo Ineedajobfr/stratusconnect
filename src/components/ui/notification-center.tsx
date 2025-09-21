@@ -148,7 +148,7 @@ export const NotificationCenter: React.FC = () => {
     table: 'notifications',
     onUpdate: (payload) => {
       if (payload.eventType === 'INSERT') {
-        setNotifications(prev => [payload.new as Notification, ...prev]);
+        setNotifications(prev => [payload.new as unknown as Notification, ...prev]);
         setUnreadCount(prev => prev + 1);
       }
     }

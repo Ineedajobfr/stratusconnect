@@ -38,7 +38,6 @@ import {
   Building,
   Activity
 } from 'lucide-react';
-import { ComplianceNotice, EvidencePack } from '@/components/ComplianceNotice';
 import { evidenceReceiptGenerator } from '@/lib/evidence-receipt-generator';
 import { greenLightGateValidator } from '@/lib/green-light-gate';
 import { DisputesLane } from '@/components/Disputes/DisputesLane';
@@ -143,10 +142,8 @@ export default function DemoOperatorTerminal() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [showWeekOneScoreboard, setShowWeekOneScoreboard] = useState(false);
   const [showWarRoomChecks, setShowWarRoomChecks] = useState(false);
-  const [showEvidencePack, setShowEvidencePack] = useState(false);
   const [liveFlowResult, setLiveFlowResult] = useState<unknown>(null);
   const [warRoomResult, setWarRoomResult] = useState<unknown>(null);
-  const [evidencePack, setEvidencePack] = useState<unknown>(null);
   
   const [rfqs, setRfqs] = useState<RFQ[]>([
     {
@@ -345,12 +342,6 @@ export default function DemoOperatorTerminal() {
     alert(`War Room Checks: ${result.allChecksPassed ? 'PASSED' : 'FAILED'}\n\n${result.summary}`);
   };
 
-  const generateEvidencePack = async () => {
-    const pack = await evidencePackGenerator.generateEvidencePack();
-    setEvidencePack(pack);
-    evidencePackGenerator.downloadEvidencePack(pack);
-    alert('Evidence pack generated and downloaded!');
-  };
 
   const renderDashboard = () => (
     <div className="space-y-6">
@@ -854,38 +845,6 @@ export default function DemoOperatorTerminal() {
                       <h3 className="font-semibold mb-2">Results:</h3>
                       <p className="text-sm text-gray-600 whitespace-pre-line">
                         {(warRoomResult as Record<string, unknown>)?.summary as string || 'No summary available'}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          <TabsContent value="evidence" className="mt-6">
-            <Card className="terminal-card">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <FileText className="w-5 h-5" />
-                  Evidence Pack Generator
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <Button onClick={runLiveFlowTests} className="w-full">
-                    <DollarSign className="w-4 h-4 mr-2" />
-                    Run Live Flow Tests
-                  </Button>
-                  <Button onClick={generateEvidencePack} className="w-full">
-                    <Download className="w-4 h-4 mr-2" />
-                    Generate Evidence Pack
-                  </Button>
-                  {evidencePack && (
-                    <div className="mt-4 p-4 bg-slate-800 rounded-lg border border-orange-500/30">
-                      <h3 className="font-semibold mb-2">Evidence Pack Generated:</h3>
-                      <p className="text-sm text-gray-600">
-                        ID: {(evidencePack as Record<string, unknown>)?.id as string || 'N/A'}<br/>
-                        Generated: {new Date((evidencePack as Record<string, unknown>)?.generatedAt as string || Date.now()).toLocaleString()}<br/>
-                        Version: {(evidencePack as Record<string, unknown>)?.version as string || 'N/A'}
                       </p>
                     </div>
                   )}

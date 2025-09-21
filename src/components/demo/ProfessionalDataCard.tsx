@@ -31,17 +31,19 @@ export const ProfessionalDataCard: React.FC<DataCardProps> = ({
   style
 }) => {
   return (
-    <Card className={`bg-gray-800 border-gray-700 ${className}`} style={style}>
+    <Card className={`terminal-card group hover:terminal-glow transition-all duration-300 ${className}`} style={style}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium text-gray-300">{title}</CardTitle>
-        {Icon && <Icon className="h-4 w-4 text-gray-400" />}
+        <CardTitle className="text-sm font-medium text-gunmetal">{title}</CardTitle>
+        {Icon && <div className="p-2 bg-accent/20 rounded-lg group-hover:bg-accent/30 transition-colors duration-300">
+          <Icon className="h-4 w-4 text-muted-foreground group-hover:text-accent transition-colors duration-300" />
+        </div>}
       </CardHeader>
       <CardContent>
         <div className="flex items-center justify-between">
           <div>
-            <div className="text-2xl font-bold text-white">{value}</div>
+            <div className="text-2xl font-bold text-foreground group-hover:text-accent transition-colors duration-300">{value}</div>
             {subtitle && (
-              <p className="text-xs text-gray-400 mt-1">{subtitle}</p>
+              <p className="text-xs text-muted-foreground mt-1">{subtitle}</p>
             )}
             {trend && (
               <div className={`flex items-center mt-1 text-xs ${
@@ -123,7 +125,7 @@ export const ProfessionalFlightCard: React.FC<FlightCardProps> = ({
   };
 
   return (
-    <Card className={`bg-gray-800 border-gray-700 ${className}`} style={style}>
+    <Card className={`terminal-card group hover:terminal-glow transition-all duration-300 ${className}`} style={style}>
       <CardContent className="p-4">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-2">
@@ -189,7 +191,7 @@ export const ProfessionalProfileCard: React.FC<ProfileCardProps> = ({
   style
 }) => {
   return (
-    <Card className={`bg-gray-800 border-gray-700 ${className}`} style={style}>
+    <Card className={`terminal-card group hover:terminal-glow transition-all duration-300 ${className}`} style={style}>
       <CardContent className="p-6">
         <div className="flex items-start space-x-4">
           <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-lg">

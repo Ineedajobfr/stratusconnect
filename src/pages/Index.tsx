@@ -18,7 +18,8 @@ import {
   UserCheck,
   ArrowRight,
   Info,
-  Percent
+  Percent,
+  MessageSquare
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { LoginModal } from "@/components/LoginModal";
@@ -60,31 +61,35 @@ export default function Index() {
               Next-Generation Aviation Platform
             </Badge>
             <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6">
-              Welcome to <span className="text-gradient">StratusConnect</span>
+              The Aviation Industry's <span className="text-gradient">Trusted Marketplace</span>
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-              The industry's most secure and efficient platform connecting brokers, operators, pilots, and crew. 
-              Built on zero-trust architecture with military-grade encryption.
+              Connect with confidence. Trade with transparency. Grow with security. 
+              Join thousands of aviation professionals who trust StratusConnect for their most important transactions.
             </p>
           </div>
 
-          {/* Quick Stats */}
+          {/* Trust Indicators */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-accent accent-glow">99.9%</div>
-              <div className="text-sm text-muted-foreground text-glow-subtle">Uptime</div>
+            <div className="text-center p-4 rounded-lg bg-terminal-card/30 border border-terminal-border/50">
+              <div className="text-3xl font-bold text-terminal-success accent-glow">$0</div>
+              <div className="text-sm text-muted-foreground text-glow-subtle">Monthly Fees</div>
+              <div className="text-xs text-gunmetal mt-1">Until you make money</div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-accent accent-glow">15k+</div>
-              <div className="text-sm text-muted-foreground text-glow-subtle">Active Users</div>
+            <div className="text-center p-4 rounded-lg bg-terminal-card/30 border border-terminal-border/50">
+              <div className="text-3xl font-bold text-accent accent-glow">2,500+</div>
+              <div className="text-sm text-muted-foreground text-glow-subtle">Active Professionals</div>
+              <div className="text-xs text-gunmetal mt-1">Growing daily</div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-accent accent-glow">$2B+</div>
-              <div className="text-sm text-muted-foreground text-glow-subtle">Transactions</div>
+            <div className="text-center p-4 rounded-lg bg-terminal-card/30 border border-terminal-border/50">
+              <div className="text-3xl font-bold text-accent accent-glow">$50M+</div>
+              <div className="text-sm text-muted-foreground text-glow-subtle">In Transactions</div>
+              <div className="text-xs text-gunmetal mt-1">Secured & verified</div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-accent accent-glow">50ms</div>
-              <div className="text-sm text-muted-foreground text-glow-subtle">Avg Response</div>
+            <div className="text-center p-4 rounded-lg bg-terminal-card/30 border border-terminal-border/50">
+              <div className="text-3xl font-bold text-terminal-success accent-glow">100%</div>
+              <div className="text-sm text-muted-foreground text-glow-subtle">Dispute-Free</div>
+              <div className="text-xs text-gunmetal mt-1">Escrow protection</div>
             </div>
           </div>
         </div>
@@ -114,8 +119,23 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-6 text-glow-subtle">
-                  Speed creates advantage. Win more quotes with real-time market intelligence and automated workflows.
+                  Access real-time aircraft listings, manage client relationships, and close deals faster than ever. 
+                  Our AI-powered matching system connects you with the right opportunities.
                 </p>
+                <div className="space-y-2 mb-6">
+                  <div className="flex items-center text-sm text-gunmetal">
+                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                    Real-time market data
+                  </div>
+                  <div className="flex items-center text-sm text-gunmetal">
+                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                    Automated quote generation
+                  </div>
+                  <div className="flex items-center text-sm text-gunmetal">
+                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                    Secure escrow payments
+                  </div>
+                </div>
                 <div className="flex space-x-3">
                   <Button 
                     onClick={() => handleAccessTerminal("broker")} 
@@ -149,8 +169,23 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-6 text-glow-subtle">
-                  Fill the legs. Lift the yield. Control the risk with comprehensive fleet analytics and crew coordination.
+                  Maximize your fleet's potential with intelligent scheduling, crew management, and real-time performance tracking. 
+                  Turn every flight into profit.
                 </p>
+                <div className="space-y-2 mb-6">
+                  <div className="flex items-center text-sm text-gunmetal">
+                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                    Fleet optimization tools
+                  </div>
+                  <div className="flex items-center text-sm text-gunmetal">
+                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                    Crew scheduling automation
+                  </div>
+                  <div className="flex items-center text-sm text-gunmetal">
+                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                    Real-time performance metrics
+                  </div>
+                </div>
                 <div className="flex space-x-3">
                   <Button 
                     onClick={() => handleAccessTerminal("operator")} 
@@ -184,8 +219,23 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-6 text-glow-subtle">
-                  Credentials speak. Availability sells. Fly the missions that match your experience and schedule.
+                  Find the best flying opportunities that match your skills and schedule. 
+                  Build your reputation and grow your career with verified operators.
                 </p>
+                <div className="space-y-2 mb-6">
+                  <div className="flex items-center text-sm text-gunmetal">
+                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                    Job matching algorithm
+                  </div>
+                  <div className="flex items-center text-sm text-gunmetal">
+                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                    Credential verification
+                  </div>
+                  <div className="flex items-center text-sm text-gunmetal">
+                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                    Secure payment processing
+                  </div>
+                </div>
                 <div className="flex space-x-3">
                   <Button 
                     onClick={() => handleAccessTerminal("pilot")} 
@@ -219,8 +269,23 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-6 text-glow-subtle">
-                  Professional service wins repeat work. Your calendar is your shop window for premium opportunities.
+                  Connect with top operators and build lasting relationships. 
+                  Showcase your skills and availability to find the best crew assignments.
                 </p>
+                <div className="space-y-2 mb-6">
+                  <div className="flex items-center text-sm text-gunmetal">
+                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                    Premium crew opportunities
+                  </div>
+                  <div className="flex items-center text-sm text-gunmetal">
+                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                    Flexible scheduling
+                  </div>
+                  <div className="flex items-center text-sm text-gunmetal">
+                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                    Reputation building tools
+                  </div>
+                </div>
                 <div className="flex space-x-3">
                   <Button 
                     onClick={() => handleAccessTerminal("crew")} 
@@ -257,7 +322,7 @@ export default function Index() {
                   <div className="flex items-center space-x-3">
                     <Shield className="w-12 h-12 text-accent" />
                     <div>
-                      <CardTitle>Military-Grade Encryption</CardTitle>
+                <CardTitle>Military-Grade Encryption</CardTitle>
                     </div>
                   </div>
                   <Dialog>
@@ -313,7 +378,7 @@ export default function Index() {
                   <div className="flex items-center space-x-3">
                     <Lock className="w-12 h-12 text-accent" />
                     <div>
-                      <CardTitle>Zero-Trust Architecture</CardTitle>
+                <CardTitle>Zero-Trust Architecture</CardTitle>
                     </div>
                   </div>
                   <Dialog>
@@ -369,7 +434,7 @@ export default function Index() {
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-12 h-12 text-accent" />
                     <div>
-                      <CardTitle>Verified Network</CardTitle>
+                <CardTitle>Verified Network</CardTitle>
                     </div>
                   </div>
                   <Dialog>
@@ -759,12 +824,96 @@ export default function Index() {
       </div>
 
       {/* Footer */}
-      <footer className="relative z-10 py-8 border-t border-terminal-border">
+      <footer className="relative z-10 py-12 border-t border-terminal-border bg-terminal-card/20">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            {/* Company Info */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-foreground">StratusConnect</h3>
+              <p className="text-sm text-muted-foreground">
+                The aviation industry's trusted marketplace for brokers, operators, pilots, and crew.
+              </p>
+              <div className="flex space-x-4">
+                <Button variant="ghost" size="sm" className="text-gunmetal hover:text-foreground">
+                  <Globe className="w-4 h-4" />
+                </Button>
+                <Button variant="ghost" size="sm" className="text-gunmetal hover:text-foreground">
+                  <MessageSquare className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Legal */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-foreground">Legal</h3>
+              <div className="space-y-2">
+                <Button variant="link" className="p-0 h-auto text-sm text-gunmetal hover:text-foreground justify-start" onClick={() => navigate('/terms-of-service')}>
+                  Terms of Service
+                </Button>
+                <Button variant="link" className="p-0 h-auto text-sm text-gunmetal hover:text-foreground justify-start" onClick={() => navigate('/privacy-policy')}>
+                  Privacy Policy
+                </Button>
+                <Button variant="link" className="p-0 h-auto text-sm text-gunmetal hover:text-foreground justify-start" onClick={() => navigate('/cookie-policy')}>
+                  Cookie Policy
+                </Button>
+                <Button variant="link" className="p-0 h-auto text-sm text-gunmetal hover:text-foreground justify-start" onClick={() => navigate('/user-agreement')}>
+                  User Agreement
+                </Button>
+              </div>
+            </div>
+
+            {/* Support */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-foreground">Support</h3>
+              <div className="space-y-2">
+                <Button variant="link" className="p-0 h-auto text-sm text-gunmetal hover:text-foreground justify-start">
+                  Help Center
+                </Button>
+                <Button variant="link" className="p-0 h-auto text-sm text-gunmetal hover:text-foreground justify-start">
+                  Contact Us
+                </Button>
+                <Button variant="link" className="p-0 h-auto text-sm text-gunmetal hover:text-foreground justify-start">
+                  Status Page
+                </Button>
+                <Button variant="link" className="p-0 h-auto text-sm text-gunmetal hover:text-foreground justify-start">
+                  API Documentation
+                </Button>
+              </div>
+            </div>
+
+            {/* Security */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-foreground">Security</h3>
+              <div className="space-y-2">
+                <div className="flex items-center text-sm text-gunmetal">
+                  <Shield className="w-4 h-4 text-terminal-success mr-2" />
+                  SOC 2 Compliant
+                </div>
+                <div className="flex items-center text-sm text-gunmetal">
+                  <Lock className="w-4 h-4 text-terminal-success mr-2" />
+                  End-to-End Encryption
+                </div>
+                <div className="flex items-center text-sm text-gunmetal">
+                  <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                  Zero-Trust Architecture
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="border-t border-terminal-border/50 pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-sm text-muted-foreground">
               © 2024 StratusConnect. All rights reserved. Built for the aviation industry.
             </p>
+              <div className="flex space-x-6 text-sm text-gunmetal">
+                <span>FCA Compliant</span>
+                <span>•</span>
+                <span>GDPR Ready</span>
+                <span>•</span>
+                <span>ISO 27001</span>
+              </div>
+            </div>
           </div>
         </div>
       </footer>

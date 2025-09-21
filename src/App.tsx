@@ -46,6 +46,10 @@ const BrokerTutorial = lazy(() => import("./components/help/BrokerTutorial"));
 const Payments = lazy(() => import("./pages/Payments"));
 const Terms = lazy(() => import("./pages/CompliantTerms"));
 const Privacy = lazy(() => import("./pages/CompliantPrivacy"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const CookiePolicy = lazy(() => import("./pages/CookiePolicy"));
+const UserAgreement = lazy(() => import("./pages/UserAgreement"));
 const AircraftIntelligence = lazy(() => import("./pages/AircraftIntelligence"));
 const Security = lazy(() => import("./pages/Security"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -127,6 +131,10 @@ const App = memo(() => {
               <Route path="/payments" element={<Payments />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
+              <Route path="/terms-of-service" element={<TermsOfService />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/cookie-policy" element={<CookiePolicy />} />
+              <Route path="/user-agreement" element={<UserAgreement />} />
               <Route path="/security" element={<Security />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/compliance" element={<Compliance />} />

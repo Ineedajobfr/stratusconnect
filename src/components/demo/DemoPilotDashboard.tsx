@@ -290,24 +290,31 @@ export const DemoPilotDashboard: React.FC = () => {
                 value={demoStats.totalFlights}
                 icon={Plane}
                 trend={{ value: 15, isPositive: true }}
+                className="animate-fade-in-up"
               />
               <ProfessionalDataCard
                 title="Hours This Month"
                 value={demoStats.hoursThisMonth}
                 icon={Clock}
                 trend={{ value: 12, isPositive: true }}
+                className="animate-fade-in-up"
+                style={{animationDelay: '0.1s'}}
               />
               <ProfessionalDataCard
                 title="Upcoming Flights"
                 value={demoStats.upcomingFlights}
                 icon={Calendar}
                 badge={{ text: "Active", variant: "outline" }}
+                className="animate-fade-in-up"
+                style={{animationDelay: '0.2s'}}
               />
               <ProfessionalDataCard
                 title="Completed"
                 value={demoStats.completedFlights}
                 icon={CheckCircle}
                 trend={{ value: 8, isPositive: true }}
+                className="animate-fade-in-up"
+                style={{animationDelay: '0.3s'}}
               />
             </MobileGrid>
 

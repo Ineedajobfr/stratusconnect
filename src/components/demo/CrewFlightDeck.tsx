@@ -113,45 +113,45 @@ export const CrewFlightDeck: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Upcoming Assignments */}
               <div className="lg:col-span-2">
-                <Card className="bg-terminal-card border-terminal-border">
+                <Card className="bg-terminal-card border-terminal-border animate-fade-in-up">
                   <CardHeader>
                     <CardTitle className="text-cyan-400">Upcoming Assignments</CardTitle>
             </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-3">
-                      <div className="flex items-center justify-between p-4 bg-slate-700 rounded-lg border border-slate-600">
+                      <div className="flex items-center justify-between p-4 bg-terminal-card/50 rounded-lg border border-terminal-border group hover:bg-terminal-card transition-all duration-300 animate-slide-in-right">
                         <div className="flex items-center space-x-4">
-                          <div className="w-12 h-12 bg-cyan-500 rounded-lg flex items-center justify-center">
-                            <Plane className="h-6 w-6 text-black" />
+                          <div className="w-12 h-12 bg-accent rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                            <Plane className="h-6 w-6 text-white" />
                 </div>
                           <div>
-                            <div className="font-semibold text-white">Charter Flight #CF-2025-001</div>
-                            <div className="text-sm text-slate-400">JFK → LAX • Gulfstream G550</div>
-                            <div className="text-sm text-slate-400">8 passengers • 6h 30m</div>
-                            <div className="text-sm text-slate-400">Role: Flight Attendant</div>
+                            <div className="font-semibold text-foreground group-hover:text-accent transition-colors duration-300">Charter Flight #CF-2025-001</div>
+                            <div className="text-sm text-muted-foreground">JFK → LAX • Gulfstream G550</div>
+                            <div className="text-sm text-muted-foreground">8 passengers • 6h 30m</div>
+                            <div className="text-sm text-muted-foreground">Role: Flight Attendant</div>
                 </div>
                 </div>
                         <div className="text-right">
-                          <div className="text-cyan-400 font-semibold">Tomorrow 14:30</div>
-                          <Badge className="bg-green-500 text-white">Confirmed</Badge>
+                          <div className="text-accent font-semibold">Tomorrow 14:30</div>
+                          <Badge className="bg-terminal-success text-white group-hover:scale-105 transition-transform duration-300">Confirmed</Badge>
                 </div>
               </div>
 
-                      <div className="flex items-center justify-between p-4 bg-slate-700 rounded-lg border border-slate-600">
+                      <div className="flex items-center justify-between p-4 bg-terminal-card/50 rounded-lg border border-terminal-border group hover:bg-terminal-card transition-all duration-300 animate-slide-in-right" style={{animationDelay: '0.1s'}}>
                         <div className="flex items-center space-x-4">
-                          <div className="w-12 h-12 bg-slate-600 rounded-lg flex items-center justify-center">
-                            <Plane className="h-6 w-6 text-slate-400" />
+                          <div className="w-12 h-12 bg-terminal-border rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                            <Plane className="h-6 w-6 text-muted-foreground" />
                 </div>
                   <div>
-                            <div className="font-semibold text-white">Charter Flight #CF-2025-002</div>
-                            <div className="text-sm text-slate-400">LAX → MIA • Citation XLS</div>
-                            <div className="text-sm text-slate-400">4 passengers • 4h 15m</div>
-                            <div className="text-sm text-slate-400">Role: Flight Attendant</div>
+                            <div className="font-semibold text-foreground group-hover:text-accent transition-colors duration-300">Charter Flight #CF-2025-002</div>
+                            <div className="text-sm text-muted-foreground">LAX → MIA • Citation XLS</div>
+                            <div className="text-sm text-muted-foreground">4 passengers • 4h 15m</div>
+                            <div className="text-sm text-muted-foreground">Role: Flight Attendant</div>
                   </div>
                 </div>
                         <div className="text-right">
-                          <div className="text-cyan-400 font-semibold">Jan 12, 09:00</div>
-                          <Badge className="bg-yellow-500 text-black">Pending</Badge>
+                          <div className="text-accent font-semibold">Jan 12, 09:00</div>
+                          <Badge className="bg-terminal-warning text-white group-hover:scale-105 transition-transform duration-300">Pending</Badge>
                 </div>
               </div>
 

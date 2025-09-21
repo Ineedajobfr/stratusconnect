@@ -308,24 +308,31 @@ export const DemoBrokerDashboard: React.FC = () => {
               value={demoStats.totalRequests}
               icon={Plane}
               trend={{ value: 15, isPositive: true }}
+              className="animate-fade-in-up"
             />
             <ProfessionalDataCard
               title="Active Requests"
               value={demoStats.activeRequests}
               icon={Clock}
               badge={{ text: "Urgent", variant: "destructive" }}
+              className="animate-fade-in-up"
+              style={{animationDelay: '0.1s'}}
             />
             <ProfessionalDataCard
               title="Total Bookings"
               value={demoStats.totalBookings}
               icon={CheckCircle}
               trend={{ value: 8, isPositive: true }}
+              className="animate-fade-in-up"
+              style={{animationDelay: '0.2s'}}
             />
             <ProfessionalDataCard
               title="Total Spent"
               value={`$${demoStats.totalSpent.toLocaleString()}`}
               icon={DollarSign}
               trend={{ value: 12, isPositive: true }}
+              className="animate-fade-in-up"
+              style={{animationDelay: '0.3s'}}
             />
             </MobileGrid>
 
@@ -345,27 +352,27 @@ export const DemoBrokerDashboard: React.FC = () => {
           <PilotTrackingMap pilots={demoPilotTracking} />
 
           {/* Quick Actions */}
-          <Card className="bg-slate-800 border-slate-700">
+          <Card className="terminal-card animate-fade-in-up" style={{animationDelay: '0.4s'}}>
             <CardHeader>
-              <CardTitle className="flex items-center space-x-2 text-white">
-                <Plus className="h-5 w-5 text-cyan-400" />
+              <CardTitle className="flex items-center space-x-2 text-foreground">
+                <Plus className="h-5 w-5 text-accent" />
                 <span>QUICK ACTIONS</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Button 
-                  className="bg-cyan-500 hover:bg-cyan-600 text-white h-12"
+                  className="btn-terminal-accent h-12"
                   onClick={() => setShowNewRequestForm(true)}
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   New Charter Request
                 </Button>
-                <Button variant="outline" className="border-slate-600 text-slate-300 hover:bg-slate-700 h-12">
+                <Button variant="outline" className="border-terminal-border text-foreground hover:bg-terminal-card h-12">
                   <FileText className="h-4 w-4 mr-2" />
                   Generate Report
                 </Button>
-                <Button variant="outline" className="border-slate-600 text-slate-300 hover:bg-slate-700 h-12">
+                <Button variant="outline" className="border-terminal-border text-foreground hover:bg-terminal-card h-12">
                   <Users className="h-4 w-4 mr-2" />
                   Manage Clients
                 </Button>

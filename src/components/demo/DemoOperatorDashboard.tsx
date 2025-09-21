@@ -289,24 +289,31 @@ export const DemoOperatorDashboard: React.FC = () => {
                 value={demoStats.totalFlights}
                 icon={Plane}
                 trend={{ value: 12, isPositive: true }}
+                className="animate-fade-in-up"
               />
               <ProfessionalDataCard
                 title="Active Flights"
                 value={demoStats.activeFlights}
                 icon={Activity}
                 badge={{ text: "Live", variant: "destructive" }}
+                className="animate-fade-in-up"
+                style={{animationDelay: '0.1s'}}
               />
               <ProfessionalDataCard
                 title="Total Revenue"
                 value={`$${(demoStats.totalRevenue / 1000000).toFixed(1)}M`}
                 icon={DollarSign}
                 trend={{ value: 8, isPositive: true }}
+                className="animate-fade-in-up"
+                style={{animationDelay: '0.2s'}}
               />
               <ProfessionalDataCard
                 title="Fleet Utilization"
                 value={`${demoStats.fleetUtilization}%`}
                 icon={BarChart3}
                 trend={{ value: 5, isPositive: true }}
+                className="animate-fade-in-up"
+                style={{animationDelay: '0.3s'}}
               />
             </MobileGrid>
 

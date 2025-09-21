@@ -20,6 +20,9 @@ import AuthForm from "@/components/AuthForm";
 import { Plane, Calendar, DollarSign, TrendingUp, Users, MapPin, Clock, Settings, MessageSquare, BarChart3, CheckCircle, Activity, Gauge, Shield, Globe } from "lucide-react";
 import { NavigationArrows } from "@/components/NavigationArrows";
 import { OperatorHelpGuide } from "@/components/OperatorHelpGuide";
+import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24Widget";
+import { PersonalizedFeed } from "@/components/feed/PersonalizedFeed";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { User } from '@supabase/supabase-js';
 const OperatorTerminal = () => {
   const [activeTab, setActiveTab] = useState("dashboard");

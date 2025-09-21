@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
+import { ModernHelpGuide } from '@/components/ModernHelpGuide';
+import { useNavigate } from 'react-router-dom';
 import { 
   DollarSign, 
   FileText, 
@@ -140,6 +142,7 @@ interface Crew {
 
 export default function DemoOperatorTerminal() {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const navigate = useNavigate();
   const [showWeekOneScoreboard, setShowWeekOneScoreboard] = useState(false);
   const [showWarRoomChecks, setShowWarRoomChecks] = useState(false);
   const [liveFlowResult, setLiveFlowResult] = useState<unknown>(null);
@@ -766,16 +769,26 @@ export default function DemoOperatorTerminal() {
   );
 
   return (
-    <div className="min-h-screen bg-app relative overflow-hidden">
-      <StarfieldRunwayBackground />
-      
-      <div className="relative z-10 container mx-auto px-4 py-8">
+    <>
+      <ModernHelpGuide 
+        terminalType="operator" 
+        activeTab={activeTab} 
+        showOnMount={true} 
+        isDemo={true}
+      />
+      <div className="min-h-screen bg-app relative overflow-hidden">
+        <StarfieldRunwayBackground />
+        
+        <div className="relative z-10 container mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center">
+            <button 
+              onClick={() => navigate('/')}
+              className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center hover:bg-accent/80 transition-colors cursor-pointer"
+            >
               <span className="text-white font-bold text-sm">SC</span>
-            </div>
+            </button>
             <div>
               <h1 className="text-3xl font-bold text-foreground mb-2">StratusConnect</h1>
               <p className="text-gunmetal">Operator Terminal</p>
@@ -871,7 +884,8 @@ export default function DemoOperatorTerminal() {
             </CardContent>
           </Card>
         )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

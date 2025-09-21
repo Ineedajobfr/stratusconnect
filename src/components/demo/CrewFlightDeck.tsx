@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useNavigate } from "react-router-dom";
 import { 
   Plane, Clock, CheckCircle, AlertCircle, Bell, MapPin, Users, Calendar, 
   Shield, Award, FileText, DollarSign, Star, BarChart3, TrendingUp, 
@@ -19,6 +20,7 @@ import { MobileResponsive, MobileGrid, MobileText } from "../MobileResponsive";
 export const CrewFlightDeck: React.FC = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [activeTab, setActiveTab] = useState("schedule");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -52,9 +54,12 @@ export const CrewFlightDeck: React.FC = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+              <button 
+                onClick={() => navigate('/')}
+                className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center hover:bg-orange-400 transition-colors cursor-pointer"
+              >
                 <span className="text-black font-bold text-sm">C</span>
-              </div>
+              </button>
               <span className="text-xl font-bold">STRATUSCONNECT</span>
             </div>
             <div className="text-sm text-slate-400">CREW DASHBOARD</div>

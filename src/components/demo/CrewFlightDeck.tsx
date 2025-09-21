@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNavigate } from "react-router-dom";
+import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 import { 
   Plane, Clock, CheckCircle, AlertCircle, Bell, MapPin, Users, Calendar, 
   Shield, Award, FileText, DollarSign, Star, BarChart3, TrendingUp, 
@@ -53,15 +54,7 @@ export const CrewFlightDeck: React.FC = () => {
       <div className="bg-slate-800 border-b border-slate-700 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <button 
-                onClick={() => navigate('/')}
-                className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center hover:bg-orange-400 transition-colors cursor-pointer"
-              >
-                <span className="text-black font-bold text-sm">C</span>
-              </button>
-              <span className="text-xl font-bold">STRATUSCONNECT</span>
-            </div>
+            <StratusConnectLogo className="text-orange-400 text-lg" />
             <div className="text-sm text-slate-400">CREW DASHBOARD</div>
           </div>
           

@@ -70,12 +70,12 @@ export const ModernHelpGuide: React.FC<ModernHelpGuideProps> = ({
   const getHelpContent = (): HelpContent => {
     const baseContent = {
       title: `${terminalType.charAt(0).toUpperCase() + terminalType.slice(1)} Terminal Guide`,
-      description: `Navigate and utilize your ${terminalType} terminal effectively`,
+      description: `Master your ${terminalType} terminal with these essential features and workflows`,
       quickTips: [
-        "Use the tabs above to navigate between different sections",
-        "Click on cards and data tiles for detailed information",
-        "Real-time aircraft tracking shows live flight positions",
-        "Personalized feed provides role-specific updates and insights"
+        "Navigate between sections using the tab bar at the top",
+        "Click on any card or data tile to access detailed information",
+        "Use real-time tracking to monitor aircraft positions and status",
+        "Check your personalized feed for role-specific updates and opportunities"
       ]
     };
 

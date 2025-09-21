@@ -83,6 +83,7 @@ export const UnifiedTerminalLayout: React.FC<UnifiedTerminalLayoutProps> = ({
           <div className="bg-slate-800 border-b border-slate-700 px-6 py-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
+                <StratusConnectLogo className="text-orange-400 text-lg mr-6" />
                 <div className="text-sm text-slate-400">
                   TERMINAL STATUS: <span className="text-white">OPERATIONAL</span>
                 </div>

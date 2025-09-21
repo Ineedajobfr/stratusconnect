@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { 
   Plane, 
   Shield, 
@@ -15,7 +16,9 @@ import {
   DollarSign,
   Building2,
   UserCheck,
-  ArrowRight
+  ArrowRight,
+  Info,
+  Percent
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { LoginModal } from "@/components/LoginModal";
@@ -248,10 +251,54 @@ export default function Index() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="terminal-card">
+            <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
               <CardHeader>
-                <Shield className="w-12 h-12 text-accent mb-4" />
-                <CardTitle>Military-Grade Encryption</CardTitle>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <Shield className="w-12 h-12 text-accent" />
+                    <div>
+                      <CardTitle>Military-Grade Encryption</CardTitle>
+                    </div>
+                  </div>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Info className="w-4 h-4" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="bg-terminal-card border-terminal-border">
+                      <DialogHeader>
+                        <DialogTitle className="text-accent">Military-Grade Encryption</DialogTitle>
+                        <DialogDescription>
+                          Bank-level security protecting your most sensitive aviation data
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <p className="text-muted-foreground">
+                          We use the same encryption standards as military and financial institutions:
+                        </p>
+                        <ul className="space-y-2 text-sm text-muted-foreground">
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>AES-256 encryption for all data at rest</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>TLS 1.3 for all data in transit</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>SOC 2 Type II compliant infrastructure</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Regular penetration testing and audits</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
@@ -260,10 +307,54 @@ export default function Index() {
               </CardContent>
             </Card>
 
-            <Card className="terminal-card">
+            <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
               <CardHeader>
-                <Lock className="w-12 h-12 text-accent mb-4" />
-                <CardTitle>Zero-Trust Architecture</CardTitle>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <Lock className="w-12 h-12 text-accent" />
+                    <div>
+                      <CardTitle>Zero-Trust Architecture</CardTitle>
+                    </div>
+                  </div>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Info className="w-4 h-4" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="bg-terminal-card border-terminal-border">
+                      <DialogHeader>
+                        <DialogTitle className="text-accent">Zero-Trust Architecture</DialogTitle>
+                        <DialogDescription>
+                          Never trust, always verify - every connection and transaction is authenticated
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <p className="text-muted-foreground">
+                          Our zero-trust approach ensures maximum security:
+                        </p>
+                        <ul className="space-y-2 text-sm text-muted-foreground">
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Multi-factor authentication required</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Continuous identity verification</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Least privilege access controls</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Real-time threat monitoring</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
@@ -272,10 +363,54 @@ export default function Index() {
               </CardContent>
             </Card>
 
-            <Card className="terminal-card">
+            <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
               <CardHeader>
-                <CheckCircle className="w-12 h-12 text-accent mb-4" />
-                <CardTitle>Verified Network</CardTitle>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <CheckCircle className="w-12 h-12 text-accent" />
+                    <div>
+                      <CardTitle>Verified Network</CardTitle>
+                    </div>
+                  </div>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Info className="w-4 h-4" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="bg-terminal-card border-terminal-border">
+                      <DialogHeader>
+                        <DialogTitle className="text-accent">Verified Network</DialogTitle>
+                        <DialogDescription>
+                          Only pre-approved, thoroughly vetted professionals join our network
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <p className="text-muted-foreground">
+                          Our verification process ensures only qualified professionals:
+                        </p>
+                        <ul className="space-y-2 text-sm text-muted-foreground">
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Comprehensive background checks</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Credential verification and validation</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Reference verification from industry peers</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Ongoing compliance monitoring</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
@@ -351,6 +486,203 @@ export default function Index() {
                   <CheckCircle className="w-5 h-5 text-white" />
                   <span className="text-muted-foreground">24/7 fraud protection</span>
                 </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+
+      {/* Platform Fees & Pricing */}
+      <div className="relative z-10 py-24">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-foreground mb-4">Transparent Pricing</h2>
+            <p className="text-xl text-muted-foreground">Fair fees that grow with your success</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 bg-accent/20 rounded-lg">
+                      <Percent className="w-6 h-6 text-accent" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-xl">Broker & Operator Sales</CardTitle>
+                      <CardDescription>Transaction fees</CardDescription>
+                    </div>
+                  </div>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Info className="w-4 h-4" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="bg-terminal-card border-terminal-border">
+                      <DialogHeader>
+                        <DialogTitle className="text-accent">7% Platform Fee</DialogTitle>
+                        <DialogDescription>
+                          Applied to all successful broker and operator sales transactions
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <p className="text-muted-foreground">
+                          This fee is automatically deducted from completed transactions and covers:
+                        </p>
+                        <ul className="space-y-2 text-sm text-muted-foreground">
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Platform maintenance and security</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Payment processing and escrow services</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Customer support and dispute resolution</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Market intelligence and analytics</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-accent mb-2">7%</div>
+                <p className="text-muted-foreground text-sm">
+                  Only charged on successful transactions. No monthly fees or hidden costs.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 bg-accent/20 rounded-lg">
+                      <Users className="w-6 h-6 text-accent" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-xl">Crew & Pilot Hiring</CardTitle>
+                      <CardDescription>Recruitment fees</CardDescription>
+                    </div>
+                  </div>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Info className="w-4 h-4" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="bg-terminal-card border-terminal-border">
+                      <DialogHeader>
+                        <DialogTitle className="text-accent">10% Recruitment Fee</DialogTitle>
+                        <DialogDescription>
+                          Charged to brokers and operators when hiring crew or pilots for specific flights
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <p className="text-muted-foreground">
+                          This one-time fee covers the cost of connecting you with qualified professionals:
+                        </p>
+                        <ul className="space-y-2 text-sm text-muted-foreground">
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Credential verification and background checks</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Matching algorithm and compatibility scoring</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Contract facilitation and documentation</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Ongoing support during the assignment</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-accent mb-2">10%</div>
+                <p className="text-muted-foreground text-sm">
+                  One-time fee per successful crew/pilot placement for specific flights.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 bg-accent/20 rounded-lg">
+                      <UserCheck className="w-6 h-6 text-accent" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-xl">Crew & Pilots</CardTitle>
+                      <CardDescription>Always free</CardDescription>
+                    </div>
+                  </div>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Info className="w-4 h-4" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="bg-terminal-card border-terminal-border">
+                      <DialogHeader>
+                        <DialogTitle className="text-accent">Free for Crew & Pilots</DialogTitle>
+                        <DialogDescription>
+                          We believe in supporting the professionals who make aviation possible
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <p className="text-muted-foreground">
+                          Crew and pilots enjoy full platform access at no cost because:
+                        </p>
+                        <ul className="space-y-2 text-sm text-muted-foreground">
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>You are the backbone of our industry</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>We want to maximize your opportunities</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>No barriers to finding great assignments</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Full access to all platform features</span>
+                          </li>
+                        </ul>
+                        <div className="bg-accent/10 p-4 rounded-lg">
+                          <p className="text-sm text-accent font-medium">
+                            "We care for our customers - that's why crew and pilots are always free."
+                          </p>
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-accent mb-2">FREE</div>
+                <p className="text-muted-foreground text-sm">
+                  No fees, no subscriptions, no hidden costs. We care for our customers.
+                </p>
               </CardContent>
             </Card>
           </div>

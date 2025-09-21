@@ -24,6 +24,7 @@ import OperatorDashboard from "@/components/dashboard/OperatorDashboard";
 // Lazy load pages for better performance - prioritize by usage frequency
 const Index = lazy(() => import("./pages/Index"));
 const Enter = lazy(() => import("./pages/Enter"));
+const HomePage = lazy(() => import("./pages/HomePage"));
 const BrokerTerminal = lazy(() => import("./pages/BrokerTerminal"));
 const OperatorTerminal = lazy(() => import("./pages/OperatorTerminal"));
 const PilotTerminal = lazy(() => import("./pages/PilotTerminal"));
@@ -34,6 +35,9 @@ const Status = lazy(() => import("./pages/CompliantStatus"));
 const Cookies = lazy(() => import("./pages/Cookies"));
 const Unauthorized = lazy(() => import("./pages/Unauthorized"));
 const SLA = lazy(() => import("./pages/CompliantSLA"));
+
+// New unified navigation pages
+const NetworkPage = lazy(() => import("./components/network/ConnectionsPage"));
 
 // Secondary pages - loaded on demand
 const Demo = lazy(() => import("./pages/Demo"));
@@ -163,6 +167,26 @@ const App = memo(() => {
               <Route path="/compliance" element={<Compliance />} />
               <Route path="/intelligence" element={<AircraftIntelligence />} />
               <Route path="/verification-pending" element={<VerificationPending />} />
+              
+              {/* New unified navigation routes */}
+              <Route 
+                path="/home" 
+                element={
+                  <ProtectedRoute>
+                    <HomePage />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/network" 
+                element={
+                  <ProtectedRoute>
+                    <UnifiedLayout title="My Network">
+                      <NetworkPage />
+                    </UnifiedLayout>
+                  </ProtectedRoute>
+                } 
+              />
               
               {/* Demo routes */}
               <Route path="/demo/broker" element={<DemoBrokerTerminal />} />

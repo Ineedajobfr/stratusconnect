@@ -7,37 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
-import { 
-  DollarSign, 
-  FileText, 
-  Shield, 
-  CheckCircle, 
-  AlertTriangle,
-  TrendingUp,
-  Users,
-  Plane,
-  Clock,
-  Target,
-  Search,
-  Bell,
-  Award,
-  BarChart3,
-  Zap,
-  Star,
-  MapPin,
-  Calendar,
-  GitCompare,
-  Save,
-  Eye,
-  Plus,
-  Filter,
-  Download,
-  UserPlus,
-  Briefcase,
-  CreditCard,
-  Building,
-  Activity
-} from 'lucide-react';
+import { DollarSign, FileText, Shield, CheckCircle, AlertTriangle, TrendingUp, Users, Plane, Clock, Target, Search, Bell, Award, BarChart3, Zap, Star, MapPin, Calendar, GitCompare, Save, Eye, Plus, Filter, Download, UserPlus, Briefcase, CreditCard, Building, Activity } from 'lucide-react';
 import { ComplianceNotice, EvidencePack } from '@/components/ComplianceNotice';
 import { evidenceReceiptGenerator } from '@/lib/evidence-receipt-generator';
 import { greenLightGateValidator } from '@/lib/green-light-gate';
@@ -61,7 +31,6 @@ import { ReputationMetrics } from '@/components/Reputation/ReputationMetrics';
 import { MonthlyStatements } from '@/components/Billing/MonthlyStatements';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
 import { PersonalizedFeed } from '@/components/feed/PersonalizedFeed';
-
 interface RFQ {
   id: string;
   route: string;
@@ -75,7 +44,6 @@ interface RFQ {
   passengers: number;
   specialRequirements: string;
 }
-
 interface Quote {
   id: string;
   operator: string;
@@ -88,7 +56,6 @@ interface Quote {
   responseTime: number;
   dealScore: number;
 }
-
 interface Deal {
   id: string;
   rfqId: string;
@@ -103,7 +70,6 @@ interface Deal {
   netAmount: number;
   auditHash: string;
 }
-
 interface Pilot {
   id: string;
   name: string;
@@ -121,7 +87,6 @@ interface Pilot {
     expiry: string;
   };
 }
-
 interface Crew {
   id: string;
   name: string;
@@ -138,7 +103,6 @@ interface Crew {
     expiry: string;
   };
 }
-
 export default function DemoOperatorTerminal() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [showWeekOneScoreboard, setShowWeekOneScoreboard] = useState(false);
@@ -147,163 +111,137 @@ export default function DemoOperatorTerminal() {
   const [liveFlowResult, setLiveFlowResult] = useState<unknown>(null);
   const [warRoomResult, setWarRoomResult] = useState<unknown>(null);
   const [evidencePack, setEvidencePack] = useState<unknown>(null);
-  
-  const [rfqs, setRfqs] = useState<RFQ[]>([
-    {
-      id: 'RFQ-001',
-      route: 'London - New York',
-      aircraft: 'Gulfstream G650',
-      date: '2024-01-20',
-      price: 45000,
-      currency: 'USD',
-      status: 'quoted',
-      legs: 1,
-      passengers: 8,
-      specialRequirements: 'VIP handling, customs clearance',
-      quotes: []
-    },
-    {
-      id: 'RFQ-002',
-      route: 'Paris - Dubai',
-      aircraft: 'Bombardier Global 6000',
-      date: '2024-01-22',
-      price: 38000,
-      currency: 'EUR',
-      status: 'sent',
-      legs: 1,
-      passengers: 12,
-      specialRequirements: 'Pet transport, special catering',
-      quotes: []
+  const [rfqs, setRfqs] = useState<RFQ[]>([{
+    id: 'RFQ-001',
+    route: 'London - New York',
+    aircraft: 'Gulfstream G650',
+    date: '2024-01-20',
+    price: 45000,
+    currency: 'USD',
+    status: 'quoted',
+    legs: 1,
+    passengers: 8,
+    specialRequirements: 'VIP handling, customs clearance',
+    quotes: []
+  }, {
+    id: 'RFQ-002',
+    route: 'Paris - Dubai',
+    aircraft: 'Bombardier Global 6000',
+    date: '2024-01-22',
+    price: 38000,
+    currency: 'EUR',
+    status: 'sent',
+    legs: 1,
+    passengers: 12,
+    specialRequirements: 'Pet transport, special catering',
+    quotes: []
+  }]);
+  const [quotes, setQuotes] = useState<Quote[]>([{
+    id: 'Q-001',
+    operator: 'Elite Aviation',
+    price: 45000,
+    currency: 'USD',
+    validUntil: '2024-01-18T18:00:00Z',
+    aircraft: 'Gulfstream G650',
+    verified: true,
+    rating: 4.8,
+    responseTime: 15,
+    dealScore: 92
+  }, {
+    id: 'Q-002',
+    operator: 'Prime Wings',
+    price: 47000,
+    currency: 'USD',
+    validUntil: '2024-01-18T20:00:00Z',
+    aircraft: 'Gulfstream G650',
+    verified: true,
+    rating: 4.6,
+    responseTime: 25,
+    dealScore: 88
+  }]);
+  const [deals, setDeals] = useState<Deal[]>([{
+    id: 'DEAL-001',
+    rfqId: 'RFQ-001',
+    broker: 'Elite Aviation Brokers',
+    route: 'London - New York',
+    aircraft: 'Gulfstream G650',
+    date: '2024-01-20',
+    price: 45000,
+    currency: 'USD',
+    status: 'completed',
+    platformFee: 3150,
+    netAmount: 41850,
+    auditHash: 'audit_hash_123'
+  }]);
+  const [pilots, setPilots] = useState<Pilot[]>([{
+    id: 'PILOT-001',
+    name: 'Sarah Wilson',
+    role: 'Captain',
+    rating: 4.9,
+    experience: '15 years',
+    verified: true,
+    available: true,
+    hourlyRate: 150,
+    currency: 'USD',
+    credentials: {
+      license: 'ATPL',
+      medical: 'Class 1',
+      typeRating: ['G650', 'G550', 'Citation X'],
+      expiry: '2024-12-31'
     }
-  ]);
-
-  const [quotes, setQuotes] = useState<Quote[]>([
-    {
-      id: 'Q-001',
-      operator: 'Elite Aviation',
-      price: 45000,
-      currency: 'USD',
-      validUntil: '2024-01-18T18:00:00Z',
-      aircraft: 'Gulfstream G650',
-      verified: true,
-      rating: 4.8,
-      responseTime: 15,
-      dealScore: 92
-    },
-    {
-      id: 'Q-002',
-      operator: 'Prime Wings',
-      price: 47000,
-      currency: 'USD',
-      validUntil: '2024-01-18T20:00:00Z',
-      aircraft: 'Gulfstream G650',
-      verified: true,
-      rating: 4.6,
-      responseTime: 25,
-      dealScore: 88
+  }, {
+    id: 'PILOT-002',
+    name: 'Mike Johnson',
+    role: 'First Officer',
+    rating: 4.7,
+    experience: '8 years',
+    verified: true,
+    available: false,
+    hourlyRate: 120,
+    currency: 'USD',
+    credentials: {
+      license: 'CPL',
+      medical: 'Class 1',
+      typeRating: ['G650', 'Citation X'],
+      expiry: '2024-11-15'
     }
-  ]);
-
-  const [deals, setDeals] = useState<Deal[]>([
-    {
-      id: 'DEAL-001',
-      rfqId: 'RFQ-001',
-      broker: 'Elite Aviation Brokers',
-      route: 'London - New York',
-      aircraft: 'Gulfstream G650',
-      date: '2024-01-20',
-      price: 45000,
-      currency: 'USD',
-      status: 'completed',
-      platformFee: 3150,
-      netAmount: 41850,
-      auditHash: 'audit_hash_123'
+  }]);
+  const [crew, setCrew] = useState<Crew[]>([{
+    id: 'CREW-001',
+    name: 'Emma Davis',
+    role: 'Flight Attendant',
+    rating: 4.8,
+    experience: '10 years',
+    verified: true,
+    available: true,
+    dailyRate: 300,
+    currency: 'USD',
+    credentials: {
+      training: ['Safety', 'Service', 'Emergency'],
+      certificates: ['FAA', 'EASA'],
+      expiry: '2024-10-20'
     }
-  ]);
-
-  const [pilots, setPilots] = useState<Pilot[]>([
-    {
-      id: 'PILOT-001',
-      name: 'Sarah Wilson',
-      role: 'Captain',
-      rating: 4.9,
-      experience: '15 years',
-      verified: true,
-      available: true,
-      hourlyRate: 150,
-      currency: 'USD',
-      credentials: {
-        license: 'ATPL',
-        medical: 'Class 1',
-        typeRating: ['G650', 'G550', 'Citation X'],
-        expiry: '2024-12-31'
-      }
-    },
-    {
-      id: 'PILOT-002',
-      name: 'Mike Johnson',
-      role: 'First Officer',
-      rating: 4.7,
-      experience: '8 years',
-      verified: true,
-      available: false,
-      hourlyRate: 120,
-      currency: 'USD',
-      credentials: {
-        license: 'CPL',
-        medical: 'Class 1',
-        typeRating: ['G650', 'Citation X'],
-        expiry: '2024-11-15'
-      }
-    }
-  ]);
-
-  const [crew, setCrew] = useState<Crew[]>([
-    {
-      id: 'CREW-001',
-      name: 'Emma Davis',
-      role: 'Flight Attendant',
-      rating: 4.8,
-      experience: '10 years',
-      verified: true,
-      available: true,
-      dailyRate: 300,
-      currency: 'USD',
-      credentials: {
-        training: ['Safety', 'Service', 'Emergency'],
-        certificates: ['FAA', 'EASA'],
-        expiry: '2024-10-20'
-      }
-    }
-  ]);
-
-  const [alerts, setAlerts] = useState([
-    {
-      id: 'ALERT-001',
-      type: 'quote_request',
-      message: 'New RFQ for London-New York route',
-      timestamp: '2024-01-16T10:30:00Z',
-      read: false
-    },
-    {
-      id: 'ALERT-002',
-      type: 'deal_confirmed',
-      message: 'Deal DEAL-001 confirmed and payment received',
-      timestamp: '2024-01-16T09:15:00Z',
-      read: true
-    }
-  ]);
-
+  }]);
+  const [alerts, setAlerts] = useState([{
+    id: 'ALERT-001',
+    type: 'quote_request',
+    message: 'New RFQ for London-New York route',
+    timestamp: '2024-01-16T10:30:00Z',
+    read: false
+  }, {
+    id: 'ALERT-002',
+    type: 'deal_confirmed',
+    message: 'Deal DEAL-001 confirmed and payment received',
+    timestamp: '2024-01-16T09:15:00Z',
+    read: true
+  }]);
   const isDemoMode = true;
-
   const handleQuoteAccept = (quoteId: string) => {
     const quote = quotes.find(q => q.id === quoteId);
     if (!quote) return;
-
     const platformFee = Math.round(quote.price * 0.07);
     const netAmount = quote.price - platformFee;
     const auditHash = `audit_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
     const receipt = {
       transactionId: `TXN_${Date.now()}`,
       timestamp: new Date().toISOString(),
@@ -320,40 +258,35 @@ export default function DemoOperatorTerminal() {
       fcaCompliant: true,
       stripeTransactionId: `pi_${Date.now()}`
     };
-
     const receiptData = JSON.stringify(receipt, null, 2);
-    const blob = new Blob([receiptData], { type: 'application/json' });
+    const blob = new Blob([receiptData], {
+      type: 'application/json'
+    });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
     a.download = `receipt_${receipt.transactionId}.json`;
     a.click();
     URL.revokeObjectURL(url);
-
     alert(`📄 Receipt generated with audit hash: ${auditHash}\n\n✅ FCA compliant transaction record`);
   };
-
   const runLiveFlowTests = async () => {
     const result = await liveFlowTester.runLiveFlowTests();
     setLiveFlowResult(result);
     alert(`Live Flow Tests: ${result.allPassed ? 'PASSED' : 'FAILED'}\n\n${result.summary}`);
   };
-
   const runWarRoomChecks = async () => {
     const result = await warRoomChecker.runAllChecks();
     setWarRoomResult(result);
     alert(`War Room Checks: ${result.allChecksPassed ? 'PASSED' : 'FAILED'}\n\n${result.summary}`);
   };
-
   const generateEvidencePack = async () => {
     const pack = await evidencePackGenerator.generateEvidencePack();
     setEvidencePack(pack);
     evidencePackGenerator.downloadEvidencePack(pack);
     alert('Evidence pack generated and downloaded!');
   };
-
-  const renderDashboard = () => (
-    <div className="space-y-6">
+  const renderDashboard = () => <div className="space-y-6">
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card className="terminal-card hover:terminal-glow">
@@ -412,8 +345,7 @@ export default function DemoOperatorTerminal() {
       </div>
 
       {/* Alerts */}
-      {alerts.length > 0 && (
-        <Card className="card">
+      {alerts.length > 0 && <Card className="card">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-body">
               <Bell className="w-5 h-5" />
@@ -422,8 +354,7 @@ export default function DemoOperatorTerminal() {
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              {alerts.slice(0, 3).map(alert => (
-                <div key={alert.id} className="flex items-center justify-between p-2 bg-elev rounded border border-default">
+              {alerts.slice(0, 3).map(alert => <div key={alert.id} className="flex items-center justify-between p-2 bg-elev rounded border border-default">
                   <div className="flex items-center gap-2">
                     <div className={`w-2 h-2 rounded-full ${alert.read ? 'bg-muted' : 'bg-info'}`} />
                     <span className="text-sm text-body">{alert.message}</span>
@@ -431,12 +362,10 @@ export default function DemoOperatorTerminal() {
                   <span className="text-xs text-muted">
                     {new Date(alert.timestamp).toLocaleTimeString()}
                   </span>
-                </div>
-              ))}
+                </div>)}
             </div>
           </CardContent>
-        </Card>
-      )}
+        </Card>}
 
       {/* Flight Tracking Widget */}
       <Card className="terminal-card">
@@ -488,22 +417,16 @@ export default function DemoOperatorTerminal() {
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
-
-  const renderRFQs = () => (
-    <div className="space-y-4">
-      {rfqs.map(rfq => (
-        <Card key={rfq.id} className="terminal-card">
+    </div>;
+  const renderRFQs = () => <div className="space-y-4">
+      {rfqs.map(rfq => <Card key={rfq.id} className="terminal-card">
           <CardContent className="p-6">
             <div className="flex items-start justify-between mb-4">
               <div>
                 <h3 className="text-lg font-semibold">{rfq.route}</h3>
                 <p className="text-sm text-gunmetal">{rfq.aircraft} • {rfq.passengers} passengers</p>
                 <p className="text-sm text-gunmetal">Date: {rfq.date} • {rfq.legs} leg(s)</p>
-                {rfq.specialRequirements && (
-                  <p className="text-sm text-accent mt-1">Requirements: {rfq.specialRequirements}</p>
-                )}
+                {rfq.specialRequirements && <p className="text-sm text-accent mt-1">Requirements: {rfq.specialRequirements}</p>}
               </div>
               <Badge className={rfq.status === 'quoted' ? 'bg-slate-800 text-orange-400 border-orange-500/30' : 'bg-orange-900/20 text-orange-400 border-orange-500/30'}>
                 {rfq.status}
@@ -525,15 +448,10 @@ export default function DemoOperatorTerminal() {
               </Button>
             </div>
           </CardContent>
-        </Card>
-      ))}
-    </div>
-  );
-
-  const renderPilots = () => (
-    <div className="space-y-4">
-      {pilots.map(pilot => (
-        <Card key={pilot.id} className="terminal-card">
+        </Card>)}
+    </div>;
+  const renderPilots = () => <div className="space-y-4">
+      {pilots.map(pilot => <Card key={pilot.id} className="terminal-card">
           <CardContent className="p-6">
             <div className="flex items-start justify-between mb-4">
               <div>
@@ -542,9 +460,7 @@ export default function DemoOperatorTerminal() {
                 <p className="text-sm text-gray-600">Rate: ${pilot.hourlyRate}/hour</p>
                 <div className="flex items-center gap-2 mt-2">
                   <div className="flex items-center">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className={`w-4 h-4 ${i < Math.floor(pilot.rating) ? 'text-yellow-400' : 'text-gray-300'}`} />
-                    ))}
+                    {[...Array(5)].map((_, i) => <Star key={i} className={`w-4 h-4 ${i < Math.floor(pilot.rating) ? 'text-yellow-400' : 'text-gray-300'}`} />)}
                   </div>
                   <span className="text-sm text-gray-600">{pilot.rating}/5</span>
                 </div>
@@ -553,12 +469,10 @@ export default function DemoOperatorTerminal() {
                 <Badge className={pilot.available ? 'bg-slate-800 text-orange-400 border-orange-500/30' : 'bg-slate-800 text-slate-300 border-slate-600'}>
                   {pilot.available ? 'Available' : 'Unavailable'}
                 </Badge>
-                {pilot.verified && (
-                  <Badge className="bg-slate-800 text-orange-400 border-orange-500/30 mt-1">
+                {pilot.verified && <Badge className="bg-slate-800 text-orange-400 border-orange-500/30 mt-1">
                     <CheckCircle className="w-3 h-3 mr-1" />
                     Verified
-                  </Badge>
-                )}
+                  </Badge>}
               </div>
             </div>
             
@@ -596,15 +510,10 @@ export default function DemoOperatorTerminal() {
               </Button>
             </div>
           </CardContent>
-        </Card>
-      ))}
-    </div>
-  );
-
-  const renderCrew = () => (
-    <div className="space-y-4">
-      {crew.map(crewMember => (
-        <Card key={crewMember.id} className="terminal-card">
+        </Card>)}
+    </div>;
+  const renderCrew = () => <div className="space-y-4">
+      {crew.map(crewMember => <Card key={crewMember.id} className="terminal-card">
           <CardContent className="p-6">
             <div className="flex items-start justify-between mb-4">
               <div>
@@ -613,9 +522,7 @@ export default function DemoOperatorTerminal() {
                 <p className="text-sm text-gray-600">Rate: ${crewMember.dailyRate}/day</p>
                 <div className="flex items-center gap-2 mt-2">
                   <div className="flex items-center">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className={`w-4 h-4 ${i < Math.floor(crewMember.rating) ? 'text-yellow-400' : 'text-gray-300'}`} />
-                    ))}
+                    {[...Array(5)].map((_, i) => <Star key={i} className={`w-4 h-4 ${i < Math.floor(crewMember.rating) ? 'text-yellow-400' : 'text-gray-300'}`} />)}
                   </div>
                   <span className="text-sm text-gray-600">{crewMember.rating}/5</span>
                 </div>
@@ -624,12 +531,10 @@ export default function DemoOperatorTerminal() {
                 <Badge className={crewMember.available ? 'bg-slate-800 text-orange-400 border-orange-500/30' : 'bg-slate-800 text-slate-300 border-slate-600'}>
                   {crewMember.available ? 'Available' : 'Unavailable'}
                 </Badge>
-                {crewMember.verified && (
-                  <Badge className="bg-slate-800 text-orange-400 border-orange-500/30 mt-1">
+                {crewMember.verified && <Badge className="bg-slate-800 text-orange-400 border-orange-500/30 mt-1">
                     <CheckCircle className="w-3 h-3 mr-1" />
                     Verified
-                  </Badge>
-                )}
+                  </Badge>}
               </div>
             </div>
             
@@ -663,13 +568,9 @@ export default function DemoOperatorTerminal() {
               </Button>
             </div>
           </CardContent>
-        </Card>
-      ))}
-    </div>
-  );
-
-  const renderFleet = () => (
-    <div className="space-y-4">
+        </Card>)}
+    </div>;
+  const renderFleet = () => <div className="space-y-4">
       <Card className="terminal-card">
         <CardContent className="p-6">
           <div className="flex items-start justify-between mb-4">
@@ -717,11 +618,8 @@ export default function DemoOperatorTerminal() {
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
-
-  const renderBilling = () => (
-    <div className="space-y-6">
+    </div>;
+  const renderBilling = () => <div className="space-y-6">
       <Card className="terminal-card">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -756,8 +654,7 @@ export default function DemoOperatorTerminal() {
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            {deals.map(deal => (
-              <div key={deal.id} className="flex items-center justify-between p-3 bg-slate-800 rounded border border-orange-500/30">
+            {deals.map(deal => <div key={deal.id} className="flex items-center justify-between p-3 bg-slate-800 rounded border border-orange-500/30">
                 <div>
                   <p className="font-medium text-white">{deal.route}</p>
                   <p className="text-sm text-white/70">{deal.date} • {deal.aircraft}</p>
@@ -766,37 +663,29 @@ export default function DemoOperatorTerminal() {
                   <p className="font-medium text-white">${deal.price.toLocaleString()}</p>
                   <p className="text-sm text-white/70">Fee: ${deal.platformFee.toLocaleString()}</p>
                 </div>
-              </div>
-            ))}
+              </div>)}
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
-
-  return (
-    <div className="min-h-screen bg-app relative overflow-hidden">
+    </div>;
+  return <div className="min-h-screen bg-app relative overflow-hidden">
       <StarfieldRunwayBackground />
       
       <div className="relative z-10 container mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">SC</span>
-            </div>
+            
             <div>
               <h1 className="text-3xl font-bold text-foreground mb-2">StratusConnect</h1>
               <p className="text-gunmetal">Operator Terminal</p>
             </div>
           </div>
           <div className="flex items-center gap-4">
-            {isDemoMode && (
-              <Badge className="bg-orange-900/20 text-orange-400 border-orange-500/30">
+            {isDemoMode && <Badge className="bg-orange-900/20 text-orange-400 border-orange-500/30">
                 <AlertTriangle className="w-3 h-3 mr-1" />
                 Demo Mode
-              </Badge>
-            )}
+              </Badge>}
           </div>
         </div>
 
@@ -849,14 +738,12 @@ export default function DemoOperatorTerminal() {
                     <Shield className="w-4 h-4 mr-2" />
                     Run War Room Checks
                   </Button>
-                  {warRoomResult && (
-                    <div className="mt-4 p-4 bg-slate-800 rounded-lg border border-orange-500/30">
+                  {warRoomResult && <div className="mt-4 p-4 bg-slate-800 rounded-lg border border-orange-500/30">
                       <h3 className="font-semibold mb-2">Results:</h3>
                       <p className="text-sm text-gray-600 whitespace-pre-line">
                         {(warRoomResult as Record<string, unknown>)?.summary as string || 'No summary available'}
                       </p>
-                    </div>
-                  )}
+                    </div>}
                 </div>
               </CardContent>
             </Card>
@@ -879,16 +766,14 @@ export default function DemoOperatorTerminal() {
                     <Download className="w-4 h-4 mr-2" />
                     Generate Evidence Pack
                   </Button>
-                  {evidencePack && (
-                    <div className="mt-4 p-4 bg-slate-800 rounded-lg border border-orange-500/30">
+                  {evidencePack && <div className="mt-4 p-4 bg-slate-800 rounded-lg border border-orange-500/30">
                       <h3 className="font-semibold mb-2">Evidence Pack Generated:</h3>
                       <p className="text-sm text-gray-600">
-                        ID: {(evidencePack as Record<string, unknown>)?.id as string || 'N/A'}<br/>
-                        Generated: {new Date((evidencePack as Record<string, unknown>)?.generatedAt as string || Date.now()).toLocaleString()}<br/>
+                        ID: {(evidencePack as Record<string, unknown>)?.id as string || 'N/A'}<br />
+                        Generated: {new Date((evidencePack as Record<string, unknown>)?.generatedAt as string || Date.now()).toLocaleString()}<br />
                         Version: {(evidencePack as Record<string, unknown>)?.version as string || 'N/A'}
                       </p>
-                    </div>
-                  )}
+                    </div>}
                 </div>
               </CardContent>
             </Card>
@@ -896,8 +781,7 @@ export default function DemoOperatorTerminal() {
         </Tabs>
 
         {/* Demo Notice */}
-        {isDemoMode && (
-          <Card className="mt-8 bg-slate-800 border-yellow-200">
+        {isDemoMode && <Card className="mt-8 bg-slate-800 border-yellow-200">
             <CardContent className="p-4">
               <div className="flex items-start gap-3">
                 <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
@@ -910,9 +794,7 @@ export default function DemoOperatorTerminal() {
                 </div>
               </div>
             </CardContent>
-          </Card>
-        )}
+          </Card>}
       </div>
-    </div>
-  );
+    </div>;
 }

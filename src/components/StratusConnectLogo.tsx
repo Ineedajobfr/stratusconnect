@@ -14,11 +14,9 @@ export const StratusConnectLogo = ({ className = "" }: StratusConnectLogoProps) 
 
   return (
     <h1 
-      className={`text-2xl font-bold text-white cursor-pointer transition-all duration-300 hover:scale-110 
-        drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] 
-        hover:drop-shadow-[0_0_25px_rgba(255,255,255,0.8)]
-        shadow-[0_0_10px_rgba(255,165,0,0.3)]
-        hover:shadow-[0_0_20px_rgba(255,165,0,0.6)]
+      className={`text-2xl font-bold text-foreground cursor-pointer transition-all duration-300 hover:scale-105 
+        drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] 
+        hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]
         ${className}`}
       onClick={handleLogoClick}
     >

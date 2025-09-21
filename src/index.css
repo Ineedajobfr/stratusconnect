@@ -12,37 +12,37 @@
   font-variant-numeric: tabular-nums; 
 }
 
-/* === StratusConnect Deep Navy Gradient Terminal Palette ===
+/* === StratusConnect Dark Slate Terminal Palette ===
    Keep values in HSL triplets so Tailwind can use opacity
    White is for text only. No light backgrounds.
-   Deep Navy Gradient - military-grade, fortress-like appearance
+   Dark Slate - professional, modern appearance
 */
 :root {
-  /* Core - Deep Navy Gradient */
-  --background:        220 45% 4%;   /* page bg: deep navy, almost black */
+  /* Core - Dark Slate */
+  --background:        210 20% 6%;   /* page bg: dark slate, almost black */
   --foreground:          0  0% 98%;  /* near-white text */
-  --card:               220 50% 6%;  /* primary card - deep navy with subtle depth */
+  --card:               210 25% 8%;  /* primary card - dark slate with subtle depth */
   --card-foreground:      0  0% 98%;
-  --popover:            220 45% 4%;
+  --popover:            210 20% 6%;
   --popover-foreground:   0  0% 98%;
 
-  --primary:            220 50% 8%;  /* subtle dark for selected tabs etc */
+  --primary:            210 25% 10%; /* subtle dark for selected tabs etc */
   --primary-foreground:   0  0% 98%;
 
-  --secondary:          220 40% 12%;
+  --secondary:          210 20% 14%;
   --secondary-foreground: 0  0% 98%;
-  --muted:              220 45% 8%;
-  --muted-foreground:   220 15% 70%;
-  --border:             220 40% 12%;
-  --input:              220 50% 6%;
+  --muted:              210 25% 10%;
+  --muted-foreground:   210 10% 70%;
+  --border:             210 20% 14%;
+  --input:              210 25% 8%;
   --ring:                25 70% 45%; /* Stratus orange focus */
 
-  /* Terminal tokens - Deep Navy */
-  --terminal-bg:        220 45% 3%;
-  --terminal-card:      220 50% 6%;
-  --terminal-border:    220 40% 10%;
+  /* Terminal tokens - Dark Slate */
+  --terminal-bg:        210 20% 5%;
+  --terminal-card:      210 25% 8%;
+  --terminal-border:    210 20% 12%;
   --terminal-glow:       25 70% 45%;
-  --gunmetal:           220 15% 65%; /* secondary text */
+  --gunmetal:           210 10% 65%; /* secondary text */
 
   /* Accents and status */
   --accent:              25 70% 45%; /* Stratus orange */

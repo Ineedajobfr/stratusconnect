@@ -285,7 +285,7 @@ const getStatusColor = (status: StepStatus) => {
         variant="outline"
         size="sm"
         onClick={() => setIsVisible(true)}
-        className="fixed bottom-6 right-6 z-50 border-terminal-border bg-terminal-card/90 text-foreground hover:bg-terminal-card backdrop-blur-sm"
+        className="fixed top-6 right-6 z-50 border-terminal-border bg-terminal-card/90 text-foreground hover:bg-terminal-card backdrop-blur-sm shadow-lg"
       >
         <HelpCircle className="mr-2 h-4 w-4" />
         Help

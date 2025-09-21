@@ -78,7 +78,7 @@ export const TerminalLayout = withMemo(({
             className="cursor-pointer hover:opacity-80 transition-opacity"
             onClick={handleLogoClick}
           >
-            <span className="text-xl font-bold text-foreground terminal-glow">
+            <span className="text-xl font-bold text-foreground">
               StratusConnect
             </span>
             <div className="text-sm text-gunmetal font-medium mt-1">{userRole}</div>

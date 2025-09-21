@@ -296,7 +296,7 @@ export const InstructionGuide = ({ terminalType, showOnMount = false, onGuideCom
           <Button 
             variant="outline" 
             size="sm" 
-            className="fixed bottom-6 right-6 z-40 bg-terminal-glow text-slate-900 border-terminal-glow hover:bg-terminal-glow/90 shadow-[0_0_20px_rgba(77,206,255,0.8)] font-semibold"
+            className="fixed top-6 right-6 z-40 bg-terminal-card/90 text-foreground border-terminal-border hover:bg-terminal-card backdrop-blur-sm shadow-lg"
           >
             <HelpCircle className="w-4 h-4 mr-2" />
             Help Guide

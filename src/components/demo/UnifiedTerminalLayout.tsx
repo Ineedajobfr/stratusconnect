@@ -110,12 +110,12 @@ export const UnifiedTerminalLayout: React.FC<UnifiedTerminalLayoutProps> = ({
             {/* StratusConnect Logo */}
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
-                  <span className="text-black font-bold text-lg">SC</span>
+                <div className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">SC</span>
                 </div>
                 <div>
                   <StratusConnectLogo className="text-xl" />
-                  <p className="text-slate-400 text-xs">Aviation Platform</p>
+                  <p className="text-muted-foreground text-xs">Aviation Platform</p>
                 </div>
               </div>
 

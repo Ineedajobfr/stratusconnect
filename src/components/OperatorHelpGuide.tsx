@@ -275,7 +275,7 @@ export const OperatorHelpGuide = ({ activeTab, onClose, showOnMount = true }: Op
         onClick={() => setIsVisible(true)}
         variant="outline"
         size="sm"
-        className="fixed top-4 right-20 z-40 bg-slate-800/90 border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white"
+        className="fixed top-6 right-6 z-40 bg-terminal-card/90 border-terminal-border text-foreground hover:bg-terminal-card backdrop-blur-sm shadow-lg"
       >
         <HelpCircle className="w-4 h-4 mr-2" />
         Help

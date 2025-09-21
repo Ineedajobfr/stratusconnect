@@ -300,7 +300,7 @@ export function FlightRadar24Widget({
                   Clean Aircraft Tracking
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  Ad-free real-time positions
+                  Real-time aircraft tracking
                 </p>
               </div>
             </div>

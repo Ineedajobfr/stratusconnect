@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { TerminalLayout } from "@/components/TerminalLayout";
 import { KPICard } from "@/components/KPICard";
 import { Section } from "@/components/Section";
 import { DataTile } from "@/components/DataTile";
@@ -16,186 +15,256 @@ import { ProfileWidget } from "@/components/ProfileWidget";
 import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24Widget";
 import { PersonalizedFeed } from "@/components/feed/PersonalizedFeed";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { User, Briefcase, Award, Calendar, DollarSign, Globe, Shield } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { User, Briefcase, Award, Calendar, DollarSign, Globe, Shield, Clock, CheckCircle, AlertTriangle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { NavigationArrows } from "@/components/NavigationArrows";
+import { Button } from "@/components/ui/button";
+import { ModernHelpGuide } from "@/components/ModernHelpGuide";
+
 export default function CrewTerminal() {
-  const [activeSection, setActiveSection] = useState("profile");
+  const [activeSection, setActiveSection] = useState("dashboard");
   const location = useLocation();
   const isBetaMode = location.pathname.startsWith('/beta/');
-  
-  const menuItems = [{
-    id: "profile",
-    label: "My Profile",
-    icon: User
-  }, {
-    id: "verification",
-    label: "Fortress of Trust",
-    icon: Shield
-  }, {
-    id: "jobs",
-    label: "Job Requests",
-    icon: Briefcase
-  }, {
-    id: "certifications",
-    label: "Certifications",
-    icon: Award
-  }, {
-    id: "availability",
-    label: "Availability",
-    icon: Calendar
-  }, {
-    id: "news",
-    label: "Aviation News",
-    icon: Globe
-  }, {
-    id: "earnings",
-    label: "Earnings",
-    icon: DollarSign
-  }];
-  const renderContent = () => {
-    return (
-      <Tabs value={activeSection} onValueChange={setActiveSection} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 bg-terminal-card border-terminal-border text-xs overflow-x-auto">
-          <TabsTrigger value="profile" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Profile</TabsTrigger>
-          <TabsTrigger value="verification" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Trust</TabsTrigger>
-          <TabsTrigger value="jobs" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Jobs</TabsTrigger>
-          <TabsTrigger value="certifications" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Certs</TabsTrigger>
-          <TabsTrigger value="availability" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Schedule</TabsTrigger>
-          <TabsTrigger value="earnings" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Earnings</TabsTrigger>
-          <TabsTrigger value="news" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">News</TabsTrigger>
-        </TabsList>
 
-        <TabsContent value="profile" className="space-y-6">
-          {/* Crew Terminal Header */}
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-foreground tracking-tight">Crew Terminal</h1>
-              <p className="text-gunmetal mt-1">Professional Service Excellence • Flight Crew Management</p>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2 text-data-positive text-sm">
-                <div className="w-2 h-2 bg-data-positive rounded-full terminal-pulse"></div>
-                <span className="font-mono">AVAILABLE</span>
+  return (
+    <>
+      <ModernHelpGuide 
+        terminalType="crew" 
+        activeTab={activeSection} 
+        showOnMount={true} 
+        isDemo={false}
+      />
+      <div className="min-h-screen bg-terminal-bg text-foreground">
+      {/* Header */}
+      <div className="bg-terminal-card border-b border-terminal-border px-6 py-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm">SC</span>
               </div>
-              <div className="text-gunmetal text-sm font-mono">
-                {new Date().toLocaleTimeString()} UTC
+              <div>
+                <h1 className="text-xl font-bold text-foreground">StratusConnect</h1>
+                <p className="text-sm text-gunmetal">Crew Terminal</p>
               </div>
             </div>
           </div>
-
-          {/* KPI Dashboard */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <KPICard
-              title="Service Hours"
-              value="1,240"
-              delta="+45 this month"
-              icon={Clock}
-              variant="info"
-            />
-            <KPICard
-              title="Active Jobs"
-              value="2"
-              delta="1 pending approval"
-              icon={Briefcase}
-              variant="warning"
-            />
-            <KPICard
-              title="Certifications"
-              value="8"
-              delta="All current"
-              icon={Award}
-              variant="success"
-            />
-            <KPICard
-              title="Rating"
-              value="4.8/5"
-              delta="Excellent"
-              icon={CheckCircle}
-              variant="success"
-            />
-          </div>
-
-          {/* Flight Tracking Widget */}
-          <Card className="bg-terminal-card border-terminal-border">
-            <CardHeader>
-              <CardTitle className="text-cyan-400">Live Flight Tracking</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <FlightRadar24Widget />
-            </CardContent>
-          </Card>
-
-          {/* Personalized Feed */}
-          <PersonalizedFeed />
-
-          {/* Profile Overview */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-1">
-              <ProfileWidget />
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 text-data-positive text-sm">
+              <div className="w-2 h-2 bg-data-positive rounded-full terminal-pulse"></div>
+              <span className="font-mono">CREW ACTIVE</span>
             </div>
-            <div className="lg:col-span-2">
-              <CrewProfile />
+            <div className="text-gunmetal text-sm font-mono">
+              {new Date().toLocaleTimeString()} UTC
             </div>
           </div>
-          
-          <CrewAnalytics section="profile" />
-        </TabsContent>
+        </div>
+      </div>
 
-        <TabsContent value="verification" className="space-y-6">
-          <VerificationSystem />
-        </TabsContent>
+      {/* Main Content */}
+      <div className="p-6">
+        <Tabs value={activeSection} onValueChange={setActiveSection} className="space-y-6">
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-9 bg-terminal-card border-terminal-border text-xs overflow-x-auto tabs-modern">
+            <TabsTrigger value="dashboard" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Dashboard</TabsTrigger>
+            <TabsTrigger value="profile" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Profile</TabsTrigger>
+            <TabsTrigger value="verification" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Trust</TabsTrigger>
+            <TabsTrigger value="jobs" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Jobs</TabsTrigger>
+            <TabsTrigger value="certifications" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Certifications</TabsTrigger>
+            <TabsTrigger value="availability" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Availability</TabsTrigger>
+            <TabsTrigger value="analytics" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Analytics</TabsTrigger>
+            <TabsTrigger value="news" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">News</TabsTrigger>
+          </TabsList>
 
-        <TabsContent value="jobs" className="space-y-6">
-          <CrewJobs />
-          <CrewAnalytics section="jobs" />
-        </TabsContent>
-
-        <TabsContent value="certifications" className="space-y-6">
-          <CrewCertifications />
-          <CrewAnalytics section="certifications" />
-        </TabsContent>
-
-        <TabsContent value="availability" className="space-y-6">
-          <CrewAvailability />
-          <CrewAnalytics section="availability" />
-        </TabsContent>
-
-        <TabsContent value="earnings" className="space-y-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-foreground tracking-tight">Earnings Overview</h1>
-              <p className="text-gunmetal mt-1">Track your completed jobs and earnings</p>
-            </div>
-          </div>
-
-          <CrewAnalytics section="earnings" />
-          
-          <Section
-            title="Earnings Dashboard"
-            subtitle="Detailed earnings and payment history"
-          >
-            <div className="relative">
-              <PrivacyOverlay 
-                title="Earnings Tracking" 
-                description="Detailed earnings and payment history require account verification. Complete your profile to access this feature." 
-                onUnlock={() => console.log('Unlock earnings')} 
-                icon="chart" 
+          <TabsContent value="dashboard" className="space-y-6">
+            {/* KPI Dashboard */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <KPICard
+                title="Flight Hours"
+                value="1,247"
+                delta="+89 this month"
+                icon={Clock}
+                variant="info"
+                className="animate-fade-in-up"
+                style={{animationDelay: '0.1s'}}
               />
-              <div className="text-center text-gunmetal py-12">
-                <p>Earnings tracking and payment history...</p>
-              </div>
+              <KPICard
+                title="Active Jobs"
+                value="2"
+                delta="1 pending approval"
+                icon={Briefcase}
+                variant="warning"
+                className="animate-fade-in-up"
+                style={{animationDelay: '0.2s'}}
+              />
+              <KPICard
+                title="Certifications"
+                value="8"
+                delta="All current"
+                icon={Award}
+                variant="success"
+                className="animate-fade-in-up"
+                style={{animationDelay: '0.3s'}}
+              />
+              <KPICard
+                title="Rating"
+                value="4.7/5"
+                delta="Excellent"
+                icon={CheckCircle}
+                variant="success"
+                className="animate-fade-in-up"
+                style={{animationDelay: '0.4s'}}
+              />
             </div>
-          </Section>
-        </TabsContent>
 
-        <TabsContent value="news" className="space-y-6">
-          <AviationNews />
-        </TabsContent>
-      </Tabs>
-    );
-  };
-  return <TerminalLayout title="Crew Terminal" userRole="Flight Crew" menuItems={menuItems} activeTab={activeSection} onTabChange={setActiveSection} bannerText="Professional service wins repeat work. Your calendar is your shop window." terminalType="crew">
-      {renderContent()}
-    </TerminalLayout>;
+            {/* Flight Tracking Widget */}
+            <Card className="terminal-card animate-fade-in-up" style={{animationDelay: '0.5s'}}>
+              <CardHeader>
+                <CardTitle className="text-accent">Real-time Aircraft Tracking</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <FlightRadar24Widget />
+              </CardContent>
+            </Card>
+
+            {/* Personalized Feed */}
+            <PersonalizedFeed />
+
+            {/* Main Content Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <ProfileWidget />
+              
+              <Section 
+                title="Today's Assignments"
+                subtitle="Upcoming flights and duties"
+                className="animate-fade-in-up"
+                style={{animationDelay: '0.6s'}}
+              >
+                <div className="space-y-0">
+                  {[
+                    { 
+                      time: "09:00", 
+                      flight: "JFK → LAX", 
+                      aircraft: "Gulfstream G650", 
+                      role: "Flight Attendant",
+                      status: "Confirmed",
+                      statusColor: "text-terminal-success"
+                    },
+                    { 
+                      time: "15:30", 
+                      flight: "LAX → LAS", 
+                      aircraft: "Citation X", 
+                      role: "Cabin Crew",
+                      status: "Pending",
+                      statusColor: "text-terminal-warning"
+                    },
+                    { 
+                      time: "19:00", 
+                      flight: "LAS → JFK", 
+                      aircraft: "Gulfstream G650", 
+                      role: "Flight Attendant",
+                      status: "Standby",
+                      statusColor: "text-terminal-info"
+                    }
+                  ].map((assignment, index) => (
+                    <DataTile
+                      key={index}
+                      title={`${assignment.time} - ${assignment.flight}`}
+                      subtitle={`${assignment.aircraft} • ${assignment.role}`}
+                      rightSlot={
+                        <div className="text-right">
+                          <Badge className={`${assignment.statusColor} bg-opacity-20`}>
+                            {assignment.status}
+                          </Badge>
+                        </div>
+                      }
+                      className="data-tile-modern animate-slide-in-right"
+                      style={{animationDelay: `${0.7 + index * 0.1}s`}}
+                    />
+                  ))}
+                </div>
+              </Section>
+
+              <Section 
+                title="Weather & Notices"
+                subtitle="Current conditions and alerts"
+                className="animate-fade-in-up"
+                style={{animationDelay: '0.8s'}}
+              >
+                <div className="space-y-0">
+                  {[
+                    { 
+                      location: "JFK", 
+                      condition: "Clear", 
+                      visibility: "10+ SM", 
+                      wind: "NW 8kt",
+                      status: "Good"
+                    },
+                    { 
+                      location: "LAX", 
+                      condition: "Partly Cloudy", 
+                      visibility: "8 SM", 
+                      wind: "W 12kt",
+                      status: "Good"
+                    },
+                    { 
+                      location: "LAS", 
+                      condition: "Clear", 
+                      visibility: "10+ SM", 
+                      wind: "Calm",
+                      status: "Excellent"
+                    }
+                  ].map((weather, index) => (
+                    <DataTile
+                      key={index}
+                      title={weather.location}
+                      subtitle={`${weather.condition} • ${weather.visibility}`}
+                      rightSlot={
+                        <div className="text-right">
+                          <div className="text-sm text-gunmetal">{weather.wind}</div>
+                          <Badge className="text-terminal-success bg-terminal-success/20 text-xs">
+                            {weather.status}
+                          </Badge>
+                        </div>
+                      }
+                      className="data-tile-modern animate-slide-in-right"
+                      style={{animationDelay: `${0.9 + index * 0.1}s`}}
+                    />
+                  ))}
+                </div>
+              </Section>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="profile" className="space-y-6">
+            <CrewProfile />
+          </TabsContent>
+
+          <TabsContent value="verification" className="space-y-6">
+            <VerificationSystem />
+          </TabsContent>
+
+          <TabsContent value="jobs" className="space-y-6">
+            <CrewJobs />
+          </TabsContent>
+
+          <TabsContent value="certifications" className="space-y-6">
+            <CrewCertifications />
+          </TabsContent>
+
+          <TabsContent value="availability" className="space-y-6">
+            <CrewAvailability />
+          </TabsContent>
+
+          <TabsContent value="analytics" className="space-y-6">
+            <CrewAnalytics />
+          </TabsContent>
+
+          <TabsContent value="news" className="space-y-6">
+            <AviationNews />
+          </TabsContent>
+        </Tabs>
+      </div>
+    </div>
+    </>
+  );
 }

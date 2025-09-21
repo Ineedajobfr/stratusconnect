@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Brand } from '@/components/Brand';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ModernHelpGuide } from '@/components/ModernHelpGuide';
 import { 
   DollarSign, 
   FileText, 
@@ -601,7 +602,14 @@ export default function DemoBrokerTerminal() {
   );
 
   return (
-    <div className="min-h-screen bg-app text-body">
+    <>
+      <ModernHelpGuide 
+        terminalType="broker" 
+        activeTab={activeTab} 
+        showOnMount={true} 
+        isDemo={true}
+      />
+      <div className="min-h-screen bg-app text-body">
       <header className="sticky top-0 z-20 bg-app/80 backdrop-blur border-b border-default">
         <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -981,5 +989,6 @@ export default function DemoBrokerTerminal() {
         )}
       </main>
     </div>
+    </>
   );
 }

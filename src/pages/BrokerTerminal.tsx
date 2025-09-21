@@ -13,6 +13,7 @@ import DemoMarketplace from './DemoMarketplace';
 import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24Widget";
 import { PersonalizedFeed } from "@/components/feed/PersonalizedFeed";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ModernHelpGuide } from "@/components/ModernHelpGuide";
 // import { ModernStatus } from "@/components/ModernStatus";
 
 export default function BrokerTerminal() {
@@ -204,7 +205,14 @@ export default function BrokerTerminal() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <>
+      <ModernHelpGuide 
+        terminalType="broker" 
+        activeTab={activeTab} 
+        showOnMount={true} 
+        isDemo={false}
+      />
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* Terminal Header */}
       <div className="border-b border-slate-700 bg-slate-800/50 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-6 py-4">
@@ -400,5 +408,6 @@ export default function BrokerTerminal() {
         </Tabs>
       </div>
     </div>
+    </>
   );
 }

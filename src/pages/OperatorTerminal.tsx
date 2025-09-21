@@ -19,7 +19,7 @@ import { ProfileWidget } from "@/components/ProfileWidget";
 import AuthForm from "@/components/AuthForm";
 import { Plane, Calendar, DollarSign, TrendingUp, Users, MapPin, Clock, Settings, MessageSquare, BarChart3, CheckCircle, Activity, Gauge, Shield, Globe } from "lucide-react";
 import { NavigationArrows } from "@/components/NavigationArrows";
-import { OperatorHelpGuide } from "@/components/OperatorHelpGuide";
+import { ModernHelpGuide } from "@/components/ModernHelpGuide";
 import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24Widget";
 import { PersonalizedFeed } from "@/components/feed/PersonalizedFeed";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -181,7 +181,12 @@ const OperatorTerminal = () => {
 
   return (
     <>
-      <OperatorHelpGuide activeTab={activeTab} showOnMount={true} />
+      <ModernHelpGuide 
+        terminalType="operator" 
+        activeTab={activeTab} 
+        showOnMount={true} 
+        isDemo={false}
+      />
       <TerminalLayout title="Operator Terminal" userRole="Verified Operator" menuItems={menuItems} activeTab={activeTab} onTabChange={setActiveTab} bannerText="Fill the legs. Lift the yield. Control the risk." terminalType="operator">
         {/* Terminal Content */}
         <div className="max-w-7xl mx-auto px-6 py-8">

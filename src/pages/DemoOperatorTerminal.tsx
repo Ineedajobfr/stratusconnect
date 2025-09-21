@@ -58,6 +58,8 @@ import { BackhaulMatcher } from '@/components/DealFlow/BackhaulMatcher';
 import { SavedSearches } from '@/components/DealFlow/SavedSearches';
 import { ReputationMetrics } from '@/components/Reputation/ReputationMetrics';
 import { MonthlyStatements } from '@/components/Billing/MonthlyStatements';
+import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
+import { PersonalizedFeed } from '@/components/feed/PersonalizedFeed';
 
 interface RFQ {
   id: string;
@@ -435,6 +437,19 @@ export default function DemoOperatorTerminal() {
         </Card>
       )}
 
+      {/* Flight Tracking Widget */}
+      <Card className="terminal-card">
+        <CardHeader>
+          <CardTitle className="text-cyan-400">Live Flight Tracking</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <FlightRadar24Widget />
+        </CardContent>
+      </Card>
+
+      {/* Personalized Feed */}
+      <PersonalizedFeed />
+
       {/* Recent Activity */}
       <Card className="terminal-card">
         <CardHeader>
@@ -785,43 +800,16 @@ export default function DemoOperatorTerminal() {
 
         {/* Main Navigation */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-9">
-            <TabsTrigger value="dashboard" className="flex items-center gap-2">
-              <BarChart3 className="w-4 h-4" />
-              Dashboard
-            </TabsTrigger>
-            <TabsTrigger value="rfqs" className="flex items-center gap-2">
-              <FileText className="w-4 h-4" />
-              RFQs
-            </TabsTrigger>
-            <TabsTrigger value="pilots" className="flex items-center gap-2">
-              <Users className="w-4 h-4" />
-              Pilots
-            </TabsTrigger>
-            <TabsTrigger value="crew" className="flex items-center gap-2">
-              <Briefcase className="w-4 h-4" />
-              Crew
-            </TabsTrigger>
-            <TabsTrigger value="fleet" className="flex items-center gap-2">
-              <Plane className="w-4 h-4" />
-              Fleet
-            </TabsTrigger>
-            <TabsTrigger value="billing" className="flex items-center gap-2">
-              <DollarSign className="w-4 h-4" />
-              Billing
-            </TabsTrigger>
-            <TabsTrigger value="scoreboard" className="flex items-center gap-2">
-              <TrendingUp className="w-4 h-4" />
-              Scoreboard
-            </TabsTrigger>
-            <TabsTrigger value="warroom" className="flex items-center gap-2">
-              <Shield className="w-4 h-4" />
-              War Room
-            </TabsTrigger>
-            <TabsTrigger value="evidence" className="flex items-center gap-2">
-              <FileText className="w-4 h-4" />
-              Evidence
-            </TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-9 bg-terminal-card border-terminal-border text-xs overflow-x-auto">
+            <TabsTrigger value="dashboard" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Dashboard</TabsTrigger>
+            <TabsTrigger value="rfqs" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">RFQs</TabsTrigger>
+            <TabsTrigger value="pilots" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Pilots</TabsTrigger>
+            <TabsTrigger value="crew" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Crew</TabsTrigger>
+            <TabsTrigger value="fleet" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Fleet</TabsTrigger>
+            <TabsTrigger value="billing" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Billing</TabsTrigger>
+            <TabsTrigger value="scoreboard" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Scoreboard</TabsTrigger>
+            <TabsTrigger value="warroom" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">War Room</TabsTrigger>
+            <TabsTrigger value="evidence" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Evidence</TabsTrigger>
           </TabsList>
 
           <TabsContent value="dashboard" className="mt-6">

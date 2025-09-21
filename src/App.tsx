@@ -50,6 +50,12 @@ const TermsOfService = lazy(() => import("./pages/TermsOfService"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const CookiePolicy = lazy(() => import("./pages/CookiePolicy"));
 const UserAgreement = lazy(() => import("./pages/UserAgreement"));
+
+// Login pages
+const BrokerLogin = lazy(() => import("./pages/BrokerLogin"));
+const OperatorLogin = lazy(() => import("./pages/OperatorLogin"));
+const PilotLogin = lazy(() => import("./pages/PilotLogin"));
+const CrewLogin = lazy(() => import("./pages/CrewLogin"));
 const AircraftIntelligence = lazy(() => import("./pages/AircraftIntelligence"));
 const Security = lazy(() => import("./pages/Security"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -160,6 +166,13 @@ const App = memo(() => {
               />
               
               {/* Demo routes */}
+              {/* Login pages */}
+              <Route path="/login/broker" element={<BrokerLogin />} />
+              <Route path="/login/operator" element={<OperatorLogin />} />
+              <Route path="/login/pilot" element={<PilotLogin />} />
+              <Route path="/login/crew" element={<CrewLogin />} />
+              
+              {/* Demo terminals */}
               <Route path="/demo/broker" element={<DemoBrokerTerminal />} />
               <Route path="/demo/operator" element={<DemoOperatorTerminal />} />
               <Route path="/demo/pilot" element={<DemoPilotTerminal />} />

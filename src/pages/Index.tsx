@@ -22,13 +22,10 @@ import {
   MessageSquare
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { LoginModal } from "@/components/LoginModal";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 import { useAuth } from "@/contexts/AuthContext";
 
 export default function Index() {
-  const [selectedRole, setSelectedRole] = useState<string | null>(null);
-  const [showLoginModal, setShowLoginModal] = useState(false);
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -40,8 +37,7 @@ export default function Index() {
   }, [user, navigate]);
 
   const handleAccessTerminal = (roleId: string) => {
-    setSelectedRole(roleId);
-    setShowLoginModal(true);
+    navigate(`/login/${roleId}`);
   };
 
   const handleDemoAccess = (demoRoute: string) => {
@@ -914,12 +910,6 @@ export default function Index() {
         </div>
       </footer>
 
-      {/* Login Modal */}
-      <LoginModal 
-        isOpen={showLoginModal}
-        onClose={() => setShowLoginModal(false)}
-        selectedRole={selectedRole}
-      />
     </div>
   );
 }

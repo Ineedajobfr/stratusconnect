@@ -45,7 +45,11 @@ interface TutorialStep {
   autoPlay?: boolean;
 }
 
-export default function BrokerTutorial() {
+interface BrokerTutorialProps {
+  isDemo?: boolean;
+}
+
+export default function BrokerTutorial({ isDemo = false }: BrokerTutorialProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [completedSteps, setCompletedSteps] = useState<Set<string>>(new Set());
@@ -188,11 +192,11 @@ export default function BrokerTutorial() {
           </div>
           <div className="flex gap-2">
             <Button
-              onClick={() => window.location.href = '/beta/broker'}
+              onClick={() => window.location.href = isDemo ? '/demo/broker' : '/broker'}
               className="bg-orange-500 hover:bg-orange-600 text-white"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Terminal
+              {isDemo ? 'Back to Demo' : 'Back to Terminal'}
             </Button>
             <Brand.StatusChip status="success">
               <Shield className="w-3 h-3 mr-1 icon-glow" />

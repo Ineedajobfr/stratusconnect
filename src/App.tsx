@@ -186,7 +186,8 @@ const App = memo(() => {
               <Route path="/help/crew" element={<HelpCrew />} />
               
               {/* Tutorial pages */}
-              <Route path="/tutorial/broker" element={<BrokerTutorial />} />
+              <Route path="/tutorial/broker" element={<BrokerTutorial isDemo={false} />} />
+              <Route path="/demo/tutorial/broker" element={<BrokerTutorial isDemo={true} />} />
               
               {/* Public Beta Testing Routes - Protected for users/owners */}
               <Route path="/beta" element={<BetaNavigator />} />

@@ -45,7 +45,7 @@ interface TutorialStep {
   autoPlay?: boolean;
 }
 
-export function BrokerTutorial() {
+export default function BrokerTutorial() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [completedSteps, setCompletedSteps] = useState<Set<string>>(new Set());

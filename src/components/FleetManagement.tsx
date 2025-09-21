@@ -29,6 +29,8 @@ interface Aircraft {
   created_at: string;
 }
 
+import { getErrorMessage } from "@/utils/errorHandler";
+
 export default function FleetManagement() {
   const [aircraft, setAircraft] = useState<Aircraft[]>([]);
   const [loading, setLoading] = useState(true);
@@ -133,7 +135,7 @@ export default function FleetManagement() {
     } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to save aircraft",
+        description: getErrorMessage(error),
         variant: "destructive",
       });
     } finally {
@@ -174,7 +176,7 @@ export default function FleetManagement() {
     } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to delete aircraft",
+        description: getErrorMessage(error),
         variant: "destructive",
       });
     }

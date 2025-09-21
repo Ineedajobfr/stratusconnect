@@ -371,7 +371,7 @@ export default function EnhancedMessaging() {
     } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to upload file",
+        description: error instanceof Error ? error.message : "Failed to upload file",
         variant: "destructive",
       });
     } finally {

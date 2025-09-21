@@ -136,7 +136,7 @@ export function LiveStatusWidget({
       <div className={`flex items-center gap-2 ${className}`}>
         {getStatusIcon(statusData.status)}
         <Badge 
-          variant={liveStatusHandler.getStatusBadgeVariant(statusData.status) as "default" | "secondary" | "destructive" | "outline"}
+          variant={liveStatusHandler.getStatusBadgeVariant(statusData.status) as any}
           className="text-xs"
         >
           {statusData.status.toUpperCase()}
@@ -197,7 +197,7 @@ export function LiveStatusWidget({
             </div>
           </div>
           <Badge 
-            variant={liveStatusHandler.getStatusBadgeVariant(statusData.status) as "default" | "secondary" | "destructive" | "outline"}
+            variant={liveStatusHandler.getStatusBadgeVariant(statusData.status) as any}
           >
             {statusData.status.toUpperCase()}
           </Badge>

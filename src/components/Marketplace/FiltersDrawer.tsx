@@ -58,7 +58,7 @@ export default function FiltersDrawer({
 }: FiltersDrawerProps) {
   if (!isOpen) return null;
 
-  const updateFilter = (key: keyof Filters, value: Record<string, unknown>) => {
+  const updateFilter = (key: keyof Filters, value: any) => {
     onFiltersChange({ ...filters, [key]: value });
   };
 

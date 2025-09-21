@@ -80,7 +80,7 @@ export const useSessionManager = ({
       
       throttleTimeout = setTimeout(() => {
         resetTimer();
-        throttleTimeout = null;
+        throttleTimeout = null as any;
       }, 1000); // Throttle to once per second
     };
 

@@ -22,7 +22,7 @@ interface HelpContent {
   items: Array<{
     section: string;
     description: string;
-    icon?: Record<string, unknown>;
+    icon?: React.ComponentType<any>;
     locked?: boolean;
   }>;
   demoNote?: string;
@@ -78,7 +78,7 @@ export const OperatorHelpGuide = ({ activeTab, onClose, showOnMount = true }: Op
           {
             section: "Verification Center",
             description: "Complete identity verification to unlock full platform features",
-            icon: Shield,
+            icon: Shield as any,
             locked: true
           }
         ],
@@ -127,7 +127,7 @@ export const OperatorHelpGuide = ({ activeTab, onClose, showOnMount = true }: Op
           {
             section: "Add Aircraft",
             description: "Register new aircraft to your fleet (inactive until verification)",
-            icon: Plane,
+            icon: Plane as any,
             locked: true
           },
           {
@@ -249,7 +249,7 @@ export const OperatorHelpGuide = ({ activeTab, onClose, showOnMount = true }: Op
           {
             section: "Advanced Analytics",
             description: "Detailed financial reporting requires verification and premium access",
-            icon: Lock,
+            icon: Lock as any,
             locked: true
           }
         ],

@@ -20,6 +20,8 @@ interface Notification {
   created_at: string;
 }
 
+import { getErrorMessage } from '@/utils/errorHandler';
+
 export default function NotificationCenter() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
@@ -136,7 +138,7 @@ export default function NotificationCenter() {
     } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to mark notifications as read",
+        description: getErrorMessage(error),
         variant: "destructive",
       });
     }

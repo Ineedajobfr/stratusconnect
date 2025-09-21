@@ -114,7 +114,7 @@ export function getFeeBreakdown(
   const feePercentage = getFeePercentage(transactionType);
   
   switch (transactionType) {
-    case 'charter': {
+    case 'charter':
       const charterFees = calcDealFees(gross, currency);
       return {
         label: 'Platform Fee',
@@ -122,8 +122,7 @@ export function getFeeBreakdown(
         amount: charterFees.platform,
         net: charterFees.net
       };
-    }
-    case 'hiring': {
+    case 'hiring':
       const hiringFees = calcHiringFees(gross, currency);
       return {
         label: 'Hiring Fee',
@@ -131,7 +130,6 @@ export function getFeeBreakdown(
         amount: hiringFees.hiring,
         net: hiringFees.net
       };
-    }
     case 'pilot-crew':
       return {
         label: 'Platform Fee',

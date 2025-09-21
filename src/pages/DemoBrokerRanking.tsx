@@ -48,17 +48,17 @@ interface DemoXpEvent {
   points: number;
   description: string;
   timestamp: string;
-  meta?: Record<string, unknown>;
+  meta?: Record<string, any>;
 }
 
 export default function DemoBrokerRanking() {
   const [userStats, setUserStats] = useState<DemoUser | null>(null);
   const [leaderboard, setLeaderboard] = useState<DemoUser[]>([]);
   const [xpEvents, setXpEvents] = useState<DemoXpEvent[]>([]);
-  const [challenges, setChallenges] = useState<unknown[]>([]);
-  const [achievements, setAchievements] = useState<unknown[]>([]);
-  const [performanceMetrics, setPerformanceMetrics] = useState<unknown>(null);
-  const [seasonInfo, setSeasonInfo] = useState<unknown>(null);
+  const [challenges, setChallenges] = useState<any[]>([]);
+  const [achievements, setAchievements] = useState<any[]>([]);
+  const [performanceMetrics, setPerformanceMetrics] = useState<any>(null);
+  const [seasonInfo, setSeasonInfo] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
 

@@ -41,6 +41,8 @@ interface AircraftTypeAnalysis {
   demandTrend: 'up' | 'down' | 'stable';
 }
 
+import { getErrorMessage } from "@/utils/errorHandler";
+
 export default function MarketIntelligence() {
   const [analytics, setAnalytics] = useState<MarketAnalytics[]>([]);
   const [routeInsights, setRouteInsights] = useState<RouteInsight[]>([]);
@@ -58,9 +60,11 @@ export default function MarketIntelligence() {
   });
 
   useEffect(() => {
-    fetchMarketData();
-    generateMockAnalytics(); // Generate some mock data for demonstration
-  }, [selectedTimeframe, selectedRegion, fetchMarketData, generateMockAnalytics]);
+    const initializeData = async () => {
+      await Promise.all([fetchMarketData(), generateMockAnalytics()]);
+    };
+    initializeData();
+  }, [selectedTimeframe, selectedRegion]);
 
   const fetchMarketData = useCallback(async () => {
     try {
@@ -99,7 +103,7 @@ export default function MarketIntelligence() {
 
     listings.forEach(listing => {
       const route = `${listing.departure_location}-${listing.destination}`;
-      const aircraftType = listing.aircraft?.aircraft_type || 'Unknown';
+      const aircraftType = (listing.aircraft as any)?.aircraft_type || 'Unknown';
 
       if (!routeMap.has(route)) routeMap.set(route, []);
       if (!aircraftMap.has(aircraftType)) aircraftMap.set(aircraftType, []);
@@ -110,7 +114,7 @@ export default function MarketIntelligence() {
 
     // Generate route insights
     const insights: RouteInsight[] = Array.from(routeMap.entries()).map(([route, routeListings]) => {
-      const prices = routeListings.map(l => l.asking_price);
+      const prices = routeListings.map(l => Number(l.asking_price) || 0);
       const avgPrice = prices.reduce((a, b) => a + b, 0) / prices.length;
       
       return {
@@ -125,7 +129,7 @@ export default function MarketIntelligence() {
 
     // Generate aircraft analysis
     const analysis: AircraftTypeAnalysis[] = Array.from(aircraftMap.entries()).map(([aircraft_type, typeListings]) => {
-      const prices = typeListings.map(l => l.asking_price);
+      const prices = typeListings.map(l => Number(l.asking_price) || 0);
       const minPrice = Math.min(...prices);
       const maxPrice = Math.max(...prices);
       const avgPrice = prices.reduce((a, b) => a + b, 0) / prices.length;
@@ -148,10 +152,15 @@ export default function MarketIntelligence() {
       avgPriceChange: insights.reduce((acc, insight) => acc + insight.priceChange, 0) / insights.length,
       hotRoutes: insights.filter(i => i.demandLevel === 'high').length,
       marketActivity: listings.filter(l => 
-        new Date(l.created_at) > new Date(Date.now() - 24 * 60 * 60 * 1000)
+        new Date(String(l.created_at || '')) > new Date(Date.now() - 24 * 60 * 60 * 1000)
       ).length
     });
   };
+
+  useEffect(() => {
+    fetchMarketData();
+    generateMockAnalytics();
+  }, []);
 
   const generateMockAnalytics = useCallback(async () => {
     // Generate some mock analytics for demonstration

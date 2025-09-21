@@ -96,7 +96,7 @@ export function generateTraceId(dealId: string, viewerId: string): string {
  * Generate deal receipt with anti-circumvention watermarks
  */
 export async function generateDealReceipt(
-  dealData: Record<string, unknown>, 
+  dealData: any, 
   viewerId: string
 ): Promise<DealReceiptData> {
   const timestamp = new Date().toISOString();
@@ -140,7 +140,7 @@ export async function generateDealReceipt(
  * Generate hiring receipt with watermarks
  */
 export async function generateHiringReceipt(
-  hiringData: Record<string, unknown>, 
+  hiringData: any, 
   viewerId: string
 ): Promise<DealReceiptData> {
   const timestamp = new Date().toISOString();
@@ -210,11 +210,11 @@ async function logDocumentAccess(
  * Receipt generator class
  */
 class ReceiptGenerator {
-  async generateDealReceipt(dealData: Record<string, unknown>, viewerId: string): Promise<DealReceiptData> {
+  async generateDealReceipt(dealData: any, viewerId: string): Promise<DealReceiptData> {
     return generateDealReceipt(dealData, viewerId);
   }
 
-  async generateHiringReceipt(hiringData: Record<string, unknown>, viewerId: string): Promise<DealReceiptData> {
+  async generateHiringReceipt(hiringData: any, viewerId: string): Promise<DealReceiptData> {
     return generateHiringReceipt(hiringData, viewerId);
   }
 

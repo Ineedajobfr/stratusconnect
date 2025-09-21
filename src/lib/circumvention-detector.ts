@@ -11,7 +11,7 @@ export interface CircumventionSignal {
   broker_id: string;
   route_hash: string;
   timestamp: string;
-  metadata: Record<string, unknown>;
+  metadata: Record<string, any>;
   severity: 'low' | 'medium' | 'high' | 'critical';
 }
 
@@ -85,7 +85,7 @@ export async function detectCircumventionPatterns(
 async function checkSuspiciousPairs(
   operatorId: string,
   brokerId: string,
-  leakSignals: unknown[]
+  leakSignals: any[]
 ): Promise<CircumventionSignal[]> {
   const suspiciousSignals: CircumventionSignal[] = [];
 
@@ -97,7 +97,7 @@ async function checkSuspiciousPairs(
     }
     groups[routeHash].push(signal);
     return groups;
-  }, {} as Record<string, unknown[]>);
+  }, {} as Record<string, any[]>);
 
   // Check each route group for suspicious patterns
   Object.entries(routeGroups).forEach(([routeHash, signals]) => {

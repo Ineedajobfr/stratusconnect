@@ -54,6 +54,8 @@ interface MaintenanceSchedule {
   notes: string;
 }
 
+import { getErrorMessage } from "@/utils/errorHandler";
+
 export default function FleetManagementAdvanced() {
   const [aircraft, setAircraft] = useState<Aircraft[]>([]);
   const [utilization, setUtilization] = useState<{ [key: string]: AircraftUtilization }>({});
@@ -194,7 +196,7 @@ export default function FleetManagementAdvanced() {
     } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to schedule maintenance",
+        description: getErrorMessage(error),
         variant: "destructive",
       });
     }

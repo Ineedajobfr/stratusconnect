@@ -48,6 +48,8 @@ interface Bid {
   bidder_company: string;
 }
 
+import { getErrorMessage } from "@/utils/errorHandler";
+
 export default function Marketplace() {
   const [listings, setListings] = useState<MarketplaceListing[]>([]);
   const [bids, setBids] = useState<{ [key: string]: Bid[] }>({});
@@ -239,7 +241,7 @@ export default function Marketplace() {
     } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to create listing",
+        description: getErrorMessage(error),
         variant: "destructive",
       });
     }
@@ -270,7 +272,7 @@ export default function Marketplace() {
     } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to place bid",
+        description: getErrorMessage(error),
         variant: "destructive",
       });
     }
@@ -330,7 +332,7 @@ export default function Marketplace() {
     } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to accept bid",
+        description: getErrorMessage(error),
         variant: "destructive",
       });
     }
@@ -376,8 +378,8 @@ export default function Marketplace() {
                       </SelectTrigger>
                       <SelectContent className="bg-slate-700 border-slate-600">
                         {aircraft.map((plane) => (
-                          <SelectItem key={plane.id} value={plane.id} className="text-white">
-                            {plane.tail_number} - {plane.manufacturer} {plane.model}
+                          <SelectItem key={String(plane.id)} value={String(plane.id)} className="text-white">
+                            {String(plane.tail_number)} - {String(plane.manufacturer)} {String(plane.model)}
                           </SelectItem>
                         ))}
                       </SelectContent>

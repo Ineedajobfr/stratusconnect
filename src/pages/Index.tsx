@@ -56,40 +56,36 @@ export default function Index() {
       <div className="relative z-10 pt-20 pb-16">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <div className="mb-8 animate-fade-in-up">
-            <Badge variant="secondary" className="mb-4 px-4 py-2 text-sm backdrop-blur-modern border-terminal-border">
-              <Zap className="w-4 h-4 mr-2" />
-              Next-Generation Aviation Platform
-            </Badge>
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-terminal-card/30 border border-terminal-border/50 mb-8">
+              <Zap className="w-4 h-4 text-accent mr-2" />
+              <span className="text-sm text-foreground">Next-Generation Aviation Platform</span>
+            </div>
             <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6">
-              The Aviation Industry's <span className="text-gradient">Trusted Marketplace</span>
+              Welcome to <span className="text-accent">StratusConnect</span>
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-              Connect with confidence. Trade with transparency. Grow with security. 
-              Join thousands of aviation professionals who trust StratusConnect for their most important transactions.
+              The industry's most secure and efficient platform connecting brokers, operators, pilots, and crew. 
+              Built on zero-trust architecture with military-grade encryption.
             </p>
           </div>
 
-          {/* Trust Indicators */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
-            <div className="text-center p-4 rounded-lg bg-terminal-card/30 border border-terminal-border/50">
-              <div className="text-3xl font-bold text-terminal-success accent-glow">$0</div>
-              <div className="text-sm text-muted-foreground text-glow-subtle">Monthly Fees</div>
-              <div className="text-xs text-gunmetal mt-1">Until you make money</div>
+          {/* Key Statistics */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+            <div className="text-center">
+              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">99.9%</div>
+              <div className="text-sm text-muted-foreground">Uptime</div>
             </div>
-            <div className="text-center p-4 rounded-lg bg-terminal-card/30 border border-terminal-border/50">
-              <div className="text-3xl font-bold text-accent accent-glow">2,500+</div>
-              <div className="text-sm text-muted-foreground text-glow-subtle">Active Professionals</div>
-              <div className="text-xs text-gunmetal mt-1">Growing daily</div>
+            <div className="text-center">
+              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">15k+</div>
+              <div className="text-sm text-muted-foreground">Active Users</div>
             </div>
-            <div className="text-center p-4 rounded-lg bg-terminal-card/30 border border-terminal-border/50">
-              <div className="text-3xl font-bold text-accent accent-glow">$50M+</div>
-              <div className="text-sm text-muted-foreground text-glow-subtle">In Transactions</div>
-              <div className="text-xs text-gunmetal mt-1">Secured & verified</div>
+            <div className="text-center">
+              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">$2B+</div>
+              <div className="text-sm text-muted-foreground">Transactions</div>
             </div>
-            <div className="text-center p-4 rounded-lg bg-terminal-card/30 border border-terminal-border/50">
-              <div className="text-3xl font-bold text-terminal-success accent-glow">100%</div>
-              <div className="text-sm text-muted-foreground text-glow-subtle">Dispute-Free</div>
-              <div className="text-xs text-gunmetal mt-1">Escrow protection</div>
+            <div className="text-center">
+              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">50ms</div>
+              <div className="text-sm text-muted-foreground">Avg Response</div>
             </div>
           </div>
         </div>

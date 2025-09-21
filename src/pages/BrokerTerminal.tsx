@@ -14,6 +14,7 @@ import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24W
 import { PersonalizedFeed } from "@/components/feed/PersonalizedFeed";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ModernHelpGuide } from "@/components/ModernHelpGuide";
+import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 // import { ModernStatus } from "@/components/ModernStatus";
 
 export default function BrokerTerminal() {
@@ -212,39 +213,49 @@ export default function BrokerTerminal() {
         showOnMount={true} 
         isDemo={false}
       />
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <div className="min-h-screen bg-app relative overflow-hidden">
+        <StarfieldRunwayBackground />
+        
       {/* Terminal Header */}
-      <div className="border-b border-slate-700 bg-slate-800/50 backdrop-blur-sm">
+        <div className="relative z-10 bg-terminal-card border-b border-terminal-border backdrop-blur-modern">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6">
-              <h1 className="text-2xl font-bold text-white">Broker Terminal</h1>
-              <div className="flex items-center space-x-2 text-white text-sm">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">SC</span>
+                  </div>
+                  <div>
+                    <h1 className="text-2xl font-bold text-foreground">StratusConnect</h1>
+                    <p className="text-sm text-gunmetal">Broker Terminal</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-2 text-data-positive text-sm">
+                  <div className="w-2 h-2 bg-data-positive rounded-full terminal-pulse"></div>
                 <span className="font-mono">MARKET ACTIVE</span>
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <div className="text-slate-400 text-sm font-mono">
+                <div className="text-gunmetal text-sm font-mono">
                 {new Date().toLocaleTimeString()} UTC
-              </div>
+                </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Terminal Navigation */}
-      <div className="border-b border-slate-700 bg-slate-800/30">
+        <div className="relative z-10 border-b border-terminal-border bg-terminal-card/30 backdrop-blur-modern">
         <div className="max-w-7xl mx-auto px-6">
           <nav className="flex space-x-8 py-4">
             {menuItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                   activeTab === item.id
-                    ? "bg-orange-500 text-white"
-                    : "text-slate-300 hover:text-white hover:bg-slate-700/50"
+                      ? "bg-accent text-white shadow-glow"
+                      : "text-gunmetal hover:text-foreground hover:bg-terminal-card/50"
                 }`}
               >
                 <item.icon className="w-4 h-4" />
@@ -256,7 +267,7 @@ export default function BrokerTerminal() {
       </div>
 
       {/* Terminal Content */}
-      <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 bg-terminal-card border-terminal-border text-xs sm:text-sm tabs-modern">
             <TabsTrigger value="dashboard" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Dashboard</TabsTrigger>
@@ -406,8 +417,8 @@ export default function BrokerTerminal() {
             </Card>
           </TabsContent>
         </Tabs>
+        </div>
       </div>
-    </div>
     </>
   );
 }

@@ -28,6 +28,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ModernHelpGuide } from "@/components/ModernHelpGuide";
+import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 
 export default function PilotTerminal() {
   const [activeSection, setActiveSection] = useState("dashboard");
@@ -42,9 +43,11 @@ export default function PilotTerminal() {
         showOnMount={true} 
         isDemo={false}
       />
-      <div className="min-h-screen bg-terminal-bg text-foreground">
-      {/* Header */}
-      <div className="bg-terminal-card border-b border-terminal-border px-6 py-4">
+      <div className="min-h-screen bg-app relative overflow-hidden">
+        <StarfieldRunwayBackground />
+        
+        {/* Header */}
+        <div className="relative z-10 bg-terminal-card border-b border-terminal-border px-6 py-4 backdrop-blur-modern">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-3">
@@ -69,8 +72,8 @@ export default function PilotTerminal() {
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="p-6">
+        {/* Main Content */}
+        <div className="relative z-10 p-6">
         <Tabs value={activeSection} onValueChange={setActiveSection} className="space-y-6">
           <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-9 bg-terminal-card border-terminal-border text-xs overflow-x-auto tabs-modern">
             <TabsTrigger value="dashboard" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Dashboard</TabsTrigger>
@@ -438,8 +441,8 @@ export default function PilotTerminal() {
             <AviationNews />
           </TabsContent>
         </Tabs>
+        </div>
       </div>
-    </div>
     </>
   );
 }

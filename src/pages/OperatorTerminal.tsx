@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { TerminalLayout } from "@/components/TerminalLayout";
+import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 import { KPICard } from "@/components/KPICard";
 import { Section } from "@/components/Section";
 import { DataTile } from "@/components/DataTile";
@@ -187,9 +187,39 @@ const OperatorTerminal = () => {
         showOnMount={true} 
         isDemo={false}
       />
-      <TerminalLayout title="Operator Terminal" userRole="Verified Operator" menuItems={menuItems} activeTab={activeTab} onTabChange={setActiveTab} bannerText="Fill the legs. Lift the yield. Control the risk." terminalType="operator">
+      <div className="min-h-screen bg-app relative overflow-hidden">
+        <StarfieldRunwayBackground />
+        
+        {/* Terminal Header */}
+        <div className="relative z-10 bg-terminal-card border-b border-terminal-border backdrop-blur-modern">
+          <div className="max-w-7xl mx-auto px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-6">
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">SC</span>
+                  </div>
+                  <div>
+                    <h1 className="text-2xl font-bold text-foreground">StratusConnect</h1>
+                    <p className="text-sm text-gunmetal">Operator Terminal</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-2 text-data-positive text-sm">
+                  <div className="w-2 h-2 bg-data-positive rounded-full terminal-pulse"></div>
+                  <span className="font-mono">FLEET ACTIVE</span>
+                </div>
+              </div>
+              <div className="flex items-center space-x-4">
+                <div className="text-gunmetal text-sm font-mono">
+                  {new Date().toLocaleTimeString()} UTC
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Terminal Content */}
-        <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 py-8">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
             <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-11 bg-terminal-card border-terminal-border text-xs overflow-x-auto tabs-modern">
               <TabsTrigger value="dashboard" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Dashboard</TabsTrigger>
@@ -364,7 +394,7 @@ const OperatorTerminal = () => {
             </TabsContent>
           </Tabs>
         </div>
-      </TerminalLayout>
+      </div>
     </>
   );
 };

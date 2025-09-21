@@ -800,11 +800,6 @@ export default function DemoOperatorTerminal() {
           </div>
         </div>
 
-        {/* Compliance Notice */}
-        <ComplianceNotice />
-        
-        {/* Evidence Pack */}
-        <EvidencePack />
 
         {/* Main Navigation */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -817,7 +812,6 @@ export default function DemoOperatorTerminal() {
             <TabsTrigger value="billing" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Billing</TabsTrigger>
             <TabsTrigger value="scoreboard" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Scoreboard</TabsTrigger>
             <TabsTrigger value="warroom" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">War Room</TabsTrigger>
-            <TabsTrigger value="evidence" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Evidence</TabsTrigger>
           </TabsList>
 
           <TabsContent value="dashboard" className="mt-6">

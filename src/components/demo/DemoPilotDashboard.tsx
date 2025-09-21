@@ -10,6 +10,7 @@ import { ProfessionalDataCard, ProfessionalFlightCard, ProfessionalProfileCard }
 import { AircraftTrackingMap } from "./AircraftTrackingMap";
 import { PilotTrackingMap } from "./PilotTrackingMap";
 import { PilotCockpit } from "./PilotCockpit";
+import { FlightRadar24Widget } from "../flight-tracking/FlightRadar24Widget";
 
 // Demo data for pilot
 const demoAssignments = [
@@ -585,6 +586,15 @@ export const DemoPilotDashboard: React.FC = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
+                {/* Flight Tracking */}
+                <FlightRadar24Widget 
+                  tailNumbers={["N123SC", "N456SC"]}
+                  role="pilot"
+                  showMap={true}
+                  autoRefresh={true}
+                  refreshInterval={30}
+                />
+
                 <PilotTrackingMap pilots={demoPilotNetwork} />
               </CardContent>
             </Card>

@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
 import { 
   DollarSign, 
   FileText, 
@@ -774,13 +775,20 @@ export default function DemoOperatorTerminal() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-app relative overflow-hidden">
+      <StarfieldRunwayBackground />
+      
+      <div className="relative z-10 container mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-white mb-2">Operator Terminal</h1>
-            <p className="text-slate-300">Manage your fleet, crew, and operations</p>
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-sm">SC</span>
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold text-foreground mb-2">StratusConnect</h1>
+              <p className="text-gunmetal">Operator Terminal</p>
+            </div>
           </div>
           <div className="flex items-center gap-4">
             {isDemoMode && (

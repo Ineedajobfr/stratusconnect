@@ -20,13 +20,14 @@ import { User, Briefcase, Award, Calendar, DollarSign, Globe, Shield, Clock, Che
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ModernHelpGuide } from "@/components/ModernHelpGuide";
+import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 
 export default function CrewTerminal() {
   const [activeSection, setActiveSection] = useState("dashboard");
   const location = useLocation();
   const isBetaMode = location.pathname.startsWith('/beta/');
-
-  return (
+  
+        return (
     <>
       <ModernHelpGuide 
         terminalType="crew" 
@@ -34,10 +35,12 @@ export default function CrewTerminal() {
         showOnMount={true} 
         isDemo={false}
       />
-      <div className="min-h-screen bg-terminal-bg text-foreground">
-      {/* Header */}
-      <div className="bg-terminal-card border-b border-terminal-border px-6 py-4">
-        <div className="flex items-center justify-between">
+      <div className="min-h-screen bg-app relative overflow-hidden">
+        <StarfieldRunwayBackground />
+        
+        {/* Header */}
+        <div className="relative z-10 bg-terminal-card border-b border-terminal-border px-6 py-4 backdrop-blur-modern">
+            <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center">
@@ -56,13 +59,13 @@ export default function CrewTerminal() {
             </div>
             <div className="text-gunmetal text-sm font-mono">
               {new Date().toLocaleTimeString()} UTC
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="p-6">
+                    </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+        {/* Main Content */}
+        <div className="relative z-10 p-6">
         <Tabs value={activeSection} onValueChange={setActiveSection} className="space-y-6">
           <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-9 bg-terminal-card border-terminal-border text-xs overflow-x-auto tabs-modern">
             <TabsTrigger value="dashboard" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Dashboard</TabsTrigger>
@@ -114,7 +117,7 @@ export default function CrewTerminal() {
                 className="animate-fade-in-up"
                 style={{animationDelay: '0.4s'}}
               />
-            </div>
+                    </div>
 
             {/* Flight Tracking Widget */}
             <Card className="terminal-card animate-fade-in-up" style={{animationDelay: '0.5s'}}>
@@ -175,7 +178,7 @@ export default function CrewTerminal() {
                           <Badge className={`${assignment.statusColor} bg-opacity-20`}>
                             {assignment.status}
                           </Badge>
-                        </div>
+                    </div>
                       }
                       className="data-tile-modern animate-slide-in-right"
                       style={{animationDelay: `${0.7 + index * 0.1}s`}}
@@ -224,13 +227,13 @@ export default function CrewTerminal() {
                           <Badge className="text-terminal-success bg-terminal-success/20 text-xs">
                             {weather.status}
                           </Badge>
-                        </div>
+              </div>
                       }
                       className="data-tile-modern animate-slide-in-right"
                       style={{animationDelay: `${0.9 + index * 0.1}s`}}
                     />
                   ))}
-                </div>
+              </div>
               </Section>
             </div>
           </TabsContent>
@@ -263,8 +266,8 @@ export default function CrewTerminal() {
             <AviationNews />
           </TabsContent>
         </Tabs>
-      </div>
-    </div>
+              </div>
+            </div>
     </>
   );
 }

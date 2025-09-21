@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Brand } from '@/components/Brand';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ModernHelpGuide } from '@/components/ModernHelpGuide';
+import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
 import { 
   DollarSign, 
   FileText, 
@@ -609,8 +610,10 @@ export default function DemoBrokerTerminal() {
         showOnMount={true} 
         isDemo={true}
       />
-      <div className="min-h-screen bg-app text-body">
-      <header className="sticky top-0 z-20 bg-app/80 backdrop-blur border-b border-default">
+      <div className="min-h-screen bg-app relative overflow-hidden">
+        <StarfieldRunwayBackground />
+        
+        <header className="relative z-10 sticky top-0 bg-terminal-card/80 backdrop-blur-modern border-b border-terminal-border">
         <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <StratusConnectLogo className="text-xl" />
@@ -645,7 +648,7 @@ export default function DemoBrokerTerminal() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto p-6 space-y-6">
+        <main className="relative z-10 max-w-7xl mx-auto p-6 space-y-6">
 
         {/* Compliance Notice */}
         <ComplianceNotice />
@@ -987,8 +990,8 @@ export default function DemoBrokerTerminal() {
             </div>
           </Brand.Card>
         )}
-      </main>
-    </div>
+        </main>
+      </div>
     </>
   );
 }

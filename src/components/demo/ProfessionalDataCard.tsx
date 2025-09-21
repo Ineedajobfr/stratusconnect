@@ -34,7 +34,7 @@ export const ProfessionalDataCard: React.FC<DataCardProps> = ({
     <Card className={`terminal-card group hover:terminal-glow transition-all duration-300 ${className}`} style={style}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium text-gunmetal">{title}</CardTitle>
-        {Icon && <div className="p-2 bg-accent/20 rounded-lg group-hover:bg-accent/30 transition-colors duration-300">
+        {Icon && <div className="p-2 rounded-lg transition-colors duration-300" style={{backgroundColor: 'hsl(var(--accent) / 0.2)'}}>
           <Icon className="h-4 w-4 text-muted-foreground group-hover:text-accent transition-colors duration-300" />
         </div>}
       </CardHeader>

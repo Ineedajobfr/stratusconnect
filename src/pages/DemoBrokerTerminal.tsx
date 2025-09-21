@@ -397,7 +397,7 @@ export default function DemoBrokerTerminal() {
 
       <div className="space-y-4">
         {rfqs.map(rfq => (
-          <Card key={rfq.id} className="terminal-card hover:terminal-glow animate-fade-in-up" style={{animationDelay: `${rfq.id * 0.1}s`}}>
+          <Card key={rfq.id} className="terminal-card hover:terminal-glow animate-fade-in-up" style={{animationDelay: `${(rfq.id || 0) * 0.1}s`}}>
             <CardHeader>
               <div className="flex justify-between items-start">
                 <div>

@@ -10,6 +10,8 @@ import { ProfessionalDataCard, ProfessionalFlightCard } from "./ProfessionalData
 import { AircraftTrackingMap } from "./AircraftTrackingMap";
 import { OperatorCommandCenter } from "./OperatorCommandCenter";
 import { FlightRadar24Widget } from "../flight-tracking/FlightRadar24Widget";
+import { PersonalizedFeed } from "../feed/PersonalizedFeed";
+import { MobileResponsive, MobileGrid, MobileText } from "../MobileResponsive";
 
 // Demo data for operator
 const demoRequests = [
@@ -265,23 +267,23 @@ export const DemoOperatorDashboard: React.FC = () => {
         onMessageClick={() => console.log('Messages')}
       >
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 lg:grid-cols-11 bg-slate-800 border-slate-700">
-            <TabsTrigger value="dashboard" className="text-xs data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Dashboard</TabsTrigger>
-            <TabsTrigger value="fleet" className="text-xs data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Fleet</TabsTrigger>
-            <TabsTrigger value="dispatch" className="text-xs data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Dispatch</TabsTrigger>
-            <TabsTrigger value="maintenance" className="text-xs data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Maintenance</TabsTrigger>
-            <TabsTrigger value="crew" className="text-xs data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Crew</TabsTrigger>
-            <TabsTrigger value="bookings" className="text-xs data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Bookings</TabsTrigger>
-            <TabsTrigger value="marketplace" className="text-xs data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Marketplace</TabsTrigger>
-            <TabsTrigger value="communications" className="text-xs data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Comm</TabsTrigger>
-            <TabsTrigger value="analytics" className="text-xs data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Analytics</TabsTrigger>
-            <TabsTrigger value="compliance" className="text-xs data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Compliance</TabsTrigger>
-            <TabsTrigger value="news" className="text-xs data-[state=active]:bg-cyan-500 data-[state=active]:text-white">News</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-11 bg-terminal-card border-terminal-border text-xs overflow-x-auto">
+            <TabsTrigger value="dashboard" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Dashboard</TabsTrigger>
+            <TabsTrigger value="fleet" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Fleet</TabsTrigger>
+            <TabsTrigger value="dispatch" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Dispatch</TabsTrigger>
+            <TabsTrigger value="maintenance" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Maintenance</TabsTrigger>
+            <TabsTrigger value="crew" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Crew</TabsTrigger>
+            <TabsTrigger value="bookings" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Bookings</TabsTrigger>
+            <TabsTrigger value="marketplace" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Marketplace</TabsTrigger>
+            <TabsTrigger value="communications" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Comm</TabsTrigger>
+            <TabsTrigger value="analytics" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Analytics</TabsTrigger>
+            <TabsTrigger value="compliance" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Compliance</TabsTrigger>
+            <TabsTrigger value="news" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">News</TabsTrigger>
           </TabsList>
 
           <TabsContent value="dashboard" className="space-y-6">
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <MobileGrid columns={4} className="gap-4">
               <ProfessionalDataCard
                 title="Total Flights"
                 value={demoStats.totalFlights}
@@ -306,7 +308,10 @@ export const DemoOperatorDashboard: React.FC = () => {
                 icon={BarChart3}
                 trend={{ value: 5, isPositive: true }}
               />
-            </div>
+            </MobileGrid>
+
+            {/* Personalized Feed */}
+            <PersonalizedFeed />
 
             {/* Flight Tracking */}
             <FlightRadar24Widget 

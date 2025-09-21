@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { fetchRequests, fetchQuotes, createQuote } from "@/lib/broker-api";
 import type { RequestItem, Quote } from "@/lib/broker-types";
 import { Button } from "@/components/ui/button";
+import { getErrorMessage } from "@/utils/errorHandler";
+import { toast } from "@/components/ui/use-toast";
 
 const DEMO_BROKER = "11111111-1111-1111-1111-111111111111";
 const DEMO_OPERATOR = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa1";
@@ -25,6 +27,11 @@ export default function RequestsPanel() {
         setQuotesByReq(all);
       } catch (error) {
         console.error("Error loading requests:", error);
+        toast({
+          title: "Error Loading Requests",
+          description: getErrorMessage(error),
+          variant: "destructive"
+        });
       } finally {
         setLoading(false);
       }
@@ -59,9 +66,19 @@ export default function RequestsPanel() {
         notes: mockQuote.notes
       }).catch((error) => {
         console.log("Could not save quote to database:", error);
+        toast({
+          title: "Quote Saved Locally",
+          description: "Quote created but could not be saved to database",
+          variant: "default"
+        });
       });
     } catch (error) {
       console.error("Error creating quote:", error);
+      toast({
+        title: "Error Creating Quote",
+        description: getErrorMessage(error),
+        variant: "destructive"
+      });
     }
   }
 

@@ -10,6 +10,9 @@ import { useRef } from "react";
 import { BarChart3, MessageSquare, TrendingUp, DollarSign, Clock, Users, Globe, Bookmark, FileText, Settings, AlertTriangle, Star, Calendar, Shield } from "lucide-react";
 import type { User } from '@supabase/supabase-js';
 import DemoMarketplace from './DemoMarketplace';
+import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24Widget";
+import { PersonalizedFeed } from "@/components/feed/PersonalizedFeed";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function BrokerTerminal() {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -245,7 +248,155 @@ export default function BrokerTerminal() {
 
       {/* Terminal Content */}
       <div className="max-w-7xl mx-auto px-6 py-8">
-        {renderContent()}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 bg-terminal-card border-terminal-border text-xs sm:text-sm">
+            <TabsTrigger value="dashboard" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Dashboard</TabsTrigger>
+            <TabsTrigger value="requests" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Requests</TabsTrigger>
+            <TabsTrigger value="quotes" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Quotes</TabsTrigger>
+            <TabsTrigger value="marketplace" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Marketplace</TabsTrigger>
+            <TabsTrigger value="analytics" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Analytics</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="dashboard" className="space-y-6">
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <Card className="bg-terminal-card border-terminal-border">
+                <CardContent className="p-6">
+                  <div className="flex items-center space-x-2">
+                    <BarChart3 className="h-8 w-8 text-accent" />
+                    <div>
+                      <p className="text-sm text-muted-foreground">Quote Requests Today</p>
+                      <p className="text-2xl font-bold">47</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card className="bg-terminal-card border-terminal-border">
+                <CardContent className="p-6">
+                  <div className="flex items-center space-x-2">
+                    <Clock className="h-8 w-8 text-accent" />
+                    <div>
+                      <p className="text-sm text-muted-foreground">Response Median</p>
+                      <p className="text-2xl font-bold">2.3m</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card className="bg-terminal-card border-terminal-border">
+                <CardContent className="p-6">
+                  <div className="flex items-center space-x-2">
+                    <AlertTriangle className="h-8 w-8 text-red-400" />
+                    <div>
+                      <p className="text-sm text-muted-foreground">Risk Alerts</p>
+                      <p className="text-2xl font-bold text-red-400">3</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card className="bg-terminal-card border-terminal-border">
+                <CardContent className="p-6">
+                  <div className="flex items-center space-x-2">
+                    <DollarSign className="h-8 w-8 text-accent" />
+                    <div>
+                      <p className="text-sm text-muted-foreground">Total Value</p>
+                      <p className="text-2xl font-bold">$2.4M</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Personalized Feed */}
+            <PersonalizedFeed />
+
+            {/* Flight Tracking */}
+            <FlightRadar24Widget 
+              tailNumbers={["N425SC", "N892AV", "N156JT"]}
+              role="broker"
+              showMap={true}
+              autoRefresh={true}
+              refreshInterval={30}
+            />
+
+            {/* Live RFQs & Quotes */}
+            <Card className="bg-terminal-card border-terminal-border">
+              <CardHeader>
+                <CardTitle className="text-accent">Live RFQs & Quotes</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-auto rounded-md border border-terminal-border">
+                  <table className="min-w-full border-separate border-spacing-0 text-sm">
+                    <thead className="bg-terminal-card text-foreground border-b border-terminal-border">
+                      <tr>
+                        <th className="sticky top-0 z-10 border-b border-terminal-border px-3 py-2 text-left">Route</th>
+                        <th className="sticky top-0 z-10 border-b border-terminal-border px-3 py-2 text-left">Aircraft</th>
+                        <th className="sticky top-0 z-10 border-b border-terminal-border px-3 py-2 text-left">Quote</th>
+                        <th className="sticky top-0 z-10 border-b border-terminal-border px-3 py-2 text-left">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-terminal-border">
+                      <tr>
+                        <td className="px-3 py-2 font-mono text-xs">JFK → LAX</td>
+                        <td className="px-3 py-2 text-xs">G650</td>
+                        <td className="px-3 py-2 font-mono text-xs tabular">$45,000</td>
+                        <td className="px-3 py-2 text-xs text-white">Active</td>
+                      </tr>
+                      <tr>
+                        <td className="px-3 py-2 font-mono text-xs">LHR → CDG</td>
+                        <td className="px-3 py-2 text-xs">A320</td>
+                        <td className="px-3 py-2 font-mono text-xs tabular">$12,500</td>
+                        <td className="px-3 py-2 text-xs text-yellow-400">Pending</td>
+                      </tr>
+                      <tr>
+                        <td className="px-3 py-2 font-mono text-xs">SFO → NRT</td>
+                        <td className="px-3 py-2 text-xs">B777</td>
+                        <td className="px-3 py-2 font-mono text-xs tabular">$78,000</td>
+                        <td className="px-3 py-2 text-xs text-white">Active</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="requests" className="space-y-6">
+            <Card className="bg-terminal-card border-terminal-border">
+              <CardHeader>
+                <CardTitle className="text-accent">Active Requests</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">Request management interface coming soon...</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="quotes" className="space-y-6">
+            <Card className="bg-terminal-card border-terminal-border">
+              <CardHeader>
+                <CardTitle className="text-accent">Quote Management</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">Quote management interface coming soon...</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="marketplace" className="space-y-6">
+            <DemoMarketplace />
+          </TabsContent>
+
+          <TabsContent value="analytics" className="space-y-6">
+            <Card className="bg-terminal-card border-terminal-border">
+              <CardHeader>
+                <CardTitle className="text-accent">Analytics Dashboard</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">Analytics interface coming soon...</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );

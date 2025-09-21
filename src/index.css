@@ -12,36 +12,37 @@
   font-variant-numeric: tabular-nums; 
 }
 
-/* === StratusConnect Dark Terminal Palette ===
+/* === StratusConnect Deep Navy Gradient Terminal Palette ===
    Keep values in HSL triplets so Tailwind can use opacity
    White is for text only. No light backgrounds.
+   Deep Navy Gradient - military-grade, fortress-like appearance
 */
 :root {
-  /* Core */
-  --background:        217 32% 6%;   /* page bg: deep blue-grey */
+  /* Core - Deep Navy Gradient */
+  --background:        220 45% 4%;   /* page bg: deep navy, almost black */
   --foreground:          0  0% 98%;  /* near-white text */
-  --card:               270 40% 8%;  /* primary card */
+  --card:               220 50% 6%;  /* primary card - deep navy with subtle depth */
   --card-foreground:      0  0% 98%;
-  --popover:            217 30% 6%;
+  --popover:            220 45% 4%;
   --popover-foreground:   0  0% 98%;
 
-  --primary:            217 30% 8%;  /* subtle dark for selected tabs etc */
+  --primary:            220 50% 8%;  /* subtle dark for selected tabs etc */
   --primary-foreground:   0  0% 98%;
 
-  --secondary:          217 20% 15%;
+  --secondary:          220 40% 12%;
   --secondary-foreground: 0  0% 98%;
-  --muted:              217 25% 10%;
-  --muted-foreground:   217 10% 70%;
-  --border:             217 20% 15%;
-  --input:              217 25% 8%;
+  --muted:              220 45% 8%;
+  --muted-foreground:   220 15% 70%;
+  --border:             220 40% 12%;
+  --input:              220 50% 6%;
   --ring:                25 70% 45%; /* Stratus orange focus */
 
-  /* Terminal tokens */
-  --terminal-bg:        217 32% 5%;
-  --terminal-card:      270 40% 8%;
-  --terminal-border:    217 20% 12%;
+  /* Terminal tokens - Deep Navy */
+  --terminal-bg:        220 45% 3%;
+  --terminal-card:      220 50% 6%;
+  --terminal-border:    220 40% 10%;
   --terminal-glow:       25 70% 45%;
-  --gunmetal:           217 10% 65%; /* secondary text */
+  --gunmetal:           220 15% 65%; /* secondary text */
 
   /* Accents and status */
   --accent:              25 70% 45%; /* Stratus orange */

@@ -12,6 +12,9 @@ import {
   Briefcase, User, Phone, Mail, Map, Calendar as CalendarIcon,
   Coffee, Utensils, Wifi, Headphones
 } from "lucide-react";
+import { FlightRadar24Widget } from "../flight-tracking/FlightRadar24Widget";
+import { PersonalizedFeed } from "../feed/PersonalizedFeed";
+import { MobileResponsive, MobileGrid, MobileText } from "../MobileResponsive";
 
 export const CrewFlightDeck: React.FC = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -74,30 +77,43 @@ export const CrewFlightDeck: React.FC = () => {
 
       <div className="p-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="bg-slate-800 border-slate-700">
-            <TabsTrigger value="schedule" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+          <TabsList className="bg-terminal-card border-terminal-border grid grid-cols-2 sm:grid-cols-4 text-xs sm:text-sm">
+            <TabsTrigger value="schedule" className="data-[state=active]:bg-accent data-[state=active]:text-white">
               <Calendar className="h-4 w-4 mr-2" />
               Schedule
             </TabsTrigger>
-            <TabsTrigger value="assignments" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+            <TabsTrigger value="assignments" className="data-[state=active]:bg-accent data-[state=active]:text-white">
               <Briefcase className="h-4 w-4 mr-2" />
               Assignments
             </TabsTrigger>
-            <TabsTrigger value="services" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+            <TabsTrigger value="services" className="data-[state=active]:bg-accent data-[state=active]:text-white">
               <Utensils className="h-4 w-4 mr-2" />
               Services
             </TabsTrigger>
-            <TabsTrigger value="profile" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+            <TabsTrigger value="profile" className="data-[state=active]:bg-accent data-[state=active]:text-white">
               <User className="h-4 w-4 mr-2" />
               Profile
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="schedule" className="space-y-6">
+            {/* Flight Tracking Widget */}
+            <Card className="bg-terminal-card border-terminal-border">
+              <CardHeader>
+                <CardTitle className="text-cyan-400">Live Flight Tracking</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <FlightRadar24Widget />
+              </CardContent>
+            </Card>
+
+            {/* Personalized Feed */}
+            <PersonalizedFeed />
+
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Upcoming Assignments */}
               <div className="lg:col-span-2">
-                <Card className="bg-slate-800 border-slate-700">
+                <Card className="bg-terminal-card border-terminal-border">
                   <CardHeader>
                     <CardTitle className="text-cyan-400">Upcoming Assignments</CardTitle>
             </CardHeader>
@@ -163,7 +179,7 @@ export const CrewFlightDeck: React.FC = () => {
 
               {/* Quick Stats */}
               <div className="space-y-6">
-                <Card className="bg-slate-800 border-slate-700">
+                <Card className="bg-terminal-card border-terminal-border">
                   <CardHeader>
                     <CardTitle className="text-cyan-400">This Month</CardTitle>
             </CardHeader>
@@ -190,7 +206,7 @@ export const CrewFlightDeck: React.FC = () => {
             </CardContent>
           </Card>
 
-                <Card className="bg-slate-800 border-slate-700">
+                <Card className="bg-terminal-card border-terminal-border">
                   <CardHeader>
                     <CardTitle className="text-cyan-400">Quick Actions</CardTitle>
                   </CardHeader>
@@ -214,7 +230,7 @@ export const CrewFlightDeck: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="assignments" className="space-y-6">
-            <Card className="bg-slate-800 border-slate-700">
+            <Card className="bg-terminal-card border-terminal-border">
               <CardHeader>
                 <CardTitle className="text-cyan-400">Current Assignment</CardTitle>
             </CardHeader>
@@ -277,7 +293,7 @@ export const CrewFlightDeck: React.FC = () => {
 
           <TabsContent value="services" className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card className="bg-slate-800 border-slate-700">
+              <Card className="bg-terminal-card border-terminal-border">
                 <CardHeader>
                   <CardTitle className="text-cyan-400">Catering & Services</CardTitle>
             </CardHeader>
@@ -317,7 +333,7 @@ export const CrewFlightDeck: React.FC = () => {
             </CardContent>
           </Card>
 
-              <Card className="bg-slate-800 border-slate-700">
+              <Card className="bg-terminal-card border-terminal-border">
                 <CardHeader>
                   <CardTitle className="text-cyan-400">Passenger Preferences</CardTitle>
             </CardHeader>
@@ -346,7 +362,7 @@ export const CrewFlightDeck: React.FC = () => {
 
           <TabsContent value="profile" className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card className="bg-slate-800 border-slate-700">
+              <Card className="bg-terminal-card border-terminal-border">
                 <CardHeader>
                   <CardTitle className="text-cyan-400">Personal Information</CardTitle>
             </CardHeader>
@@ -376,7 +392,7 @@ export const CrewFlightDeck: React.FC = () => {
             </CardContent>
           </Card>
 
-              <Card className="bg-slate-800 border-slate-700">
+              <Card className="bg-terminal-card border-terminal-border">
                 <CardHeader>
                   <CardTitle className="text-cyan-400">Performance</CardTitle>
             </CardHeader>

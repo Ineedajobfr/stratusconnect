@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { sendMessage } from "@/lib/broker-api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { getErrorMessage } from "@/utils/errorHandler";
+import { toast } from "@/components/ui/use-toast";
 
 type Msg = { 
   id: string; 
@@ -55,6 +57,11 @@ export default function MessagingPanel() {
       });
     } catch (error) {
       console.log("Could not save message to database:", error);
+      toast({
+        title: "Message Sent Locally",
+        description: "Message sent but could not be saved to database",
+        variant: "default"
+      });
     }
   }
 

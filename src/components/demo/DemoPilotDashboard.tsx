@@ -11,6 +11,8 @@ import { AircraftTrackingMap } from "./AircraftTrackingMap";
 import { PilotTrackingMap } from "./PilotTrackingMap";
 import { PilotCockpit } from "./PilotCockpit";
 import { FlightRadar24Widget } from "../flight-tracking/FlightRadar24Widget";
+import { PersonalizedFeed } from "../feed/PersonalizedFeed";
+import { MobileResponsive, MobileGrid, MobileText } from "../MobileResponsive";
 
 // Demo data for pilot
 const demoAssignments = [
@@ -227,16 +229,16 @@ export const DemoPilotDashboard: React.FC = () => {
         onMessageClick={() => console.log('Messages')}
       >
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 lg:grid-cols-9 bg-gray-800">
-            <TabsTrigger value="profile" className="text-xs">Profile</TabsTrigger>
-            <TabsTrigger value="trust" className="text-xs">Trust</TabsTrigger>
-            <TabsTrigger value="requests" className="text-xs">Requests</TabsTrigger>
-            <TabsTrigger value="licenses" className="text-xs">Licenses</TabsTrigger>
-            <TabsTrigger value="logbook" className="text-xs">Logbook</TabsTrigger>
-            <TabsTrigger value="schedule" className="text-xs">Schedule</TabsTrigger>
-            <TabsTrigger value="earnings" className="text-xs">Earnings</TabsTrigger>
-            <TabsTrigger value="network" className="text-xs">Network</TabsTrigger>
-            <TabsTrigger value="news" className="text-xs">News</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-9 bg-terminal-card border-terminal-border text-xs overflow-x-auto">
+            <TabsTrigger value="profile" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Profile</TabsTrigger>
+            <TabsTrigger value="trust" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Trust</TabsTrigger>
+            <TabsTrigger value="requests" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Requests</TabsTrigger>
+            <TabsTrigger value="licenses" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Licenses</TabsTrigger>
+            <TabsTrigger value="logbook" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Logbook</TabsTrigger>
+            <TabsTrigger value="schedule" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Schedule</TabsTrigger>
+            <TabsTrigger value="earnings" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Earnings</TabsTrigger>
+            <TabsTrigger value="network" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Network</TabsTrigger>
+            <TabsTrigger value="news" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">News</TabsTrigger>
           </TabsList>
 
           <TabsContent value="profile" className="space-y-6">
@@ -282,7 +284,7 @@ export const DemoPilotDashboard: React.FC = () => {
             </Card>
 
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <MobileGrid columns={4} className="gap-4">
               <ProfessionalDataCard
                 title="Total Flights"
                 value={demoStats.totalFlights}
@@ -307,7 +309,10 @@ export const DemoPilotDashboard: React.FC = () => {
                 icon={CheckCircle}
                 trend={{ value: 8, isPositive: true }}
               />
-            </div>
+            </MobileGrid>
+
+            {/* Personalized Feed */}
+            <PersonalizedFeed />
 
             {/* Aircraft Tracking Map */}
             <AircraftTrackingMap aircraft={demoAircraftTracking} />

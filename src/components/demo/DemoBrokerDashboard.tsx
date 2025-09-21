@@ -14,6 +14,8 @@ import { ProfessionalDataCard, ProfessionalFlightCard } from "./ProfessionalData
 import { PilotTrackingMap } from "./PilotTrackingMap";
 import { BrokerTradingFloor } from "./BrokerTradingFloor";
 import { FlightRadar24Widget } from "../flight-tracking/FlightRadar24Widget";
+import { PersonalizedFeed } from "../feed/PersonalizedFeed";
+import { MobileResponsive, MobileGrid, MobileText } from "../MobileResponsive";
 
 // Demo data
 const demoRequests = [
@@ -226,6 +228,7 @@ const demoPilotTracking = [
 ];
 
 export const DemoBrokerDashboard: React.FC = () => {
+  const [activeTab, setActiveTab] = useState("dashboard");
   const [showNewRequestForm, setShowNewRequestForm] = useState(false);
   const [viewMode, setViewMode] = useState<"standard" | "trading">("standard");
 
@@ -288,18 +291,18 @@ export const DemoBrokerDashboard: React.FC = () => {
         onNotificationClick={() => console.log('Notifications')}
         onMessageClick={() => console.log('Messages')}
       >
-        <Tabs defaultValue="dashboard" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 bg-slate-800 border-slate-700">
-            <TabsTrigger value="dashboard" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Dashboard</TabsTrigger>
-            <TabsTrigger value="requests" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Requests</TabsTrigger>
-            <TabsTrigger value="bookings" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Bookings</TabsTrigger>
-            <TabsTrigger value="analytics" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Analytics</TabsTrigger>
-            <TabsTrigger value="network" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-white">Network</TabsTrigger>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 bg-terminal-card border-terminal-border text-xs sm:text-sm">
+            <TabsTrigger value="dashboard" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Dashboard</TabsTrigger>
+            <TabsTrigger value="requests" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Requests</TabsTrigger>
+            <TabsTrigger value="bookings" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Bookings</TabsTrigger>
+            <TabsTrigger value="analytics" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Analytics</TabsTrigger>
+            <TabsTrigger value="network" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Network</TabsTrigger>
           </TabsList>
 
           <TabsContent value="dashboard" className="space-y-6">
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <MobileGrid columns={4} className="gap-4">
             <ProfessionalDataCard
               title="Total Requests"
               value={demoStats.totalRequests}
@@ -324,7 +327,10 @@ export const DemoBrokerDashboard: React.FC = () => {
               icon={DollarSign}
               trend={{ value: 12, isPositive: true }}
             />
-          </div>
+            </MobileGrid>
+
+          {/* Personalized Feed */}
+          <PersonalizedFeed />
 
           {/* Flight Tracking */}
           <FlightRadar24Widget 

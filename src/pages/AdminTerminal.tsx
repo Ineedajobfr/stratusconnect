@@ -36,6 +36,7 @@ import {
   ChevronRight,
   Bot
 } from "lucide-react";
+import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24Widget";
 import type { User } from '@supabase/supabase-js';
 
 interface PendingUser {
@@ -340,6 +341,14 @@ const AdminTerminal = () => {
               variant="danger"
             />
           </div>
+
+          {/* Flight Tracking Widget */}
+          <Section 
+            title="Live Flight Tracking"
+            subtitle="Monitor aircraft activity across the network"
+          >
+            <FlightRadar24Widget />
+          </Section>
 
           {/* Pending Users Section */}
           {pendingUsers.length > 0 && (

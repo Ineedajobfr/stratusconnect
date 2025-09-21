@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { fetchMarketplace } from "@/lib/broker-api";
 import type { Listing } from "@/lib/broker-types";
+import { getErrorMessage } from "@/utils/errorHandler";
+import { toast } from "@/components/ui/use-toast";
 
 export default function MarketplacePanel() {
   const [rows, setRows] = useState<Listing[]>([]);
@@ -68,6 +70,11 @@ export default function MarketplacePanel() {
       })
       .catch((error) => {
         console.log("Using mock data:", error);
+        toast({
+          title: "Using Demo Data",
+          description: "Could not fetch live marketplace data, showing demo listings",
+          variant: "default"
+        });
       });
   }, []);
 

@@ -28,7 +28,7 @@ import {
   Target,
   Timer
 } from 'lucide-react';
-import { Listing, money, pricePerNm, dealScore, scoreLabel, estimateCO2Tonnes, computeFees } from '@/lib/marketplace';
+import { Listing, money, pricePerNm, dealScore, scoreLabel, computeFees } from '@/lib/marketplace';
 
 interface ListingCardProps {
   listing: Listing;
@@ -54,7 +54,6 @@ export default function ListingCard({
   const score = dealScore(listing);
   const scoreInfo = scoreLabel(score);
   const ppm = pricePerNm(listing.priceMinor, listing.distanceNm);
-  const co2 = estimateCO2Tonnes(listing.distanceNm, listing.seats);
   const fees = computeFees(listing.priceMinor);
 
   return (
@@ -159,10 +158,10 @@ export default function ListingCard({
             </div>
           </div>
           <div>
-            <div className="text-sm font-medium text-gunmetal">CO2 Est.</div>
+            <div className="text-sm font-medium text-gunmetal">Flight Status</div>
             <div className="text-foreground text-sm flex items-center gap-1">
-              <Leaf className="w-3 h-3 text-white" />
-              {listing.carbonPerPax ? `${listing.carbonPerPax} t/pax` : `${co2} t/pax`}
+              <Plane className="w-3 h-3 text-accent" />
+              {listing.flightStatus || 'Live Tracking'}
             </div>
           </div>
           <div>

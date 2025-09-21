@@ -27,7 +27,7 @@ export interface Listing {
   // New competitive features
   safetyRating?: 'ARGUS Gold' | 'ARGUS Silver' | 'ARGUS Platinum' | 'Not Rated';
   wyvernStatus?: 'WYVERN Elite' | 'WYVERN Certified' | 'Not Certified';
-  carbonPerPax?: number; // tonnes CO2 per passenger
+  flightStatus?: 'Live Tracking' | 'Scheduled' | 'Departed' | 'Arrived';
   instantQuote?: boolean;
   p50Response?: number; // minutes to first quote
   completionRate?: number; // percentage
@@ -92,12 +92,12 @@ export function scoreLabel(score: number) {
   return { label: "Weak", tone: "text-red-300" };
 }
 
-export function estimateCO2Tonnes(distanceNm: number, seats: number) {
-  // Rough demo estimate. Not for production. Replace with real calculator later.
-  const kgPerNm = 4.0; // placeholder factor
-  const totalKg = kgPerNm * distanceNm;
-  const perPaxTonnes = (totalKg / 1000) / Math.max(1, seats);
-  return Number(perPaxTonnes.toFixed(2));
+export function getFlightStatus(distanceNm: number, seats: number): 'Live Tracking' | 'Scheduled' | 'Departed' | 'Arrived' {
+  // Simple demo logic for flight status
+  if (distanceNm < 100) return 'Scheduled';
+  if (distanceNm < 500) return 'Departed';
+  if (distanceNm < 1000) return 'Live Tracking';
+  return 'Arrived';
 }
 
 import { calcDealFees } from './fees';
@@ -130,7 +130,7 @@ export const MOCK_LISTINGS: Listing[] = [
     tags: ["Empty leg", "Popular", "ARGUS Gold", "WYVERN"],
     safetyRating: "ARGUS Gold",
     wyvernStatus: "WYVERN Certified",
-    carbonPerPax: 0.8,
+    flightStatus: 'Live Tracking',
     instantQuote: true,
     p50Response: 3.2,
     completionRate: 98.5,
@@ -154,7 +154,7 @@ export const MOCK_LISTINGS: Listing[] = [
     tags: ["Empty leg", "ARGUS Silver"],
     safetyRating: "ARGUS Silver",
     wyvernStatus: "Not Certified",
-    carbonPerPax: 1.2,
+    flightStatus: 'Arrived',
     instantQuote: true,
     p50Response: 4.1,
     completionRate: 96.8,
@@ -177,7 +177,7 @@ export const MOCK_LISTINGS: Listing[] = [
     tags: ["Long range", "ARGUS Platinum"],
     safetyRating: "ARGUS Platinum",
     wyvernStatus: "WYVERN Elite",
-    carbonPerPax: 2.1,
+    flightStatus: 'Departed',
     instantQuote: false,
     p50Response: 8.5,
     completionRate: 99.2,
@@ -200,7 +200,7 @@ export const MOCK_LISTINGS: Listing[] = [
     tags: ["Top rated", "ARGUS Gold", "WYVERN Elite"],
     safetyRating: "ARGUS Gold",
     wyvernStatus: "WYVERN Elite",
-    carbonPerPax: 1.8,
+    flightStatus: 'Live Tracking',
     instantQuote: true,
     p50Response: 2.1,
     completionRate: 99.7,
@@ -225,7 +225,7 @@ export const MOCK_LISTINGS: Listing[] = [
     tags: ["Empty leg", "ARGUS Gold", "WYVERN", "Long range"],
     safetyRating: "ARGUS Gold",
     wyvernStatus: "WYVERN Certified",
-    carbonPerPax: 1.5,
+    flightStatus: 'Arrived',
     instantQuote: true,
     p50Response: 3.8,
     completionRate: 97.9,
@@ -248,7 +248,7 @@ export const MOCK_LISTINGS: Listing[] = [
     tags: ["ARGUS Silver", "Transatlantic"],
     safetyRating: "ARGUS Silver",
     wyvernStatus: "Not Certified",
-    carbonPerPax: 2.3,
+    flightStatus: 'Scheduled',
     instantQuote: false,
     p50Response: 6.2,
     completionRate: 95.4,
@@ -272,7 +272,7 @@ export const MOCK_LISTINGS: Listing[] = [
     tags: ["Empty leg", "ARGUS Gold", "WYVERN Elite"],
     safetyRating: "ARGUS Gold",
     wyvernStatus: "WYVERN Elite",
-    carbonPerPax: 1.9,
+    flightStatus: 'Live Tracking',
     instantQuote: true,
     p50Response: 2.8,
     completionRate: 98.1,
@@ -296,7 +296,7 @@ export const MOCK_LISTINGS: Listing[] = [
     tags: ["Empty leg", "Short haul", "No Safety Rating"],
     safetyRating: "Not Rated",
     wyvernStatus: "Not Certified",
-    carbonPerPax: 0.6,
+    flightStatus: 'Departed',
     instantQuote: false,
     p50Response: 12.3,
     completionRate: 89.2,
@@ -319,7 +319,7 @@ export const MOCK_LISTINGS: Listing[] = [
     tags: ["ARGUS Platinum", "WYVERN Elite", "Large Group"],
     safetyRating: "ARGUS Platinum",
     wyvernStatus: "WYVERN Elite",
-    carbonPerPax: 1.2,
+    flightStatus: 'Arrived',
     instantQuote: true,
     p50Response: 4.5,
     completionRate: 99.1,
@@ -343,7 +343,7 @@ export const MOCK_LISTINGS: Listing[] = [
     tags: ["Empty leg", "ARGUS Silver", "Short haul"],
     safetyRating: "ARGUS Silver",
     wyvernStatus: "Not Certified",
-    carbonPerPax: 0.4,
+    flightStatus: 'Live Tracking',
     instantQuote: true,
     p50Response: 3.7,
     completionRate: 94.8,

@@ -13,6 +13,9 @@ import { AviationNews } from "@/components/AviationNews";
 import { PrivacyOverlay } from "@/components/PrivacyOverlay";
 import { CrewAnalytics } from "@/components/analytics/CrewAnalytics";
 import { ProfileWidget } from "@/components/ProfileWidget";
+import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24Widget";
+import { PersonalizedFeed } from "@/components/feed/PersonalizedFeed";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { User, Briefcase, Award, Calendar, DollarSign, Globe, Shield } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { NavigationArrows } from "@/components/NavigationArrows";
@@ -51,124 +54,146 @@ export default function CrewTerminal() {
     icon: DollarSign
   }];
   const renderContent = () => {
-    switch (activeSection) {
-      case "profile":
-        return (
-          <div className="space-y-8">
-            {/* Professional Profile Header */}
-            <div className="flex items-center justify-between">
-              <div>
-                <h1 className="text-3xl font-bold text-foreground tracking-tight">Professional Profile</h1>
-                <p className="text-gunmetal mt-2">Aviation career management and certifications</p>
-              </div>
-            </div>
+    return (
+      <Tabs value={activeSection} onValueChange={setActiveSection} className="space-y-6">
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 bg-terminal-card border-terminal-border text-xs overflow-x-auto">
+          <TabsTrigger value="profile" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Profile</TabsTrigger>
+          <TabsTrigger value="verification" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Trust</TabsTrigger>
+          <TabsTrigger value="jobs" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Jobs</TabsTrigger>
+          <TabsTrigger value="certifications" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Certs</TabsTrigger>
+          <TabsTrigger value="availability" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Schedule</TabsTrigger>
+          <TabsTrigger value="earnings" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Earnings</TabsTrigger>
+          <TabsTrigger value="news" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">News</TabsTrigger>
+        </TabsList>
 
-            {/* Profile Overview */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-1">
-                {/* Crew Profile Card */}
-                <div className="terminal-card p-6 space-y-4">
-                  <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 bg-terminal-glow/20 rounded-full flex items-center justify-center">
-                      <User className="w-8 h-8 text-terminal-glow" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-semibold text-foreground">Captain Sarah Chen</h3>
-                      <p className="text-gunmetal">Gulfstream G650 Type Rating</p>
-                      <div className="flex items-center gap-2 mt-2">
-                        <Badge className="bg-terminal-success/20 text-terminal-success">Available</Badge>
-                        <Badge className="bg-terminal-info/20 text-terminal-info">Level 2 Verified</Badge>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-4 pt-4 border-t border-terminal-border">
-                    <div>
-                      <p className="text-xs text-gunmetal uppercase tracking-wide">Total Hours</p>
-                      <p className="text-lg font-semibold text-foreground">8,240</p>
-                    </div>
-                    <div>
-                      <p className="text-xs text-gunmetal uppercase tracking-wide">Experience</p>
-                      <p className="text-lg font-semibold text-foreground">12 Years</p>
-                    </div>
-                  </div>
-                </div>
+        <TabsContent value="profile" className="space-y-6">
+          {/* Crew Terminal Header */}
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-foreground tracking-tight">Crew Terminal</h1>
+              <p className="text-gunmetal mt-1">Professional Service Excellence • Flight Crew Management</p>
+            </div>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 text-data-positive text-sm">
+                <div className="w-2 h-2 bg-data-positive rounded-full terminal-pulse"></div>
+                <span className="font-mono">AVAILABLE</span>
               </div>
-              <div className="lg:col-span-2">
-                <CrewProfile />
+              <div className="text-gunmetal text-sm font-mono">
+                {new Date().toLocaleTimeString()} UTC
               </div>
             </div>
-            
-            <CrewAnalytics section="profile" />
           </div>
-        );
-      case "verification":
-        return (
-          <div className="space-y-6">
-            <VerificationSystem />
-          </div>
-        );
-      case "jobs":
-        return (
-          <div className="space-y-6">
-            <CrewJobs />
-            <CrewAnalytics section="jobs" />
-          </div>
-        );
-      case "certifications":
-        return (
-          <div className="space-y-6">
-            <CrewCertifications />
-            <CrewAnalytics section="certifications" />
-          </div>
-        );
-      case "availability":
-        return (
-          <div className="space-y-6">
-            <CrewAvailability />
-            <CrewAnalytics section="availability" />
-          </div>
-        );
-      case "news":
-        return (
-          <div className="space-y-6">
-            <AviationNews />
-          </div>
-        );
-      case "earnings":
-        return (
-          <div className="space-y-8">
-            {/* Earnings Header */}
-            <div className="flex items-center justify-between">
-              <div>
-                <h1 className="text-3xl font-bold text-foreground tracking-tight">Earnings Overview</h1>
-                <p className="text-gunmetal mt-2">Track your completed jobs and earnings</p>
-              </div>
-            </div>
 
-            <CrewAnalytics section="earnings" />
-            
-            <Section
-              title="Earnings Dashboard"
-              subtitle="Detailed earnings and payment history"
-            >
-              <div className="relative">
-                <PrivacyOverlay 
-                  title="Earnings Tracking" 
-                  description="Detailed earnings and payment history require account verification. Complete your profile to access this feature." 
-                  onUnlock={() => console.log('Unlock earnings')} 
-                  icon="chart" 
-                />
-                <div className="text-center text-gunmetal py-12">
-                  <p>Earnings tracking and payment history...</p>
-                </div>
-              </div>
-            </Section>
+          {/* KPI Dashboard */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <KPICard
+              title="Service Hours"
+              value="1,240"
+              delta="+45 this month"
+              icon={Clock}
+              variant="info"
+            />
+            <KPICard
+              title="Active Jobs"
+              value="2"
+              delta="1 pending approval"
+              icon={Briefcase}
+              variant="warning"
+            />
+            <KPICard
+              title="Certifications"
+              value="8"
+              delta="All current"
+              icon={Award}
+              variant="success"
+            />
+            <KPICard
+              title="Rating"
+              value="4.8/5"
+              delta="Excellent"
+              icon={CheckCircle}
+              variant="success"
+            />
           </div>
-        );
-      default:
-        return <CrewProfile />;
-    }
+
+          {/* Flight Tracking Widget */}
+          <Card className="bg-terminal-card border-terminal-border">
+            <CardHeader>
+              <CardTitle className="text-cyan-400">Live Flight Tracking</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <FlightRadar24Widget />
+            </CardContent>
+          </Card>
+
+          {/* Personalized Feed */}
+          <PersonalizedFeed />
+
+          {/* Profile Overview */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-1">
+              <ProfileWidget />
+            </div>
+            <div className="lg:col-span-2">
+              <CrewProfile />
+            </div>
+          </div>
+          
+          <CrewAnalytics section="profile" />
+        </TabsContent>
+
+        <TabsContent value="verification" className="space-y-6">
+          <VerificationSystem />
+        </TabsContent>
+
+        <TabsContent value="jobs" className="space-y-6">
+          <CrewJobs />
+          <CrewAnalytics section="jobs" />
+        </TabsContent>
+
+        <TabsContent value="certifications" className="space-y-6">
+          <CrewCertifications />
+          <CrewAnalytics section="certifications" />
+        </TabsContent>
+
+        <TabsContent value="availability" className="space-y-6">
+          <CrewAvailability />
+          <CrewAnalytics section="availability" />
+        </TabsContent>
+
+        <TabsContent value="earnings" className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-foreground tracking-tight">Earnings Overview</h1>
+              <p className="text-gunmetal mt-1">Track your completed jobs and earnings</p>
+            </div>
+          </div>
+
+          <CrewAnalytics section="earnings" />
+          
+          <Section
+            title="Earnings Dashboard"
+            subtitle="Detailed earnings and payment history"
+          >
+            <div className="relative">
+              <PrivacyOverlay 
+                title="Earnings Tracking" 
+                description="Detailed earnings and payment history require account verification. Complete your profile to access this feature." 
+                onUnlock={() => console.log('Unlock earnings')} 
+                icon="chart" 
+              />
+              <div className="text-center text-gunmetal py-12">
+                <p>Earnings tracking and payment history...</p>
+              </div>
+            </div>
+          </Section>
+        </TabsContent>
+
+        <TabsContent value="news" className="space-y-6">
+          <AviationNews />
+        </TabsContent>
+      </Tabs>
+    );
   };
   return <TerminalLayout title="Crew Terminal" userRole="Flight Crew" menuItems={menuItems} activeTab={activeSection} onTabChange={setActiveSection} bannerText="Professional service wins repeat work. Your calendar is your shop window." terminalType="crew">
       {renderContent()}

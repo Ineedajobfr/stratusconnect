@@ -37,12 +37,12 @@
   --input:              210 25% 8%;
   --ring:                25 70% 45%; /* Stratus orange focus */
 
-  /* Terminal tokens - Dark Slate */
-  --terminal-bg:        210 20% 5%;
-  --terminal-card:      210 25% 8%;
-  --terminal-border:    210 20% 12%;
-  --terminal-glow:       25 70% 45%;
-  --gunmetal:           210 10% 65%; /* secondary text */
+        /* Terminal tokens - Dark Slate */
+        --terminal-bg:        210 20% 5%;
+        --terminal-card:      210 25% 12%;  /* Brighter cards for better visibility */
+        --terminal-border:    210 20% 18%;  /* Brighter borders */
+        --terminal-glow:       25 70% 45%;
+        --gunmetal:           210 10% 65%; /* secondary text */
 
   /* Accents and status */
   --accent:              25 70% 45%; /* Stratus orange */

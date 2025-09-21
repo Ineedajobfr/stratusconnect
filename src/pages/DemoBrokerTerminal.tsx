@@ -57,7 +57,7 @@ import { SavedSearches } from '@/components/DealFlow/SavedSearches';
 import { ReputationMetrics } from '@/components/Reputation/ReputationMetrics';
 import { MonthlyStatements } from '@/components/Billing/MonthlyStatements';
 import { RankingRulesPage } from '@/components/Ranking/RankingRulesPage';
-import { CarbonMethodologySelector } from '@/components/Carbon/CarbonMethodologySelector';
+import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
 import { SignedQuotePDFGenerator } from '@/lib/signed-quote-pdf';
 import { BadgeVerificationService } from '@/lib/badge-verification';
 import { CredentialGates } from '@/lib/credential-gates';
@@ -672,9 +672,9 @@ export default function DemoBrokerTerminal() {
               <TrendingUp className="w-4 h-4 icon-glow" />
               Ranking
             </TabsTrigger>
-            <TabsTrigger value="carbon" className="flex items-center gap-2">
-              <Leaf className="w-4 h-4 icon-glow" />
-              Carbon
+            <TabsTrigger value="tracking" className="flex items-center gap-2">
+              <Plane className="w-4 h-4 icon-glow" />
+              Flight Tracking
             </TabsTrigger>
             <TabsTrigger value="billing" className="flex items-center gap-2">
               <DollarSign className="w-4 h-4 icon-glow" />
@@ -749,20 +749,19 @@ export default function DemoBrokerTerminal() {
             <RankingRulesPage />
           </TabsContent>
           
-          <TabsContent value="carbon" className="mt-6">
+          <TabsContent value="tracking" className="mt-6">
             <Card className="terminal-card">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Leaf className="w-5 h-5" />
-                  Carbon Methodology & Transparency
+                  <Plane className="w-5 h-5" />
+                  Live Flight Tracking
                 </CardTitle>
+                <CardDescription>
+                  Monitor aircraft activity and track flights in real-time
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <CarbonMethodologySelector 
-                  onMethodologyChange={(methodology) => {
-                    console.log('Selected methodology:', methodology);
-                  }}
-                />
+                <FlightRadar24Widget />
               </CardContent>
             </Card>
           </TabsContent>

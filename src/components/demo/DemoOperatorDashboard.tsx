@@ -308,6 +308,15 @@ export const DemoOperatorDashboard: React.FC = () => {
               />
             </div>
 
+            {/* Flight Tracking */}
+            <FlightRadar24Widget 
+              tailNumbers={["N123SC", "N456SC", "N789SC"]}
+              role="operator"
+              showMap={true}
+              autoRefresh={true}
+              refreshInterval={30}
+            />
+
             {/* Aircraft Tracking Map */}
             <AircraftTrackingMap aircraft={demoAircraftTracking} />
 

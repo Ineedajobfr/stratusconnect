@@ -18,7 +18,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <p className="text-gray-400 text-sm">
-            © 2024 StratusConnect. All rights reserved.
+            © September 2025 StratusConnect. All rights reserved.
           </p>
         </div>
       </div>

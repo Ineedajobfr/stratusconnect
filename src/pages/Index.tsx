@@ -793,43 +793,59 @@ export default function Index() {
               </div>
             </div>
 
-            {/* Legal */}
-            <div className="space-y-6">
-              <h3 className="text-lg font-bold text-white">Legal</h3>
-              <div className="space-y-3">
-                <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal block" onClick={() => navigate('/terms-of-service')}>
-                  Terms of Service
-                </Button>
-                <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal block" onClick={() => navigate('/privacy-policy')}>
-                  Privacy Policy
-                </Button>
-                <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal block" onClick={() => navigate('/cookie-policy')}>
-                  Cookie Policy
-                </Button>
-                <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal block" onClick={() => navigate('/user-agreement')}>
-                  User Agreement
-                </Button>
-              </div>
-            </div>
+             {/* Legal */}
+             <div className="space-y-6">
+               <h3 className="text-lg font-bold text-white">Legal</h3>
+               <div className="space-y-4">
+                 <div>
+                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/terms-of-service')}>
+                     Terms of Service
+                   </Button>
+                 </div>
+                 <div>
+                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/privacy-policy')}>
+                     Privacy Policy
+                   </Button>
+                 </div>
+                 <div>
+                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/cookie-policy')}>
+                     Cookie Policy
+                   </Button>
+                 </div>
+                 <div>
+                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/user-agreement')}>
+                     User Agreement
+                   </Button>
+                 </div>
+               </div>
+             </div>
 
-            {/* Support */}
-            <div className="space-y-6">
-              <h3 className="text-lg font-bold text-white">Support</h3>
-              <div className="space-y-3">
-                <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal block">
-                  Help Center
-                </Button>
-                <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal block">
-                  Contact Us
-                </Button>
-                <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal block">
-                  Status Page
-                </Button>
-                <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal block">
-                  API Documentation
-                </Button>
-              </div>
-            </div>
+             {/* Support */}
+             <div className="space-y-6">
+               <h3 className="text-lg font-bold text-white">Support</h3>
+               <div className="space-y-4">
+                 <div>
+                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal">
+                     Help Center
+                   </Button>
+                 </div>
+                 <div>
+                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal">
+                     Contact Us
+                   </Button>
+                 </div>
+                 <div>
+                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal">
+                     Status Page
+                   </Button>
+                 </div>
+                 <div>
+                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal">
+                     API Documentation
+                   </Button>
+                 </div>
+               </div>
+             </div>
 
             {/* Security */}
             <div className="space-y-6">
@@ -856,9 +872,9 @@ export default function Index() {
 
           {/* Bottom Section */}
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-sm text-gray-400">
-              © 2024 StratusConnect. All rights reserved. Built for the aviation industry.
-            </p>
+             <p className="text-sm text-gray-400">
+               © September 2025 StratusConnect. All rights reserved. Built for the aviation industry.
+             </p>
             <div className="flex items-center space-x-6 text-sm text-gray-400">
               <span>FCA Compliant</span>
               <span>•</span>

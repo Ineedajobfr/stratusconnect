@@ -105,7 +105,7 @@ export default function DemoBrokerTerminal() {
       id: 'RFQ-001',
       route: 'London - New York',
       aircraft: 'Gulfstream G650',
-      date: '2024-01-20',
+      date: '2025-09-20',
       price: 45000,
       currency: 'USD',
       status: 'quoted',
@@ -118,7 +118,7 @@ export default function DemoBrokerTerminal() {
           operator: 'Elite Aviation',
           price: 45000,
           currency: 'USD',
-          validUntil: '2024-01-18T23:59:59Z',
+          validUntil: '2025-09-18T23:59:59Z',
           aircraft: 'Gulfstream G650',
           verified: true,
           rating: 4.8,
@@ -130,7 +130,7 @@ export default function DemoBrokerTerminal() {
           operator: 'SkyHigh Jets',
           price: 48000,
           currency: 'USD',
-          validUntil: '2024-01-19T12:00:00Z',
+          validUntil: '2025-09-19T12:00:00Z',
           aircraft: 'Gulfstream G650',
           verified: true,
           rating: 4.6,
@@ -143,7 +143,7 @@ export default function DemoBrokerTerminal() {
       id: 'RFQ-002',
       route: 'Paris - Dubai',
       aircraft: 'Global 6000',
-      date: '2024-01-25',
+      date: '2025-09-25',
       price: 32000,
       currency: 'EUR',
       status: 'sent',
@@ -160,13 +160,13 @@ export default function DemoBrokerTerminal() {
       name: 'LHR to JFK Business',
       from: 'LHR',
       to: 'JFK',
-      dateFrom: '2024-01-20',
-      dateTo: '2024-01-25',
+      dateFrom: '2025-09-20',
+      dateTo: '2025-09-25',
       passengers: 8,
       budgetMax: 50000,
       currency: 'USD',
       alerts: 3,
-      lastAlert: '2024-01-16T14:30:00Z'
+      lastAlert: '2025-09-16T14:30:00Z'
     }
   ]);
 
@@ -176,7 +176,7 @@ export default function DemoBrokerTerminal() {
       type: 'price_drop',
       title: 'Price Drop: LHR to JFK',
       message: 'Gulfstream G650 dropped 18% to $41,000',
-      time: '2024-01-16T14:30:00Z',
+      time: '2025-09-16T14:30:00Z',
       unread: true
     },
     {
@@ -184,7 +184,7 @@ export default function DemoBrokerTerminal() {
       type: 'last_minute',
       title: 'Last Minute: CDG to LHR',
       message: 'Citation X available in 8 hours for $18,000',
-      time: '2024-01-16T16:45:00Z',
+      time: '2025-09-16T16:45:00Z',
       unread: true
     }
   ]);
@@ -553,7 +553,7 @@ export default function DemoBrokerTerminal() {
                   </div>
                   <div className="flex items-center gap-2 text-sm">
                     <Calendar className="w-4 h-4 text-gunmetal" />
-                    <span>Jan 20, 2024</span>
+                    <span>Sep 20, 2025</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm">
                     <Users className="w-4 h-4 text-gunmetal" />

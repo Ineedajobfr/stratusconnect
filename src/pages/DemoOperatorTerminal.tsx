@@ -15,6 +15,7 @@ import AIChatbot from '@/components/AIChatbot';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
 import EnhancedAIChatbot from '@/components/EnhancedAIChatbot';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
+import { AIAssistantButton } from '@/components/AIAssistantButton';
 import { useNavigate } from 'react-router-dom';
 import { 
   DollarSign, 
@@ -1005,6 +1006,7 @@ export default function DemoOperatorTerminal() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
+              <AIAssistantButton userType="operator" />
               <div className="text-sm text-slate-400">
                 <Clock className="w-4 h-4 inline mr-1" />
                 {new Date().toLocaleTimeString()} UTC

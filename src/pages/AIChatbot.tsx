@@ -16,6 +16,7 @@ import {
   FileText
 } from 'lucide-react';
 import AdvancedAIChatbot from '@/components/AdvancedAIChatbot';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 export default function AIChatbot() {
   return (
@@ -176,7 +177,9 @@ export default function AIChatbot() {
             </p>
           </CardHeader>
           <CardContent>
-            <AdvancedAIChatbot userType="broker" className="h-[500px]" />
+            <ErrorBoundary fallback={<div className="text-center text-muted-foreground p-8">AI Chatbot temporarily unavailable. Please try again later.</div>}>
+              <AdvancedAIChatbot userType="broker" className="h-[500px]" />
+            </ErrorBoundary>
           </CardContent>
         </Card>
 

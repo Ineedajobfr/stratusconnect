@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import AdvancedAIChatbot from './AdvancedAIChatbot';
 import { useAuth } from '@/contexts/AuthContext';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 interface FloatingAIChatbotProps {
   className?: string;
@@ -23,10 +24,15 @@ export default function FloatingAIChatbot({ className = "" }: FloatingAIChatbotP
   const getUserType = (): 'broker' | 'operator' | 'pilot' | 'crew' | 'admin' => {
     if (!user) return 'broker';
     
-    // This would be determined by user role in your system
-    // For now, we'll use a simple mapping
-    const userRole = user.user_metadata?.role || 'broker';
-    return userRole as 'broker' | 'operator' | 'pilot' | 'crew' | 'admin';
+    try {
+      // This would be determined by user role in your system
+      // For now, we'll use a simple mapping
+      const userRole = user.user_metadata?.role || 'broker';
+      return userRole as 'broker' | 'operator' | 'pilot' | 'crew' | 'admin';
+    } catch (error) {
+      console.error('Error determining user type:', error);
+      return 'broker';
+    }
   };
 
   return (
@@ -90,7 +96,9 @@ export default function FloatingAIChatbot({ className = "" }: FloatingAIChatbotP
 
             {/* Chatbot Component */}
             <div className="flex-1 p-4">
-              <AdvancedAIChatbot userType={getUserType()} />
+              <ErrorBoundary fallback={<div className="text-center text-muted-foreground p-4">AI Chatbot temporarily unavailable</div>}>
+                <AdvancedAIChatbot userType={getUserType()} />
+              </ErrorBoundary>
             </div>
           </div>
         </div>

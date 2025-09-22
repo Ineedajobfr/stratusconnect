@@ -210,25 +210,31 @@ export class StratusConnectAI {
 
   // Process user message and generate response
   async processMessage(userMessage: string): Promise<ChatMessage> {
-    if (!this.currentSession) {
-      throw new Error('No active session');
+    try {
+      if (!this.currentSession) {
+        throw new Error('No active session');
+      }
+
+      // Add user message
+      const userMsg = this.addMessage('user', userMessage);
+
+      // Generate AI response
+      const response = await this.generateResponse(userMessage);
+      
+      // Add assistant response
+      const assistantMsg = this.addMessage('assistant', response, this.voiceEnabled);
+
+      // Speak response if voice is enabled
+      if (this.voiceEnabled && this.speechSynthesis) {
+        this.speak(response);
+      }
+
+      return assistantMsg;
+    } catch (error) {
+      console.error('Error processing message:', error);
+      // Return a fallback response
+      return this.addMessage('assistant', 'I apologize, but I encountered an error processing your message. Please try again.');
     }
-
-    // Add user message
-    const userMsg = this.addMessage('user', userMessage);
-
-    // Generate AI response
-    const response = await this.generateResponse(userMessage);
-    
-    // Add assistant response
-    const assistantMsg = this.addMessage('assistant', response, this.voiceEnabled);
-
-    // Speak response if voice is enabled
-    if (this.voiceEnabled && this.speechSynthesis) {
-      this.speak(response);
-    }
-
-    return assistantMsg;
   }
 
   // Generate AI response based on user message and context
@@ -522,29 +528,33 @@ Could you rephrase your question or provide more context? I'm here to help!`;
   }
 
   speak(text: string): void {
-    if (!this.speechSynthesis) return;
+    try {
+      if (!this.speechSynthesis) return;
 
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 0.85;
-    utterance.pitch = 0.8;
-    utterance.volume = 0.9;
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 0.85;
+      utterance.pitch = 0.8;
+      utterance.volume = 0.9;
 
-    // Try to find a good voice
-    const voices = this.speechSynthesis.getVoices();
-    const preferredVoice = voices.find(v => 
-      v.lang.startsWith('en') && (
-        v.name.toLowerCase().includes('male') ||
-        v.name.toLowerCase().includes('david') ||
-        v.name.toLowerCase().includes('alex') ||
-        v.name.toLowerCase().includes('daniel')
-      )
-    ) || voices.find(v => v.lang.startsWith('en')) || voices[0];
+      // Try to find a good voice
+      const voices = this.speechSynthesis.getVoices();
+      const preferredVoice = voices.find(v => 
+        v.lang.startsWith('en') && (
+          v.name.toLowerCase().includes('male') ||
+          v.name.toLowerCase().includes('david') ||
+          v.name.toLowerCase().includes('alex') ||
+          v.name.toLowerCase().includes('daniel')
+        )
+      ) || voices.find(v => v.lang.startsWith('en')) || voices[0];
 
-    if (preferredVoice) {
-      utterance.voice = preferredVoice;
+      if (preferredVoice) {
+        utterance.voice = preferredVoice;
+      }
+
+      this.speechSynthesis.speak(utterance);
+    } catch (error) {
+      console.error('Error speaking text:', error);
     }
-
-    this.speechSynthesis.speak(utterance);
   }
 
   // Get current session

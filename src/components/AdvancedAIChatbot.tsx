@@ -108,6 +108,8 @@ export default function AdvancedAIChatbot({
   };
 
   const handleVoiceInput = () => {
+    if (typeof window === 'undefined') return;
+    
     if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
       toast({
         title: "Voice Not Supported",
@@ -117,8 +119,9 @@ export default function AdvancedAIChatbot({
       return;
     }
 
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
+    try {
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
     
     recognition.continuous = false;
     recognition.interimResults = false;
@@ -148,6 +151,15 @@ export default function AdvancedAIChatbot({
     };
 
     recognition.start();
+    } catch (error) {
+      console.error('Speech recognition error:', error);
+      setIsListening(false);
+      toast({
+        title: "Voice Input Error",
+        description: "Could not initialize voice input. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   const clearChat = () => {

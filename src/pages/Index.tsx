@@ -816,95 +816,98 @@ export default function Index() {
       </div>
 
       {/* Footer */}
-      <footer className="relative z-10 py-12 border-t border-terminal-border bg-terminal-card/20">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <footer className="relative z-10 bg-gray-900 text-white">
+        <div className="max-w-7xl mx-auto px-6 py-16">
+          {/* Main Footer Content */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
             {/* Company Info */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-foreground">StratusConnect</h3>
-              <p className="text-sm text-muted-foreground">
+            <div className="space-y-6">
+              <h3 className="text-xl font-bold text-white">StratusConnect</h3>
+              <p className="text-gray-300 text-sm leading-relaxed">
                 The aviation industry's trusted marketplace for brokers, operators, pilots, and crew.
               </p>
               <div className="flex space-x-4">
-                <Button variant="ghost" size="sm" className="text-gunmetal hover:text-foreground">
-                  <Globe className="w-4 h-4" />
+                <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white p-2">
+                  <Globe className="w-5 h-5" />
                 </Button>
-                <Button variant="ghost" size="sm" className="text-gunmetal hover:text-foreground">
-                  <MessageSquare className="w-4 h-4" />
+                <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white p-2">
+                  <MessageSquare className="w-5 h-5" />
                 </Button>
               </div>
             </div>
 
             {/* Legal */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-foreground">Legal</h3>
-              <div className="space-y-2">
-                <Button variant="link" className="p-0 h-auto text-sm text-gunmetal hover:text-foreground justify-start" onClick={() => navigate('/terms-of-service')}>
+            <div className="space-y-6">
+              <h3 className="text-lg font-bold text-white">Legal</h3>
+              <div className="space-y-3">
+                <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal block" onClick={() => navigate('/terms-of-service')}>
                   Terms of Service
                 </Button>
-                <Button variant="link" className="p-0 h-auto text-sm text-gunmetal hover:text-foreground justify-start" onClick={() => navigate('/privacy-policy')}>
+                <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal block" onClick={() => navigate('/privacy-policy')}>
                   Privacy Policy
                 </Button>
-                <Button variant="link" className="p-0 h-auto text-sm text-gunmetal hover:text-foreground justify-start" onClick={() => navigate('/cookie-policy')}>
+                <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal block" onClick={() => navigate('/cookie-policy')}>
                   Cookie Policy
                 </Button>
-                <Button variant="link" className="p-0 h-auto text-sm text-gunmetal hover:text-foreground justify-start" onClick={() => navigate('/user-agreement')}>
+                <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal block" onClick={() => navigate('/user-agreement')}>
                   User Agreement
                 </Button>
               </div>
             </div>
 
             {/* Support */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-foreground">Support</h3>
-              <div className="space-y-2">
-                <Button variant="link" className="p-0 h-auto text-sm text-gunmetal hover:text-foreground justify-start">
+            <div className="space-y-6">
+              <h3 className="text-lg font-bold text-white">Support</h3>
+              <div className="space-y-3">
+                <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal block">
                   Help Center
                 </Button>
-                <Button variant="link" className="p-0 h-auto text-sm text-gunmetal hover:text-foreground justify-start">
+                <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal block">
                   Contact Us
                 </Button>
-                <Button variant="link" className="p-0 h-auto text-sm text-gunmetal hover:text-foreground justify-start">
+                <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal block">
                   Status Page
                 </Button>
-                <Button variant="link" className="p-0 h-auto text-sm text-gunmetal hover:text-foreground justify-start">
+                <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal block">
                   API Documentation
                 </Button>
               </div>
             </div>
 
             {/* Security */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-foreground">Security</h3>
-              <div className="space-y-2">
-                <div className="flex items-center text-sm text-gunmetal">
-                  <Shield className="w-4 h-4 text-terminal-success mr-2" />
+            <div className="space-y-6">
+              <h3 className="text-lg font-bold text-white">Security</h3>
+              <div className="space-y-3">
+                <div className="flex items-center text-sm text-gray-300">
+                  <Shield className="w-4 h-4 text-green-400 mr-3" />
                   SOC 2 Compliant
                 </div>
-                <div className="flex items-center text-sm text-gunmetal">
-                  <Lock className="w-4 h-4 text-terminal-success mr-2" />
+                <div className="flex items-center text-sm text-gray-300">
+                  <Lock className="w-4 h-4 text-green-400 mr-3" />
                   End-to-End Encryption
                 </div>
-                <div className="flex items-center text-sm text-gunmetal">
-                  <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                <div className="flex items-center text-sm text-gray-300">
+                  <CheckCircle className="w-4 h-4 text-green-400 mr-3" />
                   Zero-Trust Architecture
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="border-t border-terminal-border/50 pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-sm text-muted-foreground">
+          {/* Separator Line */}
+          <div className="border-t border-gray-700 mb-8"></div>
+
+          {/* Bottom Section */}
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <p className="text-sm text-gray-400">
               © 2024 StratusConnect. All rights reserved. Built for the aviation industry.
             </p>
-              <div className="flex space-x-6 text-sm text-gunmetal">
-                <span>FCA Compliant</span>
-                <span>•</span>
-                <span>GDPR Ready</span>
-                <span>•</span>
-                <span>ISO 27001</span>
-              </div>
+            <div className="flex items-center space-x-6 text-sm text-gray-400">
+              <span>FCA Compliant</span>
+              <span>•</span>
+              <span>GDPR Ready</span>
+              <span>•</span>
+              <span>ISO 27001</span>
             </div>
           </div>
         </div>

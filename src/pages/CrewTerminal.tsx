@@ -20,22 +20,28 @@ import { User, Briefcase, Award, Calendar, DollarSign, Globe, Shield, Clock, Che
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ModernHelpGuide } from "@/components/ModernHelpGuide";
+import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
+import { HelpCircle } from "lucide-react";
 
 export default function CrewTerminal() {
   const [activeSection, setActiveSection] = useState("dashboard");
+  const [showHelpGuide, setShowHelpGuide] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const isBetaMode = location.pathname.startsWith('/beta/');
   
         return (
     <>
-      <ModernHelpGuide 
-        terminalType="crew" 
-        activeTab={activeSection} 
-        showOnMount={true} 
-        isDemo={false}
-      />
+      {showHelpGuide && (
+        <ModernHelpGuide 
+          terminalType="crew" 
+          activeTab={activeSection} 
+          showOnMount={false} 
+          isDemo={false}
+          onClose={() => setShowHelpGuide(false)}
+        />
+      )}
       <div className="min-h-screen bg-app relative overflow-hidden">
         <StarfieldRunwayBackground />
         
@@ -271,7 +277,21 @@ export default function CrewTerminal() {
           </TabsContent>
         </Tabs>
               </div>
-            </div>
+        
+        {/* Help Guide Button */}
+        <button
+          onClick={() => setShowHelpGuide(true)}
+          className="fixed top-4 right-4 z-50 w-12 h-12 bg-accent/20 hover:bg-accent/30 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-accent/30"
+          title="Help Guide"
+        >
+          <HelpCircle className="w-6 h-6 text-white" />
+        </button>
+        
+        {/* StratusConnect Logo */}
+        <div className="fixed top-4 left-4 z-50">
+          <StratusConnectLogo className="text-white" />
+        </div>
+      </div>
     </>
   );
 }

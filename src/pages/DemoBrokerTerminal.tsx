@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Brand } from '@/components/Brand';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ModernHelpGuide } from '@/components/ModernHelpGuide';
+import { AIAssistantButton } from '@/components/AIAssistantButton';
 import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
 import { 
   DollarSign, 
@@ -682,6 +683,7 @@ export default function DemoBrokerTerminal() {
             </div>
           </div>
           <div className="flex gap-2">
+            <AIAssistantButton userType="broker" isDemo={true} />
             <Button
               onClick={() => window.location.href = '/tutorial/broker'}
               className="bg-orange-500 hover:bg-orange-600 text-white"

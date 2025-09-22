@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ModernHelpGuide } from '@/components/ModernHelpGuide';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
+import { AIAssistantButton } from '@/components/AIAssistantButton';
 import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
 import EnhancedAIChatbot from '@/components/EnhancedAIChatbot';
@@ -527,6 +528,7 @@ export default function DemoPilotTerminal() {
                 </div>
               </div>
               <div className="flex items-center space-x-4">
+                <AIAssistantButton userType="pilot" isDemo={true} />
                 <div className="text-sm text-slate-400">
                   STATUS: <span className="text-green-400">AVAILABLE</span>
                 </div>

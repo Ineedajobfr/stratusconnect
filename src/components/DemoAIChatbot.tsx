@@ -24,7 +24,10 @@ import {
   RotateCcw,
   Copy,
   Check,
-  Lock
+  Lock,
+  Plane,
+  Clock,
+  Star
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
@@ -47,28 +50,29 @@ interface DemoAIChatbotProps {
   onClose?: () => void;
 }
 
-// GPT-3 level responses for demo
+// Enhanced GPT-3 level responses for demo
 const demoResponses = {
-  aircraft: [
-    "The Gulfstream G650ER is an ultra-long-range business jet with a range of 7,500 nautical miles. It can carry up to 19 passengers and has a maximum cruise speed of 516 knots. Operating costs are approximately $6,500 per hour.",
-    "The Bombardier Global 7500 offers exceptional range of 7,700 nautical miles and can accommodate up to 19 passengers. It features advanced avionics and a spacious cabin designed for comfort on long-haul flights.",
-    "The Embraer Phenom 300E is a light jet perfect for regional flights. With a range of 2,000 nautical miles and capacity for 9 passengers, it's ideal for shorter business trips and costs around $2,500 per hour to operate."
-  ],
-  market: [
-    "Current market rates for transatlantic flights are averaging $4,500-$6,500 per hour depending on aircraft type. Demand is strong with a 15% increase year-over-year.",
-    "The private aviation market is experiencing steady growth with premium segment showing 8% annual growth. Light jets are particularly popular for regional travel.",
-    "Fuel costs are currently stable, contributing to consistent pricing. Operators are seeing increased demand for sustainable aviation options."
-  ],
-  regulations: [
-    "FAA Part 135 regulations require operators to maintain specific certifications, training programs, and safety management systems. Compliance is essential for commercial operations.",
-    "EASA regulations in Europe have specific requirements for crew training, aircraft maintenance, and operational procedures. Staying current with updates is crucial.",
-    "ICAO standards provide international guidelines for aviation safety and security. Most countries align their regulations with ICAO recommendations."
-  ],
-  general: [
-    "I'm here to help with your aviation needs! I can assist with aircraft specifications, market analysis, regulatory questions, and operational guidance.",
-    "As your StratusConnect AI assistant, I have access to comprehensive aviation databases and can provide real-time insights to help optimize your operations.",
-    "Feel free to ask me anything about aircraft, routes, regulations, or how to use the StratusConnect platform. I'm designed to be your intelligent aviation companion."
-  ]
+  aircraft: {
+    'cesna': "The Cessna Citation series is one of the most popular business jet families in the world. The Citation X+ can reach speeds up to Mach 0.935 and has a range of 3,460 nautical miles, making it perfect for transcontinental flights. Operating costs are around $3,200 per hour.",
+    'gulfstream': "Gulfstream aircraft are the gold standard in business aviation. The G650ER offers ultra-long range of 7,500 nautical miles and can carry up to 19 passengers. It's the choice of Fortune 500 executives and heads of state worldwide.",
+    'bombardier': "Bombardier's Global series represents the pinnacle of business aviation. The Global 7500 has a range of 7,700 nautical miles and features the industry's most spacious cabin, perfect for long-haul comfort.",
+    'embraer': "Embraer's Phenom series offers exceptional value in the light jet category. The Phenom 300E combines efficiency with performance, offering 2,000 nautical miles range at competitive operating costs."
+  },
+  market: {
+    'rates': "Current market rates vary by aircraft type: Light jets (Citation, Phenom) average $2,500-$3,500/hour, Mid-size jets (Challenger, Legacy) $4,000-$6,000/hour, and Heavy jets (Gulfstream, Global) $6,000-$12,000/hour. Rates fluctuate based on fuel costs, demand, and route complexity.",
+    'demand': "Private aviation demand is up 15% year-over-year, driven by increased business travel and the flexibility it offers. Peak seasons are spring and fall, with summer showing strong leisure travel demand.",
+    'trends': "Key trends include sustainable aviation fuel adoption, increased focus on safety technology, and growing demand for point-to-point travel avoiding commercial hubs."
+  },
+  regulations: {
+    'faa': "FAA Part 135 governs commercial operations. Key requirements include: pilot certification (ATP for captains), aircraft maintenance programs, safety management systems, and operational control procedures. Compliance is mandatory for all commercial flights.",
+    'easa': "EASA regulations cover European operations with specific requirements for crew training, aircraft certification, and operational procedures. Part-CAT, Part-NCC, and Part-NCO are the main operational regulations.",
+    'compliance': "Maintaining compliance requires regular training updates, documentation management, and staying current with regulatory changes. Most operators use dedicated compliance management systems."
+  },
+  platform: {
+    'features': "StratusConnect offers comprehensive tools: real-time flight tracking, automated RFQ management, crew scheduling, maintenance tracking, and financial reporting. Our AI assistant provides instant answers to operational questions.",
+    'workflow': "The platform streamlines operations from initial inquiry to post-flight reporting. Brokers can create RFQs, operators can respond with quotes, and crew can manage their schedules all in one place.",
+    'benefits': "Key benefits include 40% faster quote processing, 25% reduction in administrative overhead, and 99.9% uptime reliability. Our platform handles over $2B in annual transactions."
+  }
 };
 
 export default function DemoAIChatbot({ 
@@ -111,7 +115,7 @@ export default function DemoAIChatbot({
       const welcomeMessage: Message = {
         id: 'welcome',
         role: 'assistant',
-        content: `Welcome to StratusConnect AI Assistant! I'm your intelligent aviation companion with access to comprehensive databases and real-time market data. This is a demo version with GPT-3 level capabilities. How can I help you today?`,
+        content: `Hello! I'm your StratusConnect AI Assistant. I can help you with aircraft information, market data, regulations, and platform features. What would you like to know?`,
         timestamp: new Date(),
         confidence: 0.9,
         category: 'welcome'
@@ -174,52 +178,80 @@ export default function DemoAIChatbot({
     window.speechSynthesis.speak(utterance);
   }, [isMuted, voiceEnabled]);
 
-  // Process message with GPT-3 level AI
+  // Process message with enhanced GPT-3 level AI
   const processMessage = useCallback(async (userMessage: string): Promise<Message> => {
     setIsTyping(true);
     
     try {
       // Simulate GPT-3 level processing time
-      await new Promise(resolve => setTimeout(resolve, 800));
+      await new Promise(resolve => setTimeout(resolve, 1200));
       
       const lowerQuery = userMessage.toLowerCase();
       let response = '';
       let category = 'general';
       let confidence = 0.8;
 
-      // Simple keyword matching for demo
-      if (lowerQuery.includes('aircraft') || lowerQuery.includes('jet') || lowerQuery.includes('plane') || 
-          lowerQuery.includes('gulfstream') || lowerQuery.includes('bombardier') || lowerQuery.includes('embraer')) {
-        const responses = demoResponses.aircraft;
-        response = responses[Math.floor(Math.random() * responses.length)];
+      // Enhanced keyword matching
+      if (lowerQuery.includes('cessna') || lowerQuery.includes('citation')) {
+        response = demoResponses.aircraft.cesna;
         category = 'aircraft';
+        confidence = 0.95;
+      } else if (lowerQuery.includes('gulfstream') || lowerQuery.includes('g650')) {
+        response = demoResponses.aircraft.gulfstream;
+        category = 'aircraft';
+        confidence = 0.95;
+      } else if (lowerQuery.includes('bombardier') || lowerQuery.includes('global')) {
+        response = demoResponses.aircraft.bombardier;
+        category = 'aircraft';
+        confidence = 0.95;
+      } else if (lowerQuery.includes('embraer') || lowerQuery.includes('phenom')) {
+        response = demoResponses.aircraft.embraer;
+        category = 'aircraft';
+        confidence = 0.95;
+      } else if (lowerQuery.includes('rate') || lowerQuery.includes('price') || lowerQuery.includes('cost')) {
+        response = demoResponses.market.rates;
+        category = 'market';
         confidence = 0.9;
-      } else if (lowerQuery.includes('market') || lowerQuery.includes('price') || lowerQuery.includes('rate') || 
-                 lowerQuery.includes('cost') || lowerQuery.includes('demand')) {
-        const responses = demoResponses.market;
-        response = responses[Math.floor(Math.random() * responses.length)];
+      } else if (lowerQuery.includes('demand') || lowerQuery.includes('trend')) {
+        response = demoResponses.market.demand;
         category = 'market';
         confidence = 0.85;
-      } else if (lowerQuery.includes('regulation') || lowerQuery.includes('faa') || lowerQuery.includes('easa') || 
-                 lowerQuery.includes('compliance') || lowerQuery.includes('certification')) {
-        const responses = demoResponses.regulations;
-        response = responses[Math.floor(Math.random() * responses.length)];
+      } else if (lowerQuery.includes('faa') || lowerQuery.includes('regulation')) {
+        response = demoResponses.regulations.faa;
         category = 'regulation';
         confidence = 0.9;
+      } else if (lowerQuery.includes('easa') || lowerQuery.includes('europe')) {
+        response = demoResponses.regulations.easa;
+        category = 'regulation';
+        confidence = 0.9;
+      } else if (lowerQuery.includes('platform') || lowerQuery.includes('stratusconnect') || lowerQuery.includes('feature')) {
+        response = demoResponses.platform.features;
+        category = 'platform';
+        confidence = 0.9;
+      } else if (lowerQuery.includes('workflow') || lowerQuery.includes('process')) {
+        response = demoResponses.platform.workflow;
+        category = 'platform';
+        confidence = 0.85;
       } else {
-        const responses = demoResponses.general;
-        response = responses[Math.floor(Math.random() * responses.length)];
+        // Default helpful response
+        response = `I understand you're asking about "${userMessage}". As your StratusConnect AI assistant, I can help with:
+
+• Aircraft specifications and performance data
+• Current market rates and trends  
+• Regulatory compliance (FAA, EASA, ICAO)
+• Platform features and workflows
+• Operational best practices
+• Route planning and optimization
+
+Could you provide more specific details about what you'd like to know? I can give you more targeted assistance once I understand your exact needs.`;
         category = 'general';
         confidence = 0.7;
       }
 
-      // Add personalized touch based on user type
-      const personalizedEnding = `\n\nAs a ${userType}, you might also be interested in optimizing your operations and staying updated with the latest industry trends. Is there anything specific you'd like to know more about?`;
-
       const finalResponse: Message = {
         id: `msg-${Date.now()}`,
         role: 'assistant',
-        content: response + personalizedEnding,
+        content: response,
         timestamp: new Date(),
         confidence,
         category
@@ -238,7 +270,7 @@ export default function DemoAIChatbot({
     } finally {
       setIsTyping(false);
     }
-  }, [userType]);
+  }, []);
 
   // Send message
   const sendMessage = useCallback(async () => {
@@ -334,7 +366,7 @@ export default function DemoAIChatbot({
 
   return (
     <div className={`fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 ${className}`}>
-      <Card className="w-full max-w-4xl h-[80vh] flex flex-col bg-terminal-card border-terminal-border shadow-2xl">
+      <Card className="w-full max-w-4xl h-[85vh] flex flex-col bg-terminal-card border-terminal-border shadow-2xl">
         {/* Header */}
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4 border-b border-terminal-border">
           <div className="flex items-center space-x-3">
@@ -418,40 +450,64 @@ export default function DemoAIChatbot({
         {/* Messages */}
         <CardContent className="flex-1 p-0 overflow-hidden">
           <ScrollArea className="h-full">
-            <div className="p-4 space-y-4">
+            <div className="p-6 space-y-6">
               {messages.map((message) => (
                 <div
                   key={message.id}
                   className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div
-                    className={`max-w-[80%] rounded-lg p-3 ${
+                    className={`max-w-[85%] rounded-2xl p-4 ${
                       message.role === 'user'
-                        ? 'bg-accent text-white'
-                        : 'bg-terminal-bg border border-terminal-border'
+                        ? 'bg-accent text-white ml-12'
+                        : 'bg-terminal-bg border border-terminal-border mr-12'
                     }`}
                   >
-                    <div className="flex items-start space-x-2">
+                    <div className="flex items-start space-x-3">
                       {message.role === 'assistant' && (
-                        <Bot className="w-4 h-4 mt-1 text-accent flex-shrink-0" />
+                        <div className="w-8 h-8 bg-accent/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                          <Bot className="w-4 h-4 text-accent" />
+                        </div>
                       )}
                       {message.role === 'user' && (
-                        <User className="w-4 h-4 mt-1 text-white flex-shrink-0" />
-                      )}
-                      <div className="flex-1">
-                        <div className="whitespace-pre-wrap text-sm">
-                          {message.content}
+                        <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                          <User className="w-4 h-4 text-white" />
                         </div>
-                        {message.confidence && message.confidence < 0.8 && (
-                          <div className="mt-2 text-xs text-muted-foreground">
-                            Confidence: {Math.round(message.confidence * 100)}%
-                          </div>
-                        )}
-                        <div className="flex items-center justify-between mt-2">
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <span className="font-medium text-sm">
+                            {message.role === 'assistant' ? 'StratusConnect AI' : 'You'}
+                          </span>
                           <span className="text-xs text-muted-foreground">
                             {message.timestamp.toLocaleTimeString()}
                           </span>
-                          {message.role === 'assistant' && (
+                        </div>
+                        <div className="whitespace-pre-wrap text-sm leading-relaxed">
+                          {message.content}
+                        </div>
+                        {message.confidence && message.confidence < 0.8 && (
+                          <div className="mt-3 text-xs text-muted-foreground flex items-center space-x-1">
+                            <Star className="w-3 h-3" />
+                            <span>Confidence: {Math.round(message.confidence * 100)}%</span>
+                          </div>
+                        )}
+                        {message.role === 'assistant' && (
+                          <div className="mt-3 flex items-center justify-between">
+                            <div className="flex items-center space-x-4 text-xs text-muted-foreground">
+                              <div className="flex items-center space-x-1">
+                                <Clock className="w-3 h-3" />
+                                <span>24/7</span>
+                              </div>
+                              <div className="flex items-center space-x-1">
+                                <Shield className="w-3 h-3" />
+                                <span>100% Secure & Private</span>
+                              </div>
+                              <div className="flex items-center space-x-1">
+                                <Brain className="w-3 h-3" />
+                                <span>AI Powered Intelligence</span>
+                              </div>
+                            </div>
                             <Button
                               variant="ghost"
                               size="sm"
@@ -464,8 +520,8 @@ export default function DemoAIChatbot({
                                 <Copy className="w-3 h-3" />
                               )}
                             </Button>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -474,9 +530,11 @@ export default function DemoAIChatbot({
               
               {isTyping && (
                 <div className="flex justify-start">
-                  <div className="bg-terminal-bg border border-terminal-border rounded-lg p-3">
-                    <div className="flex items-center space-x-2">
-                      <Bot className="w-4 h-4 text-accent" />
+                  <div className="bg-terminal-bg border border-terminal-border rounded-2xl p-4 mr-12">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-8 h-8 bg-accent/20 rounded-full flex items-center justify-center">
+                        <Bot className="w-4 h-4 text-accent" />
+                      </div>
                       <div className="flex space-x-1">
                         <div className="w-2 h-2 bg-accent rounded-full animate-bounce" />
                         <div className="w-2 h-2 bg-accent rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
@@ -493,8 +551,8 @@ export default function DemoAIChatbot({
         </CardContent>
 
         {/* Input Area */}
-        <div className="p-4 border-t border-terminal-border">
-          <div className="flex space-x-2">
+        <div className="p-6 border-t border-terminal-border bg-terminal-bg/30">
+          <div className="flex space-x-3">
             <div className="flex-1 relative">
               <Input
                 ref={inputRef}
@@ -502,13 +560,13 @@ export default function DemoAIChatbot({
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Ask me anything about aviation, StratusConnect, or your operations..."
-                className="pr-12"
+                className="pr-12 h-12 rounded-xl"
                 disabled={isLoading}
               />
               <Button
                 variant="ghost"
                 size="sm"
-                className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0"
                 onClick={toggleVoiceInput}
                 disabled={isLoading}
               >
@@ -522,7 +580,7 @@ export default function DemoAIChatbot({
             <Button
               onClick={sendMessage}
               disabled={!input.trim() || isLoading}
-              className="px-6"
+              className="px-6 h-12 rounded-xl"
             >
               {isLoading ? (
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -535,43 +593,48 @@ export default function DemoAIChatbot({
               size="sm"
               onClick={clearConversation}
               title="Clear conversation"
+              className="h-12 px-4 rounded-xl"
             >
               <RotateCcw className="w-4 h-4" />
             </Button>
           </div>
           
           {/* Quick Actions */}
-          <div className="flex flex-wrap gap-2 mt-3">
+          <div className="flex flex-wrap gap-2 mt-4">
             <Button
               variant="outline"
               size="sm"
               onClick={() => setInput('What aircraft are available for my route?')}
-              className="text-xs"
+              className="text-xs h-8 rounded-lg"
             >
+              <Plane className="w-3 h-3 mr-1" />
               Aircraft Search
             </Button>
             <Button
               variant="outline"
               size="sm"
               onClick={() => setInput('Show me current market rates')}
-              className="text-xs"
+              className="text-xs h-8 rounded-lg"
             >
+              <Zap className="w-3 h-3 mr-1" />
               Market Analysis
             </Button>
             <Button
               variant="outline"
               size="sm"
-              onClick={() => setInput('Help me with regulations')}
-              className="text-xs"
+              onClick={() => setInput('Help me with FAA regulations')}
+              className="text-xs h-8 rounded-lg"
             >
+              <Shield className="w-3 h-3 mr-1" />
               Regulations
             </Button>
             <Button
               variant="outline"
               size="sm"
               onClick={() => setInput('How do I use this platform?')}
-              className="text-xs"
+              className="text-xs h-8 rounded-lg"
             >
+              <MessageSquare className="w-3 h-3 mr-1" />
               Platform Help
             </Button>
           </div>

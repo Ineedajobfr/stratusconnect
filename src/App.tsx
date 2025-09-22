@@ -23,6 +23,7 @@ const Index = lazy(() => import("./pages/Index"));
 const Enter = lazy(() => import("./pages/Enter"));
 const HomePage = lazy(() => import("./pages/HomePage"));
 const HowToUse = lazy(() => import("./pages/HowToUse"));
+const VoiceDemo = lazy(() => import("./pages/VoiceDemo"));
 const BrokerTerminal = lazy(() => import("./pages/BrokerTerminal"));
 const OperatorTerminal = lazy(() => import("./pages/OperatorTerminal"));
 const PilotTerminal = lazy(() => import("./pages/PilotTerminal"));
@@ -134,6 +135,7 @@ const App = memo(() => {
               <Route path="/auth" element={<Auth />} />
               <Route path="/demo" element={<Demo />} />
               <Route path="/how-to-use" element={<HowToUse />} />
+            <Route path="/voice-demo" element={<VoiceDemo />} />
               <Route path="/about" element={<About />} />
               <Route path="/fees" element={<Fees />} />
               <Route path="/payments" element={<Payments />} />

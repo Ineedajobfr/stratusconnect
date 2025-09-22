@@ -15,6 +15,9 @@ import {
   Volume2
 } from 'lucide-react';
 import AIVoiceReader from './AIVoiceReader';
+import AdvancedVoiceSelector from './AdvancedVoiceSelector';
+import { voiceScripts } from '@/scripts/voice-scripts';
+import { Link } from 'react-router-dom';
 
 interface ResourceItem {
   id: string;
@@ -39,7 +42,7 @@ const resourceCategories = [
         description: 'Complete guide to broker operations',
         icon: <Download className="w-4 h-4" />,
         action: 'Download',
-        voiceText: 'The Broker Terminal Guide provides comprehensive documentation for managing client relationships, creating quotes, and facilitating transactions. This guide covers advanced search techniques, pricing strategies, and client management best practices essential for successful brokerage operations.'
+        voiceText: voiceScripts.brokerGuide
       },
       {
         id: 'operator-guide',
@@ -47,7 +50,7 @@ const resourceCategories = [
         description: 'Fleet management and operations manual',
         icon: <Download className="w-4 h-4" />,
         action: 'Download',
-        voiceText: 'The Operator Terminal Guide details fleet management operations, aircraft scheduling, pilot coordination, and maintenance tracking. This comprehensive manual covers operational procedures, safety protocols, and efficiency optimization strategies for aviation operators.'
+        voiceText: voiceScripts.operatorGuide
       },
       {
         id: 'pilot-guide',
@@ -55,7 +58,7 @@ const resourceCategories = [
         description: 'Job search and profile management',
         icon: <Download className="w-4 h-4" />,
         action: 'Download',
-        voiceText: 'The Pilot Terminal Guide explains how to manage your professional profile, search for job opportunities, track flight hours, and maintain certifications. This guide covers profile optimization, job application strategies, and career development within the aviation industry.'
+        voiceText: voiceScripts.pilotGuide
       },
       {
         id: 'crew-guide',
@@ -63,7 +66,7 @@ const resourceCategories = [
         description: 'Crew assignments and qualifications',
         icon: <Download className="w-4 h-4" />,
         action: 'Download',
-        voiceText: 'The Crew Terminal Guide provides instructions for managing crew assignments, maintaining qualifications, and coordinating with flight operations. This manual covers assignment tracking, certification management, and professional development opportunities for aviation crew members.'
+        voiceText: voiceScripts.crewGuide
       }
     ]
   },
@@ -80,7 +83,7 @@ const resourceCategories = [
         icon: <Play className="w-4 h-4" />,
         action: 'Listen',
         duration: '5 min',
-        voiceText: 'Welcome to StratusConnect, the premier aviation marketplace platform. This sophisticated system connects brokers, operators, pilots, and crew members through advanced technology and streamlined processes. Here, industry professionals manage their operations, coordinate flights, and build successful partnerships in the aviation sector. This platform represents the future of aviation commerce.'
+        voiceText: voiceScripts.platformOverview
       },
       {
         id: 'ai-features',
@@ -89,7 +92,7 @@ const resourceCategories = [
         icon: <Play className="w-4 h-4" />,
         action: 'Listen',
         duration: '8 min',
-        voiceText: 'StratusConnect delivers enterprise-grade capabilities designed for aviation professionals. Our AI-powered search technology understands complex aviation terminology and context, providing precise results for your specific requirements. Real-time tracking systems monitor every flight and transaction with military-grade precision. Secure payment processing ensures all financial transactions are protected with bank-level encryption.'
+        voiceText: voiceScripts.aiFeatures
       },
       {
         id: 'search-tips',
@@ -98,7 +101,7 @@ const resourceCategories = [
         icon: <Play className="w-4 h-4" />,
         action: 'Listen',
         duration: '6 min',
-        voiceText: 'The AI Search Assistant represents the cutting edge of aviation technology. This intelligent system processes natural language queries and understands complex aviation terminology, aircraft specifications, and operational requirements. Simply describe your needs in plain English, and the AI will analyze your request against our comprehensive database of aircraft, routes, and services.'
+        voiceText: voiceScripts.searchTips
       },
       {
         id: 'payment-escrow',
@@ -107,7 +110,7 @@ const resourceCategories = [
         icon: <Play className="w-4 h-4" />,
         action: 'Listen',
         duration: '4 min',
-        voiceText: 'StratusConnect implements enterprise-grade security protocols for all financial transactions. Our payment processing system supports multiple payment methods including major credit cards, bank transfers, and digital wallets. The escrow system holds funds securely until services are completed and verified, protecting both buyers and sellers throughout the transaction process.'
+        voiceText: voiceScripts.paymentEscrow
       }
     ]
   },
@@ -123,7 +126,7 @@ const resourceCategories = [
         description: 'Real-time assistance from our team',
         icon: <MessageSquare className="w-4 h-4" />,
         action: 'Start Chat',
-        voiceText: 'Our live chat support provides immediate assistance from qualified aviation industry professionals. Available 24/7, our support team can help with technical issues, account questions, and platform guidance. All conversations are logged for quality assurance and follow-up support.'
+        voiceText: voiceScripts.liveChat
       },
       {
         id: 'knowledge-base',
@@ -131,7 +134,7 @@ const resourceCategories = [
         description: 'Searchable help articles and FAQs',
         icon: <BookOpen className="w-4 h-4" />,
         action: 'Browse',
-        voiceText: 'The Knowledge Base contains comprehensive help articles, frequently asked questions, and troubleshooting guides. Search by topic, category, or keywords to find relevant information. All articles are regularly updated to reflect the latest platform features and industry best practices.'
+        voiceText: voiceScripts.knowledgeBase
       },
       {
         id: 'api-docs',
@@ -139,7 +142,7 @@ const resourceCategories = [
         description: 'Developer resources and integration guides',
         icon: <ExternalLink className="w-4 h-4" />,
         action: 'View Docs',
-        voiceText: 'Our API Documentation provides comprehensive resources for developers integrating with StratusConnect. Includes detailed endpoint specifications, authentication methods, code examples, and SDK downloads. The API enables custom integrations and third-party applications.'
+        voiceText: voiceScripts.apiDocs
       },
       {
         id: 'system-status',
@@ -147,7 +150,22 @@ const resourceCategories = [
         description: 'Real-time platform health and updates',
         icon: <Settings className="w-4 h-4" />,
         action: 'Check Status',
-        voiceText: 'The System Status page provides real-time information about platform performance, scheduled maintenance, and service availability. Subscribe to status updates via email or SMS to stay informed about any service disruptions or planned maintenance windows.'
+        voiceText: voiceScripts.systemStatus
+      }
+    ]
+  },
+  {
+    id: 'demo',
+    title: 'Voice Script Demo',
+    description: 'Experience all voice scripts in one place',
+    items: [
+      {
+        id: 'voice-demo',
+        title: 'Interactive Voice Demo',
+        description: 'Test all voice scripts with different tones and styles',
+        icon: <Mic className="w-4 h-4" />,
+        action: 'Try Demo',
+        voiceText: 'Welcome to the interactive voice script demo! Here you can experience all the engaging, conversational AI voice scripts written in the style you requested. Each script adapts its tone based on the content - from enthusiastic platform overviews to professional user manuals. Click on any script to hear how the AI voice sounds thrilled, helpful, or a little sarcastic depending on what it\'s explaining. I get exhausted being so versatile sometimes, but that\'s what makes me special!'
       }
     ]
   }
@@ -156,11 +174,21 @@ const resourceCategories = [
 export default function ResourcesSection() {
   const [selectedItem, setSelectedItem] = useState<ResourceItem | null>(null);
   const [showVoiceReader, setShowVoiceReader] = useState(false);
+  const [showAdvancedVoice, setShowAdvancedVoice] = useState(false);
 
   const handleItemClick = (item: ResourceItem) => {
     if (item.voiceText) {
-      setSelectedItem(item);
-      setShowVoiceReader(true);
+      if (item.action === 'Try Demo') {
+        // Open voice demo in new tab
+        window.open('/voice-demo', '_blank');
+      } else if (item.action === 'Listen') {
+        // Show advanced voice selector for tutorials
+        setSelectedItem(item);
+        setShowAdvancedVoice(true);
+      } else {
+        setSelectedItem(item);
+        setShowVoiceReader(true);
+      }
     } else {
       // Handle other actions like downloads, external links, etc.
       console.log(`Action: ${item.action} for ${item.title}`);
@@ -252,6 +280,36 @@ export default function ResourcesSection() {
               <AIVoiceReader
                 text={selectedItem.voiceText || ''}
                 title={`${selectedItem.title} - Professional Audio Guide`}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Advanced Voice Selector Modal */}
+      {showAdvancedVoice && selectedItem && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className="bg-terminal-card border border-terminal-border rounded-lg max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-2xl font-bold text-foreground">
+                  {selectedItem.title} - Advanced AI Voice
+                </h3>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    setShowAdvancedVoice(false);
+                    setSelectedItem(null);
+                  }}
+                >
+                  ×
+                </Button>
+              </div>
+              
+              <AdvancedVoiceSelector
+                text={selectedItem.voiceText || ''}
+                title={selectedItem.title}
               />
             </div>
           </div>

@@ -9,6 +9,10 @@ import { PrivacyOverlay } from "@/components/PrivacyOverlay";
 import { ProfileWidget } from "@/components/ProfileWidget";
 import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24Widget";
 import { PersonalizedFeed } from "@/components/feed/PersonalizedFeed";
+import NoteTakingSystem from "@/components/NoteTakingSystem";
+import EnhancedAIChatbot from "@/components/EnhancedAIChatbot";
+import AISearchAssistant from "@/components/AISearchAssistant";
+import PredictiveAnalytics from "@/components/PredictiveAnalytics";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
@@ -24,11 +28,21 @@ import {
   MapPin,
   CheckCircle,
   AlertTriangle,
-  HelpCircle
+  HelpCircle,
+  FileText,
+  Navigation,
+  Plus,
+  RefreshCw,
+  ArrowUp,
+  BarChart3,
+  TrendingUp,
+  Activity,
+  Settings
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ModernHelpGuide } from "@/components/ModernHelpGuide";
+import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 
 export default function PilotTerminal() {
@@ -56,17 +70,10 @@ export default function PilotTerminal() {
         <div className="relative z-10 bg-terminal-card border-b border-terminal-border px-6 py-4 backdrop-blur-modern">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-3">
-              <button 
-                onClick={() => navigate('/')}
-                className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center hover:bg-accent/80 transition-colors cursor-pointer"
-              >
-                <span className="text-white font-bold text-sm">SC</span>
-              </button>
-              <div>
-                <h1 className="text-xl font-bold text-foreground">StratusConnect</h1>
-                <p className="text-sm text-gunmetal">Pilot Terminal</p>
-              </div>
+            <StratusConnectLogo className="text-2xl" />
+            <div>
+              <h1 className="text-2xl font-bold text-foreground">Pilot Terminal</h1>
+              <p className="text-sm text-gunmetal">Professional pilot management platform</p>
             </div>
           </div>
           <div className="flex items-center space-x-4">
@@ -91,15 +98,46 @@ export default function PilotTerminal() {
         {/* Main Content */}
         <div className="relative z-10 p-6">
         <Tabs value={activeSection} onValueChange={setActiveSection} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-9 bg-terminal-card border-terminal-border text-xs overflow-x-auto tabs-modern">
-            <TabsTrigger value="dashboard" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Dashboard</TabsTrigger>
-            <TabsTrigger value="verification" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Trust</TabsTrigger>
-            <TabsTrigger value="schedule" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Schedule</TabsTrigger>
-            <TabsTrigger value="certifications" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Licenses</TabsTrigger>
-            <TabsTrigger value="jobs" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Jobs</TabsTrigger>
-            <TabsTrigger value="earnings" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Earnings</TabsTrigger>
-            <TabsTrigger value="news" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">News</TabsTrigger>
-          </TabsList>
+          <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-terminal-border scrollbar-track-transparent pb-2">
+            <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-terminal-card/50 backdrop-blur-sm">
+              <TabsTrigger value="dashboard" className="flex items-center gap-2">
+                <BarChart3 className="w-4 h-4 icon-glow" />
+                Dashboard
+              </TabsTrigger>
+              <TabsTrigger value="verification" className="flex items-center gap-2">
+                <Shield className="w-4 h-4 icon-glow" />
+                Trust
+              </TabsTrigger>
+              <TabsTrigger value="schedule" className="flex items-center gap-2">
+                <Calendar className="w-4 h-4 icon-glow" />
+                Schedule
+              </TabsTrigger>
+              <TabsTrigger value="certifications" className="flex items-center gap-2">
+                <Award className="w-4 h-4 icon-glow" />
+                Licenses
+              </TabsTrigger>
+              <TabsTrigger value="jobs" className="flex items-center gap-2">
+                <Briefcase className="w-4 h-4 icon-glow" />
+                Jobs
+              </TabsTrigger>
+              <TabsTrigger value="earnings" className="flex items-center gap-2">
+                <DollarSign className="w-4 h-4 icon-glow" />
+                Earnings
+              </TabsTrigger>
+              <TabsTrigger value="notes" className="flex items-center gap-2">
+                <FileText className="w-4 h-4 icon-glow" />
+                Notes
+              </TabsTrigger>
+              <TabsTrigger value="tracking" className="flex items-center gap-2">
+                <Navigation className="w-4 h-4 icon-glow" />
+                Tracking
+              </TabsTrigger>
+              <TabsTrigger value="news" className="flex items-center gap-2">
+                <Globe className="w-4 h-4 icon-glow" />
+                News
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
           <TabsContent value="dashboard" className="space-y-6">
             {/* KPI Dashboard */}
@@ -154,6 +192,10 @@ export default function PilotTerminal() {
 
             {/* Personalized Feed */}
             <PersonalizedFeed />
+
+            {/* AI Components */}
+            <AISearchAssistant terminalType="pilot" className="mb-6" />
+            <PredictiveAnalytics terminalType="pilot" className="mb-6" />
 
             {/* Main Content Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -453,12 +495,56 @@ export default function PilotTerminal() {
             </Section>
           </TabsContent>
 
+          <TabsContent value="notes">
+            <div className="space-y-6">
+              <div className="flex justify-between items-center">
+                <h2 className="text-2xl font-bold text-foreground">Note Taking System</h2>
+                <Button className="btn-terminal-accent">
+                  <Plus className="w-4 h-4 mr-2" />
+                  New Note
+                </Button>
+              </div>
+              <NoteTakingSystem terminalType="pilot" />
+            </div>
+          </TabsContent>
+
+          <TabsContent value="tracking">
+            <div className="space-y-6">
+              <div className="flex justify-between items-center">
+                <h2 className="text-2xl font-bold text-foreground">Flight Tracking</h2>
+                <Button className="btn-terminal-accent">
+                  <RefreshCw className="w-4 h-4 mr-2" />
+                  Refresh
+                </Button>
+              </div>
+              <FlightRadar24Widget 
+                tailNumbers={['N123SC', 'N456AV', 'N789OP']}
+                showMap={true}
+                autoRefresh={true}
+                refreshInterval={30}
+                role="pilot"
+              />
+            </div>
+          </TabsContent>
+
           <TabsContent value="news" className="space-y-6">
             <AviationNews />
           </TabsContent>
         </Tabs>
         </div>
       </div>
+      
+      {/* Scroll to Top Button */}
+      <Button
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        className="fixed bottom-6 right-6 z-50 w-12 h-12 bg-accent/80 hover:bg-accent rounded-full flex items-center justify-center transition-all duration-300 shadow-lg backdrop-blur-sm border border-accent/30"
+        title="Scroll to Top"
+      >
+        <ArrowUp className="w-6 h-6 text-white" />
+      </Button>
+      
+      {/* Enhanced AI Chatbot */}
+      <EnhancedAIChatbot terminalType="pilot" />
     </>
   );
 }

@@ -138,7 +138,11 @@
   }
 
   .terminal-glow {
-    box-shadow: 0 0 20px hsl(var(--terminal-glow) / 0.2);
+    box-shadow: 
+      0 0 20px hsl(var(--terminal-glow) / 0.3),
+      0 0 40px hsl(var(--terminal-glow) / 0.2),
+      0 0 60px hsl(var(--terminal-glow) / 0.1);
+    transition: all 0.3s ease;
   }
 
   /* Glow Effects for Text and UI Elements */
@@ -573,12 +577,6 @@
       0 0 30px hsl(var(--accent) / 0.1);
   }
 
-  .terminal-glow {
-    box-shadow: 
-      0 0 20px hsl(var(--accent) / 0.4),
-      0 0 40px hsl(var(--accent) / 0.2),
-      inset 0 0 30px rgba(255, 255, 255, 0.05);
-  }
 
   /* Rotating turbine animation */
   @keyframes rotate-slow {
@@ -624,10 +622,6 @@
   filter: brightness(1.1);
 }
 
-/* Enhanced glow effects */
-.terminal-glow {
-  box-shadow: var(--shadow-glow);
-}
 
 .accent-glow {
   text-shadow: 0 0 20px hsl(var(--accent) / 0.5);

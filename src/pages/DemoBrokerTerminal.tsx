@@ -37,7 +37,8 @@ import {
   Leaf,
   Trophy,
   ArrowUp,
-  Menu
+  Menu,
+  RefreshCw
 } from 'lucide-react';
 import { ComplianceNotice, EvidencePack } from '@/components/ComplianceNotice';
 import { evidenceReceiptGenerator } from '@/lib/evidence-receipt-generator';
@@ -64,6 +65,7 @@ import { RankingRulesPage } from '@/components/Ranking/RankingRulesPage';
 import AISearchAssistant from '@/components/AISearchAssistant';
 import PredictiveAnalytics from '@/components/PredictiveAnalytics';
 import AIChatbot from '@/components/AIChatbot';
+import NoteTakingSystem from '@/components/NoteTakingSystem';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
 import { SignedQuotePDFGenerator } from '@/lib/signed-quote-pdf';
 import { BadgeVerificationService } from '@/lib/badge-verification';
@@ -613,6 +615,50 @@ export default function DemoBrokerTerminal() {
     </div>
   );
 
+  const renderTrophyRoom = () => (
+    <div className="space-y-6">
+      <Card className="terminal-card">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Trophy className="w-5 h-5 text-accent" />
+            Your Achievements
+          </CardTitle>
+          <CardDescription>
+            Track your progress and unlock new achievements
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="p-4 bg-accent/10 rounded-lg border border-accent/20">
+              <div className="flex items-center gap-2 mb-2">
+                <Trophy className="w-5 h-5 text-accent" />
+                <span className="font-semibold">First Deal</span>
+              </div>
+              <p className="text-sm text-muted-foreground">Complete your first successful transaction</p>
+              <Badge className="mt-2 bg-green-500">Completed</Badge>
+            </div>
+            <div className="p-4 bg-accent/10 rounded-lg border border-accent/20">
+              <div className="flex items-center gap-2 mb-2">
+                <Star className="w-5 h-5 text-accent" />
+                <span className="font-semibold">Top Performer</span>
+              </div>
+              <p className="text-sm text-muted-foreground">Achieve top 10% performance rating</p>
+              <Badge className="mt-2 bg-yellow-500">In Progress</Badge>
+            </div>
+            <div className="p-4 bg-accent/10 rounded-lg border border-accent/20">
+              <div className="flex items-center gap-2 mb-2">
+                <Award className="w-5 h-5 text-accent" />
+                <span className="font-semibold">Client Satisfaction</span>
+              </div>
+              <p className="text-sm text-muted-foreground">Maintain 95%+ client satisfaction</p>
+              <Badge className="mt-2 bg-blue-500">In Progress</Badge>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
   return (
     <>
       {activeTab === 'dashboard' && (
@@ -695,6 +741,10 @@ export default function DemoBrokerTerminal() {
             <TabsTrigger value="tracking" className="flex items-center gap-2">
               <Plane className="w-4 h-4 icon-glow" />
               Flight Tracking
+            </TabsTrigger>
+            <TabsTrigger value="notes" className="flex items-center gap-2">
+              <FileText className="w-4 h-4 icon-glow" />
+              Notes
             </TabsTrigger>
             <TabsTrigger value="billing" className="flex items-center gap-2">
               <DollarSign className="w-4 h-4 icon-glow" />
@@ -783,21 +833,30 @@ export default function DemoBrokerTerminal() {
             </Card>
           </TabsContent>
 
-
-            <TabsContent value="ranking" className="mt-6">
+          <TabsContent value="notes" className="mt-6 scroll-smooth">
             <div className="space-y-6">
-              {/* Ranking Rules Link */}
-              <div className="flex justify-end">
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => window.open('/ranking-rules', '_blank')}
-                  className="button-glow"
-                >
-                  <FileText className="w-4 h-4 mr-2" />
-                  View Ranking Rules
+              <div className="flex justify-between items-center">
+                <h2 className="text-2xl font-bold text-foreground">Note Taking System</h2>
+                <Button className="btn-terminal-accent">
+                  <Plus className="w-4 h-4 mr-2" />
+                  New Note
                 </Button>
               </div>
+              <NoteTakingSystem terminalType="broker" />
+            </div>
+          </TabsContent>
+
+          <TabsContent value="trophy" className="mt-6 scroll-smooth">
+            <div className="space-y-6">
+              <div className="flex justify-between items-center">
+                <h2 className="text-2xl font-bold text-foreground">Trophy Room</h2>
+                <Button className="btn-terminal-accent">
+                  <Trophy className="w-4 h-4 mr-2" />
+                  View Achievements
+                </Button>
+              </div>
+              {renderTrophyRoom()}
+              
               {/* League Status Card */}
               <Card className="terminal-card border-accent border-2">
                 <CardHeader>

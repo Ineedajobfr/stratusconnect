@@ -14,9 +14,13 @@ import { CrewAnalytics } from "@/components/analytics/CrewAnalytics";
 import { ProfileWidget } from "@/components/ProfileWidget";
 import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24Widget";
 import { PersonalizedFeed } from "@/components/feed/PersonalizedFeed";
+import NoteTakingSystem from "@/components/NoteTakingSystem";
+import EnhancedAIChatbot from "@/components/EnhancedAIChatbot";
+import AISearchAssistant from "@/components/AISearchAssistant";
+import PredictiveAnalytics from "@/components/PredictiveAnalytics";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { User, Briefcase, Award, Calendar, DollarSign, Globe, Shield, Clock, CheckCircle, AlertTriangle } from "lucide-react";
+import { User, Briefcase, Award, Calendar, DollarSign, Globe, Shield, Clock, CheckCircle, AlertTriangle, FileText, Navigation, Plus, RefreshCw, ArrowUp, BarChart3, TrendingUp, HelpCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ModernHelpGuide } from "@/components/ModernHelpGuide";
@@ -49,17 +53,10 @@ export default function CrewTerminal() {
         <div className="relative z-10 bg-terminal-card border-b border-terminal-border px-6 py-4 backdrop-blur-modern">
             <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-3">
-              <button 
-                onClick={() => navigate('/')}
-                className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center hover:bg-accent/80 transition-colors cursor-pointer"
-              >
-                <span className="text-white font-bold text-sm">SC</span>
-              </button>
-              <div>
-                <h1 className="text-xl font-bold text-foreground">StratusConnect</h1>
-                <p className="text-sm text-gunmetal">Crew Terminal</p>
-              </div>
+            <StratusConnectLogo className="text-2xl" />
+            <div>
+              <h1 className="text-2xl font-bold text-foreground">Crew Terminal</h1>
+              <p className="text-sm text-gunmetal">Professional crew management platform</p>
             </div>
           </div>
           <div className="flex items-center space-x-4">
@@ -69,24 +66,65 @@ export default function CrewTerminal() {
             </div>
             <div className="text-gunmetal text-sm font-mono">
               {new Date().toLocaleTimeString()} UTC
-                    </div>
-                      </div>
-                    </div>
-                  </div>
+            </div>
+            <Button
+              onClick={() => setShowHelpGuide(true)}
+              className="w-12 h-12 bg-accent/20 hover:bg-accent/30 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-accent/30"
+              title="Help Guide"
+            >
+              <HelpCircle className="w-6 h-6 text-white" />
+            </Button>
+          </div>
+        </div>
+      </div>
                   
         {/* Main Content */}
         <div className="relative z-10 p-6">
         <Tabs value={activeSection} onValueChange={setActiveSection} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-9 bg-terminal-card border-terminal-border text-xs overflow-x-auto tabs-modern">
-            <TabsTrigger value="dashboard" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Dashboard</TabsTrigger>
-            <TabsTrigger value="profile" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Profile</TabsTrigger>
-            <TabsTrigger value="verification" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Trust</TabsTrigger>
-            <TabsTrigger value="jobs" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Jobs</TabsTrigger>
-            <TabsTrigger value="certifications" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Certifications</TabsTrigger>
-            <TabsTrigger value="availability" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Availability</TabsTrigger>
-            <TabsTrigger value="analytics" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Analytics</TabsTrigger>
-            <TabsTrigger value="news" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">News</TabsTrigger>
-          </TabsList>
+          <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-terminal-border scrollbar-track-transparent pb-2">
+            <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-terminal-card/50 backdrop-blur-sm">
+              <TabsTrigger value="dashboard" className="flex items-center gap-2">
+                <BarChart3 className="w-4 h-4 icon-glow" />
+                Dashboard
+              </TabsTrigger>
+              <TabsTrigger value="profile" className="flex items-center gap-2">
+                <User className="w-4 h-4 icon-glow" />
+                Profile
+              </TabsTrigger>
+              <TabsTrigger value="verification" className="flex items-center gap-2">
+                <Shield className="w-4 h-4 icon-glow" />
+                Trust
+              </TabsTrigger>
+              <TabsTrigger value="jobs" className="flex items-center gap-2">
+                <Briefcase className="w-4 h-4 icon-glow" />
+                Jobs
+              </TabsTrigger>
+              <TabsTrigger value="certifications" className="flex items-center gap-2">
+                <Award className="w-4 h-4 icon-glow" />
+                Certifications
+              </TabsTrigger>
+              <TabsTrigger value="availability" className="flex items-center gap-2">
+                <Calendar className="w-4 h-4 icon-glow" />
+                Availability
+              </TabsTrigger>
+              <TabsTrigger value="analytics" className="flex items-center gap-2">
+                <TrendingUp className="w-4 h-4 icon-glow" />
+                Analytics
+              </TabsTrigger>
+              <TabsTrigger value="notes" className="flex items-center gap-2">
+                <FileText className="w-4 h-4 icon-glow" />
+                Notes
+              </TabsTrigger>
+              <TabsTrigger value="tracking" className="flex items-center gap-2">
+                <Navigation className="w-4 h-4 icon-glow" />
+                Tracking
+              </TabsTrigger>
+              <TabsTrigger value="news" className="flex items-center gap-2">
+                <Globe className="w-4 h-4 icon-glow" />
+                News
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
           <TabsContent value="dashboard" className="space-y-6">
             {/* KPI Dashboard */}
@@ -276,22 +314,20 @@ export default function CrewTerminal() {
             <AviationNews />
           </TabsContent>
         </Tabs>
-              </div>
-        
-        {/* Help Guide Button */}
-        <button
-          onClick={() => setShowHelpGuide(true)}
-          className="fixed top-4 right-4 z-50 w-12 h-12 bg-accent/20 hover:bg-accent/30 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-accent/30"
-          title="Help Guide"
-        >
-          <HelpCircle className="w-6 h-6 text-white" />
-        </button>
-        
-        {/* StratusConnect Logo */}
-        <div className="fixed top-4 left-4 z-50">
-          <StratusConnectLogo className="text-white text-2xl" />
         </div>
       </div>
+      
+      {/* Scroll to Top Button */}
+      <Button
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        className="fixed bottom-6 right-6 z-50 w-12 h-12 bg-accent/80 hover:bg-accent rounded-full flex items-center justify-center transition-all duration-300 shadow-lg backdrop-blur-sm border border-accent/30"
+        title="Scroll to Top"
+      >
+        <ArrowUp className="w-6 h-6 text-white" />
+      </Button>
+      
+      {/* Enhanced AI Chatbot */}
+      <EnhancedAIChatbot terminalType="crew" />
     </>
   );
 }

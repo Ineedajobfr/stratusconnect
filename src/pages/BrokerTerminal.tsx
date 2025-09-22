@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import TerminalTemplate from "@/components/TerminalTemplate";
 import { useShortcuts } from "@/hooks/use-shortcuts";
 import { useRef } from "react";
-import { BarChart3, MessageSquare, TrendingUp, DollarSign, Clock, Users, Globe, Bookmark, FileText, Settings, AlertTriangle, Star, Calendar, Shield } from "lucide-react";
+import { BarChart3, MessageSquare, TrendingUp, DollarSign, Clock, Users, Globe, Bookmark, FileText, Settings, AlertTriangle, Star, Calendar, Shield, Plus, Search, Bell, Award, Plane, Target, GitCompare, Save, Eye, Filter, Download, Leaf, Trophy, ArrowUp, Menu, RefreshCw, X } from "lucide-react";
 import type { User } from '@supabase/supabase-js';
 import DemoMarketplace from './DemoMarketplace';
 import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24Widget";
@@ -15,7 +15,43 @@ import { PersonalizedFeed } from "@/components/feed/PersonalizedFeed";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ModernHelpGuide } from "@/components/ModernHelpGuide";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
+import { StratusConnectLogo } from "@/components/StratusConnectLogo";
+import { MultiLegRFQ } from "@/components/DealFlow/MultiLegRFQ";
+import { SavedSearches } from "@/components/DealFlow/SavedSearches";
+import { ReputationMetrics } from "@/components/Reputation/ReputationMetrics";
+import { MonthlyStatements } from "@/components/Billing/MonthlyStatements";
+import { WeekOneScoreboard } from "@/components/WeekOneScoreboard";
+import { RankingRulesPage } from "@/components/Ranking/RankingRulesPage";
+import NoteTakingSystem from "@/components/NoteTakingSystem";
+import AIChatbot from "@/components/AIChatbot";
 // import { ModernStatus } from "@/components/ModernStatus";
+
+interface RFQ {
+  id: string;
+  route: string;
+  aircraft: string;
+  date: string;
+  price: number;
+  currency: string;
+  status: 'draft' | 'sent' | 'quoted' | 'accepted' | 'paid';
+  quotes: Quote[];
+  legs: number;
+  passengers: number;
+  specialRequirements: string;
+}
+
+interface Quote {
+  id: string;
+  operator: string;
+  price: number;
+  currency: string;
+  validUntil: string;
+  aircraft: string;
+  verified: boolean;
+  rating: number;
+  responseTime: number;
+  dealScore: number;
+}
 
 export default function BrokerTerminal() {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -25,6 +61,35 @@ export default function BrokerTerminal() {
   const location = useLocation();
   const isBetaMode = location.pathname.startsWith('/beta/');
   const searchRef = useRef<HTMLInputElement>(null);
+  const [showHelpGuide, setShowHelpGuide] = useState(false);
+  const [rfqs, setRfqs] = useState<RFQ[]>([
+    {
+      id: 'RFQ-001',
+      route: 'London - New York',
+      aircraft: 'Gulfstream G650',
+      date: '2025-09-20',
+      price: 45000,
+      currency: 'USD',
+      status: 'quoted',
+      legs: 1,
+      passengers: 8,
+      specialRequirements: 'VIP handling, customs clearance',
+      quotes: [
+        {
+          id: 'Q-001',
+          operator: 'Elite Aviation',
+          price: 45000,
+          currency: 'USD',
+          validUntil: '2025-09-18T23:59:59Z',
+          aircraft: 'Gulfstream G650',
+          verified: true,
+          rating: 4.8,
+          responseTime: 3.2,
+          dealScore: 89
+        }
+      ]
+    }
+  ]);
 
   useShortcuts({
     "mod+k": () => searchRef.current?.focus(),
@@ -208,12 +273,15 @@ export default function BrokerTerminal() {
 
   return (
     <>
-      <ModernHelpGuide 
-        terminalType="broker" 
-        activeTab={activeTab} 
-        showOnMount={true} 
-        isDemo={false}
-      />
+      {showHelpGuide && (
+        <ModernHelpGuide 
+          terminalType="broker" 
+          activeTab={activeTab} 
+          showOnMount={false} 
+          isDemo={false}
+          onClose={() => setShowHelpGuide(false)}
+        />
+      )}
       <div className="min-h-screen bg-app relative overflow-hidden">
         <StarfieldRunwayBackground />
         
@@ -222,17 +290,10 @@ export default function BrokerTerminal() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6">
-                <div className="flex items-center space-x-3">
-                  <button 
-                    onClick={() => navigate('/')}
-                    className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center hover:bg-accent/80 transition-colors cursor-pointer"
-                  >
-                    <span className="text-white font-bold text-sm">SC</span>
-                  </button>
-                  <div>
-                    <h1 className="text-2xl font-bold text-foreground">StratusConnect</h1>
-                    <p className="text-sm text-gunmetal">Broker Terminal</p>
-                  </div>
+                <StratusConnectLogo className="text-2xl" />
+                <div>
+                  <h1 className="text-2xl font-bold text-foreground">Broker Terminal</h1>
+                  <p className="text-sm text-gunmetal">Professional aviation brokerage platform</p>
                 </div>
                 <div className="flex items-center space-x-2 text-data-positive text-sm">
                   <div className="w-2 h-2 bg-data-positive rounded-full terminal-pulse"></div>
@@ -240,6 +301,13 @@ export default function BrokerTerminal() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
+                <Button
+                  onClick={() => setShowHelpGuide(true)}
+                  className="w-12 h-12 bg-accent/20 hover:bg-accent/30 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-accent/30"
+                  title="Help Guide"
+                >
+                  <Settings className="w-6 h-6 text-white" />
+                </Button>
                 <div className="text-gunmetal text-sm font-mono">
                 {new Date().toLocaleTimeString()} UTC
                 </div>
@@ -273,13 +341,42 @@ export default function BrokerTerminal() {
       {/* Terminal Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-6 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 bg-terminal-card border-terminal-border text-xs sm:text-sm tabs-modern">
-            <TabsTrigger value="dashboard" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Dashboard</TabsTrigger>
-            <TabsTrigger value="requests" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Requests</TabsTrigger>
-            <TabsTrigger value="quotes" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Quotes</TabsTrigger>
-            <TabsTrigger value="marketplace" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Marketplace</TabsTrigger>
-            <TabsTrigger value="analytics" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Analytics</TabsTrigger>
-          </TabsList>
+          <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-terminal-border scrollbar-track-transparent pb-2">
+            <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-terminal-card/50 backdrop-blur-sm">
+              <TabsTrigger value="dashboard" className="flex items-center gap-2">
+                <BarChart3 className="w-4 h-4 icon-glow" />
+                Dashboard
+              </TabsTrigger>
+              <TabsTrigger value="rfqs" className="flex items-center gap-2">
+                <FileText className="w-4 h-4 icon-glow" />
+                RFQs & Quotes
+              </TabsTrigger>
+              <TabsTrigger value="marketplace" className="flex items-center gap-2">
+                <Search className="w-4 h-4 icon-glow" />
+                Marketplace
+              </TabsTrigger>
+              <TabsTrigger value="searches" className="flex items-center gap-2">
+                <Bell className="w-4 h-4 icon-glow" />
+                Saved Searches
+              </TabsTrigger>
+              <TabsTrigger value="reputation" className="flex items-center gap-2">
+                <Award className="w-4 h-4 icon-glow" />
+                Reputation
+              </TabsTrigger>
+              <TabsTrigger value="billing" className="flex items-center gap-2">
+                <DollarSign className="w-4 h-4 icon-glow" />
+                Billing
+              </TabsTrigger>
+              <TabsTrigger value="notes" className="flex items-center gap-2">
+                <FileText className="w-4 h-4 icon-glow" />
+                Notes
+              </TabsTrigger>
+              <TabsTrigger value="tracking" className="flex items-center gap-2">
+                <Plane className="w-4 h-4 icon-glow" />
+                Flight Tracking
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
           <TabsContent value="dashboard" className="space-y-6">
             {/* Stats Cards */}
@@ -384,45 +481,147 @@ export default function BrokerTerminal() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="requests" className="space-y-6">
-            <Card className="bg-terminal-card border-terminal-border">
+          <TabsContent value="rfqs" className="space-y-6">
+            <Card className="terminal-card animate-fade-in-up">
               <CardHeader>
-                <CardTitle className="text-accent">Active Requests</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Plus className="w-5 h-5" />
+                  Create New RFQ
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Request management interface coming soon...</p>
+                <MultiLegRFQ />
               </CardContent>
             </Card>
-          </TabsContent>
 
-          <TabsContent value="quotes" className="space-y-6">
-            <Card className="bg-terminal-card border-terminal-border">
-              <CardHeader>
-                <CardTitle className="text-accent">Quote Management</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">Quote management interface coming soon...</p>
-              </CardContent>
-            </Card>
+            <div className="space-y-4">
+              {rfqs.map(rfq => (
+                <Card key={rfq.id} className="terminal-card hover:terminal-glow animate-fade-in-up">
+                  <CardHeader>
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <CardTitle className="flex items-center gap-2">
+                          <Plane className="w-5 h-5" />
+                          {rfq.route}
+                        </CardTitle>
+                        <p className="text-gunmetal">{rfq.aircraft} • {rfq.date} • {rfq.legs} leg(s) • {rfq.passengers} pax</p>
+                        {rfq.specialRequirements && (
+                          <p className="text-sm text-accent mt-1">📋 {rfq.specialRequirements}</p>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Badge className={
+                          rfq.status === 'paid' ? 'bg-accent/20 text-accent' :
+                          rfq.status === 'quoted' ? 'bg-accent/20 text-accent' :
+                          'bg-warn/20 text-warn'
+                        }>
+                          {rfq.status}
+                        </Badge>
+                        <Button size="sm" variant="outline">
+                          <GitCompare className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    {rfq.quotes.length > 0 ? (
+                      <div className="space-y-3">
+                        <h4 className="font-semibold flex items-center gap-2">
+                          <Target className="w-4 h-4" />
+                          Quotes Received ({rfq.quotes.length})
+                        </h4>
+                        {rfq.quotes.map(quote => (
+                          <div key={quote.id} className="p-3 bg-terminal-card/50 rounded-lg border border-terminal-border">
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <div className="font-semibold text-foreground">{quote.operator}</div>
+                                <div className="text-sm text-gunmetal">{quote.aircraft}</div>
+                                <div className="text-xs text-gunmetal">Response time: {quote.responseTime}m</div>
+                              </div>
+                              <div className="text-right">
+                                <div className="text-lg font-bold text-accent">${quote.price.toLocaleString()}</div>
+                                <div className="text-xs text-gunmetal">{quote.currency}</div>
+                                <div className="flex items-center gap-1 mt-1">
+                                  <Star className="w-3 h-3 text-yellow-400 fill-current" />
+                                  <span className="text-xs text-gunmetal">{quote.rating}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-8 text-gunmetal">
+                        <FileText className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                        <p>No quotes received yet</p>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </TabsContent>
 
           <TabsContent value="marketplace" className="space-y-6">
             <DemoMarketplace />
           </TabsContent>
 
-          <TabsContent value="analytics" className="space-y-6">
-            <Card className="bg-terminal-card border-terminal-border">
+          <TabsContent value="searches" className="space-y-6">
+            <SavedSearches />
+          </TabsContent>
+
+          <TabsContent value="reputation" className="space-y-6">
+            <ReputationMetrics userId="broker_001" userType="broker" />
+          </TabsContent>
+
+          <TabsContent value="billing" className="space-y-6">
+            <MonthlyStatements />
+          </TabsContent>
+
+          <TabsContent value="notes" className="space-y-6">
+            <div className="space-y-6">
+              <div className="flex justify-between items-center">
+                <h2 className="text-2xl font-bold text-foreground">Note Taking System</h2>
+                <Button className="btn-terminal-accent">
+                  <Plus className="w-4 h-4 mr-2" />
+                  New Note
+                </Button>
+              </div>
+              <NoteTakingSystem terminalType="broker" />
+            </div>
+          </TabsContent>
+
+          <TabsContent value="tracking" className="space-y-6">
+            <Card className="terminal-card">
               <CardHeader>
-                <CardTitle className="text-accent">Analytics Dashboard</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Plane className="w-5 h-5" />
+                  Live Flight Tracking
+                </CardTitle>
+                <p className="text-sm text-muted-foreground">
+                  Monitor aircraft activity and track flights in real-time
+                </p>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Analytics interface coming soon...</p>
+                <FlightRadar24Widget />
               </CardContent>
             </Card>
           </TabsContent>
         </Tabs>
         </div>
       </div>
+      
+      {/* Scroll to Top Button */}
+      <Button
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        className="fixed bottom-6 right-6 z-50 w-12 h-12 bg-accent/80 hover:bg-accent rounded-full flex items-center justify-center transition-all duration-300 shadow-lg backdrop-blur-sm border border-accent/30"
+        title="Scroll to Top"
+      >
+        <ArrowUp className="w-6 h-6 text-white" />
+      </Button>
+      
+      {/* AI Chatbot */}
+      <AIChatbot terminalType="broker" />
     </>
   );
 }

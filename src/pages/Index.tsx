@@ -39,7 +39,7 @@ export default function Index() {
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
               The leading platform connecting brokers, operators, pilots, and crew. 
-              Join over 15,000 active users, processing $2B+ in transactions with an average response time of 50ms.
+              Join our growing community of aviation professionals, with real-time data processing and an average response time of 50ms.
             </p>
           </div>
 

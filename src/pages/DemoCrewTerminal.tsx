@@ -37,9 +37,9 @@ export default function DemoCrewTerminal() {
           </button>
           
           {/* StratusConnect Logo */}
-          <div className="fixed top-4 left-4 z-50">
-            <StratusConnectLogo className="text-white" />
-          </div>
+              <div className="fixed top-4 left-4 z-50">
+                <StratusConnectLogo className="text-white text-2xl" />
+              </div>
         </div>
       </div>
     </>

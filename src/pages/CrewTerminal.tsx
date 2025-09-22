@@ -289,7 +289,7 @@ export default function CrewTerminal() {
         
         {/* StratusConnect Logo */}
         <div className="fixed top-4 left-4 z-50">
-          <StratusConnectLogo className="text-white" />
+          <StratusConnectLogo className="text-white text-2xl" />
         </div>
       </div>
     </>

@@ -204,7 +204,7 @@ export default function HowToUse() {
       <div className="relative z-10 bg-terminal-card border-b border-terminal-border px-6 py-4 backdrop-blur-modern">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <StratusConnectLogo className="text-orange-400 text-lg" />
+            <StratusConnectLogo className="text-orange-400" />
             <div>
             <h1 className="text-2xl font-bold text-foreground">Your Partner in Success</h1>
             <p className="text-sm text-muted-foreground">We're your lifeline in a complex industry. Complete guide to mastering the platform</p>
@@ -232,7 +232,7 @@ export default function HowToUse() {
 
       <main className="relative z-10 max-w-7xl mx-auto p-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-5 mb-8">
+          <TabsList className="flex w-full justify-start mb-8">
             <TabsTrigger value="overview" className="flex items-center gap-2">
               <BookOpen className="w-4 h-4" />
               Overview

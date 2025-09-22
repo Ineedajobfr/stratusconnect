@@ -33,12 +33,12 @@ export default function Index() {
         <div className="max-w-6xl mx-auto px-4 text-center">
           <div className="mb-8 animate-fade-in-up">
             
-            <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6">
-              The Ethical Backbone <span className="text-accent">Private Aviation Needs</span>
+            <h1 className="text-6xl md:text-8xl font-bold text-foreground mb-6">
+              Welcome to <span className="text-accent">StratusConnect</span>
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-              We're not just a platform. We're your trusted partner in success. 
-              Empowering every professional through technology, transparency, and genuine partnership.
+              The clock's ticking. Your competition isn't waiting. 
+              Join the platform that's already processing millions in deals while others are still figuring out their login.
             </p>
           </div>
 
@@ -88,8 +88,8 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-6 text-glow-subtle">
-                  We're your partner in success. Access real-time aircraft listings, manage client relationships, and close deals faster than ever. 
-                  Our AI-powered matching system connects you with the right opportunities. We succeed together or not at all.
+                  Stop losing deals to brokers with better tools. Get instant aircraft matches, real-time pricing, and close 3x faster. 
+                  Your clients are already asking for this level of service. Are you ready to deliver?
                 </p>
                 <div className="space-y-2 mb-6">
                   <div className="flex items-center text-sm text-gunmetal">
@@ -133,8 +133,8 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-6 text-glow-subtle">
-                  We're your partner in success. Maximize your fleet's potential with intelligent scheduling, crew management, and real-time performance tracking. 
-                  We're invested in your long-term growth, not just quick transactions.
+                  Your aircraft are sitting idle while competitors fill their schedules. Get AI-powered demand forecasting, automated crew matching, 
+                  and turn every empty leg into profit. The market won't wait for you to catch up.
                 </p>
                 <div className="space-y-2 mb-6">
                   <div className="flex items-center text-sm text-gunmetal">
@@ -178,8 +178,8 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-6 text-glow-subtle">
-                  We're your lifeline in a complex industry. Find the best flying opportunities that match your skills and schedule. 
-                  We're here to help you succeed and build your reputation with verified operators.
+                  Tired of cold-calling operators? Get matched with premium contracts based on your exact qualifications. 
+                  Top pilots are already earning 40% more through our network. Your next opportunity is waiting.
                 </p>
                 <div className="space-y-2 mb-6">
                   <div className="flex items-center text-sm text-gunmetal">
@@ -223,8 +223,8 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-6 text-glow-subtle">
-                  We're your lifeline in a complex industry. Connect with top operators and build lasting relationships. 
-                  We're here to help you succeed and showcase your skills to find the best crew assignments.
+                  Stop competing for scraps. Elite crew members are booking luxury charters while you're stuck with regional flights. 
+                  Get verified, get matched, get paid. Your skills deserve premium assignments.
                 </p>
                 <div className="space-y-2 mb-6">
                   <div className="flex items-center text-sm text-gunmetal">
@@ -258,8 +258,8 @@ export default function Index() {
       <div className="relative z-10 py-24">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-foreground mb-4">Our Core Values</h2>
-            <p className="text-xl text-muted-foreground">The principles that guide everything we do</p>
+            <h2 className="text-4xl font-bold text-foreground mb-4">Why We're Different</h2>
+            <p className="text-xl text-muted-foreground">The features that make us the industry's backbone</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -269,7 +269,7 @@ export default function Index() {
                   <div className="flex items-center space-x-3">
                     <Shield className="w-12 h-12 text-accent" />
                     <div>
-                <CardTitle>Empowerment Through Technology</CardTitle>
+                <CardTitle>AI That Actually Works</CardTitle>
                     </div>
                   </div>
                   <Dialog>
@@ -280,31 +280,31 @@ export default function Index() {
                     </DialogTrigger>
                     <DialogContent className="bg-terminal-card border-terminal-border">
                       <DialogHeader>
-                        <DialogTitle className="text-accent">Empowerment Through Technology</DialogTitle>
+                        <DialogTitle className="text-accent">AI That Actually Works</DialogTitle>
                         <DialogDescription>
-                          AI that actually helps, tools that make your job easier, data that drives real decisions
+                          No more gimmicks. Real AI that finds you better deals, predicts demand, and automates the boring stuff
                         </DialogDescription>
                       </DialogHeader>
                       <div className="space-y-4">
                         <p className="text-muted-foreground">
-                          Our technology is designed to empower, not overwhelm:
+                          Stop wasting time on tools that don't work:
                         </p>
                         <ul className="space-y-2 text-sm text-muted-foreground">
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
-                            <span>AI that understands your challenges</span>
+                            <span>Predictive analytics that actually predict</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
-                            <span>Tools that level the playing field</span>
+                            <span>Smart matching that finds the right people</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
-                            <span>Automation that frees you to focus on what matters</span>
+                            <span>Automation that saves you hours daily</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
-                            <span>Data that drives real decisions</span>
+                            <span>Real-time data that makes you money</span>
                           </li>
                         </ul>
                       </div>
@@ -314,8 +314,8 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  AI that actually helps, tools that make your job easier, data that drives real decisions. 
-                  Automation that frees you to focus on what matters.
+                  No more gimmicks. Real AI that finds you better deals, predicts demand, and automates the boring stuff. 
+                  Stop wasting time on tools that don't work.
                 </p>
               </CardContent>
             </Card>
@@ -326,7 +326,7 @@ export default function Index() {
                   <div className="flex items-center space-x-3">
                     <Lock className="w-12 h-12 text-accent" />
                     <div>
-                <CardTitle>Partnership Over Transaction</CardTitle>
+                <CardTitle>We Only Win When You Win</CardTitle>
                     </div>
                   </div>
                   <Dialog>
@@ -337,31 +337,31 @@ export default function Index() {
                     </DialogTrigger>
                     <DialogContent className="bg-terminal-card border-terminal-border">
                       <DialogHeader>
-                        <DialogTitle className="text-accent">Partnership Over Transaction</DialogTitle>
+                        <DialogTitle className="text-accent">We Only Win When You Win</DialogTitle>
                         <DialogDescription>
-                          We succeed together or not at all. Your success is our success.
+                          No monthly fees. No hidden costs. We only make money when you close deals. Your success is literally our business model.
                         </DialogDescription>
                       </DialogHeader>
                       <div className="space-y-4">
                         <p className="text-muted-foreground">
-                          We believe in genuine partnership:
+                          Unlike other platforms that charge you regardless of results:
                         </p>
                         <ul className="space-y-2 text-sm text-muted-foreground">
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
-                            <span>We succeed together or not at all</span>
+                            <span>7% only when you close deals (brokers/operators)</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
-                            <span>Your success is our success</span>
+                            <span>10% hiring fee only when you get hired (crew/pilots)</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
-                            <span>We're invested in your long-term growth</span>
+                            <span>Free access for pilots and crew</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
-                            <span>We're not just a vendor, we're your partner</span>
+                            <span>No monthly subscriptions, ever</span>
                           </li>
                         </ul>
                       </div>
@@ -371,8 +371,8 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  We succeed together or not at all. Your success is our success. 
-                  We're invested in your long-term growth, not just quick transactions.
+                  No monthly fees. No hidden costs. We only make money when you close deals. 
+                  Your success is literally our business model.
                 </p>
               </CardContent>
             </Card>
@@ -383,7 +383,7 @@ export default function Index() {
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-12 h-12 text-accent" />
                     <div>
-                <CardTitle>Trust Through Transparency</CardTitle>
+                <CardTitle>No BS, Just Results</CardTitle>
                     </div>
                   </div>
                   <Dialog>
@@ -394,31 +394,31 @@ export default function Index() {
                     </DialogTrigger>
                     <DialogContent className="bg-terminal-card border-terminal-border">
                       <DialogHeader>
-                        <DialogTitle className="text-accent">Trust Through Transparency</DialogTitle>
+                        <DialogTitle className="text-accent">No BS, Just Results</DialogTitle>
                         <DialogDescription>
-                          Clear, honest communication and transparent processes build lasting trust
+                          We show you exactly what we do, how we do it, and what it costs. No hidden fees, no surprises, no corporate speak.
                         </DialogDescription>
                       </DialogHeader>
                       <div className="space-y-4">
                         <p className="text-muted-foreground">
-                          We believe in complete transparency:
+                          Stop dealing with platforms that hide the truth:
                         </p>
                         <ul className="space-y-2 text-sm text-muted-foreground">
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
-                            <span>Clear, honest communication</span>
+                            <span>Real-time deal tracking and reporting</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
-                            <span>Transparent pricing and processes</span>
+                            <span>Upfront pricing with no hidden fees</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
-                            <span>Open about our capabilities and limitations</span>
+                            <span>Honest performance metrics and analytics</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
-                            <span>Regular updates on platform improvements</span>
+                            <span>Direct access to support when you need it</span>
                           </li>
                         </ul>
                       </div>
@@ -428,8 +428,8 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Clear, honest communication and transparent processes. 
-                  We're open about our capabilities and limitations, building trust through transparency.
+                  We show you exactly what we do, how we do it, and what it costs. 
+                  No hidden fees, no surprises, no corporate speak. Just results.
                 </p>
               </CardContent>
             </Card>
@@ -754,8 +754,8 @@ export default function Index() {
        <div className="relative z-10 py-24">
          <div className="max-w-6xl mx-auto px-4">
            <div className="text-center mb-12">
-             <h2 className="text-4xl font-bold text-foreground mb-4">Your Partner in Success</h2>
-             <p className="text-xl text-muted-foreground">We're your lifeline in a complex industry. Complete guides and support for every professional</p>
+             <h2 className="text-4xl font-bold text-foreground mb-4">Stop Guessing, Start Winning</h2>
+             <p className="text-xl text-muted-foreground">Complete guides, AI assistance, and everything you need to dominate the competition</p>
            </div>
 
            <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
@@ -766,10 +766,10 @@ export default function Index() {
                      <BookOpen className="w-12 h-12 text-accent" />
                    </div>
                    <div>
-                     <CardTitle className="text-2xl text-foreground">We're Here to Help You Succeed</CardTitle>
+                     <CardTitle className="text-2xl text-foreground">Master the Platform in Minutes</CardTitle>
                      <CardDescription className="text-muted-foreground">
-                       Master every aspect of the platform with detailed tutorials, AI feature guides, and terminal-specific instructions. 
-                       We're your trusted partner in success.
+                       Stop wasting time figuring things out. Get step-by-step guides, AI assistance, and terminal-specific tutorials 
+                       that get you up and running fast.
                      </CardDescription>
                    </div>
                  </div>
@@ -815,33 +815,33 @@ export default function Index() {
                </div>
              </CardContent>
            </Card>
-         </div>
-       </div>
+        </div>
+      </div>
 
-       {/* Performance & Reliability */}
-       <div className="relative z-10 py-16">
-         <div className="max-w-6xl mx-auto px-4 text-center">
-           <h2 className="text-4xl font-bold text-foreground mb-12">Enterprise Performance</h2>
-           
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-             <div>
-               <div className="text-5xl font-bold text-accent mb-4">99.99%</div>
-               <h3 className="text-xl font-semibold text-foreground mb-2">Uptime SLA</h3>
-               <p className="text-muted-foreground">Mission-critical reliability with redundant infrastructure</p>
-             </div>
-             <div>
-               <div className="text-5xl font-bold text-accent mb-4">&lt;50ms</div>
-               <h3 className="text-xl font-semibold text-foreground mb-2">Response Time</h3>
-               <p className="text-muted-foreground">Lightning-fast performance optimized for real-time operations</p>
-             </div>
-             <div>
-               <div className="text-5xl font-bold text-accent mb-4">24/7</div>
-               <h3 className="text-xl font-semibold text-foreground mb-2">Support</h3>
-               <p className="text-muted-foreground">Dedicated support team available around the clock</p>
-             </div>
-           </div>
-         </div>
-       </div>
+      {/* Performance & Reliability */}
+      <div className="relative z-10 py-16">
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          <h2 className="text-4xl font-bold text-foreground mb-12">Enterprise Performance</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+              <div className="text-5xl font-bold text-accent mb-4">99.99%</div>
+              <h3 className="text-xl font-semibold text-foreground mb-2">Uptime SLA</h3>
+              <p className="text-muted-foreground">Mission-critical reliability with redundant infrastructure</p>
+            </div>
+            <div>
+              <div className="text-5xl font-bold text-accent mb-4">&lt;50ms</div>
+              <h3 className="text-xl font-semibold text-foreground mb-2">Response Time</h3>
+              <p className="text-muted-foreground">Lightning-fast performance optimized for real-time operations</p>
+            </div>
+            <div>
+              <div className="text-5xl font-bold text-accent mb-4">24/7</div>
+              <h3 className="text-xl font-semibold text-foreground mb-2">Support</h3>
+              <p className="text-muted-foreground">Dedicated support team available around the clock</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Footer */}
       <footer className="relative z-10 bg-gray-900 text-white">
@@ -852,8 +852,8 @@ export default function Index() {
             <div className="space-y-6">
             <h3 className="text-xl font-bold text-white">StratusConnect</h3>
             <p className="text-gray-300 text-sm leading-relaxed">
-              The ethical backbone that private aviation needs. We're your trusted partner in success, 
-              empowering every professional through technology, transparency, and genuine partnership.
+              The platform that's already processing millions in deals while others are still figuring out their login. 
+              Join the professionals who aren't waiting around.
             </p>
               <div className="flex space-x-4">
                 <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white p-2">
@@ -865,59 +865,59 @@ export default function Index() {
               </div>
             </div>
 
-             {/* Legal */}
+            {/* Legal */}
              <div className="space-y-6">
                <h3 className="text-lg font-bold text-white">Legal</h3>
-               <div className="space-y-4">
+            <div className="space-y-4">
                  <div>
                    <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/terms-of-service')}>
-                     Terms of Service
-                   </Button>
+                  Terms of Service
+                </Button>
                  </div>
                  <div>
                    <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/privacy-policy')}>
-                     Privacy Policy
-                   </Button>
+                  Privacy Policy
+                </Button>
                  </div>
                  <div>
                    <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/cookie-policy')}>
-                     Cookie Policy
-                   </Button>
+                  Cookie Policy
+                </Button>
                  </div>
                  <div>
                    <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/user-agreement')}>
-                     User Agreement
-                   </Button>
+                  User Agreement
+                </Button>
                  </div>
-               </div>
-             </div>
+              </div>
+            </div>
 
-             {/* Support */}
+            {/* Support */}
              <div className="space-y-6">
                <h3 className="text-lg font-bold text-white">Support</h3>
-               <div className="space-y-4">
+            <div className="space-y-4">
                  <div>
                    <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal">
-                     Help Center
-                   </Button>
+                  Help Center
+                </Button>
                  </div>
                  <div>
                    <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal">
-                     Contact Us
-                   </Button>
+                  Contact Us
+                </Button>
                  </div>
                  <div>
                    <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal">
-                     Status Page
-                   </Button>
+                  Status Page
+                </Button>
                  </div>
                  <div>
                    <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal">
-                     API Documentation
-                   </Button>
+                  API Documentation
+                </Button>
                  </div>
-               </div>
-             </div>
+              </div>
+            </div>
 
             {/* Security */}
             <div className="space-y-6">
@@ -943,16 +943,16 @@ export default function Index() {
           <div className="border-t border-gray-700 mb-8"></div>
 
           {/* Bottom Section */}
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
              <p className="text-sm text-gray-400">
                © September 2025 StratusConnect. All rights reserved. Built for the aviation industry.
-             </p>
+            </p>
             <div className="flex items-center space-x-6 text-sm text-gray-400">
-              <span>FCA Compliant</span>
-              <span>•</span>
-              <span>GDPR Ready</span>
-              <span>•</span>
-              <span>ISO 27001</span>
+                <span>FCA Compliant</span>
+                <span>•</span>
+                <span>GDPR Ready</span>
+                <span>•</span>
+                <span>ISO 27001</span>
             </div>
           </div>
         </div>

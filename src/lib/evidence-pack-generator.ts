@@ -201,22 +201,22 @@ CREATE POLICY "Operators can create hires" ON hires
     const greenLightGate = await greenLightGateValidator.runAllTests();
 
     // Generate summary
-    const summary = this.generateSummary(charterReceipt, hiringReceipt, statusScreenshot, warRoomChecks, greenLightGate);
+    const summary = this.generateSummary(charterReceipt as any, hiringReceipt as any, statusScreenshot, warRoomChecks as any, greenLightGate as any);
 
     const evidencePack: EvidencePack = {
       id: `EVIDENCE_PACK_${Date.now()}`,
       generatedAt: new Date().toISOString(),
       version: '1.0.0',
       receipts: {
-        charter: charterReceipt,
-        hiring: hiringReceipt
+        charter: charterReceipt as any,
+        hiring: hiringReceipt as any
       },
       statusScreenshot,
       rlsPolicies,
       kycScreens,
       backupRestoreLog,
-      warRoomChecks,
-      greenLightGate,
+      warRoomChecks: warRoomChecks as any,
+      greenLightGate: greenLightGate as any,
       summary
     };
 

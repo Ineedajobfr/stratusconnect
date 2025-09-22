@@ -385,7 +385,7 @@ export default function AvailabilityAssignments({ terminalType }: { terminalType
                       type="time"
                       value={newSlot.startTime}
                       onChange={(e) => setNewSlot(prev => ({ ...prev, startTime: e.target.value }))}
-                      className="w-full mt-1 px-3 py-2 bg-terminal-input-bg border border-terminal-input-border rounded-md text-sm"
+                      className="w-full mt-1 px-3 py-2 bg-terminal-card border border-terminal-border rounded-md text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
                     />
                   </div>
                   <div>
@@ -394,7 +394,7 @@ export default function AvailabilityAssignments({ terminalType }: { terminalType
                       type="time"
                       value={newSlot.endTime}
                       onChange={(e) => setNewSlot(prev => ({ ...prev, endTime: e.target.value }))}
-                      className="w-full mt-1 px-3 py-2 bg-terminal-input-bg border border-terminal-input-border rounded-md text-sm"
+                      className="w-full mt-1 px-3 py-2 bg-terminal-card border border-terminal-border rounded-md text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
                     />
                   </div>
                 </div>
@@ -419,7 +419,7 @@ export default function AvailabilityAssignments({ terminalType }: { terminalType
                       type="number"
                       value={newSlot.dayRate}
                       onChange={(e) => setNewSlot(prev => ({ ...prev, dayRate: parseInt(e.target.value) || 0 }))}
-                      className="w-full mt-1 px-3 py-2 bg-terminal-input-bg border border-terminal-input-border rounded-md text-sm"
+                      className="w-full mt-1 px-3 py-2 bg-terminal-card border border-terminal-border rounded-md text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
                     />
                   </div>
                 </div>
@@ -441,9 +441,9 @@ export default function AvailabilityAssignments({ terminalType }: { terminalType
                           type="checkbox"
                           checked={newSlot.aircraftTypes?.includes(type) || false}
                           onChange={() => toggleArrayItem(newSlot.aircraftTypes || [], type, (value) => setNewSlot(prev => ({ ...prev, aircraftTypes: value })))}
-                          className="rounded"
+                          className="rounded border-terminal-border bg-terminal-card text-accent focus:ring-accent/50"
                         />
-                        <span className="text-xs">{type}</span>
+                        <span className="text-xs text-foreground">{type}</span>
                       </label>
                     ))}
                   </div>
@@ -458,9 +458,9 @@ export default function AvailabilityAssignments({ terminalType }: { terminalType
                           type="checkbox"
                           checked={newSlot.languages?.includes(lang) || false}
                           onChange={() => toggleArrayItem(newSlot.languages || [], lang, (value) => setNewSlot(prev => ({ ...prev, languages: value })))}
-                          className="rounded"
+                          className="rounded border-terminal-border bg-terminal-card text-accent focus:ring-accent/50"
                         />
-                        <span className="text-xs">{lang}</span>
+                        <span className="text-xs text-foreground">{lang}</span>
                       </label>
                     ))}
                   </div>

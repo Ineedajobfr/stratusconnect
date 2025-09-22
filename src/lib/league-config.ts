@@ -136,7 +136,7 @@ export function isComplianceGateEnabled(gate: keyof typeof LeagueConfig.complian
 
 // Configuration update functions (for admin use)
 export function updateThreshold(threshold: keyof typeof LeagueConfig.thresholds, value: number | boolean): void {
-  LeagueConfig.thresholds[threshold] = value;
+  (LeagueConfig.thresholds as any)[threshold] = value;
 }
 
 export function updatePoints(role: keyof typeof LeagueConfig.points, eventType: string, points: number): void {
@@ -167,6 +167,52 @@ export interface PerformanceMetrics {
   totalPointsAwarded: number;      // Total points awarded this week
   leagueDistribution: Record<string, number>; // Users per league
 }
+
+export const LEAGUE_RULES = {
+  thresholds: {
+    fastQuoteMinutes: 5,
+    savedSearchResponseMinutes: 2,
+    onTimeGraceMinutes: 15,
+    qualityRfqChecks: 3,
+    disputeFreeWindow: 24
+  },
+  targets: {
+    timeToFirstQuote: 10,
+    quoteResponseRate: 0.6,
+    dealConversion: 0.18,
+    disputeRate: 0.01,
+    onPlatformSettlement: 0.95,
+    leakageBlocked: 0.9
+  },
+  perks: {
+    earlyAccessMultiplier: 1.2,
+    rankingBias: 0.1,
+    supportPriority: 2,
+    depositRequiredForPerks: true,
+    onPlatformSettlementOnly: true
+  },
+  complianceGates: {
+    depositRequiredForPerks: true,
+    expiredCredentialsZeroScore: true,
+    kycRequiredForPoints: true,
+    complianceCleanRequired: true,
+    onPlatformOnly: true
+  },
+  points: {
+    broker: {
+      rfq_posted_quality: 5,
+      saved_search_hit_response: 10,
+      quote_accepted: 25,
+      deal_completed_on_time: 40,
+    },
+    operator: {
+      quote_submitted_fast: 15,
+      quote_accepted: 25,
+      flight_completed_on_time: 40,
+      fallthrough_recovered: 30,
+    }
+  }
+};
 
 export function calculatePerformanceScore(metrics: PerformanceMetrics): number {
   const targets = LEAGUE_RULES.targets;

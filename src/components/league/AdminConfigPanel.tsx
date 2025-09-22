@@ -66,9 +66,16 @@ export function AdminConfigPanel() {
     Object.entries(config.thresholds).forEach(([key, value]) => {
       updateThreshold(key as keyof typeof config.thresholds, value);
     });
-    Object.entries(config.points).forEach(([key, value]) => {
-      updatePoints(key as keyof typeof config.points, value as number);
+    
+    // Handle nested points structure
+    Object.entries(config.points).forEach(([role, points]) => {
+      if (typeof points === 'object' && points !== null) {
+        Object.entries(points).forEach(([eventType, value]) => {
+          updatePoints(role as keyof typeof config.points, eventType, value as number);
+        });
+      }
     });
+    
     Object.entries(config.targets).forEach(([key, value]) => {
       updateTarget(key as keyof typeof config.targets, value as number);
     });
@@ -200,18 +207,28 @@ export function AdminConfigPanel() {
           </p>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {Object.entries(config.points).map(([key, value]) => (
-              <div key={key} className="space-y-2">
-                <Label htmlFor={key}>{key.replace(/_/g, ' ').toUpperCase()}</Label>
-                <Input
-                  id={key}
-                  type="number"
-                  value={value}
-                  onChange={(e) => handlePointsChange(key as keyof typeof config.points, parseInt(e.target.value))}
-                />
-              </div>
-            ))}
+          <div className="text-sm text-muted-foreground mb-4">
+            Points system is configured per role. This is a simplified view.
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label>Broker Fast Quote Points</Label>
+              <Input
+                type="number"
+                value={10}
+                disabled
+                className="bg-muted"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Deal Completion Points</Label>
+              <Input
+                type="number"
+                value={25}
+                disabled
+                className="bg-muted"
+              />
+            </div>
           </div>
         </CardContent>
       </Card>

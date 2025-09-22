@@ -85,7 +85,7 @@ const NoteTakingSystem: React.FC<NoteTakingSystemProps> = ({ terminalType, class
     ));
     
     if (selectedNote?.id === id) {
-      setSelectedNote(prev => prev ? { ...prev, ...updates, updatedAt: new Date() } : null);
+      setSelectedNote(prev => prev ? { ...prev, ...updates, updatedAt: new Date().toISOString() } : null);
     }
   };
 

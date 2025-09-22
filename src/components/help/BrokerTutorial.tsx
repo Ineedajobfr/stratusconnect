@@ -186,7 +186,9 @@ export default function BrokerTutorial({ isDemo = false }: BrokerTutorialProps) 
           <div className="flex items-center space-x-4">
             <StratusConnectLogo className="text-xl" />
             <div>
-              <Brand.PageTitle className="hero-glow">Broker Tutorial</Brand.PageTitle>
+              <div className="hero-glow">
+                <Brand.PageTitle>Broker Tutorial</Brand.PageTitle>
+              </div>
               <p className="text-muted text-glow-subtle">Master the Elite Aviation Brokerage Platform</p>
             </div>
           </div>

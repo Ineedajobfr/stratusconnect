@@ -57,16 +57,24 @@ export const ModernHelpGuide: React.FC<ModernHelpGuideProps> = ({
   showOnMount = false,
   isDemo = false
 }) => {
-  const [isVisible, setIsVisible] = useState(showOnMount);
-  const [hasBeenShown, setHasBeenShown] = useState<Set<string>>(new Set());
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     // Only show on dashboard tab and only once per terminal type
-    if (showOnMount || (isDemo && activeTab === 'dashboard' && !hasBeenShown.has(terminalType))) {
+    const hasBeenDismissed = localStorage.getItem(`help-guide-dismissed-${terminalType}`);
+    
+    if (showOnMount || (isDemo && activeTab === 'dashboard' && !hasBeenDismissed)) {
       setIsVisible(true);
-      setHasBeenShown(prev => new Set([...prev, terminalType]));
     }
-  }, [activeTab, terminalType, showOnMount, isDemo, hasBeenShown]);
+  }, [activeTab, terminalType, showOnMount, isDemo]);
+
+  const handleClose = () => {
+    setIsVisible(false);
+    localStorage.setItem(`help-guide-dismissed-${terminalType}`, 'true');
+    if (onClose) {
+      onClose();
+    }
+  };
 
   const getHelpContent = (): HelpContent => {
     const baseContent = {
@@ -314,10 +322,7 @@ export const ModernHelpGuide: React.FC<ModernHelpGuideProps> = ({
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => {
-              setIsVisible(false);
-              onClose?.();
-            }}
+            onClick={handleClose}
             className="text-gunmetal hover:text-foreground hover:bg-terminal-border/50"
           >
             <X className="h-4 w-4" />
@@ -382,22 +387,8 @@ export const ModernHelpGuide: React.FC<ModernHelpGuideProps> = ({
           {/* Action Buttons */}
           <div className="flex justify-end gap-2 pt-4 border-t border-terminal-border/50">
             <Button
-              variant="outline"
               size="sm"
-              onClick={() => {
-                setIsVisible(false);
-                onClose?.();
-              }}
-              className="text-gunmetal border-terminal-border hover:bg-terminal-border/50"
-            >
-              Got it
-            </Button>
-            <Button
-              size="sm"
-              onClick={() => {
-                setIsVisible(false);
-                onClose?.();
-              }}
+              onClick={handleClose}
               className="btn-terminal-accent"
             >
               Start Exploring

@@ -15,6 +15,7 @@ I've built a comprehensive multi-voice AI system inspired by Speechify's human-s
 ### 2. **Sarah - The Energetic Guide** ⚡
 - **Personality**: Energetic, encouraging, friendly, always excited about aviation
 - **Use Case**: Motivational content, feature demos, user engagement
+- **Best For**: Pilots, newcomers, dynamic presentations
 - **Voice Settings**: Faster rate (0.9x), higher pitch (0.8), enthusiastic tone
 - **Catchphrase**: "I get so excited talking about aviation - it's like my heart is doing barrel rolls!"
 

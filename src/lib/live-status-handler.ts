@@ -2,7 +2,7 @@
 // FCA Compliant Aviation Platform
 
 import { createClient } from '@supabase/supabase-js';
-import { compliantMonitoring, UptimeMetrics } from './compliant-monitoring';
+import { compliantMonitoringSystem, type ComplianceMetrics } from './compliant-monitoring';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,

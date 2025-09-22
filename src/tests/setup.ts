@@ -31,7 +31,10 @@ vi.mock('@/integrations/supabase/client', () => ({
 vi.mock('react-router-dom', () => ({
   useNavigate: () => vi.fn(),
   useLocation: () => ({ pathname: '/' }),
-  Link: ({ children, ...props }: any) => <a {...props}>{children}</a>,
+  Link: ({ children, ...props }: any) => {
+    const React = require('react');
+    return React.createElement('a', props, children);
+  },
 }));
 
 // Mock Auth Context

@@ -48,7 +48,8 @@ import {
   Fuel,
   Navigation,
   Headphones,
-  HelpCircle
+  HelpCircle,
+  ArrowUp
 } from 'lucide-react';
 
 interface RFQ {
@@ -817,7 +818,7 @@ export default function DemoOperatorTerminal() {
         />
       )}
       
-      <div className="min-h-screen bg-app relative overflow-hidden">
+      <div className="min-h-screen bg-app relative overflow-hidden scroll-smooth">
         <StarfieldRunwayBackground />
         
         {/* Header */}
@@ -855,7 +856,8 @@ export default function DemoOperatorTerminal() {
         <main className="relative z-10 max-w-7xl mx-auto p-6">
           {/* Main Navigation */}
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-6 mb-6">
+            <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-terminal-border scrollbar-track-transparent pb-2 mb-6">
+              <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-terminal-card/50 backdrop-blur-sm">
               <TabsTrigger value="dashboard" className="flex items-center gap-2">
                 <BarChart3 className="w-4 h-4" />
                 Dashboard
@@ -880,29 +882,30 @@ export default function DemoOperatorTerminal() {
                 <CreditCard className="w-4 h-4" />
                 Billing
               </TabsTrigger>
-            </TabsList>
+              </TabsList>
+            </div>
 
-            <TabsContent value="dashboard">
+            <TabsContent value="dashboard" className="scroll-smooth">
               {renderDashboard()}
             </TabsContent>
 
-            <TabsContent value="rfqs">
+            <TabsContent value="rfqs" className="scroll-smooth">
               {renderRFQs()}
             </TabsContent>
 
-            <TabsContent value="pilots">
+            <TabsContent value="pilots" className="scroll-smooth">
               {renderPilots()}
             </TabsContent>
 
-            <TabsContent value="crew">
+            <TabsContent value="crew" className="scroll-smooth">
               {renderCrew()}
             </TabsContent>
 
-            <TabsContent value="fleet">
+            <TabsContent value="fleet" className="scroll-smooth">
               {renderFleet()}
             </TabsContent>
 
-            <TabsContent value="billing">
+            <TabsContent value="billing" className="scroll-smooth">
               {renderBilling()}
             </TabsContent>
           </Tabs>
@@ -914,6 +917,15 @@ export default function DemoOperatorTerminal() {
           Demo Mode Active. This is a demonstration of the Operator Terminal. All data is simulated and no real transactions will occur. The platform operates 100% free until revenue is generated.
         </div>
       </div>
+      
+      {/* Scroll to Top Button */}
+      <Button
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        className="fixed bottom-6 right-6 z-50 w-12 h-12 bg-accent/80 hover:bg-accent rounded-full flex items-center justify-center transition-all duration-300 shadow-lg backdrop-blur-sm border border-accent/30"
+        title="Scroll to Top"
+      >
+        <ArrowUp className="w-6 h-6 text-white" />
+      </Button>
       
       {/* AI Chatbot */}
       <AIChatbot terminalType="operator" />

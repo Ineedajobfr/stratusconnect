@@ -7,6 +7,7 @@ import { Plane, Shield, Users, Clock, CheckCircle, Star, Zap, Globe, Lock, Dolla
 import { useNavigate } from "react-router-dom";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 import { useAuth } from "@/contexts/AuthContext";
+
 export default function Index() {
   const navigate = useNavigate();
   const {
@@ -37,8 +38,8 @@ export default function Index() {
               Welcome to <span className="text-accent">StratusConnect</span>
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-              The clock's ticking. Your competition isn't waiting. 
-              Join the platform that's already processing millions in deals while others are still figuring out their login.
+              The leading platform connecting brokers, operators, pilots, and crew. 
+              Join over 15,000 active users, processing $2B+ in transactions with an average response time of 50ms.
             </p>
           </div>
 
@@ -88,8 +89,8 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-6 text-glow-subtle">
-                  Stop losing deals to brokers with better tools. Get instant aircraft matches, real-time pricing, and close 3x faster. 
-                  Your clients are already asking for this level of service. Are you ready to deliver?
+                  Access real-time aircraft listings, manage client relationships, and close deals faster than ever. 
+                  Our AI-powered matching system connects you with the right opportunities.
                 </p>
                 <div className="space-y-2 mb-6">
                   <div className="flex items-center text-sm text-gunmetal">
@@ -133,8 +134,8 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-6 text-glow-subtle">
-                  Your aircraft are sitting idle while competitors fill their schedules. Get AI-powered demand forecasting, automated crew matching, 
-                  and turn every empty leg into profit. The market won't wait for you to catch up.
+                  Maximize your fleet's potential with intelligent scheduling, crew management, and real-time performance tracking. 
+                  Turn every flight into profit.
                 </p>
                 <div className="space-y-2 mb-6">
                   <div className="flex items-center text-sm text-gunmetal">
@@ -178,8 +179,8 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-6 text-glow-subtle">
-                  Tired of cold-calling operators? Get matched with premium contracts based on your exact qualifications. 
-                  Top pilots are already earning 40% more through our network. Your next opportunity is waiting.
+                  Find the best flying opportunities that match your skills and schedule. 
+                  Build your reputation and grow your career with verified operators.
                 </p>
                 <div className="space-y-2 mb-6">
                   <div className="flex items-center text-sm text-gunmetal">
@@ -223,8 +224,8 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-6 text-glow-subtle">
-                  Stop competing for scraps. Elite crew members are booking luxury charters while you're stuck with regional flights. 
-                  Get verified, get matched, get paid. Your skills deserve premium assignments.
+                  Connect with top operators and build lasting relationships. 
+                  Showcase your skills and availability to find the best crew assignments.
                 </p>
                 <div className="space-y-2 mb-6">
                   <div className="flex items-center text-sm text-gunmetal">
@@ -259,7 +260,7 @@ export default function Index() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-foreground mb-4">Why We're Different</h2>
-            <p className="text-xl text-muted-foreground">The features that make us the industry's backbone</p>
+            <p className="text-xl text-muted-foreground">The features that set us apart from the competition</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -282,12 +283,12 @@ export default function Index() {
                       <DialogHeader>
                         <DialogTitle className="text-accent">AI That Actually Works</DialogTitle>
                         <DialogDescription>
-                          No more gimmicks. Real AI that finds you better deals, predicts demand, and automates the boring stuff
+                          Real AI that finds you better deals, predicts demand, and automates the boring stuff
                         </DialogDescription>
                       </DialogHeader>
                       <div className="space-y-4">
                         <p className="text-muted-foreground">
-                          Stop wasting time on tools that don't work:
+                          Our technology is designed to empower, not overwhelm:
                         </p>
                         <ul className="space-y-2 text-sm text-muted-foreground">
                           <li className="flex items-center space-x-2">
@@ -314,8 +315,8 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  No more gimmicks. Real AI that finds you better deals, predicts demand, and automates the boring stuff. 
-                  Stop wasting time on tools that don't work.
+                  Real AI that finds you better deals, predicts demand, and automates the boring stuff. 
+                  Our technology is designed to empower, not overwhelm.
                 </p>
               </CardContent>
             </Card>
@@ -383,7 +384,7 @@ export default function Index() {
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-12 h-12 text-accent" />
                     <div>
-                <CardTitle>No BS, Just Results</CardTitle>
+                <CardTitle>Transparency & Trust</CardTitle>
                     </div>
                   </div>
                   <Dialog>
@@ -394,14 +395,14 @@ export default function Index() {
                     </DialogTrigger>
                     <DialogContent className="bg-terminal-card border-terminal-border">
                       <DialogHeader>
-                        <DialogTitle className="text-accent">No BS, Just Results</DialogTitle>
+                        <DialogTitle className="text-accent">Transparency & Trust</DialogTitle>
                         <DialogDescription>
-                          We show you exactly what we do, how we do it, and what it costs. No hidden fees, no surprises, no corporate speak.
+                          We show you exactly what we do, how we do it, and what it costs. No hidden fees, no surprises.
                         </DialogDescription>
                       </DialogHeader>
                       <div className="space-y-4">
                         <p className="text-muted-foreground">
-                          Stop dealing with platforms that hide the truth:
+                          We believe in complete transparency:
                         </p>
                         <ul className="space-y-2 text-sm text-muted-foreground">
                           <li className="flex items-center space-x-2">
@@ -429,7 +430,7 @@ export default function Index() {
               <CardContent>
                 <p className="text-muted-foreground">
                   We show you exactly what we do, how we do it, and what it costs. 
-                  No hidden fees, no surprises, no corporate speak. Just results.
+                  No hidden fees, no surprises. Just results.
                 </p>
               </CardContent>
             </Card>
@@ -670,7 +671,7 @@ export default function Index() {
                         <ul className="space-y-2 text-sm text-muted-foreground">
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
-                            <span>You are the backbone of our industry</span>
+                            <span>You are essential to our industry</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
@@ -755,7 +756,7 @@ export default function Index() {
          <div className="max-w-6xl mx-auto px-4">
            <div className="text-center mb-12">
              <h2 className="text-4xl font-bold text-foreground mb-4">Stop Guessing, Start Winning</h2>
-             <p className="text-xl text-muted-foreground">Complete guides, AI assistance, and everything you need to dominate the competition</p>
+             <p className="text-xl text-muted-foreground">Complete guides, AI assistance, and everything you need to succeed</p>
            </div>
 
            <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
@@ -768,7 +769,7 @@ export default function Index() {
                    <div>
                      <CardTitle className="text-2xl text-foreground">Master the Platform in Minutes</CardTitle>
                      <CardDescription className="text-muted-foreground">
-                       Stop wasting time figuring things out. Get step-by-step guides, AI assistance, and terminal-specific tutorials 
+                       Get step-by-step guides, AI assistance, and terminal-specific tutorials 
                        that get you up and running fast.
                      </CardDescription>
                    </div>
@@ -852,8 +853,7 @@ export default function Index() {
             <div className="space-y-6">
             <h3 className="text-xl font-bold text-white">StratusConnect</h3>
             <p className="text-gray-300 text-sm leading-relaxed">
-              The platform that's already processing millions in deals while others are still figuring out their login. 
-              Join the professionals who aren't waiting around.
+              The platform that's already processing millions in deals.
             </p>
               <div className="flex space-x-4">
                 <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white p-2">

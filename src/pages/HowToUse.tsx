@@ -207,7 +207,7 @@ export default function HowToUse() {
             <StratusConnectLogo className="text-orange-400" />
             <div>
             <h1 className="text-2xl font-bold text-foreground">Your Partner in Success</h1>
-            <p className="text-sm text-muted-foreground">We're your lifeline in a complex industry. Complete guide to mastering the platform</p>
+            <p className="text-sm text-muted-foreground">Complete guide to mastering the platform</p>
             </div>
           </div>
           <div className="flex items-center space-x-4">
@@ -261,7 +261,7 @@ export default function HowToUse() {
                 <CardTitle className="text-2xl text-foreground">We're Your Trusted Partner in Success</CardTitle>
                 <p className="text-muted-foreground">
                   We're not just a platform. We're your trusted partner in success, empowering every professional through technology, 
-                  transparency, and genuine partnership. This guide will help you master every aspect of our platform.
+                  transparency, and genuine partnership.
                 </p>
               </CardHeader>
               <CardContent className="space-y-6">

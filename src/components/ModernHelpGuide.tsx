@@ -61,11 +61,10 @@ export const ModernHelpGuide: React.FC<ModernHelpGuideProps> = ({
   const [hasBeenShown, setHasBeenShown] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    if (showOnMount || isDemo) {
+    // Only show on dashboard tab and only once per terminal type
+    if (showOnMount || (isDemo && activeTab === 'dashboard' && !hasBeenShown.has(terminalType))) {
       setIsVisible(true);
-    } else if (!hasBeenShown.has(`${terminalType}-${activeTab}`)) {
-      setIsVisible(true);
-      setHasBeenShown(prev => new Set([...prev, `${terminalType}-${activeTab}`]));
+      setHasBeenShown(prev => new Set([...prev, terminalType]));
     }
   }, [activeTab, terminalType, showOnMount, isDemo, hasBeenShown]);
 

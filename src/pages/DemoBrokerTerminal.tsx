@@ -35,7 +35,9 @@ import {
   Filter,
   Download,
   Leaf,
-  Trophy
+  Trophy,
+  ArrowUp,
+  Menu
 } from 'lucide-react';
 import { ComplianceNotice, EvidencePack } from '@/components/ComplianceNotice';
 import { evidenceReceiptGenerator } from '@/lib/evidence-receipt-generator';
@@ -613,13 +615,15 @@ export default function DemoBrokerTerminal() {
 
   return (
     <>
-      <ModernHelpGuide 
-        terminalType="broker" 
-        activeTab={activeTab} 
-        showOnMount={true} 
-        isDemo={true}
-      />
-      <div className="min-h-screen bg-app relative overflow-hidden">
+      {activeTab === 'dashboard' && (
+        <ModernHelpGuide 
+          terminalType="broker" 
+          activeTab={activeTab} 
+          showOnMount={true} 
+          isDemo={true}
+        />
+      )}
+      <div className="min-h-screen bg-app relative overflow-hidden scroll-smooth">
         <StarfieldRunwayBackground />
         
         <header className="relative z-10 sticky top-0 bg-terminal-card/80 backdrop-blur-modern border-b border-terminal-border">
@@ -657,12 +661,13 @@ export default function DemoBrokerTerminal() {
         </div>
       </header>
 
-        <main className="relative z-10 max-w-7xl mx-auto p-6 space-y-6">
+        <main className="relative z-10 max-w-7xl mx-auto p-6 space-y-6 overflow-y-auto scroll-smooth">
 
 
         {/* Main Navigation */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-10">
+          <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-terminal-border scrollbar-track-transparent pb-2">
+            <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-terminal-card/50 backdrop-blur-sm">
             <TabsTrigger value="dashboard" className="flex items-center gap-2">
               <BarChart3 className="w-4 h-4 icon-glow" />
               Dashboard
@@ -703,34 +708,35 @@ export default function DemoBrokerTerminal() {
               <Shield className="w-4 h-4 icon-glow" />
               War Room
             </TabsTrigger>
-            <TabsTrigger value="ranking" className="flex items-center gap-2">
+            <TabsTrigger value="trophy" className="flex items-center gap-2">
               <Trophy className="w-4 h-4 icon-glow" />
-              Ranking
+              Trophy
             </TabsTrigger>
-          </TabsList>
+            </TabsList>
+          </div>
 
-          <TabsContent value="dashboard" className="mt-6">
+          <TabsContent value="dashboard" className="mt-6 scroll-smooth">
             {renderDashboard()}
           </TabsContent>
-          <TabsContent value="rfqs" className="mt-6">
+          <TabsContent value="rfqs" className="mt-6 scroll-smooth">
             {renderRFQs()}
           </TabsContent>
-          <TabsContent value="marketplace" className="mt-6">
+          <TabsContent value="marketplace" className="mt-6 scroll-smooth">
             {renderMarketplace()}
           </TabsContent>
-          <TabsContent value="searches" className="mt-6">
+          <TabsContent value="searches" className="mt-6 scroll-smooth">
             {renderSavedSearches()}
           </TabsContent>
-          <TabsContent value="reputation" className="mt-6">
+          <TabsContent value="reputation" className="mt-6 scroll-smooth">
             {renderReputation()}
           </TabsContent>
-          <TabsContent value="billing" className="mt-6">
+          <TabsContent value="billing" className="mt-6 scroll-smooth">
             {renderBilling()}
           </TabsContent>
-          <TabsContent value="scoreboard" className="mt-6">
+          <TabsContent value="scoreboard" className="mt-6 scroll-smooth">
             <WeekOneScoreboard />
           </TabsContent>
-          <TabsContent value="warroom" className="mt-6">
+          <TabsContent value="warroom" className="mt-6 scroll-smooth">
             <Card className="terminal-card">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -960,6 +966,15 @@ export default function DemoBrokerTerminal() {
         )}
         </main>
       </div>
+      
+      {/* Scroll to Top Button */}
+      <Button
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        className="fixed bottom-6 right-6 z-50 w-12 h-12 bg-accent/80 hover:bg-accent rounded-full flex items-center justify-center transition-all duration-300 shadow-lg backdrop-blur-sm border border-accent/30"
+        title="Scroll to Top"
+      >
+        <ArrowUp className="w-6 h-6 text-white" />
+      </Button>
       
       {/* AI Chatbot */}
       <AIChatbot terminalType="broker" />

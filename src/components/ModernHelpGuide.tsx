@@ -325,7 +325,7 @@ export const ModernHelpGuide: React.FC<ModernHelpGuideProps> = ({
           </Button>
         </CardHeader>
 
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-6 overflow-y-auto max-h-[calc(90vh-120px)] pr-2 pb-4 scrollbar-thin scrollbar-thumb-terminal-border scrollbar-track-transparent">
           {/* Quick Tips */}
           {content.quickTips && (
             <div className="space-y-3">

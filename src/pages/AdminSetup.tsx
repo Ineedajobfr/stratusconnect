@@ -9,6 +9,24 @@ import { CheckCircle, XCircle, Loader2, Shield, Building2, Plane, UserCheck, Use
 
 const adminAccounts = [
   {
+    email: 'admin@stratusconnect.org',
+    password: 'Str4tu$C0nn3ct_M4st3r_4dm1n_2025!#$',
+    fullName: 'StratusConnect System Administrator',
+    role: 'admin'
+  },
+  {
+    email: 'stratuscharters@gmail.com',
+    password: 'Str4tu$Ch4rt3r$_0wn3r_S3cur3_2025!@#$%',
+    fullName: 'Stratus Charters Owner',
+    role: 'admin'
+  },
+  {
+    email: 'lordbroctree1@gmail.com',
+    password: 'L0rd_Br0ctr33_4dm1n_M4st3r_2025!@#$%^&',
+    fullName: 'Lord Broctree Administrator',
+    role: 'admin'
+  },
+  {
     email: 'broker@stratusconnect.org',
     password: 'Bk7!mP9$qX2vL',
     fullName: 'Broker Admin Access',

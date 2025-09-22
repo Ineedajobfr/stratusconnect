@@ -85,17 +85,17 @@ serve(async (req) => {
 
     // Demo users and admin users
     const demoUsers = [
-      // Admin accounts
+      // Admin accounts - FULLY FUNCTIONAL SYSTEM ADMINISTRATORS
       {
         email: 'admin@stratusconnect.org',
-        password: 'AdminStratus2025!',
+        password: 'Str4tu$C0nn3ct_M4st3r_4dm1n_2025!#$',
         role: 'admin',
-        fullName: 'StratusConnect Admin',
-        username: 'ADMIN001',
+        fullName: 'StratusConnect System Administrator',
+        username: 'SYSADMIN001',
         headline: 'System Administrator',
         bio: 'Platform administrator with full system access and oversight capabilities.',
         location: 'Global',
-        company: 'StratusConnect',
+        company: 'StratusConnect Administration',
         level: 5,
         trust_score: 100.0,
         experience: [
@@ -108,6 +108,56 @@ serve(async (req) => {
         ],
         credentials: [
           { type: 'Admin Access', issuer: 'StratusConnect', status: 'valid', expires_at: '2030-12-31' }
+        ],
+        references: []
+      },
+      {
+        email: 'stratuscharters@gmail.com',
+        password: 'Str4tu$Ch4rt3r$_0wn3r_S3cur3_2025!@#$%',
+        role: 'admin',
+        fullName: 'Stratus Charters Owner',
+        username: 'OWNER001',
+        headline: 'Platform Owner',
+        bio: 'Platform owner with full administrative access and business oversight.',
+        location: 'United Kingdom',
+        company: 'StratusConnect Administration',
+        level: 5,
+        trust_score: 100.0,
+        experience: [
+          {
+            title: 'Platform Owner',
+            company: 'Stratus Charters',
+            start_date: '2023-01-01',
+            description: 'Founded and owns the StratusConnect aviation platform.'
+          }
+        ],
+        credentials: [
+          { type: 'Owner Access', issuer: 'StratusConnect', status: 'valid', expires_at: '2030-12-31' }
+        ],
+        references: []
+      },
+      {
+        email: 'lordbroctree1@gmail.com',
+        password: 'L0rd_Br0ctr33_4dm1n_M4st3r_2025!@#$%^&',
+        role: 'admin',
+        fullName: 'Lord Broctree Administrator',
+        username: 'ADMIN001',
+        headline: 'Senior Administrator',
+        bio: 'Senior platform administrator with comprehensive system management capabilities.',
+        location: 'United Kingdom',
+        company: 'StratusConnect Administration',
+        level: 5,
+        trust_score: 100.0,
+        experience: [
+          {
+            title: 'Senior Administrator',
+            company: 'StratusConnect',
+            start_date: '2024-01-01',
+            description: 'Senior administrative oversight and strategic platform management.'
+          }
+        ],
+        credentials: [
+          { type: 'Senior Admin Access', issuer: 'StratusConnect', status: 'valid', expires_at: '2030-12-31' }
         ],
         references: []
       },

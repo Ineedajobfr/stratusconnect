@@ -9,6 +9,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ModernHelpGuide } from '@/components/ModernHelpGuide';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
+import AISearchAssistant from '@/components/AISearchAssistant';
+import PredictiveAnalytics from '@/components/PredictiveAnalytics';
+import AIChatbot from '@/components/AIChatbot';
+import { useNavigate } from 'react-router-dom';
 import { 
   DollarSign, 
   FileText, 
@@ -43,7 +47,8 @@ import {
   Wrench,
   Fuel,
   Navigation,
-  Headphones
+  Headphones,
+  HelpCircle
 } from 'lucide-react';
 
 interface RFQ {
@@ -109,6 +114,7 @@ export default function DemoOperatorTerminal() {
   const [liveFlowResult, setLiveFlowResult] = useState<unknown>(null);
   const [warRoomResult, setWarRoomResult] = useState<unknown>(null);
   const [evidencePack, setEvidencePack] = useState<unknown>(null);
+  const [showHelpGuide, setShowHelpGuide] = useState(false);
 
   const [rfqs, setRfqs] = useState<RFQ[]>([
     {
@@ -350,6 +356,12 @@ export default function DemoOperatorTerminal() {
           </CardContent>
         </Card>
       </div>
+
+      {/* AI Search Assistant */}
+      <AISearchAssistant terminalType="operator" className="mb-6" />
+
+      {/* Predictive Analytics */}
+      <PredictiveAnalytics terminalType="operator" className="mb-6" />
 
       {/* Recent Activity */}
       <Card className="terminal-card">
@@ -795,13 +807,15 @@ export default function DemoOperatorTerminal() {
 
   return (
     <>
-      <ModernHelpGuide 
-        terminalType="operator" 
-        activeTab={activeTab} 
-        showOnMount={true} 
-        isDemo={true}
-        onClose={() => {}}
-      />
+      {showHelpGuide && (
+        <ModernHelpGuide 
+          terminalType="operator" 
+          activeTab={activeTab} 
+          showOnMount={false} 
+          isDemo={true}
+          onClose={() => setShowHelpGuide(false)}
+        />
+      )}
       
       <div className="min-h-screen bg-app relative overflow-hidden">
         <StarfieldRunwayBackground />
@@ -827,6 +841,13 @@ export default function DemoOperatorTerminal() {
                 <AlertTriangle className="w-3 h-3 mr-1" />
                 Demo Mode
               </Badge>
+              <Button
+                onClick={() => setShowHelpGuide(true)}
+                className="w-12 h-12 bg-accent/20 hover:bg-accent/30 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-accent/30"
+                title="Help Guide"
+              >
+                <HelpCircle className="w-6 h-6 text-white" />
+              </Button>
             </div>
           </div>
         </header>
@@ -893,6 +914,9 @@ export default function DemoOperatorTerminal() {
           Demo Mode Active. This is a demonstration of the Operator Terminal. All data is simulated and no real transactions will occur. The platform operates 100% free until revenue is generated.
         </div>
       </div>
+      
+      {/* AI Chatbot */}
+      <AIChatbot terminalType="operator" />
     </>
   );
 }

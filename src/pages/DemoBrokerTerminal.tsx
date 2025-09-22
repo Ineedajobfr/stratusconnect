@@ -59,6 +59,9 @@ import { SavedSearches } from '@/components/DealFlow/SavedSearches';
 import { ReputationMetrics } from '@/components/Reputation/ReputationMetrics';
 import { MonthlyStatements } from '@/components/Billing/MonthlyStatements';
 import { RankingRulesPage } from '@/components/Ranking/RankingRulesPage';
+import AISearchAssistant from '@/components/AISearchAssistant';
+import PredictiveAnalytics from '@/components/PredictiveAnalytics';
+import AIChatbot from '@/components/AIChatbot';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
 import { SignedQuotePDFGenerator } from '@/lib/signed-quote-pdf';
 import { BadgeVerificationService } from '@/lib/badge-verification';
@@ -312,6 +315,12 @@ export default function DemoBrokerTerminal() {
           </div>
         </Brand.Card>
       </div>
+
+      {/* AI Search Assistant */}
+      <AISearchAssistant terminalType="broker" className="mb-6" />
+
+      {/* Predictive Analytics */}
+      <PredictiveAnalytics terminalType="broker" className="mb-6" />
 
       {/* Alerts */}
       {alerts.length > 0 && (
@@ -951,6 +960,9 @@ export default function DemoBrokerTerminal() {
         )}
         </main>
       </div>
+      
+      {/* AI Chatbot */}
+      <AIChatbot terminalType="broker" />
     </>
   );
 }

@@ -22,6 +22,7 @@ import OperatorDashboard from "@/components/dashboard/OperatorDashboard";
 const Index = lazy(() => import("./pages/Index"));
 const Enter = lazy(() => import("./pages/Enter"));
 const HomePage = lazy(() => import("./pages/HomePage"));
+const HowToUse = lazy(() => import("./pages/HowToUse"));
 const BrokerTerminal = lazy(() => import("./pages/BrokerTerminal"));
 const OperatorTerminal = lazy(() => import("./pages/OperatorTerminal"));
 const PilotTerminal = lazy(() => import("./pages/PilotTerminal"));
@@ -132,6 +133,7 @@ const App = memo(() => {
               <Route path="/enter" element={<Enter />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/demo" element={<Demo />} />
+              <Route path="/how-to-use" element={<HowToUse />} />
               <Route path="/about" element={<About />} />
               <Route path="/fees" element={<Fees />} />
               <Route path="/payments" element={<Payments />} />

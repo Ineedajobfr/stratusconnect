@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Plane, Shield, Users, Clock, CheckCircle, Star, Zap, Globe, Lock, DollarSign, Building2, UserCheck, ArrowRight, Info, Percent, MessageSquare } from "lucide-react";
+import { Plane, Shield, Users, Clock, CheckCircle, Star, Zap, Globe, Lock, DollarSign, Building2, UserCheck, ArrowRight, Info, Percent, MessageSquare, BookOpen, Play, Download } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 import { useAuth } from "@/contexts/AuthContext";
@@ -34,11 +34,11 @@ export default function Index() {
           <div className="mb-8 animate-fade-in-up">
             
             <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6">
-              Welcome to <span className="text-accent">StratusConnect</span>
+              The Ethical Backbone <span className="text-accent">Private Aviation Needs</span>
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-              The industry's most secure and efficient platform connecting brokers, operators, pilots, and crew. 
-              Built on zero-trust architecture with military-grade encryption.
+              We're not just a platform. We're your trusted partner in success. 
+              Empowering every professional through technology, transparency, and genuine partnership.
             </p>
           </div>
 
@@ -88,8 +88,8 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-6 text-glow-subtle">
-                  Access real-time aircraft listings, manage client relationships, and close deals faster than ever. 
-                  Our AI-powered matching system connects you with the right opportunities.
+                  We're your partner in success. Access real-time aircraft listings, manage client relationships, and close deals faster than ever. 
+                  Our AI-powered matching system connects you with the right opportunities. We succeed together or not at all.
                 </p>
                 <div className="space-y-2 mb-6">
                   <div className="flex items-center text-sm text-gunmetal">
@@ -133,8 +133,8 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-6 text-glow-subtle">
-                  Maximize your fleet's potential with intelligent scheduling, crew management, and real-time performance tracking. 
-                  Turn every flight into profit.
+                  We're your partner in success. Maximize your fleet's potential with intelligent scheduling, crew management, and real-time performance tracking. 
+                  We're invested in your long-term growth, not just quick transactions.
                 </p>
                 <div className="space-y-2 mb-6">
                   <div className="flex items-center text-sm text-gunmetal">
@@ -178,8 +178,8 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-6 text-glow-subtle">
-                  Find the best flying opportunities that match your skills and schedule. 
-                  Build your reputation and grow your career with verified operators.
+                  We're your lifeline in a complex industry. Find the best flying opportunities that match your skills and schedule. 
+                  We're here to help you succeed and build your reputation with verified operators.
                 </p>
                 <div className="space-y-2 mb-6">
                   <div className="flex items-center text-sm text-gunmetal">
@@ -223,8 +223,8 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-6 text-glow-subtle">
-                  Connect with top operators and build lasting relationships. 
-                  Showcase your skills and availability to find the best crew assignments.
+                  We're your lifeline in a complex industry. Connect with top operators and build lasting relationships. 
+                  We're here to help you succeed and showcase your skills to find the best crew assignments.
                 </p>
                 <div className="space-y-2 mb-6">
                   <div className="flex items-center text-sm text-gunmetal">
@@ -258,8 +258,8 @@ export default function Index() {
       <div className="relative z-10 py-24">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-foreground mb-4">Fortress of Trust</h2>
-            <p className="text-xl text-muted-foreground">Built for the most demanding security requirements</p>
+            <h2 className="text-4xl font-bold text-foreground mb-4">Our Core Values</h2>
+            <p className="text-xl text-muted-foreground">The principles that guide everything we do</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -269,7 +269,7 @@ export default function Index() {
                   <div className="flex items-center space-x-3">
                     <Shield className="w-12 h-12 text-accent" />
                     <div>
-                <CardTitle>Military-Grade Encryption</CardTitle>
+                <CardTitle>Empowerment Through Technology</CardTitle>
                     </div>
                   </div>
                   <Dialog>
@@ -280,31 +280,31 @@ export default function Index() {
                     </DialogTrigger>
                     <DialogContent className="bg-terminal-card border-terminal-border">
                       <DialogHeader>
-                        <DialogTitle className="text-accent">Military-Grade Encryption</DialogTitle>
+                        <DialogTitle className="text-accent">Empowerment Through Technology</DialogTitle>
                         <DialogDescription>
-                          Bank-level security protecting your most sensitive aviation data
+                          AI that actually helps, tools that make your job easier, data that drives real decisions
                         </DialogDescription>
                       </DialogHeader>
                       <div className="space-y-4">
                         <p className="text-muted-foreground">
-                          We use the same encryption standards as military and financial institutions:
+                          Our technology is designed to empower, not overwhelm:
                         </p>
                         <ul className="space-y-2 text-sm text-muted-foreground">
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
-                            <span>AES-256 encryption for all data at rest</span>
+                            <span>AI that understands your challenges</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
-                            <span>TLS 1.3 for all data in transit</span>
+                            <span>Tools that level the playing field</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
-                            <span>SOC 2 Type II compliant infrastructure</span>
+                            <span>Automation that frees you to focus on what matters</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
-                            <span>Regular penetration testing and audits</span>
+                            <span>Data that drives real decisions</span>
                           </li>
                         </ul>
                       </div>
@@ -314,7 +314,8 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  End-to-end AES-256 encryption for all data in transit and at rest. SOC 2 Type II compliant infrastructure.
+                  AI that actually helps, tools that make your job easier, data that drives real decisions. 
+                  Automation that frees you to focus on what matters.
                 </p>
               </CardContent>
             </Card>
@@ -325,7 +326,7 @@ export default function Index() {
                   <div className="flex items-center space-x-3">
                     <Lock className="w-12 h-12 text-accent" />
                     <div>
-                <CardTitle>Zero-Trust Architecture</CardTitle>
+                <CardTitle>Partnership Over Transaction</CardTitle>
                     </div>
                   </div>
                   <Dialog>
@@ -336,31 +337,31 @@ export default function Index() {
                     </DialogTrigger>
                     <DialogContent className="bg-terminal-card border-terminal-border">
                       <DialogHeader>
-                        <DialogTitle className="text-accent">Zero-Trust Architecture</DialogTitle>
+                        <DialogTitle className="text-accent">Partnership Over Transaction</DialogTitle>
                         <DialogDescription>
-                          Never trust, always verify - every connection and transaction is authenticated
+                          We succeed together or not at all. Your success is our success.
                         </DialogDescription>
                       </DialogHeader>
                       <div className="space-y-4">
                         <p className="text-muted-foreground">
-                          Our zero-trust approach ensures maximum security:
+                          We believe in genuine partnership:
                         </p>
                         <ul className="space-y-2 text-sm text-muted-foreground">
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
-                            <span>Multi-factor authentication required</span>
+                            <span>We succeed together or not at all</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
-                            <span>Continuous identity verification</span>
+                            <span>Your success is our success</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
-                            <span>Least privilege access controls</span>
+                            <span>We're invested in your long-term growth</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
-                            <span>Real-time threat monitoring</span>
+                            <span>We're not just a vendor, we're your partner</span>
                           </li>
                         </ul>
                       </div>
@@ -370,7 +371,8 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Every connection verified, every transaction authenticated. Multi-factor authentication standard across all terminals.
+                  We succeed together or not at all. Your success is our success. 
+                  We're invested in your long-term growth, not just quick transactions.
                 </p>
               </CardContent>
             </Card>
@@ -381,7 +383,7 @@ export default function Index() {
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-12 h-12 text-accent" />
                     <div>
-                <CardTitle>Verified Network</CardTitle>
+                <CardTitle>Trust Through Transparency</CardTitle>
                     </div>
                   </div>
                   <Dialog>
@@ -392,31 +394,31 @@ export default function Index() {
                     </DialogTrigger>
                     <DialogContent className="bg-terminal-card border-terminal-border">
                       <DialogHeader>
-                        <DialogTitle className="text-accent">Verified Network</DialogTitle>
+                        <DialogTitle className="text-accent">Trust Through Transparency</DialogTitle>
                         <DialogDescription>
-                          Only pre-approved, thoroughly vetted professionals join our network
+                          Clear, honest communication and transparent processes build lasting trust
                         </DialogDescription>
                       </DialogHeader>
                       <div className="space-y-4">
                         <p className="text-muted-foreground">
-                          Our verification process ensures only qualified professionals:
+                          We believe in complete transparency:
                         </p>
                         <ul className="space-y-2 text-sm text-muted-foreground">
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
-                            <span>Comprehensive background checks</span>
+                            <span>Clear, honest communication</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
-                            <span>Credential verification and validation</span>
+                            <span>Transparent pricing and processes</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
-                            <span>Reference verification from industry peers</span>
+                            <span>Open about our capabilities and limitations</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-accent" />
-                            <span>Ongoing compliance monitoring</span>
+                            <span>Regular updates on platform improvements</span>
                           </li>
                         </ul>
                       </div>
@@ -426,7 +428,8 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Comprehensive background checks and credential verification. Only pre-approved professionals access the network.
+                  Clear, honest communication and transparent processes. 
+                  We're open about our capabilities and limitations, building trust through transparency.
                 </p>
               </CardContent>
             </Card>
@@ -747,30 +750,98 @@ export default function Index() {
         </div>
       </div>
 
-      {/* Performance & Reliability */}
-      <div className="relative z-10 py-16">
-        <div className="max-w-6xl mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold text-foreground mb-12">Enterprise Performance</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
-              <div className="text-5xl font-bold text-accent mb-4">99.99%</div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">Uptime SLA</h3>
-              <p className="text-muted-foreground">Mission-critical reliability with redundant infrastructure</p>
-            </div>
-            <div>
-              <div className="text-5xl font-bold text-accent mb-4">&lt;50ms</div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">Response Time</h3>
-              <p className="text-muted-foreground">Lightning-fast performance optimized for real-time operations</p>
-            </div>
-            <div>
-              <div className="text-5xl font-bold text-accent mb-4">24/7</div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">Support</h3>
-              <p className="text-muted-foreground">Dedicated support team available around the clock</p>
-            </div>
-          </div>
-        </div>
-      </div>
+       {/* How to Use StratusConnect */}
+       <div className="relative z-10 py-24">
+         <div className="max-w-6xl mx-auto px-4">
+           <div className="text-center mb-12">
+             <h2 className="text-4xl font-bold text-foreground mb-4">Your Partner in Success</h2>
+             <p className="text-xl text-muted-foreground">We're your lifeline in a complex industry. Complete guides and support for every professional</p>
+           </div>
+
+           <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
+             <CardHeader>
+               <div className="flex items-center justify-between">
+                 <div className="flex items-center space-x-4">
+                   <div className="p-3 bg-accent/20 rounded-xl">
+                     <BookOpen className="w-12 h-12 text-accent" />
+                   </div>
+                   <div>
+                     <CardTitle className="text-2xl text-foreground">We're Here to Help You Succeed</CardTitle>
+                     <CardDescription className="text-muted-foreground">
+                       Master every aspect of the platform with detailed tutorials, AI feature guides, and terminal-specific instructions. 
+                       We're your trusted partner in success.
+                     </CardDescription>
+                   </div>
+                 </div>
+                 <Button 
+                   onClick={() => navigate('/how-to-use')} 
+                   className="btn-terminal-accent button-glow"
+                 >
+                   <BookOpen className="w-4 h-4 mr-2" />
+                   View Complete Guide
+                 </Button>
+               </div>
+             </CardHeader>
+             <CardContent>
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                 <div className="text-center">
+                   <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                     <Building2 className="w-8 h-8 text-accent" />
+                   </div>
+                   <h3 className="font-semibold text-foreground mb-2">Terminal Guides</h3>
+                   <p className="text-sm text-muted-foreground">Step-by-step instructions for each terminal type</p>
+                 </div>
+                 <div className="text-center">
+                   <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                     <Zap className="w-8 h-8 text-accent" />
+                   </div>
+                   <h3 className="font-semibold text-foreground mb-2">AI Features</h3>
+                   <p className="text-sm text-muted-foreground">Master AI-powered tools and automation</p>
+                 </div>
+                 <div className="text-center">
+                   <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                     <Play className="w-8 h-8 text-accent" />
+                   </div>
+                   <h3 className="font-semibold text-foreground mb-2">Quick Start</h3>
+                   <p className="text-sm text-muted-foreground">Get up and running in minutes</p>
+                 </div>
+                 <div className="text-center">
+                   <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                     <Download className="w-8 h-8 text-accent" />
+                   </div>
+                   <h3 className="font-semibold text-foreground mb-2">Resources</h3>
+                   <p className="text-sm text-muted-foreground">Download guides and access support</p>
+                 </div>
+               </div>
+             </CardContent>
+           </Card>
+         </div>
+       </div>
+
+       {/* Performance & Reliability */}
+       <div className="relative z-10 py-16">
+         <div className="max-w-6xl mx-auto px-4 text-center">
+           <h2 className="text-4xl font-bold text-foreground mb-12">Enterprise Performance</h2>
+           
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+             <div>
+               <div className="text-5xl font-bold text-accent mb-4">99.99%</div>
+               <h3 className="text-xl font-semibold text-foreground mb-2">Uptime SLA</h3>
+               <p className="text-muted-foreground">Mission-critical reliability with redundant infrastructure</p>
+             </div>
+             <div>
+               <div className="text-5xl font-bold text-accent mb-4">&lt;50ms</div>
+               <h3 className="text-xl font-semibold text-foreground mb-2">Response Time</h3>
+               <p className="text-muted-foreground">Lightning-fast performance optimized for real-time operations</p>
+             </div>
+             <div>
+               <div className="text-5xl font-bold text-accent mb-4">24/7</div>
+               <h3 className="text-xl font-semibold text-foreground mb-2">Support</h3>
+               <p className="text-muted-foreground">Dedicated support team available around the clock</p>
+             </div>
+           </div>
+         </div>
+       </div>
 
       {/* Footer */}
       <footer className="relative z-10 bg-gray-900 text-white">
@@ -779,10 +850,11 @@ export default function Index() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
             {/* Company Info */}
             <div className="space-y-6">
-              <h3 className="text-xl font-bold text-white">StratusConnect</h3>
-              <p className="text-gray-300 text-sm leading-relaxed">
-                The aviation industry's trusted marketplace for brokers, operators, pilots, and crew.
-              </p>
+            <h3 className="text-xl font-bold text-white">StratusConnect</h3>
+            <p className="text-gray-300 text-sm leading-relaxed">
+              The ethical backbone that private aviation needs. We're your trusted partner in success, 
+              empowering every professional through technology, transparency, and genuine partnership.
+            </p>
               <div className="flex space-x-4">
                 <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white p-2">
                   <Globe className="w-5 h-5" />

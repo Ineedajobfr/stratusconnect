@@ -23,7 +23,8 @@ import {
   Clock,
   MapPin,
   CheckCircle,
-  AlertTriangle
+  AlertTriangle,
+  HelpCircle
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -32,18 +33,22 @@ import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 
 export default function PilotTerminal() {
   const [activeSection, setActiveSection] = useState("dashboard");
+  const [showHelpGuide, setShowHelpGuide] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const isBetaMode = location.pathname.startsWith('/beta/');
 
   return (
     <>
-      <ModernHelpGuide 
-        terminalType="pilot" 
-        activeTab={activeSection} 
-        showOnMount={true} 
-        isDemo={false}
-      />
+      {showHelpGuide && (
+        <ModernHelpGuide 
+          terminalType="pilot" 
+          activeTab={activeSection} 
+          showOnMount={false} 
+          isDemo={false}
+          onClose={() => setShowHelpGuide(false)}
+        />
+      )}
       <div className="min-h-screen bg-app relative overflow-hidden">
         <StarfieldRunwayBackground />
         
@@ -72,6 +77,13 @@ export default function PilotTerminal() {
             <div className="text-gunmetal text-sm font-mono">
               {new Date().toLocaleTimeString()} UTC
             </div>
+            <Button
+              onClick={() => setShowHelpGuide(true)}
+              className="w-12 h-12 bg-accent/20 hover:bg-accent/30 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-accent/30"
+              title="Help Guide"
+            >
+              <HelpCircle className="w-6 h-6 text-white" />
+            </Button>
           </div>
         </div>
       </div>

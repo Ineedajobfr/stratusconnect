@@ -224,11 +224,11 @@ export default function AviationNews({ terminalType, className = '' }: AviationN
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as any)}
-                className="h-9 px-3 py-1 bg-terminal-input-bg border border-terminal-input-border rounded-md text-sm"
+                className="h-9 px-3 py-1 bg-terminal-card border border-terminal-border rounded-md text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
               >
-                <option value="newest">Newest First</option>
-                <option value="oldest">Oldest First</option>
-                <option value="relevance">Most Relevant</option>
+                <option value="newest" className="bg-terminal-card text-foreground">Newest First</option>
+                <option value="oldest" className="bg-terminal-card text-foreground">Oldest First</option>
+                <option value="relevance" className="bg-terminal-card text-foreground">Most Relevant</option>
               </select>
               </div>
             <div className="text-sm text-muted-foreground flex items-center gap-1">

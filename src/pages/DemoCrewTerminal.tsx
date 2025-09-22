@@ -10,6 +10,9 @@ import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
 import EnhancedAIChatbot from '@/components/EnhancedAIChatbot';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
+import AvailabilityAssignments from '@/components/Crew/AvailabilityAssignments';
+import { RankingDashboard } from '@/components/gamification/RankingDashboard';
+import { TierSystem } from '@/components/gamification/TierSystem';
 import { useNavigate } from 'react-router-dom';
 import { 
   HelpCircle,
@@ -535,6 +538,14 @@ export default function DemoCrewTerminal() {
                   <Navigation className="w-4 h-4" />
                   Tracking
                 </TabsTrigger>
+                <TabsTrigger value="availability" className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
+                  Availability
+                </TabsTrigger>
+                <TabsTrigger value="rankings" className="flex items-center gap-2">
+                  <Award className="w-4 h-4" />
+                  Rankings
+                </TabsTrigger>
               </TabsList>
             </div>
 
@@ -552,6 +563,12 @@ export default function DemoCrewTerminal() {
             </TabsContent>
             <TabsContent value="tracking" className="scroll-smooth">
               {renderTracking()}
+            </TabsContent>
+            <TabsContent value="availability" className="scroll-smooth">
+              <AvailabilityAssignments terminalType="crew" />
+            </TabsContent>
+            <TabsContent value="rankings" className="scroll-smooth">
+              <RankingDashboard userType="crew" />
             </TabsContent>
           </Tabs>
         </main>

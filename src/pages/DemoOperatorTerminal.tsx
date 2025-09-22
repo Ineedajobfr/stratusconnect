@@ -20,6 +20,8 @@ import JobPostingManagement from '@/components/Operator/JobPostingManagement';
 import FleetAssignmentTracking from '@/components/Operator/FleetAssignmentTracking';
 import OperatorAnalytics from '@/components/Operator/OperatorAnalytics';
 import FloatingChat from '@/components/FloatingChat';
+import { RankingDashboard } from '@/components/gamification/RankingDashboard';
+import { TierSystem } from '@/components/gamification/TierSystem';
 import { useNavigate } from 'react-router-dom';
 import { 
   DollarSign, 
@@ -59,10 +61,7 @@ import {
   HelpCircle,
   ArrowUp,
   RefreshCw,
-  Plus,
-  Globe,
-  Briefcase,
-  BarChart3
+  Globe
 } from 'lucide-react';
 
 interface RFQ {
@@ -1017,10 +1016,6 @@ export default function DemoOperatorTerminal() {
                 <Clock className="w-4 h-4 inline mr-1" />
                 {new Date().toLocaleTimeString()} UTC
               </div>
-              <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">
-                <AlertTriangle className="w-3 h-3 mr-1" />
-                Demo Mode
-              </Badge>
               <Button
                 onClick={() => setShowHelpGuide(true)}
                 className="w-12 h-12 bg-accent/20 hover:bg-accent/30 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-accent/30"
@@ -1077,17 +1072,17 @@ export default function DemoOperatorTerminal() {
                 <Briefcase className="w-4 h-4" />
                 Jobs
               </TabsTrigger>
-              <TabsTrigger value="fleet" className="flex items-center gap-2">
+              <TabsTrigger value="fleet-tracking" className="flex items-center gap-2">
                 <Plane className="w-4 h-4" />
-                Fleet
-              </TabsTrigger>
-              <TabsTrigger value="analytics" className="flex items-center gap-2">
-                <BarChart3 className="w-4 h-4" />
-                Analytics
+                Fleet Tracking
               </TabsTrigger>
               <TabsTrigger value="news" className="flex items-center gap-2">
                 <Globe className="w-4 h-4" />
                 News
+              </TabsTrigger>
+              <TabsTrigger value="rankings" className="flex items-center gap-2">
+                <Award className="w-4 h-4" />
+                Rankings
               </TabsTrigger>
           </TabsList>
             </div>
@@ -1127,23 +1122,18 @@ export default function DemoOperatorTerminal() {
             <TabsContent value="jobs" className="scroll-smooth">
               <JobPostingManagement terminalType="operator" />
             </TabsContent>
-            <TabsContent value="fleet" className="scroll-smooth">
+            <TabsContent value="fleet-tracking" className="scroll-smooth">
               <FleetAssignmentTracking terminalType="operator" />
-            </TabsContent>
-            <TabsContent value="analytics" className="scroll-smooth">
-              <OperatorAnalytics terminalType="operator" />
             </TabsContent>
             <TabsContent value="news" className="scroll-smooth">
               <AviationNews terminalType="operator" />
             </TabsContent>
+            <TabsContent value="rankings" className="scroll-smooth">
+              <RankingDashboard userType="operator" />
+            </TabsContent>
           </Tabs>
         </main>
 
-        {/* Demo Banner */}
-        <div className="fixed bottom-0 left-0 right-0 z-50 bg-yellow-500 text-black text-center py-2 text-sm font-medium">
-          <AlertTriangle className="w-4 h-4 inline mr-2" />
-          Demo Mode Active. This is a demonstration of the Operator Terminal. All data is simulated and no real transactions will occur. The platform operates 100% free until revenue is generated.
-                </div>
               </div>
       
       {/* Scroll to Top Button */}

@@ -233,7 +233,7 @@ export default function JobMarketplace({ terminalType }: { terminalType: string 
               <select
                 value={selectedFilter}
                 onChange={(e) => setSelectedFilter(e.target.value)}
-                className="h-9 px-3 py-1 bg-terminal-input-bg border border-terminal-input-border rounded-md text-sm flex-1"
+                className="h-9 px-3 py-1 bg-terminal-card border border-terminal-border rounded-md text-sm flex-1 text-foreground focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
               >
                 <option value="all">All Jobs</option>
                 <option value="urgent">Urgent</option>

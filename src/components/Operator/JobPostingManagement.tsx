@@ -258,13 +258,13 @@ export default function JobPostingManagement({ terminalType }: { terminalType: s
               <select
                 value={selectedFilter}
                 onChange={(e) => setSelectedFilter(e.target.value)}
-                className="h-9 px-3 py-1 bg-terminal-input-bg border border-terminal-input-border rounded-md text-sm flex-1"
+                className="h-9 px-3 py-1 bg-terminal-card border border-terminal-border rounded-md text-sm flex-1 text-foreground focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
               >
-                <option value="all">All Jobs</option>
-                <option value="draft">Draft</option>
-                <option value="posted">Posted</option>
-                <option value="filled">Filled</option>
-                <option value="cancelled">Cancelled</option>
+                <option value="all" className="bg-terminal-card text-foreground">All Jobs</option>
+                <option value="draft" className="bg-terminal-card text-foreground">Draft</option>
+                <option value="posted" className="bg-terminal-card text-foreground">Posted</option>
+                <option value="filled" className="bg-terminal-card text-foreground">Filled</option>
+                <option value="cancelled" className="bg-terminal-card text-foreground">Cancelled</option>
               </select>
             </div>
             <div className="text-sm text-muted-foreground flex items-center gap-1">
@@ -451,9 +451,9 @@ export default function JobPostingManagement({ terminalType }: { terminalType: s
               ))}
             </div>
           ) : (
-            <Card className="terminal-card">
+            <Card className="terminal-card bg-terminal-card/50 backdrop-blur-sm border-terminal-border">
               <CardContent className="text-center py-12">
-                <Briefcase className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                <Briefcase className="w-12 h-12 text-accent mx-auto mb-4" />
                 <h3 className="text-lg font-semibold text-foreground mb-2">Select a job to view applications</h3>
                 <p className="text-muted-foreground">
                   Click on a job posting to see all applications and manage candidates.

@@ -405,7 +405,7 @@ export default function AvailabilityAssignments({ terminalType }: { terminalType
                     <select
                       value={newSlot.serviceLevel}
                       onChange={(e) => setNewSlot(prev => ({ ...prev, serviceLevel: e.target.value as any }))}
-                      className="w-full mt-1 px-3 py-2 bg-terminal-input-bg border border-terminal-input-border rounded-md text-sm"
+                      className="w-full mt-1 px-3 py-2 bg-terminal-card border border-terminal-border rounded-md text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
                     >
                       <option value="economy">Economy</option>
                       <option value="business">Business</option>

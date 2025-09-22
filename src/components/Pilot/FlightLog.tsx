@@ -336,7 +336,7 @@ export default function FlightLog({ terminalType }: { terminalType: string }) {
               <select
                 value={selectedAircraft}
                 onChange={(e) => setSelectedAircraft(e.target.value)}
-                className="h-9 px-3 py-1 bg-terminal-input-bg border border-terminal-input-border rounded-md text-sm"
+                className="h-9 px-3 py-1 bg-terminal-card border border-terminal-border rounded-md text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
               >
                 <option value="all">All Aircraft</option>
                 {aircraftHours.map(aircraft => (

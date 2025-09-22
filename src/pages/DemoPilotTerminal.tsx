@@ -11,6 +11,8 @@ import NoteTakingSystem from '@/components/NoteTakingSystem';
 import EnhancedAIChatbot from '@/components/EnhancedAIChatbot';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
 import AviationNews from '@/components/AviationNews';
+import { RankingDashboard } from '@/components/gamification/RankingDashboard';
+import { TierSystem } from '@/components/gamification/TierSystem';
 import AvailabilitySchedule from '@/components/Pilot/AvailabilitySchedule';
 import CredentialsVault from '@/components/Pilot/CredentialsVault';
 import JobMarketplace from '@/components/Pilot/JobMarketplace';
@@ -530,7 +532,7 @@ export default function DemoPilotTerminal() {
               <div className="flex items-center space-x-4">
                 <StratusConnectLogo className="text-orange-400 text-lg mr-6" />
                 <div>
-                  <h1 className="text-xl font-bold text-foreground">Pilot Terminal (Demo)</h1>
+                  <h1 className="text-xl font-bold text-foreground">Pilot Terminal</h1>
                   <p className="text-sm text-gunmetal">Captain James Mitchell • ATP Multi-Engine</p>
                 </div>
               </div>
@@ -595,6 +597,10 @@ export default function DemoPilotTerminal() {
                   <Globe className="w-4 h-4" />
                   News
                 </TabsTrigger>
+                <TabsTrigger value="rankings" className="flex items-center gap-2">
+                  <Award className="w-4 h-4" />
+                  Rankings
+                </TabsTrigger>
               </TabsList>
             </div>
 
@@ -627,6 +633,9 @@ export default function DemoPilotTerminal() {
             </TabsContent>
             <TabsContent value="news" className="scroll-smooth">
               <AviationNews terminalType="pilot" />
+            </TabsContent>
+            <TabsContent value="rankings" className="scroll-smooth">
+              <RankingDashboard userType="pilot" />
             </TabsContent>
           </Tabs>
         </main>

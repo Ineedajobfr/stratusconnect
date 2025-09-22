@@ -11,6 +11,7 @@ import {
   Lock
 } from 'lucide-react';
 import PremiumAIChatbot from './PremiumAIChatbot';
+import DemoAIChatbot from './DemoAIChatbot';
 import { useAuth } from '@/contexts/AuthContext';
 
 interface AIAssistantButtonProps {
@@ -19,6 +20,7 @@ interface AIAssistantButtonProps {
   variant?: 'default' | 'outline' | 'ghost';
   size?: 'sm' | 'default' | 'lg';
   showLabel?: boolean;
+  isDemo?: boolean;
 }
 
 function AIAssistantButton({ 
@@ -26,14 +28,15 @@ function AIAssistantButton({
   className = "",
   variant = "default",
   size = "default",
-  showLabel = true
+  showLabel = true,
+  isDemo = false
 }: AIAssistantButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const { user } = useAuth();
 
-  // Check if user is authenticated
-  const isAuthenticated = !!user;
+  // Check if user is authenticated or in demo mode
+  const isAuthenticated = !!user || isDemo;
 
   const handleClick = () => {
     if (!isAuthenticated) {
@@ -91,26 +94,50 @@ function AIAssistantButton({
             <span className="font-medium">AI Assistant</span>
           )}
           <div className="flex items-center space-x-1">
-            <Badge variant="outline" className="text-xs bg-accent/20 text-accent border-accent/30">
-              <Zap className="w-3 h-3 mr-1" />
-              ULTRA
-            </Badge>
-            <Badge variant="outline" className="text-xs bg-green-500/20 text-green-500 border-green-500/30">
-              <Crown className="w-3 h-3 mr-1" />
-              PREMIUM
-            </Badge>
+            {isDemo ? (
+              <>
+                <Badge variant="outline" className="text-xs bg-yellow-500/20 text-yellow-500 border-yellow-500/30">
+                  <Lock className="w-3 h-3 mr-1" />
+                  DEMO
+                </Badge>
+                <Badge variant="outline" className="text-xs bg-blue-500/20 text-blue-500 border-blue-500/30">
+                  GPT-3 LEVEL
+                </Badge>
+              </>
+            ) : (
+              <>
+                <Badge variant="outline" className="text-xs bg-accent/20 text-accent border-accent/30">
+                  <Zap className="w-3 h-3 mr-1" />
+                  ULTRA
+                </Badge>
+                <Badge variant="outline" className="text-xs bg-green-500/20 text-green-500 border-green-500/30">
+                  <Crown className="w-3 h-3 mr-1" />
+                  PREMIUM
+                </Badge>
+              </>
+            )}
           </div>
         </div>
       </Button>
 
       {isOpen && (
-        <PremiumAIChatbot
-          userType={userType}
-          isMinimized={isMinimized}
-          onMinimize={handleMinimize}
-          onMaximize={handleMaximize}
-          onClose={handleClose}
-        />
+        isDemo ? (
+          <DemoAIChatbot
+            userType={userType}
+            isMinimized={isMinimized}
+            onMinimize={handleMinimize}
+            onMaximize={handleMaximize}
+            onClose={handleClose}
+          />
+        ) : (
+          <PremiumAIChatbot
+            userType={userType}
+            isMinimized={isMinimized}
+            onMinimize={handleMinimize}
+            onMaximize={handleMaximize}
+            onClose={handleClose}
+          />
+        )
       )}
     </>
   );

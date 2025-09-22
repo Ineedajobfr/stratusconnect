@@ -34,8 +34,8 @@ export default function Index() {
         <div className="max-w-6xl mx-auto px-4 text-center">
           <div className="mb-8 animate-fade-in-up">
             
-            <h1 className="text-6xl md:text-8xl font-bold text-foreground mb-6">
-              Welcome to <span className="text-accent">StratusConnect</span>
+            <h1 className="text-6xl md:text-8xl font-bold text-foreground mb-6 font-inter">
+              Welcome to <span className="text-accent title-glow">StratusConnect</span>
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
               The leading platform connecting brokers, operators, pilots, and crew. 

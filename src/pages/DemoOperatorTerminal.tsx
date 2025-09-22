@@ -1006,7 +1006,7 @@ export default function DemoOperatorTerminal() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <AIAssistantButton userType="operator" />
+              <AIAssistantButton userType="operator" isDemo={true} />
               <div className="text-sm text-slate-400">
                 <Clock className="w-4 h-4 inline mr-1" />
                 {new Date().toLocaleTimeString()} UTC

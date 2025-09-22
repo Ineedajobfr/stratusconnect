@@ -12,6 +12,10 @@
   font-variant-numeric: tabular-nums; 
 }
 
+.font-inter {
+  font-family: 'Inter', sans-serif;
+}
+
 /* === StratusConnect Modern Terminal Palette ===
    Enhanced with modern gradients, better contrast, and smooth animations
    Professional, cutting-edge aviation platform design

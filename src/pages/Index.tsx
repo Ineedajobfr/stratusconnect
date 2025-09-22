@@ -3,31 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { 
-  Plane, 
-  Shield, 
-  Users, 
-  Clock, 
-  CheckCircle, 
-  Star,
-  Zap,
-  Globe,
-  Lock,
-  DollarSign,
-  Building2,
-  UserCheck,
-  ArrowRight,
-  Info,
-  Percent,
-  MessageSquare
-} from "lucide-react";
+import { Plane, Shield, Users, Clock, CheckCircle, Star, Zap, Globe, Lock, DollarSign, Building2, UserCheck, ArrowRight, Info, Percent, MessageSquare } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 import { useAuth } from "@/contexts/AuthContext";
-
 export default function Index() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const {
+    user
+  } = useAuth();
 
   // Redirect authenticated users to their home page
   useEffect(() => {
@@ -35,27 +19,20 @@ export default function Index() {
       navigate("/home");
     }
   }, [user, navigate]);
-
   const handleAccessTerminal = (roleId: string) => {
     navigate(`/login/${roleId}`);
   };
-
   const handleDemoAccess = (demoRoute: string) => {
     navigate(demoRoute);
   };
-
-  return (
-    <div className="min-h-screen bg-app relative overflow-hidden">
+  return <div className="min-h-screen bg-app relative overflow-hidden">
       <StarfieldRunwayBackground />
       
       {/* Hero Section */}
       <div className="relative z-10 pt-20 pb-16">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <div className="mb-8 animate-fade-in-up">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-terminal-card/30 border border-terminal-border/50 mb-8">
-              <Zap className="w-4 h-4 text-accent mr-2" />
-              <span className="text-sm text-foreground">Next-Generation Aviation Platform</span>
-            </div>
+            
             <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6">
               Welcome to <span className="text-accent">StratusConnect</span>
             </h1>
@@ -129,17 +106,10 @@ export default function Index() {
                   </div>
                 </div>
                 <div className="flex space-x-3">
-                  <Button 
-                    onClick={() => handleAccessTerminal("broker")} 
-                    className="flex-1 btn-terminal-accent button-glow"
-                  >
+                  <Button onClick={() => handleAccessTerminal("broker")} className="flex-1 btn-terminal-accent button-glow">
                     Access Terminal <ArrowRight className="w-4 h-4 ml-2 icon-glow" />
                   </Button>
-                  <Button 
-                    onClick={() => handleDemoAccess("/demo/broker")} 
-                    variant="outline"
-                    className="px-6 button-glow"
-                  >
+                  <Button onClick={() => handleDemoAccess("/demo/broker")} variant="outline" className="px-6 button-glow">
                     Demo
                   </Button>
                 </div>
@@ -147,7 +117,9 @@ export default function Index() {
             </Card>
 
             {/* Operator Terminal */}
-            <Card className="group terminal-card hover:terminal-glow cursor-pointer animate-fade-in-up" style={{animationDelay: '0.1s'}}>
+            <Card className="group terminal-card hover:terminal-glow cursor-pointer animate-fade-in-up" style={{
+            animationDelay: '0.1s'
+          }}>
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
                   <div className="p-3 bg-accent/20 rounded-xl animate-pulse-glow">
@@ -179,17 +151,10 @@ export default function Index() {
                   </div>
                 </div>
                 <div className="flex space-x-3">
-                  <Button 
-                    onClick={() => handleAccessTerminal("operator")} 
-                    className="flex-1 btn-terminal-accent button-glow"
-                  >
+                  <Button onClick={() => handleAccessTerminal("operator")} className="flex-1 btn-terminal-accent button-glow">
                     Access Terminal <ArrowRight className="w-4 h-4 ml-2 icon-glow" />
                   </Button>
-                  <Button 
-                    onClick={() => handleDemoAccess("/demo/operator")} 
-                    variant="outline"
-                    className="px-6 button-glow"
-                  >
+                  <Button onClick={() => handleDemoAccess("/demo/operator")} variant="outline" className="px-6 button-glow">
                     Demo
                   </Button>
                 </div>
@@ -197,7 +162,9 @@ export default function Index() {
             </Card>
 
             {/* Pilot Terminal */}
-            <Card className="group terminal-card hover:terminal-glow cursor-pointer animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+            <Card className="group terminal-card hover:terminal-glow cursor-pointer animate-fade-in-up" style={{
+            animationDelay: '0.2s'
+          }}>
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
                   <div className="p-3 bg-accent/20 rounded-xl animate-pulse-glow">
@@ -229,17 +196,10 @@ export default function Index() {
                   </div>
                 </div>
                 <div className="flex space-x-3">
-                  <Button 
-                    onClick={() => handleAccessTerminal("pilot")} 
-                    className="flex-1 btn-terminal-accent button-glow"
-                  >
+                  <Button onClick={() => handleAccessTerminal("pilot")} className="flex-1 btn-terminal-accent button-glow">
                     Access Terminal <ArrowRight className="w-4 h-4 ml-2 icon-glow" />
                   </Button>
-                  <Button 
-                    onClick={() => handleDemoAccess("/demo/pilot")} 
-                    variant="outline"
-                    className="px-6 button-glow"
-                  >
+                  <Button onClick={() => handleDemoAccess("/demo/pilot")} variant="outline" className="px-6 button-glow">
                     Demo
                   </Button>
                 </div>
@@ -247,7 +207,9 @@ export default function Index() {
             </Card>
 
             {/* Crew Terminal */}
-            <Card className="group terminal-card hover:terminal-glow cursor-pointer animate-fade-in-up" style={{animationDelay: '0.3s'}}>
+            <Card className="group terminal-card hover:terminal-glow cursor-pointer animate-fade-in-up" style={{
+            animationDelay: '0.3s'
+          }}>
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
                   <div className="p-3 bg-accent/20 rounded-xl animate-pulse-glow">
@@ -279,17 +241,10 @@ export default function Index() {
                   </div>
                 </div>
                 <div className="flex space-x-3">
-                  <Button 
-                    onClick={() => handleAccessTerminal("crew")} 
-                    className="flex-1 btn-terminal-accent button-glow"
-                  >
+                  <Button onClick={() => handleAccessTerminal("crew")} className="flex-1 btn-terminal-accent button-glow">
                     Access Terminal <ArrowRight className="w-4 h-4 ml-2 icon-glow" />
                   </Button>
-                  <Button 
-                    onClick={() => handleDemoAccess("/demo/crew")} 
-                    variant="outline"
-                    className="px-6 button-glow"
-                  >
+                  <Button onClick={() => handleDemoAccess("/demo/crew")} variant="outline" className="px-6 button-glow">
                     Demo
                   </Button>
                 </div>
@@ -558,7 +513,9 @@ export default function Index() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="terminal-card group hover:terminal-glow cursor-pointer animate-fade-in-up" style={{animationDelay: '0.1s'}}>
+            <Card className="terminal-card group hover:terminal-glow cursor-pointer animate-fade-in-up" style={{
+            animationDelay: '0.1s'
+          }}>
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
@@ -913,6 +870,5 @@ export default function Index() {
         </div>
       </footer>
 
-    </div>
-  );
+    </div>;
 }

@@ -8,6 +8,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Plane } from "lucide-react";
+import PasswordStrengthMeter from "@/components/PasswordStrengthMeter";
+import { checkPasswordStrength } from "@/lib/security-config";
 
 export default function AuthForm() {
   const [loading, setLoading] = useState(false);
@@ -24,6 +26,17 @@ export default function AuthForm() {
       toast({
         title: "Missing Information",
         description: "Please fill in all required fields",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Check password strength
+    const { isStrong, feedback } = checkPasswordStrength(password);
+    if (!isStrong) {
+      toast({
+        title: "Weak Password",
+        description: "Password does not meet security requirements. Please check the requirements below.",
         variant: "destructive",
       });
       return;
@@ -244,6 +257,7 @@ export default function AuthForm() {
                     className="bg-input border-border text-foreground"
                     required
                   />
+                  <PasswordStrengthMeter password={password} />
                 </div>
                 <Button
                   type="submit"

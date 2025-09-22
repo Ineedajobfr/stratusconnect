@@ -6,22 +6,38 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ArrowLeft, Plane, Shield, Users, Clock } from "lucide-react";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 export default function PilotLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
+  const { toast } = useToast();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     
-    // Simulate login process
-    setTimeout(() => {
+    try {
+      const success = await login(email, password);
+      if (success) {
+        // Check if admin user and redirect accordingly
+        if (email.includes('admin@stratusconnect.org') || 
+            email.includes('stratuscharters@gmail.com') || 
+            email.includes('lordbroctree1@gmail.com')) {
+          navigate("/admin");
+        } else {
+          navigate("/pilot");
+        }
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+    } finally {
       setLoading(false);
-      navigate("/pilot");
-    }, 1000);
+    }
   };
 
   const handleDemoAccess = () => {
@@ -56,6 +72,11 @@ export default function PilotLogin() {
               <CardDescription className="text-gunmetal">
                 Credentials speak. Availability sells. Fly the missions that fit.
               </CardDescription>
+              <div className="mt-4 p-3 bg-accent/10 border border-accent/20 rounded-lg">
+                <p className="text-sm text-accent font-medium">
+                  💡 Admin users can log in from any terminal (Broker, Operator, Pilot, Crew)
+                </p>
+              </div>
             </CardHeader>
             
             <CardContent className="space-y-6">

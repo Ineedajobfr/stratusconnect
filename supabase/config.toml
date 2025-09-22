@@ -1,1 +1,130 @@
-project_id = "pvgqfqkrtflpvajhddhr"
+# Supabase Configuration
+# This file contains configuration settings for the Supabase project
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[auth]
+enabled = true
+port = 54324
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["http://localhost:8082", "http://localhost:3000"]
+jwt_expiry = 3600
+refresh_token_rotation_enabled = true
+refresh_token_reuse_interval = 10
+enable_signup = true
+enable_confirmations = false
+enable_recoveries = true
+enable_email_change = true
+enable_phone_change = true
+enable_phone_confirmations = false
+
+# Security settings
+[auth.security]
+# Reduce OTP expiry from default 1 hour to 15 minutes
+otp_expiry = 900  # 15 minutes in seconds
+# Enable password leak protection
+enable_password_leak_protection = true
+# Minimum password length
+minimum_password_length = 12
+# Require strong passwords
+require_strong_passwords = true
+# Enable account lockout after failed attempts
+max_failed_attempts = 5
+lockout_duration = 900  # 15 minutes in seconds
+
+# Rate limiting
+[auth.rate_limits]
+# Limit login attempts
+login_attempts_per_minute = 10
+login_attempts_per_hour = 100
+# Limit password reset attempts
+password_reset_attempts_per_minute = 5
+password_reset_attempts_per_hour = 20
+# Limit email change attempts
+email_change_attempts_per_minute = 2
+email_change_attempts_per_hour = 10
+
+# Email settings
+[auth.email]
+enable_signup = true
+double_confirm_changes = true
+enable_confirmations = false
+
+# Phone settings
+[auth.phone]
+enable_signup = true
+enable_confirmations = false
+
+# External providers
+[auth.external]
+# Disable external providers for security
+enable_google = false
+enable_github = false
+enable_facebook = false
+enable_twitter = false
+enable_apple = false
+enable_discord = false
+enable_linkedin = false
+enable_spotify = false
+enable_slack = false
+enable_notion = false
+enable_twitch = false
+enable_workos = false
+enable_zoom = false
+
+# Database settings
+[db]
+port = 54322
+shadow_port = 54320
+major_version = 15
+
+# Storage settings
+[storage]
+enabled = true
+port = 54323
+file_size_limit = "50MiB"
+buckets = [
+  { name = "avatars", public = false, file_size_limit = "10MiB" },
+  { name = "documents", public = false, file_size_limit = "50MiB" },
+  { name = "aircraft-images", public = true, file_size_limit = "20MiB" }
+]
+
+# Edge Functions
+[edge_functions]
+enabled = true
+port = 54325
+
+# Analytics
+[analytics]
+enabled = true
+port = 54327
+vector_port = 54328
+gcp_project_id = ""
+gcp_jwt_path = "supabase/gcp.json"
+
+# Inbucket (email testing)
+[inbucket]
+enabled = true
+port = 54324
+smtp_port = 54325
+pop3_port = 54326
+
+# Realtime
+[realtime]
+enabled = true
+port = 54329
+
+# Studio
+[studio]
+enabled = true
+port = 54323
+api_url = "http://localhost:54321"
+
+# Logging
+[logging]
+level = "info"

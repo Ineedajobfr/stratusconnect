@@ -3,6 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { User as SupabaseUser, Session } from '@supabase/supabase-js';
 import { useNavigate } from 'react-router-dom';
+import { SECURITY_CONFIG, checkPasswordStrength, rateLimiter, logSecurityEvent } from '@/lib/security-config';
 
 interface User {
   id: string;
@@ -220,13 +221,47 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       setLoading(true);
       
+      // Rate limiting check
+      const rateLimitKey = `login_${email}`;
+      if (!rateLimiter.isAllowed(
+        rateLimitKey, 
+        SECURITY_CONFIG.rateLimits.loginAttempts.max, 
+        SECURITY_CONFIG.rateLimits.loginAttempts.window
+      )) {
+        const remainingTime = Math.ceil(rateLimiter.getRemainingTime(rateLimitKey) / 60000);
+        toast({
+          title: 'Too Many Login Attempts',
+          description: `Please wait ${remainingTime} minutes before trying again`,
+          variant: 'destructive'
+        });
+        logSecurityEvent('login_rate_limited', { email, remainingTime });
+        return false;
+      }
+      
+      // Input validation
+      const sanitizedEmail = email.trim().toLowerCase();
+      if (!sanitizedEmail || !password) {
+        toast({
+          title: 'Invalid Input',
+          description: 'Please provide both email and password',
+          variant: 'destructive'
+        });
+        return false;
+      }
+      
       // Use regular Supabase authentication for all users
       const { data, error } = await supabase.auth.signInWithPassword({
-        email,
+        email: sanitizedEmail,
         password
       });
 
       if (error) {
+        // Log failed login attempt
+        logSecurityEvent('login_failed', { 
+          email: sanitizedEmail, 
+          error: error.message 
+        });
+        
         toast({
           title: 'Login Failed',
           description: error.message || 'Invalid credentials',
@@ -236,6 +271,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
 
       if (data.user) {
+        // Log successful login
+        logSecurityEvent('login_success', { 
+          email: sanitizedEmail,
+          userId: data.user.id 
+        });
+        
+        // Reset rate limiting on successful login
+        rateLimiter.reset(rateLimitKey);
+        
         toast({
           title: 'Login Successful',
           description: 'Welcome back!'
@@ -246,6 +290,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       return false;
     } catch (error) {
       console.error('Login error:', error);
+      logSecurityEvent('login_error', { 
+        email, 
+        error: error instanceof Error ? error.message : 'Unknown error' 
+      });
+      
       toast({
         title: 'Login Error',
         description: 'An unexpected error occurred during login',

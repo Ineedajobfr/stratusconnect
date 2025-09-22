@@ -160,9 +160,8 @@
 
   .title-glow {
     text-shadow: 
-      0 0 8px hsl(var(--terminal-glow) / 0.6),
-      0 0 16px hsl(var(--terminal-glow) / 0.4),
-      0 0 24px hsl(var(--terminal-glow) / 0.2);
+      0 0 4px hsl(var(--accent) / 0.4),
+      0 0 8px hsl(var(--accent) / 0.2);
   }
 
   .subtitle-glow {
@@ -248,7 +247,7 @@
   }
   
   .title-glow {
-    text-shadow: 0 0 20px hsl(var(--terminal-glow) / 0.6), 0 0 40px hsl(var(--terminal-glow) / 0.4);
+    text-shadow: 0 0 4px hsl(var(--accent) / 0.4), 0 0 8px hsl(var(--accent) / 0.2);
   }
   
   .subtitle-glow {
@@ -550,9 +549,8 @@
 
   .title-glow {
     text-shadow: 
-      0 0 12px rgba(255, 255, 255, 0.6),
-      0 0 24px rgba(255, 255, 255, 0.3),
-      0 0 36px rgba(255, 255, 255, 0.1);
+      0 0 4px rgba(255, 165, 0, 0.4),
+      0 0 8px rgba(255, 165, 0, 0.2);
   }
 
   .subtitle-glow {

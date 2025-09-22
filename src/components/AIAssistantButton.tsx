@@ -93,30 +93,12 @@ function AIAssistantButton({
           {showLabel && (
             <span className="font-medium">AI Assistant</span>
           )}
-          <div className="flex items-center space-x-1">
-            {isDemo ? (
-              <>
-                <Badge variant="outline" className="text-xs bg-yellow-500/20 text-yellow-500 border-yellow-500/30">
-                  <Lock className="w-3 h-3 mr-1" />
-                  DEMO
-                </Badge>
-                <Badge variant="outline" className="text-xs bg-blue-500/20 text-blue-500 border-blue-500/30">
-                  GPT-3 LEVEL
-                </Badge>
-              </>
-            ) : (
-              <>
-                <Badge variant="outline" className="text-xs bg-accent/20 text-accent border-accent/30">
-                  <Zap className="w-3 h-3 mr-1" />
-                  ULTRA
-                </Badge>
-                <Badge variant="outline" className="text-xs bg-green-500/20 text-green-500 border-green-500/30">
-                  <Crown className="w-3 h-3 mr-1" />
-                  PREMIUM
-                </Badge>
-              </>
-            )}
-          </div>
+          {isDemo && (
+            <Badge variant="outline" className="text-xs bg-yellow-500/20 text-yellow-500 border-yellow-500/30">
+              <Lock className="w-3 h-3 mr-1" />
+              DEMO
+            </Badge>
+          )}
         </div>
       </Button>
 

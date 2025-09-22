@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Brand } from '@/components/Brand';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ModernHelpGuide } from '@/components/ModernHelpGuide';
-import { AIAssistantButton } from '@/components/AIAssistantButton';
+import FloatingChat from '@/components/FloatingChat';
 import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
 import { 
   DollarSign, 
@@ -683,7 +683,6 @@ export default function DemoBrokerTerminal() {
             </div>
           </div>
           <div className="flex gap-2">
-            <AIAssistantButton userType="broker" isDemo={true} />
             <Button
               onClick={() => window.location.href = '/tutorial/broker'}
               className="bg-orange-500 hover:bg-orange-600 text-white"
@@ -691,14 +690,6 @@ export default function DemoBrokerTerminal() {
               <Trophy className="h-4 w-4 mr-2" />
               Tutorial
             </Button>
-            <Brand.StatusChip status="success">
-              <Shield className="w-3 h-3 mr-1 icon-glow" />
-              FCA Compliant
-            </Brand.StatusChip>
-            <Brand.StatusChip status="info">
-              <Zap className="w-3 h-3 mr-1 icon-glow" />
-              Gold League
-            </Brand.StatusChip>
             {isDemoMode && (
               <Brand.StatusChip status="warn">
                 <AlertTriangle className="w-3 h-3 mr-1 icon-glow" />
@@ -1039,6 +1030,9 @@ export default function DemoBrokerTerminal() {
       
       {/* AI Chatbot */}
       <AIChatbot terminalType="broker" />
+      
+      {/* Floating Chat */}
+      <FloatingChat userType="broker" isDemo={true} />
     </>
   );
 }

@@ -35,7 +35,7 @@ export default function Index() {
           <div className="mb-8 animate-fade-in-up">
             
             <h1 className="text-6xl md:text-8xl font-bold text-foreground mb-6 font-inter">
-              Welcome to <span className="text-accent title-glow">StratusConnect</span>
+              Welcome to <span className="text-accent" style={{textShadow: '0 0 8px rgba(255, 165, 0, 0.3), 0 0 16px rgba(255, 165, 0, 0.1)'}}>StratusConnect</span>
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
               The leading platform connecting brokers, operators, pilots, and crew. 
@@ -50,12 +50,12 @@ export default function Index() {
               <div className="text-sm text-muted-foreground">Uptime</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">15k+</div>
-              <div className="text-sm text-muted-foreground">Active Users</div>
+              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">500+</div>
+              <div className="text-sm text-muted-foreground">Beta Users</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">$2B+</div>
-              <div className="text-sm text-muted-foreground">Transactions</div>
+              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">$50M+</div>
+              <div className="text-sm text-muted-foreground">Platform Value</div>
             </div>
             <div className="text-center">
               <div className="text-4xl md:text-5xl font-bold text-accent mb-2">50ms</div>

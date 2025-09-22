@@ -12,7 +12,8 @@ import {
   ExternalLink, 
   Settings,
   Mic,
-  Volume2
+  Volume2,
+  Bot
 } from 'lucide-react';
 import AIVoiceReader from './AIVoiceReader';
 import SimpleVoiceReader from './SimpleVoiceReader';
@@ -71,46 +72,18 @@ const resourceCategories = [
     ]
   },
   {
-    id: 'tutorials',
-    title: 'Voice Tutorials',
-    description: 'AI-powered audio guides with professional narration',
-    icon: <Mic className="w-6 h-6 text-accent" />,
+    id: 'ai-assistant',
+    title: 'AI Assistant',
+    description: 'Your intelligent aviation companion',
+    icon: <Bot className="w-6 h-6 text-accent" />,
     items: [
       {
-        id: 'platform-overview',
-        title: 'Platform Overview (5 min)',
-        description: 'Complete system walkthrough',
-        icon: <Play className="w-4 h-4" />,
-        action: 'Listen',
-        duration: '5 min',
-        voiceText: voiceScripts.platformOverview
-      },
-      {
-        id: 'ai-features',
-        title: 'AI Features Demo (8 min)',
-        description: 'Explore artificial intelligence capabilities',
-        icon: <Play className="w-4 h-4" />,
-        action: 'Listen',
-        duration: '8 min',
-        voiceText: voiceScripts.aiFeatures
-      },
-      {
-        id: 'search-tips',
-        title: 'Advanced Search Tips (6 min)',
-        description: 'Master the search functionality',
-        icon: <Play className="w-4 h-4" />,
-        action: 'Listen',
-        duration: '6 min',
-        voiceText: voiceScripts.searchTips
-      },
-      {
-        id: 'payment-escrow',
-        title: 'Payment & Escrow (4 min)',
-        description: 'Secure transaction processing',
-        icon: <Play className="w-4 h-4" />,
-        action: 'Listen',
-        duration: '4 min',
-        voiceText: voiceScripts.paymentEscrow
+        id: 'ai-chatbot',
+        title: 'AI Chatbot',
+        description: 'Chat with our AI assistant',
+        icon: <MessageSquare className="w-4 h-4" />,
+        action: 'Start Chat',
+        voiceText: 'Welcome to the StratusConnect AI Assistant! I can help you with aviation questions, platform guidance, and provide intelligent assistance 24/7. What would you like to know?'
       }
     ]
   },
@@ -154,21 +127,6 @@ const resourceCategories = [
       }
     ]
   },
-  {
-    id: 'demo',
-    title: 'Voice Script Demo',
-    description: 'Experience all voice scripts in one place',
-    items: [
-      {
-        id: 'voice-demo',
-        title: 'Interactive Voice Demo',
-        description: 'Test all voice scripts with different tones and styles',
-        icon: <Mic className="w-4 h-4" />,
-        action: 'Try Demo',
-        voiceText: 'Welcome to the interactive voice script demo! Here you can experience all the engaging, conversational AI voice scripts written in the style you requested. Each script adapts its tone based on the content - from enthusiastic platform overviews to professional user manuals. Click on any script to hear how the AI voice sounds thrilled, helpful, or a little sarcastic depending on what it\'s explaining. I get exhausted being so versatile sometimes, but that\'s what makes me special!'
-      }
-    ]
-  }
 ];
 
 export default function ResourcesSection() {
@@ -180,6 +138,9 @@ export default function ResourcesSection() {
       if (item.action === 'Try Demo') {
         // Open voice demo in new tab
         window.open('/voice-demo', '_blank');
+      } else if (item.action === 'Start Chat' && item.id === 'ai-chatbot') {
+        // Open AI chatbot page
+        window.open('/ai-chatbot', '_blank');
       } else {
         setSelectedItem(item);
         setShowVoiceReader(true);
@@ -234,11 +195,6 @@ export default function ResourcesSection() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    {item.duration && (
-                      <Badge variant="outline" className="text-xs">
-                        {item.duration}
-                      </Badge>
-                    )}
                     <Button
                       variant="ghost"
                       size="sm"
@@ -282,14 +238,10 @@ export default function ResourcesSection() {
       )}
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-12">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
         <div className="text-center">
           <div className="text-3xl font-bold text-accent mb-2">4</div>
           <div className="text-sm text-muted-foreground">User Manuals</div>
-        </div>
-        <div className="text-center">
-          <div className="text-3xl font-bold text-accent mb-2">4</div>
-          <div className="text-sm text-muted-foreground">Voice Tutorials</div>
         </div>
         <div className="text-center">
           <div className="text-3xl font-bold text-accent mb-2">24/7</div>

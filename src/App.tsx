@@ -13,6 +13,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { logger } from "@/utils/performance";
 
 import { StatusBanner } from "@/components/StatusBanner";
+import FloatingAIChatbot from "@/components/FloatingAIChatbot";
 
 // Import new dashboard components
 import BrokerDashboard from "@/components/dashboard/BrokerDashboard";
@@ -23,6 +24,7 @@ const Index = lazy(() => import("./pages/Index"));
 const Enter = lazy(() => import("./pages/Enter"));
 const HomePage = lazy(() => import("./pages/HomePage"));
 const HowToUse = lazy(() => import("./pages/HowToUse"));
+const AIChatbot = lazy(() => import("./pages/AIChatbot"));
 const BrokerTerminal = lazy(() => import("./pages/BrokerTerminal"));
 const OperatorTerminal = lazy(() => import("./pages/OperatorTerminal"));
 const PilotTerminal = lazy(() => import("./pages/PilotTerminal"));
@@ -134,6 +136,7 @@ const App = memo(() => {
               <Route path="/auth" element={<Auth />} />
               <Route path="/demo" element={<Demo />} />
               <Route path="/how-to-use" element={<HowToUse />} />
+              <Route path="/ai-chatbot" element={<AIChatbot />} />
               <Route path="/about" element={<About />} />
               <Route path="/fees" element={<Fees />} />
               <Route path="/payments" element={<Payments />} />
@@ -328,6 +331,9 @@ const App = memo(() => {
           </TooltipProvider>
         </QueryClientProvider>
       </ErrorBoundary>
+      
+      {/* Floating AI Chatbot */}
+      <FloatingAIChatbot />
     </div>
   );
 });

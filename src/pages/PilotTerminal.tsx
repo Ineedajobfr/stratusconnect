@@ -4,7 +4,7 @@ import { KPICard } from "@/components/KPICard";
 import { Section } from "@/components/Section";
 import { DataTile } from "@/components/DataTile";
 import VerificationSystem from "@/components/VerificationSystem";
-import { AviationNews } from "@/components/AviationNews";
+import AviationNews from "@/components/AviationNews";
 import { PrivacyOverlay } from "@/components/PrivacyOverlay";
 import { ProfileWidget } from "@/components/ProfileWidget";
 import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24Widget";

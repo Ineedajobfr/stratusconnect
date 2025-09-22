@@ -7,7 +7,7 @@ import { TerminalLayout } from "@/components/TerminalLayout";
 import { KPICard } from "@/components/KPICard";
 import { Section } from "@/components/Section";
 import { DataTile } from "@/components/DataTile";
-import { AviationNews } from "@/components/AviationNews";
+import AviationNews from "@/components/AviationNews";
 import { PrivacyOverlay } from "@/components/PrivacyOverlay";
 import { AdminAnalytics } from "@/components/analytics/AdminAnalytics";
 import FortressOfTrustDashboard from "@/components/FortressOfTrustDashboard";

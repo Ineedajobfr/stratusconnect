@@ -12,7 +12,7 @@ import FleetManagement from "@/components/FleetManagement";
 import EnhancedMessaging from "@/components/EnhancedMessaging";
 import EnhancedMarketplace from "@/components/EnhancedMarketplace";
 import VerificationSystem from "@/components/VerificationSystem";
-import { AviationNews } from "@/components/AviationNews";
+import AviationNews from "@/components/AviationNews";
 import { PrivacyOverlay } from "@/components/PrivacyOverlay";
 import { OperatorAnalytics } from "@/components/analytics/OperatorAnalytics";
 import { ProfileWidget } from "@/components/ProfileWidget";

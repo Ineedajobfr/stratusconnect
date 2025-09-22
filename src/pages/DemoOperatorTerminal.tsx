@@ -15,6 +15,10 @@ import AIChatbot from '@/components/AIChatbot';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
 import EnhancedAIChatbot from '@/components/EnhancedAIChatbot';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
+import AviationNews from '@/components/AviationNews';
+import JobPostingManagement from '@/components/Operator/JobPostingManagement';
+import FleetAssignmentTracking from '@/components/Operator/FleetAssignmentTracking';
+import OperatorAnalytics from '@/components/Operator/OperatorAnalytics';
 import FloatingChat from '@/components/FloatingChat';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -55,7 +59,10 @@ import {
   HelpCircle,
   ArrowUp,
   RefreshCw,
-  Plus
+  Plus,
+  Globe,
+  Briefcase,
+  BarChart3
 } from 'lucide-react';
 
 interface RFQ {
@@ -122,7 +129,7 @@ export default function DemoOperatorTerminal() {
   const [warRoomResult, setWarRoomResult] = useState<unknown>(null);
   const [evidencePack, setEvidencePack] = useState<unknown>(null);
   const [showHelpGuide, setShowHelpGuide] = useState(false);
-
+  
   const [rfqs, setRfqs] = useState<RFQ[]>([
     {
       id: 'RFQ-001',
@@ -158,9 +165,9 @@ export default function DemoOperatorTerminal() {
       aircraft: 'Bombardier Global 7500',
       date: '2025-09-28',
       price: 85000,
-      currency: 'USD',
+    currency: 'USD',
       status: 'accepted',
-      legs: 1,
+    legs: 1,
       passengers: 6,
       specialRequirements: 'VIP security detail',
       broker: 'Pacific Aviation Group',
@@ -178,31 +185,31 @@ export default function DemoOperatorTerminal() {
       availability: 'Available',
       location: 'New York',
       hourlyRate: 450,
-      currency: 'USD',
+    currency: 'USD',
       status: 'available'
     },
     {
       id: 'P-002',
       name: 'Captain James Rodriguez',
-      rating: 4.8,
+    rating: 4.8,
       hours: 7200,
       certifications: ['ATP', 'Type Rating Global 6000', 'IFR'],
       availability: 'Available',
       location: 'London',
       hourlyRate: 420,
-      currency: 'USD',
+    currency: 'USD',
       status: 'available'
     },
     {
       id: 'P-003',
       name: 'Captain Emma Thompson',
-      rating: 4.9,
+    rating: 4.9,
       hours: 9200,
       certifications: ['ATP', 'Type Rating Global 7500', 'IFR', 'Captain'],
       availability: 'Assigned',
       location: 'Los Angeles',
       hourlyRate: 500,
-      currency: 'USD',
+    currency: 'USD',
       status: 'assigned'
     }
   ]);
@@ -218,13 +225,13 @@ export default function DemoOperatorTerminal() {
       availability: 'Available',
       location: 'New York',
       hourlyRate: 85,
-      currency: 'USD',
+    currency: 'USD',
       status: 'available'
     },
     {
       id: 'C-002',
       name: 'Marcus Johnson',
-      role: 'Flight Attendant',
+    role: 'Flight Attendant',
       rating: 4.7,
       experience: 5,
       languages: ['English', 'Spanish'],
@@ -238,13 +245,13 @@ export default function DemoOperatorTerminal() {
       id: 'C-003',
       name: 'Isabella Rossi',
       role: 'Senior Flight Attendant',
-      rating: 4.8,
+    rating: 4.8,
       experience: 7,
       languages: ['English', 'Italian', 'French'],
       availability: 'Assigned',
       location: 'Paris',
       hourlyRate: 90,
-      currency: 'USD',
+    currency: 'USD',
       status: 'assigned'
     }
   ]);
@@ -291,7 +298,7 @@ export default function DemoOperatorTerminal() {
   const handleLiveFlowTest = async () => {
     try {
       const result = await liveFlowTester.runComprehensiveTest();
-      setLiveFlowResult(result);
+    setLiveFlowResult(result);
     } catch (error) {
       console.error('Live flow test failed:', error);
     }
@@ -299,8 +306,8 @@ export default function DemoOperatorTerminal() {
 
   const handleWarRoomCheck = async () => {
     try {
-      const result = await warRoomChecker.runAllChecks();
-      setWarRoomResult(result);
+    const result = await warRoomChecker.runAllChecks();
+    setWarRoomResult(result);
     } catch (error) {
       console.error('War room check failed:', error);
     }
@@ -372,16 +379,16 @@ export default function DemoOperatorTerminal() {
 
       {/* Recent Activity */}
       <Card className="terminal-card">
-        <CardHeader>
+          <CardHeader>
           <CardTitle className="text-foreground">Recent Activity</CardTitle>
-        </CardHeader>
+          </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center space-x-4">
             <div className="w-2 h-2 bg-green-500 rounded-full"></div>
             <div className="flex-1">
               <p className="text-sm font-medium text-foreground">New RFQ received</p>
               <p className="text-xs text-muted-foreground">London - New York • Gulfstream G650</p>
-            </div>
+                  </div>
             <Badge variant="secondary" className="bg-green-100 text-green-800">New</Badge>
           </div>
           <div className="flex items-center space-x-4">
@@ -399,8 +406,8 @@ export default function DemoOperatorTerminal() {
               <p className="text-xs text-muted-foreground">LAX - JFK • Payment processed</p>
             </div>
             <Badge variant="secondary" className="bg-blue-100 text-blue-800">Complete</Badge>
-          </div>
-        </CardContent>
+            </div>
+          </CardContent>
       </Card>
 
       {/* Fleet Status */}
@@ -449,12 +456,12 @@ export default function DemoOperatorTerminal() {
       <div className="space-y-4">
         {rfqs.map((rfq) => (
           <Card key={rfq.id} className="terminal-card">
-            <CardHeader>
+        <CardHeader>
               <div className="flex justify-between items-start">
-                <div>
+              <div>
                   <CardTitle className="text-foreground">{rfq.route}</CardTitle>
                   <CardDescription>{rfq.aircraft} • {rfq.passengers} passengers</CardDescription>
-                </div>
+              </div>
                 <div className="flex space-x-2">
                   <Badge 
                     variant={rfq.priority === 'high' ? 'destructive' : 
@@ -468,43 +475,43 @@ export default function DemoOperatorTerminal() {
                   >
                     {rfq.status}
                   </Badge>
-                </div>
+            </div>
               </div>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
+              <div>
                   <p className="text-sm font-medium text-gunmetal">Date</p>
                   <p className="text-foreground">{rfq.date}</p>
-                </div>
-                <div>
+              </div>
+              <div>
                   <p className="text-sm font-medium text-gunmetal">Budget</p>
                   <p className="text-foreground">{rfq.currency} {rfq.price.toLocaleString()}</p>
-                </div>
-                <div>
+              </div>
+              <div>
                   <p className="text-sm font-medium text-gunmetal">Broker</p>
                   <p className="text-foreground">{rfq.broker}</p>
-                </div>
               </div>
+            </div>
               <div className="mt-4">
                 <p className="text-sm font-medium text-gunmetal">Special Requirements</p>
                 <p className="text-sm text-muted-foreground">{rfq.specialRequirements}</p>
               </div>
               <div className="flex space-x-2 mt-4">
                 <Button variant="outline" size="sm">
-                  <Eye className="w-4 h-4 mr-2" />
-                  View Details
-                </Button>
+                <Eye className="w-4 h-4 mr-2" />
+                View Details
+              </Button>
                 <Button variant="outline" size="sm">
-                  <FileText className="w-4 h-4 mr-2" />
+                <FileText className="w-4 h-4 mr-2" />
                   Quote
-                </Button>
-              </div>
-            </CardContent>
+              </Button>
+            </div>
+          </CardContent>
           </Card>
         ))}
-      </div>
-    </div>
+                  </div>
+                </div>
   );
 
   const renderPilots = () => (
@@ -515,7 +522,7 @@ export default function DemoOperatorTerminal() {
           <UserPlus className="w-4 h-4 mr-2" />
           Add Pilot
         </Button>
-      </div>
+              </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {pilots.map((pilot) => (
@@ -538,7 +545,7 @@ export default function DemoOperatorTerminal() {
               <div className="flex items-center space-x-2">
                 <Star className="h-4 w-4 text-yellow-500" />
                 <span className="text-sm text-foreground">{pilot.rating}/5.0</span>
-              </div>
+            </div>
               <div>
                 <p className="text-sm font-medium text-gunmetal">Certifications</p>
                 <div className="flex flex-wrap gap-1 mt-1">
@@ -547,33 +554,33 @@ export default function DemoOperatorTerminal() {
                       {cert}
                     </Badge>
                   ))}
-                </div>
+              </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <div>
+              <div>
                   <p className="text-sm font-medium text-gunmetal">Location</p>
                   <p className="text-sm text-foreground">{pilot.location}</p>
-                </div>
-                <div>
+              </div>
+              <div>
                   <p className="text-sm font-medium text-gunmetal">Rate</p>
                   <p className="text-sm text-foreground">{pilot.currency} {pilot.hourlyRate}/hr</p>
-                </div>
               </div>
+            </div>
               <div className="flex space-x-2">
                 <Button variant="outline" size="sm" className="flex-1">
-                  <Eye className="w-4 h-4 mr-2" />
+                <Eye className="w-4 h-4 mr-2" />
                   View
-                </Button>
+              </Button>
                 <Button variant="outline" size="sm" className="flex-1">
                   <Briefcase className="w-4 h-4 mr-2" />
                   Assign
-                </Button>
-              </div>
-            </CardContent>
+              </Button>
+            </div>
+          </CardContent>
           </Card>
         ))}
-      </div>
-    </div>
+                  </div>
+                </div>
   );
 
   const renderCrew = () => (
@@ -584,7 +591,7 @@ export default function DemoOperatorTerminal() {
           <UserPlus className="w-4 h-4 mr-2" />
           Add Crew
         </Button>
-      </div>
+              </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {crew.map((member) => (
@@ -608,7 +615,7 @@ export default function DemoOperatorTerminal() {
                 <Star className="h-4 w-4 text-yellow-500" />
                 <span className="text-sm text-foreground">{member.rating}/5.0</span>
                 <span className="text-sm text-muted-foreground">• {member.experience} years</span>
-              </div>
+            </div>
               <div>
                 <p className="text-sm font-medium text-gunmetal">Languages</p>
                 <div className="flex flex-wrap gap-1 mt-1">
@@ -617,33 +624,33 @@ export default function DemoOperatorTerminal() {
                       {lang}
                     </Badge>
                   ))}
-                </div>
+              </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <div>
+              <div>
                   <p className="text-sm font-medium text-gunmetal">Location</p>
                   <p className="text-sm text-foreground">{member.location}</p>
-                </div>
-                <div>
+              </div>
+              <div>
                   <p className="text-sm font-medium text-gunmetal">Rate</p>
                   <p className="text-sm text-foreground">{member.currency} {member.hourlyRate}/hr</p>
-                </div>
               </div>
+            </div>
               <div className="flex space-x-2">
                 <Button variant="outline" size="sm" className="flex-1">
-                  <Eye className="w-4 h-4 mr-2" />
+                <Eye className="w-4 h-4 mr-2" />
                   View
-                </Button>
+              </Button>
                 <Button variant="outline" size="sm" className="flex-1">
                   <Briefcase className="w-4 h-4 mr-2" />
                   Assign
-                </Button>
-              </div>
-            </CardContent>
+              </Button>
+            </div>
+          </CardContent>
           </Card>
         ))}
-      </div>
-    </div>
+            </div>
+          </div>
   );
 
   const renderFleet = () => (
@@ -661,10 +668,10 @@ export default function DemoOperatorTerminal() {
           <Card key={aircraft.id} className="terminal-card">
             <CardHeader>
               <div className="flex justify-between items-start">
-                <div>
+            <div>
                   <CardTitle className="text-foreground">{aircraft.model}</CardTitle>
                   <CardDescription>{aircraft.registration} • {aircraft.hours.toLocaleString()} hours</CardDescription>
-                </div>
+            </div>
                 <Badge 
                   variant={aircraft.status === 'available' ? 'default' : 
                           aircraft.status === 'in-flight' ? 'secondary' : 
@@ -676,36 +683,36 @@ export default function DemoOperatorTerminal() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div>
+            <div>
                   <p className="text-sm font-medium text-gunmetal">Location</p>
                   <p className="text-foreground">{aircraft.location}</p>
-                </div>
-                <div>
+            </div>
+            <div>
                   <p className="text-sm font-medium text-gunmetal">Next Flight</p>
                   <p className="text-foreground">{aircraft.nextFlight}</p>
-                </div>
-                <div>
+            </div>
+            <div>
                   <p className="text-sm font-medium text-gunmetal">Utilization</p>
                   <p className="text-foreground">{aircraft.utilization}%</p>
-                </div>
+            </div>
                 <div>
                   <p className="text-sm font-medium text-gunmetal">Next Maintenance</p>
                   <p className="text-foreground">{aircraft.nextMaintenance}</p>
-                </div>
+          </div>
               </div>
               <div className="flex space-x-2 mt-4">
                 <Button variant="outline" size="sm">
-                  <Eye className="w-4 h-4 mr-2" />
-                  View Details
-                </Button>
+              <Eye className="w-4 h-4 mr-2" />
+              View Details
+            </Button>
                 <Button variant="outline" size="sm">
                   <Wrench className="w-4 h-4 mr-2" />
                   Maintenance
                 </Button>
                 <Button variant="outline" size="sm">
                   <Activity className="w-4 h-4 mr-2" />
-                  Schedule
-                </Button>
+              Schedule
+            </Button>
               </div>
             </CardContent>
           </Card>
@@ -721,8 +728,8 @@ export default function DemoOperatorTerminal() {
         <Button className="btn-terminal-accent">
           <Download className="w-4 h-4 mr-2" />
           Export Report
-        </Button>
-      </div>
+            </Button>
+          </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="terminal-card">
@@ -733,8 +740,8 @@ export default function DemoOperatorTerminal() {
           <CardContent>
             <div className="text-2xl font-bold text-foreground">$2.4M</div>
             <p className="text-xs text-muted-foreground">+15% vs last month</p>
-          </CardContent>
-        </Card>
+        </CardContent>
+      </Card>
 
         <Card className="terminal-card">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -780,11 +787,11 @@ export default function DemoOperatorTerminal() {
               <div className="flex items-center space-x-4">
                 <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
                   <CheckCircle className="w-5 h-5 text-green-600" />
-                </div>
+            </div>
                 <div>
                   <p className="font-medium text-foreground">LAX - JFK Flight</p>
                   <p className="text-sm text-muted-foreground">Sep 15, 2025 • Gulfstream G650</p>
-                </div>
+            </div>
               </div>
               <div className="text-right">
                 <p className="font-medium text-foreground">$85,000</p>
@@ -869,18 +876,18 @@ export default function DemoOperatorTerminal() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="terminal-card">
-          <CardHeader>
+      <Card className="terminal-card">
+        <CardHeader>
             <CardTitle className="text-lg font-semibold text-foreground">Top Routes</CardTitle>
-          </CardHeader>
-          <CardContent>
+        </CardHeader>
+        <CardContent>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-foreground">LHR - JFK</span>
                 <div className="flex items-center space-x-2">
                   <div className="w-20 bg-terminal-border rounded-full h-2">
                     <div className="bg-accent h-2 rounded-full" style={{ width: '85%' }}></div>
-                  </div>
+                </div>
                   <span className="text-sm text-muted-foreground">85%</span>
                 </div>
               </div>
@@ -902,9 +909,9 @@ export default function DemoOperatorTerminal() {
                   <span className="text-sm text-muted-foreground">68%</span>
                 </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+          </div>
+        </CardContent>
+      </Card>
 
         <Card className="terminal-card">
           <CardHeader>
@@ -981,18 +988,18 @@ export default function DemoOperatorTerminal() {
   return (
     <>
       {showHelpGuide && (
-        <ModernHelpGuide 
-          terminalType="operator" 
-          activeTab={activeTab} 
+      <ModernHelpGuide 
+        terminalType="operator" 
+        activeTab={activeTab} 
           showOnMount={false} 
-          isDemo={true}
+        isDemo={true}
           onClose={() => setShowHelpGuide(false)}
         />
       )}
       
       <div className="min-h-screen bg-app relative overflow-hidden scroll-smooth">
-        <StarfieldRunwayBackground />
-        
+      <StarfieldRunwayBackground />
+      
         {/* Header */}
         <header className="relative z-10 bg-terminal-card border-b border-terminal-border px-6 py-4 backdrop-blur-modern">
           <div className="flex items-center justify-between">
@@ -1000,10 +1007,10 @@ export default function DemoOperatorTerminal() {
               <StratusConnectLogo className="text-orange-400 text-lg mr-6" />
               <div className="text-sm text-slate-400">
                 TERMINAL STATUS: <span className="text-white">OPERATIONAL</span>
-              </div>
+            </div>
               <div className="text-sm text-slate-400">
                 USER: <span className="text-orange-400">Demo Operator</span>
-              </div>
+          </div>
             </div>
             <div className="flex items-center space-x-4">
               <div className="text-sm text-slate-400">
@@ -1021,13 +1028,13 @@ export default function DemoOperatorTerminal() {
               >
                 <HelpCircle className="w-6 h-6 text-white" />
               </Button>
-            </div>
           </div>
+        </div>
         </header>
 
         <main className="relative z-10 max-w-7xl mx-auto p-6">
-          {/* Main Navigation */}
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        {/* Main Navigation */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-terminal-border scrollbar-track-transparent pb-2 mb-6">
               <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-terminal-card/50 backdrop-blur-sm">
               <TabsTrigger value="dashboard" className="flex items-center gap-2">
@@ -1066,40 +1073,68 @@ export default function DemoOperatorTerminal() {
                 <Navigation className="w-4 h-4" />
                 Tracking
               </TabsTrigger>
-              </TabsList>
+              <TabsTrigger value="jobs" className="flex items-center gap-2">
+                <Briefcase className="w-4 h-4" />
+                Jobs
+              </TabsTrigger>
+              <TabsTrigger value="fleet" className="flex items-center gap-2">
+                <Plane className="w-4 h-4" />
+                Fleet
+              </TabsTrigger>
+              <TabsTrigger value="analytics" className="flex items-center gap-2">
+                <BarChart3 className="w-4 h-4" />
+                Analytics
+              </TabsTrigger>
+              <TabsTrigger value="news" className="flex items-center gap-2">
+                <Globe className="w-4 h-4" />
+                News
+              </TabsTrigger>
+          </TabsList>
             </div>
 
             <TabsContent value="dashboard" className="scroll-smooth">
-              {renderDashboard()}
-            </TabsContent>
+            {renderDashboard()}
+          </TabsContent>
 
             <TabsContent value="rfqs" className="scroll-smooth">
-              {renderRFQs()}
-            </TabsContent>
+            {renderRFQs()}
+          </TabsContent>
 
             <TabsContent value="pilots" className="scroll-smooth">
-              {renderPilots()}
-            </TabsContent>
+            {renderPilots()}
+          </TabsContent>
 
             <TabsContent value="crew" className="scroll-smooth">
-              {renderCrew()}
-            </TabsContent>
+            {renderCrew()}
+          </TabsContent>
 
             <TabsContent value="fleet" className="scroll-smooth">
-              {renderFleet()}
-            </TabsContent>
+            {renderFleet()}
+          </TabsContent>
 
             <TabsContent value="billing" className="scroll-smooth">
-              {renderBilling()}
-            </TabsContent>
+            {renderBilling()}
+          </TabsContent>
             <TabsContent value="analytics" className="scroll-smooth">
               {renderAnalytics()}
-            </TabsContent>
+          </TabsContent>
             <TabsContent value="notes" className="scroll-smooth">
               {renderNotes()}
-            </TabsContent>
+          </TabsContent>
             <TabsContent value="tracking" className="scroll-smooth">
               {renderTracking()}
+            </TabsContent>
+            <TabsContent value="jobs" className="scroll-smooth">
+              <JobPostingManagement terminalType="operator" />
+            </TabsContent>
+            <TabsContent value="fleet" className="scroll-smooth">
+              <FleetAssignmentTracking terminalType="operator" />
+            </TabsContent>
+            <TabsContent value="analytics" className="scroll-smooth">
+              <OperatorAnalytics terminalType="operator" />
+            </TabsContent>
+            <TabsContent value="news" className="scroll-smooth">
+              <AviationNews terminalType="operator" />
             </TabsContent>
           </Tabs>
         </main>
@@ -1108,8 +1143,8 @@ export default function DemoOperatorTerminal() {
         <div className="fixed bottom-0 left-0 right-0 z-50 bg-yellow-500 text-black text-center py-2 text-sm font-medium">
           <AlertTriangle className="w-4 h-4 inline mr-2" />
           Demo Mode Active. This is a demonstration of the Operator Terminal. All data is simulated and no real transactions will occur. The platform operates 100% free until revenue is generated.
-        </div>
-      </div>
+                </div>
+              </div>
       
       {/* Scroll to Top Button */}
       <Button

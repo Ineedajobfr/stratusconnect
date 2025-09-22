@@ -37,6 +37,7 @@ import {
   Download,
   Leaf,
   Trophy,
+  Globe,
   ArrowUp,
   Menu,
   RefreshCw
@@ -68,6 +69,7 @@ import PredictiveAnalytics from '@/components/PredictiveAnalytics';
 import AIChatbot from '@/components/AIChatbot';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
+import AviationNews from '@/components/AviationNews';
 import { SignedQuotePDFGenerator } from '@/lib/signed-quote-pdf';
 import { BadgeVerificationService } from '@/lib/badge-verification';
 import { CredentialGates } from '@/lib/credential-gates';
@@ -755,6 +757,10 @@ export default function DemoBrokerTerminal() {
               <Trophy className="w-4 h-4 icon-glow" />
               Trophy
             </TabsTrigger>
+            <TabsTrigger value="news" className="flex items-center gap-2">
+              <Globe className="w-4 h-4 icon-glow" />
+              News
+            </TabsTrigger>
             </TabsList>
           </div>
 
@@ -997,6 +1003,10 @@ export default function DemoBrokerTerminal() {
                 </CardContent>
               </Card>
             </div>
+          </TabsContent>
+
+          <TabsContent value="news" className="mt-6 scroll-smooth">
+            <AviationNews terminalType="broker" />
           </TabsContent>
         </Tabs>
 

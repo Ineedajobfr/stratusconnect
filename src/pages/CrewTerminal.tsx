@@ -8,7 +8,7 @@ import CrewJobs from "@/components/CrewJobs";
 import CrewCertifications from "@/components/CrewCertifications";
 import CrewAvailability from "@/components/CrewAvailability";
 import VerificationSystem from "@/components/VerificationSystem";
-import { AviationNews } from "@/components/AviationNews";
+import AviationNews from "@/components/AviationNews";
 import { PrivacyOverlay } from "@/components/PrivacyOverlay";
 import { CrewAnalytics } from "@/components/analytics/CrewAnalytics";
 import { ProfileWidget } from "@/components/ProfileWidget";

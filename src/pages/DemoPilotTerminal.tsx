@@ -10,6 +10,11 @@ import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
 import EnhancedAIChatbot from '@/components/EnhancedAIChatbot';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
+import AviationNews from '@/components/AviationNews';
+import AvailabilitySchedule from '@/components/Pilot/AvailabilitySchedule';
+import CredentialsVault from '@/components/Pilot/CredentialsVault';
+import JobMarketplace from '@/components/Pilot/JobMarketplace';
+import FlightLog from '@/components/Pilot/FlightLog';
 import { useNavigate } from 'react-router-dom';
 import { 
   HelpCircle,
@@ -41,7 +46,10 @@ import {
   Zap,
   BookOpen,
   Target,
-  Compass
+  Compass,
+  Calendar,
+  Briefcase,
+  Globe
 } from 'lucide-react';
 
 interface Flight {
@@ -567,6 +575,26 @@ export default function DemoPilotTerminal() {
                   <Navigation className="w-4 h-4" />
                   Tracking
                 </TabsTrigger>
+                <TabsTrigger value="availability" className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
+                  Availability
+                </TabsTrigger>
+                <TabsTrigger value="credentials" className="flex items-center gap-2">
+                  <Shield className="w-4 h-4" />
+                  Credentials
+                </TabsTrigger>
+                <TabsTrigger value="jobs" className="flex items-center gap-2">
+                  <Briefcase className="w-4 h-4" />
+                  Jobs
+                </TabsTrigger>
+                <TabsTrigger value="logbook" className="flex items-center gap-2">
+                  <BookOpen className="w-4 h-4" />
+                  Logbook
+                </TabsTrigger>
+                <TabsTrigger value="news" className="flex items-center gap-2">
+                  <Globe className="w-4 h-4" />
+                  News
+                </TabsTrigger>
               </TabsList>
             </div>
 
@@ -584,6 +612,21 @@ export default function DemoPilotTerminal() {
             </TabsContent>
             <TabsContent value="tracking" className="scroll-smooth">
               {renderTracking()}
+            </TabsContent>
+            <TabsContent value="availability" className="scroll-smooth">
+              <AvailabilitySchedule terminalType="pilot" />
+            </TabsContent>
+            <TabsContent value="credentials" className="scroll-smooth">
+              <CredentialsVault terminalType="pilot" />
+            </TabsContent>
+            <TabsContent value="jobs" className="scroll-smooth">
+              <JobMarketplace terminalType="pilot" />
+            </TabsContent>
+            <TabsContent value="logbook" className="scroll-smooth">
+              <FlightLog terminalType="pilot" />
+            </TabsContent>
+            <TabsContent value="news" className="scroll-smooth">
+              <AviationNews terminalType="pilot" />
             </TabsContent>
           </Tabs>
         </main>

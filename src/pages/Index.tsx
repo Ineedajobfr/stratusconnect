@@ -7,7 +7,7 @@ import { Plane, Shield, Users, Clock, CheckCircle, Star, Zap, Globe, Lock, Dolla
 import { useNavigate } from "react-router-dom";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 import { useAuth } from "@/contexts/AuthContext";
-import InteractiveTutorial from "@/components/InteractiveTutorial";
+import ResourcesSection from "@/components/ResourcesSection";
 
 export default function Index() {
   const navigate = useNavigate();
@@ -820,10 +820,10 @@ export default function Index() {
         </div>
       </div>
 
-      {/* Interactive Tutorials */}
+      {/* Additional Resources */}
       <div className="relative z-10 py-16">
         <div className="max-w-6xl mx-auto px-4">
-          <InteractiveTutorial />
+          <ResourcesSection />
         </div>
       </div>
 

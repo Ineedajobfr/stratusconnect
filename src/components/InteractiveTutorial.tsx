@@ -51,7 +51,7 @@ const tutorialSections: TutorialSection[] = [
         content: 'StratusConnect is the premier aviation marketplace connecting brokers, operators, pilots, and crew members.',
         duration: 1,
         type: 'overview',
-        voiceText: 'Hail, and well met. You stand now at the threshold of StratusConnect, the realm where the skies themselves bend to the will of those who dare to soar. Here, in this digital kingdom, brokers forge alliances, operators command their fleets, and pilots and crew find their destiny among the clouds. This is no mere marketplace - this is where legends of aviation are born.',
+        voiceText: 'Welcome to StratusConnect, the premier aviation marketplace platform. This sophisticated system connects brokers, operators, pilots, and crew members through advanced technology and streamlined processes. Here, industry professionals manage their operations, coordinate flights, and build successful partnerships in the aviation sector. This platform represents the future of aviation commerce.',
         highlights: ['Aviation marketplace', 'Brokers', 'Operators', 'Pilots', 'Crew members']
       },
       {
@@ -60,7 +60,7 @@ const tutorialSections: TutorialSection[] = [
         content: 'AI-powered search, real-time tracking, secure payments, and comprehensive user management.',
         duration: 2,
         type: 'overview',
-        voiceText: 'Behold the power that lies within your grasp. The AI search, like the wisdom of the ancient ones, sees beyond mere words to understand the true intent of your quest. Real-time tracking, swift as the wind itself, keeps watch over every journey. Secure payments flow like rivers of gold, protected by the strongest of shields. And the management tools - they are the very foundation upon which empires of aviation are built.',
+        voiceText: 'StratusConnect delivers enterprise-grade capabilities designed for aviation professionals. Our AI-powered search technology understands complex aviation terminology and context, providing precise results for your specific requirements. Real-time tracking systems monitor every flight and transaction with military-grade precision. Secure payment processing ensures all financial transactions are protected with bank-level encryption. Comprehensive management tools provide the operational foundation for successful aviation businesses.',
         highlights: ['AI-powered search', 'Real-time tracking', 'Secure payments', 'User management']
       },
       {
@@ -69,7 +69,7 @@ const tutorialSections: TutorialSection[] = [
         content: 'Brokers manage quotes, Operators handle fleet operations, Pilots find jobs, and Crew members get assignments.',
         duration: 2,
         type: 'overview',
-        voiceText: 'Four paths lie before you, each with its own destiny. The Brokers - they are the diplomats of the sky, forging alliances and managing the great contracts that bind the realm together. The Operators - they are the generals, commanding vast fleets and orchestrating the great movements across the heavens. The Pilots - they are the knights of the air, seeking their noble quests and adventures among the clouds. And the Crew - they are the faithful companions, ever ready to serve and support the great missions that await.',
+        voiceText: 'StratusConnect serves four distinct professional roles within the aviation industry. Brokers manage client relationships, negotiate contracts, and facilitate transactions between clients and operators. Operators oversee fleet operations, manage aircraft scheduling, and coordinate with pilots and crew. Pilots access job opportunities, manage their professional profiles, and track their flight hours and certifications. Crew members receive assignments, maintain their qualifications, and coordinate with flight operations teams.',
         highlights: ['Brokers', 'Operators', 'Pilots', 'Crew members']
       }
     ]
@@ -87,7 +87,7 @@ const tutorialSections: TutorialSection[] = [
         content: 'Intelligent search that understands aviation terminology and context.',
         duration: 2,
         type: 'demo',
-        voiceText: 'The AI Search Assistant - it is like having the wisdom of the ages at your command. Speak to it as you would to a trusted advisor, in the common tongue, and it shall understand not just your words, but the very essence of your quest. It knows the ancient languages of aviation, the secret codes of the sky, and will guide you to that which you seek with the precision of an eagle\'s eye.',
+        voiceText: 'The AI Search Assistant represents the cutting edge of aviation technology. This intelligent system processes natural language queries and understands complex aviation terminology, aircraft specifications, and operational requirements. Simply describe your needs in plain English, and the AI will analyze your request against our comprehensive database of aircraft, routes, and services. The system delivers precise, relevant results that match your exact specifications.',
         highlights: ['Natural language', 'Aviation terminology', 'Context understanding']
       },
       {
@@ -96,7 +96,7 @@ const tutorialSections: TutorialSection[] = [
         content: 'Data-driven insights for better decision making and fleet optimization.',
         duration: 3,
         type: 'demo',
-        voiceText: 'The Predictive Analytics - it is the gift of foresight, granted to those who would master the skies. Like the ancient seers who could read the patterns in the stars, this power analyzes the great tapestry of historical data to reveal the paths that lie ahead. It whispers of fleet optimization, foretells the tides of demand, and measures the very pulse of performance. With this knowledge, you shall make decisions that would make even the wisest of kings envious.',
+        voiceText: 'Predictive Analytics provides data-driven insights for strategic decision making in aviation operations. This advanced system analyzes historical data, market trends, and operational patterns to generate actionable intelligence. The platform offers fleet optimization recommendations, demand forecasting models, and performance analytics that help operators maximize efficiency and profitability. These insights enable informed decision-making that drives operational excellence and competitive advantage.',
         highlights: ['Data analysis', 'Fleet optimization', 'Demand forecasting', 'Performance metrics']
       },
       {
@@ -105,7 +105,7 @@ const tutorialSections: TutorialSection[] = [
         content: '24/7 intelligent assistance for users and real-time support.',
         duration: 3,
         type: 'demo',
-        voiceText: 'The AI Chatbot - your ever-vigilant guardian, standing watch through the long hours of day and night. Like a faithful steward who never sleeps, it stands ready to answer your every question, guide you through the labyrinth of the platform, and come to your aid when troubles arise. It knows the secrets of navigation, the mysteries of the interface, and the solutions to the most common of trials. In your darkest hour, when all seems lost, the chatbot shall be your light in the darkness.',
+        voiceText: 'The AI Chatbot provides comprehensive 24/7 support for all platform users. This intelligent assistant is trained on aviation industry knowledge and platform functionality to provide accurate, immediate responses to your questions. The chatbot can guide you through complex processes, troubleshoot technical issues, and provide detailed explanations of platform features. It maintains context throughout your conversation and escalates complex issues to human support specialists when necessary.',
         highlights: ['24/7 assistance', 'Real-time support', 'Platform guidance']
       }
     ]

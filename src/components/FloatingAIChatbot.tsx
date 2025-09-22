@@ -9,7 +9,6 @@ import {
   Clock
 } from 'lucide-react';
 import AdvancedAIChatbot from './AdvancedAIChatbot';
-import { useAuth } from '@/contexts/AuthContext';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 interface FloatingAIChatbotProps {
@@ -18,37 +17,29 @@ interface FloatingAIChatbotProps {
 
 export default function FloatingAIChatbot({ className = "" }: FloatingAIChatbotProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const { user } = useAuth();
 
-  // Determine user type based on current user or default to broker
+  // Determine user type - default to broker for now
   const getUserType = (): 'broker' | 'operator' | 'pilot' | 'crew' | 'admin' => {
-    if (!user) return 'broker';
-    
-    try {
-      // This would be determined by user role in your system
-      // For now, we'll use a simple mapping
-      const userRole = user.user_metadata?.role || 'broker';
-      return userRole as 'broker' | 'operator' | 'pilot' | 'crew' | 'admin';
-    } catch (error) {
-      console.error('Error determining user type:', error);
-      return 'broker';
-    }
+    // For now, we'll default to broker
+    // In a real implementation, this would get the user type from context
+    return 'broker';
   };
 
-  return (
-    <>
-      {/* Floating Button */}
-      <div className={`fixed bottom-6 right-6 z-50 ${className}`}>
-        {!isOpen && (
-          <Button
-            onClick={() => setIsOpen(true)}
-            className="w-14 h-14 rounded-full bg-accent hover:bg-accent/80 shadow-lg hover:shadow-xl transition-all duration-300 group"
-            size="lg"
-          >
-            <MessageSquare className="w-6 h-6 group-hover:scale-110 transition-transform" />
-          </Button>
-        )}
-      </div>
+  try {
+    return (
+      <>
+        {/* Floating Button */}
+        <div className={`fixed bottom-6 right-6 z-50 ${className}`}>
+          {!isOpen && (
+            <Button
+              onClick={() => setIsOpen(true)}
+              className="w-14 h-14 rounded-full bg-accent hover:bg-accent/80 shadow-lg hover:shadow-xl transition-all duration-300 group"
+              size="lg"
+            >
+              <MessageSquare className="w-6 h-6 group-hover:scale-110 transition-transform" />
+            </Button>
+          )}
+        </div>
 
       {/* Chatbot Modal */}
       {isOpen && (
@@ -96,7 +87,13 @@ export default function FloatingAIChatbot({ className = "" }: FloatingAIChatbotP
 
             {/* Chatbot Component */}
             <div className="flex-1 p-4">
-              <ErrorBoundary fallback={<div className="text-center text-muted-foreground p-4">AI Chatbot temporarily unavailable</div>}>
+              <ErrorBoundary fallback={
+                <div className="text-center text-muted-foreground p-4">
+                  <Bot className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                  <p>AI Chatbot temporarily unavailable</p>
+                  <p className="text-xs mt-2">Please try refreshing the page</p>
+                </div>
+              }>
                 <AdvancedAIChatbot userType={getUserType()} />
               </ErrorBoundary>
             </div>
@@ -105,4 +102,20 @@ export default function FloatingAIChatbot({ className = "" }: FloatingAIChatbotP
       )}
     </>
   );
+  } catch (error) {
+    console.error('FloatingAIChatbot error:', error);
+    // Return a minimal fallback that won't crash the app
+    return (
+      <div className={`fixed bottom-6 right-6 z-50 ${className}`}>
+        <Button
+          onClick={() => window.open('/ai-chatbot', '_blank')}
+          className="w-14 h-14 rounded-full bg-accent hover:bg-accent/80 shadow-lg"
+          size="lg"
+          title="Open AI Chatbot"
+        >
+          <MessageSquare className="w-6 h-6" />
+        </Button>
+      </div>
+    );
+  }
 }

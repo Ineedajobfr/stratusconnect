@@ -326,14 +326,14 @@ const App = memo(() => {
               <Route path="*" element={<NotFound />} />
             </Routes>
               </Suspense>
+              
+              {/* Floating AI Chatbot - Inside AuthProvider */}
+              <FloatingAIChatbot />
             </AuthProvider>
           </BrowserRouter>
           </TooltipProvider>
         </QueryClientProvider>
       </ErrorBoundary>
-      
-      {/* Floating AI Chatbot */}
-      <FloatingAIChatbot />
     </div>
   );
 });

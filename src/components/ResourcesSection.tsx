@@ -15,7 +15,7 @@ import {
   Volume2
 } from 'lucide-react';
 import AIVoiceReader from './AIVoiceReader';
-import AdvancedVoiceSelector from './AdvancedVoiceSelector';
+import SimpleVoiceReader from './SimpleVoiceReader';
 import { voiceScripts } from '@/scripts/voice-scripts';
 import { Link } from 'react-router-dom';
 
@@ -174,17 +174,12 @@ const resourceCategories = [
 export default function ResourcesSection() {
   const [selectedItem, setSelectedItem] = useState<ResourceItem | null>(null);
   const [showVoiceReader, setShowVoiceReader] = useState(false);
-  const [showAdvancedVoice, setShowAdvancedVoice] = useState(false);
 
   const handleItemClick = (item: ResourceItem) => {
     if (item.voiceText) {
       if (item.action === 'Try Demo') {
         // Open voice demo in new tab
         window.open('/voice-demo', '_blank');
-      } else if (item.action === 'Listen') {
-        // Show advanced voice selector for tutorials
-        setSelectedItem(item);
-        setShowAdvancedVoice(true);
       } else {
         setSelectedItem(item);
         setShowVoiceReader(true);
@@ -277,39 +272,9 @@ export default function ResourcesSection() {
                 </Button>
               </div>
               
-              <AIVoiceReader
+              <SimpleVoiceReader
                 text={selectedItem.voiceText || ''}
-                title={`${selectedItem.title} - Professional Audio Guide`}
-              />
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Advanced Voice Selector Modal */}
-      {showAdvancedVoice && selectedItem && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-terminal-card border border-terminal-border rounded-lg max-w-6xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-2xl font-bold text-foreground">
-                  {selectedItem.title} - Advanced AI Voice
-                </h3>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    setShowAdvancedVoice(false);
-                    setSelectedItem(null);
-                  }}
-                >
-                  ×
-                </Button>
-              </div>
-              
-              <AdvancedVoiceSelector
-                text={selectedItem.voiceText || ''}
-                title={selectedItem.title}
+                title={`${selectedItem.title} - Audio Guide`}
               />
             </div>
           </div>

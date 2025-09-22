@@ -12,6 +12,9 @@ import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
 import AISearchAssistant from '@/components/AISearchAssistant';
 import PredictiveAnalytics from '@/components/PredictiveAnalytics';
 import AIChatbot from '@/components/AIChatbot';
+import NoteTakingSystem from '@/components/NoteTakingSystem';
+import EnhancedAIChatbot from '@/components/EnhancedAIChatbot';
+import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
 import { useNavigate } from 'react-router-dom';
 import { 
   DollarSign, 
@@ -49,7 +52,9 @@ import {
   Navigation,
   Headphones,
   HelpCircle,
-  ArrowUp
+  ArrowUp,
+  RefreshCw,
+  Plus
 } from 'lucide-react';
 
 interface RFQ {
@@ -806,6 +811,172 @@ export default function DemoOperatorTerminal() {
     </div>
   );
 
+  const renderAnalytics = () => (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold text-foreground">Analytics & Performance</h2>
+        <Button className="btn-terminal-accent">
+          <Download className="w-4 h-4 mr-2" />
+          Export Data
+        </Button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Card className="terminal-card">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-gunmetal">Fleet Utilization</CardTitle>
+            <BarChart3 className="h-4 w-4 text-accent" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-foreground">87%</div>
+            <p className="text-xs text-muted-foreground">+5% vs last month</p>
+          </CardContent>
+        </Card>
+
+        <Card className="terminal-card">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-gunmetal">Revenue per Flight</CardTitle>
+            <DollarSign className="h-4 w-4 text-accent" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-foreground">$185K</div>
+            <p className="text-xs text-muted-foreground">+12% vs last month</p>
+          </CardContent>
+        </Card>
+
+        <Card className="terminal-card">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-gunmetal">Crew Efficiency</CardTitle>
+            <Users className="h-4 w-4 text-accent" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-foreground">94%</div>
+            <p className="text-xs text-muted-foreground">+3% vs last month</p>
+          </CardContent>
+        </Card>
+
+        <Card className="terminal-card">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-gunmetal">Customer Satisfaction</CardTitle>
+            <Award className="h-4 w-4 text-accent" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-foreground">4.8/5</div>
+            <p className="text-xs text-muted-foreground">+0.2 vs last month</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card className="terminal-card">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold text-foreground">Top Routes</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-foreground">LHR - JFK</span>
+                <div className="flex items-center space-x-2">
+                  <div className="w-20 bg-terminal-border rounded-full h-2">
+                    <div className="bg-accent h-2 rounded-full" style={{ width: '85%' }}></div>
+                  </div>
+                  <span className="text-sm text-muted-foreground">85%</span>
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-foreground">CDG - LAX</span>
+                <div className="flex items-center space-x-2">
+                  <div className="w-20 bg-terminal-border rounded-full h-2">
+                    <div className="bg-accent h-2 rounded-full" style={{ width: '72%' }}></div>
+                  </div>
+                  <span className="text-sm text-muted-foreground">72%</span>
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-foreground">FRA - DXB</span>
+                <div className="flex items-center space-x-2">
+                  <div className="w-20 bg-terminal-border rounded-full h-2">
+                    <div className="bg-accent h-2 rounded-full" style={{ width: '68%' }}></div>
+                  </div>
+                  <span className="text-sm text-muted-foreground">68%</span>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="terminal-card">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold text-foreground">Aircraft Performance</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-foreground">Gulfstream G650</span>
+                <div className="flex items-center space-x-2">
+                  <div className="w-20 bg-terminal-border rounded-full h-2">
+                    <div className="bg-green-400 h-2 rounded-full" style={{ width: '92%' }}></div>
+                  </div>
+                  <span className="text-sm text-muted-foreground">92%</span>
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-foreground">Global 6000</span>
+                <div className="flex items-center space-x-2">
+                  <div className="w-20 bg-terminal-border rounded-full h-2">
+                    <div className="bg-green-400 h-2 rounded-full" style={{ width: '88%' }}></div>
+                  </div>
+                  <span className="text-sm text-muted-foreground">88%</span>
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-foreground">Challenger 350</span>
+                <div className="flex items-center space-x-2">
+                  <div className="w-20 bg-terminal-border rounded-full h-2">
+                    <div className="bg-yellow-400 h-2 rounded-full" style={{ width: '76%' }}></div>
+                  </div>
+                  <span className="text-sm text-muted-foreground">76%</span>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+
+  const renderNotes = () => (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold text-foreground">Note Taking System</h2>
+        <Button className="btn-terminal-accent">
+          <Plus className="w-4 h-4 mr-2" />
+          New Note
+        </Button>
+      </div>
+      <NoteTakingSystem terminalType="operator" />
+    </div>
+  );
+
+  const renderTracking = () => (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold text-foreground">Flight Tracking</h2>
+        <Button className="btn-terminal-accent">
+          <RefreshCw className="w-4 h-4 mr-2" />
+          Refresh
+        </Button>
+      </div>
+      <FlightRadar24Widget 
+        tailNumbers={['N123SC', 'N456AV', 'N789OP']}
+        showMap={true}
+        autoRefresh={true}
+        refreshInterval={30}
+        role="operator"
+      />
+    </div>
+  );
+
   return (
     <>
       {showHelpGuide && (
@@ -882,6 +1053,18 @@ export default function DemoOperatorTerminal() {
                 <CreditCard className="w-4 h-4" />
                 Billing
               </TabsTrigger>
+              <TabsTrigger value="analytics" className="flex items-center gap-2">
+                <TrendingUp className="w-4 h-4" />
+                Analytics
+              </TabsTrigger>
+              <TabsTrigger value="notes" className="flex items-center gap-2">
+                <FileText className="w-4 h-4" />
+                Notes
+              </TabsTrigger>
+              <TabsTrigger value="tracking" className="flex items-center gap-2">
+                <Navigation className="w-4 h-4" />
+                Tracking
+              </TabsTrigger>
               </TabsList>
             </div>
 
@@ -908,6 +1091,15 @@ export default function DemoOperatorTerminal() {
             <TabsContent value="billing" className="scroll-smooth">
               {renderBilling()}
             </TabsContent>
+            <TabsContent value="analytics" className="scroll-smooth">
+              {renderAnalytics()}
+            </TabsContent>
+            <TabsContent value="notes" className="scroll-smooth">
+              {renderNotes()}
+            </TabsContent>
+            <TabsContent value="tracking" className="scroll-smooth">
+              {renderTracking()}
+            </TabsContent>
           </Tabs>
         </main>
 
@@ -927,8 +1119,8 @@ export default function DemoOperatorTerminal() {
         <ArrowUp className="w-6 h-6 text-white" />
       </Button>
       
-      {/* AI Chatbot */}
-      <AIChatbot terminalType="operator" />
+      {/* Enhanced AI Chatbot */}
+      <EnhancedAIChatbot terminalType="operator" />
     </>
   );
 }

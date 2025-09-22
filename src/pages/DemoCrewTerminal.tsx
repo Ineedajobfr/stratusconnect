@@ -10,7 +10,6 @@ import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
 import EnhancedAIChatbot from '@/components/EnhancedAIChatbot';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
-import { DemoBanner } from '@/components/DemoBanner';
 import { useNavigate } from 'react-router-dom';
 import { 
   HelpCircle,
@@ -557,11 +556,6 @@ export default function DemoCrewTerminal() {
           </Tabs>
         </main>
 
-        {/* Demo Banner */}
-        <div className="fixed bottom-0 left-0 right-0 z-50 bg-yellow-500 text-black text-center py-2 text-sm font-medium">
-          <AlertTriangle className="w-4 h-4 inline mr-2" />
-          Demo Mode Active. This is a demonstration of the Crew Terminal. All data is simulated and no real transactions will occur.
-        </div>
       </div>
       
       {/* Scroll to Top Button */}

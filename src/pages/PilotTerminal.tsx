@@ -58,7 +58,7 @@ export default function PilotTerminal() {
         <ModernHelpGuide 
           terminalType="pilot" 
           activeTab={activeSection} 
-          showOnMount={false} 
+          showOnMount={true} 
           isDemo={false}
           onClose={() => setShowHelpGuide(false)}
         />

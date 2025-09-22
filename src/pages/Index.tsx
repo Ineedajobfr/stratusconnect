@@ -39,28 +39,8 @@ export default function Index() {
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
               The leading platform connecting brokers, operators, pilots, and crew. 
-              Join our growing community of aviation professionals, with real-time data processing and an average response time of 50ms.
+              Join our growing community of aviation professionals with real-time data processing and intelligent automation.
             </p>
-          </div>
-
-          {/* Key Statistics */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">99.9%</div>
-              <div className="text-sm text-muted-foreground">Uptime</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">500+</div>
-              <div className="text-sm text-muted-foreground">Beta Users</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">$50M+</div>
-              <div className="text-sm text-muted-foreground">Platform Value</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">50ms</div>
-              <div className="text-sm text-muted-foreground">Avg Response</div>
-            </div>
           </div>
         </div>
       </div>

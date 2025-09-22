@@ -21,6 +21,7 @@ import { Plane, Calendar, DollarSign, TrendingUp, Users, MapPin, Clock, Settings
 import { NavigationArrows } from "@/components/NavigationArrows";
 import { ModernHelpGuide } from "@/components/ModernHelpGuide";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
+import { AIAssistantButton } from "@/components/AIAssistantButton";
 import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24Widget";
 import { PersonalizedFeed } from "@/components/feed/PersonalizedFeed";
 import NoteTakingSystem from "@/components/NoteTakingSystem";

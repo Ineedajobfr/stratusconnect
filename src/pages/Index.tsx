@@ -3,11 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Plane, Shield, Users, Clock, CheckCircle, Star, Zap, Globe, Lock, DollarSign, Building2, UserCheck, ArrowRight, Info, Percent, MessageSquare, BookOpen, Play, Download } from "lucide-react";
+import { Plane, Shield, Users, Clock, CheckCircle, Star, Zap, Globe, Lock, DollarSign, Building2, UserCheck, ArrowRight, Info, Percent, MessageSquare, BookOpen, Play, Download, FileText, Bot, HelpCircle, Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 import { useAuth } from "@/contexts/AuthContext";
-import ResourcesSection from "@/components/ResourcesSection";
 
 export default function Index() {
   const navigate = useNavigate();
@@ -785,7 +784,7 @@ export default function Index() {
                </div>
              </CardHeader>
              <CardContent>
-               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                  <div className="text-center">
                    <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-3">
                      <Building2 className="w-8 h-8 text-accent" />
@@ -815,17 +814,128 @@ export default function Index() {
                    <p className="text-sm text-muted-foreground">Download guides and access support</p>
                  </div>
                </div>
+
+               {/* Integrated Resources */}
+               <div className="border-t border-terminal-border pt-6">
+                 <h3 className="text-lg font-semibold text-foreground mb-4">Download Guides & Get Support</h3>
+                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                   {/* User Manuals */}
+                   <div className="space-y-3">
+                     <div className="flex items-center space-x-2 mb-3">
+                       <FileText className="w-5 h-5 text-accent" />
+                       <h4 className="font-medium text-foreground">User Manuals</h4>
+                     </div>
+                     <div className="space-y-2">
+                       <Button 
+                         variant="outline" 
+                         size="sm" 
+                         className="w-full justify-start text-left"
+                         onClick={() => window.open('/how-to-use', '_blank')}
+                       >
+                         <Download className="w-4 h-4 mr-2" />
+                         Broker Terminal Guide
+                       </Button>
+                       <Button 
+                         variant="outline" 
+                         size="sm" 
+                         className="w-full justify-start text-left"
+                         onClick={() => window.open('/how-to-use', '_blank')}
+                       >
+                         <Download className="w-4 h-4 mr-2" />
+                         Operator Terminal Guide
+                       </Button>
+                       <Button 
+                         variant="outline" 
+                         size="sm" 
+                         className="w-full justify-start text-left"
+                         onClick={() => window.open('/how-to-use', '_blank')}
+                       >
+                         <Download className="w-4 h-4 mr-2" />
+                         Pilot Terminal Guide
+                       </Button>
+                       <Button 
+                         variant="outline" 
+                         size="sm" 
+                         className="w-full justify-start text-left"
+                         onClick={() => window.open('/how-to-use', '_blank')}
+                       >
+                         <Download className="w-4 h-4 mr-2" />
+                         Crew Terminal Guide
+                       </Button>
+                     </div>
+                   </div>
+
+                   {/* AI Assistant */}
+                   <div className="space-y-3">
+                     <div className="flex items-center space-x-2 mb-3">
+                       <Bot className="w-5 h-5 text-accent" />
+                       <h4 className="font-medium text-foreground">AI Assistant</h4>
+                     </div>
+                     <div className="space-y-2">
+                       <Button 
+                         variant="outline" 
+                         size="sm" 
+                         className="w-full justify-start text-left"
+                         onClick={() => window.open('/ai-chatbot', '_blank')}
+                       >
+                         <MessageSquare className="w-4 h-4 mr-2" />
+                         AI Chatbot
+                       </Button>
+                     </div>
+                   </div>
+
+                   {/* Support */}
+                   <div className="space-y-3">
+                     <div className="flex items-center space-x-2 mb-3">
+                       <HelpCircle className="w-5 h-5 text-accent" />
+                       <h4 className="font-medium text-foreground">Support</h4>
+                     </div>
+                     <div className="space-y-2">
+                       <Button 
+                         variant="outline" 
+                         size="sm" 
+                         className="w-full justify-start text-left"
+                         onClick={() => window.open('/contact', '_blank')}
+                       >
+                         <MessageSquare className="w-4 h-4 mr-2" />
+                         Live Chat Support
+                       </Button>
+                       <Button 
+                         variant="outline" 
+                         size="sm" 
+                         className="w-full justify-start text-left"
+                         onClick={() => window.open('/how-to-use', '_blank')}
+                       >
+                         <BookOpen className="w-4 h-4 mr-2" />
+                         Knowledge Base
+                       </Button>
+                       <Button 
+                         variant="outline" 
+                         size="sm" 
+                         className="w-full justify-start text-left"
+                         onClick={() => window.open('/api-docs', '_blank')}
+                       >
+                         <FileText className="w-4 h-4 mr-2" />
+                         API Documentation
+                       </Button>
+                       <Button 
+                         variant="outline" 
+                         size="sm" 
+                         className="w-full justify-start text-left"
+                         onClick={() => window.open('/status', '_blank')}
+                       >
+                         <Settings className="w-4 h-4 mr-2" />
+                         System Status
+                       </Button>
+                     </div>
+                   </div>
+                 </div>
+               </div>
              </CardContent>
            </Card>
         </div>
       </div>
 
-      {/* Additional Resources */}
-      <div className="relative z-10 py-16">
-        <div className="max-w-6xl mx-auto px-4">
-          <ResourcesSection />
-        </div>
-      </div>
 
       {/* Performance & Reliability */}
       <div className="relative z-10 py-16">

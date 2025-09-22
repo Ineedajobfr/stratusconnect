@@ -16,6 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ModernHelpGuide } from "@/components/ModernHelpGuide";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
+import { AIAssistantButton } from "@/components/AIAssistantButton";
 import { MultiLegRFQ } from "@/components/DealFlow/MultiLegRFQ";
 import { SavedSearches } from "@/components/DealFlow/SavedSearches";
 import { ReputationMetrics } from "@/components/Reputation/ReputationMetrics";
@@ -301,6 +302,7 @@ export default function BrokerTerminal() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
+                <AIAssistantButton userType="broker" />
                 <Button
                   onClick={() => setShowHelpGuide(true)}
                   className="w-12 h-12 bg-accent/20 hover:bg-accent/30 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-accent/30"

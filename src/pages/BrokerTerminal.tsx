@@ -59,7 +59,7 @@ import { ModernNotesSystem } from '@/components/ModernNotesSystem';
 import { ModernFlightTracker } from '@/components/ModernFlightTracker';
 import AviationNews from '@/components/AviationNews';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
-import { GrokMaxAI } from '@/components/ai/GrokMaxAI';
+import { MaxAI } from '@/components/ai/GrokMaxAI';
 import { WeekOneScoreboard } from '@/components/WeekOneScoreboard';
 import DemoMarketplace from './DemoMarketplace';
 
@@ -186,198 +186,242 @@ export default function BrokerTerminal() {
 
   const renderDashboard = () => (
     <div className="space-y-6">
+      {/* Hero Section */}
+      <div className="text-center py-16">
+        <h1 className="text-5xl font-bold text-slate-900 mb-6">
+          Professional Aviation Marketplace
+        </h1>
+        <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-8">
+          Connect with verified operators, manage RFQs, and close deals with confidence. 
+          Powered by AI and built for professionals.
+        </p>
+        <div className="flex justify-center gap-4">
+          <Button 
+            size="lg" 
+            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 shadow-lg"
+          >
+            Start Trading
+            <ArrowRight className="w-5 h-5 ml-2" />
+          </Button>
+          <Button 
+            variant="outline" 
+            size="lg"
+            className="border-slate-300 bg-white text-slate-700 hover:bg-slate-50 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 shadow-sm"
+          >
+            View Analytics
+          </Button>
+        </div>
+      </div>
+
       {/* Global Search Bar */}
-      <Card className="bg-white/5 backdrop-blur-sm border-neutral-800/50">
-        <CardContent className="p-6">
+      <Card className="bg-white shadow-lg border border-slate-200/50 rounded-2xl">
+        <CardContent className="p-8">
           <div className="flex items-center gap-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
               <input
                 type="text"
                 placeholder="Search routes, operators, aircraft, or ask Max AI..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                className="w-full pl-10 pr-4 py-3 bg-white/10 border border-neutral-700/50 rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50 transition-all duration-200"
+                className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg"
               />
-                </div>
-            <div className="flex gap-2">
-                <Button
+            </div>
+            <div className="flex gap-3">
+              <Button 
                 onClick={handleSearch}
-                className="bg-orange-500 hover:bg-orange-600 text-white rounded-xl px-6 py-3 transition-all duration-200"
-                >
+                className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl px-8 py-4 font-medium transition-all duration-200"
+              >
                 Search
-                </Button>
+              </Button>
               <Button 
                 variant="outline"
                 onClick={() => setShowMaxAI(true)}
-                className="border-orange-500/50 text-orange-400 hover:bg-orange-500/10 hover:text-orange-300 rounded-xl px-6 py-3 transition-all duration-200"
+                className="border-blue-600 text-blue-600 hover:bg-blue-50 rounded-xl px-8 py-4 font-medium transition-all duration-200"
               >
-                <Brain className="w-4 h-4 mr-2" />
+                <Brain className="w-5 h-5 mr-2" />
                 Ask Max AI
               </Button>
-        </div>
-      </div>
-                </CardContent>
-              </Card>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="bg-white/5 backdrop-blur-sm border-neutral-800/50 hover:bg-white/10 transition-all duration-300">
-                <CardContent className="p-6">
+        <Card className="bg-white shadow-lg border border-slate-200/50 hover:shadow-xl transition-all duration-300 rounded-2xl">
+          <CardContent className="p-8">
             <div className="flex items-center justify-between">
-                    <div>
-                <p className="text-sm text-neutral-400 mb-1">Active RFQs</p>
-                <p className="text-2xl font-bold text-white">{dashboardMetrics.activeRFQs}</p>
-                <p className="text-xs text-orange-400 mt-1">+{dashboardMetrics.weeklyGrowth}% this week</p>
-                    </div>
-              <FileText className="w-8 h-8 text-orange-400" />
-                  </div>
-                </CardContent>
-              </Card>
+              <div>
+                <p className="text-sm text-slate-600 mb-2 font-medium">Active RFQs</p>
+                <p className="text-3xl font-bold text-slate-900">{dashboardMetrics.activeRFQs}</p>
+                <p className="text-sm text-blue-600 mt-2 font-medium">+{dashboardMetrics.weeklyGrowth}% this week</p>
+              </div>
+              <div className="p-3 bg-blue-100 rounded-xl">
+                <FileText className="w-8 h-8 text-blue-600" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
-        <Card className="bg-white/5 backdrop-blur-sm border-neutral-800/50 hover:bg-white/10 transition-all duration-300">
-                <CardContent className="p-6">
+        <Card className="bg-white shadow-lg border border-slate-200/50 hover:shadow-xl transition-all duration-300 rounded-2xl">
+          <CardContent className="p-8">
             <div className="flex items-center justify-between">
-                    <div>
-                <p className="text-sm text-neutral-400 mb-1">Quotes Received</p>
-                <p className="text-2xl font-bold text-white">{dashboardMetrics.quotesReceived}</p>
-                <p className="text-xs text-orange-400 mt-1">Avg {(dashboardMetrics.quotesReceived / Math.max(dashboardMetrics.activeRFQs, 1)).toFixed(1)} per RFQ</p>
-                    </div>
-              <TrendingUp className="w-8 h-8 text-orange-400" />
-                  </div>
-                </CardContent>
-              </Card>
+              <div>
+                <p className="text-sm text-slate-600 mb-2 font-medium">Quotes Received</p>
+                <p className="text-3xl font-bold text-slate-900">{dashboardMetrics.quotesReceived}</p>
+                <p className="text-sm text-blue-600 mt-2 font-medium">Avg {(dashboardMetrics.quotesReceived / Math.max(dashboardMetrics.activeRFQs, 1)).toFixed(1)} per RFQ</p>
+              </div>
+              <div className="p-3 bg-green-100 rounded-xl">
+                <TrendingUp className="w-8 h-8 text-green-600" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
-        <Card className="bg-white/5 backdrop-blur-sm border-neutral-800/50 hover:bg-white/10 transition-all duration-300">
-                <CardContent className="p-6">
+        <Card className="bg-white shadow-lg border border-slate-200/50 hover:shadow-xl transition-all duration-300 rounded-2xl">
+          <CardContent className="p-8">
             <div className="flex items-center justify-between">
-                    <div>
-                <p className="text-sm text-neutral-400 mb-1">Deals Closed</p>
-                <p className="text-2xl font-bold text-white">{dashboardMetrics.dealsClosed}</p>
-                <p className="text-xs text-orange-400 mt-1">${(dashboardMetrics.volume / 1000000).toFixed(1)}M volume</p>
-                    </div>
-              <DollarSign className="w-8 h-8 text-orange-400" />
-                  </div>
-                </CardContent>
-              </Card>
+              <div>
+                <p className="text-sm text-slate-600 mb-2 font-medium">Deals Closed</p>
+                <p className="text-3xl font-bold text-slate-900">{dashboardMetrics.dealsClosed}</p>
+                <p className="text-sm text-blue-600 mt-2 font-medium">${(dashboardMetrics.volume / 1000000).toFixed(1)}M volume</p>
+              </div>
+              <div className="p-3 bg-emerald-100 rounded-xl">
+                <DollarSign className="w-8 h-8 text-emerald-600" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
-        <Card className="bg-white/5 backdrop-blur-sm border-neutral-800/50 hover:bg-white/10 transition-all duration-300">
-                <CardContent className="p-6">
+        <Card className="bg-white shadow-lg border border-slate-200/50 hover:shadow-xl transition-all duration-300 rounded-2xl">
+          <CardContent className="p-8">
             <div className="flex items-center justify-between">
-                    <div>
-                <p className="text-sm text-neutral-400 mb-1">Avg Response Time</p>
-                <p className="text-2xl font-bold text-white">{dashboardMetrics.avgResponseTime.toFixed(1)}m</p>
-                <p className="text-xs text-orange-400 mt-1">Fast lane eligible</p>
-                    </div>
-              <Clock className="w-8 h-8 text-orange-400" />
-                  </div>
-                </CardContent>
-              </Card>
+              <div>
+                <p className="text-sm text-slate-600 mb-2 font-medium">Avg Response Time</p>
+                <p className="text-3xl font-bold text-slate-900">{dashboardMetrics.avgResponseTime.toFixed(1)}m</p>
+                <p className="text-sm text-blue-600 mt-2 font-medium">Fast lane eligible</p>
+              </div>
+              <div className="p-3 bg-purple-100 rounded-xl">
+                <Clock className="w-8 h-8 text-purple-600" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
             </div>
 
       {/* AI Search Assistant */}
-      <Card className="bg-white/5 backdrop-blur-sm border-neutral-800/50">
-              <CardHeader>
-          <CardTitle className="flex items-center gap-3 text-white">
-            <Brain className="w-6 h-6 text-orange-400" />
+      <Card className="bg-white shadow-lg border border-slate-200/50 rounded-2xl">
+        <CardHeader className="pb-6">
+          <CardTitle className="flex items-center gap-3 text-slate-900 text-2xl">
+            <div className="p-2 bg-blue-100 rounded-xl">
+              <Brain className="w-6 h-6 text-blue-600" />
+            </div>
             AI Search Assistant
           </CardTitle>
-          <CardDescription className="text-neutral-400">
+          <CardDescription className="text-slate-600 text-lg">
             Get intelligent insights and search across the platform with AI-powered assistance
           </CardDescription>
-              </CardHeader>
-              <CardContent>
+        </CardHeader>
+        <CardContent>
           <AISearchAssistant terminalType="broker" className="mb-6" />
-              </CardContent>
-            </Card>
+        </CardContent>
+      </Card>
 
       {/* Predictive Analytics */}
       <RealPredictiveAnalytics terminalType="broker" className="mb-6" />
 
       {/* AI Insights */}
-      <Card className="bg-white/5 backdrop-blur-sm border-neutral-800/50">
-              <CardHeader>
-          <CardTitle className="flex items-center gap-3 text-white">
-            <Brain className="w-6 h-6 text-orange-400" />
+      <Card className="bg-white shadow-lg border border-slate-200/50 rounded-2xl">
+        <CardHeader className="pb-6">
+          <CardTitle className="flex items-center gap-3 text-slate-900 text-2xl">
+            <div className="p-2 bg-blue-100 rounded-xl">
+              <Brain className="w-6 h-6 text-blue-600" />
+            </div>
             Market Intelligence
           </CardTitle>
-          <CardDescription className="text-neutral-400">
+          <CardDescription className="text-slate-600 text-lg">
             Real-time market analysis and strategic insights for your business
           </CardDescription>
-              </CardHeader>
-              <CardContent>
-          <div className="space-y-4">
-            <div className="p-4 bg-gradient-to-r from-orange-500/10 to-red-500/10 rounded-xl border border-orange-500/20">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <TrendingUp className="h-5 w-5 text-orange-400" />
-                  <div>
-                    <p className="text-sm font-medium text-white">Charter Demand Surge</p>
-                    <p className="text-sm text-neutral-300">European routes showing 23% increase in demand this week</p>
-                  </div>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl border border-blue-200/50">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="p-3 bg-blue-100 rounded-xl">
+                  <TrendingUp className="h-6 w-6 text-blue-600" />
                 </div>
-                <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30">
-                  +23%
-                </Badge>
+                <div>
+                  <h3 className="font-semibold text-slate-900">Charter Demand Surge</h3>
+                  <p className="text-sm text-slate-600">European routes showing 23% increase</p>
+                </div>
               </div>
+              <Badge className="bg-blue-100 text-blue-700 border-blue-200 font-medium">
+                +23%
+              </Badge>
             </div>
-            <div className="p-4 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-xl border border-blue-500/20">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <Target className="h-5 w-5 text-blue-400" />
-                  <div>
-                    <p className="text-sm font-medium text-white">Strategic Opportunity</p>
-                    <p className="text-sm text-neutral-300">London-NYC route pricing 18% below market average</p>
-                  </div>
+            <div className="p-6 bg-gradient-to-br from-emerald-50 to-green-50 rounded-2xl border border-emerald-200/50">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="p-3 bg-emerald-100 rounded-xl">
+                  <Target className="h-6 w-6 text-emerald-600" />
                 </div>
-                <Button
-                  variant="outline" 
-                  size="sm" 
-                  className="border-blue-500/50 text-blue-400 hover:bg-blue-500/10 hover:text-blue-300 rounded-xl px-4 py-2 transition-all duration-200"
-                  onClick={() => setActiveTab('marketplace')}
-                >
-                  Explore
-                </Button>
+                <div>
+                  <h3 className="font-semibold text-slate-900">Strategic Opportunity</h3>
+                  <p className="text-sm text-slate-600">London-NYC route pricing 18% below market</p>
+                </div>
               </div>
+              <Button
+                variant="outline" 
+                size="sm" 
+                className="border-emerald-200 text-emerald-700 hover:bg-emerald-50 rounded-xl px-4 py-2 transition-all duration-200 font-medium"
+                onClick={() => setActiveTab('marketplace')}
+              >
+                Explore
+              </Button>
             </div>
-            <div className="p-4 bg-gradient-to-r from-green-500/10 to-emerald-500/10 rounded-xl border border-green-500/20">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <Award className="h-5 w-5 text-green-400" />
-                  <div>
-                    <p className="text-sm font-medium text-white">Competitive Advantage</p>
-                    <p className="text-sm text-neutral-300">Your response time is 40% faster than industry average</p>
-                  </div>
+            <div className="p-6 bg-gradient-to-br from-purple-50 to-violet-50 rounded-2xl border border-purple-200/50">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="p-3 bg-purple-100 rounded-xl">
+                  <Award className="h-6 w-6 text-purple-600" />
                 </div>
-                <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
-                  Top 5%
-                </Badge>
+                <div>
+                  <h3 className="font-semibold text-slate-900">Competitive Advantage</h3>
+                  <p className="text-sm text-slate-600">40% faster response than industry average</p>
+                </div>
               </div>
+              <Badge className="bg-purple-100 text-purple-700 border-purple-200 font-medium">
+                Top 5%
+              </Badge>
             </div>
                 </div>
               </CardContent>
             </Card>
 
       {/* Recent Activity */}
-      <Card className="bg-white/5 backdrop-blur-sm border-neutral-800/50">
-              <CardHeader>
-          <CardTitle className="flex items-center gap-3 text-white">
-            <BarChart3 className="w-6 h-6 text-orange-400" />
+      <Card className="bg-white shadow-lg border border-slate-200/50 rounded-2xl">
+        <CardHeader className="pb-6">
+          <CardTitle className="flex items-center gap-3 text-slate-900 text-2xl">
+            <div className="p-2 bg-blue-100 rounded-xl">
+              <BarChart3 className="w-6 h-6 text-blue-600" />
+            </div>
             Recent Activity
           </CardTitle>
-          <CardDescription className="text-neutral-400">
+          <CardDescription className="text-slate-600 text-lg">
             Your latest transactions and platform activity
           </CardDescription>
-              </CardHeader>
+        </CardHeader>
               <CardContent>
           <div className="space-y-3">
             {rfqs.length === 0 ? (
-              <div className="text-center py-8">
-                <FileText className="w-12 h-12 text-neutral-400 mx-auto mb-4" />
-                <p className="text-neutral-400">No recent activity. Create your first RFQ to get started.</p>
+              <div className="text-center py-12">
+                <div className="p-4 bg-slate-100 rounded-2xl w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+                  <FileText className="w-8 h-8 text-slate-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-slate-900 mb-2">No recent activity</h3>
+                <p className="text-slate-600 mb-6">Create your first RFQ to get started with the platform.</p>
                 <Button 
-                  className="mt-4 bg-orange-500 hover:bg-orange-600 text-white rounded-xl px-6 py-3 transition-all duration-200"
+                  className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl px-8 py-3 transition-all duration-200 font-medium"
                   onClick={() => setActiveTab('rfqs')}
                 >
                   Create RFQ
@@ -385,24 +429,24 @@ export default function BrokerTerminal() {
               </div>
           ) : (
               rfqs.slice(0, 3).map(rfq => (
-                <div key={rfq.id} className="p-4 bg-white/5 border border-neutral-800/50 rounded-xl hover:bg-white/10 transition-all duration-300">
+                <div key={rfq.id} className="p-6 bg-slate-50 border border-slate-200 rounded-2xl hover:bg-slate-100 transition-all duration-300">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
+                    <div className="flex items-center gap-4">
+                      <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
                       <div>
-                        <p className="font-medium text-white">{rfq.route}</p>
-                        <p className="text-sm text-neutral-400">{rfq.aircraft} • {rfq.quotes.length} quotes • {rfq.passengers} pax</p>
+                        <p className="font-semibold text-slate-900">{rfq.route}</p>
+                        <p className="text-sm text-slate-600">{rfq.aircraft} • {rfq.quotes.length} quotes • {rfq.passengers} pax</p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-3">
                       <Badge className={
-                        rfq.status === 'paid' ? 'bg-green-500/20 text-green-400 border-green-500/30' :
-                        rfq.status === 'quoted' ? 'bg-blue-500/20 text-blue-400 border-blue-500/30' :
-                        'bg-orange-500/20 text-orange-400 border-orange-500/30'
+                        rfq.status === 'paid' ? 'bg-green-100 text-green-700 border-green-200' :
+                        rfq.status === 'quoted' ? 'bg-blue-100 text-blue-700 border-blue-200' :
+                        'bg-orange-100 text-orange-700 border-orange-200'
                       }>
                         {rfq.status}
                       </Badge>
-                      <Button variant="outline" size="sm" className="border-neutral-700 text-neutral-400 hover:bg-neutral-700/50 hover:text-white rounded-xl">
+                      <Button variant="outline" size="sm" className="border-slate-300 text-slate-600 hover:bg-slate-100 rounded-xl">
                         <Eye className="w-4 h-4" />
                       </Button>
                     </div>
@@ -659,27 +703,26 @@ export default function BrokerTerminal() {
           onClose={() => setShowHelpGuide(false)}
         />
       )}
-      <div className="min-h-screen bg-neutral-950 relative overflow-hidden scroll-smooth">
-        <StarfieldRunwayBackground />
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative overflow-hidden scroll-smooth">
         
-        <header className="relative z-10 sticky top-0 bg-white/5 backdrop-blur-xl border-b border-neutral-800/50 shadow-lg">
+        <header className="relative z-10 sticky top-0 bg-white/80 backdrop-blur-xl border-b border-slate-200/50 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <StratusConnectLogo className="text-xl" />
             <div>
-              <Brand.PageTitle className="hero-glow">Broker Terminal</Brand.PageTitle>
-              <p className="text-neutral-400 text-sm">Professional Aviation Marketplace</p>
+              <h1 className="text-2xl font-bold text-slate-900">Broker Terminal</h1>
+              <p className="text-slate-600 text-sm">Professional Aviation Marketplace</p>
             </div>
           </div>
           <div className="flex gap-2">
             <Button
               onClick={() => setShowHelpGuide(true)}
-              className="bg-orange-500 hover:bg-orange-600 text-white"
+              className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl px-6 py-2 font-medium transition-all duration-200"
               title="Help Guide (Ctrl+H)"
             >
               <Trophy className="h-4 w-4 mr-2" />
               Tutorial
-                </Button>
+            </Button>
               </div>
         </div>
       </header>
@@ -688,7 +731,7 @@ export default function BrokerTerminal() {
         {/* Main Navigation */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-terminal-border scrollbar-track-transparent pb-2">
-            <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-white/5 backdrop-blur-sm border border-neutral-800/50">
+            <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-white/90 backdrop-blur-sm border border-slate-200/50 shadow-sm rounded-xl p-1">
             <TabsTrigger value="dashboard" className="flex items-center gap-2">
               <BarChart3 className="w-4 h-4 icon-glow" />
               Dashboard
@@ -770,7 +813,7 @@ export default function BrokerTerminal() {
       {/* Scroll to Top Button */}
       <Button
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="fixed bottom-6 right-6 z-50 w-12 h-12 bg-orange-500/80 hover:bg-orange-500 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg backdrop-blur-sm border border-orange-500/30"
+        className="fixed bottom-6 right-6 z-50 w-12 h-12 bg-blue-600 hover:bg-blue-700 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg"
         title="Scroll to Top"
       >
         <ArrowUp className="w-6 h-6 text-white" />
@@ -780,7 +823,7 @@ export default function BrokerTerminal() {
         {!showMaxAI && (
           <Button
             onClick={() => setShowMaxAI(true)}
-            className="fixed bottom-6 left-6 z-50 w-14 h-14 bg-orange-500 hover:bg-orange-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300"
+            className="fixed bottom-6 left-6 z-50 w-14 h-14 bg-blue-600 hover:bg-blue-700 rounded-full shadow-lg flex items-center justify-center transition-all duration-300"
             title="Open Max AI Assistant"
           >
             <Zap className="w-7 h-7 text-white" />
@@ -788,7 +831,7 @@ export default function BrokerTerminal() {
         )}
 
         {/* Max AI - Advanced Intelligence System */}
-        <GrokMaxAI 
+        <MaxAI 
           isVisible={showMaxAI} 
           onToggleVisibility={() => setShowMaxAI(!showMaxAI)} 
           userType="broker" 

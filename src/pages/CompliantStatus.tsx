@@ -17,7 +17,7 @@ import {
   Globe,
   AlertCircle
 } from 'lucide-react';
-import { compliantMonitoring, UptimeMetrics, Incident } from '@/lib/compliant-monitoring';
+import { compliantMonitoringSystem, UptimeMetrics, Incident } from '@/lib/compliant-monitoring';
 
 export default function CompliantStatus() {
   const [metrics, setMetrics] = useState<UptimeMetrics | null>(null);
@@ -34,8 +34,8 @@ export default function CompliantStatus() {
   const loadStatus = async () => {
     try {
       setLoading(true);
-      const systemStatus = await compliantMonitoring.getSystemStatus();
-      const allIncidents = compliantMonitoring.getIncidents();
+      const systemStatus = await compliantMonitoringSystem.getSystemStatus();
+      const allIncidents = compliantMonitoringSystem.getIncidents();
       
       setMetrics(systemStatus.uptime);
       setIncidents(allIncidents);
@@ -49,7 +49,7 @@ export default function CompliantStatus() {
 
   const createDemoIncident = async () => {
     try {
-      const incident = await compliantMonitoring.createIncident({
+      const incident = await compliantMonitoringSystem.createIncident({
         name: 'Demo Incident - Service Degradation',
         status: 'investigating',
         description: 'This is a demo incident to test the status page functionality. No actual service issues.',
@@ -66,7 +66,7 @@ export default function CompliantStatus() {
 
   const resolveIncident = async (incidentId: string) => {
     try {
-      await compliantMonitoring.resolveIncident(incidentId);
+      await compliantMonitoringSystem.resolveIncident(incidentId);
       setIncidents(prev => 
         prev.map(inc => 
           inc.id === incidentId 

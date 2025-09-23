@@ -166,7 +166,7 @@ html, body, #root {
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: hsl(var(--border));
   }
   
   html {
@@ -174,7 +174,8 @@ html, body, #root {
   }
   
   body {
-    @apply text-foreground font-inter;
+    color: hsl(var(--foreground));
+    font-family: 'Inter', sans-serif;
     background: hsl(var(--terminal-bg));
     font-feature-settings: "kern" 1, "liga" 1;
     letter-spacing: -0.01em;
@@ -268,17 +269,26 @@ html, body, #root {
   }
 
   .terminal-header {
-    @apply text-foreground font-semibold text-lg tracking-tight;
+    color: hsl(var(--foreground));
+    font-weight: 600;
+    font-size: 1.125rem;
+    letter-spacing: -0.025em;
     text-shadow: var(--text-glow-primary);
   }
 
   .terminal-subheader {
-    @apply text-gunmetal text-sm font-medium uppercase tracking-wide;
+    color: hsl(var(--gunmetal));
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
     text-shadow: var(--text-glow-subtle);
   }
 
   .terminal-value {
-    @apply text-foreground font-medium tabular-nums;
+    color: hsl(var(--foreground));
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
     text-shadow: var(--text-glow-accent);
   }
   
@@ -364,7 +374,8 @@ html, body, #root {
   }
 
   .btn-terminal-secondary {
-    @apply bg-secondary text-secondary-foreground hover:bg-secondary/90 px-4 py-2 font-medium transition-all duration-150 border border-border;
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/90 px-4 py-2 font-medium transition-all duration-150 border;
+    border-color: hsl(var(--border));
   }
 
   .btn-terminal-accent {
@@ -381,7 +392,12 @@ html, body, #root {
 
   /* Input styles - Bloomberg terminal */
   .input-terminal, .terminal-input {
-    @apply bg-input border border-border px-3 py-2 text-foreground placeholder:text-gunmetal focus:outline-none focus:ring-1 focus:ring-ring focus:border-accent transition-all duration-150;
+    background-color: hsl(var(--input));
+    border: 1px solid hsl(var(--border));
+    padding: 0.5rem 0.75rem;
+    color: hsl(var(--foreground));
+    outline: none;
+    transition: all 0.15s;
   }
 
   /* Layout components */
@@ -407,11 +423,17 @@ html, body, #root {
   }
 
   .terminal-metric {
-    @apply text-2xl font-semibold tabular-nums;
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
   }
 
   .terminal-label {
-    @apply text-xs font-medium uppercase tracking-wide text-gunmetal;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: hsl(var(--gunmetal));
   }
 
   /* Grid system - Bloomberg 12-column, 8pt spacing */

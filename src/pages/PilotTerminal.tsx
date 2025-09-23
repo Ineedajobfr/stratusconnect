@@ -43,7 +43,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ModernHelpGuide } from "@/components/ModernHelpGuide";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
-import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
+import ModernPlasmaBackground from "@/components/ModernPlasmaBackground";
 
 export default function PilotTerminal() {
   const [activeSection, setActiveSection] = useState("dashboard");
@@ -53,7 +53,7 @@ export default function PilotTerminal() {
   const isBetaMode = location.pathname.startsWith('/beta/');
 
   return (
-    <>
+    <ModernPlasmaBackground>
       {showHelpGuide && (
         <ModernHelpGuide 
           terminalType="pilot" 
@@ -63,30 +63,29 @@ export default function PilotTerminal() {
           onClose={() => setShowHelpGuide(false)}
         />
       )}
-      <div className="min-h-screen bg-app relative overflow-hidden">
-        <StarfieldRunwayBackground />
+      <div className="min-h-screen relative overflow-hidden">
         
         {/* Header */}
-        <div className="relative z-10 bg-terminal-card border-b border-terminal-border px-6 py-4 backdrop-blur-modern">
+        <div className="relative z-10 bg-white/10 backdrop-blur-xl border-b border-white/20 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <StratusConnectLogo className="text-2xl" terminalType="pilot" />
             <div>
-              <h1 className="text-2xl font-bold text-foreground">Pilot Terminal</h1>
-              <p className="text-sm text-gunmetal">Professional pilot management platform</p>
+              <h1 className="text-2xl font-bold text-white">Pilot Terminal</h1>
+              <p className="text-sm text-white/70">Professional pilot management platform</p>
             </div>
           </div>
           <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2 text-data-positive text-sm">
-              <div className="w-2 h-2 bg-data-positive rounded-full terminal-pulse"></div>
+            <div className="flex items-center space-x-2 text-green-400 text-sm">
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
               <span className="font-mono">PILOT ACTIVE</span>
             </div>
-            <div className="text-gunmetal text-sm font-mono">
+                <div className="text-white/70 text-sm font-mono">
               {new Date().toLocaleTimeString()} UTC
             </div>
             <Button
               onClick={() => setShowHelpGuide(true)}
-              className="w-12 h-12 bg-accent/20 hover:bg-accent/30 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-accent/30"
+              className="w-12 h-12 bg-blue-500/20 hover:bg-blue-500/30 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-blue-500/30"
               title="Help Guide"
             >
               <HelpCircle className="w-6 h-6 text-white" />
@@ -546,6 +545,6 @@ export default function PilotTerminal() {
       {/* Enhanced AI Chatbot */}
       <EnhancedAIChatbot terminalType="pilot" />
       
-    </>
+    </ModernPlasmaBackground>
   );
 }

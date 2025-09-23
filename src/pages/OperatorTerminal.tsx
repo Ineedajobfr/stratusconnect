@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
+import ModernPlasmaBackground from "@/components/ModernPlasmaBackground";
 import { KPICard } from "@/components/KPICard";
 import { Section } from "@/components/Section";
 import { DataTile } from "@/components/DataTile";
@@ -188,7 +188,7 @@ const OperatorTerminal = () => {
   }];
 
   return (
-    <>
+    <ModernPlasmaBackground>
       {showHelpGuide && (
         <ModernHelpGuide 
           terminalType="operator" 
@@ -198,28 +198,27 @@ const OperatorTerminal = () => {
           onClose={() => setShowHelpGuide(false)}
         />
       )}
-      <div className="min-h-screen bg-app relative overflow-hidden">
-        <StarfieldRunwayBackground />
+      <div className="min-h-screen relative overflow-hidden">
         
         {/* Terminal Header */}
-        <div className="relative z-10 bg-terminal-card border-b border-terminal-border backdrop-blur-modern">
+        <div className="relative z-10 bg-white/10 backdrop-blur-xl border-b border-white/20">
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-6">
                 <StratusConnectLogo className="text-2xl" terminalType="operator" />
                 <div>
-                  <h1 className="text-2xl font-bold text-foreground">Operator Terminal</h1>
-                  <p className="text-sm text-gunmetal">Fleet management and operations platform</p>
+                  <h1 className="text-2xl font-bold text-white">Operator Terminal</h1>
+                  <p className="text-sm text-white/70">Fleet management and operations platform</p>
                 </div>
-                <div className="flex items-center space-x-2 text-data-positive text-sm">
-                  <div className="w-2 h-2 bg-data-positive rounded-full terminal-pulse"></div>
+                <div className="flex items-center space-x-2 text-green-400 text-sm">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                   <span className="font-mono">FLEET ACTIVE</span>
                 </div>
               </div>
               <div className="flex items-center space-x-4">
                 <Button
                   onClick={() => setShowHelpGuide(true)}
-                  className="w-12 h-12 bg-accent/20 hover:bg-accent/30 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-accent/30"
+                  className="w-12 h-12 bg-blue-500/20 hover:bg-blue-500/30 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-blue-500/30"
                   title="Help Guide"
                 >
                   <HelpCircle className="w-6 h-6 text-white" />
@@ -505,7 +504,7 @@ const OperatorTerminal = () => {
         onToggleVisibility={() => {}} 
         userType="operator" 
       />
-    </>
+    </ModernPlasmaBackground>
   );
 };
 

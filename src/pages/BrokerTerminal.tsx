@@ -42,7 +42,6 @@ import {
   MessageSquare,
   Bookmark,
   Settings,
-  Brain
 } from 'lucide-react';
 import { ComplianceNotice, EvidencePack } from '@/components/ComplianceNotice';
 import { MultiLegRFQ } from '@/components/DealFlow/MultiLegRFQ';
@@ -52,7 +51,6 @@ import { SavedSearches } from '@/components/DealFlow/SavedSearches';
 import { ReputationMetrics } from '@/components/Reputation/ReputationMetrics';
 import { MonthlyStatements } from '@/components/Billing/MonthlyStatements';
 import { RankingRulesPage } from '@/components/Ranking/RankingRulesPage';
-import AISearchAssistant from '@/components/AISearchAssistant';
 import { RealPredictiveAnalytics } from '@/components/RealPredictiveAnalytics';
 import { ModernNotesSystem } from '@/components/ModernNotesSystem';
 import { ModernFlightTracker } from '@/components/ModernFlightTracker';
@@ -186,7 +184,7 @@ export default function BrokerTerminal() {
                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/60 w-5 h-5" />
                <input
                  type="text"
-                 placeholder="Search routes, operators, aircraft, or ask Max AI..."
+                 placeholder="Search routes, operators, aircraft..."
                  value={searchQuery}
                  onChange={(e) => setSearchQuery(e.target.value)}
                  onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
@@ -268,34 +266,17 @@ export default function BrokerTerminal() {
         </Card>
             </div>
 
-      {/* AI Search Assistant */}
-      <Card className="bg-white/10 backdrop-blur-xl shadow-2xl border border-white/20 rounded-2xl">
-        <CardHeader className="pb-6">
-          <CardTitle className="flex items-center gap-3 text-white text-2xl">
-            <div className="p-2 bg-blue-500/20 rounded-xl">
-              <Brain className="w-6 h-6 text-blue-400" />
-            </div>
-            AI Search Assistant
-          </CardTitle>
-          <CardDescription className="text-white/70 text-lg">
-            Get intelligent insights and search across the platform with AI-powered assistance
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <AISearchAssistant terminalType="broker" className="mb-6" />
-        </CardContent>
-      </Card>
 
 
       {/* Predictive Analytics */}
       <RealPredictiveAnalytics terminalType="broker" className="mb-6" />
 
-      {/* AI Insights */}
+      {/* Market Intelligence */}
       <Card className="bg-white/10 backdrop-blur-xl shadow-2xl border border-white/20 rounded-2xl">
         <CardHeader className="pb-6">
           <CardTitle className="flex items-center gap-3 text-white text-2xl">
             <div className="p-2 bg-blue-500/20 rounded-xl">
-              <Brain className="w-6 h-6 text-blue-400" />
+              <TrendingUp className="w-6 h-6 text-blue-400" />
                 </div>
             Market Intelligence
           </CardTitle>

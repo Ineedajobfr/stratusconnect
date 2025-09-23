@@ -5,6 +5,7 @@ import { LoginModal } from "@/components/LoginModal";
 import { NavigationArrows } from "@/components/NavigationArrows";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 import { CluelyAviationAI } from "@/components/ai/CluelyAviationAI";
+import ModernPlasmaBackground from "@/components/ModernPlasmaBackground";
 import { Search, ArrowRight, Lock, ChevronRight } from "lucide-react";
 export default function Landing() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -49,9 +50,9 @@ export default function Landing() {
     label: "Contact",
     href: "#"
   }];
-  return <div className="min-h-screen bg-terminal-bg text-foreground">
+  return <ModernPlasmaBackground>
       {/* Top Navigation */}
-      <nav className="border-b border-terminal-border bg-terminal-card/50">
+      <nav className="border-b border-white/20 bg-white/10 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-8">
@@ -216,5 +217,5 @@ export default function Landing() {
       
       {/* Cluely-style Aviation AI */}
       <CluelyAviationAI isVisible={showAI} onToggleVisibility={() => setShowAI(!showAI)} />
-    </div>;
+    </ModernPlasmaBackground>;
 }

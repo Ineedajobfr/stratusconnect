@@ -44,7 +44,11 @@ export interface MultiLegRFQ {
   expiresAt: string;
 }
 
-export function MultiLegRFQ() {
+interface MultiLegRFQProps {
+  onRFQCreated?: (rfq: MultiLegRFQ) => void;
+}
+
+export function MultiLegRFQ({ onRFQCreated }: MultiLegRFQProps) {
   const [rfq, setRfq] = useState<MultiLegRFQ>({
     id: `RFQ_${Date.now()}`,
     brokerId: 'broker_001',
@@ -95,12 +99,22 @@ export function MultiLegRFQ() {
   };
 
   const updateLeg = (legId: string, field: keyof RFQLeg, value: string | number) => {
-    setRfq(prev => ({
-      ...prev,
-      legs: prev.legs.map(leg => 
+    setRfq(prev => {
+      const updatedLegs = prev.legs.map(leg => 
         leg.id === legId ? { ...leg, [field]: value } : leg
-      )
-    }));
+      );
+      
+      // Auto-calculate totals when passengers or luggage change
+      const totalPassengers = updatedLegs.reduce((sum, leg) => sum + leg.passengers, 0);
+      const totalLuggage = updatedLegs.reduce((sum, leg) => sum + leg.luggage, 0);
+      
+      return {
+        ...prev,
+        legs: updatedLegs,
+        totalPassengers,
+        totalLuggage
+      };
+    });
   };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -139,12 +153,50 @@ export function MultiLegRFQ() {
     }));
   };
 
-  const publishRFQ = () => {
+  const saveDraft = () => {
     setRfq(prev => ({
       ...prev,
-      status: 'published'
+      status: 'draft' as const
     }));
-    console.log('RFQ Published:', rfq);
+    alert('RFQ saved as draft successfully!');
+    console.log('RFQ Saved as Draft:', rfq);
+  };
+
+  const publishRFQ = () => {
+    const publishedRFQ = {
+      ...rfq,
+      status: 'published' as const
+    };
+    setRfq(publishedRFQ);
+    onRFQCreated?.(publishedRFQ);
+    alert('RFQ published successfully! Operators will now be able to submit quotes.');
+    console.log('RFQ Published:', publishedRFQ);
+    
+    // Reset form after successful creation
+    setTimeout(() => {
+      setRfq({
+        id: `RFQ_${Date.now()}`,
+        brokerId: 'broker_001',
+        legs: [{
+          id: 'leg_1',
+          from: '',
+          to: '',
+          departureDate: '',
+          departureTime: '',
+          passengers: 1,
+          luggage: 0,
+          specialRequirements: ''
+        }],
+        totalPassengers: 1,
+        totalLuggage: 0,
+        catering: '',
+        complianceNotes: '',
+        attachments: [],
+        status: 'draft',
+        createdAt: new Date().toISOString(),
+        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
+      });
+    }, 2000);
   };
 
   return (
@@ -161,9 +213,15 @@ export function MultiLegRFQ() {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold text-text">Flight Legs</h3>
-              <Button onClick={addLeg} size="sm" variant="outline" className="border-white/20 text-text/70 hover:bg-surface-2 rounded-xl">
+              <Button 
+                onClick={addLeg} 
+                size="sm" 
+                variant="outline" 
+                className="border-white/20 text-text/70 hover:bg-surface-2 rounded-xl"
+                disabled={rfq.legs.length >= 5}
+              >
                 <Plus className="w-4 h-4 mr-2" />
-                Add Leg
+                Add Leg {rfq.legs.length >= 5 ? '(Max 5)' : ''}
               </Button>
             </div>
             
@@ -173,7 +231,10 @@ export function MultiLegRFQ() {
                   <h4 className="font-medium text-text">Leg {index + 1}</h4>
                   {rfq.legs.length > 1 && (
                     <Button
-                      onClick={() => removeLeg(leg.id)}
+                      onClick={() => {
+                        removeLeg(leg.id);
+                        alert(`Removed Leg ${index + 1} from the RFQ`);
+                      }}
                       size="sm"
                       variant="ghost"
                       className="text-red-500 hover:text-red-700"
@@ -186,14 +247,17 @@ export function MultiLegRFQ() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div>
                     <Label htmlFor={`from_${leg.id}`} className="text-text">From (IATA)</Label>
-                    <Input
-                      id={`from_${leg.id}`}
-                      value={leg.from}
-                      onChange={(e) => updateLeg(leg.id, 'from', e.target.value.toUpperCase())}
-                      placeholder="LHR"
-                      maxLength={3}
-                      className="bg-surface-1 border-terminal-border text-text placeholder:text-text/50 focus:ring-brand/50"
-                    />
+        <Input
+          id={`from_${leg.id}`}
+          value={leg.from}
+          onChange={(e) => {
+            const value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '');
+            updateLeg(leg.id, 'from', value);
+          }}
+          placeholder="LHR"
+          maxLength={3}
+          className="bg-surface-1 border-terminal-border text-text placeholder:text-text/50 focus:ring-brand/50"
+        />
                   </div>
                   
                   <div>
@@ -201,7 +265,10 @@ export function MultiLegRFQ() {
                     <Input
                       id={`to_${leg.id}`}
                       value={leg.to}
-                      onChange={(e) => updateLeg(leg.id, 'to', e.target.value.toUpperCase())}
+                      onChange={(e) => {
+                        const value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '');
+                        updateLeg(leg.id, 'to', value);
+                      }}
                       placeholder="JFK"
                       maxLength={3}
                       className="bg-surface-1 border-terminal-border text-text placeholder:text-text/50 focus:ring-brand/50"
@@ -239,8 +306,8 @@ export function MultiLegRFQ() {
                       max="20"
                       value={leg.passengers}
                       onChange={(e) => {
-                        updateLeg(leg.id, 'passengers', parseInt(e.target.value) || 1);
-                        calculateTotals();
+                        const value = Math.max(1, Math.min(20, parseInt(e.target.value) || 1));
+                        updateLeg(leg.id, 'passengers', value);
                       }}
                       className="bg-surface-1 border-terminal-border text-text focus:ring-brand/50"
                     />
@@ -254,8 +321,8 @@ export function MultiLegRFQ() {
                       min="0"
                       value={leg.luggage}
                       onChange={(e) => {
-                        updateLeg(leg.id, 'luggage', parseInt(e.target.value) || 0);
-                        calculateTotals();
+                        const value = Math.max(0, parseInt(e.target.value) || 0);
+                        updateLeg(leg.id, 'luggage', value);
                       }}
                       className="bg-surface-1 border-terminal-border text-text focus:ring-brand/50"
                     />
@@ -342,11 +409,16 @@ export function MultiLegRFQ() {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => document.getElementById('attachments')?.click()}
+                onClick={() => {
+                  const fileInput = document.getElementById('attachments') as HTMLInputElement;
+                  if (fileInput) {
+                    fileInput.click();
+                  }
+                }}
                 className="w-full border-terminal-border text-text hover:bg-surface-2"
               >
                 <Upload className="w-4 h-4 mr-2" />
-                Upload Files
+                Upload Files ({rfq.attachments.length} attached)
               </Button>
             </div>
             
@@ -362,7 +434,10 @@ export function MultiLegRFQ() {
                       </Badge>
                     </div>
                     <Button
-                      onClick={() => removeAttachment(attachment.id)}
+                      onClick={() => {
+                        removeAttachment(attachment.id);
+                        alert(`Removed ${attachment.name} from attachments`);
+                      }}
                       size="sm"
                       variant="ghost"
                       className="text-red-500 hover:text-red-700"
@@ -377,7 +452,13 @@ export function MultiLegRFQ() {
 
           {/* Actions */}
           <div className="flex justify-end gap-4">
-            <Button variant="outline" className="border-terminal-border text-text hover:bg-surface-2 rounded-xl">Save Draft</Button>
+            <Button 
+              variant="outline" 
+              className="border-terminal-border text-text hover:bg-surface-2 rounded-xl"
+              onClick={saveDraft}
+            >
+              Save Draft
+            </Button>
             <Button onClick={publishRFQ} disabled={rfq.legs.some(leg => !leg.from || !leg.to || !leg.departureDate)} className="bg-brand hover:bg-brand-600 text-text shadow-glow rounded-xl px-6 py-3 transition-all duration-200 font-medium shadow-lg">
               Publish RFQ
             </Button>

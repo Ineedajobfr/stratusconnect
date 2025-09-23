@@ -43,6 +43,7 @@ import {
   MessageSquare,
   Bookmark,
   Settings,
+  X,
 } from 'lucide-react';
 import { ComplianceNotice, EvidencePack } from '@/components/ComplianceNotice';
 import { MultiLegRFQ } from '@/components/DealFlow/MultiLegRFQ';
@@ -102,8 +103,75 @@ export default function BrokerTerminal() {
   });
 
   // Mock RFQ data for demonstration
-  const [rfqs, setRfqs] = useState<RFQ[]>([]);
+  const [rfqs, setRfqs] = useState<RFQ[]>([
+    {
+      id: 'RFQ_001',
+      route: 'LHR → JFK',
+      aircraft: 'Gulfstream G650',
+      date: '2024-01-20',
+      price: 85000,
+      currency: 'GBP',
+      status: 'quoted',
+      legs: 1,
+      passengers: 8,
+      specialRequirements: 'VIP handling, customs clearance',
+      quotes: [
+        {
+          id: 'Q_001',
+          operator: 'Elite Aviation',
+          price: 85000,
+          currency: 'GBP',
+          validUntil: '2024-01-18T18:00:00Z',
+          aircraft: 'Gulfstream G650',
+          verified: true,
+          rating: 4.8,
+          responseTime: 15,
+          dealScore: 92
+        }
+      ]
+    },
+    {
+      id: 'RFQ_002',
+      route: 'LAX → NRT',
+      aircraft: 'Bombardier Global 7500',
+      date: '2024-01-25',
+      price: 120000,
+      currency: 'USD',
+      status: 'sent',
+      legs: 1,
+      passengers: 12,
+      specialRequirements: 'Pet transport, medical equipment',
+      quotes: []
+    }
+  ]);
 
+  const addRFQ = (newRFQ: any) => {
+    // Convert MultiLegRFQ to RFQ format
+    const rfq: RFQ = {
+      id: newRFQ.id,
+      route: newRFQ.legs.length > 0 ? `${newRFQ.legs[0].from} → ${newRFQ.legs[0].to}` : 'Multi-leg',
+      aircraft: 'Aircraft TBD',
+      date: newRFQ.legs.length > 0 ? newRFQ.legs[0].departureDate : new Date().toISOString().split('T')[0],
+      price: 0,
+      currency: 'GBP',
+      status: 'draft',
+      legs: newRFQ.legs.length,
+      passengers: newRFQ.totalPassengers,
+      specialRequirements: newRFQ.legs.length > 0 ? newRFQ.legs[0].specialRequirements : '',
+      quotes: []
+    };
+    setRfqs(prev => [rfq, ...prev]);
+  };
+
+  const updateRFQ = (rfqId: string, updates: Partial<RFQ>) => {
+    setRfqs(prev => prev.map(rfq => 
+      rfq.id === rfqId ? { ...rfq, ...updates } : rfq
+    ));
+  };
+
+  const deleteRFQ = (rfqId: string) => {
+    setRfqs(prev => prev.filter(rfq => rfq.id !== rfqId));
+  };
 
   const handleInsightAction = (action: string) => {
     switch (action) {
@@ -179,8 +247,35 @@ export default function BrokerTerminal() {
 
 
       {/* Key Metrics */}
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h2 className="text-2xl font-semibold text-text">Key Metrics</h2>
+          <p className="text-text/70">Real-time performance indicators</p>
+        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          className="border-white/20 text-text/70 hover:bg-surface-2 rounded-xl"
+          onClick={() => {
+            // Refresh metrics
+            setDashboardMetrics(prev => ({
+              ...prev,
+              activeRFQs: Math.max(0, prev.activeRFQs + Math.floor(Math.random() * 3) - 1),
+              quotesReceived: Math.max(0, prev.quotesReceived + Math.floor(Math.random() * 2) - 1),
+              avgResponseTime: Math.max(1.0, prev.avgResponseTime + (Math.random() - 0.5) * 0.5)
+            }));
+            alert('Metrics refreshed!');
+          }}
+        >
+          <RefreshCw className="w-4 h-4 mr-2" />
+          Refresh
+        </Button>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-         <Card className="card-predictive hover:shadow-card transition-all duration-300">
+         <Card 
+           className="card-predictive hover:shadow-card transition-all duration-300 cursor-pointer"
+           onClick={() => setActiveTab('rfqs')}
+         >
            <CardContent className="p-8">
              <div className="flex items-center justify-between">
                <div>
@@ -195,7 +290,10 @@ export default function BrokerTerminal() {
            </CardContent>
          </Card>
 
-        <Card className="card-predictive hover:shadow-card transition-all duration-300">
+        <Card 
+          className="card-predictive hover:shadow-card transition-all duration-300 cursor-pointer"
+          onClick={() => setActiveTab('rfqs')}
+        >
           <CardContent className="p-8">
             <div className="flex items-center justify-between">
               <div>
@@ -210,7 +308,10 @@ export default function BrokerTerminal() {
           </CardContent>
         </Card>
 
-        <Card className="card-predictive hover:shadow-card transition-all duration-300">
+        <Card 
+          className="card-predictive hover:shadow-card transition-all duration-300 cursor-pointer"
+          onClick={() => setActiveTab('billing')}
+        >
           <CardContent className="p-8">
             <div className="flex items-center justify-between">
               <div>
@@ -225,7 +326,10 @@ export default function BrokerTerminal() {
           </CardContent>
         </Card>
 
-        <Card className="card-predictive hover:shadow-card transition-all duration-300">
+        <Card 
+          className="card-predictive hover:shadow-card transition-all duration-300 cursor-pointer"
+          onClick={() => setActiveTab('reputation')}
+        >
           <CardContent className="p-8">
             <div className="flex items-center justify-between">
               <div>
@@ -261,7 +365,10 @@ export default function BrokerTerminal() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-6 bg-surface-2 ring-1 ring-white/5 rounded-xl2">
+            <div 
+              className="p-6 bg-surface-2 ring-1 ring-white/5 rounded-xl2 cursor-pointer hover:bg-surface-1 transition-all duration-300"
+              onClick={() => setActiveTab('marketplace')}
+            >
               <div className="flex items-center gap-4 mb-4">
                 <div className="p-3 bg-brand/15 rounded-xl">
                   <TrendingUp className="h-6 w-6 text-brand" />
@@ -275,7 +382,10 @@ export default function BrokerTerminal() {
                 +23%
               </Badge>
             </div>
-            <div className="p-6 bg-surface-2 ring-1 ring-white/5 rounded-xl2">
+            <div 
+              className="p-6 bg-surface-2 ring-1 ring-white/5 rounded-xl2 cursor-pointer hover:bg-surface-1 transition-all duration-300"
+              onClick={() => setActiveTab('marketplace')}
+            >
               <div className="flex items-center gap-4 mb-4">
                 <div className="p-3 bg-success/15 rounded-xl">
                   <Target className="h-6 w-6 text-emerald-400" />
@@ -289,12 +399,18 @@ export default function BrokerTerminal() {
                 variant="outline" 
                 size="sm" 
                 className="border-emerald-400/30 text-emerald-400 hover:bg-emerald-400/10 rounded-xl px-4 py-2 transition-all duration-200 font-medium"
-                onClick={() => setActiveTab('marketplace')}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveTab('marketplace');
+                }}
               >
                 Explore
               </Button>
             </div>
-            <div className="p-6 bg-surface-2 ring-1 ring-white/5 rounded-xl2">
+            <div 
+              className="p-6 bg-surface-2 ring-1 ring-white/5 rounded-xl2 cursor-pointer hover:bg-surface-1 transition-all duration-300"
+              onClick={() => setActiveTab('reputation')}
+            >
               <div className="flex items-center gap-4 mb-4">
                 <div className="p-3 bg-fire/15 rounded-xl">
                   <Award className="h-6 w-6 text-fire" />
@@ -343,7 +459,11 @@ export default function BrokerTerminal() {
                </div>
            ) : (
                rfqs.slice(0, 3).map(rfq => (
-                 <div key={rfq.id} className="p-6 bg-surface-2 ring-1 ring-white/5 rounded-xl2 hover:bg-surface-1 transition-all duration-300">
+                 <div 
+                   key={rfq.id} 
+                   className="p-6 bg-surface-2 ring-1 ring-white/5 rounded-xl2 hover:bg-surface-1 transition-all duration-300 cursor-pointer"
+                   onClick={() => setActiveTab('rfqs')}
+                 >
                    <div className="flex items-center justify-between">
                      <div className="flex items-center gap-4">
                        <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
@@ -360,7 +480,15 @@ export default function BrokerTerminal() {
                        }>
                          {rfq.status}
                        </Badge>
-                       <Button variant="outline" size="sm" className="border-white/20 text-text/70 hover:bg-surface-2 rounded-xl">
+                       <Button 
+                         variant="outline" 
+                         size="sm" 
+                         className="border-white/20 text-text/70 hover:bg-surface-2 rounded-xl"
+                         onClick={(e) => {
+                           e.stopPropagation();
+                           setActiveTab('rfqs');
+                         }}
+                       >
                          <Eye className="w-4 h-4" />
                        </Button>
                      </div>
@@ -381,13 +509,22 @@ export default function BrokerTerminal() {
           <h2 className="text-2xl font-semibold text-text">RFQs & Quotes</h2>
           <p className="text-text/70">Manage your requests for quotes and responses</p>
         </div>
-        <Button className="bg-brand hover:bg-brand-600 text-text shadow-glow rounded-xl px-6 py-3 transition-all duration-200">
+        <Button 
+          className="bg-brand hover:bg-brand-600 text-text shadow-glow rounded-xl px-6 py-3 transition-all duration-200"
+          onClick={() => {
+            // Scroll to the RFQ creation form
+            const rfqForm = document.querySelector('[data-rfq-form]');
+            if (rfqForm) {
+              rfqForm.scrollIntoView({ behavior: 'smooth' });
+            }
+          }}
+        >
           <Plus className="w-4 h-4 mr-2" />
           New RFQ
         </Button>
       </div>
       
-      <Card className="card-predictive shadow-card rounded-xl2">
+      <Card className="card-predictive shadow-card rounded-xl2" data-rfq-form>
               <CardHeader>
           <CardTitle className="flex items-center gap-3 text-text">
             <div className="p-2 bg-brand/15 rounded-xl">
@@ -397,7 +534,7 @@ export default function BrokerTerminal() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-          <MultiLegRFQ />
+          <MultiLegRFQ onRFQCreated={addRFQ} />
         </CardContent>
       </Card>
 
@@ -434,6 +571,45 @@ export default function BrokerTerminal() {
                     {rfq.specialRequirements && (
                       <p className="text-sm text-brand mt-1">📋 {rfq.specialRequirements}</p>
                     )}
+                    {rfq.quotes.length > 0 && (
+                      <div className="mt-3 space-y-2">
+                        <p className="text-sm text-text/60">Quotes received:</p>
+                        {rfq.quotes.map(quote => (
+                          <div key={quote.id} className="bg-surface-2/50 p-3 rounded-lg border border-white/10">
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <p className="font-medium text-text">{quote.operator}</p>
+                                <p className="text-sm text-text/70">{quote.aircraft} • {quote.responseTime}min response</p>
+                                <div className="flex items-center gap-2 mt-1">
+                                  <span className="text-lg font-bold text-brand">{quote.currency} {quote.price.toLocaleString()}</span>
+                                  <Badge className="bg-green-500/20 text-green-400 border-green-400/30 text-xs">
+                                    Score: {quote.dealScore}
+                                  </Badge>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                {quote.verified && <CheckCircle className="w-4 h-4 text-green-400" />}
+                                <Button 
+                                  size="sm" 
+                                  className="bg-brand hover:bg-brand-600 text-text rounded-lg"
+                                  onClick={() => {
+                                    // Accept the quote
+                                    updateRFQ(rfq.id, { 
+                                      status: 'accepted',
+                                      price: quote.price,
+                                      currency: quote.currency
+                                    });
+                                    alert(`Quote accepted from ${quote.operator} for ${quote.currency} ${quote.price.toLocaleString()}`);
+                                  }}
+                                >
+                                  Accept
+                                </Button>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                   <div className="flex items-center gap-3">
                     <Badge className={
@@ -443,8 +619,29 @@ export default function BrokerTerminal() {
                     }>
                       {rfq.status}
                     </Badge>
-                    <Button size="sm" variant="outline" className="border-white/20 text-text/70 hover:bg-surface-2 rounded-xl">
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="border-white/20 text-text/70 hover:bg-surface-2 rounded-xl"
+                      onClick={() => {
+                        if (rfq.quotes.length > 1) {
+                          alert(`Comparing ${rfq.quotes.length} quotes for ${rfq.route}. Full comparison tool will be available in the full version.`);
+                        } else if (rfq.quotes.length === 1) {
+                          alert(`Only one quote available for ${rfq.route}. Comparison requires multiple quotes.`);
+                        } else {
+                          alert(`No quotes available for ${rfq.route} yet.`);
+                        }
+                      }}
+                    >
                       <GitCompare className="w-4 h-4" />
+                    </Button>
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="border-red-500/30 text-red-400 hover:bg-red-500/10 rounded-xl"
+                      onClick={() => deleteRFQ(rfq.id)}
+                    >
+                      <X className="w-4 h-4" />
                     </Button>
                   </div>
                 </div>
@@ -463,12 +660,23 @@ export default function BrokerTerminal() {
           <h2 className="text-2xl font-semibold text-text">Aircraft Marketplace</h2>
           <p className="text-text/80">Find and connect with verified operators</p>
         </div>
-        <Button className="bg-brand hover:bg-brand-600 text-text shadow-glow rounded-xl px-6 py-3 transition-all duration-200">
+        <Button 
+          className="bg-brand hover:bg-brand-600 text-text shadow-glow rounded-xl px-6 py-3 transition-all duration-200"
+          onClick={() => {
+            // Scroll to the marketplace filters
+            const marketplace = document.querySelector('[data-marketplace]');
+            if (marketplace) {
+              marketplace.scrollIntoView({ behavior: 'smooth' });
+            }
+          }}
+        >
           <Filter className="w-4 h-4 mr-2" />
           Advanced Filters
         </Button>
       </div>
-      <DemoMarketplace />
+      <div data-marketplace>
+        <DemoMarketplace />
+      </div>
     </div>
   );
 
@@ -479,7 +687,19 @@ export default function BrokerTerminal() {
           <h2 className="text-2xl font-semibold text-text">Saved Searches</h2>
           <p className="text-text/80">Your personalized search queries and alerts</p>
         </div>
-        <Button className="bg-brand hover:bg-brand-600 text-text shadow-glow rounded-xl px-6 py-3 transition-all duration-200">
+        <Button 
+          className="bg-brand hover:bg-brand-600 text-text shadow-glow rounded-xl px-6 py-3 transition-all duration-200"
+          onClick={() => {
+            // Focus on the search input or create new search
+            const searchInput = document.querySelector('[data-search-input]');
+            if (searchInput) {
+              (searchInput as HTMLInputElement).focus();
+            } else {
+              // If no search input, show a prompt
+              alert('Search functionality will be available in the full version. This demo shows the interface.');
+            }
+          }}
+        >
           <Plus className="w-4 h-4 mr-2" />
           New Search
         </Button>

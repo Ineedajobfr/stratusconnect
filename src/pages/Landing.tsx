@@ -57,7 +57,7 @@ export default function Landing() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-8">
               <div className="flex items-center space-x-3">
-                <StratusConnectLogo className="text-xl font-semibold tracking-wide bg-slate-950" />
+                <StratusConnectLogo className="text-xl font-semibold tracking-wide bg-bg" />
               </div>
               <div className="hidden md:flex items-center space-x-6">
                 <button 
@@ -89,13 +89,13 @@ export default function Landing() {
       </nav>
 
       {/* Hero Section */}
-      <section className="px-6 py-24 bg-terminal-bg">
+      <section className="px-6 py-24 bg-bg">
         <div className="max-w-5xl mx-auto">
           <div className="max-w-3xl">
             <h1 className="text-5xl text-foreground tracking-tight mb-6 font-bold">
               THE STRATUS TERMINAL
             </h1>
-            <p className="text-xl mb-8 leading-relaxed max-w-2xl text-slate-100">You've been looking for something like this your whole life. You just didn't know where to find it. Until now.</p>
+            <p className="text-xl mb-8 leading-relaxed max-w-2xl text-text">You've been looking for something like this your whole life. You just didn't know where to find it. Until now.</p>
             <div className="flex items-center space-x-4">
               
               
@@ -105,7 +105,7 @@ export default function Landing() {
       </section>
 
       {/* Terminal Access */}
-      <section className="px-6 py-24 bg-terminal-bg">
+      <section className="px-6 py-24 bg-bg">
         <div className="max-w-5xl mx-auto">
           <div className="mb-12 text-center">
             <h2 className="text-3xl font-semibold text-foreground mb-4">Terminal Access</h2>
@@ -113,7 +113,7 @@ export default function Landing() {
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
-            {clientTypes.map(client => <button key={client.title} onClick={() => navigate(client.route)} className="terminal-card p-8 text-left hover:bg-terminal-bg transition-all duration-300 group border border-terminal-border/50 hover:border-accent/30">
+            {clientTypes.map(client => <button key={client.title} onClick={() => navigate(client.route)} className="bg-surface-1 shadow-card ring-1 ring-white/5 rounded-xl2 p-8 text-left hover:bg-bg transition-all duration-300 group border border-white/20/50 hover:border-accent/30">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-semibold text-foreground">{client.title}</h3>
                   <ChevronRight className="w-5 h-5 text-gunmetal group-hover:text-accent transition-colors duration-300 group-hover:translate-x-1" />
@@ -125,10 +125,10 @@ export default function Landing() {
       </section>
 
       {/* Live Analytics Preview */}
-      <section className="px-6 py-20 bg-terminal-bg bg-slate-900">
+      <section className="px-6 py-20 bg-bg bg-bg">
         <div className="max-w-5xl mx-auto">
-          <div className="terminal-card relative overflow-hidden border border-terminal-border/50">
-            <div className="absolute inset-0 bg-terminal-bg/95 backdrop-blur-sm flex items-center justify-center z-10">
+          <div className="bg-surface-1 shadow-card ring-1 ring-white/5 rounded-xl2 relative overflow-hidden border border-white/20/50">
+            <div className="absolute inset-0 bg-bg/95 backdrop-blur-sm flex items-center justify-center z-10">
               <div className="text-center">
                 <Lock className="w-10 h-10 text-accent mb-6 mx-auto" />
                 <h3 className="text-xl font-semibold text-foreground mb-3">Live Operational Analytics</h3>
@@ -205,7 +205,7 @@ export default function Landing() {
       
 
       {/* Footer */}
-      <footer className="border-t border-terminal-border bg-terminal-card/50 px-6 py-8">
+      <footer className="border-t border-white/20 bg-bg-surface-1 shadow-card ring-1 ring-white/5 rounded-xl2/50 px-6 py-8">
         <div className="max-w-5xl mx-auto">
           <div className="text-center">
             <p className="text-gunmetal">© 2025 StratusConnect. Professional aviation trading platform.</p>

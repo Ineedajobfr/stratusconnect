@@ -6,10 +6,24 @@ export default {
     extend: {
       colors: {
         bg: "var(--bg)",
-        surface: { 1: "var(--surface-1)", 2: "var(--surface-2)" },
-        text: { DEFAULT: "var(--text)", muted: "var(--muted)" },
-        brand: { DEFAULT: "var(--brand)", 600: "var(--brand-600)", 300: "var(--brand-300)" },
-        fire: { DEFAULT: "var(--fire)", 600: "var(--fire-600)", 300: "var(--fire-300)" },
+        surface: {
+          1: "var(--surface-1)",
+          2: "var(--surface-2)",
+        },
+        text: {
+          DEFAULT: "var(--text)",
+          muted: "var(--muted)",
+        },
+        brand: {
+          DEFAULT: "var(--brand)",
+          600: "var(--brand-600)",
+          300: "var(--brand-300)",
+        },
+        fire: {
+          DEFAULT: "var(--fire)",
+          600: "var(--fire-600)",
+          300: "var(--fire-300)",
+        },
         success: "var(--success)",
         warn: "var(--warn)",
         danger: "var(--danger)",

@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Brand } from '@/components/Brand';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ModernHelpGuide } from '@/components/ModernHelpGuide';
+import BrokerBackdrop from '@/components/BrokerBackdrop';
 import { 
   DollarSign, 
   FileText, 
@@ -59,7 +60,6 @@ import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import { WeekOneScoreboard } from '@/components/WeekOneScoreboard';
 import DemoMarketplace from './DemoMarketplace';
 import ModernPlasmaBackground from '@/components/ModernPlasmaBackground';
-import BrokerBackdrop from '@/components/BrokerBackdrop';
 
 interface RFQ {
   id: string;
@@ -182,14 +182,14 @@ export default function BrokerTerminal() {
          <CardContent className="p-8">
            <div className="flex items-center gap-4">
              <div className="flex-1 relative">
-               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-text/50 w-5 h-5" />
+               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-text/60 w-5 h-5" />
                <input
                  type="text"
                  placeholder="Search routes, operators, aircraft..."
                  value={searchQuery}
                  onChange={(e) => setSearchQuery(e.target.value)}
                  onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                 className="w-full pl-12 pr-4 py-4 bg-surface-1 ring-1 ring-white/5 rounded-xl text-text placeholder-text/60 focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all duration-200 text-lg"
+                 className="w-full pl-12 pr-4 py-4 bg-surface-1 ring-1 ring-white/5 rounded-xl text-text placeholder-text/70 focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all duration-200 text-lg"
                />
              </div>
             <div className="flex gap-3">
@@ -214,7 +214,7 @@ export default function BrokerTerminal() {
                  <p className="text-3xl font-bold text-text">{dashboardMetrics.activeRFQs}</p>
                  <p className="text-sm text-brand mt-2 font-medium">+{dashboardMetrics.weeklyGrowth}% this week</p>
                </div>
-              <div className="p-3 bg-brand/20 rounded-xl">
+              <div className="p-3 bg-brand/15 rounded-xl">
                 <FileText className="w-8 h-8 text-brand" />
               </div>
             </div>
@@ -244,7 +244,7 @@ export default function BrokerTerminal() {
                 <p className="text-3xl font-bold text-text">{dashboardMetrics.dealsClosed}</p>
                 <p className="text-sm text-brand mt-2 font-medium">${(dashboardMetrics.volume / 1000000).toFixed(1)}M volume</p>
               </div>
-              <div className="p-3 bg-success/20 rounded-xl">
+              <div className="p-3 bg-success/15 rounded-xl">
                 <DollarSign className="w-8 h-8 text-emerald-400" />
               </div>
             </div>
@@ -259,8 +259,8 @@ export default function BrokerTerminal() {
                 <p className="text-3xl font-bold text-text">{dashboardMetrics.avgResponseTime.toFixed(1)}m</p>
                 <p className="text-sm text-brand mt-2 font-medium">Fast lane eligible</p>
               </div>
-              <div className="p-3 bg-fire/20 rounded-xl">
-                <Clock className="w-8 h-8 text-purple-400" />
+              <div className="p-3 bg-fire/15 rounded-xl">
+                <Clock className="w-8 h-8 text-fire" />
               </div>
             </div>
           </CardContent>
@@ -276,7 +276,7 @@ export default function BrokerTerminal() {
       <Card className="bg-surface-1 shadow-card ring-1 ring-white/5 rounded-xl2">
         <CardHeader className="pb-6">
           <CardTitle className="flex items-center gap-3 text-text text-2xl">
-            <div className="p-2 bg-brand/20 rounded-xl">
+            <div className="p-2 bg-brand/15 rounded-xl">
               <TrendingUp className="w-6 h-6 text-brand" />
                 </div>
             Market Intelligence
@@ -289,7 +289,7 @@ export default function BrokerTerminal() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="p-6 bg-surface-2 ring-1 ring-white/5 rounded-xl2">
               <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-brand/20 rounded-xl">
+                <div className="p-3 bg-brand/15 rounded-xl">
                   <TrendingUp className="h-6 w-6 text-brand" />
                 </div>
                 <div>
@@ -297,13 +297,13 @@ export default function BrokerTerminal() {
                   <p className="text-sm text-text/70">European routes showing 23% increase</p>
                 </div>
               </div>
-              <Badge className="bg-brand/20 text-brand border-blue-400/30 font-medium">
+              <Badge className="bg-brand/15 text-brand border-brand/30 font-medium">
                 +23%
               </Badge>
             </div>
             <div className="p-6 bg-surface-2 ring-1 ring-white/5 rounded-xl2">
               <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-success/20 rounded-xl">
+                <div className="p-3 bg-success/15 rounded-xl">
                   <Target className="h-6 w-6 text-emerald-400" />
                 </div>
                 <div>
@@ -322,15 +322,15 @@ export default function BrokerTerminal() {
             </div>
             <div className="p-6 bg-surface-2 ring-1 ring-white/5 rounded-xl2">
               <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-fire/20 rounded-xl">
-                  <Award className="h-6 w-6 text-purple-400" />
+                <div className="p-3 bg-fire/15 rounded-xl">
+                  <Award className="h-6 w-6 text-fire" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-text">Competitive Advantage</h3>
                   <p className="text-sm text-text/70">40% faster response than industry average</p>
                 </div>
               </div>
-              <Badge className="bg-fire/20 text-purple-400 border-purple-400/30 font-medium">
+              <Badge className="bg-fire/15 text-fire border-fire/30 font-medium">
                 Top 5%
               </Badge>
             </div>
@@ -342,7 +342,7 @@ export default function BrokerTerminal() {
       <Card className="bg-surface-1 shadow-card ring-1 ring-white/5 rounded-xl2">
         <CardHeader className="pb-6">
           <CardTitle className="flex items-center gap-3 text-text text-2xl">
-            <div className="p-2 bg-brand/20 rounded-xl">
+            <div className="p-2 bg-brand/15 rounded-xl">
               <BarChart3 className="w-6 h-6 text-brand" />
             </div>
             Recent Activity
@@ -356,7 +356,7 @@ export default function BrokerTerminal() {
              {rfqs.length === 0 ? (
                <div className="text-center py-12">
                  <div className="p-4 bg-white/10 rounded-xl2 w-16 h-16 mx-auto mb-6 flex items-center justify-center">
-                   <FileText className="w-8 h-8 text-text/50" />
+                   <FileText className="w-8 h-8 text-text/60" />
                  </div>
                  <h3 className="text-lg font-semibold text-text mb-2">No recent activity</h3>
                  <p className="text-text/70 mb-6">Create your first RFQ to get started with the platform.</p>
@@ -381,7 +381,7 @@ export default function BrokerTerminal() {
                      <div className="flex items-center gap-3">
                        <Badge className={
                          rfq.status === 'paid' ? 'bg-green-500/20 text-green-400 border-green-400/30' :
-                         rfq.status === 'quoted' ? 'bg-brand/20 text-brand border-blue-400/30' :
+                         rfq.status === 'quoted' ? 'bg-brand/15 text-brand border-brand/30' :
                          'bg-orange-500/20 text-orange-400 border-orange-400/30'
                        }>
                          {rfq.status}
@@ -416,7 +416,7 @@ export default function BrokerTerminal() {
       <Card className="bg-surface-1 shadow-card ring-1 ring-white/5 rounded-xl2">
               <CardHeader>
           <CardTitle className="flex items-center gap-3 text-text">
-            <div className="p-2 bg-brand/20 rounded-xl">
+            <div className="p-2 bg-brand/15 rounded-xl">
               <Plus className="w-5 h-5 text-brand" />
             </div>
             Create New RFQ
@@ -432,7 +432,7 @@ export default function BrokerTerminal() {
           <CardContent className="py-12">
             <div className="text-center">
               <div className="p-4 bg-white/10 rounded-xl2 w-16 h-16 mx-auto mb-6 flex items-center justify-center">
-                <FileText className="w-8 h-8 text-text/50" />
+                <FileText className="w-8 h-8 text-text/60" />
               </div>
               <h3 className="text-lg font-semibold text-text mb-2">No RFQs created yet</h3>
               <p className="text-text/70 mb-6">Create your first RFQ to get started with the platform.</p>
@@ -464,7 +464,7 @@ export default function BrokerTerminal() {
                   <div className="flex items-center gap-3">
                     <Badge className={
                       rfq.status === 'paid' ? 'bg-green-500/20 text-green-400 border-green-400/30' :
-                      rfq.status === 'quoted' ? 'bg-brand/20 text-brand border-blue-400/30' :
+                      rfq.status === 'quoted' ? 'bg-brand/15 text-brand border-brand/30' :
                       'bg-orange-500/20 text-orange-400 border-orange-400/30'
                     }>
                       {rfq.status}
@@ -486,8 +486,8 @@ export default function BrokerTerminal() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-semibold text-slate-900">Aircraft Marketplace</h2>
-          <p className="text-slate-600">Find and connect with verified operators</p>
+          <h2 className="text-2xl font-semibold text-text">Aircraft Marketplace</h2>
+          <p className="text-text/80">Find and connect with verified operators</p>
         </div>
         <Button className="bg-brand hover:bg-brand-600 text-text shadow-glow rounded-xl px-6 py-3 transition-all duration-200">
           <Filter className="w-4 h-4 mr-2" />
@@ -502,8 +502,8 @@ export default function BrokerTerminal() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-semibold text-slate-900">Saved Searches</h2>
-          <p className="text-slate-600">Your personalized search queries and alerts</p>
+          <h2 className="text-2xl font-semibold text-text">Saved Searches</h2>
+          <p className="text-text/80">Your personalized search queries and alerts</p>
         </div>
         <Button className="bg-brand hover:bg-brand-600 text-text shadow-glow rounded-xl px-6 py-3 transition-all duration-200">
           <Plus className="w-4 h-4 mr-2" />
@@ -517,8 +517,8 @@ export default function BrokerTerminal() {
   const renderReputation = () => (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-semibold text-slate-900">Reputation & Rankings</h2>
-        <p className="text-slate-600">Track your performance and build your reputation</p>
+        <h2 className="text-2xl font-semibold text-text">Reputation & Rankings</h2>
+        <p className="text-text/80">Track your performance and build your reputation</p>
       </div>
        <ReputationMetrics userId="broker_001" userType="broker" />
           </div>
@@ -527,8 +527,8 @@ export default function BrokerTerminal() {
   const renderBilling = () => (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-semibold text-slate-900">Billing & Statements</h2>
-        <p className="text-slate-600">Manage your account and view transaction history</p>
+        <h2 className="text-2xl font-semibold text-text">Billing & Statements</h2>
+        <p className="text-text/80">Manage your account and view transaction history</p>
       </div>
       <MonthlyStatements />
     </div>
@@ -570,43 +570,43 @@ export default function BrokerTerminal() {
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <div className="overflow-x-auto pb-4">
                <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-white/10 backdrop-blur-sm border border-white/20 shadow-sm rounded-xl p-1">
-                <TabsTrigger value="dashboard" className="flex items-center gap-2 data-[state=active]:bg-brand/20 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger value="dashboard" className="flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <BarChart3 className="w-4 h-4" />
                 Dashboard
               </TabsTrigger>
-                <TabsTrigger value="rfqs" className="flex items-center gap-2 data-[state=active]:bg-brand/20 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger value="rfqs" className="flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <FileText className="w-4 h-4" />
                 RFQs & Quotes
               </TabsTrigger>
-                <TabsTrigger value="marketplace" className="flex items-center gap-2 data-[state=active]:bg-brand/20 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger value="marketplace" className="flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <Search className="w-4 h-4" />
                 Marketplace
               </TabsTrigger>
-                <TabsTrigger value="searches" className="flex items-center gap-2 data-[state=active]:bg-brand/20 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger value="searches" className="flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <Bookmark className="w-4 h-4" />
                 Saved Searches
               </TabsTrigger>
-                <TabsTrigger value="reputation" className="flex items-center gap-2 data-[state=active]:bg-brand/20 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger value="reputation" className="flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <Award className="w-4 h-4" />
                 Reputation
               </TabsTrigger>
-                <TabsTrigger value="billing" className="flex items-center gap-2 data-[state=active]:bg-brand/20 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger value="billing" className="flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <DollarSign className="w-4 h-4" />
                 Billing
               </TabsTrigger>
-                <TabsTrigger value="scoreboard" className="flex items-center gap-2 data-[state=active]:bg-brand/20 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger value="scoreboard" className="flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <Trophy className="w-4 h-4" />
                   Scoreboard
                 </TabsTrigger>
-                <TabsTrigger value="ranking" className="flex items-center gap-2 data-[state=active]:bg-brand/20 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger value="ranking" className="flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <Star className="w-4 h-4" />
                   Rankings
               </TabsTrigger>
-                <TabsTrigger value="tracking" className="flex items-center gap-2 data-[state=active]:bg-brand/20 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger value="tracking" className="flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <Globe className="w-4 h-4" />
                 Flight Tracking
               </TabsTrigger>
-                <TabsTrigger value="notes" className="flex items-center gap-2 data-[state=active]:bg-brand/20 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger value="notes" className="flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <MessageSquare className="w-4 h-4" />
                   Notes
               </TabsTrigger>

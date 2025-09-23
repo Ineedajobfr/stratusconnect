@@ -98,7 +98,7 @@ export default function PilotTerminal() {
         <div className="relative z-10 p-6">
         <Tabs value={activeSection} onValueChange={setActiveSection} className="space-y-6">
           <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-terminal-border scrollbar-track-transparent pb-2">
-            <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-terminal-card/50 backdrop-blur-sm">
+            <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-surface-1 ring-1 ring-white/5 backdrop-blur-sm">
               <TabsTrigger value="dashboard" className="flex items-center gap-2">
                 <BarChart3 className="w-4 h-4 icon-glow" />
                 Dashboard

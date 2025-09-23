@@ -1,7 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap");
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -31,6 +29,7 @@
 html, body, #root {
   background: var(--bg);
   color: var(--text);
+  font-family: 'Inter', sans-serif;
 }
 
 /* Prevent default browser backgrounds creeping in */
@@ -51,5 +50,6 @@ html, body, #root {
 
 @keyframes drift-slow {
   0%   { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(1%, -1%, 0); }
+  50%  { transform: translate3d(-1%, 2%, 0); }
+  100% { transform: translate3d(0, 0, 0); }
 }

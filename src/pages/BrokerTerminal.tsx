@@ -185,32 +185,6 @@ export default function BrokerTerminal() {
 
   const renderDashboard = () => (
     <div className="space-y-6">
-       {/* Hero Section */}
-       <div className="text-center py-16">
-         <h1 className="text-5xl font-bold text-white mb-6">
-           Professional Aviation Marketplace
-         </h1>
-         <p className="text-xl text-white/80 max-w-3xl mx-auto mb-8">
-           Connect with verified operators, manage RFQs, and close deals with confidence. 
-           Powered by AI and built for professionals.
-         </p>
-        <div className="flex justify-center gap-4">
-          <Button 
-            size="lg" 
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 shadow-lg"
-          >
-            Start Trading
-            <ArrowUp className="w-5 h-5 ml-2" />
-          </Button>
-          <Button 
-            variant="outline" 
-            size="lg"
-            className="border-slate-300 bg-white text-slate-700 hover:bg-slate-50 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 shadow-sm"
-          >
-            View Analytics
-          </Button>
-        </div>
-      </div>
 
        {/* Global Search Bar */}
        <Card className="bg-white/10 backdrop-blur-xl shadow-2xl border border-white/20 rounded-2xl">
@@ -328,6 +302,7 @@ export default function BrokerTerminal() {
         </CardContent>
       </Card>
 
+
       {/* Predictive Analytics */}
       <RealPredictiveAnalytics terminalType="broker" className="mb-6" />
 
@@ -337,7 +312,7 @@ export default function BrokerTerminal() {
           <CardTitle className="flex items-center gap-3 text-white text-2xl">
             <div className="p-2 bg-blue-500/20 rounded-xl">
               <Brain className="w-6 h-6 text-blue-400" />
-            </div>
+                </div>
             Market Intelligence
           </CardTitle>
           <CardDescription className="text-white/70 text-lg">
@@ -456,11 +431,11 @@ export default function BrokerTerminal() {
                  </div>
                </CardContent>
              </Card>
-          </div>
+              </div>
         );
 
   const renderRFQs = () => (
-    <div className="space-y-6">
+          <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-semibold text-white">RFQs & Quotes</h2>
@@ -473,15 +448,15 @@ export default function BrokerTerminal() {
       </div>
       
       <Card className="bg-white/10 backdrop-blur-xl shadow-2xl border border-white/20 rounded-2xl">
-        <CardHeader>
+              <CardHeader>
           <CardTitle className="flex items-center gap-3 text-white">
             <div className="p-2 bg-blue-500/20 rounded-xl">
               <Plus className="w-5 h-5 text-blue-400" />
             </div>
             Create New RFQ
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
           <MultiLegRFQ />
         </CardContent>
       </Card>
@@ -580,8 +555,8 @@ export default function BrokerTerminal() {
         <p className="text-slate-600">Track your performance and build your reputation</p>
       </div>
        <ReputationMetrics userId="broker_001" userType="broker" />
-    </div>
-  );
+          </div>
+        );
 
   const renderBilling = () => (
     <div className="space-y-6">
@@ -609,21 +584,17 @@ export default function BrokerTerminal() {
       <header className="sticky top-0 bg-black/20 backdrop-blur-xl border-b border-white/10 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <StratusConnectLogo className="text-xl text-white" />
-            <div>
-              <h1 className="text-2xl font-bold text-white">Broker Terminal</h1>
-              <p className="text-white/80 text-sm">Professional Aviation Marketplace</p>
-            </div>
-          </div>
+            <StratusConnectLogo className="text-xl text-white" terminalType="broker" />
+                </div>
           <div className="flex gap-2">
-            <Button
-              onClick={() => setShowHelpGuide(true)}
+                <Button
+                  onClick={() => setShowHelpGuide(true)}
               className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl px-6 py-2 font-medium transition-all duration-200"
               title="Help Guide (Ctrl+H)"
-            >
+                >
               <Trophy className="h-4 w-4 mr-2" />
               Tutorial
-            </Button>
+                </Button>
           </div>
         </div>
       </header>
@@ -639,24 +610,24 @@ export default function BrokerTerminal() {
               </TabsTrigger>
                 <TabsTrigger value="rfqs" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <FileText className="w-4 h-4" />
-                  RFQs & Quotes
-                </TabsTrigger>
+                RFQs & Quotes
+              </TabsTrigger>
                 <TabsTrigger value="marketplace" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <Search className="w-4 h-4" />
-                  Marketplace
-                </TabsTrigger>
+                Marketplace
+              </TabsTrigger>
                 <TabsTrigger value="searches" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <Bookmark className="w-4 h-4" />
-                  Saved Searches
-                </TabsTrigger>
+                Saved Searches
+              </TabsTrigger>
                 <TabsTrigger value="reputation" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <Award className="w-4 h-4" />
-                  Reputation
-                </TabsTrigger>
+                Reputation
+              </TabsTrigger>
                 <TabsTrigger value="billing" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <DollarSign className="w-4 h-4" />
-                  Billing
-                </TabsTrigger>
+                Billing
+              </TabsTrigger>
                 <TabsTrigger value="scoreboard" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <Trophy className="w-4 h-4" />
                   Scoreboard
@@ -664,15 +635,15 @@ export default function BrokerTerminal() {
                 <TabsTrigger value="ranking" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <Star className="w-4 h-4" />
                   Rankings
-                </TabsTrigger>
+              </TabsTrigger>
                 <TabsTrigger value="tracking" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <Globe className="w-4 h-4" />
-                  Flight Tracking
-                </TabsTrigger>
+                Flight Tracking
+              </TabsTrigger>
                 <TabsTrigger value="notes" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <MessageSquare className="w-4 h-4" />
                   Notes
-                </TabsTrigger>
+              </TabsTrigger>
             </TabsList>
             </div>
 
@@ -720,13 +691,13 @@ export default function BrokerTerminal() {
       
         {/* Floating AI Button */}
         {!showMaxAI && (
-          <Button
+      <Button
             onClick={() => setShowMaxAI(true)}
             className="fixed bottom-6 left-6 z-50 w-14 h-14 bg-blue-600 hover:bg-blue-700 rounded-full shadow-lg flex items-center justify-center transition-all duration-300"
             title="Open Max AI Assistant"
           >
             <Zap className="w-7 h-7 text-white" />
-          </Button>
+      </Button>
         )}
 
         {/* Max AI - Advanced Intelligence System */}

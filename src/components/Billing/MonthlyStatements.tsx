@@ -307,7 +307,7 @@ export function MonthlyStatements() {
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="w-48">
                   <SelectItem value="broker">Broker</SelectItem>
                   <SelectItem value="operator">Operator</SelectItem>
                 </SelectContent>

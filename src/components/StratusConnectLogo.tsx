@@ -2,14 +2,31 @@ import { useNavigate } from 'react-router-dom';
 
 interface StratusConnectLogoProps {
   className?: string;
+  terminalType?: 'broker' | 'operator' | 'crew' | 'pilot' | 'main';
 }
 
-export const StratusConnectLogo = ({ className = "" }: StratusConnectLogoProps) => {
+export const StratusConnectLogo = ({ className = "", terminalType = 'main' }: StratusConnectLogoProps) => {
   const navigate = useNavigate();
 
   const handleLogoClick = () => {
     // Always redirect to home page
     navigate('/');
+  };
+
+  const getLogoText = () => {
+    switch (terminalType) {
+      case 'broker':
+        return 'StratusBroker';
+      case 'operator':
+        return 'StratusOperator';
+      case 'crew':
+        return 'StratusCrew';
+      case 'pilot':
+        return 'StratusPilot';
+      case 'main':
+      default:
+        return 'StratusConnect';
+    }
   };
 
   return (
@@ -20,7 +37,7 @@ export const StratusConnectLogo = ({ className = "" }: StratusConnectLogoProps) 
         ${className}`}
       onClick={handleLogoClick}
     >
-      StratusConnect
+      {getLogoText()}
     </h1>
   );
 };

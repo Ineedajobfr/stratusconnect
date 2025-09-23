@@ -53,7 +53,7 @@ export default function CrewTerminal() {
         <div className="relative z-10 bg-terminal-card border-b border-terminal-border px-6 py-4 backdrop-blur-modern">
             <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <StratusConnectLogo className="text-2xl" />
+            <StratusConnectLogo className="text-2xl" terminalType="crew" />
             <div>
               <h1 className="text-2xl font-bold text-foreground">Crew Terminal</h1>
               <p className="text-sm text-gunmetal">Professional crew management platform</p>

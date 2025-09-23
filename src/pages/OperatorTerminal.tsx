@@ -207,7 +207,7 @@ const OperatorTerminal = () => {
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-6">
-                <StratusConnectLogo className="text-2xl" />
+                <StratusConnectLogo className="text-2xl" terminalType="operator" />
                 <div>
                   <h1 className="text-2xl font-bold text-foreground">Operator Terminal</h1>
                   <p className="text-sm text-gunmetal">Fleet management and operations platform</p>

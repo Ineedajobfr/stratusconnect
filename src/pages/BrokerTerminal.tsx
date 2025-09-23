@@ -58,7 +58,6 @@ import { ModernNotesSystem } from '@/components/ModernNotesSystem';
 import { ModernFlightTracker } from '@/components/ModernFlightTracker';
 import AviationNews from '@/components/AviationNews';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
-import { MaxAI } from '@/components/ai/GrokMaxAI';
 import { WeekOneScoreboard } from '@/components/WeekOneScoreboard';
 import DemoMarketplace from './DemoMarketplace';
 import ModernPlasmaBackground from '@/components/ModernPlasmaBackground';
@@ -93,7 +92,6 @@ interface Quote {
 export default function BrokerTerminal() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [showHelpGuide, setShowHelpGuide] = useState(false);
-  const [showMaxAI, setShowMaxAI] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [dashboardMetrics, setDashboardMetrics] = useState({
     activeRFQs: 2,
@@ -109,8 +107,6 @@ export default function BrokerTerminal() {
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
-      // Trigger Max AI search
-      setShowMaxAI(true);
       console.log('Searching for:', searchQuery);
     }
   };
@@ -157,17 +153,13 @@ export default function BrokerTerminal() {
             e.preventDefault();
             setShowHelpGuide(!showHelpGuide);
             break;
-          case 'm':
-            e.preventDefault();
-            setShowMaxAI(!showMaxAI);
-            break;
         }
       }
     };
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [showHelpGuide, showMaxAI]);
+  }, [showHelpGuide]);
 
   // Auto-refresh metrics every 30 seconds
   useEffect(() => {
@@ -207,14 +199,6 @@ export default function BrokerTerminal() {
                 className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl px-8 py-4 font-medium transition-all duration-200 shadow-lg"
               >
                 Search
-              </Button>
-              <Button 
-                variant="outline"
-                onClick={() => setShowMaxAI(true)}
-                className="border-white/30 text-white hover:bg-white/10 rounded-xl px-8 py-4 font-medium transition-all duration-200"
-              >
-                <Brain className="w-5 h-5 mr-2" />
-                Ask Max AI
               </Button>
             </div>
           </div>
@@ -689,24 +673,6 @@ export default function BrokerTerminal() {
         <ArrowUp className="w-6 h-6 text-white" />
       </Button>
       
-        {/* Floating AI Button */}
-        {!showMaxAI && (
-      <Button
-            onClick={() => setShowMaxAI(true)}
-            className="fixed bottom-6 left-6 z-50 w-14 h-14 bg-blue-600 hover:bg-blue-700 rounded-full shadow-lg flex items-center justify-center transition-all duration-300"
-            title="Open Max AI Assistant"
-          >
-            <Zap className="w-7 h-7 text-white" />
-      </Button>
-        )}
-
-        {/* Max AI - Advanced Intelligence System */}
-        <MaxAI 
-          isVisible={showMaxAI} 
-          onToggleVisibility={() => setShowMaxAI(!showMaxAI)} 
-          userType="broker" 
-          isAuthenticated={true} 
-        />
         
     </ModernPlasmaBackground>
   );

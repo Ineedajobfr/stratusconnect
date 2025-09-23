@@ -78,6 +78,7 @@ const DemoOperatorTerminal = lazy(() => import("./pages/DemoOperatorTerminal"));
 const DemoPilotTerminal = lazy(() => import("./pages/DemoPilotTerminal"));
 const DemoCrewTerminal = lazy(() => import("./pages/DemoCrewTerminal"));
 const DemoMarketplace = lazy(() => import("./pages/DemoMarketplace"));
+const MaxConsole = lazy(() => import("./pages/admin/MaxConsole"));
 
 // Help pages
 const HelpBroker = lazy(() => import("./pages/HelpBroker"));
@@ -232,6 +233,14 @@ const App = memo(() => {
                 element={
                   <ProtectedRoute allowedRoles={['admin']}>
                     <AdminTerminal />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/max" 
+                element={
+                  <ProtectedRoute allowedRoles={['admin']}>
+                    <MaxConsole />
                   </ProtectedRoute>
                 } 
               />

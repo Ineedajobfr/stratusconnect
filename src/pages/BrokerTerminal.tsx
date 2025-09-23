@@ -54,12 +54,12 @@ import { ReputationMetrics } from '@/components/Reputation/ReputationMetrics';
 import { MonthlyStatements } from '@/components/Billing/MonthlyStatements';
 import { RankingRulesPage } from '@/components/Ranking/RankingRulesPage';
 import AISearchAssistant from '@/components/AISearchAssistant';
-import PredictiveAnalytics from '@/components/PredictiveAnalytics';
+import { RealPredictiveAnalytics } from '@/components/RealPredictiveAnalytics';
 import { ModernNotesSystem } from '@/components/ModernNotesSystem';
 import { ModernFlightTracker } from '@/components/ModernFlightTracker';
 import AviationNews from '@/components/AviationNews';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
-import { ModernMaxAI } from '@/components/ai/ModernMaxAI';
+import { GrokMaxAI } from '@/components/ai/GrokMaxAI';
 import { WeekOneScoreboard } from '@/components/WeekOneScoreboard';
 import DemoMarketplace from './DemoMarketplace';
 
@@ -270,7 +270,7 @@ export default function BrokerTerminal() {
       <AISearchAssistant terminalType="broker" className="mb-6" />
 
       {/* Predictive Analytics */}
-      <PredictiveAnalytics terminalType="broker" className="mb-6" />
+      <RealPredictiveAnalytics terminalType="broker" className="mb-6" />
 
       {/* AI Insights */}
       <Brand.Card>
@@ -753,7 +753,7 @@ export default function BrokerTerminal() {
         )}
 
         {/* Max AI - Advanced Intelligence System */}
-        <ModernMaxAI 
+        <GrokMaxAI 
           isVisible={showMaxAI} 
           onToggleVisibility={() => setShowMaxAI(!showMaxAI)} 
           userType="broker" 

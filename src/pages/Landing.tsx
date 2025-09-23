@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 import { LoginModal } from "@/components/LoginModal";
 import { NavigationArrows } from "@/components/NavigationArrows";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
+import { CluelyAviationAI } from "@/components/ai/CluelyAviationAI";
 import { Search, ArrowRight, Lock, ChevronRight } from "lucide-react";
 export default function Landing() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [showAI, setShowAI] = useState(true);
   const navigate = useNavigate();
   const clientTypes = [{
     title: "Brokers",
@@ -26,6 +28,9 @@ export default function Landing() {
     route: "/terminal/crew"
   }];
   const footerLinks = [{
+    label: "About",
+    href: "/about"
+  }, {
     label: "Terms",
     href: "/terms"
   }, {
@@ -208,5 +213,8 @@ export default function Landing() {
       </footer>
 
       <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+      
+      {/* Cluely-style Aviation AI */}
+      <CluelyAviationAI isVisible={showAI} onToggleVisibility={() => setShowAI(!showAI)} />
     </div>;
 }

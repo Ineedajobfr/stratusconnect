@@ -22,6 +22,7 @@ import OperatorAnalytics from '@/components/Operator/OperatorAnalytics';
 import FloatingChat from '@/components/FloatingChat';
 import { RankingDashboard } from '@/components/gamification/RankingDashboard';
 import { TierSystem } from '@/components/gamification/TierSystem';
+import { CluelyAviationAI } from '@/components/ai/CluelyAviationAI';
 import { useNavigate } from 'react-router-dom';
 import { 
   DollarSign, 
@@ -128,6 +129,7 @@ export default function DemoOperatorTerminal() {
   const [warRoomResult, setWarRoomResult] = useState<unknown>(null);
   const [evidencePack, setEvidencePack] = useState<unknown>(null);
   const [showHelpGuide, setShowHelpGuide] = useState(false);
+  const [showEnhancedAI, setShowEnhancedAI] = useState(true);
   
   const [rfqs, setRfqs] = useState<RFQ[]>([
     {
@@ -1150,6 +1152,9 @@ export default function DemoOperatorTerminal() {
       
       {/* Floating Chat */}
       <FloatingChat userType="operator" isDemo={true} />
+      
+      {/* Cluely-style Aviation AI */}
+      <CluelyAviationAI isVisible={showEnhancedAI} onToggleVisibility={() => setShowEnhancedAI(!showEnhancedAI)} />
     </>
   );
 }

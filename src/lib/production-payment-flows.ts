@@ -4,7 +4,7 @@
 import { stripeConnectLive } from './stripe-connect-live';
 import { receiptGenerator } from './receipt-generator';
 import { calcDealFees, calcHiringFees } from './fees';
-import { kycLiveService } from './kyc-aml-live';
+import kycAMLLiveSystem from './kyc-aml-live';
 
 export interface CharterDealFlow {
   dealId: string;

@@ -9,6 +9,7 @@ import {
   Maximize2, 
   Move,
   Zap,
+  TrendingUp,
   Target,
   AlertTriangle,
   CheckCircle,

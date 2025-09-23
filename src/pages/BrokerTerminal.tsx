@@ -8,6 +8,11 @@ import { Badge } from '@/components/ui/badge';
 import { Brand } from '@/components/Brand';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ModernHelpGuide } from '@/components/ModernHelpGuide';
+import { ChatGPTHelper } from '@/components/ai/ChatGPTHelper';
+import { SmartPricingEngine } from '@/components/ai/SmartPricingEngine';
+import { RealTimeChat } from '@/components/chat/RealTimeChat';
+import { MarketIntelligence } from '@/components/market/MarketIntelligence';
+import { WorkflowAutomation } from '@/components/automation/WorkflowAutomation';
 import BrokerBackdrop from '@/components/BrokerBackdrop';
 import { 
   DollarSign, 
@@ -44,6 +49,7 @@ import {
   Bookmark,
   Settings,
   X,
+  Brain,
 } from 'lucide-react';
 import { ComplianceNotice, EvidencePack } from '@/components/ComplianceNotice';
 import { MultiLegRFQ } from '@/components/DealFlow/MultiLegRFQ';
@@ -92,6 +98,8 @@ interface Quote {
 export default function BrokerTerminal() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [showHelpGuide, setShowHelpGuide] = useState(false);
+  const [showAIAssistant, setShowAIAssistant] = useState(false);
+  const [showChat, setShowChat] = useState(false);
   const [highlightedSection, setHighlightedSection] = useState<string | null>(null);
   const [dashboardMetrics, setDashboardMetrics] = useState({
     activeRFQs: 2,
@@ -219,6 +227,14 @@ export default function BrokerTerminal() {
           case 'h':
             e.preventDefault();
             setShowHelpGuide(!showHelpGuide);
+            break;
+          case 'a':
+            e.preventDefault();
+            setShowAIAssistant(!showAIAssistant);
+            break;
+          case 'c':
+            e.preventDefault();
+            setShowChat(!showChat);
             break;
         }
       }
@@ -524,19 +540,43 @@ export default function BrokerTerminal() {
         </Button>
       </div>
       
-      <Card className="card-predictive shadow-card rounded-xl2" data-rfq-form>
-              <CardHeader>
-          <CardTitle className="flex items-center gap-3 text-text">
-            <div className="p-2 bg-brand/15 rounded-xl">
-              <Plus className="w-5 h-5 text-brand" />
-            </div>
-            Create New RFQ
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-          <MultiLegRFQ onRFQCreated={addRFQ} />
-        </CardContent>
-      </Card>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Card className="card-predictive shadow-card rounded-xl2" data-rfq-form>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3 text-text">
+                <div className="p-2 bg-brand/15 rounded-xl">
+                  <Plus className="w-5 h-5 text-brand" />
+                </div>
+                Create New RFQ
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <MultiLegRFQ onRFQCreated={addRFQ} />
+            </CardContent>
+          </Card>
+
+          <Card className="card-predictive shadow-card rounded-xl2">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3 text-text">
+                <div className="p-2 bg-purple-500/15 rounded-xl">
+                  <Brain className="w-5 h-5 text-purple-400" />
+                </div>
+                AI Pricing Intelligence
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <SmartPricingEngine
+                route="LHR → JFK"
+                aircraft="Gulfstream G650"
+                passengers={8}
+                date="2024-03-15"
+                onPriceUpdate={(price) => {
+                  console.log('AI suggested price:', price);
+                }}
+              />
+            </CardContent>
+          </Card>
+        </div>
 
       {rfqs.length === 0 ? (
         <Card className="card-predictive shadow-card rounded-xl2">
@@ -739,6 +779,45 @@ export default function BrokerTerminal() {
           onClose={() => setShowHelpGuide(false)}
         />
       )}
+
+      {showAIAssistant && (
+        <ChatGPTHelper
+          isOpen={showAIAssistant}
+          onClose={() => setShowAIAssistant(false)}
+          context={{
+            activeTab,
+            userRole: 'broker',
+            recentActivity: []
+          }}
+        />
+      )}
+
+      {showChat && (
+        <RealTimeChat
+          chatId="broker_chat_001"
+          participants={[
+            {
+              id: 'broker_001',
+              name: 'You',
+              role: 'broker',
+              isOnline: true
+            },
+            {
+              id: 'op_001',
+              name: 'Elite Aviation',
+              role: 'operator',
+              isOnline: true
+            },
+            {
+              id: 'client_001',
+              name: 'John Smith',
+              role: 'client',
+              isOnline: false
+            }
+          ]}
+          onClose={() => setShowChat(false)}
+        />
+      )}
       
       {/* Header */}
       <header className="sticky top-0 bg-black/20 backdrop-blur-xl border-b border-white/10 shadow-sm">
@@ -748,13 +827,29 @@ export default function BrokerTerminal() {
                 </div>
           <div className="flex gap-2">
                 <Button
+                  onClick={() => setShowAIAssistant(true)}
+              className="bg-purple-600 hover:bg-purple-700 text-text shadow-glow rounded-xl px-6 py-2 font-medium transition-all duration-200"
+              title="AI Assistant (Ctrl+A)"
+                >
+              <Brain className="h-4 w-4 mr-2" />
+              AI Assistant
+            </Button>
+                <Button
+                  onClick={() => setShowChat(true)}
+              className="bg-green-600 hover:bg-green-700 text-text shadow-glow rounded-xl px-6 py-2 font-medium transition-all duration-200"
+              title="Real-time Chat"
+                >
+              <MessageSquare className="h-4 w-4 mr-2" />
+              Chat
+            </Button>
+                <Button
                   onClick={() => setShowHelpGuide(true)}
               className="bg-brand hover:bg-brand-600 text-text shadow-glow rounded-xl px-6 py-2 font-medium transition-all duration-200"
               title="Help Guide (Ctrl+H)"
                 >
               <Trophy className="h-4 w-4 mr-2" />
               Tutorial
-                </Button>
+            </Button>
           </div>
         </div>
       </header>
@@ -786,7 +881,23 @@ export default function BrokerTerminal() {
                   onClick={() => handleSectionClick('marketplace')}
                 >
                   <Search className="w-4 h-4" />
-                Marketplace
+                  Marketplace
+              </TabsTrigger>
+                <TabsTrigger 
+                  value="market-intelligence" 
+                  className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'market-intelligence' || activeTab === 'market-intelligence' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
+                  onClick={() => handleSectionClick('market-intelligence')}
+                >
+                  <TrendingUp className="w-4 h-4" />
+                  Market Intel
+              </TabsTrigger>
+                <TabsTrigger 
+                  value="automation" 
+                  className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'automation' || activeTab === 'automation' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
+                  onClick={() => handleSectionClick('automation')}
+                >
+                  <Zap className="w-4 h-4" />
+                  Automation
               </TabsTrigger>
                 <TabsTrigger 
                   value="searches" 
@@ -855,6 +966,12 @@ export default function BrokerTerminal() {
             </TabsContent>
             <TabsContent value="marketplace" className="mt-6 scroll-smooth">
               {renderMarketplace()}
+          </TabsContent>
+            <TabsContent value="market-intelligence" className="mt-6 scroll-smooth">
+              <MarketIntelligence />
+          </TabsContent>
+            <TabsContent value="automation" className="mt-6 scroll-smooth">
+              <WorkflowAutomation />
           </TabsContent>
             <TabsContent value="searches" className="mt-6 scroll-smooth">
               {renderSavedSearches()}

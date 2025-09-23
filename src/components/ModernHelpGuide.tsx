@@ -58,7 +58,9 @@ import {
   AlertTriangle,
   CheckCircle2,
   XCircle,
-  Loader2
+  Loader2,
+  Plus,
+  Calculator
 } from 'lucide-react';
 
 interface TutorialStep {
@@ -109,7 +111,7 @@ export const ModernHelpGuide: React.FC<ModernHelpGuideProps> = ({
   const [showVideo, setShowVideo] = useState(false);
 
   useEffect(() => {
-    // Only show on dashboard tab and only once per terminal type
+    // Show tutorial when showOnMount is true or when explicitly triggered
     const hasBeenDismissed = localStorage.getItem(`help-guide-dismissed-${terminalType}`);
     
     if (showOnMount || (isDemo && activeTab === 'dashboard' && !hasBeenDismissed)) {
@@ -193,6 +195,28 @@ export const ModernHelpGuide: React.FC<ModernHelpGuideProps> = ({
             status: 'available',
             interactive: true,
             relatedFeatures: ['Real-time Updates', 'Interactive Cards', 'Performance Tracking']
+          },
+          {
+            id: 'ai-assistant',
+            title: 'AI Assistant (ChatGPT)',
+            description: 'Your intelligent AI assistant for all broker tasks',
+            detailedExplanation: 'The AI Assistant is powered by ChatGPT and trained specifically on your broker terminal. It can help with RFQ creation, market analysis, pricing strategies, client communication, and workflow optimization. Access it via the purple "AI Assistant" button or Ctrl+A.',
+            icon: Brain,
+            status: 'available',
+            interactive: true,
+            keyboardShortcut: 'Ctrl+A',
+            relatedFeatures: ['Natural Language Processing', 'Context-Aware Responses', 'Action Suggestions', 'Real-time Help']
+          },
+          {
+            id: 'real-time-chat',
+            title: 'Real-time Chat System',
+            description: 'Communicate instantly with operators and clients',
+            detailedExplanation: 'The chat system enables real-time communication with operators, clients, and team members. Features include video/voice calls, file sharing, message status tracking, and online presence indicators. Perfect for negotiations and quick clarifications.',
+            icon: MessageSquare,
+            status: 'available',
+            interactive: true,
+            keyboardShortcut: 'Ctrl+C',
+            relatedFeatures: ['Video Calls', 'File Sharing', 'Message Status', 'Online Presence', 'Multi-party Chat']
           }
         ]
       },
@@ -285,6 +309,27 @@ export const ModernHelpGuide: React.FC<ModernHelpGuideProps> = ({
         difficulty: 'advanced',
         steps: [
           {
+            id: 'ai-assistant-chatgpt',
+            title: 'ChatGPT AI Assistant',
+            description: 'Your intelligent AI assistant for all broker tasks',
+            detailedExplanation: 'The AI Assistant is powered by ChatGPT and trained specifically on your broker terminal system. It can help with RFQ creation, market analysis, pricing strategies, client communication, and workflow optimization. Simply ask questions in natural language and get instant, intelligent responses.',
+            icon: Brain,
+            status: 'available',
+            interactive: true,
+            keyboardShortcut: 'Ctrl+A',
+            relatedFeatures: ['Natural Language Processing', 'Context-Aware Responses', 'Action Suggestions', 'Real-time Help']
+          },
+          {
+            id: 'smart-pricing-engine',
+            title: 'Smart Pricing Engine',
+            description: 'AI-powered pricing analysis and recommendations',
+            detailedExplanation: 'The Smart Pricing Engine analyzes market conditions, route popularity, seasonal demand, fuel costs, and operator capacity to suggest optimal pricing. It provides confidence scores, risk assessments, and actionable recommendations to help you price competitively while maximizing profit.',
+            icon: DollarSign,
+            status: 'available',
+            interactive: true,
+            relatedFeatures: ['Market Analysis', 'Price Optimization', 'Risk Assessment', 'Confidence Scoring']
+          },
+          {
             id: 'ai-insights',
             title: 'AI Insights & Recommendations',
             description: 'Get personalized insights and market intelligence',
@@ -344,6 +389,86 @@ export const ModernHelpGuide: React.FC<ModernHelpGuideProps> = ({
             status: 'available',
             interactive: true,
             relatedFeatures: ['Leaderboard', 'Weekly Challenges', 'Achievement Badges', 'Competitive Rewards']
+          }
+        ]
+      },
+      {
+        id: 'market-intelligence',
+        title: 'Market Intelligence & Analytics',
+        description: 'Real-time market data and competitive analysis',
+        icon: TrendingUp,
+        estimatedTime: '8 minutes',
+        difficulty: 'intermediate',
+        steps: [
+          {
+            id: 'market-dashboard',
+            title: 'Market Intelligence Dashboard',
+            description: 'Access real-time market data and trends',
+            detailedExplanation: 'The Market Intelligence tab provides comprehensive market analysis including popular routes, pricing trends, competitor analysis, and market alerts. Stay ahead of the competition with real-time data that updates every 30 seconds.',
+            icon: BarChart3,
+            status: 'available',
+            interactive: true,
+            relatedFeatures: ['Real-time Data', 'Competitor Analysis', 'Price Trends', 'Market Alerts']
+          },
+          {
+            id: 'competitor-tracking',
+            title: 'Competitor Analysis',
+            description: 'Track competitor pricing and market share',
+            detailedExplanation: 'Monitor competitor operators, their pricing strategies, market share, response times, and ratings. This intelligence helps you position your quotes competitively and identify market opportunities.',
+            icon: Target,
+            status: 'available',
+            interactive: true,
+            relatedFeatures: ['Market Share Tracking', 'Pricing Analysis', 'Response Time Monitoring', 'Rating Comparison']
+          },
+          {
+            id: 'market-alerts',
+            title: 'Smart Market Alerts',
+            description: 'Get notified of market opportunities and changes',
+            detailedExplanation: 'Receive intelligent alerts for price drops, new empty legs, operator additions, and market changes. Alerts are prioritized by relevance and potential impact on your business.',
+            icon: Bell,
+            status: 'available',
+            interactive: true,
+            relatedFeatures: ['Price Drop Alerts', 'Empty Leg Notifications', 'New Operator Alerts', 'Priority Filtering']
+          }
+        ]
+      },
+      {
+        id: 'workflow-automation',
+        title: 'Workflow Automation',
+        description: 'Automate repetitive tasks and streamline operations',
+        icon: Zap,
+        estimatedTime: '10 minutes',
+        difficulty: 'intermediate',
+        steps: [
+          {
+            id: 'smart-templates',
+            title: 'Smart Templates',
+            description: 'Pre-built workflows for common broker tasks',
+            detailedExplanation: 'Create and use smart templates for RFQ creation, client communication, follow-up sequences, and reporting. Templates can be customized and automated to save hours of repetitive work.',
+            icon: FileText,
+            status: 'available',
+            interactive: true,
+            relatedFeatures: ['Template Library', 'Custom Workflows', 'Automation Rules', 'Bulk Operations']
+          },
+          {
+            id: 'bulk-operations',
+            title: 'Bulk Operations',
+            description: 'Handle multiple tasks simultaneously',
+            detailedExplanation: 'Execute bulk operations on RFQs, quotes, clients, and reports. Process hundreds of items at once with progress tracking, error handling, and detailed reporting.',
+            icon: Settings,
+            status: 'available',
+            interactive: true,
+            relatedFeatures: ['Batch Processing', 'Progress Tracking', 'Error Handling', 'Performance Analytics']
+          },
+          {
+            id: 'automation-analytics',
+            title: 'Automation Performance',
+            description: 'Track time saved and efficiency gains',
+            detailedExplanation: 'Monitor how much time your automation saves, success rates of automated tasks, and identify opportunities for further optimization. Data-driven insights help you maximize efficiency.',
+            icon: BarChart3,
+            status: 'available',
+            interactive: true,
+            relatedFeatures: ['Time Tracking', 'Success Metrics', 'Efficiency Reports', 'Optimization Suggestions']
           }
         ]
       },

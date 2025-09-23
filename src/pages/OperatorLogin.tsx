@@ -74,7 +74,7 @@ export default function OperatorLogin() {
               </CardDescription>
               <div className="mt-4 p-3 bg-accent/10 border border-accent/20 rounded-lg">
                 <p className="text-sm text-accent font-medium">
-                  💡 Admin users can log in from any terminal (Broker, Operator, Pilot, Crew)
+                  💡 Professional aviation marketplace connecting brokers, operators, pilots, and crew
                 </p>
               </div>
             </CardHeader>

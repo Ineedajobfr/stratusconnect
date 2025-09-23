@@ -92,7 +92,7 @@ export default function About() {
         <div className="mb-16">
         <div className="text-center mb-12">
             <h1 className="text-5xl font-bold mb-6 text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.7)]">
-              Our Aviation Stories
+              Our Stories
           </h1>
             <p className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
               Connecting aviation professionals to a dynamic network of opportunities, 

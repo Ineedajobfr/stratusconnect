@@ -92,9 +92,10 @@ export const SecurityAI: React.FC<SecurityAIProps> = ({
     return threatTypes.slice(0, Math.floor(Math.random() * 3) + 1).map((threat, index) => ({
       id: `threat-${Date.now()}-${index}`,
       ...threat,
-      level: 'medium' as const,
+      type: threat.type as SecurityThreat['type'],
+      level: threat.level as SecurityThreat['level'],
       timestamp: new Date(Date.now() - Math.random() * 3600000),
-      status: Math.random() > 0.7 ? 'resolved' as const : 'active' as const
+      status: (Math.random() > 0.7 ? 'resolved' : 'active') as SecurityThreat['status']
     }));
   };
 

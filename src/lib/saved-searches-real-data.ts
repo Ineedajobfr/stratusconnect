@@ -54,6 +54,24 @@ export interface SearchResult {
   data: Record<string, unknown>; // The actual listing data
 }
 
+// Listing type used internally for strong typing
+export interface Listing {
+  id: string;
+  from: string;
+  to: string;
+  date: string;
+  aircraft: string;
+  seats: number;
+  price: number;
+  currency: string;
+  operator: string;
+  verified: boolean;
+  emptyLeg: boolean;
+  tags: string[];
+  createdAt?: string;
+  departureTime?: string;
+}
+
 export interface PriceDropAlert {
   id: string;
   searchId: string;
@@ -201,12 +219,12 @@ class SavedSearchesRealData {
   /**
    * Fetch listings from API (simulated)
    */
-  private async fetchListings(criteria: SearchCriteria): Promise<Record<string, unknown>[]> {
+  private async fetchListings(criteria: SearchCriteria): Promise<Listing[]> {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 100));
     
     // Mock listings data
-    const mockListings = [
+    const mockListings: Listing[] = [
       {
         id: 'L1',
         from: 'LHR',
@@ -257,20 +275,20 @@ class SavedSearchesRealData {
   /**
    * Filter and score listings based on criteria
    */
-  private filterAndScoreListings(listings: Record<string, unknown>[], criteria: SearchCriteria): Record<string, unknown>[] {
+  private filterAndScoreListings(listings: Listing[], criteria: SearchCriteria): any[] {
     return listings
       .filter(listing => this.matchesCriteria(listing, criteria))
       .map(listing => ({
         ...listing,
         score: this.calculateScore(listing, criteria)
       }))
-      .sort((a, b) => b.score - a.score);
+      .sort((a: any, b: any) => b.score - a.score);
   }
 
   /**
    * Check if listing matches search criteria
    */
-  private matchesCriteria(listing: Record<string, unknown>, criteria: SearchCriteria): boolean {
+  private matchesCriteria(listing: Listing, criteria: SearchCriteria): boolean {
     // Route matching
     if (criteria.routes.length > 0) {
       const route = `${listing.from}-${listing.to}`;
@@ -331,7 +349,7 @@ class SavedSearchesRealData {
   /**
    * Calculate relevance score for listing
    */
-  private calculateScore(listing: Record<string, unknown>, criteria: SearchCriteria): number {
+  private calculateScore(listing: Listing, criteria: SearchCriteria): number {
     let score = 0;
 
     // Base score
@@ -391,7 +409,7 @@ class SavedSearchesRealData {
     if (!alert.threshold) return;
 
     for (const result of results) {
-      const listing = result.data;
+      const listing = result.data as Listing;
       const priceDrop = this.calculatePriceDrop(listing.id, listing.price);
       
       if (priceDrop && priceDrop.percentage >= alert.threshold) {
@@ -427,7 +445,7 @@ class SavedSearchesRealData {
     const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
     
     for (const result of results) {
-      const listing = result.data;
+      const listing = result.data as Listing;
       const listingDate = new Date(listing.createdAt || listing.date);
       
       if (listingDate > oneDayAgo) {
@@ -450,7 +468,7 @@ class SavedSearchesRealData {
     const oneHourFromNow = new Date(now.getTime() + 60 * 60 * 1000);
     
     for (const result of results) {
-      const listing = result.data;
+      const listing = result.data as Listing;
       const departureTime = new Date(listing.departureTime || listing.date);
       
       if (departureTime <= oneHourFromNow && departureTime > now) {

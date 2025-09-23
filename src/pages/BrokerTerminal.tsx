@@ -1,7 +1,7 @@
 // Enhanced Broker Terminal - Production Ready with Max AI
 // FCA Compliant Aviation Platform - 100% Free Until Revenue
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -68,6 +68,92 @@ export default function BrokerTerminal() {
   const [showHelpGuide, setShowHelpGuide] = useState(false);
   const [showMaxAI, setShowMaxAI] = useState(true);
   const [showSecurityAI, setShowSecurityAI] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [dashboardMetrics, setDashboardMetrics] = useState({
+    activeRFQs: 2,
+    quotesReceived: 2,
+    dealsClosed: 0,
+    avgResponseTime: 2.3,
+    weeklyGrowth: 12,
+    volume: 2100000
+  });
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      // Trigger Max AI search
+      setShowMaxAI(true);
+      // You could also trigger specific searches based on query type
+      console.log('Searching for:', searchQuery);
+    }
+  };
+
+  const handleInsightAction = (action: string) => {
+    switch (action) {
+      case 'miami-positioning':
+        setActiveTab('marketplace');
+        break;
+      case 'job-matches':
+        setActiveTab('rfqs');
+        break;
+      default:
+        break;
+    }
+  };
+
+  // Keyboard shortcuts for productivity
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.ctrlKey || e.metaKey) {
+        switch (e.key) {
+          case 'k':
+            e.preventDefault();
+            document.querySelector('input[type="text"]')?.focus();
+            break;
+          case '1':
+            e.preventDefault();
+            setActiveTab('dashboard');
+            break;
+          case '2':
+            e.preventDefault();
+            setActiveTab('rfqs');
+            break;
+          case '3':
+            e.preventDefault();
+            setActiveTab('marketplace');
+            break;
+          case '4':
+            e.preventDefault();
+            setActiveTab('saved-searches');
+            break;
+          case 'h':
+            e.preventDefault();
+            setShowHelpGuide(!showHelpGuide);
+            break;
+          case 'm':
+            e.preventDefault();
+            setShowMaxAI(!showMaxAI);
+            break;
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [showHelpGuide, showMaxAI]);
+
+  // Auto-refresh metrics every 30 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDashboardMetrics(prev => ({
+        ...prev,
+        activeRFQs: Math.max(0, prev.activeRFQs + Math.floor(Math.random() * 3) - 1),
+        quotesReceived: Math.max(0, prev.quotesReceived + Math.floor(Math.random() * 2) - 1),
+        avgResponseTime: Math.max(1.0, prev.avgResponseTime + (Math.random() - 0.5) * 0.5)
+      }));
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -76,51 +162,51 @@ export default function BrokerTerminal() {
           <div className="space-y-6">
             {/* Key Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Card className="terminal-card">
+              <Card className="terminal-card hover:bg-terminal-card/80 transition-colors cursor-pointer" onClick={() => setActiveTab("rfqs")}>
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm font-medium text-gunmetal">Active RFQs</p>
-                      <p className="text-2xl font-bold text-foreground">2</p>
-                      <p className="text-xs text-data-positive">+12% this week</p>
+                      <p className="text-2xl font-bold text-foreground">{dashboardMetrics.activeRFQs}</p>
+                      <p className="text-xs text-data-positive">+{dashboardMetrics.weeklyGrowth}% this week</p>
                     </div>
                     <FileText className="h-8 w-8 text-accent" />
                   </div>
                 </CardContent>
               </Card>
               
-              <Card className="terminal-card">
+              <Card className="terminal-card hover:bg-terminal-card/80 transition-colors cursor-pointer" onClick={() => setActiveTab("rfqs")}>
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm font-medium text-gunmetal">Quotes Received</p>
-                      <p className="text-2xl font-bold text-foreground">2</p>
-                      <p className="text-xs text-gunmetal">Avg 2.3 per RFQ</p>
+                      <p className="text-2xl font-bold text-foreground">{dashboardMetrics.quotesReceived}</p>
+                      <p className="text-xs text-gunmetal">Avg {(dashboardMetrics.quotesReceived / Math.max(dashboardMetrics.activeRFQs, 1)).toFixed(1)} per RFQ</p>
                     </div>
                     <DollarSign className="h-8 w-8 text-accent" />
                   </div>
                 </CardContent>
               </Card>
               
-              <Card className="terminal-card">
+              <Card className="terminal-card hover:bg-terminal-card/80 transition-colors cursor-pointer" onClick={() => setActiveTab("billing")}>
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm font-medium text-gunmetal">Deals Closed</p>
-                      <p className="text-2xl font-bold text-foreground">0</p>
-                      <p className="text-xs text-gunmetal">$2.1M volume</p>
+                      <p className="text-2xl font-bold text-foreground">{dashboardMetrics.dealsClosed}</p>
+                      <p className="text-xs text-gunmetal">${(dashboardMetrics.volume / 1000000).toFixed(1)}M volume</p>
                     </div>
                     <TrendingUp className="h-8 w-8 text-accent" />
                   </div>
                 </CardContent>
               </Card>
               
-              <Card className="terminal-card">
+              <Card className="terminal-card hover:bg-terminal-card/80 transition-colors cursor-pointer">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm font-medium text-gunmetal">Avg Response Time</p>
-                      <p className="text-2xl font-bold text-accent">2.3m</p>
+                      <p className="text-2xl font-bold text-accent">{dashboardMetrics.avgResponseTime}m</p>
                       <p className="text-xs text-gunmetal">Fast lane eligible</p>
                     </div>
                     <Clock className="h-8 w-8 text-accent" />
@@ -144,43 +230,61 @@ export default function BrokerTerminal() {
                 <div className="relative">
                   <input
                     type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                     placeholder="Ask me anything about aircraft, operators, jobs, or market data..."
                     className="w-full px-4 py-3 bg-terminal-card border border-terminal-border rounded-lg text-foreground placeholder-gunmetal focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
                   />
-                  <Button className="absolute right-2 top-2 h-8 w-8 p-0 bg-accent hover:bg-accent/80">
+                  <Button 
+                    onClick={handleSearch}
+                    className="absolute right-2 top-2 h-8 w-8 p-0 bg-accent hover:bg-accent/80"
+                  >
                     <Search className="h-4 w-4" />
                   </Button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
-                  <div className="flex items-center gap-2 p-3 bg-terminal-card border border-terminal-border rounded-lg">
+                  <div 
+                    className="flex items-center gap-2 p-3 bg-terminal-card border border-terminal-border rounded-lg hover:bg-terminal-card/80 transition-colors cursor-pointer"
+                    onClick={() => setSearchQuery("Find Gulfstream G650 available for charter")}
+                  >
                     <Search className="h-4 w-4 text-accent" />
                     <div>
                       <p className="text-sm font-medium text-foreground">Smart Search</p>
                       <p className="text-xs text-gunmetal">Natural language queries</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 p-3 bg-terminal-card border border-terminal-border rounded-lg">
+                  <div 
+                    className="flex items-center gap-2 p-3 bg-terminal-card border border-terminal-border rounded-lg hover:bg-terminal-card/80 transition-colors cursor-pointer"
+                    onClick={() => setSearchQuery("Match me with clients looking for transatlantic flights")}
+                  >
                     <Target className="h-4 w-4 text-accent" />
                     <div>
                       <p className="text-sm font-medium text-foreground">Client Matching</p>
                       <p className="text-xs text-gunmetal">AI-powered matching</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 p-3 bg-terminal-card border border-terminal-border rounded-lg">
+                  <div 
+                    className="flex items-center gap-2 p-3 bg-terminal-card border border-terminal-border rounded-lg hover:bg-terminal-card/80 transition-colors cursor-pointer"
+                    onClick={() => setSearchQuery("Show me current market pricing for London to New York")}
+                  >
                     <BarChart3 className="h-4 w-4 text-accent" />
                     <div>
                       <p className="text-sm font-medium text-foreground">Market Analytics</p>
                       <p className="text-xs text-gunmetal">Real-time data</p>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-2 p-3 bg-terminal-card border border-terminal-border rounded-lg">
+                </div>
+                  <div 
+                    className="flex items-center gap-2 p-3 bg-terminal-card border border-terminal-border rounded-lg hover:bg-terminal-card/80 transition-colors cursor-pointer"
+                    onClick={() => setSearchQuery("Find top-rated operators with 5-star reviews")}
+                  >
                     <Star className="h-4 w-4 text-accent" />
                     <div>
                       <p className="text-sm font-medium text-foreground">Quality Scoring</p>
                       <p className="text-xs text-gunmetal">Operator ratings</p>
-                    </div>
-                  </div>
                 </div>
+                </div>
+              </div>
               </CardContent>
             </Card>
 
@@ -196,7 +300,7 @@ export default function BrokerTerminal() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
+              <div className="space-y-4">
                   <div className="flex items-center justify-between p-4 bg-terminal-card border border-terminal-border rounded-lg">
                     <div className="flex items-center gap-3">
                       <TrendingUp className="h-5 w-5 text-accent" />
@@ -215,25 +319,35 @@ export default function BrokerTerminal() {
                       <div>
                         <p className="text-sm font-medium text-foreground">Recommendation</p>
                         <p className="text-sm text-gunmetal">Consider positioning aircraft in Miami</p>
-                      </div>
-                    </div>
-                    <Button variant="outline" size="sm" className="border-accent text-accent hover:bg-accent hover:text-white">
+                </div>
+              </div>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="border-accent text-accent hover:bg-accent hover:text-white"
+                      onClick={() => handleInsightAction('miami-positioning')}
+                    >
                       View
                     </Button>
-                  </div>
+                </div>
                   <div className="flex items-center justify-between p-4 bg-terminal-card border border-terminal-border rounded-lg">
                     <div className="flex items-center gap-3">
                       <Star className="h-5 w-5 text-accent" />
                       <div>
                         <p className="text-sm font-medium text-foreground">Opportunity</p>
                         <p className="text-sm text-gunmetal">3 new job matches found</p>
-                      </div>
-                    </div>
-                    <Button variant="outline" size="sm" className="border-accent text-accent hover:bg-accent hover:text-white">
+                </div>
+              </div>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="border-accent text-accent hover:bg-accent hover:text-white"
+                      onClick={() => handleInsightAction('job-matches')}
+                    >
                       View
                     </Button>
-                  </div>
                 </div>
+              </div>
               </CardContent>
             </Card>
           </div>
@@ -308,11 +422,11 @@ export default function BrokerTerminal() {
       <div className="min-h-screen bg-app relative overflow-hidden">
         <StarfieldRunwayBackground />
         
-        {/* Terminal Header */}
+      {/* Terminal Header */}
         <div className="relative z-10 bg-terminal-card border-b border-terminal-border backdrop-blur-modern">
-          <div className="max-w-7xl mx-auto px-6 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-6">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-6">
                 <StratusConnectLogo className="text-2xl" />
                 <div>
                   <h1 className="text-2xl font-bold text-foreground">Broker Terminal</h1>
@@ -320,30 +434,34 @@ export default function BrokerTerminal() {
                 </div>
                 <div className="flex items-center space-x-2 text-data-positive text-sm">
                   <div className="w-2 h-2 bg-data-positive rounded-full terminal-pulse"></div>
-                  <span className="font-mono">MARKET ACTIVE</span>
-                </div>
+                <span className="font-mono">MARKET ACTIVE</span>
               </div>
-              <div className="flex items-center space-x-4">
+            </div>
+            <div className="flex items-center space-x-4">
                 <Button
                   onClick={() => setShowHelpGuide(true)}
                   className="bg-accent hover:bg-accent/80 text-white px-4 py-2 rounded-lg flex items-center gap-2"
+                  title="Help Guide (Ctrl+H)"
                 >
                   <Users className="w-4 h-4" />
                   Tutorial
                 </Button>
                 <div className="text-gunmetal text-sm font-mono">
-                  {new Date().toLocaleTimeString()} UTC
+                {new Date().toLocaleTimeString()} UTC
                 </div>
-              </div>
+                <div className="text-gunmetal text-xs">
+                  Press <kbd className="px-1 py-0.5 bg-terminal-card border border-terminal-border rounded text-xs">Ctrl+K</kbd> to search
+                </div>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Terminal Navigation */}
+      {/* Terminal Navigation */}
         <div className="relative z-10 border-b border-terminal-border bg-terminal-card/30 backdrop-blur-modern">
-          <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6">
             <div className="flex items-center space-x-1 overflow-x-auto py-2">
-              {menuItems.map((item) => (
+              {menuItems.map((item, index) => (
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
@@ -352,29 +470,35 @@ export default function BrokerTerminal() {
                       ? "bg-accent text-white shadow-lg"
                       : "text-gunmetal hover:text-foreground hover:bg-terminal-card/50"
                   }`}
+                  title={`${item.label} (Ctrl+${index + 1})`}
                 >
                   <item.icon className="w-4 h-4" />
                   <span>{item.label}</span>
+                  {index < 4 && (
+                    <kbd className="ml-1 px-1 py-0.5 bg-black/20 border border-white/20 rounded text-xs">
+                      {index + 1}
+                    </kbd>
+                  )}
                 </button>
               ))}
             </div>
-          </div>
         </div>
+      </div>
 
         {/* Main Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-6 py-8">
           {renderTabContent()}
-        </div>
-
-        {/* Scroll to Top Button */}
-        <Button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      </div>
+      
+      {/* Scroll to Top Button */}
+      <Button
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           className="fixed bottom-6 left-6 w-12 h-12 bg-accent hover:bg-accent/80 rounded-full shadow-lg z-40"
-          title="Scroll to Top"
-        >
-          <ArrowUp className="w-6 h-6 text-white" />
-        </Button>
-        
+        title="Scroll to Top"
+      >
+        <ArrowUp className="w-6 h-6 text-white" />
+      </Button>
+      
         {/* Max AI - Advanced Intelligence System */}
         <MaxAI 
           isVisible={showMaxAI} 

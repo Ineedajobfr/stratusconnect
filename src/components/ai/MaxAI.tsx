@@ -10,7 +10,7 @@ interface MaxAIProps {
 
 interface MaxInsight {
   id: string;
-  type: 'security' | 'performance' | 'opportunity' | 'risk' | 'compliance' | 'market' | 'predictive';
+  type: 'security' | 'performance' | 'opportunity' | 'risk' | 'compliance' | 'market' | 'predictive' | 'coaching' | 'feedback';
   priority: 'critical' | 'high' | 'medium' | 'low';
   title: string;
   content: string;
@@ -20,6 +20,8 @@ interface MaxInsight {
   category: string;
   impact: string;
   timeframe: string;
+  improvement?: string;
+  suggestion?: string;
 }
 
 interface SecurityAlert {
@@ -94,9 +96,55 @@ export const MaxAI: React.FC<MaxAIProps> = ({
     ]
   };
 
-  // Generate advanced Max insights
+  // Generate advanced Max insights with coaching
   const generateMaxInsights = (context: string): MaxInsight[] => {
     const insights: MaxInsight[] = [];
+    
+    // Coaching insights - always show these for user improvement
+    const coachingInsights = [
+      {
+        type: 'coaching' as const,
+        priority: 'high' as const,
+        title: 'Quote Response Time Analysis',
+        content: 'Your average response time is 2.3 minutes. Top performers respond within 90 seconds. Consider using saved templates for faster responses.',
+        improvement: 'Create pre-written responses for common requests to reduce response time by 40%',
+        suggestion: 'Set up email templates for standard charter requests',
+        confidence: 0.94
+      },
+      {
+        type: 'feedback' as const,
+        priority: 'medium' as const,
+        title: 'Client Communication Pattern',
+        content: 'You\'re missing 15% of follow-up opportunities. Clients who receive immediate follow-ups are 3x more likely to book.',
+        improvement: 'Implement automated follow-up sequences within 2 hours of quote submission',
+        suggestion: 'Use the Saved Searches feature to track client preferences and tailor follow-ups',
+        confidence: 0.89
+      },
+      {
+        type: 'coaching' as const,
+        priority: 'high' as const,
+        title: 'Market Positioning Strategy',
+        content: 'You\'re not leveraging the AI Search Assistant effectively. 78% of successful brokers use AI insights for client matching.',
+        improvement: 'Start each client interaction by using AI Search to find similar successful deals',
+        suggestion: 'Try searching "Find Gulfstream G650 available for charter" to see how AI can help',
+        confidence: 0.92
+      }
+    ];
+
+    // Add coaching insights
+    coachingInsights.forEach((insight, index) => {
+      if (Math.random() > 0.3) { // 70% chance to show coaching
+        insights.push({
+          id: `coaching-${Date.now()}-${index}`,
+          ...insight,
+          timestamp: new Date(),
+          actionable: true,
+          category: 'User Improvement',
+          impact: 'High',
+          timeframe: 'Immediate'
+        });
+      }
+    });
     
     // Security insights
     if (Math.random() > 0.7) {
@@ -254,6 +302,8 @@ export const MaxAI: React.FC<MaxAIProps> = ({
       case 'compliance': return <CheckCircle className="w-4 h-4" />;
       case 'market': return <TrendingUp className="w-4 h-4" />;
       case 'predictive': return <Star className="w-4 h-4" />;
+      case 'coaching': return <Target className="w-4 h-4" />;
+      case 'feedback': return <AlertTriangle className="w-4 h-4" />;
       default: return <Brain className="w-4 h-4" />;
     }
   };
@@ -403,6 +453,18 @@ export const MaxAI: React.FC<MaxAIProps> = ({
                       </div>
                     </div>
                     <p className="text-white/80 text-sm leading-relaxed mb-2">{insight.content}</p>
+                    {insight.improvement && (
+                      <div className="mb-2 p-2 bg-green-500/10 border border-green-500/20 rounded-lg">
+                        <p className="text-green-400 text-xs font-medium mb-1">💡 Improvement:</p>
+                        <p className="text-green-300 text-xs">{insight.improvement}</p>
+                      </div>
+                    )}
+                    {insight.suggestion && (
+                      <div className="mb-2 p-2 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                        <p className="text-blue-400 text-xs font-medium mb-1">🎯 Suggestion:</p>
+                        <p className="text-blue-300 text-xs">{insight.suggestion}</p>
+                      </div>
+                    )}
                     <div className="flex items-center gap-2 text-xs">
                       <span className="text-white/60">Category: {insight.category}</span>
                       <span className="text-white/60">•</span>

@@ -23,7 +23,8 @@ import {
   Clock,
   MapPin,
   Search,
-  FileText
+  FileText,
+  Brain
 } from 'lucide-react';
 
 interface HelpStep {
@@ -90,22 +91,37 @@ export const ModernHelpGuide: React.FC<ModernHelpGuideProps> = ({
 
     const terminalSpecificContent = {
       broker: {
-        title: "Broker Terminal Guide",
-        description: "Master the broker workflow: from RFQ creation to deal completion",
+        title: "Broker Terminal Master Guide",
+        description: "Master the FCA compliant trading floor with comprehensive features and AI-powered productivity",
         quickTips: [
-          "Start in Dashboard to see your active deals and market overview",
-          "Use RFQs & Quotes tab to create new requests and compare operator quotes",
-          "Marketplace shows available aircraft and empty legs you can book immediately",
-          "Saved Searches automatically alert you to price drops and new opportunities",
-          "Flight Tracking lets you monitor your client's flights in real-time",
-          "Reputation tab shows your performance metrics and ranking among brokers",
-          "Billing section handles invoicing, payments, and financial statements"
+          "💡 Use Ctrl+K to instantly search for aircraft, operators, or market data",
+          "🎯 Click on dashboard metrics to navigate directly to relevant sections",
+          "🤖 Leverage Max AI for personalized coaching and improvement suggestions",
+          "⚡ Use keyboard shortcuts (Ctrl+1-4) for rapid navigation between sections",
+          "📊 Set up saved searches for your most common routes and aircraft types",
+          "🏆 Check the scoreboard regularly to track your competitive position",
+          "🔍 Use AI Search Assistant with natural language queries for better results",
+          "📝 Take notes on client preferences to personalize future interactions",
+          "🛡️ Monitor Security AI for compliance and threat protection",
+          "📈 Review AI Insights regularly for market opportunities and recommendations"
         ],
         steps: [
           {
-            title: "Dashboard Overview",
-            description: "Your command center showing active deals, market trends, and performance metrics. Track your success rate and earnings here.",
+            title: "Dashboard & Metrics",
+            description: "Monitor key metrics, AI insights, and market status. Click metrics to navigate to relevant sections. Features real-time data updates and interactive cards.",
             icon: BarChart3,
+            status: 'available' as const
+          },
+          {
+            title: "AI Search Assistant",
+            description: "Use natural language to find aircraft, operators, and market data. Try the pre-filled search suggestions for instant results.",
+            icon: Search,
+            status: 'available' as const
+          },
+          {
+            title: "AI Insights & Coaching",
+            description: "Get personalized recommendations and performance feedback from Max AI. Learn where you can improve and how to maximize success.",
+            icon: Award,
             status: 'available' as const
           },
           {
@@ -136,6 +152,30 @@ export const ModernHelpGuide: React.FC<ModernHelpGuideProps> = ({
             title: "Billing & Financial Management",
             description: "Handle invoicing, track payments, and manage your commission structure. All transactions are FCA compliant.",
             icon: DollarSign,
+            status: 'available' as const
+          },
+          {
+            title: "Scoreboard & Competition",
+            description: "Compete with other brokers, track weekly performance, and climb the leaderboard rankings.",
+            icon: Award,
+            status: 'available' as const
+          },
+          {
+            title: "Max AI Assistant",
+            description: "Advanced AI with coaching, insights, security monitoring, and predictive analytics for maximum productivity.",
+            icon: Brain,
+            status: 'available' as const
+          },
+          {
+            title: "Security AI Protection",
+            description: "Advanced threat protection, compliance monitoring, and security alerts to keep your operations secure.",
+            icon: Shield,
+            status: 'available' as const
+          },
+          {
+            title: "Keyboard Shortcuts",
+            description: "Master keyboard shortcuts for lightning-fast navigation: Ctrl+K (search), Ctrl+1-4 (navigation), Ctrl+H (help).",
+            icon: Clock,
             status: 'available' as const
           }
         ]

@@ -185,7 +185,9 @@ html, body, #root {
 @layer components {
   /* Sleek Terminal Components */
   .terminal-card {
-    @apply bg-terminal-card border border-terminal-border rounded-2xl;
+    background-color: hsl(var(--terminal-card));
+    border: 1px solid hsl(var(--terminal-border));
+    border-radius: 1rem;
     box-shadow: 0 8px 30px rgba(0,0,0,0.35), inset 0 1px 0 hsl(var(--terminal-glow) / 0.1);
     transition: all 0.2s ease-out;
   }
@@ -341,53 +343,131 @@ html, body, #root {
 
   /* Status indicators */
   .status-success {
-    @apply bg-terminal-success/20 text-terminal-success border border-terminal-success/30 px-2 py-1 text-xs font-medium;
+    background-color: hsl(var(--terminal-success) / 0.2);
+    color: hsl(var(--terminal-success));
+    border: 1px solid hsl(var(--terminal-success) / 0.3);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
   }
 
   .status-warning {
-    @apply bg-terminal-warning/20 text-terminal-warning border border-terminal-warning/30 px-2 py-1 text-xs font-medium;
+    background-color: hsl(var(--terminal-warning) / 0.2);
+    color: hsl(var(--terminal-warning));
+    border: 1px solid hsl(var(--terminal-warning) / 0.3);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
   }
 
   .status-error {
-    @apply bg-terminal-danger/20 text-terminal-danger border border-terminal-danger/30 px-2 py-1 text-xs font-medium;
+    background-color: hsl(var(--terminal-danger) / 0.2);
+    color: hsl(var(--terminal-danger));
+    border: 1px solid hsl(var(--terminal-danger) / 0.3);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
   }
 
   .status-info {
-    @apply bg-terminal-info/20 text-terminal-info border border-terminal-info/30 px-2 py-1 text-xs font-medium;
+    background-color: hsl(var(--terminal-info) / 0.2);
+    color: hsl(var(--terminal-info));
+    border: 1px solid hsl(var(--terminal-info) / 0.3);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
   }
 
   .status-active {
-    @apply bg-terminal-success/20 text-terminal-success border border-terminal-success/30 px-2 py-1 text-xs font-medium;
+    background-color: hsl(var(--terminal-success) / 0.2);
+    color: hsl(var(--terminal-success));
+    border: 1px solid hsl(var(--terminal-success) / 0.3);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
   }
 
   .status-pending {
-    @apply bg-terminal-warning/20 text-terminal-warning border border-terminal-warning/30 px-2 py-1 text-xs font-medium;
+    background-color: hsl(var(--terminal-warning) / 0.2);
+    color: hsl(var(--terminal-warning));
+    border: 1px solid hsl(var(--terminal-warning) / 0.3);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
   }
 
   .status-processing {
-    @apply bg-terminal-info/20 text-terminal-info border border-terminal-info/30 px-2 py-1 text-xs font-medium;
+    background-color: hsl(var(--terminal-info) / 0.2);
+    color: hsl(var(--terminal-info));
+    border: 1px solid hsl(var(--terminal-info) / 0.3);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
   }
 
   /* Button variants - Bloomberg style */
   .btn-terminal-primary {
-    @apply bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 font-medium transition-all duration-150 border-0;
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: all 0.15s;
+    border: 0;
+  }
+  
+  .btn-terminal-primary:hover {
+    background-color: hsl(var(--primary) / 0.9);
   }
 
   .btn-terminal-secondary {
-    @apply bg-secondary text-secondary-foreground hover:bg-secondary/90 px-4 py-2 font-medium transition-all duration-150 border;
-    border-color: hsl(var(--border));
+    background-color: hsl(var(--secondary));
+    color: hsl(var(--secondary-foreground));
+    border: 1px solid hsl(var(--border));
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  
+  .btn-terminal-secondary:hover {
+    background-color: hsl(var(--secondary) / 0.9);
   }
 
   .btn-terminal-accent {
-    @apply bg-accent text-accent-foreground hover:bg-accent/90 px-4 py-2 font-medium transition-all duration-150;
+    background-color: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  
+  .btn-terminal-accent:hover {
+    background-color: hsl(var(--accent) / 0.9);
   }
 
   .btn-terminal-success {
-    @apply bg-terminal-success/20 text-terminal-success border border-terminal-success/30 hover:bg-terminal-success/30 px-4 py-2 font-medium transition-all duration-150;
+    background-color: hsl(var(--terminal-success) / 0.2);
+    color: hsl(var(--terminal-success));
+    border: 1px solid hsl(var(--terminal-success) / 0.3);
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  
+  .btn-terminal-success:hover {
+    background-color: hsl(var(--terminal-success) / 0.3);
   }
 
   .btn-terminal-danger {
-    @apply bg-terminal-danger/20 text-terminal-danger border border-terminal-danger/30 hover:bg-terminal-danger/30 px-4 py-2 font-medium transition-all duration-150;
+    background-color: hsl(var(--terminal-danger) / 0.2);
+    color: hsl(var(--terminal-danger));
+    border: 1px solid hsl(var(--terminal-danger) / 0.3);
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  
+  .btn-terminal-danger:hover {
+    background-color: hsl(var(--terminal-danger) / 0.3);
   }
 
   /* Input styles - Bloomberg terminal */
@@ -402,15 +482,24 @@ html, body, #root {
 
   /* Layout components */
   .sidebar-terminal {
-    @apply bg-sidebar border-r border-sidebar-border w-64 flex flex-col;
+    background-color: hsl(var(--sidebar));
+    border-right: 1px solid hsl(var(--sidebar-border));
+    width: 16rem;
+    display: flex;
+    flex-direction: column;
   }
 
   .main-terminal {
-    @apply bg-terminal-bg flex-1 flex flex-col;
+    background-color: hsl(var(--terminal-bg));
+    flex: 1;
+    display: flex;
+    flex-direction: column;
   }
 
   .navbar-terminal {
-    @apply bg-terminal-card border-b border-terminal-border px-6 py-4;
+    background-color: hsl(var(--terminal-card));
+    border-bottom: 1px solid hsl(var(--terminal-border));
+    padding: 1rem 1.5rem;
   }
 
   /* Animation classes */
@@ -447,7 +536,14 @@ html, body, #root {
   
   /* Privacy overlay for analytics */
   .privacy-overlay {
-    @apply absolute inset-0 bg-terminal-bg/80 backdrop-blur-sm flex items-center justify-center z-10;
+    position: absolute;
+    inset: 0;
+    background-color: hsl(var(--terminal-bg) / 0.8);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
   }
   
   .privacy-overlay::before {

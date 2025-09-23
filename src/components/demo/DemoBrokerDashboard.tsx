@@ -275,7 +275,7 @@ export const DemoBrokerDashboard: React.FC = () => {
         <Button
           onClick={() => setViewMode(viewMode === "standard" ? "trading" : "standard")}
           variant="outline"
-          className="border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-white"
+          className="border-orange-500 text-orange-400 hover:bg-orange-500 hover:text-white"
         >
           {viewMode === "standard" ? "Trading Floor" : "Standard View"}
         </Button>
@@ -292,12 +292,12 @@ export const DemoBrokerDashboard: React.FC = () => {
         onMessageClick={() => console.log('Messages')}
       >
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 bg-terminal-card border-terminal-border text-xs sm:text-sm tabs-modern">
-            <TabsTrigger value="dashboard" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Dashboard</TabsTrigger>
-            <TabsTrigger value="requests" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Requests</TabsTrigger>
-            <TabsTrigger value="bookings" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Bookings</TabsTrigger>
-            <TabsTrigger value="analytics" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Analytics</TabsTrigger>
-            <TabsTrigger value="network" className="text-xs data-[state=active]:bg-accent data-[state=active]:text-white">Network</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 bg-slate-800 border-slate-600 text-xs sm:text-sm">
+            <TabsTrigger value="dashboard" className="text-xs data-[state=active]:bg-orange-500 data-[state=active]:text-white">Dashboard</TabsTrigger>
+            <TabsTrigger value="requests" className="text-xs data-[state=active]:bg-orange-500 data-[state=active]:text-white">Requests</TabsTrigger>
+            <TabsTrigger value="bookings" className="text-xs data-[state=active]:bg-orange-500 data-[state=active]:text-white">Bookings</TabsTrigger>
+            <TabsTrigger value="analytics" className="text-xs data-[state=active]:bg-orange-500 data-[state=active]:text-white">Analytics</TabsTrigger>
+            <TabsTrigger value="network" className="text-xs data-[state=active]:bg-orange-500 data-[state=active]:text-white">Network</TabsTrigger>
           </TabsList>
 
           <TabsContent value="dashboard" className="space-y-6">
@@ -352,27 +352,27 @@ export const DemoBrokerDashboard: React.FC = () => {
           <PilotTrackingMap pilots={demoPilotTracking} />
 
           {/* Quick Actions */}
-          <Card className="terminal-card animate-fade-in-up" style={{animationDelay: '0.4s'}}>
+          <Card className="bg-slate-800 border-slate-700 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
             <CardHeader>
-              <CardTitle className="flex items-center space-x-2 text-foreground">
-                <Plus className="h-5 w-5 text-accent" />
+              <CardTitle className="flex items-center space-x-2 text-white">
+                <Plus className="h-5 w-5 text-orange-500" />
                 <span>QUICK ACTIONS</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Button 
-                  className="btn-terminal-accent h-12"
+                  className="bg-orange-500 hover:bg-orange-600 text-white h-12"
                   onClick={() => setShowNewRequestForm(true)}
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   New Charter Request
                 </Button>
-                <Button variant="outline" className="border-terminal-border text-foreground hover:bg-terminal-card h-12">
+                <Button variant="outline" className="border-slate-600 text-white hover:bg-slate-700 h-12">
                   <FileText className="h-4 w-4 mr-2" />
                   Generate Report
                 </Button>
-                <Button variant="outline" className="border-terminal-border text-foreground hover:bg-terminal-card h-12">
+                <Button variant="outline" className="border-slate-600 text-white hover:bg-slate-700 h-12">
                   <Users className="h-4 w-4 mr-2" />
                   Manage Clients
                 </Button>
@@ -385,7 +385,7 @@ export const DemoBrokerDashboard: React.FC = () => {
             <Card className="bg-slate-800 border-slate-700">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2 text-white">
-                  <Clock className="h-5 w-5 text-cyan-400" />
+                  <Clock className="h-5 w-5 text-orange-500" />
                   <span>ACTIVE REQUESTS</span>
                 </CardTitle>
               </CardHeader>
@@ -429,7 +429,7 @@ export const DemoBrokerDashboard: React.FC = () => {
             <Card className="bg-slate-800 border-slate-700">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2 text-white">
-                  <CheckCircle className="h-5 w-5 text-cyan-400" />
+                  <CheckCircle className="h-5 w-5 text-orange-500" />
                   <span>RECENT BOOKINGS</span>
                 </CardTitle>
               </CardHeader>
@@ -482,7 +482,7 @@ export const DemoBrokerDashboard: React.FC = () => {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-300">Avg Response Time</span>
-                      <span className="text-cyan-400 font-semibold">2.3 hrs</span>
+                      <span className="text-orange-500 font-semibold">2.3 hrs</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-300">Client Satisfaction</span>
@@ -525,17 +525,17 @@ export const DemoBrokerDashboard: React.FC = () => {
                   <div className="bg-slate-700 p-4 rounded-lg">
                     <h4 className="font-semibold text-white mb-2">Elite Aviation</h4>
                     <p className="text-slate-300 text-sm">Premium partner</p>
-                    <p className="text-cyan-400 text-sm">12 successful deals</p>
+                    <p className="text-orange-500 text-sm">12 successful deals</p>
                   </div>
                   <div className="bg-slate-700 p-4 rounded-lg">
                     <h4 className="font-semibold text-white mb-2">Premier Jets</h4>
                     <p className="text-slate-300 text-sm">Reliable operator</p>
-                    <p className="text-cyan-400 text-sm">8 successful deals</p>
+                    <p className="text-orange-500 text-sm">8 successful deals</p>
                   </div>
                   <div className="bg-slate-700 p-4 rounded-lg">
                     <h4 className="font-semibold text-white mb-2">Global Aviation</h4>
                     <p className="text-slate-300 text-sm">International partner</p>
-                    <p className="text-cyan-400 text-sm">15 successful deals</p>
+                    <p className="text-orange-500 text-sm">15 successful deals</p>
                   </div>
                 </div>
               </CardContent>

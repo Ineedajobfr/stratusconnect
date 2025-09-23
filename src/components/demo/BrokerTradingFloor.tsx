@@ -53,23 +53,23 @@ export const BrokerTradingFloor: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-slate-900 text-white">
       {/* Top Trading Bar */}
-      <div className="bg-gray-900 border-b border-gray-700 px-6 py-3">
+      <div className="bg-slate-800 border-b border-slate-600 px-6 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                <span className="text-black font-bold text-sm">B</span>
+              <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+                <span className="text-white font-bold text-sm">B</span>
               </div>
               <span className="text-xl font-bold">STRATUSCONNECT</span>
             </div>
-            <div className="text-sm text-gray-400">TRADING FLOOR</div>
+            <div className="text-sm text-slate-400">TRADING FLOOR</div>
           </div>
           
           <div className="flex items-center space-x-6">
             <div className="text-center">
-              <div className="text-sm text-gray-400">BROKER</div>
+              <div className="text-sm text-slate-400">BROKER</div>
               <div className="text-lg font-mono font-bold text-white">BROKER-001</div>
             </div>
             <div className="text-2xl font-mono text-white">
@@ -79,13 +79,13 @@ export const BrokerTradingFloor: React.FC = () => {
           
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <div className={`w-2 h-2 rounded-full ${isLive ? 'bg-green-500' : 'bg-red-500'}`}></div>
-              <span className="text-sm text-gray-400">{isLive ? 'LIVE' : 'OFFLINE'}</span>
+              <div className={`w-2 h-2 rounded-full ${isLive ? 'bg-orange-500' : 'bg-red-500'}`}></div>
+              <span className="text-sm text-slate-400">{isLive ? 'LIVE' : 'OFFLINE'}</span>
             </div>
-            <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
+            <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white">
               <Play className="h-4 w-4" />
             </Button>
-            <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
+            <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white">
               <Volume2 className="h-4 w-4" />
             </Button>
           </div>

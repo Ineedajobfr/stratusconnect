@@ -672,10 +672,10 @@ export default function DemoBrokerTerminal() {
           isDemo={true}
         />
       )}
-      <div className="min-h-screen bg-app relative overflow-hidden scroll-smooth">
+      <div className="min-h-screen bg-slate-900 relative overflow-hidden scroll-smooth">
         <StarfieldRunwayBackground />
         
-        <header className="relative z-10 sticky top-0 bg-terminal-card/80 backdrop-blur-modern border-b border-terminal-border">
+        <header className="relative z-10 sticky top-0 bg-slate-800/80 backdrop-blur-modern border-b border-slate-600">
         <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <StratusConnectLogo className="text-xl" />
@@ -708,57 +708,57 @@ export default function DemoBrokerTerminal() {
         {/* Main Navigation */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-terminal-border scrollbar-track-transparent pb-2">
-            <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-terminal-card/50 backdrop-blur-sm">
-            <TabsTrigger value="dashboard" className="flex items-center gap-2">
-              <BarChart3 className="w-4 h-4 icon-glow" />
+            <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-slate-800/50 backdrop-blur-sm">
+            <TabsTrigger value="dashboard" className="flex items-center gap-2 data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+              <BarChart3 className="w-4 h-4" />
               Dashboard
             </TabsTrigger>
-            <TabsTrigger value="rfqs" className="flex items-center gap-2">
-              <FileText className="w-4 h-4 icon-glow" />
+            <TabsTrigger value="rfqs" className="flex items-center gap-2 data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+              <FileText className="w-4 h-4" />
               RFQs & Quotes
             </TabsTrigger>
-            <TabsTrigger value="marketplace" className="flex items-center gap-2">
-              <Search className="w-4 h-4 icon-glow" />
+            <TabsTrigger value="marketplace" className="flex items-center gap-2 data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+              <Search className="w-4 h-4" />
               Marketplace
             </TabsTrigger>
-            <TabsTrigger value="searches" className="flex items-center gap-2">
-              <Bell className="w-4 h-4 icon-glow" />
+            <TabsTrigger value="searches" className="flex items-center gap-2 data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+              <Bell className="w-4 h-4" />
               Saved Searches
             </TabsTrigger>
-            <TabsTrigger value="reputation" className="flex items-center gap-2">
-              <Award className="w-4 h-4 icon-glow" />
+            <TabsTrigger value="reputation" className="flex items-center gap-2 data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+              <Award className="w-4 h-4" />
               Reputation
             </TabsTrigger>
-            <TabsTrigger value="ranking" className="flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 icon-glow" />
+            <TabsTrigger value="ranking" className="flex items-center gap-2 data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+              <TrendingUp className="w-4 h-4" />
               Ranking
             </TabsTrigger>
-            <TabsTrigger value="tracking" className="flex items-center gap-2">
-              <Plane className="w-4 h-4 icon-glow" />
+            <TabsTrigger value="tracking" className="flex items-center gap-2 data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+              <Plane className="w-4 h-4" />
               Flight Tracking
             </TabsTrigger>
-            <TabsTrigger value="notes" className="flex items-center gap-2">
-              <FileText className="w-4 h-4 icon-glow" />
+            <TabsTrigger value="notes" className="flex items-center gap-2 data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+              <FileText className="w-4 h-4" />
               Notes
             </TabsTrigger>
-            <TabsTrigger value="billing" className="flex items-center gap-2">
-              <DollarSign className="w-4 h-4 icon-glow" />
+            <TabsTrigger value="billing" className="flex items-center gap-2 data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+              <DollarSign className="w-4 h-4" />
               Billing
             </TabsTrigger>
-            <TabsTrigger value="scoreboard" className="flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 icon-glow" />
+            <TabsTrigger value="scoreboard" className="flex items-center gap-2 data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+              <TrendingUp className="w-4 h-4" />
               Scoreboard
             </TabsTrigger>
-            <TabsTrigger value="warroom" className="flex items-center gap-2">
-              <Shield className="w-4 h-4 icon-glow" />
+            <TabsTrigger value="warroom" className="flex items-center gap-2 data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+              <Shield className="w-4 h-4" />
               War Room
             </TabsTrigger>
-            <TabsTrigger value="trophy" className="flex items-center gap-2">
-              <Trophy className="w-4 h-4 icon-glow" />
+            <TabsTrigger value="trophy" className="flex items-center gap-2 data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+              <Trophy className="w-4 h-4" />
               Trophy
             </TabsTrigger>
-            <TabsTrigger value="news" className="flex items-center gap-2">
-              <Globe className="w-4 h-4 icon-glow" />
+            <TabsTrigger value="news" className="flex items-center gap-2 data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+              <Globe className="w-4 h-4" />
               News
             </TabsTrigger>
             </TabsList>

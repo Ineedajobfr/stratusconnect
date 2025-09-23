@@ -31,19 +31,19 @@ export const ProfessionalDataCard: React.FC<DataCardProps> = ({
   style
 }) => {
   return (
-    <Card className={`terminal-card group hover:terminal-glow transition-all duration-300 ${className}`} style={style}>
+    <Card className={`bg-slate-800 border-slate-700 group hover:border-orange-500 transition-all duration-300 ${className}`} style={style}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium text-gunmetal">{title}</CardTitle>
-        {Icon && <div className="p-2 rounded-lg transition-colors duration-300" style={{backgroundColor: 'hsl(var(--accent) / 0.2)'}}>
-          <Icon className="h-4 w-4 text-muted-foreground group-hover:text-accent transition-colors duration-300" />
+        <CardTitle className="text-sm font-medium text-slate-400">{title}</CardTitle>
+        {Icon && <div className="p-2 rounded-lg transition-colors duration-300 bg-orange-500/20">
+          <Icon className="h-4 w-4 text-slate-400 group-hover:text-orange-500 transition-colors duration-300" />
         </div>}
       </CardHeader>
       <CardContent>
         <div className="flex items-center justify-between">
           <div>
-            <div className="text-2xl font-bold text-foreground group-hover:text-accent transition-colors duration-300">{value}</div>
+            <div className="text-2xl font-bold text-white group-hover:text-orange-500 transition-colors duration-300">{value}</div>
             {subtitle && (
-              <p className="text-xs text-muted-foreground mt-1">{subtitle}</p>
+              <p className="text-xs text-slate-400 mt-1">{subtitle}</p>
             )}
             {trend && (
               <div className={`flex items-center mt-1 text-xs ${
@@ -125,7 +125,7 @@ export const ProfessionalFlightCard: React.FC<FlightCardProps> = ({
   };
 
   return (
-    <Card className={`terminal-card group hover:terminal-glow transition-all duration-300 ${className}`} style={style}>
+    <Card className={`bg-slate-800 border-slate-700 group hover:border-orange-500 transition-all duration-300 ${className}`} style={style}>
       <CardContent className="p-4">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-2">
@@ -137,10 +137,10 @@ export const ProfessionalFlightCard: React.FC<FlightCardProps> = ({
           </Badge>
         </div>
         
-        <div className="space-y-2 text-sm text-gray-300">
+        <div className="space-y-2 text-sm text-slate-300">
           <div className="flex items-center justify-between">
             <span>{date}</span>
-            <span className="text-orange-400 font-medium">{aircraft}</span>
+            <span className="text-orange-500 font-medium">{aircraft}</span>
           </div>
           
           <div className="flex items-center justify-between">
@@ -149,14 +149,14 @@ export const ProfessionalFlightCard: React.FC<FlightCardProps> = ({
           </div>
           
           {(earnings || rating) && (
-            <div className="flex items-center justify-between pt-2 border-t border-gray-700">
+            <div className="flex items-center justify-between pt-2 border-t border-slate-600">
               {earnings && (
                 <span className="text-white font-medium">${earnings.toLocaleString()}</span>
               )}
               {rating && (
                 <div className="flex items-center space-x-1">
                   <span className="text-yellow-400">★</span>
-                  <span className="text-orange-400 font-medium">{rating}</span>
+                  <span className="text-orange-500 font-medium">{rating}</span>
                 </div>
               )}
             </div>
@@ -191,7 +191,7 @@ export const ProfessionalProfileCard: React.FC<ProfileCardProps> = ({
   style
 }) => {
   return (
-    <Card className={`terminal-card group hover:terminal-glow transition-all duration-300 ${className}`} style={style}>
+    <Card className={`bg-slate-800 border-slate-700 group hover:border-orange-500 transition-all duration-300 ${className}`} style={style}>
       <CardContent className="p-6">
         <div className="flex items-start space-x-4">
           <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
@@ -199,14 +199,14 @@ export const ProfessionalProfileCard: React.FC<ProfileCardProps> = ({
           </div>
           <div className="flex-1">
             <h3 className="text-xl font-bold text-white">{name}</h3>
-            <p className="text-orange-400 font-medium">{title}</p>
+            <p className="text-orange-500 font-medium">{title}</p>
             <div className="flex items-center space-x-4 mt-2">
               <div className="flex items-center space-x-1">
                 <span className="text-yellow-400">★</span>
-                <span className="text-orange-400 font-bold">{rating}</span>
-                <span className="text-gray-400 text-sm">({flights} flights)</span>
+                <span className="text-orange-500 font-bold">{rating}</span>
+                <span className="text-slate-400 text-sm">({flights} flights)</span>
               </div>
-              <div className="flex items-center space-x-1 text-gray-400">
+              <div className="flex items-center space-x-1 text-slate-400">
                 <span>📍</span>
                 <span className="text-sm">{location}</span>
               </div>
@@ -216,10 +216,10 @@ export const ProfessionalProfileCard: React.FC<ProfileCardProps> = ({
         
         <div className="mt-4 space-y-3">
           <div>
-            <h4 className="text-sm font-semibold text-gray-300 mb-2">Type Ratings</h4>
+            <h4 className="text-sm font-semibold text-slate-300 mb-2">Type Ratings</h4>
             <div className="flex flex-wrap gap-2">
               {typeRatings.map((rating, index) => (
-                <Badge key={index} variant="outline" className="border-orange-500 text-orange-400">
+                <Badge key={index} variant="outline" className="border-orange-500 text-orange-500">
                   {rating}
                 </Badge>
               ))}
@@ -227,8 +227,8 @@ export const ProfessionalProfileCard: React.FC<ProfileCardProps> = ({
           </div>
           
           <div>
-            <h4 className="text-sm font-semibold text-gray-300 mb-2">Operating Regions</h4>
-            <p className="text-gray-400 text-sm">{operatingRegions.join(', ')}</p>
+            <h4 className="text-sm font-semibold text-slate-300 mb-2">Operating Regions</h4>
+            <p className="text-slate-400 text-sm">{operatingRegions.join(', ')}</p>
           </div>
         </div>
       </CardContent>

@@ -93,7 +93,7 @@ export const UnifiedTerminalLayout: React.FC<UnifiedTerminalLayoutProps> = ({
               </div>
               <div className="flex items-center space-x-4">
                 <div className="text-sm text-slate-400">
-                  ROLE: <span className="text-cyan-400">{user.role}</span>
+                  ROLE: <span className="text-orange-500">{user.role}</span>
                 </div>
                 <div className="text-sm text-slate-400">
                   TIME: <span className="text-white">{new Date().toLocaleTimeString()}</span>

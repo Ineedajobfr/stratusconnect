@@ -16,7 +16,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ModernHelpGuide } from "@/components/ModernHelpGuide";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
-import { AIAssistantButton } from "@/components/AIAssistantButton";
+import { MaxAI } from "@/components/ai/MaxAI";
+import { SecurityAI } from "@/components/ai/SecurityAI";
 import { MultiLegRFQ } from "@/components/DealFlow/MultiLegRFQ";
 import { SavedSearches } from "@/components/DealFlow/SavedSearches";
 import { ReputationMetrics } from "@/components/Reputation/ReputationMetrics";
@@ -63,34 +64,9 @@ export default function BrokerTerminal() {
   const isBetaMode = location.pathname.startsWith('/beta/');
   const searchRef = useRef<HTMLInputElement>(null);
   const [showHelpGuide, setShowHelpGuide] = useState(false);
-  const [rfqs, setRfqs] = useState<RFQ[]>([
-    {
-      id: 'RFQ-001',
-      route: 'London - New York',
-      aircraft: 'Gulfstream G650',
-      date: '2025-09-20',
-      price: 45000,
-      currency: 'USD',
-      status: 'quoted',
-      legs: 1,
-      passengers: 8,
-      specialRequirements: 'VIP handling, customs clearance',
-      quotes: [
-        {
-          id: 'Q-001',
-          operator: 'Elite Aviation',
-          price: 45000,
-          currency: 'USD',
-          validUntil: '2025-09-18T23:59:59Z',
-          aircraft: 'Gulfstream G650',
-          verified: true,
-          rating: 4.8,
-          responseTime: 3.2,
-          dealScore: 89
-        }
-      ]
-    }
-  ]);
+  const [showMaxAI, setShowMaxAI] = useState(true);
+  const [showSecurityAI, setShowSecurityAI] = useState(true);
+  const [rfqs, setRfqs] = useState<RFQ[]>([]); // Blank slate - no demo data
 
   useShortcuts({
     "mod+k": () => searchRef.current?.focus(),
@@ -302,7 +278,7 @@ export default function BrokerTerminal() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-                <AIAssistantButton userType="broker" />
+                {/* AI components moved to bottom-right corner */}
                 <Button
                   onClick={() => setShowHelpGuide(true)}
                   className="w-12 h-12 bg-accent/20 hover:bg-accent/30 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-accent/30"
@@ -622,8 +598,20 @@ export default function BrokerTerminal() {
         <ArrowUp className="w-6 h-6 text-white" />
       </Button>
       
-      {/* AI Chatbot */}
-      <AIChatbot terminalType="broker" />
+      {/* Max AI - Advanced Intelligence System */}
+      <MaxAI 
+        isVisible={showMaxAI} 
+        onToggleVisibility={() => setShowMaxAI(!showMaxAI)} 
+        userType="broker" 
+        isAuthenticated={!!user} 
+      />
+      
+      {/* Security AI - Advanced Threat Protection */}
+      <SecurityAI 
+        isVisible={showSecurityAI} 
+        onToggleVisibility={() => setShowSecurityAI(!showSecurityAI)} 
+        userType="broker" 
+      />
     </>
   );
 }

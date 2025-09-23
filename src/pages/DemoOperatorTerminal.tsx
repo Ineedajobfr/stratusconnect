@@ -13,13 +13,11 @@ import AISearchAssistant from '@/components/AISearchAssistant';
 import PredictiveAnalytics from '@/components/PredictiveAnalytics';
 import AIChatbot from '@/components/AIChatbot';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
-import EnhancedAIChatbot from '@/components/EnhancedAIChatbot';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
 import AviationNews from '@/components/AviationNews';
 import JobPostingManagement from '@/components/Operator/JobPostingManagement';
 import FleetAssignmentTracking from '@/components/Operator/FleetAssignmentTracking';
 import OperatorAnalytics from '@/components/Operator/OperatorAnalytics';
-import FloatingChat from '@/components/FloatingChat';
 import { RankingDashboard } from '@/components/gamification/RankingDashboard';
 import { TierSystem } from '@/components/gamification/TierSystem';
 import { CluelyAviationAI } from '@/components/ai/CluelyAviationAI';
@@ -1147,11 +1145,7 @@ export default function DemoOperatorTerminal() {
         <ArrowUp className="w-6 h-6 text-white" />
       </Button>
       
-      {/* Enhanced AI Chatbot */}
-      <EnhancedAIChatbot terminalType="operator" />
       
-      {/* Floating Chat */}
-      <FloatingChat userType="operator" isDemo={true} />
       
       {/* Cluely-style Aviation AI */}
       <CluelyAviationAI isVisible={showEnhancedAI} onToggleVisibility={() => setShowEnhancedAI(!showEnhancedAI)} />

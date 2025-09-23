@@ -21,7 +21,8 @@ import { Plane, Calendar, DollarSign, TrendingUp, Users, MapPin, Clock, Settings
 import { NavigationArrows } from "@/components/NavigationArrows";
 import { ModernHelpGuide } from "@/components/ModernHelpGuide";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
-import { AIAssistantButton } from "@/components/AIAssistantButton";
+import { MaxAI } from "@/components/ai/MaxAI";
+import { SecurityAI } from "@/components/ai/SecurityAI";
 import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24Widget";
 import { PersonalizedFeed } from "@/components/feed/PersonalizedFeed";
 import NoteTakingSystem from "@/components/NoteTakingSystem";
@@ -498,8 +499,20 @@ const OperatorTerminal = () => {
         <ArrowUp className="w-6 h-6 text-white" />
       </Button>
       
-      {/* Enhanced AI Chatbot */}
-      <EnhancedAIChatbot terminalType="operator" />
+      {/* Max AI - Advanced Intelligence System */}
+      <MaxAI 
+        isVisible={true} 
+        onToggleVisibility={() => {}} 
+        userType="operator" 
+        isAuthenticated={!!user} 
+      />
+      
+      {/* Security AI - Advanced Threat Protection */}
+      <SecurityAI 
+        isVisible={true} 
+        onToggleVisibility={() => {}} 
+        userType="operator" 
+      />
     </>
   );
 };

@@ -72,7 +72,7 @@ export const MaxAI: React.FC<MaxAIProps> = ({
     {
       id: '1',
       type: 'ai',
-      content: `🚀 **Max AI Online** - Advanced Aviation Intelligence System
+      content: `🚀 **Max Online** - Advanced Aviation Intelligence System
 
 I'm your specialized AI agent with real-time market access and multi-agent architecture:
 
@@ -434,7 +434,7 @@ Could you be more specific about what you'd like to know? I can provide detailed
             <Brain className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h3 className="font-semibold text-white">Max AI</h3>
+            <h3 className="font-semibold text-white">Max</h3>
             <p className="text-xs text-slate-400">Multi-Agent Aviation Intelligence</p>
           </div>
         </div>
@@ -510,7 +510,7 @@ Could you be more specific about what you'd like to know? I can provide detailed
                       <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
                       <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
                     </div>
-                    <span className="text-sm text-slate-400">Max AI is analyzing...</span>
+                    <span className="text-sm text-slate-400">Max is analyzing...</span>
                   </div>
                 </div>
               </div>
@@ -526,7 +526,7 @@ Could you be more specific about what you'd like to know? I can provide detailed
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Ask Max AI anything about aviation..."
+                placeholder="Ask Max anything about aviation..."
                 disabled={isProcessing}
                 className="flex-1 px-3 py-2 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:opacity-50"
               />

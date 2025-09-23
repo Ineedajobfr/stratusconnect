@@ -13,7 +13,6 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { logger } from "@/utils/performance";
 
 import { StatusBanner } from "@/components/StatusBanner";
-import FloatingAIChatbot from "@/components/FloatingAIChatbot";
 
 // Import new dashboard components
 import BrokerDashboard from "@/components/dashboard/BrokerDashboard";
@@ -328,7 +327,6 @@ const App = memo(() => {
               </Suspense>
               
               {/* Floating AI Chatbot - Inside AuthProvider */}
-              <FloatingAIChatbot />
             </AuthProvider>
           </BrowserRouter>
           </TooltipProvider>

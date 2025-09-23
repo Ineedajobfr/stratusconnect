@@ -81,7 +81,7 @@ export const LiveAviationAssistant: React.FC<LiveAviationAssistantProps> = ({
     const insight = insights[type];
     return {
       id: Date.now().toString(),
-      type,
+      category: 'aircraft' as const,
       title: insight.title,
       content: insight.content,
       confidence: insight.confidence,

@@ -12,7 +12,8 @@ import {
   FileText,
   Zap
 } from 'lucide-react';
-import { voiceScripts, voiceSettings } from '@/scripts/voice-scripts';
+import { voiceScripts } from '@/lib/stub-modules';
+import { voiceSettings } from '@/components/SimplifiedComponents';
 
 export default function VoiceScriptDemo() {
   const [isPlaying, setIsPlaying] = useState(false);

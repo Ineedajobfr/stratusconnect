@@ -372,7 +372,7 @@ export function AdminConfigPanel() {
                   checked={Boolean(config.perks.supportPriority)}
                   onCheckedChange={(checked) => {
                     const newConfig = { ...config };
-                    newConfig.perks.supportPriority = checked;
+                    newConfig.perks.supportPriority = checked ? 1 : 0;
                     setConfig(newConfig);
                   }}
                 />

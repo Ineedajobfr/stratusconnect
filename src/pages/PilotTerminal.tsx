@@ -44,10 +44,12 @@ import { Button } from "@/components/ui/button";
 import { ModernHelpGuide } from "@/components/ModernHelpGuide";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
+import { MaxAI } from "@/components/ai/MaxAI";
 
 export default function PilotTerminal() {
   const [activeSection, setActiveSection] = useState("dashboard");
   const [showHelpGuide, setShowHelpGuide] = useState(false);
+  const [showMaxAI, setShowMaxAI] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const isBetaMode = location.pathname.startsWith('/beta/');
@@ -545,6 +547,25 @@ export default function PilotTerminal() {
       
       {/* Enhanced AI Chatbot */}
       <EnhancedAIChatbot terminalType="pilot" />
+      
+      {/* Floating MaxAI Button */}
+      {!showMaxAI && (
+        <Button
+          onClick={() => setShowMaxAI(true)}
+          className="fixed bottom-6 left-6 z-50 w-14 h-14 bg-blue-600 hover:bg-blue-700 rounded-full shadow-lg flex items-center justify-center transition-all duration-300"
+          title="Open Max AI Assistant"
+        >
+          <HelpCircle className="w-7 h-7 text-white" />
+        </Button>
+      )}
+      
+      {/* Max AI - Advanced Intelligence System */}
+      <MaxAI 
+        isVisible={showMaxAI} 
+        onToggleVisibility={() => setShowMaxAI(!showMaxAI)} 
+        userType="pilot" 
+        isAuthenticated={true} 
+      />
     </>
   );
 }

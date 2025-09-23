@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Brain, Zap, Shield, Lock, Eye, EyeOff, X, MessageSquare, Mic, MicOff, Search, Users, FileText, TrendingUp, AlertTriangle, CheckCircle, Star, Target } from 'lucide-react';
+import { Brain, Zap, Shield, Lock, Eye, EyeOff, X, MessageSquare, Mic, MicOff, Search, Users, FileText, TrendingUp, AlertTriangle, CheckCircle, Star, Target, Send } from 'lucide-react';
+import { getMaxAIInstance } from '@/services/MaxAIService';
 
 interface MaxAIProps {
   isVisible: boolean;
@@ -44,10 +45,76 @@ export const MaxAI: React.FC<MaxAIProps> = ({
   const [maxInsights, setMaxInsights] = useState<MaxInsight[]>([]);
   const [securityAlerts, setSecurityAlerts] = useState<SecurityAlert[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [activeTab, setActiveTab] = useState<'insights' | 'security' | 'predictive' | 'chat'>('insights');
+  const [activeTab, setActiveTab] = useState<'insights' | 'security' | 'predictive' | 'analytics' | 'chat'>('insights');
   const [chatMessages, setChatMessages] = useState<any[]>([]);
   const [inputValue, setInputValue] = useState('');
+  const [performanceStats, setPerformanceStats] = useState<any>(null);
+  const [learnedPatterns, setLearnedPatterns] = useState<any>(null);
   const insightsRef = useRef<HTMLDivElement>(null);
+
+  // Max AI Service Instance
+  const maxAIService = getMaxAIInstance(userType);
+
+  // Update performance stats and patterns periodically
+  useEffect(() => {
+    const updateStats = () => {
+      setPerformanceStats(maxAIService.getPerformanceStats());
+      setLearnedPatterns(maxAIService.getLearnedPatterns());
+    };
+    
+    updateStats();
+    const interval = setInterval(updateStats, 10000); // Update every 10 seconds
+    
+    return () => clearInterval(interval);
+  }, [maxAIService]);
+
+  // Send message function
+  const handleSendMessage = async () => {
+    if (!inputValue.trim()) return;
+
+    const userMessage = {
+      id: Date.now().toString(),
+      type: 'user',
+      content: inputValue,
+      timestamp: new Date()
+    };
+
+    setChatMessages(prev => [...prev, userMessage]);
+    setInputValue('');
+    setIsProcessing(true);
+
+    try {
+      const response = await maxAIService.handleQuery(inputValue, { userType });
+      
+      const aiMessage = {
+        id: (Date.now() + 1).toString(),
+        type: 'ai',
+        content: response,
+        timestamp: new Date()
+      };
+
+      setChatMessages(prev => [...prev, aiMessage]);
+    } catch (error) {
+      console.error('Error sending message to Max AI:', error);
+      const errorMessage = {
+        id: (Date.now() + 1).toString(),
+        type: 'ai',
+        content: 'I apologize, but I encountered an error. StratusConnect\'s systems are designed for reliability and excellence. Please try again.',
+        timestamp: new Date()
+      };
+      setChatMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  // Handle Enter key press
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
 
   // Max AI's advanced knowledge base
   const maxKnowledge = {
@@ -360,6 +427,7 @@ export const MaxAI: React.FC<MaxAIProps> = ({
               { id: 'insights', label: 'Insights', icon: <Brain className="w-3 h-3" /> },
               { id: 'security', label: 'Security', icon: <Shield className="w-3 h-3" /> },
               { id: 'predictive', label: 'Predictive', icon: <Star className="w-3 h-3" /> },
+              { id: 'analytics', label: 'Analytics', icon: <TrendingUp className="w-3 h-3" /> },
               { id: 'chat', label: 'Chat', icon: <MessageSquare className="w-3 h-3" /> }
             ].map((tab) => (
               <button
@@ -536,6 +604,99 @@ export const MaxAI: React.FC<MaxAIProps> = ({
             </div>
           )}
 
+          {activeTab === 'analytics' && (
+            <div className="p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <TrendingUp className="w-4 h-4 text-green-400" />
+                <span className="text-white/80 text-sm font-medium">Performance Analytics</span>
+              </div>
+              
+              <div className="space-y-4">
+                {/* Performance Stats */}
+                {performanceStats && (
+                  <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+                    <h4 className="text-white/90 text-sm font-medium mb-3">Performance Metrics</h4>
+                    <div className="grid grid-cols-2 gap-3 text-xs">
+                      <div>
+                        <span className="text-white/60">Avg Response Time:</span>
+                        <span className="text-white ml-2">
+                          {performanceStats.averageLatency ? `${Math.round(performanceStats.averageLatency)}ms` : 'N/A'}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="text-white/60">Cache Size:</span>
+                        <span className="text-white ml-2">{performanceStats.cacheSize || 0}</span>
+                      </div>
+                      <div>
+                        <span className="text-white/60">Model:</span>
+                        <span className="text-white ml-2">{performanceStats.modelSettings?.model || 'gpt-4o'}</span>
+                      </div>
+                      <div>
+                        <span className="text-white/60">Temperature:</span>
+                        <span className="text-white ml-2">{performanceStats.modelSettings?.temperature || 0.3}</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Learned Patterns */}
+                {learnedPatterns && (
+                  <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+                    <h4 className="text-white/90 text-sm font-medium mb-3">Learned Patterns</h4>
+                    <div className="space-y-3 text-xs">
+                      <div>
+                        <span className="text-white/60">Total Queries:</span>
+                        <span className="text-white ml-2">{learnedPatterns.totalQueries || 0}</span>
+                      </div>
+                      {learnedPatterns.preferredOperators?.length > 0 && (
+                        <div>
+                          <span className="text-white/60">Preferred Aircraft:</span>
+                          <div className="flex flex-wrap gap-1 mt-1">
+                            {learnedPatterns.preferredOperators.slice(0, 3).map((operator: string, index: number) => (
+                              <span key={index} className="px-2 py-1 bg-blue-500/20 text-blue-300 rounded text-xs">
+                                {operator}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {learnedPatterns.typicalRoutes?.length > 0 && (
+                        <div>
+                          <span className="text-white/60">Common Routes:</span>
+                          <div className="flex flex-wrap gap-1 mt-1">
+                            {learnedPatterns.typicalRoutes.slice(0, 3).map((route: string, index: number) => (
+                              <span key={index} className="px-2 py-1 bg-green-500/20 text-green-300 rounded text-xs">
+                                {route}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {learnedPatterns.pricingTolerance > 0 && (
+                        <div>
+                          <span className="text-white/60">Avg Budget:</span>
+                          <span className="text-white ml-2">${Math.round(learnedPatterns.pricingTolerance).toLocaleString()}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* AI Learning Status */}
+                <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+                  <h4 className="text-white/90 text-sm font-medium mb-3">AI Learning Status</h4>
+                  <div className="flex items-center gap-2 text-xs">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span className="text-white/80">Continuously learning from interactions</span>
+                  </div>
+                  <div className="mt-2 text-xs text-white/60">
+                    Max AI adapts to your preferences and optimizes responses automatically
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {activeTab === 'chat' && (
             <div className="p-4">
               <div className="flex items-center gap-2 mb-3">
@@ -544,9 +705,35 @@ export const MaxAI: React.FC<MaxAIProps> = ({
               </div>
               
               <div className="space-y-3 mb-4 max-h-48 overflow-y-auto">
-                <div className="p-3 bg-blue-500/20 rounded-xl">
-                  <p className="text-white/90 text-sm">Hello! I'm Max, your advanced AI assistant. How can I help optimize your {userType} operations today?</p>
-                </div>
+                {chatMessages.length === 0 ? (
+                  <div className="p-3 bg-blue-500/20 rounded-xl">
+                    <p className="text-white/90 text-sm">Hello! I'm Max, your advanced AI assistant. How can I help optimize your {userType} operations today?</p>
+                  </div>
+                ) : (
+                  chatMessages.map((message) => (
+                    <div
+                      key={message.id}
+                      className={`p-3 rounded-xl ${
+                        message.type === 'user'
+                          ? 'bg-blue-500/20 ml-4'
+                          : 'bg-white/10 mr-4'
+                      }`}
+                    >
+                      <p className="text-white/90 text-sm">{message.content}</p>
+                      <p className="text-white/50 text-xs mt-1">
+                        {message.timestamp.toLocaleTimeString()}
+                      </p>
+                    </div>
+                  ))
+                )}
+                {isProcessing && (
+                  <div className="p-3 bg-white/10 rounded-xl mr-4">
+                    <div className="flex items-center gap-2">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-400"></div>
+                      <p className="text-white/70 text-sm">Max is thinking...</p>
+                    </div>
+                  </div>
+                )}
               </div>
               
               <div className="flex gap-2">
@@ -554,10 +741,16 @@ export const MaxAI: React.FC<MaxAIProps> = ({
                   type="text"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
+                  onKeyPress={handleKeyPress}
                   placeholder="Ask Max anything..."
                   className="flex-1 bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-white/50 text-sm focus:outline-none focus:border-blue-500/50"
+                  disabled={isProcessing}
                 />
-                <button className="px-3 py-2 bg-blue-500/80 hover:bg-blue-500 text-white rounded-lg transition-colors">
+                <button 
+                  onClick={handleSendMessage}
+                  disabled={isProcessing || !inputValue.trim()}
+                  className="px-3 py-2 bg-blue-500/80 hover:bg-blue-500 disabled:bg-gray-500/50 text-white rounded-lg transition-colors"
+                >
                   <Send className="w-4 h-4" />
                 </button>
               </div>

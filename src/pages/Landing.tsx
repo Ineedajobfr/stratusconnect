@@ -54,7 +54,18 @@ export default function Landing() {
                 <StratusConnectLogo className="text-xl font-semibold tracking-wide bg-slate-950" />
               </div>
               <div className="hidden md:flex items-center space-x-6">
-                
+                <button 
+                  onClick={() => navigate('/about')}
+                  className="text-sm font-medium text-zinc-300 hover:text-zinc-50 transition-colors"
+                >
+                  About
+                </button>
+                <button 
+                  onClick={() => navigate('/demo')}
+                  className="text-sm font-medium text-zinc-300 hover:text-zinc-50 transition-colors"
+                >
+                  Demo
+                </button>
                 <div className="flex items-center space-x-2">
                   <div className="w-2 h-2 rounded-full animate-pulse bg-lime-500"></div>
                   <span className="text-sm font-medium text-zinc-50">Live Market Data</span>

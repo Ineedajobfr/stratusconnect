@@ -289,47 +289,47 @@ export default function OperatorDashboard() {
           <TabsContent value="dashboard" className="space-y-6">
             {/* Quick Stats */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <Card className="bg-slate-800 border-slate-700">
+              <Card className="card-predictive">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-slate-400">New Requests</CardTitle>
-                  <Bell className="h-4 w-4 text-orange-400" />
+                  <CardTitle className="text-sm font-medium text-text/70">New Requests</CardTitle>
+                  <Bell className="h-4 w-4 text-brand" />
           </CardHeader>
           <CardContent>
-                  <div className="text-2xl font-bold text-white">{tripRequests.filter(r => r.status === 'new').length}</div>
-                  <p className="text-xs text-slate-400">+3 from yesterday</p>
+                  <div className="text-2xl font-bold text-text">{tripRequests.filter(r => r.status === 'new').length}</div>
+                  <p className="text-xs text-text/60">+3 from yesterday</p>
           </CardContent>
         </Card>
 
-              <Card className="bg-slate-800 border-slate-700">
+              <Card className="card-predictive">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-slate-400">Active Quotes</CardTitle>
-                  <DollarSign className="h-4 w-4 text-orange-400" />
+                  <CardTitle className="text-sm font-medium text-text/70">Active Quotes</CardTitle>
+                  <DollarSign className="h-4 w-4 text-brand" />
           </CardHeader>
           <CardContent>
-                  <div className="text-2xl font-bold text-white">{myQuotes.filter(q => q.status === 'pending').length}</div>
-                  <p className="text-xs text-slate-400">2 expiring today</p>
+                  <div className="text-2xl font-bold text-text">{myQuotes.filter(q => q.status === 'pending').length}</div>
+                  <p className="text-xs text-text/60">2 expiring today</p>
           </CardContent>
         </Card>
 
-              <Card className="bg-slate-800 border-slate-700">
+              <Card className="card-predictive">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-slate-400">Fleet Utilization</CardTitle>
-                  <Plane className="h-4 w-4 text-orange-400" />
+                  <CardTitle className="text-sm font-medium text-text/70">Fleet Utilization</CardTitle>
+                  <Plane className="h-4 w-4 text-brand" />
           </CardHeader>
           <CardContent>
-                  <div className="text-2xl font-bold text-white">78%</div>
-                  <p className="text-xs text-slate-400">+5% from last month</p>
+                  <div className="text-2xl font-bold text-text">78%</div>
+                  <p className="text-xs text-text/60">+5% from last month</p>
           </CardContent>
         </Card>
 
-              <Card className="bg-slate-800 border-slate-700">
+              <Card className="card-predictive">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-slate-400">Quote Success</CardTitle>
-                  <TrendingUp className="h-4 w-4 text-orange-400" />
+                  <CardTitle className="text-sm font-medium text-text/70">Quote Success</CardTitle>
+                  <TrendingUp className="h-4 w-4 text-brand" />
           </CardHeader>
           <CardContent>
-                  <div className="text-2xl font-bold text-white">65%</div>
-                  <p className="text-xs text-slate-400">+8% from last month</p>
+                  <div className="text-2xl font-bold text-text">65%</div>
+                  <p className="text-xs text-text/60">+8% from last month</p>
           </CardContent>
         </Card>
       </div>

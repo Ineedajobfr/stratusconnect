@@ -149,10 +149,10 @@ export function MultiLegRFQ() {
 
   return (
     <div className="space-y-6">
-      <Card className="terminal-card">
+      <Card className="bg-surface-1 shadow-card ring-1 ring-white/5 rounded-xl2">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <FileText className="w-5 h-5" />
+          <CardTitle className="flex items-center gap-2 text-text text-xl">
+            <FileText className="w-5 h-5 text-brand" />
             Multi-Leg RFQ Builder
           </CardTitle>
         </CardHeader>
@@ -160,17 +160,17 @@ export function MultiLegRFQ() {
           {/* Flight Legs */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold">Flight Legs</h3>
-              <Button onClick={addLeg} size="sm" variant="outline">
+              <h3 className="text-lg font-semibold text-text">Flight Legs</h3>
+              <Button onClick={addLeg} size="sm" variant="outline" className="border-white/20 text-text/70 hover:bg-surface-2 rounded-xl">
                 <Plus className="w-4 h-4 mr-2" />
                 Add Leg
               </Button>
             </div>
             
             {rfq.legs.map((leg, index) => (
-              <Card key={leg.id} className="p-4">
+              <Card key={leg.id} className="p-4 bg-surface-2 ring-1 ring-white/5 rounded-xl2">
                 <div className="flex items-center justify-between mb-4">
-                  <h4 className="font-medium">Leg {index + 1}</h4>
+                  <h4 className="font-medium text-text">Leg {index + 1}</h4>
                   {rfq.legs.length > 1 && (
                     <Button
                       onClick={() => removeLeg(leg.id)}
@@ -185,49 +185,53 @@ export function MultiLegRFQ() {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div>
-                    <Label htmlFor={`from_${leg.id}`}>From (IATA)</Label>
+                    <Label htmlFor={`from_${leg.id}`} className="text-text">From (IATA)</Label>
                     <Input
                       id={`from_${leg.id}`}
                       value={leg.from}
                       onChange={(e) => updateLeg(leg.id, 'from', e.target.value.toUpperCase())}
                       placeholder="LHR"
                       maxLength={3}
+                      className="bg-surface-1 border-terminal-border text-text placeholder:text-text/50 focus:ring-brand/50"
                     />
                   </div>
                   
                   <div>
-                    <Label htmlFor={`to_${leg.id}`}>To (IATA)</Label>
+                    <Label htmlFor={`to_${leg.id}`} className="text-text">To (IATA)</Label>
                     <Input
                       id={`to_${leg.id}`}
                       value={leg.to}
                       onChange={(e) => updateLeg(leg.id, 'to', e.target.value.toUpperCase())}
                       placeholder="JFK"
                       maxLength={3}
+                      className="bg-surface-1 border-terminal-border text-text placeholder:text-text/50 focus:ring-brand/50"
                     />
                   </div>
                   
                   <div>
-                    <Label htmlFor={`date_${leg.id}`}>Departure Date</Label>
+                    <Label htmlFor={`date_${leg.id}`} className="text-text">Departure Date</Label>
                     <Input
                       id={`date_${leg.id}`}
                       type="date"
                       value={leg.departureDate}
                       onChange={(e) => updateLeg(leg.id, 'departureDate', e.target.value)}
+                      className="bg-surface-1 border-terminal-border text-text focus:ring-brand/50"
                     />
                   </div>
                   
                   <div>
-                    <Label htmlFor={`time_${leg.id}`}>Departure Time</Label>
+                    <Label htmlFor={`time_${leg.id}`} className="text-text">Departure Time</Label>
                     <Input
                       id={`time_${leg.id}`}
                       type="time"
                       value={leg.departureTime}
                       onChange={(e) => updateLeg(leg.id, 'departureTime', e.target.value)}
+                      className="bg-surface-1 border-terminal-border text-text focus:ring-brand/50"
                     />
                   </div>
                   
                   <div>
-                    <Label htmlFor={`passengers_${leg.id}`}>Passengers</Label>
+                    <Label htmlFor={`passengers_${leg.id}`} className="text-text">Passengers</Label>
                     <Input
                       id={`passengers_${leg.id}`}
                       type="number"
@@ -238,11 +242,12 @@ export function MultiLegRFQ() {
                         updateLeg(leg.id, 'passengers', parseInt(e.target.value) || 1);
                         calculateTotals();
                       }}
+                      className="bg-surface-1 border-terminal-border text-text focus:ring-brand/50"
                     />
                   </div>
                   
                   <div>
-                    <Label htmlFor={`luggage_${leg.id}`}>Luggage (pieces)</Label>
+                    <Label htmlFor={`luggage_${leg.id}`} className="text-text">Luggage (pieces)</Label>
                     <Input
                       id={`luggage_${leg.id}`}
                       type="number"
@@ -252,17 +257,19 @@ export function MultiLegRFQ() {
                         updateLeg(leg.id, 'luggage', parseInt(e.target.value) || 0);
                         calculateTotals();
                       }}
+                      className="bg-surface-1 border-terminal-border text-text focus:ring-brand/50"
                     />
                   </div>
                   
                   <div className="md:col-span-2">
-                    <Label htmlFor={`requirements_${leg.id}`}>Special Requirements</Label>
+                    <Label htmlFor={`requirements_${leg.id}`} className="text-text">Special Requirements</Label>
                     <Textarea
                       id={`requirements_${leg.id}`}
                       value={leg.specialRequirements}
                       onChange={(e) => updateLeg(leg.id, 'specialRequirements', e.target.value)}
                       placeholder="VIP handling, customs clearance, etc."
                       rows={2}
+                      className="bg-surface-1 border-terminal-border text-text placeholder:text-text/50 focus:ring-brand/50"
                     />
                   </div>
                 </div>
@@ -271,24 +278,24 @@ export function MultiLegRFQ() {
           </div>
 
           {/* Trip Summary */}
-          <Card className="p-4 bg-slate-800">
-            <h3 className="font-semibold mb-2">Trip Summary</h3>
+          <Card className="p-4 bg-surface-2 ring-1 ring-white/5 rounded-xl2">
+            <h3 className="font-semibold mb-2 text-text">Trip Summary</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
               <div className="flex items-center gap-2">
-                <Users className="w-4 h-4" />
-                <span>Total Passengers: {rfq.totalPassengers}</span>
+                <Users className="w-4 h-4 text-brand" />
+                <span className="text-text">Total Passengers: {rfq.totalPassengers}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Package className="w-4 h-4" />
-                <span>Total Luggage: {rfq.totalLuggage}</span>
+                <Package className="w-4 h-4 text-brand" />
+                <span className="text-text">Total Luggage: {rfq.totalLuggage}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
-                <span>Legs: {rfq.legs.length}</span>
+                <Calendar className="w-4 h-4 text-brand" />
+                <span className="text-text">Legs: {rfq.legs.length}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4" />
-                <span>Expires: {new Date(rfq.expiresAt).toLocaleDateString()}</span>
+                <Clock className="w-4 h-4 text-brand" />
+                <span className="text-text">Expires: {new Date(rfq.expiresAt).toLocaleDateString()}</span>
               </div>
             </div>
           </Card>
@@ -296,31 +303,33 @@ export function MultiLegRFQ() {
           {/* Catering and Compliance */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="catering">Catering Requirements</Label>
+              <Label htmlFor="catering" className="text-text">Catering Requirements</Label>
               <Textarea
                 id="catering"
                 value={rfq.catering}
                 onChange={(e) => setRfq(prev => ({ ...prev, catering: e.target.value }))}
                 placeholder="Dietary restrictions, preferences, etc."
                 rows={3}
+                className="bg-surface-1 border-terminal-border text-text placeholder:text-text/50 focus:ring-brand/50"
               />
             </div>
             
             <div>
-              <Label htmlFor="compliance">Compliance Notes</Label>
+              <Label htmlFor="compliance" className="text-text">Compliance Notes</Label>
               <Textarea
                 id="compliance"
                 value={rfq.complianceNotes}
                 onChange={(e) => setRfq(prev => ({ ...prev, complianceNotes: e.target.value }))}
                 placeholder="Regulatory requirements, permits, etc."
                 rows={3}
+                className="bg-surface-1 border-terminal-border text-text placeholder:text-text/50 focus:ring-brand/50"
               />
             </div>
           </div>
 
           {/* Attachments */}
           <div>
-            <Label htmlFor="attachments">Attachments (PDFs, Documents)</Label>
+            <Label htmlFor="attachments" className="text-text">Attachments (PDFs, Documents)</Label>
             <div className="mt-2">
               <input
                 id="attachments"
@@ -334,7 +343,7 @@ export function MultiLegRFQ() {
                 type="button"
                 variant="outline"
                 onClick={() => document.getElementById('attachments')?.click()}
-                className="w-full"
+                className="w-full border-terminal-border text-text hover:bg-surface-2"
               >
                 <Upload className="w-4 h-4 mr-2" />
                 Upload Files
@@ -344,11 +353,11 @@ export function MultiLegRFQ() {
             {rfq.attachments.length > 0 && (
               <div className="mt-4 space-y-2">
                 {rfq.attachments.map(attachment => (
-                  <div key={attachment.id} className="flex items-center justify-between p-2 bg-slate-800 rounded">
+                  <div key={attachment.id} className="flex items-center justify-between p-2 bg-surface-2 ring-1 ring-white/5 rounded-xl2">
                     <div className="flex items-center gap-2">
-                      <FileText className="w-4 h-4" />
-                      <span className="text-sm">{attachment.name}</span>
-                      <Badge variant="secondary" className="text-xs">
+                      <FileText className="w-4 h-4 text-brand" />
+                      <span className="text-sm text-text">{attachment.name}</span>
+                      <Badge variant="secondary" className="text-xs bg-brand/15 text-brand border-brand/30">
                         {(attachment.size / 1024).toFixed(1)} KB
                       </Badge>
                     </div>
@@ -368,8 +377,8 @@ export function MultiLegRFQ() {
 
           {/* Actions */}
           <div className="flex justify-end gap-4">
-            <Button variant="outline">Save Draft</Button>
-            <Button onClick={publishRFQ} disabled={rfq.legs.some(leg => !leg.from || !leg.to || !leg.departureDate)}>
+            <Button variant="outline" className="border-terminal-border text-text hover:bg-surface-2 rounded-xl">Save Draft</Button>
+            <Button onClick={publishRFQ} disabled={rfq.legs.some(leg => !leg.from || !leg.to || !leg.departureDate)} className="bg-brand hover:bg-brand-600 text-text shadow-glow rounded-xl px-6 py-3 transition-all duration-200 font-medium shadow-lg">
               Publish RFQ
             </Button>
           </div>

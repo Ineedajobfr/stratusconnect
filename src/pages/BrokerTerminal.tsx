@@ -91,7 +91,7 @@ interface Quote {
 export default function BrokerTerminal() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [showHelpGuide, setShowHelpGuide] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [highlightedSection, setHighlightedSection] = useState<string | null>(null);
   const [dashboardMetrics, setDashboardMetrics] = useState({
     activeRFQs: 2,
     quotesReceived: 2,
@@ -104,11 +104,6 @@ export default function BrokerTerminal() {
   // Mock RFQ data for demonstration
   const [rfqs, setRfqs] = useState<RFQ[]>([]);
 
-  const handleSearch = () => {
-    if (searchQuery.trim()) {
-      console.log('Searching for:', searchQuery);
-    }
-  };
 
   const handleInsightAction = (action: string) => {
     switch (action) {
@@ -121,6 +116,11 @@ export default function BrokerTerminal() {
       default:
         break;
     }
+  };
+
+  const handleSectionClick = (sectionId: string) => {
+    setHighlightedSection(sectionId);
+    // Keep highlight active until user clicks another section or navigates away
   };
 
   // Keyboard shortcuts for productivity
@@ -177,36 +177,10 @@ export default function BrokerTerminal() {
   const renderDashboard = () => (
     <div className="space-y-6">
 
-       {/* Global Search Bar */}
-       <Card className="bg-surface-1 shadow-card ring-1 ring-white/5 rounded-xl2">
-         <CardContent className="p-8">
-           <div className="flex items-center gap-4">
-             <div className="flex-1 relative">
-               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-text/60 w-5 h-5" />
-               <input
-                 type="text"
-                 placeholder="Search routes, operators, aircraft..."
-                 value={searchQuery}
-                 onChange={(e) => setSearchQuery(e.target.value)}
-                 onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                 className="w-full pl-12 pr-4 py-4 bg-surface-1 ring-1 ring-white/5 rounded-xl text-text placeholder-text/70 focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all duration-200 text-lg"
-               />
-             </div>
-            <div className="flex gap-3">
-              <Button 
-                onClick={handleSearch}
-                className="bg-brand hover:bg-brand-600 text-text shadow-glow rounded-xl px-8 py-4 font-medium transition-all duration-200 shadow-lg"
-              >
-                Search
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-         <Card className="bg-surface-1 shadow-card ring-1 ring-white/5 hover:shadow-card transition-all duration-300 rounded-xl2">
+         <Card className="card-predictive hover:shadow-card transition-all duration-300">
            <CardContent className="p-8">
              <div className="flex items-center justify-between">
                <div>
@@ -214,14 +188,14 @@ export default function BrokerTerminal() {
                  <p className="text-3xl font-bold text-text">{dashboardMetrics.activeRFQs}</p>
                  <p className="text-sm text-brand mt-2 font-medium">+{dashboardMetrics.weeklyGrowth}% this week</p>
                </div>
-              <div className="p-3 bg-brand/15 rounded-xl">
-                <FileText className="w-8 h-8 text-brand" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+               <div className="p-3 bg-brand/15 rounded-xl">
+                 <FileText className="w-8 h-8 text-brand" />
+               </div>
+             </div>
+           </CardContent>
+         </Card>
 
-        <Card className="bg-surface-1 shadow-card ring-1 ring-white/5 hover:shadow-card transition-all duration-300 rounded-xl2">
+        <Card className="card-predictive hover:shadow-card transition-all duration-300">
           <CardContent className="p-8">
             <div className="flex items-center justify-between">
               <div>
@@ -236,7 +210,7 @@ export default function BrokerTerminal() {
           </CardContent>
         </Card>
 
-        <Card className="bg-surface-1 shadow-card ring-1 ring-white/5 hover:shadow-card transition-all duration-300 rounded-xl2">
+        <Card className="card-predictive hover:shadow-card transition-all duration-300">
           <CardContent className="p-8">
             <div className="flex items-center justify-between">
               <div>
@@ -251,7 +225,7 @@ export default function BrokerTerminal() {
           </CardContent>
         </Card>
 
-        <Card className="bg-surface-1 shadow-card ring-1 ring-white/5 hover:shadow-card transition-all duration-300 rounded-xl2">
+        <Card className="card-predictive hover:shadow-card transition-all duration-300">
           <CardContent className="p-8">
             <div className="flex items-center justify-between">
               <div>
@@ -273,7 +247,7 @@ export default function BrokerTerminal() {
       <RealPredictiveAnalytics terminalType="broker" className="mb-6" />
 
       {/* Market Intelligence */}
-      <Card className="bg-surface-1 shadow-card ring-1 ring-white/5 rounded-xl2">
+      <Card className="card-predictive shadow-card rounded-xl2">
         <CardHeader className="pb-6">
           <CardTitle className="flex items-center gap-3 text-text text-2xl">
             <div className="p-2 bg-brand/15 rounded-xl">
@@ -339,7 +313,7 @@ export default function BrokerTerminal() {
             </Card>
 
       {/* Recent Activity */}
-      <Card className="bg-surface-1 shadow-card ring-1 ring-white/5 rounded-xl2">
+      <Card className="card-predictive shadow-card rounded-xl2">
         <CardHeader className="pb-6">
           <CardTitle className="flex items-center gap-3 text-text text-2xl">
             <div className="p-2 bg-brand/15 rounded-xl">
@@ -413,7 +387,7 @@ export default function BrokerTerminal() {
         </Button>
       </div>
       
-      <Card className="bg-surface-1 shadow-card ring-1 ring-white/5 rounded-xl2">
+      <Card className="card-predictive shadow-card rounded-xl2">
               <CardHeader>
           <CardTitle className="flex items-center gap-3 text-text">
             <div className="p-2 bg-brand/15 rounded-xl">
@@ -428,7 +402,7 @@ export default function BrokerTerminal() {
       </Card>
 
       {rfqs.length === 0 ? (
-        <Card className="bg-surface-1 shadow-card ring-1 ring-white/5 rounded-xl2">
+        <Card className="card-predictive shadow-card rounded-xl2">
           <CardContent className="py-12">
             <div className="text-center">
               <div className="p-4 bg-white/10 rounded-xl2 w-16 h-16 mx-auto mb-6 flex items-center justify-center">
@@ -448,7 +422,7 @@ export default function BrokerTerminal() {
       ) : (
         <div className="space-y-4">
           {rfqs.map(rfq => (
-            <Card key={rfq.id} className="bg-surface-1 shadow-card ring-1 ring-white/5 hover:shadow-card transition-all duration-300 rounded-xl2">
+            <Card key={rfq.id} className="card-predictive hover:shadow-card transition-all duration-300 rounded-xl2">
               <CardContent className="p-6">
                 <div className="flex justify-between items-start">
                   <div>
@@ -570,43 +544,83 @@ export default function BrokerTerminal() {
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <div className="overflow-x-auto pb-4">
                <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-white/10 backdrop-blur-sm border border-white/20 shadow-sm rounded-xl p-1">
-                <TabsTrigger value="dashboard" className="flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger 
+                  value="dashboard" 
+                  className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'dashboard' || activeTab === 'dashboard' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
+                  onClick={() => handleSectionClick('dashboard')}
+                >
                   <BarChart3 className="w-4 h-4" />
                 Dashboard
               </TabsTrigger>
-                <TabsTrigger value="rfqs" className="flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger 
+                  value="rfqs" 
+                  className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'rfqs' || activeTab === 'rfqs' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
+                  onClick={() => handleSectionClick('rfqs')}
+                >
                   <FileText className="w-4 h-4" />
                 RFQs & Quotes
               </TabsTrigger>
-                <TabsTrigger value="marketplace" className="flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger 
+                  value="marketplace" 
+                  className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'marketplace' || activeTab === 'marketplace' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
+                  onClick={() => handleSectionClick('marketplace')}
+                >
                   <Search className="w-4 h-4" />
                 Marketplace
               </TabsTrigger>
-                <TabsTrigger value="searches" className="flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger 
+                  value="searches" 
+                  className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'searches' || activeTab === 'searches' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
+                  onClick={() => handleSectionClick('searches')}
+                >
                   <Bookmark className="w-4 h-4" />
                 Saved Searches
               </TabsTrigger>
-                <TabsTrigger value="reputation" className="flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger 
+                  value="reputation" 
+                  className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'reputation' || activeTab === 'reputation' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
+                  onClick={() => handleSectionClick('reputation')}
+                >
                   <Award className="w-4 h-4" />
                 Reputation
               </TabsTrigger>
-                <TabsTrigger value="billing" className="flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger 
+                  value="billing" 
+                  className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'billing' || activeTab === 'billing' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
+                  onClick={() => handleSectionClick('billing')}
+                >
                   <DollarSign className="w-4 h-4" />
                 Billing
               </TabsTrigger>
-                <TabsTrigger value="scoreboard" className="flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger 
+                  value="scoreboard" 
+                  className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'scoreboard' || activeTab === 'scoreboard' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
+                  onClick={() => handleSectionClick('scoreboard')}
+                >
                   <Trophy className="w-4 h-4" />
                   Scoreboard
                 </TabsTrigger>
-                <TabsTrigger value="ranking" className="flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger 
+                  value="ranking" 
+                  className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'ranking' || activeTab === 'ranking' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
+                  onClick={() => handleSectionClick('ranking')}
+                >
                   <Star className="w-4 h-4" />
                   Rankings
               </TabsTrigger>
-                <TabsTrigger value="tracking" className="flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger 
+                  value="tracking" 
+                  className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'tracking' || activeTab === 'tracking' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
+                  onClick={() => handleSectionClick('tracking')}
+                >
                   <Globe className="w-4 h-4" />
                 Flight Tracking
               </TabsTrigger>
-                <TabsTrigger value="notes" className="flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger 
+                  value="notes" 
+                  className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'notes' || activeTab === 'notes' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
+                  onClick={() => handleSectionClick('notes')}
+                >
                   <MessageSquare className="w-4 h-4" />
                   Notes
               </TabsTrigger>

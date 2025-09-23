@@ -283,33 +283,34 @@ export function MonthlyStatements() {
       {/* Generate New Statement */}
       <Card className="terminal-card">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <FileText className="w-5 h-5" />
+          <CardTitle className="flex items-center gap-2 text-bright">
+            <FileText className="w-5 h-5 text-brand" />
             Generate Statement
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <Label htmlFor="period">Period</Label>
+              <Label htmlFor="period" className="text-text">Period</Label>
               <Input
                 id="period"
                 type="month"
                 value={selectedPeriod}
                 onChange={(e) => setSelectedPeriod(e.target.value)}
                 placeholder="2024-01"
+                className="bg-surface-2 border-terminal-border text-text placeholder:text-text/50 focus:ring-brand/50"
               />
             </div>
             
             <div>
-              <Label htmlFor="userType">User Type</Label>
+              <Label htmlFor="userType" className="text-text">User Type</Label>
               <Select value={selectedUserType} onValueChange={(value: 'broker' | 'operator') => setSelectedUserType(value)}>
-                <SelectTrigger>
+                <SelectTrigger className="bg-surface-2 border-terminal-border text-text">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="w-48">
-                  <SelectItem value="broker">Broker</SelectItem>
-                  <SelectItem value="operator">Operator</SelectItem>
+                <SelectContent className="w-48 bg-surface-2 border-terminal-border">
+                  <SelectItem value="broker" className="text-text hover:bg-surface-1">Broker</SelectItem>
+                  <SelectItem value="operator" className="text-text hover:bg-surface-1">Operator</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -330,8 +331,8 @@ export function MonthlyStatements() {
       {/* Statements */}
       <Card className="terminal-card">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Receipt className="w-5 h-5" />
+          <CardTitle className="flex items-center gap-2 text-bright">
+            <Receipt className="w-5 h-5 text-brand" />
             Monthly Statements
           </CardTitle>
         </CardHeader>
@@ -342,17 +343,17 @@ export function MonthlyStatements() {
               const ReconciliationIcon = reconciliation.icon;
               
               return (
-                <Card key={statement.id} className="p-4">
+                <Card key={statement.id} className="p-4 bg-surface-2 border-terminal-border">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
-                        <h3 className="font-semibold">
+                        <h3 className="font-semibold text-bright">
                           {statement.period} - {statement.userType.charAt(0).toUpperCase() + statement.userType.slice(1)}
                         </h3>
                         <Badge variant="outline" className={
-                          reconciliation.color === 'green' ? 'text-green-600' :
-                          reconciliation.color === 'red' ? 'text-red-600' :
-                          'text-yellow-600'
+                          reconciliation.color === 'green' ? 'text-bright-success border-bright-success/30' :
+                          reconciliation.color === 'red' ? 'text-danger border-danger/30' :
+                          'text-warn border-warn/30'
                         }>
                           <ReconciliationIcon className="w-3 h-3 mr-1" />
                           {reconciliation.text}
@@ -361,24 +362,24 @@ export function MonthlyStatements() {
                       
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm mb-3">
                         <div>
-                          <span className="text-gray-600">Transactions: </span>
-                          <span className="font-medium">{statement.totalTransactions}</span>
+                          <span className="text-text/70">Transactions: </span>
+                          <span className="font-medium text-text">{statement.totalTransactions}</span>
                         </div>
                         <div>
-                          <span className="text-gray-600">Total Volume: </span>
-                          <span className="font-medium">{formatCurrency(statement.totalVolume, statement.currency)}</span>
+                          <span className="text-text/70">Total Volume: </span>
+                          <span className="font-medium text-text">{formatCurrency(statement.totalVolume, statement.currency)}</span>
                         </div>
                         <div>
-                          <span className="text-gray-600">Total Fees: </span>
-                          <span className="font-medium">{formatCurrency(statement.totalFees, statement.currency)}</span>
+                          <span className="text-text/70">Total Fees: </span>
+                          <span className="font-medium text-text">{formatCurrency(statement.totalFees, statement.currency)}</span>
                         </div>
                         <div>
-                          <span className="text-gray-600">Net Payout: </span>
-                          <span className="font-medium">{formatCurrency(statement.netPayout, statement.currency)}</span>
+                          <span className="text-text/70">Net Payout: </span>
+                          <span className="font-medium text-text">{formatCurrency(statement.netPayout, statement.currency)}</span>
                         </div>
                       </div>
                       
-                      <div className="text-sm text-gray-500">
+                      <div className="text-sm text-text/60">
                         Generated: {new Date(statement.generatedAt).toLocaleString()}
                       </div>
                     </div>
@@ -420,48 +421,48 @@ export function MonthlyStatements() {
       {/* VAT Invoices */}
       <Card className="terminal-card">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Building className="w-5 h-5" />
+          <CardTitle className="flex items-center gap-2 text-bright">
+            <Building className="w-5 h-5 text-brand" />
             VAT Invoices
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {invoices.map(invoice => (
-              <Card key={invoice.id} className="p-4">
+              <Card key={invoice.id} className="p-4 bg-surface-2 border-terminal-border">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
-                      <h3 className="font-semibold">{invoice.invoiceNumber}</h3>
-                      <Badge variant="outline" className="text-blue-600">
+                      <h3 className="font-semibold text-bright">{invoice.invoiceNumber}</h3>
+                      <Badge variant="outline" className="text-brand border-brand/30">
                         VAT Invoice
                       </Badge>
                     </div>
                     
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm mb-3">
                       <div>
-                        <span className="text-gray-600">Company: </span>
-                        <span className="font-medium">{invoice.companyName}</span>
+                        <span className="text-text/70">Company: </span>
+                        <span className="font-medium text-text">{invoice.companyName}</span>
                       </div>
                       <div>
-                        <span className="text-gray-600">VAT Number: </span>
-                        <span className="font-medium">{invoice.vatNumber}</span>
+                        <span className="text-text/70">VAT Number: </span>
+                        <span className="font-medium text-text">{invoice.vatNumber}</span>
                       </div>
                       <div>
-                        <span className="text-gray-600">Subtotal: </span>
-                        <span className="font-medium">{formatCurrency(invoice.subtotal, invoice.currency)}</span>
+                        <span className="text-text/70">Subtotal: </span>
+                        <span className="font-medium text-text">{formatCurrency(invoice.subtotal, invoice.currency)}</span>
                       </div>
                       <div>
-                        <span className="text-gray-600">VAT ({invoice.vatRate}%): </span>
-                        <span className="font-medium">{formatCurrency(invoice.vatAmount, invoice.currency)}</span>
+                        <span className="text-text/70">VAT ({invoice.vatRate}%): </span>
+                        <span className="font-medium text-text">{formatCurrency(invoice.vatAmount, invoice.currency)}</span>
                       </div>
                     </div>
                     
-                    <div className="text-lg font-semibold mb-2">
+                    <div className="text-lg font-semibold mb-2 text-bright">
                       Total: {formatCurrency(invoice.total, invoice.currency)}
                     </div>
                     
-                    <div className="text-sm text-gray-500">
+                    <div className="text-sm text-text/60">
                       Generated: {new Date(invoice.generatedAt).toLocaleString()}
                     </div>
                   </div>

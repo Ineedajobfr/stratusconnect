@@ -61,6 +61,7 @@ import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import { MaxAI } from '@/components/ai/GrokMaxAI';
 import { WeekOneScoreboard } from '@/components/WeekOneScoreboard';
 import DemoMarketplace from './DemoMarketplace';
+import ModernPlasmaBackground from '@/components/ModernPlasmaBackground';
 
 interface RFQ {
   id: string;
@@ -184,22 +185,22 @@ export default function BrokerTerminal() {
 
   const renderDashboard = () => (
     <div className="space-y-6">
-      {/* Hero Section */}
-      <div className="text-center py-16">
-        <h1 className="text-5xl font-bold text-slate-900 mb-6">
-          Professional Aviation Marketplace
-        </h1>
-        <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-8">
-          Connect with verified operators, manage RFQs, and close deals with confidence. 
-          Powered by AI and built for professionals.
-        </p>
+       {/* Hero Section */}
+       <div className="text-center py-16">
+         <h1 className="text-5xl font-bold text-white mb-6">
+           Professional Aviation Marketplace
+         </h1>
+         <p className="text-xl text-white/80 max-w-3xl mx-auto mb-8">
+           Connect with verified operators, manage RFQs, and close deals with confidence. 
+           Powered by AI and built for professionals.
+         </p>
         <div className="flex justify-center gap-4">
           <Button 
             size="lg" 
             className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 shadow-lg"
           >
-             Start Trading
-             <ArrowUp className="w-5 h-5 ml-2" />
+            Start Trading
+            <ArrowUp className="w-5 h-5 ml-2" />
           </Button>
           <Button 
             variant="outline" 
@@ -211,32 +212,32 @@ export default function BrokerTerminal() {
         </div>
       </div>
 
-      {/* Global Search Bar */}
-      <Card className="bg-white shadow-lg border border-slate-200/50 rounded-2xl">
-        <CardContent className="p-8">
-          <div className="flex items-center gap-4">
-            <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
-              <input
-                type="text"
-                placeholder="Search routes, operators, aircraft, or ask Max AI..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg"
-              />
-            </div>
+       {/* Global Search Bar */}
+       <Card className="bg-white/10 backdrop-blur-xl shadow-2xl border border-white/20 rounded-2xl">
+         <CardContent className="p-8">
+           <div className="flex items-center gap-4">
+             <div className="flex-1 relative">
+               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/60 w-5 h-5" />
+               <input
+                 type="text"
+                 placeholder="Search routes, operators, aircraft, or ask Max AI..."
+                 value={searchQuery}
+                 onChange={(e) => setSearchQuery(e.target.value)}
+                 onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                 className="w-full pl-12 pr-4 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg"
+               />
+             </div>
             <div className="flex gap-3">
               <Button 
                 onClick={handleSearch}
-                className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl px-8 py-4 font-medium transition-all duration-200"
+                className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl px-8 py-4 font-medium transition-all duration-200 shadow-lg"
               >
                 Search
               </Button>
               <Button 
                 variant="outline"
                 onClick={() => setShowMaxAI(true)}
-                className="border-blue-600 text-blue-600 hover:bg-blue-50 rounded-xl px-8 py-4 font-medium transition-all duration-200"
+                className="border-white/30 text-white hover:bg-white/10 rounded-xl px-8 py-4 font-medium transition-all duration-200"
               >
                 <Brain className="w-5 h-5 mr-2" />
                 Ask Max AI
@@ -248,61 +249,61 @@ export default function BrokerTerminal() {
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="bg-white shadow-lg border border-slate-200/50 hover:shadow-xl transition-all duration-300 rounded-2xl">
-          <CardContent className="p-8">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-slate-600 mb-2 font-medium">Active RFQs</p>
-                <p className="text-3xl font-bold text-slate-900">{dashboardMetrics.activeRFQs}</p>
-                <p className="text-sm text-blue-600 mt-2 font-medium">+{dashboardMetrics.weeklyGrowth}% this week</p>
-              </div>
-              <div className="p-3 bg-blue-100 rounded-xl">
-                <FileText className="w-8 h-8 text-blue-600" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-white shadow-lg border border-slate-200/50 hover:shadow-xl transition-all duration-300 rounded-2xl">
-          <CardContent className="p-8">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-slate-600 mb-2 font-medium">Quotes Received</p>
-                <p className="text-3xl font-bold text-slate-900">{dashboardMetrics.quotesReceived}</p>
-                <p className="text-sm text-blue-600 mt-2 font-medium">Avg {(dashboardMetrics.quotesReceived / Math.max(dashboardMetrics.activeRFQs, 1)).toFixed(1)} per RFQ</p>
-              </div>
-              <div className="p-3 bg-green-100 rounded-xl">
-                <TrendingUp className="w-8 h-8 text-green-600" />
+         <Card className="bg-white/10 backdrop-blur-xl shadow-2xl border border-white/20 hover:shadow-3xl transition-all duration-300 rounded-2xl">
+           <CardContent className="p-8">
+             <div className="flex items-center justify-between">
+               <div>
+                 <p className="text-sm text-white/70 mb-2 font-medium">Active RFQs</p>
+                 <p className="text-3xl font-bold text-white">{dashboardMetrics.activeRFQs}</p>
+                 <p className="text-sm text-blue-400 mt-2 font-medium">+{dashboardMetrics.weeklyGrowth}% this week</p>
+               </div>
+              <div className="p-3 bg-blue-500/20 rounded-xl">
+                <FileText className="w-8 h-8 text-blue-400" />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-white shadow-lg border border-slate-200/50 hover:shadow-xl transition-all duration-300 rounded-2xl">
+        <Card className="bg-white/10 backdrop-blur-xl shadow-2xl border border-white/20 hover:shadow-3xl transition-all duration-300 rounded-2xl">
           <CardContent className="p-8">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-slate-600 mb-2 font-medium">Deals Closed</p>
-                <p className="text-3xl font-bold text-slate-900">{dashboardMetrics.dealsClosed}</p>
-                <p className="text-sm text-blue-600 mt-2 font-medium">${(dashboardMetrics.volume / 1000000).toFixed(1)}M volume</p>
+                <p className="text-sm text-white/70 mb-2 font-medium">Quotes Received</p>
+                <p className="text-3xl font-bold text-white">{dashboardMetrics.quotesReceived}</p>
+                <p className="text-sm text-blue-400 mt-2 font-medium">Avg {(dashboardMetrics.quotesReceived / Math.max(dashboardMetrics.activeRFQs, 1)).toFixed(1)} per RFQ</p>
               </div>
-              <div className="p-3 bg-emerald-100 rounded-xl">
-                <DollarSign className="w-8 h-8 text-emerald-600" />
+              <div className="p-3 bg-green-500/20 rounded-xl">
+                <TrendingUp className="w-8 h-8 text-green-400" />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-white shadow-lg border border-slate-200/50 hover:shadow-xl transition-all duration-300 rounded-2xl">
+        <Card className="bg-white/10 backdrop-blur-xl shadow-2xl border border-white/20 hover:shadow-3xl transition-all duration-300 rounded-2xl">
           <CardContent className="p-8">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-slate-600 mb-2 font-medium">Avg Response Time</p>
-                <p className="text-3xl font-bold text-slate-900">{dashboardMetrics.avgResponseTime.toFixed(1)}m</p>
-                <p className="text-sm text-blue-600 mt-2 font-medium">Fast lane eligible</p>
+                <p className="text-sm text-white/70 mb-2 font-medium">Deals Closed</p>
+                <p className="text-3xl font-bold text-white">{dashboardMetrics.dealsClosed}</p>
+                <p className="text-sm text-blue-400 mt-2 font-medium">${(dashboardMetrics.volume / 1000000).toFixed(1)}M volume</p>
               </div>
-              <div className="p-3 bg-purple-100 rounded-xl">
-                <Clock className="w-8 h-8 text-purple-600" />
+              <div className="p-3 bg-emerald-500/20 rounded-xl">
+                <DollarSign className="w-8 h-8 text-emerald-400" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-white/10 backdrop-blur-xl shadow-2xl border border-white/20 hover:shadow-3xl transition-all duration-300 rounded-2xl">
+          <CardContent className="p-8">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-white/70 mb-2 font-medium">Avg Response Time</p>
+                <p className="text-3xl font-bold text-white">{dashboardMetrics.avgResponseTime.toFixed(1)}m</p>
+                <p className="text-sm text-blue-400 mt-2 font-medium">Fast lane eligible</p>
+              </div>
+              <div className="p-3 bg-purple-500/20 rounded-xl">
+                <Clock className="w-8 h-8 text-purple-400" />
               </div>
             </div>
           </CardContent>
@@ -310,15 +311,15 @@ export default function BrokerTerminal() {
             </div>
 
       {/* AI Search Assistant */}
-      <Card className="bg-white shadow-lg border border-slate-200/50 rounded-2xl">
+      <Card className="bg-white/10 backdrop-blur-xl shadow-2xl border border-white/20 rounded-2xl">
         <CardHeader className="pb-6">
-          <CardTitle className="flex items-center gap-3 text-slate-900 text-2xl">
-            <div className="p-2 bg-blue-100 rounded-xl">
-              <Brain className="w-6 h-6 text-blue-600" />
+          <CardTitle className="flex items-center gap-3 text-white text-2xl">
+            <div className="p-2 bg-blue-500/20 rounded-xl">
+              <Brain className="w-6 h-6 text-blue-400" />
             </div>
             AI Search Assistant
           </CardTitle>
-          <CardDescription className="text-slate-600 text-lg">
+          <CardDescription className="text-white/70 text-lg">
             Get intelligent insights and search across the platform with AI-powered assistance
           </CardDescription>
         </CardHeader>
@@ -331,64 +332,64 @@ export default function BrokerTerminal() {
       <RealPredictiveAnalytics terminalType="broker" className="mb-6" />
 
       {/* AI Insights */}
-      <Card className="bg-white shadow-lg border border-slate-200/50 rounded-2xl">
+      <Card className="bg-white/10 backdrop-blur-xl shadow-2xl border border-white/20 rounded-2xl">
         <CardHeader className="pb-6">
-          <CardTitle className="flex items-center gap-3 text-slate-900 text-2xl">
-            <div className="p-2 bg-blue-100 rounded-xl">
-              <Brain className="w-6 h-6 text-blue-600" />
+          <CardTitle className="flex items-center gap-3 text-white text-2xl">
+            <div className="p-2 bg-blue-500/20 rounded-xl">
+              <Brain className="w-6 h-6 text-blue-400" />
             </div>
             Market Intelligence
           </CardTitle>
-          <CardDescription className="text-slate-600 text-lg">
+          <CardDescription className="text-white/70 text-lg">
             Real-time market analysis and strategic insights for your business
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl border border-blue-200/50">
+            <div className="p-6 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20">
               <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-blue-100 rounded-xl">
-                  <TrendingUp className="h-6 w-6 text-blue-600" />
+                <div className="p-3 bg-blue-500/20 rounded-xl">
+                  <TrendingUp className="h-6 w-6 text-blue-400" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-slate-900">Charter Demand Surge</h3>
-                  <p className="text-sm text-slate-600">European routes showing 23% increase</p>
+                  <h3 className="font-semibold text-white">Charter Demand Surge</h3>
+                  <p className="text-sm text-white/70">European routes showing 23% increase</p>
                 </div>
               </div>
-              <Badge className="bg-blue-100 text-blue-700 border-blue-200 font-medium">
+              <Badge className="bg-blue-500/20 text-blue-400 border-blue-400/30 font-medium">
                 +23%
               </Badge>
             </div>
-            <div className="p-6 bg-gradient-to-br from-emerald-50 to-green-50 rounded-2xl border border-emerald-200/50">
+            <div className="p-6 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20">
               <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-emerald-100 rounded-xl">
-                  <Target className="h-6 w-6 text-emerald-600" />
+                <div className="p-3 bg-emerald-500/20 rounded-xl">
+                  <Target className="h-6 w-6 text-emerald-400" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-slate-900">Strategic Opportunity</h3>
-                  <p className="text-sm text-slate-600">London-NYC route pricing 18% below market</p>
+                  <h3 className="font-semibold text-white">Strategic Opportunity</h3>
+                  <p className="text-sm text-white/70">London-NYC route pricing 18% below market</p>
                 </div>
               </div>
               <Button
                 variant="outline" 
                 size="sm" 
-                className="border-emerald-200 text-emerald-700 hover:bg-emerald-50 rounded-xl px-4 py-2 transition-all duration-200 font-medium"
+                className="border-emerald-400/30 text-emerald-400 hover:bg-emerald-400/10 rounded-xl px-4 py-2 transition-all duration-200 font-medium"
                 onClick={() => setActiveTab('marketplace')}
               >
                 Explore
               </Button>
             </div>
-            <div className="p-6 bg-gradient-to-br from-purple-50 to-violet-50 rounded-2xl border border-purple-200/50">
+            <div className="p-6 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20">
               <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-purple-100 rounded-xl">
-                  <Award className="h-6 w-6 text-purple-600" />
+                <div className="p-3 bg-purple-500/20 rounded-xl">
+                  <Award className="h-6 w-6 text-purple-400" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-slate-900">Competitive Advantage</h3>
-                  <p className="text-sm text-slate-600">40% faster response than industry average</p>
+                  <h3 className="font-semibold text-white">Competitive Advantage</h3>
+                  <p className="text-sm text-white/70">40% faster response than industry average</p>
                 </div>
               </div>
-              <Badge className="bg-purple-100 text-purple-700 border-purple-200 font-medium">
+              <Badge className="bg-purple-500/20 text-purple-400 border-purple-400/30 font-medium">
                 Top 5%
               </Badge>
             </div>
@@ -397,85 +398,85 @@ export default function BrokerTerminal() {
             </Card>
 
       {/* Recent Activity */}
-      <Card className="bg-white shadow-lg border border-slate-200/50 rounded-2xl">
+      <Card className="bg-white/10 backdrop-blur-xl shadow-2xl border border-white/20 rounded-2xl">
         <CardHeader className="pb-6">
-          <CardTitle className="flex items-center gap-3 text-slate-900 text-2xl">
-            <div className="p-2 bg-blue-100 rounded-xl">
-              <BarChart3 className="w-6 h-6 text-blue-600" />
+          <CardTitle className="flex items-center gap-3 text-white text-2xl">
+            <div className="p-2 bg-blue-500/20 rounded-xl">
+              <BarChart3 className="w-6 h-6 text-blue-400" />
             </div>
             Recent Activity
           </CardTitle>
-          <CardDescription className="text-slate-600 text-lg">
+          <CardDescription className="text-white/70 text-lg">
             Your latest transactions and platform activity
           </CardDescription>
         </CardHeader>
-              <CardContent>
-          <div className="space-y-3">
-            {rfqs.length === 0 ? (
-              <div className="text-center py-12">
-                <div className="p-4 bg-slate-100 rounded-2xl w-16 h-16 mx-auto mb-6 flex items-center justify-center">
-                  <FileText className="w-8 h-8 text-slate-600" />
-                </div>
-                <h3 className="text-lg font-semibold text-slate-900 mb-2">No recent activity</h3>
-                <p className="text-slate-600 mb-6">Create your first RFQ to get started with the platform.</p>
-                <Button 
-                  className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl px-8 py-3 transition-all duration-200 font-medium"
-                  onClick={() => setActiveTab('rfqs')}
-                >
-                  Create RFQ
-                </Button>
-              </div>
-          ) : (
-              rfqs.slice(0, 3).map(rfq => (
-                <div key={rfq.id} className="p-6 bg-slate-50 border border-slate-200 rounded-2xl hover:bg-slate-100 transition-all duration-300">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                      <div>
-                        <p className="font-semibold text-slate-900">{rfq.route}</p>
-                        <p className="text-sm text-slate-600">{rfq.aircraft} • {rfq.quotes.length} quotes • {rfq.passengers} pax</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <Badge className={
-                        rfq.status === 'paid' ? 'bg-green-100 text-green-700 border-green-200' :
-                        rfq.status === 'quoted' ? 'bg-blue-100 text-blue-700 border-blue-200' :
-                        'bg-orange-100 text-orange-700 border-orange-200'
-                      }>
-                        {rfq.status}
-                      </Badge>
-                      <Button variant="outline" size="sm" className="border-slate-300 text-slate-600 hover:bg-slate-100 rounded-xl">
-                        <Eye className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              ))
-            )}
-                </div>
-              </CardContent>
-            </Card>
-    </div>
-  );
+               <CardContent>
+           <div className="space-y-3">
+             {rfqs.length === 0 ? (
+               <div className="text-center py-12">
+                 <div className="p-4 bg-white/10 rounded-2xl w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+                   <FileText className="w-8 h-8 text-white/60" />
+                 </div>
+                 <h3 className="text-lg font-semibold text-white mb-2">No recent activity</h3>
+                 <p className="text-white/70 mb-6">Create your first RFQ to get started with the platform.</p>
+                 <Button 
+                   className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl px-8 py-3 transition-all duration-200 font-medium shadow-lg"
+                   onClick={() => setActiveTab('rfqs')}
+                 >
+                   Create RFQ
+                 </Button>
+               </div>
+           ) : (
+               rfqs.slice(0, 3).map(rfq => (
+                 <div key={rfq.id} className="p-6 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl hover:bg-white/15 transition-all duration-300">
+                   <div className="flex items-center justify-between">
+                     <div className="flex items-center gap-4">
+                       <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
+                       <div>
+                         <p className="font-semibold text-white">{rfq.route}</p>
+                         <p className="text-sm text-white/70">{rfq.aircraft} • {rfq.quotes.length} quotes • {rfq.passengers} pax</p>
+                       </div>
+                     </div>
+                     <div className="flex items-center gap-3">
+                       <Badge className={
+                         rfq.status === 'paid' ? 'bg-green-500/20 text-green-400 border-green-400/30' :
+                         rfq.status === 'quoted' ? 'bg-blue-500/20 text-blue-400 border-blue-400/30' :
+                         'bg-orange-500/20 text-orange-400 border-orange-400/30'
+                       }>
+                         {rfq.status}
+                       </Badge>
+                       <Button variant="outline" size="sm" className="border-white/30 text-white/70 hover:bg-white/10 rounded-xl">
+                         <Eye className="w-4 h-4" />
+                       </Button>
+                     </div>
+                   </div>
+                 </div>
+               ))
+             )}
+                 </div>
+               </CardContent>
+             </Card>
+          </div>
+        );
 
   const renderRFQs = () => (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-semibold text-slate-900">RFQs & Quotes</h2>
-          <p className="text-slate-600">Manage your requests for quotes and responses</p>
+          <h2 className="text-2xl font-semibold text-white">RFQs & Quotes</h2>
+          <p className="text-white/70">Manage your requests for quotes and responses</p>
         </div>
-        <Button className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl px-6 py-3 transition-all duration-200">
+        <Button className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl px-6 py-3 transition-all duration-200 shadow-lg">
           <Plus className="w-4 h-4 mr-2" />
           New RFQ
         </Button>
       </div>
       
-      <Card className="bg-white shadow-lg border border-slate-200/50 rounded-2xl">
+      <Card className="bg-white/10 backdrop-blur-xl shadow-2xl border border-white/20 rounded-2xl">
         <CardHeader>
-          <CardTitle className="flex items-center gap-3 text-slate-900">
-            <div className="p-2 bg-blue-100 rounded-xl">
-              <Plus className="w-5 h-5 text-blue-600" />
+          <CardTitle className="flex items-center gap-3 text-white">
+            <div className="p-2 bg-blue-500/20 rounded-xl">
+              <Plus className="w-5 h-5 text-blue-400" />
             </div>
             Create New RFQ
           </CardTitle>
@@ -486,16 +487,16 @@ export default function BrokerTerminal() {
       </Card>
 
       {rfqs.length === 0 ? (
-        <Card className="bg-white shadow-lg border border-slate-200/50 rounded-2xl">
+        <Card className="bg-white/10 backdrop-blur-xl shadow-2xl border border-white/20 rounded-2xl">
           <CardContent className="py-12">
             <div className="text-center">
-              <div className="p-4 bg-slate-100 rounded-2xl w-16 h-16 mx-auto mb-6 flex items-center justify-center">
-                <FileText className="w-8 h-8 text-slate-600" />
+              <div className="p-4 bg-white/10 rounded-2xl w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+                <FileText className="w-8 h-8 text-white/60" />
               </div>
-              <h3 className="text-lg font-semibold text-slate-900 mb-2">No RFQs created yet</h3>
-              <p className="text-slate-600 mb-6">Create your first RFQ to get started with the platform.</p>
+              <h3 className="text-lg font-semibold text-white mb-2">No RFQs created yet</h3>
+              <p className="text-white/70 mb-6">Create your first RFQ to get started with the platform.</p>
               <Button 
-                className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl px-8 py-3 transition-all duration-200 font-medium"
+                className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl px-8 py-3 transition-all duration-200 font-medium shadow-lg"
                 onClick={() => setActiveTab('rfqs')}
               >
                 Create RFQ
@@ -506,28 +507,28 @@ export default function BrokerTerminal() {
       ) : (
         <div className="space-y-4">
           {rfqs.map(rfq => (
-            <Card key={rfq.id} className="bg-white shadow-lg border border-slate-200/50 hover:shadow-xl transition-all duration-300 rounded-2xl">
+            <Card key={rfq.id} className="bg-white/10 backdrop-blur-xl shadow-2xl border border-white/20 hover:shadow-3xl transition-all duration-300 rounded-2xl">
               <CardContent className="p-6">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="font-semibold text-slate-900 flex items-center gap-2 mb-2">
-                      <Plane className="w-5 h-5 text-blue-600" />
+                    <h3 className="font-semibold text-white flex items-center gap-2 mb-2">
+                      <Plane className="w-5 h-5 text-blue-400" />
                       {rfq.route}
                     </h3>
-                    <p className="text-slate-600 mb-2">{rfq.aircraft} • {rfq.date} • {rfq.legs} leg(s) • {rfq.passengers} pax</p>
+                    <p className="text-white/70 mb-2">{rfq.aircraft} • {rfq.date} • {rfq.legs} leg(s) • {rfq.passengers} pax</p>
                     {rfq.specialRequirements && (
-                      <p className="text-sm text-blue-600 mt-1">📋 {rfq.specialRequirements}</p>
+                      <p className="text-sm text-blue-400 mt-1">📋 {rfq.specialRequirements}</p>
                     )}
                   </div>
                   <div className="flex items-center gap-3">
                     <Badge className={
-                      rfq.status === 'paid' ? 'bg-green-100 text-green-700 border-green-200' :
-                      rfq.status === 'quoted' ? 'bg-blue-100 text-blue-700 border-blue-200' :
-                      'bg-orange-100 text-orange-700 border-orange-200'
+                      rfq.status === 'paid' ? 'bg-green-500/20 text-green-400 border-green-400/30' :
+                      rfq.status === 'quoted' ? 'bg-blue-500/20 text-blue-400 border-blue-400/30' :
+                      'bg-orange-500/20 text-orange-400 border-orange-400/30'
                     }>
                       {rfq.status}
                     </Badge>
-                    <Button size="sm" variant="outline" className="border-slate-300 text-slate-600 hover:bg-slate-100 rounded-xl">
+                    <Button size="sm" variant="outline" className="border-white/30 text-white/70 hover:bg-white/10 rounded-xl">
                       <GitCompare className="w-4 h-4" />
                     </Button>
                   </div>
@@ -593,7 +594,7 @@ export default function BrokerTerminal() {
   );
 
   return (
-    <>
+    <ModernPlasmaBackground>
       {showHelpGuide && (
         <ModernHelpGuide 
           terminalType="broker" 
@@ -604,76 +605,75 @@ export default function BrokerTerminal() {
         />
       )}
       
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
-        {/* Header */}
-        <header className="relative z-10 sticky top-0 bg-white/80 backdrop-blur-xl border-b border-slate-200/50 shadow-sm">
-          <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <StratusConnectLogo className="text-xl" />
-              <div>
-                <h1 className="text-2xl font-bold text-slate-900">Broker Terminal</h1>
-                <p className="text-slate-600 text-sm">Professional Aviation Marketplace</p>
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <Button
-                onClick={() => setShowHelpGuide(true)}
-                className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl px-6 py-2 font-medium transition-all duration-200"
-                title="Help Guide (Ctrl+H)"
-              >
-                <Trophy className="h-4 w-4 mr-2" />
-                Tutorial
-              </Button>
+      {/* Header */}
+      <header className="sticky top-0 bg-black/20 backdrop-blur-xl border-b border-white/10 shadow-sm">
+        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <StratusConnectLogo className="text-xl text-white" />
+            <div>
+              <h1 className="text-2xl font-bold text-white">Broker Terminal</h1>
+              <p className="text-white/80 text-sm">Professional Aviation Marketplace</p>
             </div>
           </div>
-        </header>
+          <div className="flex gap-2">
+            <Button
+              onClick={() => setShowHelpGuide(true)}
+              className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl px-6 py-2 font-medium transition-all duration-200"
+              title="Help Guide (Ctrl+H)"
+            >
+              <Trophy className="h-4 w-4 mr-2" />
+              Tutorial
+            </Button>
+          </div>
+        </div>
+      </header>
 
         <main className="relative z-10 max-w-7xl mx-auto p-6 space-y-6 overflow-y-auto scroll-smooth">
           {/* Main Navigation */}
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <div className="overflow-x-auto pb-4">
-              <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-white/90 backdrop-blur-sm border border-slate-200/50 shadow-sm rounded-xl p-1">
-                <TabsTrigger value="dashboard" className="flex items-center gap-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-600 hover:text-slate-900 px-4 py-2 rounded-lg font-medium transition-all duration-200">
+               <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-white/10 backdrop-blur-sm border border-white/20 shadow-sm rounded-xl p-1">
+                <TabsTrigger value="dashboard" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <BarChart3 className="w-4 h-4" />
-                  Dashboard
-                </TabsTrigger>
-                <TabsTrigger value="rfqs" className="flex items-center gap-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-600 hover:text-slate-900 px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                Dashboard
+              </TabsTrigger>
+                <TabsTrigger value="rfqs" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <FileText className="w-4 h-4" />
                   RFQs & Quotes
                 </TabsTrigger>
-                <TabsTrigger value="marketplace" className="flex items-center gap-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-600 hover:text-slate-900 px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger value="marketplace" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <Search className="w-4 h-4" />
                   Marketplace
                 </TabsTrigger>
-                <TabsTrigger value="searches" className="flex items-center gap-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-600 hover:text-slate-900 px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger value="searches" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <Bookmark className="w-4 h-4" />
                   Saved Searches
                 </TabsTrigger>
-                <TabsTrigger value="reputation" className="flex items-center gap-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-600 hover:text-slate-900 px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger value="reputation" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <Award className="w-4 h-4" />
                   Reputation
                 </TabsTrigger>
-                <TabsTrigger value="billing" className="flex items-center gap-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-600 hover:text-slate-900 px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger value="billing" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <DollarSign className="w-4 h-4" />
                   Billing
                 </TabsTrigger>
-                <TabsTrigger value="scoreboard" className="flex items-center gap-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-600 hover:text-slate-900 px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger value="scoreboard" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <Trophy className="w-4 h-4" />
                   Scoreboard
                 </TabsTrigger>
-                <TabsTrigger value="ranking" className="flex items-center gap-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-600 hover:text-slate-900 px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger value="ranking" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <Star className="w-4 h-4" />
                   Rankings
                 </TabsTrigger>
-                <TabsTrigger value="tracking" className="flex items-center gap-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-600 hover:text-slate-900 px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger value="tracking" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <Globe className="w-4 h-4" />
                   Flight Tracking
                 </TabsTrigger>
-                <TabsTrigger value="notes" className="flex items-center gap-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-600 hover:text-slate-900 px-4 py-2 rounded-lg font-medium transition-all duration-200">
+                <TabsTrigger value="notes" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-4 py-2 rounded-lg font-medium transition-all duration-200">
                   <MessageSquare className="w-4 h-4" />
                   Notes
                 </TabsTrigger>
-              </TabsList>
+            </TabsList>
             </div>
 
             <TabsContent value="dashboard" className="mt-6 scroll-smooth">
@@ -684,40 +684,40 @@ export default function BrokerTerminal() {
             </TabsContent>
             <TabsContent value="marketplace" className="mt-6 scroll-smooth">
               {renderMarketplace()}
-            </TabsContent>
+          </TabsContent>
             <TabsContent value="searches" className="mt-6 scroll-smooth">
               {renderSavedSearches()}
-            </TabsContent>
+          </TabsContent>
             <TabsContent value="reputation" className="mt-6 scroll-smooth">
               {renderReputation()}
-            </TabsContent>
+          </TabsContent>
             <TabsContent value="billing" className="mt-6 scroll-smooth">
               {renderBilling()}
-            </TabsContent>
+          </TabsContent>
             <TabsContent value="scoreboard" className="mt-6 scroll-smooth">
               <WeekOneScoreboard />
-            </TabsContent>
+          </TabsContent>
             <TabsContent value="ranking" className="mt-6">
               <RankingRulesPage />
-            </TabsContent>
+          </TabsContent>
             <TabsContent value="tracking" className="mt-6">
               <ModernFlightTracker terminalType="broker" />
-            </TabsContent>
+          </TabsContent>
             <TabsContent value="notes" className="mt-6 scroll-smooth">
               <ModernNotesSystem terminalType="broker" />
-            </TabsContent>
-          </Tabs>
+          </TabsContent>
+        </Tabs>
         </main>
       
-        {/* Scroll to Top Button */}
-        <Button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      {/* Scroll to Top Button */}
+      <Button
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           className="fixed bottom-6 right-6 z-50 w-12 h-12 bg-blue-600 hover:bg-blue-700 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg"
-          title="Scroll to Top"
-        >
-          <ArrowUp className="w-6 h-6 text-white" />
-        </Button>
-        
+        title="Scroll to Top"
+      >
+        <ArrowUp className="w-6 h-6 text-white" />
+      </Button>
+      
         {/* Floating AI Button */}
         {!showMaxAI && (
           <Button
@@ -737,7 +737,6 @@ export default function BrokerTerminal() {
           isAuthenticated={true} 
         />
         
-      </div>
-    </>
+    </ModernPlasmaBackground>
   );
 }

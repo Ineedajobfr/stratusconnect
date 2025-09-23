@@ -6,6 +6,29 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        bg: "var(--bg)",
+        surface: {
+          1: "var(--surface-1)",
+          2: "var(--surface-2)",
+        },
+        text: {
+          DEFAULT: "var(--text)",
+          muted: "var(--muted)",
+        },
+        brand: {
+          DEFAULT: "var(--brand)",
+          600: "var(--brand-600)",
+          300: "var(--brand-300)",
+        },
+        fire: {
+          DEFAULT: "var(--fire)",
+          600: "var(--fire-600)",
+          300: "var(--fire-300)",
+        },
+        success: "var(--success)",
+        warn: "var(--warn)",
+        danger: "var(--danger)",
+        // Legacy colors for compatibility
         app:      "hsl(var(--terminal-bg) / <alpha-value>)",
         surface:  "hsl(var(--terminal-card) / <alpha-value>)",
         elev:     "hsl(var(--secondary) / <alpha-value>)",
@@ -60,8 +83,15 @@ const config: Config = {
         'chart-4': "hsl(var(--chart-4) / <alpha-value>)",
         'chart-5': "hsl(var(--chart-5) / <alpha-value>)",
       },
-      boxShadow: { card: "0 12px 28px rgba(0,0,0,.35)" },
-      borderRadius: { xl2: "1rem" },
+      boxShadow: { 
+        glow: "0 0 0 1px rgba(11,107,255,0.25), 0 8px 30px rgba(11,107,255,0.12)",
+        card: "0 8px 40px rgba(0,0,0,0.45)",
+        legacy: "0 12px 28px rgba(0,0,0,.35)" 
+      },
+      borderRadius: { xl2: "1.25rem" },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+      },
     },
   },
   plugins: [

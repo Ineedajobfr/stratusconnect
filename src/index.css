@@ -8,6 +8,59 @@
 
 /* Theme CSS is imported in main.tsx */
 
+/* StratusConnect Color System - Lock the palette */
+:root {
+  --bg: #0B0D12;        /* deep black blue */
+  --surface-1: #0F1220;
+  --surface-2: #12162A;
+  --text: #E6E8EE;
+  --muted: #A6ADBF;
+
+  --brand: #0B6BFF;     /* electric blue */
+  --brand-600: #0952C7;
+  --brand-300: #5AA2FF;
+
+  --fire: #FF7A1A;      /* orange heat */
+  --fire-600: #D7610F;
+  --fire-300: #FFB066;
+
+  --success: #23C483;
+  --warn: #E6B800;
+  --danger: #FF3B3B;
+}
+
+/* Global dark base */
+html, body, #root {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Prevent default browser backgrounds creeping in */
+* { background-clip: padding-box; }
+
+/* Modern Plasma Background Animations */
+@keyframes plasma {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(3%, -2%, 0) scale(1.05); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+
+@keyframes plasma-slow {
+  0%   { transform: translate3d(0, 0, 0) scale(1.05) rotate(0deg); }
+  50%  { transform: translate3d(-2%, 3%, 0) scale(1) rotate(8deg); }
+  100% { transform: translate3d(0, 0, 0) scale(1.05) rotate(0deg); }
+}
+
+@keyframes drift-slow {
+  0%   { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(8deg) scale(1.02); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+.animate-plasma     { animation: plasma 14s ease-in-out infinite; }
+.animate-plasma-slow{ animation: plasma-slow 22s ease-in-out infinite; }
+.animate-drift-slow { animation: drift-slow 30s ease-in-out infinite; }
+
 .tabular { 
   font-variant-numeric: tabular-nums; 
 }

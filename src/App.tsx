@@ -255,11 +255,7 @@ const App = memo(() => {
               {/* Protected terminal routes */}
               <Route 
                 path="/terminal/broker" 
-                element={
-                  <ProtectedRoute allowedRoles={['broker']}>
-                    <BrokerTerminal />
-                  </ProtectedRoute>
-                } 
+                element={<BrokerTerminal />} 
               />
               <Route 
                 path="/terminal/operator" 

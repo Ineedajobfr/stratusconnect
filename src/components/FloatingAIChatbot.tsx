@@ -14,7 +14,7 @@ export default function FloatingAIChatbot({ className = "" }: FloatingAIChatbotP
     if (!user) return 'broker';
     
     try {
-      const userRole = user.role || 'broker';
+      const userRole = user.user_metadata?.role || 'broker';
       return userRole as 'broker' | 'operator' | 'pilot' | 'crew' | 'admin';
     } catch (error) {
       console.error('Error determining user type:', error);

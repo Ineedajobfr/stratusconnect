@@ -45,12 +45,9 @@ export class DayOneSmokeTests {
 
   private async testCharterDealFlow(): Promise<void> {
     const deal = {
-      dealId: 'TEST_DEAL_001',
+      id: 'TEST_DEAL_001',
       type: 'charter' as const,
-      route: 'KJFK-EGLL',
-      aircraft: 'G650',
-      departureDate: new Date().toISOString(),
-      totalAmount: 1000000, // £10,000 in pennies
+      amount: 1000000, // £10,000 in pennies
       currency: 'GBP',
       brokerId: 'test-broker',
       operatorId: 'test-operator'
@@ -70,7 +67,7 @@ export class DayOneSmokeTests {
   private async testFeeCalculation(): Promise<void> {
     const feeStructure = calcDealFees(1000000, 'GBP');
     
-    if (!feeStructure.platform || feeStructure.platform <= 0) {
+    if (!feeStructure.platformFee || feeStructure.platformFee <= 0) {
       throw new Error('Invalid fee calculation');
     }
   }

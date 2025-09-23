@@ -17,7 +17,7 @@ import {
   Star
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { EnhancedVoiceReader as VoiceReaderService, voiceServices, voiceQualityComparison } from '@/lib/voice-services';
+import { EnhancedVoiceReader, voiceServices, voiceQualityComparison } from '@/lib/voice-services';
 
 interface EnhancedVoiceReaderProps {
   text: string;
@@ -36,7 +36,7 @@ export default function EnhancedVoiceReader({
   const [isSupported, setIsSupported] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   
-  const voiceReader = new VoiceReaderService();
+  const voiceReader = new EnhancedVoiceReader();
   const { toast } = useToast();
 
   useEffect(() => {

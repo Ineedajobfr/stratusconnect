@@ -22,7 +22,6 @@ import {
   Settings,
   Globe,
   Smartphone,
-  Brain,
   Monitor
 } from 'lucide-react';
 

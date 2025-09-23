@@ -250,7 +250,7 @@ export class StratusConnectAI {
 
     switch (intent.type) {
       case 'greeting':
-        response = await this.generateResponse(userMessage);
+        response = this.generateGreetingResponse(userType, responseStyle);
         break;
       case 'aircraft_query':
         response = this.generateAircraftResponse(userMessage, expertiseLevel);

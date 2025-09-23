@@ -16,7 +16,6 @@ import {
   Heart,
   MessageSquare,
   ExternalLink,
-  CheckCircle,
   Zap,
   Shield,
   Award

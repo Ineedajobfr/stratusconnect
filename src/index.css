@@ -656,15 +656,15 @@ html, body, #root {
   }
 
   .terminal-scrollbar::-webkit-scrollbar-track {
-    @apply bg-gray-800;
+    @apply bg-terminal-bg;
   }
 
   .terminal-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-gray-600;
+    @apply bg-terminal-border;
   }
 
   .terminal-scrollbar::-webkit-scrollbar-thumb:hover {
-    @apply bg-blue-400;
+    @apply bg-accent;
   }
   
   /* Glow Effects */

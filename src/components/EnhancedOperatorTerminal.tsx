@@ -11,7 +11,7 @@ import FleetManagement from "@/components/FleetManagement";
 import EnhancedMarketplace from "@/components/EnhancedMarketplace";
 import EnhancedMessaging from "@/components/EnhancedMessaging";
 import VerificationSystem from "@/components/VerificationSystem";
-import AviationNews from "@/components/AviationNews";
+import { AviationNews } from "@/components/AviationNews";
 import { PrivacyOverlay } from "@/components/PrivacyOverlay";
 import { OperatorAnalytics } from "@/components/analytics/OperatorAnalytics";
 import { ProfileWidget } from "@/components/ProfileWidget";
@@ -477,7 +477,7 @@ export const EnhancedOperatorTerminal = () => {
         {activeTab === "news" && (
           <div className="terminal-section">
             <div className="terminal-container">
-              <AviationNews terminalType="operator" />
+              <AviationNews />
             </div>
           </div>
         )}

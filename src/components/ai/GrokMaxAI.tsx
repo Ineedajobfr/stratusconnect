@@ -58,7 +58,7 @@ interface AIAgent {
   active: boolean;
 }
 
-export const MaxAI: React.FC<GrokMaxAIProps> = ({
+export const MaxAI: React.FC<MaxAIProps> = ({
   isVisible,
   onToggleVisibility,
   userType,

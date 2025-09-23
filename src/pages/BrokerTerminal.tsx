@@ -13,6 +13,8 @@ import { SmartPricingEngine } from '@/components/ai/SmartPricingEngine';
 import { RealTimeChat } from '@/components/chat/RealTimeChat';
 import { MarketIntelligence } from '@/components/market/MarketIntelligence';
 import { WorkflowAutomation } from '@/components/automation/WorkflowAutomation';
+import { AdvancedAnalytics } from '@/components/analytics/AdvancedAnalytics';
+import { ClientPortal } from '@/components/portal/ClientPortal';
 import BrokerBackdrop from '@/components/BrokerBackdrop';
 import { 
   DollarSign, 
@@ -891,14 +893,30 @@ export default function BrokerTerminal() {
                   <TrendingUp className="w-4 h-4" />
                   Market Intel
               </TabsTrigger>
-                <TabsTrigger 
-                  value="automation" 
-                  className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'automation' || activeTab === 'automation' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
-                  onClick={() => handleSectionClick('automation')}
-                >
-                  <Zap className="w-4 h-4" />
-                  Automation
-              </TabsTrigger>
+          <TabsTrigger
+            value="automation"
+            className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'automation' || activeTab === 'automation' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
+            onClick={() => handleSectionClick('automation')}
+          >
+            <Zap className="w-4 h-4" />
+            Automation
+          </TabsTrigger>
+          <TabsTrigger
+            value="analytics"
+            className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'analytics' || activeTab === 'analytics' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
+            onClick={() => handleSectionClick('analytics')}
+          >
+            <BarChart3 className="w-4 h-4" />
+            Analytics
+          </TabsTrigger>
+          <TabsTrigger
+            value="clients"
+            className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'clients' || activeTab === 'clients' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
+            onClick={() => handleSectionClick('clients')}
+          >
+            <Users className="w-4 h-4" />
+            Clients
+          </TabsTrigger>
                 <TabsTrigger 
                   value="searches" 
                   className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'searches' || activeTab === 'searches' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
@@ -970,12 +988,18 @@ export default function BrokerTerminal() {
             <TabsContent value="market-intelligence" className="mt-6 scroll-smooth">
               <MarketIntelligence />
           </TabsContent>
-            <TabsContent value="automation" className="mt-6 scroll-smooth">
-              <WorkflowAutomation />
-          </TabsContent>
-            <TabsContent value="searches" className="mt-6 scroll-smooth">
-              {renderSavedSearches()}
-          </TabsContent>
+        <TabsContent value="automation" className="mt-6 scroll-smooth">
+          <WorkflowAutomation />
+        </TabsContent>
+        <TabsContent value="analytics" className="mt-6 scroll-smooth">
+          <AdvancedAnalytics />
+        </TabsContent>
+        <TabsContent value="clients" className="mt-6 scroll-smooth">
+          <ClientPortal />
+        </TabsContent>
+        <TabsContent value="searches" className="mt-6 scroll-smooth">
+          {renderSavedSearches()}
+        </TabsContent>
             <TabsContent value="reputation" className="mt-6 scroll-smooth">
               {renderReputation()}
           </TabsContent>

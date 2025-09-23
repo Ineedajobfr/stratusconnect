@@ -473,6 +473,106 @@ export const ModernHelpGuide: React.FC<ModernHelpGuideProps> = ({
         ]
       },
       {
+        id: 'advanced-analytics',
+        title: 'Advanced Analytics Dashboard',
+        description: 'Comprehensive performance insights and reporting',
+        icon: BarChart3,
+        estimatedTime: '10 minutes',
+        difficulty: 'intermediate',
+        steps: [
+          {
+            id: 'performance-metrics',
+            title: 'Performance Metrics Overview',
+            description: 'Track key performance indicators and trends',
+            detailedExplanation: 'The Analytics tab provides comprehensive performance tracking including revenue growth, deal volume, conversion rates, response times, and client satisfaction. All metrics update in real-time and can be filtered by time periods.',
+            icon: TrendingUp,
+            status: 'available',
+            interactive: true,
+            relatedFeatures: ['Real-time Metrics', 'Performance Tracking', 'Growth Analysis', 'Time-based Filtering']
+          },
+          {
+            id: 'client-analytics',
+            title: 'Client Analytics & Segmentation',
+            description: 'Deep insights into client behavior and preferences',
+            detailedExplanation: 'Analyze client segments, track top performers, monitor client satisfaction, and identify growth opportunities. The system provides detailed client profiles with spending patterns, preferences, and activity history.',
+            icon: Users,
+            status: 'available',
+            interactive: true,
+            relatedFeatures: ['Client Segmentation', 'Spending Analysis', 'Satisfaction Tracking', 'Growth Opportunities']
+          },
+          {
+            id: 'market-trends',
+            title: 'Market Trends & Intelligence',
+            description: 'Track market performance and competitive analysis',
+            detailedExplanation: 'Monitor popular routes, aircraft performance, seasonal patterns, and market trends. Use this data to identify opportunities, optimize pricing strategies, and stay ahead of market changes.',
+            icon: Target,
+            status: 'available',
+            interactive: true,
+            relatedFeatures: ['Route Analysis', 'Aircraft Performance', 'Seasonal Patterns', 'Market Intelligence']
+          },
+          {
+            id: 'custom-reports',
+            title: 'Custom Reports & Export',
+            description: 'Generate detailed reports for clients and management',
+            detailedExplanation: 'Create custom reports for different stakeholders, export data in various formats, and schedule automated report generation. Reports can be tailored for performance analysis, client presentations, or compliance requirements.',
+            icon: FileText,
+            status: 'available',
+            interactive: true,
+            relatedFeatures: ['Custom Report Builder', 'Multiple Export Formats', 'Automated Scheduling', 'Stakeholder Reports']
+          }
+        ]
+      },
+      {
+        id: 'client-portal',
+        title: 'Client Portal & Relationship Management',
+        description: 'Comprehensive client management and relationship tracking',
+        icon: Users,
+        estimatedTime: '12 minutes',
+        difficulty: 'intermediate',
+        steps: [
+          {
+            id: 'client-overview',
+            title: 'Client Overview & Search',
+            description: 'Manage and search through your client database',
+            detailedExplanation: 'The Client Portal provides a comprehensive view of all your clients with advanced search and filtering capabilities. View client profiles, contact information, spending history, and activity status in one centralized location.',
+            icon: User,
+            status: 'available',
+            interactive: true,
+            relatedFeatures: ['Client Database', 'Advanced Search', 'Profile Management', 'Activity Tracking']
+          },
+          {
+            id: 'flight-requests',
+            title: 'Flight Request Management',
+            description: 'Track and manage all client flight requests',
+            detailedExplanation: 'Monitor the status of all flight requests from initial inquiry to completion. Track pricing, broker assignments, client communications, and request history with full audit trails.',
+            icon: Plane,
+            status: 'available',
+            interactive: true,
+            relatedFeatures: ['Request Tracking', 'Status Management', 'Broker Assignment', 'Audit Trails']
+          },
+          {
+            id: 'quotes-pricing',
+            title: 'Quotes & Pricing Management',
+            description: 'Manage quotes and pricing for client requests',
+            detailedExplanation: 'Track all quotes received for client requests, compare pricing from different operators, manage quote validity periods, and handle quote acceptance/rejection workflows.',
+            icon: DollarSign,
+            status: 'available',
+            interactive: true,
+            relatedFeatures: ['Quote Comparison', 'Pricing Analysis', 'Validity Management', 'Workflow Automation']
+          },
+          {
+            id: 'activity-feed',
+            title: 'Activity Feed & Communication',
+            description: 'Track all client interactions and communications',
+            detailedExplanation: 'Monitor all client activities including requests, quotes, bookings, messages, and calls. The activity feed provides a chronological view of all interactions with status tracking and detailed logs.',
+            icon: History,
+            status: 'available',
+            interactive: true,
+            relatedFeatures: ['Activity Tracking', 'Communication Logs', 'Status Monitoring', 'Interaction History']
+          }
+        ]
+      },
+      {
         id: 'billing-finance',
         title: 'Billing & Financial Management',
         description: 'Handle invoicing and financial transactions',

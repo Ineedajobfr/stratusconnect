@@ -42,7 +42,8 @@ import {
   RefreshCw,
   MessageSquare,
   Bookmark,
-  Settings
+  Settings,
+  Brain
 } from 'lucide-react';
 import { ComplianceNotice, EvidencePack } from '@/components/ComplianceNotice';
 import { MultiLegRFQ } from '@/components/DealFlow/MultiLegRFQ';
@@ -54,12 +55,11 @@ import { MonthlyStatements } from '@/components/Billing/MonthlyStatements';
 import { RankingRulesPage } from '@/components/Ranking/RankingRulesPage';
 import AISearchAssistant from '@/components/AISearchAssistant';
 import PredictiveAnalytics from '@/components/PredictiveAnalytics';
-import NoteTakingSystem from '@/components/NoteTakingSystem';
-import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
+import { ModernNotesSystem } from '@/components/ModernNotesSystem';
+import { ModernFlightTracker } from '@/components/ModernFlightTracker';
 import AviationNews from '@/components/AviationNews';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
-import { MaxAI } from '@/components/ai/MaxAI';
-import { SecurityAI } from '@/components/ai/SecurityAI';
+import { ModernMaxAI } from '@/components/ai/ModernMaxAI';
 import { WeekOneScoreboard } from '@/components/WeekOneScoreboard';
 import DemoMarketplace from './DemoMarketplace';
 
@@ -93,8 +93,8 @@ interface Quote {
 export default function BrokerTerminal() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [showHelpGuide, setShowHelpGuide] = useState(false);
-  const [showMaxAI, setShowMaxAI] = useState(true);
-  const [showSecurityAI, setShowSecurityAI] = useState(true);
+  const [showMaxAI, setShowMaxAI] = useState(false);
+  const [showSecurityAI, setShowSecurityAI] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [dashboardMetrics, setDashboardMetrics] = useState({
     activeRFQs: 2,
@@ -186,6 +186,39 @@ export default function BrokerTerminal() {
 
   const renderDashboard = () => (
     <div className="space-y-6">
+      {/* Global Search Bar */}
+      <Brand.Card>
+        <div className="flex items-center gap-4">
+          <div className="flex-1 relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted w-5 h-5" />
+            <input
+              type="text"
+              placeholder="Search routes, operators, aircraft, or ask Max AI..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+              className="w-full pl-10 pr-4 py-3 bg-terminal-card border border-terminal-border rounded-lg text-foreground placeholder-muted focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+            />
+          </div>
+          <div className="flex gap-2">
+            <Button 
+              onClick={handleSearch}
+              className="bg-accent hover:bg-accent/80 text-white"
+            >
+              Search
+            </Button>
+            <Button 
+              variant="outline"
+              onClick={() => setShowMaxAI(true)}
+              className="border-accent text-accent hover:bg-accent hover:text-white"
+            >
+              <Brain className="w-4 h-4 mr-2" />
+              Ask Max AI
+            </Button>
+          </div>
+        </div>
+      </Brand.Card>
+
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Brand.Card>
@@ -242,8 +275,8 @@ export default function BrokerTerminal() {
       {/* AI Insights */}
       <Brand.Card>
         <Brand.SectionTitle>
-          <Zap className="w-5 h-5 inline mr-2" />
-          AI Insights
+          <Brain className="w-5 h-5 inline mr-2" />
+          Market Intelligence
         </Brand.SectionTitle>
         <div className="space-y-4">
           <Brand.Panel className="bg-surface">
@@ -251,51 +284,46 @@ export default function BrokerTerminal() {
               <div className="flex items-center gap-3">
                 <TrendingUp className="h-5 w-5 text-accent" />
                 <div>
-                  <p className="text-sm font-medium text-body">Market Trend</p>
-                  <p className="text-sm text-muted">Charter demand up 15% this month</p>
-        </div>
-      </div>
-              <Badge className="bg-data-positive/20 text-data-positive border-data-positive/30">
-                +15%
+                  <p className="text-sm font-medium text-body">Charter Demand Surge</p>
+                  <p className="text-sm text-muted">European routes showing 23% increase in demand this week</p>
+                </div>
+              </div>
+              <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
+                +23%
               </Badge>
-          </div>
+            </div>
           </Brand.Panel>
           <Brand.Panel className="bg-surface">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Target className="h-5 w-5 text-accent" />
-                    <div>
-                  <p className="text-sm font-medium text-body">Recommendation</p>
-                  <p className="text-sm text-muted">Consider positioning aircraft in Miami</p>
-                    </div>
-                  </div>
+                <div>
+                  <p className="text-sm font-medium text-body">Strategic Opportunity</p>
+                  <p className="text-sm text-muted">London-NYC route pricing 18% below market average</p>
+                </div>
+              </div>
               <Button 
                 variant="outline" 
                 size="sm" 
                 className="border-accent text-accent hover:bg-accent hover:text-white"
-                onClick={() => handleInsightAction('miami-positioning')}
+                onClick={() => setActiveTab('marketplace')}
               >
-                View
+                Explore
               </Button>
             </div>
           </Brand.Panel>
           <Brand.Panel className="bg-surface">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <Star className="h-5 w-5 text-accent" />
-                    <div>
-                  <p className="text-sm font-medium text-body">Opportunity</p>
-                  <p className="text-sm text-muted">3 new job matches found</p>
-                    </div>
-                  </div>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="border-accent text-accent hover:bg-accent hover:text-white"
-                onClick={() => handleInsightAction('job-matches')}
-              >
-                View
-              </Button>
+                <Award className="h-5 w-5 text-accent" />
+                <div>
+                  <p className="text-sm font-medium text-body">Competitive Advantage</p>
+                  <p className="text-sm text-muted">Your response time is 40% faster than industry average</p>
+                </div>
+              </div>
+              <Badge className="bg-accent/20 text-accent border-accent/30">
+                Top 5%
+              </Badge>
             </div>
           </Brand.Panel>
         </div>
@@ -596,10 +624,10 @@ export default function BrokerTerminal() {
           onClose={() => setShowHelpGuide(false)}
         />
       )}
-      <div className="min-h-screen bg-app relative overflow-hidden scroll-smooth">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden scroll-smooth">
         <StarfieldRunwayBackground />
         
-        <header className="relative z-10 sticky top-0 bg-terminal-card/80 backdrop-blur-modern border-b border-terminal-border">
+        <header className="relative z-10 sticky top-0 bg-slate-800/90 backdrop-blur-xl border-b border-slate-700/50 shadow-lg">
         <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <StratusConnectLogo className="text-xl" />
@@ -625,7 +653,7 @@ export default function BrokerTerminal() {
         {/* Main Navigation */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-terminal-border scrollbar-track-transparent pb-2">
-            <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-terminal-card/50 backdrop-blur-sm">
+            <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-slate-800/60 backdrop-blur-sm border border-slate-700/30">
             <TabsTrigger value="dashboard" className="flex items-center gap-2">
               <BarChart3 className="w-4 h-4 icon-glow" />
               Dashboard
@@ -695,33 +723,11 @@ export default function BrokerTerminal() {
           </TabsContent>
 
           <TabsContent value="tracking" className="mt-6">
-            <Card className="terminal-card">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Plane className="w-5 h-5" />
-                  Live Flight Tracking
-                </CardTitle>
-                <CardDescription>
-                  Monitor aircraft activity and track flights in real-time
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <FlightRadar24Widget />
-              </CardContent>
-            </Card>
+            <ModernFlightTracker terminalType="broker" />
           </TabsContent>
 
           <TabsContent value="notes" className="mt-6 scroll-smooth">
-            <div className="space-y-6">
-              <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold text-foreground">Note Taking System</h2>
-                <Button className="btn-terminal-accent">
-                  <Plus className="w-4 h-4 mr-2" />
-                  New Note
-                </Button>
-              </div>
-              <NoteTakingSystem terminalType="broker" />
-            </div>
+            <ModernNotesSystem terminalType="broker" />
           </TabsContent>
         </Tabs>
         </main>
@@ -735,20 +741,25 @@ export default function BrokerTerminal() {
         <ArrowUp className="w-6 h-6 text-white" />
       </Button>
       
+        {/* Floating AI Button */}
+        {!showMaxAI && (
+          <Button
+            onClick={() => setShowMaxAI(true)}
+            className="fixed bottom-6 left-6 z-50 w-14 h-14 bg-accent hover:bg-accent/80 rounded-full shadow-lg flex items-center justify-center transition-all duration-300"
+            title="Open Max AI Assistant"
+          >
+            <Zap className="w-7 h-7 text-white" />
+          </Button>
+        )}
+
         {/* Max AI - Advanced Intelligence System */}
-        <MaxAI 
+        <ModernMaxAI 
           isVisible={showMaxAI} 
           onToggleVisibility={() => setShowMaxAI(!showMaxAI)} 
           userType="broker" 
           isAuthenticated={true} 
         />
         
-        {/* Security AI - Advanced Threat Protection */}
-        <SecurityAI 
-          isVisible={showSecurityAI} 
-          onToggleVisibility={() => setShowSecurityAI(!showSecurityAI)} 
-          userType="broker" 
-        />
       </div>
     </>
   );

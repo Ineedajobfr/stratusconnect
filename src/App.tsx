@@ -122,7 +122,7 @@ const App = memo(() => {
       <ErrorBoundary>
         <QueryClientProvider client={queryClient}>
           <TooltipProvider>
-            <BrowserRouter>
+            <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
               <MemoizedNavigationOptimizer />
               <StatusBanner />
               <AuthProvider>

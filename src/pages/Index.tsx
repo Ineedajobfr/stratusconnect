@@ -56,14 +56,16 @@ export default function Index() {
       title: "Brokers",
       description: "Speed creates advantage. Win more quotes with a cleaner cockpit.",
       route: "/demo/broker",
+      actualRoute: "/terminal/broker",
       icon: BarChart3,
-      color: "from-blue-500 to-cyan-500",
+      color: "from-orange-500 to-orange-400",
       features: ["AI Quote Analysis", "Deal Pipeline", "Client Management"]
     },
     {
       title: "Operators", 
       description: "Fill the legs. Lift the yield. Control the risk.",
       route: "/demo/operator",
+      actualRoute: "/terminal/operator",
       icon: Plane,
       color: "from-emerald-500 to-teal-500",
       features: ["Fleet Management", "Quote Composer", "Operations Dashboard"]
@@ -72,6 +74,7 @@ export default function Index() {
       title: "Pilots",
       description: "Credentials speak. Availability sells. Fly the missions that fit.",
       route: "/demo/pilot",
+      actualRoute: "/terminal/pilot",
       icon: Users,
       color: "from-purple-500 to-violet-500",
       features: ["Flight Deck", "Schedule Management", "Performance Analytics"]
@@ -80,6 +83,7 @@ export default function Index() {
       title: "Cabin Crew",
       description: "Professional service wins repeat work. Your calendar is your shop window.",
       route: "/demo/crew",
+      actualRoute: "/terminal/crew",
       icon: Shield,
       color: "from-orange-500 to-red-500",
       features: ["Availability Calendar", "Certification Tracking", "Job Pipeline"]
@@ -129,7 +133,7 @@ export default function Index() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <StratusConnectLogo />
-              <div className="text-xl font-bold bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent">
+              <div className="text-xl font-bold bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">
                 StratusConnect
               </div>
             </div>
@@ -148,7 +152,7 @@ export default function Index() {
               </Button>
               <Button 
                 onClick={() => setIsLoginOpen(true)}
-                className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white"
+                className="bg-gradient-to-r from-orange-500 to-orange-400 hover:from-orange-600 hover:to-orange-500 text-white"
               >
                 Get Started
               </Button>
@@ -162,21 +166,21 @@ export default function Index() {
         {/* Hero Section */}
         <section className="max-w-7xl mx-auto px-6 py-20 text-center">
           <div className="mb-16">
-            <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-2 mb-8">
-              <Sparkles className="w-4 h-4 text-blue-400" />
-              <span className="text-blue-400 font-medium">New: AI is getting an upgrade</span>
+            <div className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/20 rounded-full px-4 py-2 mb-8">
+              <Sparkles className="w-4 h-4 text-orange-400" />
+              <span className="text-orange-400 font-medium">New: AI is getting an upgrade</span>
             </div>
             
             <h1 className="text-6xl md:text-7xl font-bold mb-8">
               Save 4 hours per person
               <br />
-              <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-400 to-orange-300 bg-clip-text text-transparent">
                 every single week
               </span>
             </h1>
             
             <p className="text-xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed">
-              <span className="bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent font-bold">
+              <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent font-bold">
                 StratusConnect
               </span> is the most productive aviation platform ever made. 
               Collaborate faster and get more done with AI-native aviation management.
@@ -185,7 +189,7 @@ export default function Index() {
             <div className="flex items-center justify-center gap-8 mb-12">
               <Button 
                 size="lg"
-                className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-medium px-8 py-4 text-lg"
+                className="bg-gradient-to-r from-orange-500 to-orange-400 hover:from-orange-600 hover:to-orange-500 text-white font-medium px-8 py-4 text-lg"
                 onClick={() => navigate('/demo/broker')}
               >
                 Get Started
@@ -201,9 +205,9 @@ export default function Index() {
             </div>
 
             <div className="text-center">
-              <div className="text-4xl font-bold text-blue-400 mb-2">15 M</div>
+              <div className="text-4xl font-bold text-orange-400 mb-2">15 M</div>
               <p className="text-gray-400 text-lg">
-                <span className="bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent font-bold">
+                <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent font-bold">
                   StratusConnect
                 </span> saves teams over 15 million hours every single year.
               </p>
@@ -226,28 +230,48 @@ export default function Index() {
             {clientTypes.map((client, index) => {
               const Icon = client.icon;
               return (
-                <div 
-                  key={index}
-                  className="group cursor-pointer"
-                  onClick={() => navigate(client.route)}
-                >
-                  <div className={`relative p-8 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all duration-300 hover:scale-105`}>
-                    <div className={`w-16 h-16 mb-6 rounded-xl bg-gradient-to-r ${client.color} flex items-center justify-center`}>
-                      <Icon className="w-8 h-8 text-white" />
+                <div key={index} className="space-y-4">
+                  {/* Demo Terminal */}
+                  <div 
+                    className="group cursor-pointer"
+                    onClick={() => navigate(client.route)}
+                  >
+                    <div className={`relative p-8 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all duration-300 hover:scale-105`}>
+                      <div className={`w-16 h-16 mb-6 rounded-xl bg-gradient-to-r ${client.color} flex items-center justify-center`}>
+                        <Icon className="w-8 h-8 text-white" />
+                      </div>
+                      <h3 className="text-2xl font-bold mb-4">{client.title} Demo</h3>
+                      <p className="text-gray-300 mb-6 leading-relaxed">{client.description}</p>
+                      <div className="space-y-2">
+                        {client.features.map((feature, featureIndex) => (
+                          <div key={featureIndex} className="flex items-center gap-2 text-sm text-gray-400">
+                            <CheckCircle className="w-4 h-4 text-green-400" />
+                            {feature}
+                          </div>
+                        ))}
+                      </div>
+                      <div className="mt-6 flex items-center text-orange-400 group-hover:text-orange-300 transition-colors">
+                        Try Demo
+                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                      </div>
                     </div>
-                    <h3 className="text-2xl font-bold mb-4">{client.title}</h3>
-                    <p className="text-gray-300 mb-6 leading-relaxed">{client.description}</p>
-                    <div className="space-y-2">
-                      {client.features.map((feature, featureIndex) => (
-                        <div key={featureIndex} className="flex items-center gap-2 text-sm text-gray-400">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
-                          {feature}
-                        </div>
-                      ))}
-                    </div>
-                    <div className="mt-6 flex items-center text-blue-400 group-hover:text-blue-300 transition-colors">
-                      Launch Terminal
-                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </div>
+
+                  {/* Actual Terminal */}
+                  <div 
+                    className="group cursor-pointer"
+                    onClick={() => navigate(client.actualRoute)}
+                  >
+                    <div className={`relative p-6 rounded-2xl border border-orange-500/20 bg-orange-500/5 hover:bg-orange-500/10 transition-all duration-300 hover:scale-105`}>
+                      <div className={`w-12 h-12 mb-4 rounded-xl bg-gradient-to-r ${client.color} flex items-center justify-center`}>
+                        <Icon className="w-6 h-6 text-white" />
+                      </div>
+                      <h3 className="text-lg font-bold mb-2">{client.title} Terminal</h3>
+                      <p className="text-gray-300 text-sm mb-4">Full access to your professional dashboard</p>
+                      <div className="flex items-center text-orange-400 group-hover:text-orange-300 transition-colors text-sm">
+                        Launch Terminal
+                        <ArrowRight className="w-3 h-3 ml-2 group-hover:translate-x-1 transition-transform" />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -735,11 +759,11 @@ export default function Index() {
           </h2>
           <p className="text-xl text-gray-300 mb-12 max-w-3xl mx-auto">
             Join thousands of aviation professionals who are already using 
-            <span className="bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent font-bold"> StratusConnect</span> to transform their operations.
+            <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent font-bold"> StratusConnect</span> to transform their operations.
           </p>
           <Button 
             size="lg"
-            className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-medium px-12 py-6 text-xl"
+            className="bg-gradient-to-r from-orange-500 to-orange-400 hover:from-orange-600 hover:to-orange-500 text-white font-medium px-12 py-6 text-xl"
             onClick={() => navigate('/demo/broker')}
           >
             Get Started Now

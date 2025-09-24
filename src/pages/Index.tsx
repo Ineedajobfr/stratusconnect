@@ -39,7 +39,6 @@ import {
 } from "lucide-react";
 
 export default function Index() {
-  console.log("🚀 Index component loaded - Modern Superhuman design!");
   const navigate = useNavigate();
   const { user } = useAuth();
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -51,14 +50,6 @@ export default function Index() {
       navigate("/home");
     }
   }, [user, navigate]);
-
-  const handleAccessTerminal = (roleId: string) => {
-    navigate(`/login/${roleId}`);
-  };
-
-  const handleDemoAccess = (demoRoute: string) => {
-    navigate(demoRoute);
-  };
 
   const clientTypes = [
     {
@@ -183,11 +174,6 @@ export default function Index() {
                 every single week
               </span>
             </h1>
-            <div className="text-center mb-4">
-              <span className="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-bold">
-                ✅ MODERN DESIGN LOADED
-              </span>
-            </div>
             
             <p className="text-xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed">
               <span className="bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent font-bold">
@@ -270,212 +256,477 @@ export default function Index() {
           </div>
         </section>
 
-        {/* Features Section */}
+        {/* Why We're Different */}
         <section className="max-w-7xl mx-auto px-6 py-20">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-8">
-              Why Choose <span className="bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent">StratusConnect</span>?
+              Why We're Different
             </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              The features that set us apart from the competition
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-            {features.map((feature, index) => {
-              const Icon = feature.icon;
-              return (
-                <div key={index} className="text-center">
-                  <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-2xl flex items-center justify-center">
-                    <Icon className="w-8 h-8 text-blue-400" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Card className="group terminal-card hover:terminal-glow cursor-pointer transition-all duration-300">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <Shield className="w-12 h-12 text-accent" />
+                    <div>
+                      <CardTitle>AI That Actually Works</CardTitle>
+                    </div>
                   </div>
-                  <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>
-                  <p className="text-gray-300 leading-relaxed">{feature.description}</p>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Info className="w-4 h-4" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="bg-terminal-card border-terminal-border">
+                      <DialogHeader>
+                        <DialogTitle className="text-accent">AI That Actually Works</DialogTitle>
+                        <DialogDescription>
+                          Real AI that finds you better deals, predicts demand, and automates the boring stuff
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <p className="text-muted-foreground">
+                          Our technology is designed to empower, not overwhelm:
+                        </p>
+                        <ul className="space-y-2 text-sm text-muted-foreground">
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Predictive analytics that actually predict</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Smart matching that finds the right people</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Automation that saves you hours daily</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Real-time data that makes you money</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </div>
-              );
-            })}
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  Real AI that finds you better deals, predicts demand, and automates the boring stuff. 
+                  Our technology is designed to empower, not overwhelm.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="group terminal-card hover:terminal-glow cursor-pointer transition-all duration-300">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <Lock className="w-12 h-12 text-accent" />
+                    <div>
+                      <CardTitle>We Only Win When You Win</CardTitle>
+                    </div>
+                  </div>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Info className="w-4 h-4" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="bg-terminal-card border-terminal-border">
+                      <DialogHeader>
+                        <DialogTitle className="text-accent">We Only Win When You Win</DialogTitle>
+                        <DialogDescription>
+                          No monthly fees. No hidden costs. We only make money when you close deals. Your success is literally our business model.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <p className="text-muted-foreground">
+                          Unlike other platforms that charge you regardless of results:
+                        </p>
+                        <ul className="space-y-2 text-sm text-muted-foreground">
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>7% only when you close deals (brokers/operators)</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>10% hiring fee only when you get hired (crew/pilots)</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Free access for pilots and crew</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>No monthly subscriptions, ever</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  No monthly fees. No hidden costs. We only make money when you close deals. 
+                  Your success is literally our business model.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="group terminal-card hover:terminal-glow cursor-pointer transition-all duration-300">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <CheckCircle className="w-12 h-12 text-accent" />
+                    <div>
+                      <CardTitle>Transparency & Trust</CardTitle>
+                    </div>
+                  </div>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Info className="w-4 h-4" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="bg-terminal-card border-terminal-border">
+                      <DialogHeader>
+                        <DialogTitle className="text-accent">Transparency & Trust</DialogTitle>
+                        <DialogDescription>
+                          We show you exactly what we do, how we do it, and what it costs. No hidden fees, no surprises.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <p className="text-muted-foreground">
+                          We believe in complete transparency:
+                        </p>
+                        <ul className="space-y-2 text-sm text-muted-foreground">
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Real-time deal tracking and reporting</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Upfront pricing with no hidden fees</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Honest performance metrics and analytics</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Direct access to support when you need it</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  We show you exactly what we do, how we do it, and what it costs. 
+                  No hidden fees, no surprises. Just results.
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </section>
 
-        {/* Security & Trust Features */}
-        <div className="relative z-10 py-24">
-          <div className="max-w-6xl mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold text-foreground mb-4">Why We're Different</h2>
-              <p className="text-xl text-muted-foreground">The features that set us apart from the competition</p>
+        {/* Secure Escrow System */}
+        <section className="max-w-7xl mx-auto px-6 py-20">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-8">
+              Secure Escrow System
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Your funds are protected at every step
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h3 className="text-2xl font-bold text-foreground mb-6">How It Works</h3>
+              <div className="space-y-6">
+                <div className="flex items-start space-x-4">
+                  <div className="bg-accent/20 rounded-full p-2 mt-1">
+                    <span className="text-accent font-bold text-sm">1</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-foreground">Funds Secured</h4>
+                    <p className="text-muted-foreground">Payment held in secure escrow until flight completion</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4">
+                  <div className="bg-accent/20 rounded-full p-2 mt-1">
+                    <span className="text-accent font-bold text-sm">2</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-foreground">Service Delivered</h4>
+                    <p className="text-muted-foreground">Flight completed and verified by all parties</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4">
+                  <div className="bg-accent/20 rounded-full p-2 mt-1">
+                    <span className="text-accent font-bold text-sm">3</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-foreground">Automatic Release</h4>
+                    <p className="text-muted-foreground">Funds automatically released to service providers</p>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <Shield className="w-12 h-12 text-accent" />
-                      <div>
-                        <CardTitle>AI That Actually Works</CardTitle>
-                      </div>
+            <Card className="terminal-card">
+              <CardHeader>
+                <DollarSign className="w-12 h-12 text-accent mb-4" />
+                <CardTitle>Payment Protection</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-white" />
+                  <span className="text-muted-foreground">FDIC-insured escrow accounts</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-white" />
+                  <span className="text-muted-foreground">Real-time transaction monitoring</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-white" />
+                  <span className="text-muted-foreground">Dispute resolution system</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-white" />
+                  <span className="text-muted-foreground">24/7 fraud protection</span>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* Transparent Pricing */}
+        <section className="max-w-7xl mx-auto px-6 py-20">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-8">
+              Transparent Pricing
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Fair fees that grow with your success
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 bg-accent/20 rounded-lg">
+                      <Percent className="w-6 h-6 text-accent" />
                     </div>
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
-                          <Info className="w-4 h-4" />
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="bg-terminal-card border-terminal-border">
-                        <DialogHeader>
-                          <DialogTitle className="text-accent">AI That Actually Works</DialogTitle>
-                          <DialogDescription>
-                            Real AI that finds you better deals, predicts demand, and automates the boring stuff
-                          </DialogDescription>
-                        </DialogHeader>
-                        <div className="space-y-4">
-                          <p className="text-muted-foreground">
-                            Our technology is designed to empower, not overwhelm:
-                          </p>
-                          <ul className="space-y-2 text-sm text-muted-foreground">
-                            <li className="flex items-center space-x-2">
-                              <CheckCircle className="w-4 h-4 text-accent" />
-                              <span>Predictive analytics that actually predict</span>
-                            </li>
-                            <li className="flex items-center space-x-2">
-                              <CheckCircle className="w-4 h-4 text-accent" />
-                              <span>Smart matching that finds the right people</span>
-                            </li>
-                            <li className="flex items-center space-x-2">
-                              <CheckCircle className="w-4 h-4 text-accent" />
-                              <span>Automation that saves you hours daily</span>
-                            </li>
-                            <li className="flex items-center space-x-2">
-                              <CheckCircle className="w-4 h-4 text-accent" />
-                              <span>Real-time data that makes you money</span>
-                            </li>
-                          </ul>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
+                    <div>
+                      <CardTitle className="text-xl text-foreground">Broker & Operator Sales</CardTitle>
+                      <CardDescription className="text-muted-foreground">Transaction fees</CardDescription>
+                    </div>
                   </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">
-                    Real AI that finds you better deals, predicts demand, and automates the boring stuff. 
-                    Our technology is designed to empower, not overwhelm.
-                  </p>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-accent mb-2">7%</div>
+                <p className="text-muted-foreground text-sm">
+                  Only charged on successful transactions. No monthly fees or hidden costs.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 bg-accent/20 rounded-lg">
+                      <Users className="w-6 h-6 text-accent" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-xl">Crew & Pilot Hiring</CardTitle>
+                      <CardDescription>Recruitment fees</CardDescription>
+                    </div>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-accent mb-2">10%</div>
+                <p className="text-muted-foreground text-sm">
+                  One-time fee per successful crew/pilot placement for specific flights.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 bg-accent/20 rounded-lg">
+                      <UserCheck className="w-6 h-6 text-accent" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-xl">Crew & Pilots</CardTitle>
+                      <CardDescription>Always free</CardDescription>
+                    </div>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-accent mb-2">FREE</div>
+                <p className="text-muted-foreground text-sm">
+                  No fees, no subscriptions, no hidden costs. We care for our customers.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* Privacy Protection */}
+        <section className="py-16 bg-terminal-card/20">
+          <div className="max-w-6xl mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-foreground mb-4">Privacy by Design</h2>
+              <p className="text-xl text-muted-foreground">Your data is never shared without explicit consent</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Card className="terminal-card text-center">
+                <CardContent className="pt-6">
+                  <Globe className="w-10 h-10 text-accent mx-auto mb-4" />
+                  <h3 className="font-semibold text-foreground mb-2">GDPR Compliant</h3>
+                  <p className="text-sm text-muted-foreground">Full compliance with global privacy regulations</p>
                 </CardContent>
               </Card>
 
-              <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <Lock className="w-12 h-12 text-accent" />
-                      <div>
-                        <CardTitle>We Only Win When You Win</CardTitle>
-                      </div>
-                    </div>
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
-                          <Info className="w-4 h-4" />
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="bg-terminal-card border-terminal-border">
-                        <DialogHeader>
-                          <DialogTitle className="text-accent">We Only Win When You Win</DialogTitle>
-                          <DialogDescription>
-                            No monthly fees. No hidden costs. We only make money when you close deals. Your success is literally our business model.
-                          </DialogDescription>
-                        </DialogHeader>
-                        <div className="space-y-4">
-                          <p className="text-muted-foreground">
-                            Unlike other platforms that charge you regardless of results:
-                          </p>
-                          <ul className="space-y-2 text-sm text-muted-foreground">
-                            <li className="flex items-center space-x-2">
-                              <CheckCircle className="w-4 h-4 text-accent" />
-                              <span>7% only when you close deals (brokers/operators)</span>
-                            </li>
-                            <li className="flex items-center space-x-2">
-                              <CheckCircle className="w-4 h-4 text-accent" />
-                              <span>10% hiring fee only when you get hired (crew/pilots)</span>
-                            </li>
-                            <li className="flex items-center space-x-2">
-                              <CheckCircle className="w-4 h-4 text-accent" />
-                              <span>Free access for pilots and crew</span>
-                            </li>
-                            <li className="flex items-center space-x-2">
-                              <CheckCircle className="w-4 h-4 text-accent" />
-                              <span>No monthly subscriptions, ever</span>
-                            </li>
-                          </ul>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">
-                    No monthly fees. No hidden costs. We only make money when you close deals. 
-                    Your success is literally our business model.
-                  </p>
+              <Card className="terminal-card text-center">
+                <CardContent className="pt-6">
+                  <Shield className="w-10 h-10 text-accent mx-auto mb-4" />
+                  <h3 className="font-semibold text-foreground mb-2">Data Anonymization</h3>
+                  <p className="text-sm text-muted-foreground">Personal data encrypted and anonymized</p>
                 </CardContent>
               </Card>
 
-              <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <CheckCircle className="w-12 h-12 text-accent" />
-                      <div>
-                        <CardTitle>Transparency & Trust</CardTitle>
-                      </div>
-                    </div>
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
-                          <Info className="w-4 h-4" />
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="bg-terminal-card border-terminal-border">
-                        <DialogHeader>
-                          <DialogTitle className="text-accent">Transparency & Trust</DialogTitle>
-                          <DialogDescription>
-                            We show you exactly what we do, how we do it, and what it costs. No hidden fees, no surprises.
-                          </DialogDescription>
-                        </DialogHeader>
-                        <div className="space-y-4">
-                          <p className="text-muted-foreground">
-                            We believe in complete transparency:
-                          </p>
-                          <ul className="space-y-2 text-sm text-muted-foreground">
-                            <li className="flex items-center space-x-2">
-                              <CheckCircle className="w-4 h-4 text-accent" />
-                              <span>Real-time deal tracking and reporting</span>
-                            </li>
-                            <li className="flex items-center space-x-2">
-                              <CheckCircle className="w-4 h-4 text-accent" />
-                              <span>Upfront pricing with no hidden fees</span>
-                            </li>
-                            <li className="flex items-center space-x-2">
-                              <CheckCircle className="w-4 h-4 text-accent" />
-                              <span>Honest performance metrics and analytics</span>
-                            </li>
-                            <li className="flex items-center space-x-2">
-                              <CheckCircle className="w-4 h-4 text-accent" />
-                              <span>Direct access to support when you need it</span>
-                            </li>
-                          </ul>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">
-                    We show you exactly what we do, how we do it, and what it costs. 
-                    No hidden fees, no surprises. Just results.
-                  </p>
+              <Card className="terminal-card text-center">
+                <CardContent className="pt-6">
+                  <Lock className="w-10 h-10 text-accent mx-auto mb-4" />
+                  <h3 className="font-semibold text-foreground mb-2">Selective Disclosure</h3>
+                  <p className="text-sm text-muted-foreground">You control what information is visible</p>
+                </CardContent>
+              </Card>
+
+              <Card className="terminal-card text-center">
+                <CardContent className="pt-6">
+                  <Clock className="w-10 h-10 text-accent mx-auto mb-4" />
+                  <h3 className="font-semibold text-foreground mb-2">Data Retention</h3>
+                  <p className="text-sm text-muted-foreground">Automatic deletion of expired data</p>
                 </CardContent>
               </Card>
             </div>
           </div>
-        </div>
+        </section>
+
+        {/* How to Use StratusConnect */}
+        <section className="max-w-6xl mx-auto px-4 py-24">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-foreground mb-4">Stop Guessing, Start Winning</h2>
+            <p className="text-xl text-muted-foreground">Complete guides, AI assistance, and everything you need to succeed</p>
+          </div>
+
+          <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 bg-accent/20 rounded-xl">
+                    <BookOpen className="w-12 h-12 text-accent" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-2xl text-foreground">Master the Platform in Minutes</CardTitle>
+                    <CardDescription className="text-muted-foreground">
+                      Get step-by-step guides, AI assistance, and terminal-specific tutorials 
+                      that get you up and running fast.
+                    </CardDescription>
+                  </div>
+                </div>
+                <Button 
+                  onClick={() => navigate('/how-to-use')} 
+                  className="btn-terminal-accent button-glow"
+                >
+                  <BookOpen className="w-4 h-4 mr-2" />
+                  View Complete Guide
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <Building2 className="w-8 h-8 text-accent" />
+                  </div>
+                  <h3 className="font-semibold text-foreground mb-2">Terminal Guides</h3>
+                  <p className="text-sm text-muted-foreground">Step-by-step instructions for each terminal type</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <Zap className="w-8 h-8 text-accent" />
+                  </div>
+                  <h3 className="font-semibold text-foreground mb-2">AI Features</h3>
+                  <p className="text-sm text-muted-foreground">Master AI-powered tools and automation</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <Play className="w-8 h-8 text-accent" />
+                  </div>
+                  <h3 className="font-semibold text-foreground mb-2">Quick Start</h3>
+                  <p className="text-sm text-muted-foreground">Get up and running in minutes</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <Download className="w-8 h-8 text-accent" />
+                  </div>
+                  <h3 className="font-semibold text-foreground mb-2">Resources</h3>
+                  <p className="text-sm text-muted-foreground">Download guides and access support</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Performance & Reliability */}
+        <section className="py-16">
+          <div className="max-w-6xl mx-auto px-4 text-center">
+            <h2 className="text-4xl font-bold text-foreground mb-12">Enterprise Performance</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div>
+                <div className="text-5xl font-bold text-accent mb-4">99.99%</div>
+                <h3 className="text-xl font-semibold text-foreground mb-2">Uptime SLA</h3>
+                <p className="text-muted-foreground">Mission-critical reliability with redundant infrastructure</p>
+              </div>
+              <div>
+                <div className="text-5xl font-bold text-accent mb-4">&lt;50ms</div>
+                <h3 className="text-xl font-semibold text-foreground mb-2">Response Time</h3>
+                <p className="text-muted-foreground">Lightning-fast performance optimized for real-time operations</p>
+              </div>
+              <div>
+                <div className="text-5xl font-bold text-accent mb-4">24/7</div>
+                <h3 className="text-xl font-semibold text-foreground mb-2">Support</h3>
+                <p className="text-muted-foreground">Dedicated support team available around the clock</p>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* CTA Section */}
         <section className="max-w-7xl mx-auto px-6 py-20 text-center">
@@ -497,48 +748,115 @@ export default function Index() {
       </main>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t border-white/10 bg-white/5 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-6 py-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <StratusConnectLogo />
-                <div className="text-lg font-bold bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent">
-                  StratusConnect
+      <footer className="relative z-10 bg-gray-900 text-white">
+        <div className="max-w-7xl mx-auto px-6 py-16">
+          {/* Main Footer Content */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+            {/* Company Info */}
+            <div className="space-y-6">
+              <h3 className="text-xl font-bold text-white">StratusConnect</h3>
+              <p className="text-gray-300 text-sm leading-relaxed">
+                The platform that's already processing millions in deals.
+              </p>
+              <div className="flex space-x-4">
+                <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white p-2">
+                  <Globe className="w-5 h-5" />
+                </Button>
+                <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white p-2">
+                  <MessageSquare className="w-5 h-5" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Legal */}
+            <div className="space-y-6">
+              <h3 className="text-lg font-bold text-white">Legal</h3>
+              <div className="space-y-4">
+                <div>
+                  <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/terms-of-service')}>
+                    Terms of Service
+                  </Button>
+                </div>
+                <div>
+                  <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/privacy-policy')}>
+                    Privacy Policy
+                  </Button>
+                </div>
+                <div>
+                  <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/cookie-policy')}>
+                    Cookie Policy
+                  </Button>
+                </div>
+                <div>
+                  <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/user-agreement')}>
+                    User Agreement
+                  </Button>
                 </div>
               </div>
-              <p className="text-gray-400 text-sm">The Most Productive Aviation Platform Ever Made</p>
             </div>
-            <div>
-              <h4 className="font-semibold mb-4">Product</h4>
-              <div className="space-y-2 text-sm text-gray-400">
-                <div>AI</div>
-                <div>Calendar</div>
-                <div>Enterprise</div>
-                <div>Sales</div>
-                <div>Agencies</div>
+
+            {/* Support */}
+            <div className="space-y-6">
+              <h3 className="text-lg font-bold text-white">Support</h3>
+              <div className="space-y-4">
+                <div>
+                  <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal">
+                    Help Center
+                  </Button>
+                </div>
+                <div>
+                  <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal">
+                    Contact Us
+                  </Button>
+                </div>
+                <div>
+                  <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal">
+                    Status Page
+                  </Button>
+                </div>
+                <div>
+                  <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal">
+                    API Documentation
+                  </Button>
+                </div>
               </div>
             </div>
-            <div>
-              <h4 className="font-semibold mb-4">Company</h4>
-              <div className="space-y-2 text-sm text-gray-400">
-                <div>Blog</div>
-                <div>Careers</div>
-                <div>Support</div>
-                <div>Contact Us</div>
-              </div>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Legal</h4>
-              <div className="space-y-2 text-sm text-gray-400">
-                <div>Privacy</div>
-                <div>Terms</div>
-                <div>AUP</div>
+
+            {/* Security */}
+            <div className="space-y-6">
+              <h3 className="text-lg font-bold text-white">Security</h3>
+              <div className="space-y-3">
+                <div className="flex items-center text-sm text-gray-300">
+                  <Shield className="w-4 h-4 text-green-400 mr-3" />
+                  SOC 2 Compliant
+                </div>
+                <div className="flex items-center text-sm text-gray-300">
+                  <Lock className="w-4 h-4 text-green-400 mr-3" />
+                  End-to-End Encryption
+                </div>
+                <div className="flex items-center text-sm text-gray-300">
+                  <CheckCircle className="w-4 h-4 text-green-400 mr-3" />
+                  Zero-Trust Architecture
+                </div>
               </div>
             </div>
           </div>
-          <div className="border-t border-white/10 mt-12 pt-8 text-center text-gray-400 text-sm">
-            <p>&copy; 2024 StratusConnect. All rights reserved.</p>
+
+          {/* Separator Line */}
+          <div className="border-t border-gray-700 mb-8"></div>
+
+          {/* Bottom Section */}
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <p className="text-sm text-gray-400">
+              © September 2025 StratusConnect. All rights reserved. Built for the aviation industry.
+            </p>
+            <div className="flex items-center space-x-6 text-sm text-gray-400">
+              <span>FCA Compliant</span>
+              <span>•</span>
+              <span>GDPR Ready</span>
+              <span>•</span>
+              <span>ISO 27001</span>
+            </div>
           </div>
         </div>
       </footer>

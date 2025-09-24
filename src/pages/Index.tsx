@@ -39,6 +39,7 @@ import {
 } from "lucide-react";
 
 export default function Index() {
+  console.log("🚀 Index component loaded - Modern Superhuman design!");
   const navigate = useNavigate();
   const { user } = useAuth();
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -182,6 +183,11 @@ export default function Index() {
                 every single week
               </span>
             </h1>
+            <div className="text-center mb-4">
+              <span className="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-bold">
+                ✅ MODERN DESIGN LOADED
+              </span>
+            </div>
             
             <p className="text-xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed">
               <span className="bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent font-bold">

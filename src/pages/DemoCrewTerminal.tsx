@@ -8,6 +8,13 @@ import { Badge } from '@/components/ui/badge';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import BrokerBackdrop from '@/components/BrokerBackdrop';
+import { ModernHelpGuide } from '@/components/ModernHelpGuide';
+import { ChatGPTHelper } from '@/components/ai/ChatGPTHelper';
+import { RealTimeChat } from '@/components/chat/RealTimeChat';
+import MarketIntelligence from '@/components/MarketIntelligence';
+import { WorkflowAutomation } from '@/components/automation/WorkflowAutomation';
+import AdvancedAnalytics from '@/components/AdvancedAnalytics';
+import { ClientPortal } from '@/components/portal/ClientPortal';
 import { 
   Plane,
   Clock,
@@ -19,12 +26,16 @@ import {
   Heart,
   Brain,
   MessageSquare,
-  Trophy
+  Trophy,
+  Users
 } from 'lucide-react';
 
 export default function DemoCrewTerminal() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [highlightedSection, setHighlightedSection] = useState<string | null>(null);
+  const [showHelpGuide, setShowHelpGuide] = useState(false);
+  const [showAIAssistant, setShowAIAssistant] = useState(false);
+  const [showChat, setShowChat] = useState(false);
 
   // Demo data for crew
   const demoMetrics = {
@@ -38,10 +49,49 @@ export default function DemoCrewTerminal() {
     totalPassengers: 1240
   };
 
+  // Demo certifications data
+  const demoCertifications = [
+    { id: 1, name: 'Cabin Safety Training', status: 'valid', expiry: '2024-12-15' },
+    { id: 2, name: 'Emergency Procedures', status: 'expiring', expiry: '2024-02-28' },
+    { id: 3, name: 'First Aid Certification', status: 'valid', expiry: '2024-08-20' },
+    { id: 4, name: 'Security Awareness', status: 'valid', expiry: '2024-11-10' }
+  ];
+
   const handleSectionClick = (section: string) => {
     setHighlightedSection(section);
     setTimeout(() => setHighlightedSection(null), 2000);
   };
+
+  const renderFlights = () => (
+    <div className="space-y-6">
+      <div className="text-center py-12">
+        <h2 className="text-2xl font-bold text-bright mb-4">Flight Assignments</h2>
+        <p className="text-text/70">Flight assignment features coming soon...</p>
+      </div>
+    </div>
+  );
+
+  const renderCertifications = () => (
+    <div className="space-y-6">
+      <div className="grid gap-4">
+        {demoCertifications.slice(0, 2).map((cert) => (
+          <div key={cert.id} className="flex items-center justify-between p-2 bg-surface-2 rounded">
+            <div>
+              <p className="text-sm font-medium text-bright">{cert.name}</p>
+              <p className="text-xs text-text/60">Expires: {cert.expiry}</p>
+            </div>
+            <Badge className={`${
+              cert.status === 'valid' ? 'bg-green-500/20 text-green-400' :
+              cert.status === 'expiring' ? 'bg-yellow-500/20 text-yellow-400' :
+              'bg-red-500/20 text-red-400'
+            } border-transparent text-xs`}>
+              {cert.status}
+            </Badge>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 
   const renderDashboard = () => (
     <div className="space-y-6">
@@ -196,7 +246,8 @@ export default function DemoCrewTerminal() {
                 <MessageSquare className="h-4 w-4 mr-2" />
                 Chat
               </Button>
-              <Button
+                <Button
+                onClick={() => setShowHelpGuide(true)}
                 className="bg-brand hover:bg-brand-600 text-text shadow-glow rounded-xl px-6 py-2 font-medium transition-all duration-200"
                 title="Help Guide (Ctrl+H)"
                 >
@@ -237,6 +288,22 @@ export default function DemoCrewTerminal() {
               Certifications
                 </TabsTrigger>
             <TabsTrigger
+              value="market-intelligence"
+              className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'market-intelligence' || activeTab === 'market-intelligence' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
+              onClick={() => handleSectionClick('market-intelligence')}
+            >
+              <Target className="w-4 h-4" />
+              Market Intelligence
+            </TabsTrigger>
+            <TabsTrigger
+              value="automation"
+              className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'automation' || activeTab === 'automation' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
+              onClick={() => handleSectionClick('automation')}
+            >
+              <Brain className="w-4 h-4" />
+              Automation
+            </TabsTrigger>
+            <TabsTrigger
               value="analytics"
               className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'analytics' || activeTab === 'analytics' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
               onClick={() => handleSectionClick('analytics')}
@@ -244,31 +311,80 @@ export default function DemoCrewTerminal() {
               <BarChart3 className="w-4 h-4" />
               Analytics
             </TabsTrigger>
+            <TabsTrigger
+              value="clients"
+              className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'clients' || activeTab === 'clients' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
+              onClick={() => handleSectionClick('clients')}
+            >
+              <Users className="w-4 h-4" />
+              Clients
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="dashboard" className="mt-6 scroll-smooth">
               {renderDashboard()}
             </TabsContent>
           <TabsContent value="flights" className="mt-6 scroll-smooth">
-            <div className="text-center py-12">
-              <h2 className="text-2xl font-bold text-bright mb-4">Flight Assignments</h2>
-              <p className="text-text/70">Flight assignment features coming soon...</p>
-            </div>
+            {renderFlights()}
           </TabsContent>
           <TabsContent value="certifications" className="mt-6 scroll-smooth">
-            <div className="text-center py-12">
-              <h2 className="text-2xl font-bold text-bright mb-4">Certifications & Training</h2>
-              <p className="text-text/70">Certification management features coming soon...</p>
-            </div>
+            {renderCertifications()}
+          </TabsContent>
+          <TabsContent value="market-intelligence" className="mt-6 scroll-smooth">
+            <MarketIntelligence />
+          </TabsContent>
+          <TabsContent value="automation" className="mt-6 scroll-smooth">
+            <WorkflowAutomation />
           </TabsContent>
           <TabsContent value="analytics" className="mt-6 scroll-smooth">
-            <div className="text-center py-12">
-              <h2 className="text-2xl font-bold text-bright mb-4">Analytics Dashboard</h2>
-              <p className="text-text/70">Analytics features coming soon...</p>
-            </div>
+            <AdvancedAnalytics />
+          </TabsContent>
+          <TabsContent value="clients" className="mt-6 scroll-smooth">
+            <ClientPortal />
           </TabsContent>
         </Tabs>
       </main>
+
+      {/* Help Guide Modal */}
+      {showHelpGuide && (
+        <ModernHelpGuide
+          terminalType="crew"
+          activeTab={activeTab}
+          onClose={() => setShowHelpGuide(false)}
+          showOnMount={false}
+          isDemo={true}
+        />
+      )}
+
+      {/* AI Assistant */}
+      {showAIAssistant && (
+        <div className="fixed left-4 top-1/2 transform -translate-y-1/2 z-50 w-96 max-h-[80vh]">
+          <ChatGPTHelper
+            isOpen={showAIAssistant}
+            onClose={() => setShowAIAssistant(false)}
+            context={{
+              activeTab,
+              userRole: 'crew',
+              recentActivity: []
+            }}
+          />
+        </div>
+      )}
+
+      {/* Real-time Chat */}
+      {showChat && (
+        <div className="fixed right-4 top-1/2 transform -translate-y-1/2 z-50 w-96 max-h-[80vh]">
+          <RealTimeChat
+            chatId="demo_crew_chat_001"
+            participants={[
+              { id: 'crew_001', name: 'You', role: 'team', isOnline: true },
+              { id: 'pilot_001', name: 'Captain Smith', role: 'team', isOnline: true },
+              { id: 'op_001', name: 'Elite Aviation', role: 'operator', isOnline: true }
+            ]}
+            onClose={() => setShowChat(false)}
+          />
+        </div>
+      )}
       </div>
     </BrokerBackdrop>
   );

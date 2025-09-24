@@ -23,7 +23,6 @@ const Index = lazy(() => import("./pages/Index"));
 const Enter = lazy(() => import("./pages/Enter"));
 const HomePage = lazy(() => import("./pages/HomePage"));
 const HowToUse = lazy(() => import("./pages/HowToUse"));
-const AIChatbot = lazy(() => import("./pages/AIChatbot"));
 const BrokerTerminal = lazy(() => import("./pages/BrokerTerminal"));
 const OperatorTerminal = lazy(() => import("./pages/OperatorTerminal"));
 const PilotTerminal = lazy(() => import("./pages/PilotTerminal"));
@@ -78,7 +77,6 @@ const DemoOperatorTerminal = lazy(() => import("./pages/DemoOperatorTerminal"));
 const DemoPilotTerminal = lazy(() => import("./pages/DemoPilotTerminal"));
 const DemoCrewTerminal = lazy(() => import("./pages/DemoCrewTerminal"));
 const DemoMarketplace = lazy(() => import("./pages/DemoMarketplace"));
-const MaxConsole = lazy(() => import("./pages/admin/MaxConsole"));
 
 // Help pages
 const HelpBroker = lazy(() => import("./pages/HelpBroker"));
@@ -136,7 +134,6 @@ const App = memo(() => {
               <Route path="/auth" element={<Auth />} />
               <Route path="/demo" element={<Demo />} />
               <Route path="/how-to-use" element={<HowToUse />} />
-              <Route path="/ai-chatbot" element={<AIChatbot />} />
               <Route path="/about" element={<About />} />
               <Route path="/fees" element={<Fees />} />
               <Route path="/payments" element={<Payments />} />
@@ -236,14 +233,6 @@ const App = memo(() => {
                   </ProtectedRoute>
                 } 
               />
-              <Route 
-                path="/admin/max" 
-                element={
-                  <ProtectedRoute allowedRoles={['admin']}>
-                    <MaxConsole />
-                  </ProtectedRoute>
-                } 
-              />
         
               
               {/* Profile routes */}
@@ -264,13 +253,17 @@ const App = memo(() => {
               {/* Protected terminal routes */}
               <Route 
                 path="/terminal/broker" 
-                element={<BrokerTerminal />} 
+                element={
+                  <ProtectedRoute allowedRoles={['broker']}>
+                    <BrokerDashboard />
+                  </ProtectedRoute>
+                } 
               />
               <Route 
                 path="/terminal/operator" 
                 element={
                   <ProtectedRoute allowedRoles={['operator']}>
-                    <OperatorTerminal />
+                    <OperatorDashboard />
                   </ProtectedRoute>
                 } 
               />
@@ -330,8 +323,6 @@ const App = memo(() => {
               <Route path="*" element={<NotFound />} />
             </Routes>
               </Suspense>
-              
-              {/* Floating AI Chatbot - Inside AuthProvider */}
             </AuthProvider>
           </BrowserRouter>
           </TooltipProvider>

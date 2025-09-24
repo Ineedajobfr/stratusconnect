@@ -25,10 +25,10 @@ export function RankingRulesPage() {
       description: 'Average time to first quote in minutes',
       icon: <Clock className="w-5 h-5" />,
       tiers: [
-        { range: '0-5 min', points: 25, color: 'text-bright-success' },
-        { range: '5-10 min', points: 20, color: 'text-warn' },
-        { range: '10-15 min', points: 15, color: 'text-fire' },
-        { range: '15+ min', points: 5, color: 'text-danger' }
+        { range: '0-5 min', points: 25, color: 'text-white' },
+        { range: '5-10 min', points: 20, color: 'text-yellow-600' },
+        { range: '10-15 min', points: 15, color: 'text-orange-600' },
+        { range: '15+ min', points: 5, color: 'text-red-600' }
       ]
     },
     {
@@ -37,10 +37,10 @@ export function RankingRulesPage() {
       description: 'Percentage of quotes accepted by brokers',
       icon: <CheckCircle className="w-5 h-5" />,
       tiers: [
-        { range: '90%+', points: 20, color: 'text-bright-success' },
-        { range: '80-90%', points: 15, color: 'text-warn' },
-        { range: '70-80%', points: 10, color: 'text-fire' },
-        { range: '<70%', points: 5, color: 'text-danger' }
+        { range: '90%+', points: 20, color: 'text-white' },
+        { range: '80-90%', points: 15, color: 'text-yellow-600' },
+        { range: '70-80%', points: 10, color: 'text-orange-600' },
+        { range: '<70%', points: 5, color: 'text-red-600' }
       ]
     },
     {
@@ -49,10 +49,10 @@ export function RankingRulesPage() {
       description: 'Percentage of accepted deals completed successfully',
       icon: <Target className="w-5 h-5" />,
       tiers: [
-        { range: '99%+', points: 20, color: 'text-bright-success' },
-        { range: '97-99%', points: 15, color: 'text-warn' },
-        { range: '95-97%', points: 10, color: 'text-fire' },
-        { range: '<95%', points: 5, color: 'text-danger' }
+        { range: '99%+', points: 20, color: 'text-white' },
+        { range: '97-99%', points: 15, color: 'text-yellow-600' },
+        { range: '95-97%', points: 10, color: 'text-orange-600' },
+        { range: '<95%', points: 5, color: 'text-red-600' }
       ]
     },
     {
@@ -61,10 +61,10 @@ export function RankingRulesPage() {
       description: 'Percentage of deals resulting in disputes',
       icon: <AlertTriangle className="w-5 h-5" />,
       tiers: [
-        { range: '0%', points: 15, color: 'text-bright-success' },
-        { range: '0-1%', points: 12, color: 'text-warn' },
-        { range: '1-3%', points: 8, color: 'text-fire' },
-        { range: '3%+', points: 0, color: 'text-danger' }
+        { range: '0%', points: 15, color: 'text-white' },
+        { range: '0-1%', points: 12, color: 'text-yellow-600' },
+        { range: '1-3%', points: 8, color: 'text-orange-600' },
+        { range: '3%+', points: 0, color: 'text-red-600' }
       ]
     },
     {
@@ -130,39 +130,39 @@ export function RankingRulesPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-app">
+    <div className="min-h-screen bg-terminal-bg">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-bright mb-2">Ranking Rules & Operator Scorecards</h1>
-          <p className="text-muted">
+          <h1 className="text-3xl font-bold text-foreground mb-2">Ranking Rules & Operator Scorecards</h1>
+          <p className="text-gunmetal">
             Transparent merit-based system that rewards platform-native behavior and penalizes leakage
           </p>
         </div>
 
         {/* Overview */}
-        <Card className="mb-8 bg-surface-1 ring-1 ring-white/5 rounded-xl2">
+        <Card className="mb-8 border-green-200 bg-slate-800">
           <CardContent className="p-6">
             <div className="flex items-start gap-3">
-              <BarChart3 className="w-6 h-6 text-brand mt-1" />
+              <BarChart3 className="w-6 h-6 text-white mt-1" />
               <div>
-                <h3 className="text-lg font-semibold text-bright mb-2">Merit-Based Ranking System</h3>
-                <p className="text-text mb-4">
+                <h3 className="text-lg font-semibold text-white mb-2">Merit-Based Ranking System</h3>
+                <p className="text-white mb-4">
                   Our ranking algorithm rewards operators who provide fast, reliable service while staying within our platform ecosystem. 
                   The system is designed to surface the best operators while discouraging off-platform behavior.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-bright">100</div>
-                    <div className="text-sm text-text">Base Points</div>
+                    <div className="text-2xl font-bold text-white">100</div>
+                    <div className="text-sm text-white">Base Points</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-bright-success">+15</div>
-                    <div className="text-sm text-text">Max Bonus</div>
+                    <div className="text-2xl font-bold text-white">+15</div>
+                    <div className="text-sm text-white">Max Bonus</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-danger">-30</div>
-                    <div className="text-sm text-danger">Max Penalty</div>
+                    <div className="text-2xl font-bold text-red-600">-30</div>
+                    <div className="text-sm text-red-700">Max Penalty</div>
                   </div>
                 </div>
               </div>
@@ -171,32 +171,32 @@ export function RankingRulesPage() {
         </Card>
 
         {/* Core Ranking Factors */}
-        <Card className="mb-8 bg-surface-1 ring-1 ring-white/5 rounded-xl2">
+        <Card className="mb-8">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-bright">
-              <TrendingUp className="w-5 h-5 text-brand" />
+            <CardTitle className="flex items-center gap-2">
+              <TrendingUp className="w-5 h-5" />
               Core Ranking Factors (100 points total)
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-6">
               {rankingFactors.map((factor, index) => (
-                <div key={index} className="border border-default rounded-lg p-4 bg-surface-2">
+                <div key={index} className="border rounded-lg p-4">
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="text-brand">{factor.icon}</div>
+                    {factor.icon}
                     <div>
-                      <h4 className="font-semibold text-bright">{factor.factor}</h4>
-                      <p className="text-sm text-muted">{factor.description}</p>
+                      <h4 className="font-semibold">{factor.factor}</h4>
+                      <p className="text-sm text-gray-600">{factor.description}</p>
                     </div>
-                    <Badge className="ml-auto bg-brand/15 text-brand border-brand/30">
+                    <Badge className="ml-auto bg-blue-900/20 text-blue-400 border-blue-500/30">
                       {factor.weight} points
                     </Badge>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
                     {factor.tiers.map((tier, tierIndex) => (
-                      <div key={tierIndex} className="text-center p-2 bg-surface-1 ring-1 ring-white/5 rounded-xl2">
+                      <div key={tierIndex} className="text-center p-2 bg-slate-800 rounded">
                         <div className={`font-medium ${tier.color}`}>{tier.range}</div>
-                        <div className="text-sm text-muted">{tier.points} pts</div>
+                        <div className="text-sm text-gray-600">{tier.points} pts</div>
                       </div>
                     ))}
                   </div>

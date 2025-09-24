@@ -4,7 +4,7 @@ import { KPICard } from "@/components/KPICard";
 import { Section } from "@/components/Section";
 import { DataTile } from "@/components/DataTile";
 import VerificationSystem from "@/components/VerificationSystem";
-import AviationNews from "@/components/AviationNews";
+import { AviationNews } from "@/components/AviationNews";
 import { PrivacyOverlay } from "@/components/PrivacyOverlay";
 import { ProfileWidget } from "@/components/ProfileWidget";
 import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24Widget";
@@ -43,7 +43,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ModernHelpGuide } from "@/components/ModernHelpGuide";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
-import ModernPlasmaBackground from "@/components/ModernPlasmaBackground";
+import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 
 export default function PilotTerminal() {
   const [activeSection, setActiveSection] = useState("dashboard");
@@ -53,39 +53,40 @@ export default function PilotTerminal() {
   const isBetaMode = location.pathname.startsWith('/beta/');
 
   return (
-    <ModernPlasmaBackground>
+    <>
       {showHelpGuide && (
         <ModernHelpGuide 
           terminalType="pilot" 
           activeTab={activeSection} 
-          showOnMount={true} 
+          showOnMount={false} 
           isDemo={false}
           onClose={() => setShowHelpGuide(false)}
         />
       )}
-      <div className="min-h-screen relative overflow-hidden">
+      <div className="min-h-screen bg-app relative overflow-hidden">
+        <StarfieldRunwayBackground />
         
         {/* Header */}
-        <div className="relative z-10 bg-white/10 backdrop-blur-xl border-b border-white/20 px-6 py-4">
+        <div className="relative z-10 bg-terminal-card border-b border-terminal-border px-6 py-4 backdrop-blur-modern">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <StratusConnectLogo className="text-2xl" terminalType="pilot" />
+            <StratusConnectLogo className="text-2xl" />
             <div>
-              <h1 className="text-2xl font-bold text-white">Pilot Terminal</h1>
-              <p className="text-sm text-white/70">Professional pilot management platform</p>
+              <h1 className="text-2xl font-bold text-foreground">Pilot Terminal</h1>
+              <p className="text-sm text-gunmetal">Professional pilot management platform</p>
             </div>
           </div>
           <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2 text-green-400 text-sm">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+            <div className="flex items-center space-x-2 text-data-positive text-sm">
+              <div className="w-2 h-2 bg-data-positive rounded-full terminal-pulse"></div>
               <span className="font-mono">PILOT ACTIVE</span>
             </div>
-                <div className="text-white/70 text-sm font-mono">
+            <div className="text-gunmetal text-sm font-mono">
               {new Date().toLocaleTimeString()} UTC
             </div>
             <Button
               onClick={() => setShowHelpGuide(true)}
-              className="w-12 h-12 bg-blue-500/20 hover:bg-blue-500/30 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-blue-500/30"
+              className="w-12 h-12 bg-accent/20 hover:bg-accent/30 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-accent/30"
               title="Help Guide"
             >
               <HelpCircle className="w-6 h-6 text-white" />
@@ -98,7 +99,7 @@ export default function PilotTerminal() {
         <div className="relative z-10 p-6">
         <Tabs value={activeSection} onValueChange={setActiveSection} className="space-y-6">
           <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-terminal-border scrollbar-track-transparent pb-2">
-            <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-surface-1 ring-1 ring-white/5 backdrop-blur-sm">
+            <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-terminal-card/50 backdrop-blur-sm">
               <TabsTrigger value="dashboard" className="flex items-center gap-2">
                 <BarChart3 className="w-4 h-4 icon-glow" />
                 Dashboard
@@ -544,7 +545,6 @@ export default function PilotTerminal() {
       
       {/* Enhanced AI Chatbot */}
       <EnhancedAIChatbot terminalType="pilot" />
-      
-    </ModernPlasmaBackground>
+    </>
   );
 }

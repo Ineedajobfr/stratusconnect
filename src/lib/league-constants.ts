@@ -1,3 +1,4 @@
+// Merit-based scoring system - every Merit Point tied to real product events
 export const XP_RULES: Record<string, number> = {
   // Brokers
   rfq_posted_quality: 5,           // Post RFQ that passes quality checks
@@ -7,6 +8,7 @@ export const XP_RULES: Record<string, number> = {
   
   // Operators  
   quote_submitted_fast: 15,        // Submit quote within target time window
+  quote_accepted: 25,              // Have quote accepted
   flight_completed_on_time: 40,    // Complete flight on time
   deal_closed_no_dispute: 20,      // Close with no dispute
   fallthrough_recovered: 30,       // Recover fallthrough using re-market

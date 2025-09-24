@@ -28,24 +28,6 @@ export const ProtectedRoute = ({
     );
   }
 
-  // Development mode bypass - allow access to main terminals in development
-  if (import.meta.env.DEV && !user) {
-    // Create a mock user for development testing
-    const mockUser = {
-      id: 'dev-user',
-      email: 'developer@stratusconnect.com',
-      role: 'broker',
-      verificationStatus: 'approved',
-      user_metadata: {
-        full_name: 'Developer User',
-        role: 'broker'
-      }
-    };
-    
-    // Mock the user context for development
-    return <>{children}</>;
-  }
-
   // Owner bypass - allow access without authentication for specific emails
   if (user && isOwner(user.email)) {
     return <>{children}</>;

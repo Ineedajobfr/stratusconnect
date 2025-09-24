@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import ModernPlasmaBackground from "@/components/ModernPlasmaBackground";
+import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 import { KPICard } from "@/components/KPICard";
 import { Section } from "@/components/Section";
 import { DataTile } from "@/components/DataTile";
@@ -12,7 +12,7 @@ import FleetManagement from "@/components/FleetManagement";
 import EnhancedMessaging from "@/components/EnhancedMessaging";
 import EnhancedMarketplace from "@/components/EnhancedMarketplace";
 import VerificationSystem from "@/components/VerificationSystem";
-import AviationNews from "@/components/AviationNews";
+import { AviationNews } from "@/components/AviationNews";
 import { PrivacyOverlay } from "@/components/PrivacyOverlay";
 import { OperatorAnalytics } from "@/components/analytics/OperatorAnalytics";
 import { ProfileWidget } from "@/components/ProfileWidget";
@@ -21,7 +21,6 @@ import { Plane, Calendar, DollarSign, TrendingUp, Users, MapPin, Clock, Settings
 import { NavigationArrows } from "@/components/NavigationArrows";
 import { ModernHelpGuide } from "@/components/ModernHelpGuide";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
-import { SecurityAI } from "@/components/ai/SecurityAI";
 import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24Widget";
 import { PersonalizedFeed } from "@/components/feed/PersonalizedFeed";
 import NoteTakingSystem from "@/components/NoteTakingSystem";
@@ -188,7 +187,7 @@ const OperatorTerminal = () => {
   }];
 
   return (
-    <ModernPlasmaBackground>
+    <>
       {showHelpGuide && (
         <ModernHelpGuide 
           terminalType="operator" 
@@ -198,27 +197,28 @@ const OperatorTerminal = () => {
           onClose={() => setShowHelpGuide(false)}
         />
       )}
-      <div className="min-h-screen relative overflow-hidden">
+      <div className="min-h-screen bg-app relative overflow-hidden">
+        <StarfieldRunwayBackground />
         
         {/* Terminal Header */}
-        <div className="relative z-10 bg-white/10 backdrop-blur-xl border-b border-white/20">
+        <div className="relative z-10 bg-terminal-card border-b border-terminal-border backdrop-blur-modern">
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-6">
-                <StratusConnectLogo className="text-2xl" terminalType="operator" />
+                <StratusConnectLogo className="text-2xl" />
                 <div>
-                  <h1 className="text-2xl font-bold text-white">Operator Terminal</h1>
-                  <p className="text-sm text-white/70">Fleet management and operations platform</p>
+                  <h1 className="text-2xl font-bold text-foreground">Operator Terminal</h1>
+                  <p className="text-sm text-gunmetal">Fleet management and operations platform</p>
                 </div>
-                <div className="flex items-center space-x-2 text-green-400 text-sm">
-                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <div className="flex items-center space-x-2 text-data-positive text-sm">
+                  <div className="w-2 h-2 bg-data-positive rounded-full terminal-pulse"></div>
                   <span className="font-mono">FLEET ACTIVE</span>
                 </div>
               </div>
               <div className="flex items-center space-x-4">
                 <Button
                   onClick={() => setShowHelpGuide(true)}
-                  className="w-12 h-12 bg-blue-500/20 hover:bg-blue-500/30 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-blue-500/30"
+                  className="w-12 h-12 bg-accent/20 hover:bg-accent/30 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-accent/30"
                   title="Help Guide"
                 >
                   <HelpCircle className="w-6 h-6 text-white" />
@@ -235,7 +235,7 @@ const OperatorTerminal = () => {
         <div className="relative z-10 max-w-7xl mx-auto px-6 py-8">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
             <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-terminal-border scrollbar-track-transparent pb-2">
-              <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-surface-1 ring-1 ring-white/5 backdrop-blur-sm">
+              <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-terminal-card/50 backdrop-blur-sm">
                 <TabsTrigger value="dashboard" className="flex items-center gap-2">
                   <BarChart3 className="w-4 h-4 icon-glow" />
                   Dashboard
@@ -497,14 +497,9 @@ const OperatorTerminal = () => {
         <ArrowUp className="w-6 h-6 text-white" />
       </Button>
       
-      
-      {/* Security AI - Advanced Threat Protection */}
-      <SecurityAI 
-        isVisible={true} 
-        onToggleVisibility={() => {}} 
-        userType="operator" 
-      />
-    </ModernPlasmaBackground>
+      {/* Enhanced AI Chatbot */}
+      <EnhancedAIChatbot terminalType="operator" />
+    </>
   );
 };
 

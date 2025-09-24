@@ -1,95 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* StratusConnect Color System - Lock the palette */
-:root {
-  --bg: #0B0D12;        /* deep black blue */
-  --surface-1: #0F1220;
-  --surface-2: #12162A;
-  --text: #E6E8EE;
-  --muted: #A6ADBF;
-
-  --brand: #0B6BFF;     /* electric blue */
-  --brand-600: #0952C7;
-  --brand-300: #5AA2FF;
-
-  --fire: #FF7A1A;      /* orange heat */
-  --fire-600: #D7610F;
-  --fire-300: #FFB066;
-
-  --success: #23C483;
-  --warn: #E6B800;
-  --danger: #FF3B3B;
-}
-
-/* Global dark base */
-html, body, #root {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Inter', sans-serif;
-}
-
-/* Prevent default browser backgrounds creeping in */
-* { background-clip: padding-box; }
-
-/* Modern Plasma Background Animations */
-@keyframes plasma {
-  0%   { transform: translate3d(0, 0, 0) scale(1); }
-  50%  { transform: translate3d(3%, -2%, 0) scale(1.05); }
-  100% { transform: translate3d(0, 0, 0) scale(1); }
-}
-
-@keyframes plasma-slow {
-  0%   { transform: translate3d(0, 0, 0) scale(1.05) rotate(0deg); }
-  50%  { transform: translate3d(-2%, 3%, 0) scale(1) rotate(8deg); }
-  100% { transform: translate3d(0, 0, 0) scale(1.05) rotate(0deg); }
-}
-
-@keyframes drift-slow {
-  0%   { transform: translate3d(0, 0, 0); }
-  50%  { transform: translate3d(-1%, 2%, 0); }
-  100% { transform: translate3d(0, 0, 0); }
-}
-
-/* Seamless Wallpaper Transitions */
-@keyframes wallpaper-fade {
-  0%   { opacity: 1; }
-  50%  { opacity: 0.8; }
-  100% { opacity: 1; }
-}
-
-@keyframes wallpaper-shift {
-  0%   { transform: translateX(0) translateY(0); }
-  25%  { transform: translateX(2%) translateY(-1%); }
-  50%  { transform: translateX(-1%) translateY(2%); }
-  75%  { transform: translateX(1%) translateY(-1%); }
-  100% { transform: translateX(0) translateY(0); }
-}
-
-@keyframes wallpaper-scale {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.02); }
-  100% { transform: scale(1); }
-}
-
-.animate-plasma     { animation: plasma 14s ease-in-out infinite; }
-.animate-plasma-slow{ animation: plasma-slow 22s ease-in-out infinite; }
-.animate-drift-slow { animation: drift-slow 30s ease-in-out infinite; }
-
-/* Seamless wallpaper transition classes */
-.animate-wallpaper-fade   { animation: wallpaper-fade 8s ease-in-out infinite; }
-.animate-wallpaper-shift  { animation: wallpaper-shift 12s ease-in-out infinite; }
-.animate-wallpaper-scale  { animation: wallpaper-scale 10s ease-in-out infinite; }
+/* Theme CSS is imported in main.tsx */
 
 .tabular { 
   font-variant-numeric: tabular-nums; 
-}
-
-.font-inter {
-  font-family: 'Inter', sans-serif;
 }
 
 /* === StratusConnect Modern Terminal Palette ===
@@ -185,70 +105,11 @@ html, body, #root {
   .border-default {
     border-color: hsl(var(--terminal-border));
   }
-  
-  /* Bright font utilities */
-  .text-bright {
-    color: hsl(var(--foreground));
-    font-weight: 600;
-    text-shadow: 0 0 8px hsl(var(--foreground) / 0.3);
-  }
-  
-  .text-bright-accent {
-    color: hsl(var(--accent));
-    font-weight: 600;
-    text-shadow: 0 0 12px hsl(var(--accent) / 0.5);
-  }
-  
-  .text-bright-brand {
-    color: hsl(var(--brand));
-    font-weight: 600;
-    text-shadow: 0 0 10px hsl(var(--brand) / 0.4);
-  }
-  
-  .text-bright-success {
-    color: hsl(var(--terminal-success));
-    font-weight: 600;
-    text-shadow: 0 0 8px hsl(var(--terminal-success) / 0.4);
-  }
-  
-  /* Consistent card background for all color cards - matching billing section style */
-  .card-analytics {
-    background: hsl(var(--terminal-card)); /* Dark gray background like billing cards */
-    border: 1px solid hsl(var(--terminal-border));
-    border-radius: 0.75rem;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.35), inset 0 1px 0 hsl(var(--terminal-glow) / 0.1);
-  }
-  
-  .card-analytics-inner {
-    background: hsl(var(--terminal-card));
-    border: 1px solid hsl(var(--terminal-border));
-    border-radius: 0.5rem;
-  }
-  
-  .card-consistent {
-    background: hsl(var(--terminal-card));
-    border: 1px solid hsl(var(--terminal-border));
-    border-radius: 0.75rem;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.35), inset 0 1px 0 hsl(var(--terminal-glow) / 0.1);
-  }
-  
-  /* Predictive Analytics card styling - matching RealPredictiveAnalytics */
-  .card-predictive {
-    background: rgba(30, 41, 59, 0.5); /* slate-800/50 */
-    border: 1px solid rgba(51, 65, 85, 0.5); /* slate-700/50 */
-    border-radius: 0.75rem;
-  }
-  
-  .card-predictive-inner {
-    background: rgba(51, 65, 85, 0.3); /* slate-700/30 */
-    border: 1px solid rgba(71, 85, 105, 0.5); /* slate-600/50 */
-    border-radius: 0.5rem;
-  }
 }
 
 @layer base {
   * {
-    border-color: hsl(var(--border));
+    @apply border-border;
   }
   
   html {
@@ -256,21 +117,17 @@ html, body, #root {
   }
   
   body {
-    color: hsl(var(--foreground));
-    font-family: 'Inter', sans-serif;
+    @apply text-foreground font-inter;
     background: hsl(var(--terminal-bg));
     font-feature-settings: "kern" 1, "liga" 1;
     letter-spacing: -0.01em;
-    font-weight: 500; /* Enhanced font weight for better visibility */
   }
 }
 
 @layer components {
   /* Sleek Terminal Components */
   .terminal-card {
-    background-color: hsl(var(--terminal-card));
-    border: 1px solid hsl(var(--terminal-border));
-    border-radius: 1rem;
+    @apply bg-terminal-card border border-terminal-border rounded-2xl;
     box-shadow: 0 8px 30px rgba(0,0,0,0.35), inset 0 1px 0 hsl(var(--terminal-glow) / 0.1);
     transition: all 0.2s ease-out;
   }
@@ -299,8 +156,9 @@ html, body, #root {
 
   .title-glow {
     text-shadow: 
-      0 0 4px hsl(var(--accent) / 0.4),
-      0 0 8px hsl(var(--accent) / 0.2);
+      0 0 8px hsl(var(--terminal-glow) / 0.6),
+      0 0 16px hsl(var(--terminal-glow) / 0.4),
+      0 0 24px hsl(var(--terminal-glow) / 0.2);
   }
 
   .subtitle-glow {
@@ -354,26 +212,17 @@ html, body, #root {
   }
 
   .terminal-header {
-    color: hsl(var(--foreground));
-    font-weight: 600;
-    font-size: 1.125rem;
-    letter-spacing: -0.025em;
+    @apply text-foreground font-semibold text-lg tracking-tight;
     text-shadow: var(--text-glow-primary);
   }
 
   .terminal-subheader {
-    color: hsl(var(--gunmetal));
-    font-size: 0.875rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    @apply text-gunmetal text-sm font-medium uppercase tracking-wide;
     text-shadow: var(--text-glow-subtle);
   }
 
   .terminal-value {
-    color: hsl(var(--foreground));
-    font-weight: 500;
-    font-variant-numeric: tabular-nums;
+    @apply text-foreground font-medium tabular-nums;
     text-shadow: var(--text-glow-accent);
   }
   
@@ -395,7 +244,7 @@ html, body, #root {
   }
   
   .title-glow {
-    text-shadow: 0 0 4px hsl(var(--accent) / 0.4), 0 0 8px hsl(var(--accent) / 0.2);
+    text-shadow: 0 0 20px hsl(var(--terminal-glow) / 0.6), 0 0 40px hsl(var(--terminal-glow) / 0.4);
   }
   
   .subtitle-glow {
@@ -426,163 +275,70 @@ html, body, #root {
 
   /* Status indicators */
   .status-success {
-    background-color: hsl(var(--terminal-success) / 0.2);
-    color: hsl(var(--terminal-success));
-    border: 1px solid hsl(var(--terminal-success) / 0.3);
-    padding: 0.25rem 0.5rem;
-    font-size: 0.75rem;
-    font-weight: 500;
+    @apply bg-terminal-success/20 text-terminal-success border border-terminal-success/30 px-2 py-1 text-xs font-medium;
   }
 
   .status-warning {
-    background-color: hsl(var(--terminal-warning) / 0.2);
-    color: hsl(var(--terminal-warning));
-    border: 1px solid hsl(var(--terminal-warning) / 0.3);
-    padding: 0.25rem 0.5rem;
-    font-size: 0.75rem;
-    font-weight: 500;
+    @apply bg-terminal-warning/20 text-terminal-warning border border-terminal-warning/30 px-2 py-1 text-xs font-medium;
   }
 
   .status-error {
-    background-color: hsl(var(--terminal-danger) / 0.2);
-    color: hsl(var(--terminal-danger));
-    border: 1px solid hsl(var(--terminal-danger) / 0.3);
-    padding: 0.25rem 0.5rem;
-    font-size: 0.75rem;
-    font-weight: 500;
+    @apply bg-terminal-danger/20 text-terminal-danger border border-terminal-danger/30 px-2 py-1 text-xs font-medium;
   }
 
   .status-info {
-    background-color: hsl(var(--terminal-info) / 0.2);
-    color: hsl(var(--terminal-info));
-    border: 1px solid hsl(var(--terminal-info) / 0.3);
-    padding: 0.25rem 0.5rem;
-    font-size: 0.75rem;
-    font-weight: 500;
+    @apply bg-terminal-info/20 text-terminal-info border border-terminal-info/30 px-2 py-1 text-xs font-medium;
   }
 
   .status-active {
-    background-color: hsl(var(--terminal-success) / 0.2);
-    color: hsl(var(--terminal-success));
-    border: 1px solid hsl(var(--terminal-success) / 0.3);
-    padding: 0.25rem 0.5rem;
-    font-size: 0.75rem;
-    font-weight: 500;
+    @apply bg-terminal-success/20 text-terminal-success border border-terminal-success/30 px-2 py-1 text-xs font-medium;
   }
 
   .status-pending {
-    background-color: hsl(var(--terminal-warning) / 0.2);
-    color: hsl(var(--terminal-warning));
-    border: 1px solid hsl(var(--terminal-warning) / 0.3);
-    padding: 0.25rem 0.5rem;
-    font-size: 0.75rem;
-    font-weight: 500;
+    @apply bg-terminal-warning/20 text-terminal-warning border border-terminal-warning/30 px-2 py-1 text-xs font-medium;
   }
 
   .status-processing {
-    background-color: hsl(var(--terminal-info) / 0.2);
-    color: hsl(var(--terminal-info));
-    border: 1px solid hsl(var(--terminal-info) / 0.3);
-    padding: 0.25rem 0.5rem;
-    font-size: 0.75rem;
-    font-weight: 500;
+    @apply bg-terminal-info/20 text-terminal-info border border-terminal-info/30 px-2 py-1 text-xs font-medium;
   }
 
   /* Button variants - Bloomberg style */
   .btn-terminal-primary {
-    background-color: hsl(var(--primary));
-    color: hsl(var(--primary-foreground));
-    padding: 0.5rem 1rem;
-    font-weight: 500;
-    transition: all 0.15s;
-    border: 0;
-  }
-  
-  .btn-terminal-primary:hover {
-    background-color: hsl(var(--primary) / 0.9);
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 font-medium transition-all duration-150 border-0;
   }
 
   .btn-terminal-secondary {
-    background-color: hsl(var(--secondary));
-    color: hsl(var(--secondary-foreground));
-    border: 1px solid hsl(var(--border));
-    padding: 0.5rem 1rem;
-    font-weight: 500;
-    transition: all 0.15s;
-  }
-  
-  .btn-terminal-secondary:hover {
-    background-color: hsl(var(--secondary) / 0.9);
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/90 px-4 py-2 font-medium transition-all duration-150 border border-border;
   }
 
   .btn-terminal-accent {
-    background-color: hsl(var(--accent));
-    color: hsl(var(--accent-foreground));
-    padding: 0.5rem 1rem;
-    font-weight: 500;
-    transition: all 0.15s;
-  }
-  
-  .btn-terminal-accent:hover {
-    background-color: hsl(var(--accent) / 0.9);
+    @apply bg-accent text-accent-foreground hover:bg-accent/90 px-4 py-2 font-medium transition-all duration-150;
   }
 
   .btn-terminal-success {
-    background-color: hsl(var(--terminal-success) / 0.2);
-    color: hsl(var(--terminal-success));
-    border: 1px solid hsl(var(--terminal-success) / 0.3);
-    padding: 0.5rem 1rem;
-    font-weight: 500;
-    transition: all 0.15s;
-  }
-  
-  .btn-terminal-success:hover {
-    background-color: hsl(var(--terminal-success) / 0.3);
+    @apply bg-terminal-success/20 text-terminal-success border border-terminal-success/30 hover:bg-terminal-success/30 px-4 py-2 font-medium transition-all duration-150;
   }
 
   .btn-terminal-danger {
-    background-color: hsl(var(--terminal-danger) / 0.2);
-    color: hsl(var(--terminal-danger));
-    border: 1px solid hsl(var(--terminal-danger) / 0.3);
-    padding: 0.5rem 1rem;
-    font-weight: 500;
-    transition: all 0.15s;
-  }
-  
-  .btn-terminal-danger:hover {
-    background-color: hsl(var(--terminal-danger) / 0.3);
+    @apply bg-terminal-danger/20 text-terminal-danger border border-terminal-danger/30 hover:bg-terminal-danger/30 px-4 py-2 font-medium transition-all duration-150;
   }
 
   /* Input styles - Bloomberg terminal */
   .input-terminal, .terminal-input {
-    background-color: hsl(var(--input));
-    border: 1px solid hsl(var(--border));
-    padding: 0.5rem 0.75rem;
-    color: hsl(var(--foreground));
-    outline: none;
-    transition: all 0.15s;
+    @apply bg-input border border-border px-3 py-2 text-foreground placeholder:text-gunmetal focus:outline-none focus:ring-1 focus:ring-ring focus:border-accent transition-all duration-150;
   }
 
   /* Layout components */
   .sidebar-terminal {
-    background-color: hsl(var(--sidebar));
-    border-right: 1px solid hsl(var(--sidebar-border));
-    width: 16rem;
-    display: flex;
-    flex-direction: column;
+    @apply bg-sidebar border-r border-sidebar-border w-64 flex flex-col;
   }
 
   .main-terminal {
-    background-color: hsl(var(--terminal-bg));
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+    @apply bg-terminal-bg flex-1 flex flex-col;
   }
 
   .navbar-terminal {
-    background-color: hsl(var(--terminal-card));
-    border-bottom: 1px solid hsl(var(--terminal-border));
-    padding: 1rem 1.5rem;
+    @apply bg-terminal-card border-b border-terminal-border px-6 py-4;
   }
 
   /* Animation classes */
@@ -595,17 +351,11 @@ html, body, #root {
   }
 
   .terminal-metric {
-    font-size: 1.5rem;
-    font-weight: 600;
-    font-variant-numeric: tabular-nums;
+    @apply text-2xl font-semibold tabular-nums;
   }
 
   .terminal-label {
-    font-size: 0.75rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: hsl(var(--gunmetal));
+    @apply text-xs font-medium uppercase tracking-wide text-gunmetal;
   }
 
   /* Grid system - Bloomberg 12-column, 8pt spacing */
@@ -619,14 +369,7 @@ html, body, #root {
   
   /* Privacy overlay for analytics */
   .privacy-overlay {
-    position: absolute;
-    inset: 0;
-    background-color: hsl(var(--terminal-bg) / 0.8);
-    backdrop-filter: blur(4px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
+    @apply absolute inset-0 bg-terminal-bg/80 backdrop-blur-sm flex items-center justify-center z-10;
   }
   
   .privacy-overlay::before {
@@ -739,15 +482,15 @@ html, body, #root {
   }
 
   .terminal-scrollbar::-webkit-scrollbar-track {
-    @apply bg-slate-800;
+    @apply bg-terminal-bg;
   }
 
   .terminal-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-slate-600;
+    @apply bg-terminal-border;
   }
 
   .terminal-scrollbar::-webkit-scrollbar-thumb:hover {
-    @apply bg-orange-500;
+    @apply bg-accent;
   }
   
   /* Glow Effects */
@@ -803,8 +546,9 @@ html, body, #root {
 
   .title-glow {
     text-shadow: 
-      0 0 4px rgba(255, 165, 0, 0.4),
-      0 0 8px rgba(255, 165, 0, 0.2);
+      0 0 12px rgba(255, 255, 255, 0.6),
+      0 0 24px rgba(255, 255, 255, 0.3),
+      0 0 36px rgba(255, 255, 255, 0.1);
   }
 
   .subtitle-glow {
@@ -842,33 +586,6 @@ html, body, #root {
   
   .animate-rotate-slow {
     animation: rotate-slow 100s linear infinite;
-  }
-  
-  /* Section highlighting styles */
-  .section-highlight {
-    position: relative;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .section-highlight::before {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    background: linear-gradient(45deg, hsl(var(--accent)), hsl(var(--brand)), hsl(var(--accent)));
-    border-radius: inherit;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: -1;
-  }
-  
-  .section-highlight.active::before {
-    opacity: 0.6;
-    animation: pulse-glow 2s ease-in-out infinite;
-  }
-  
-  .section-highlight.active {
-    transform: scale(1.02);
-    box-shadow: 0 0 20px hsl(var(--accent) / 0.4);
   }
 }
 

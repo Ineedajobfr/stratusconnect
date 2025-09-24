@@ -74,7 +74,7 @@ export default function CrewLogin() {
               </CardDescription>
               <div className="mt-4 p-3 bg-accent/10 border border-accent/20 rounded-lg">
                 <p className="text-sm text-accent font-medium">
-                  💡 Professional aviation marketplace connecting brokers, operators, pilots, and crew
+                  💡 Admin users can log in from any terminal (Broker, Operator, Pilot, Crew)
                 </p>
               </div>
             </CardHeader>

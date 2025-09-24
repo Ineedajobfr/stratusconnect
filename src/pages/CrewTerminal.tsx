@@ -8,7 +8,7 @@ import CrewJobs from "@/components/CrewJobs";
 import CrewCertifications from "@/components/CrewCertifications";
 import CrewAvailability from "@/components/CrewAvailability";
 import VerificationSystem from "@/components/VerificationSystem";
-import AviationNews from "@/components/AviationNews";
+import { AviationNews } from "@/components/AviationNews";
 import { PrivacyOverlay } from "@/components/PrivacyOverlay";
 import { CrewAnalytics } from "@/components/analytics/CrewAnalytics";
 import { ProfileWidget } from "@/components/ProfileWidget";
@@ -25,7 +25,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ModernHelpGuide } from "@/components/ModernHelpGuide";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
-import ModernPlasmaBackground from "@/components/ModernPlasmaBackground";
+import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 import { HelpCircle } from "lucide-react";
 
 export default function CrewTerminal() {
@@ -36,7 +36,7 @@ export default function CrewTerminal() {
   const isBetaMode = location.pathname.startsWith('/beta/');
   
         return (
-    <ModernPlasmaBackground>
+    <>
       {showHelpGuide && (
         <ModernHelpGuide 
           terminalType="crew" 
@@ -46,16 +46,17 @@ export default function CrewTerminal() {
           onClose={() => setShowHelpGuide(false)}
         />
       )}
-      <div className="min-h-screen relative overflow-hidden">
+      <div className="min-h-screen bg-app relative overflow-hidden">
+        <StarfieldRunwayBackground />
         
         {/* Header */}
-        <div className="relative z-10 bg-white/10 backdrop-blur-xl border-b border-white/20 px-6 py-4">
+        <div className="relative z-10 bg-terminal-card border-b border-terminal-border px-6 py-4 backdrop-blur-modern">
             <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <StratusConnectLogo className="text-2xl" terminalType="crew" />
+            <StratusConnectLogo className="text-2xl" />
             <div>
-              <h1 className="text-2xl font-bold text-white">Crew Terminal</h1>
-              <p className="text-sm text-white/70">Professional crew management platform</p>
+              <h1 className="text-2xl font-bold text-foreground">Crew Terminal</h1>
+              <p className="text-sm text-gunmetal">Professional crew management platform</p>
             </div>
           </div>
           <div className="flex items-center space-x-4">
@@ -81,7 +82,7 @@ export default function CrewTerminal() {
         <div className="relative z-10 p-6">
         <Tabs value={activeSection} onValueChange={setActiveSection} className="space-y-6">
           <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-terminal-border scrollbar-track-transparent pb-2">
-            <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-surface-1 ring-1 ring-white/5 backdrop-blur-sm">
+            <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-terminal-card/50 backdrop-blur-sm">
               <TabsTrigger value="dashboard" className="flex items-center gap-2">
                 <BarChart3 className="w-4 h-4 icon-glow" />
                 Dashboard
@@ -327,7 +328,6 @@ export default function CrewTerminal() {
       
       {/* Enhanced AI Chatbot */}
       <EnhancedAIChatbot terminalType="crew" />
-      
-    </ModernPlasmaBackground>
+    </>
   );
 }

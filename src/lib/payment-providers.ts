@@ -217,20 +217,12 @@ export class ShieldpayProvider implements PaymentProvider {
       throw new Error('Invalid webhook signature');
     }
 
-    const p = payload as {
-      event_type: string;
-      intent_id: string;
-      status: string;
-      timestamp: string;
-      data: Record<string, unknown>;
-    };
-
     return {
-      type: p.event_type,
-      intentId: p.intent_id,
-      status: p.status,
-      timestamp: p.timestamp,
-      data: p.data,
+      type: payload.event_type,
+      intentId: payload.intent_id,
+      status: payload.status,
+      timestamp: payload.timestamp,
+      data: payload.data,
     };
   }
 
@@ -241,18 +233,17 @@ export class ShieldpayProvider implements PaymentProvider {
   }
 
   private mapToEscrowIntent(data: Record<string, unknown>): EscrowIntent {
-    const d = data as any;
     return {
-      id: String(d.id),
-      dealId: String(d.external_reference),
-      amount: Number(d.amount) / 100,
-      currency: String(d.currency),
-      buyerId: String(d.buyer_id),
-      sellerId: String(d.seller_id),
-      description: String(d.description ?? ''),
-      status: String(d.status) as EscrowIntent['status'],
-      createdAt: String(d.created_at),
-      expiresAt: d.expires_at ? String(d.expires_at) : undefined,
+      id: data.id,
+      dealId: data.external_reference,
+      amount: data.amount / 100,
+      currency: data.currency,
+      buyerId: data.buyer_id,
+      sellerId: data.seller_id,
+      description: data.description,
+      status: data.status,
+      createdAt: data.created_at,
+      expiresAt: data.expires_at,
     };
   }
 }

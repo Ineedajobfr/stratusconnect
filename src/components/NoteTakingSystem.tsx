@@ -278,7 +278,7 @@ const NoteTakingSystem: React.FC<NoteTakingSystemProps> = ({ terminalType, class
                 <select
                   value={newNote.type || 'note'}
                   onChange={(e) => setNewNote(prev => ({ ...prev, type: e.target.value as any }))}
-                  className="px-3 py-2 bg-terminal-card border border-terminal-border rounded-md text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all duration-200"
+                  className="px-3 py-2 bg-white bg-opacity-10 border border-terminal-border rounded-md text-sm text-white focus:bg-white focus:bg-opacity-20 focus:border-accent transition-all duration-200"
                 >
                   <option value="note">Note</option>
                   <option value="checklist">Checklist</option>

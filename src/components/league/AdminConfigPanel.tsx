@@ -334,11 +334,7 @@ export function AdminConfigPanel() {
                   type="number"
                   step="0.1"
                   value={config.perks.earlyAccessMultiplier}
-                  onChange={(e) => {
-                    const newConfig = { ...config };
-                    newConfig.perks.earlyAccessMultiplier = parseFloat(e.target.value) || 1;
-                    setConfig(newConfig);
-                  }}
+                  onChange={(e) => handlePerkToggle('earlyAccessMultiplier', parseFloat(e.target.value))}
                   className="w-20"
                 />
               </div>
@@ -352,11 +348,7 @@ export function AdminConfigPanel() {
                   type="number"
                   step="0.01"
                   value={config.perks.rankingBias}
-                  onChange={(e) => {
-                    const newConfig = { ...config };
-                    newConfig.perks.rankingBias = parseFloat(e.target.value) || 0;
-                    setConfig(newConfig);
-                  }}
+                  onChange={(e) => handlePerkToggle('rankingBias', parseFloat(e.target.value))}
                   className="w-20"
                 />
               </div>
@@ -369,12 +361,8 @@ export function AdminConfigPanel() {
                 </div>
                 <Switch
                   id="supportPriority"
-                  checked={Boolean(config.perks.supportPriority)}
-                  onCheckedChange={(checked) => {
-                    const newConfig = { ...config };
-                    newConfig.perks.supportPriority = checked ? 1 : 0;
-                    setConfig(newConfig);
-                  }}
+                  checked={config.perks.supportPriority}
+                  onCheckedChange={(checked) => handlePerkToggle('supportPriority', checked)}
                 />
               </div>
               <div className="flex items-center justify-between">
@@ -384,12 +372,8 @@ export function AdminConfigPanel() {
                 </div>
                 <Switch
                   id="depositRequiredForPerks"
-                  checked={Boolean(config.perks.depositRequiredForPerks)}
-                  onCheckedChange={(checked) => {
-                    const newConfig = { ...config };
-                    newConfig.perks.depositRequiredForPerks = checked;
-                    setConfig(newConfig);
-                  }}
+                  checked={config.perks.depositRequiredForPerks}
+                  onCheckedChange={(checked) => handlePerkToggle('depositRequiredForPerks', checked)}
                 />
               </div>
             </div>

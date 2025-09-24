@@ -1,28 +1,63 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { LoginModal } from "@/components/LoginModal";
 import { NavigationArrows } from "@/components/NavigationArrows";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
-import { CluelyAviationAI } from "@/components/ai/CluelyAviationAI";
 import { ModernHelpGuide } from "@/components/ModernHelpGuide";
-import { ChatGPTHelper } from "@/components/ai/ChatGPTHelper";
-import { RealTimeChat } from "@/components/chat/RealTimeChat";
-import MarketIntelligence from "@/components/MarketIntelligence";
-import { WorkflowAutomation } from "@/components/automation/WorkflowAutomation";
-import AdvancedAnalytics from "@/components/AdvancedAnalytics";
-import { ClientPortal } from "@/components/portal/ClientPortal";
-import ModernPlasmaBackground from "@/components/ModernPlasmaBackground";
-import { Search, ArrowRight, Lock, ChevronRight, Brain, MessageSquare, Trophy, Users, Plane, BarChart3, Shield, Target, Zap, Globe, Clock, Sparkles, CheckCircle } from "lucide-react";
+import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
+import { useAuth } from "@/contexts/AuthContext";
+import { 
+  Search, 
+  ArrowRight, 
+  Lock, 
+  ChevronRight, 
+  Brain, 
+  MessageSquare, 
+  Trophy, 
+  Users, 
+  Plane, 
+  BarChart3, 
+  Shield, 
+  Target, 
+  Zap, 
+  Globe, 
+  Clock, 
+  Sparkles, 
+  CheckCircle,
+  DollarSign,
+  Building2,
+  UserCheck,
+  Info,
+  Percent,
+  BookOpen,
+  Play,
+  Download
+} from "lucide-react";
 
 export default function Index() {
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [showAI, setShowAI] = useState(true);
-  const [showHelpGuide, setShowHelpGuide] = useState(false);
-  const [showAIAssistant, setShowAIAssistant] = useState(false);
-  const [showChat, setShowChat] = useState(false);
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [showHelpGuide, setShowHelpGuide] = useState(false);
+
+  // Redirect authenticated users to their home page
+  useEffect(() => {
+    if (user) {
+      navigate("/home");
+    }
+  }, [user, navigate]);
+
+  const handleAccessTerminal = (roleId: string) => {
+    navigate(`/login/${roleId}`);
+  };
+
+  const handleDemoAccess = (demoRoute: string) => {
+    navigate(demoRoute);
+  };
 
   const clientTypes = [
     {
@@ -57,16 +92,6 @@ export default function Index() {
       color: "from-orange-500 to-red-500",
       features: ["Availability Calendar", "Certification Tracking", "Job Pipeline"]
     }
-  ];
-
-  const footerLinks = [
-    { label: "About", href: "/about" },
-    { label: "Terms", href: "/terms" },
-    { label: "Rules", href: "#" },
-    { label: "Privacy", href: "#" },
-    { label: "Security", href: "#" },
-    { label: "Fees", href: "#" },
-    { label: "Contact", href: "/contact" }
   ];
 
   const features = [
@@ -104,7 +129,7 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-app text-body relative overflow-hidden">
-      <ModernPlasmaBackground />
+      <StarfieldRunwayBackground />
       
       {/* Header */}
       <header className="relative z-10 border-b border-white/10 bg-white/5 backdrop-blur-sm">
@@ -128,22 +153,6 @@ export default function Index() {
               >
                 <Trophy className="w-4 h-4 mr-2" />
                 Help
-              </Button>
-              <Button 
-                variant="ghost" 
-                onClick={() => setShowAIAssistant(true)}
-                className="text-white hover:bg-white/10"
-              >
-                <Brain className="w-4 h-4 mr-2" />
-                AI Assistant
-              </Button>
-              <Button 
-                variant="ghost" 
-                onClick={() => setShowChat(true)}
-                className="text-white hover:bg-white/10"
-              >
-                <MessageSquare className="w-4 h-4 mr-2" />
-                Chat
               </Button>
               <Button 
                 onClick={() => setIsLoginOpen(true)}
@@ -279,6 +288,189 @@ export default function Index() {
           </div>
         </section>
 
+        {/* Security & Trust Features */}
+        <div className="relative z-10 py-24">
+          <div className="max-w-6xl mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-foreground mb-4">Why We're Different</h2>
+              <p className="text-xl text-muted-foreground">The features that set us apart from the competition</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <Shield className="w-12 h-12 text-accent" />
+                      <div>
+                        <CardTitle>AI That Actually Works</CardTitle>
+                      </div>
+                    </div>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Info className="w-4 h-4" />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="bg-terminal-card border-terminal-border">
+                        <DialogHeader>
+                          <DialogTitle className="text-accent">AI That Actually Works</DialogTitle>
+                          <DialogDescription>
+                            Real AI that finds you better deals, predicts demand, and automates the boring stuff
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="space-y-4">
+                          <p className="text-muted-foreground">
+                            Our technology is designed to empower, not overwhelm:
+                          </p>
+                          <ul className="space-y-2 text-sm text-muted-foreground">
+                            <li className="flex items-center space-x-2">
+                              <CheckCircle className="w-4 h-4 text-accent" />
+                              <span>Predictive analytics that actually predict</span>
+                            </li>
+                            <li className="flex items-center space-x-2">
+                              <CheckCircle className="w-4 h-4 text-accent" />
+                              <span>Smart matching that finds the right people</span>
+                            </li>
+                            <li className="flex items-center space-x-2">
+                              <CheckCircle className="w-4 h-4 text-accent" />
+                              <span>Automation that saves you hours daily</span>
+                            </li>
+                            <li className="flex items-center space-x-2">
+                              <CheckCircle className="w-4 h-4 text-accent" />
+                              <span>Real-time data that makes you money</span>
+                            </li>
+                          </ul>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">
+                    Real AI that finds you better deals, predicts demand, and automates the boring stuff. 
+                    Our technology is designed to empower, not overwhelm.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <Lock className="w-12 h-12 text-accent" />
+                      <div>
+                        <CardTitle>We Only Win When You Win</CardTitle>
+                      </div>
+                    </div>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Info className="w-4 h-4" />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="bg-terminal-card border-terminal-border">
+                        <DialogHeader>
+                          <DialogTitle className="text-accent">We Only Win When You Win</DialogTitle>
+                          <DialogDescription>
+                            No monthly fees. No hidden costs. We only make money when you close deals. Your success is literally our business model.
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="space-y-4">
+                          <p className="text-muted-foreground">
+                            Unlike other platforms that charge you regardless of results:
+                          </p>
+                          <ul className="space-y-2 text-sm text-muted-foreground">
+                            <li className="flex items-center space-x-2">
+                              <CheckCircle className="w-4 h-4 text-accent" />
+                              <span>7% only when you close deals (brokers/operators)</span>
+                            </li>
+                            <li className="flex items-center space-x-2">
+                              <CheckCircle className="w-4 h-4 text-accent" />
+                              <span>10% hiring fee only when you get hired (crew/pilots)</span>
+                            </li>
+                            <li className="flex items-center space-x-2">
+                              <CheckCircle className="w-4 h-4 text-accent" />
+                              <span>Free access for pilots and crew</span>
+                            </li>
+                            <li className="flex items-center space-x-2">
+                              <CheckCircle className="w-4 h-4 text-accent" />
+                              <span>No monthly subscriptions, ever</span>
+                            </li>
+                          </ul>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">
+                    No monthly fees. No hidden costs. We only make money when you close deals. 
+                    Your success is literally our business model.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <CheckCircle className="w-12 h-12 text-accent" />
+                      <div>
+                        <CardTitle>Transparency & Trust</CardTitle>
+                      </div>
+                    </div>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Info className="w-4 h-4" />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="bg-terminal-card border-terminal-border">
+                        <DialogHeader>
+                          <DialogTitle className="text-accent">Transparency & Trust</DialogTitle>
+                          <DialogDescription>
+                            We show you exactly what we do, how we do it, and what it costs. No hidden fees, no surprises.
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="space-y-4">
+                          <p className="text-muted-foreground">
+                            We believe in complete transparency:
+                          </p>
+                          <ul className="space-y-2 text-sm text-muted-foreground">
+                            <li className="flex items-center space-x-2">
+                              <CheckCircle className="w-4 h-4 text-accent" />
+                              <span>Real-time deal tracking and reporting</span>
+                            </li>
+                            <li className="flex items-center space-x-2">
+                              <CheckCircle className="w-4 h-4 text-accent" />
+                              <span>Upfront pricing with no hidden fees</span>
+                            </li>
+                            <li className="flex items-center space-x-2">
+                              <CheckCircle className="w-4 h-4 text-accent" />
+                              <span>Honest performance metrics and analytics</span>
+                            </li>
+                            <li className="flex items-center space-x-2">
+                              <CheckCircle className="w-4 h-4 text-accent" />
+                              <span>Direct access to support when you need it</span>
+                            </li>
+                          </ul>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">
+                    We show you exactly what we do, how we do it, and what it costs. 
+                    No hidden fees, no surprises. Just results.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+
         {/* CTA Section */}
         <section className="max-w-7xl mx-auto px-6 py-20 text-center">
           <h2 className="text-5xl font-bold mb-8">
@@ -356,34 +548,6 @@ export default function Index() {
           showOnMount={false}
           isDemo={true}
         />
-      )}
-
-      {showAIAssistant && (
-        <div className="fixed left-4 top-1/2 transform -translate-y-1/2 z-50 w-96 max-h-[80vh]">
-          <ChatGPTHelper
-            isOpen={showAIAssistant}
-            onClose={() => setShowAIAssistant(false)}
-            context={{
-              activeTab: "dashboard",
-              userRole: "broker",
-              recentActivity: []
-            }}
-          />
-        </div>
-      )}
-
-      {showChat && (
-        <div className="fixed right-4 top-1/2 transform -translate-y-1/2 z-50 w-96 max-h-[80vh]">
-          <RealTimeChat
-            chatId="demo_landing_chat_001"
-            participants={[
-              { id: 'user_001', name: 'You', role: 'team', isOnline: true },
-              { id: 'support_001', name: 'Support Team', role: 'team', isOnline: true },
-              { id: 'ai_001', name: 'AI Assistant', role: 'team', isOnline: true }
-            ]}
-            onClose={() => setShowChat(false)}
-          />
-        </div>
       )}
 
       <NavigationArrows />

@@ -200,7 +200,7 @@ async function logDocumentAccess(
           ip_address: '192.168.1.100', // Would be real IP in production
           user_agent: navigator.userAgent
         }
-      } as any);
+      });
   } catch (error) {
     console.error('Failed to log document access:', error);
   }

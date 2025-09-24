@@ -271,47 +271,47 @@ export default function BrokerDashboard() {
           <TabsContent value="dashboard" className="space-y-6">
             {/* Quick Stats */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <Card className="card-predictive">
+              <Card className="bg-slate-800 border-slate-700">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-text/70">Active Requests</CardTitle>
-                  <Plane className="h-4 w-4 text-brand" />
+                  <CardTitle className="text-sm font-medium text-slate-400">Active Requests</CardTitle>
+                  <Plane className="h-4 w-4 text-orange-400" />
           </CardHeader>
           <CardContent>
-                  <div className="text-2xl font-bold text-text">{tripRequests.filter(r => r.status !== 'booked').length}</div>
-                  <p className="text-xs text-text/60">+2 from last week</p>
+                  <div className="text-2xl font-bold text-white">{tripRequests.filter(r => r.status !== 'booked').length}</div>
+                  <p className="text-xs text-slate-400">+2 from last week</p>
           </CardContent>
         </Card>
 
-              <Card className="card-predictive">
+              <Card className="bg-slate-800 border-slate-700">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-text/70">Quotes Received</CardTitle>
-                  <DollarSign className="h-4 w-4 text-brand" />
+                  <CardTitle className="text-sm font-medium text-slate-400">Quotes Received</CardTitle>
+                  <DollarSign className="h-4 w-4 text-orange-400" />
           </CardHeader>
           <CardContent>
-                  <div className="text-2xl font-bold text-text">{recentQuotes.length}</div>
-                  <p className="text-xs text-text/60">+5 from yesterday</p>
+                  <div className="text-2xl font-bold text-white">{recentQuotes.length}</div>
+                  <p className="text-xs text-slate-400">+5 from yesterday</p>
           </CardContent>
         </Card>
 
-              <Card className="card-predictive">
+              <Card className="bg-slate-800 border-slate-700">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-text/70">Success Rate</CardTitle>
-                  <TrendingUp className="h-4 w-4 text-brand" />
+                  <CardTitle className="text-sm font-medium text-slate-400">Success Rate</CardTitle>
+                  <TrendingUp className="h-4 w-4 text-orange-400" />
           </CardHeader>
           <CardContent>
-                  <div className="text-2xl font-bold text-text">87%</div>
-                  <p className="text-xs text-text/60">+3% from last month</p>
+                  <div className="text-2xl font-bold text-white">87%</div>
+                  <p className="text-xs text-slate-400">+3% from last month</p>
           </CardContent>
         </Card>
 
-              <Card className="card-predictive">
+              <Card className="bg-slate-800 border-slate-700">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-text/70">Messages</CardTitle>
-                  <MessageCircle className="h-4 w-4 text-brand" />
+                  <CardTitle className="text-sm font-medium text-slate-400">Messages</CardTitle>
+                  <MessageCircle className="h-4 w-4 text-orange-400" />
           </CardHeader>
           <CardContent>
-                  <div className="text-2xl font-bold text-text">12</div>
-                  <p className="text-xs text-text/60">3 unread</p>
+                  <div className="text-2xl font-bold text-white">12</div>
+                  <p className="text-xs text-slate-400">3 unread</p>
           </CardContent>
         </Card>
       </div>

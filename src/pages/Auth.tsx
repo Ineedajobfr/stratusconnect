@@ -10,6 +10,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useAuth } from '@/contexts/AuthContext';
 import { NavigationArrows } from '@/components/NavigationArrows';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
+import { DemoBanner } from '@/components/DemoBanner';
 import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
 import { Loader2, Shield, Eye, EyeOff, Mail, Plane, User, Building, Users, Briefcase } from 'lucide-react';
 
@@ -48,6 +49,7 @@ export default function Auth() {
   if (loading) {
     return (
       <div className="min-h-screen bg-terminal-bg relative">
+        <DemoBanner />
         <StarfieldRunwayBackground intensity={0.3} starCount={150} />
         <div className="relative z-10 flex items-center justify-center min-h-screen">
           <div className="flex items-center gap-3">
@@ -147,6 +149,7 @@ export default function Auth() {
 
   return (
     <div className="min-h-screen bg-terminal-bg relative">
+      <DemoBanner />
       <StarfieldRunwayBackground intensity={0.3} starCount={150} />
       
       <div className="relative z-10 min-h-screen flex items-center justify-center p-4">

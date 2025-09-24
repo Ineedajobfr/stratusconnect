@@ -4,7 +4,7 @@
 import { stripeConnectLive } from './stripe-connect-live';
 import { receiptGenerator } from './receipt-generator';
 import { calcDealFees, calcHiringFees } from './fees';
-import kycLiveService from './kyc-aml-live';
+import { kycLiveService } from './kyc-aml-live';
 
 export interface CharterDealFlow {
   dealId: string;
@@ -68,28 +68,20 @@ class ProductionPaymentFlows {
     });
 
     // Generate receipt
-    const dealData = {
-      id: deal.dealId,
-      broker: { id: deal.brokerId, name: 'Test Broker', company: 'Test Broker Ltd', email: '' },
-      operator: { id: deal.operatorId, name: 'Test Operator', company: 'Test Operator Ltd', email: '' },
+    const receipt = await receiptGenerator.generateDealReceipt({
+      transactionId: paymentIntent.id,
+      broker: { id: deal.brokerId, name: 'Test Broker', company: 'Test Broker Ltd' },
+      operator: { id: deal.operatorId, name: 'Test Operator', company: 'Test Operator Ltd' },
       deal: {
         route: deal.route,
         aircraft: deal.aircraft,
         departureDate: deal.departureDate
       },
-      financial: {
-        totalAmount,
-        currency: deal.currency,
-        platformFee,
-        netToOperator,
-        feePercentage: 0.07
-      },
-      stripe: {
-        paymentIntentId: paymentIntent.id
-      }
-    };
-
-    const receipt = await receiptGenerator.generateDealReceipt(dealData as any, deal.brokerId);
+      totalAmount,
+      currency: deal.currency,
+      stripePaymentIntentId: paymentIntent.id,
+      kycVerified: true
+    });
 
     return {
       paymentIntent,
@@ -138,24 +130,16 @@ class ProductionPaymentFlows {
     });
 
     // Generate receipt
-    const hiringData = {
-      id: hire.hireId,
-      operator: { id: hire.operatorId, name: 'Test Operator', company: 'Test Operator Ltd', email: '' },
+    const receipt = await receiptGenerator.generateHiringReceipt({
+      transactionId: paymentIntent.id,
+      operator: { id: hire.operatorId, name: 'Test Operator', company: 'Test Operator Ltd' },
       pilot: hire.pilotId ? { id: hire.pilotId, name: 'Test Pilot', role: hire.role } : undefined,
       crew: hire.crewId ? { id: hire.crewId, name: 'Test Crew', role: hire.role } : undefined,
-      financial: {
-        totalAmount,
-        currency: hire.currency,
-        platformFee: hiringFee,
-        netToOperator,
-        feePercentage: 0.10
-      },
-      stripe: {
-        paymentIntentId: paymentIntent.id
-      }
-    };
-
-    const receipt = await receiptGenerator.generateHiringReceipt(hiringData as any, hire.operatorId);
+      totalAmount,
+      currency: hire.currency,
+      stripePaymentIntentId: paymentIntent.id,
+      kycVerified: true
+    });
 
     return {
       paymentIntent,

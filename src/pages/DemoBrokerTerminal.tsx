@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Brand } from '@/components/Brand';
+import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import BrokerBackdrop from '@/components/BrokerBackdrop';
 import { 
@@ -70,8 +70,8 @@ export default function DemoBrokerTerminal() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="card-predictive">
           <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
+          <div className="flex items-center justify-between">
+            <div>
                 <p className="text-sm text-text/70">Active RFQs</p>
                 <p className="text-2xl font-bold text-bright">{demoMetrics.activeRFQs}</p>
                 <p className="text-xs text-green-400">+2 this week</p>
@@ -83,8 +83,8 @@ export default function DemoBrokerTerminal() {
 
         <Card className="card-predictive">
           <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
+          <div className="flex items-center justify-between">
+            <div>
                 <p className="text-sm text-text/70">Quotes Received</p>
                 <p className="text-2xl font-bold text-bright">{demoMetrics.quotesReceived}</p>
                 <p className="text-xs text-blue-400">+5 today</p>
@@ -96,8 +96,8 @@ export default function DemoBrokerTerminal() {
 
         <Card className="card-predictive">
           <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
+          <div className="flex items-center justify-between">
+            <div>
                 <p className="text-sm text-text/70">Deals Closed</p>
                 <p className="text-2xl font-bold text-bright">{demoMetrics.dealsClosed}</p>
                 <p className="text-xs text-green-400">+3 this month</p>
@@ -109,8 +109,8 @@ export default function DemoBrokerTerminal() {
 
         <Card className="card-predictive">
           <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
+          <div className="flex items-center justify-between">
+            <div>
                 <p className="text-sm text-text/70">Avg Response Time</p>
                 <p className="text-2xl font-bold text-bright">{demoMetrics.averageResponseTime}m</p>
                 <p className="text-xs text-purple-400">-15% faster</p>
@@ -124,41 +124,41 @@ export default function DemoBrokerTerminal() {
       {/* Revenue & Performance */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="card-predictive">
-          <CardHeader>
+        <CardHeader>
             <CardTitle className="flex items-center gap-2 text-bright">
               <DollarSign className="w-5 h-5 text-brand" />
               Revenue Overview
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+      <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-text/70">Total Revenue</span>
                 <span className="text-2xl font-bold text-bright">£{demoMetrics.revenue.toLocaleString()}</span>
-              </div>
+                </div>
               <div className="flex justify-between items-center">
                 <span className="text-text/70">Growth</span>
                 <span className="text-green-400 font-semibold">+{demoMetrics.revenueGrowth}%</span>
               </div>
               <div className="w-full bg-surface-2 rounded-full h-2">
                 <div className="bg-brand h-2 rounded-full" style={{ width: '75%' }}></div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+                      </div>
+                    </div>
+            </CardContent>
+          </Card>
 
         <Card className="card-predictive">
-          <CardHeader>
+        <CardHeader>
             <CardTitle className="flex items-center gap-2 text-bright">
               <TrendingUp className="w-5 h-5 text-green-400" />
               Performance Metrics
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-text/70">Client Satisfaction</span>
-                <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
                   <span className="text-xl font-bold text-bright">{demoMetrics.clientSatisfaction}/5.0</span>
                   <Star className="w-4 h-4 text-yellow-400 fill-current" />
                 </div>
@@ -170,10 +170,10 @@ export default function DemoBrokerTerminal() {
               <div className="flex justify-between items-center">
                 <span className="text-text/70">Industry Rank</span>
                 <Badge className="bg-green-500/20 text-green-400 border-transparent">Top 5%</Badge>
-              </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </CardContent>
+      </Card>
       </div>
     </div>
   );
@@ -186,15 +186,15 @@ export default function DemoBrokerTerminal() {
       <header className="sticky top-0 bg-black/20 backdrop-blur-xl border-b border-white/10 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <Brand />
+            <StratusConnectLogo className="text-xl text-text" terminalType="broker" />
             <Badge className="bg-green-500/20 text-green-400 border-transparent">
               DEMO MODE
             </Badge>
           </div>
           
           <div className="flex items-center gap-4">
-            <div className="flex gap-2">
-              <Button
+          <div className="flex gap-2">
+            <Button
                 className="bg-purple-600 hover:bg-purple-700 text-text shadow-glow rounded-xl px-6 py-2 font-medium transition-all duration-200"
                 title="AI Assistant (Ctrl+A)"
               >
@@ -211,10 +211,10 @@ export default function DemoBrokerTerminal() {
               <Button
                 className="bg-brand hover:bg-brand-600 text-text shadow-glow rounded-xl px-6 py-2 font-medium transition-all duration-200"
                 title="Help Guide (Ctrl+H)"
-              >
-                <Trophy className="h-4 w-4 mr-2" />
-                Tutorial
-              </Button>
+            >
+              <Trophy className="h-4 w-4 mr-2" />
+              Tutorial
+            </Button>
             </div>
           </div>
         </div>
@@ -256,7 +256,7 @@ export default function DemoBrokerTerminal() {
               <BarChart3 className="w-4 h-4" />
               Analytics
             </TabsTrigger>
-          </TabsList>
+            </TabsList>
 
           <TabsContent value="dashboard" className="mt-6 scroll-smooth">
             {renderDashboard()}
@@ -280,7 +280,7 @@ export default function DemoBrokerTerminal() {
             </div>
           </TabsContent>
         </Tabs>
-      </main>
-    </div>
+        </main>
+      </div>
   );
 }

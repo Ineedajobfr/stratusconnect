@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Brand } from '@/components/Brand';
+import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import BrokerBackdrop from '@/components/BrokerBackdrop';
 import { 
@@ -60,7 +60,7 @@ export default function DemoOperatorTerminal() {
               <Plane className="w-8 h-8 text-brand" />
             </div>
           </CardContent>
-        </Card>
+          </Card>
 
         <Card className="card-predictive">
           <CardContent className="p-6">
@@ -73,7 +73,7 @@ export default function DemoOperatorTerminal() {
               <Target className="w-8 h-8 text-green-400" />
             </div>
           </CardContent>
-        </Card>
+          </Card>
 
         <Card className="card-predictive">
           <CardContent className="p-6">
@@ -91,7 +91,7 @@ export default function DemoOperatorTerminal() {
         <Card className="card-predictive">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
-              <div>
+                <div>
                 <p className="text-sm text-text/70">Avg Response Time</p>
                 <p className="text-2xl font-bold text-bright">{demoMetrics.responseTime}m</p>
                 <p className="text-xs text-yellow-400">-20% faster</p>
@@ -105,13 +105,13 @@ export default function DemoOperatorTerminal() {
       {/* Revenue & Performance */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="card-predictive">
-          <CardHeader>
+        <CardHeader>
             <CardTitle className="flex items-center gap-2 text-bright">
               <DollarSign className="w-5 h-5 text-brand" />
               Revenue Overview
             </CardTitle>
-          </CardHeader>
-          <CardContent>
+        </CardHeader>
+        <CardContent>
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-text/70">Total Revenue</span>
@@ -124,9 +124,9 @@ export default function DemoOperatorTerminal() {
               <div className="w-full bg-surface-2 rounded-full h-2">
                 <div className="bg-brand h-2 rounded-full" style={{ width: '85%' }}></div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+          </div>
+        </CardContent>
+      </Card>
 
         <Card className="card-predictive">
           <CardHeader>
@@ -163,11 +163,11 @@ export default function DemoOperatorTerminal() {
     <div className="min-h-screen bg-app text-body relative overflow-hidden">
       <BrokerBackdrop />
       
-      {/* Header */}
+        {/* Header */}
       <header className="sticky top-0 bg-black/20 backdrop-blur-xl border-b border-white/10 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <Brand />
+            <div className="flex items-center space-x-4">
+            <StratusConnectLogo className="text-xl text-text" terminalType="operator" />
             <Badge className="bg-blue-500/20 text-blue-400 border-transparent">
               OPERATOR DEMO
             </Badge>
@@ -199,7 +199,7 @@ export default function DemoOperatorTerminal() {
             </div>
           </div>
         </div>
-      </header>
+        </header>
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 py-8">
@@ -210,17 +210,17 @@ export default function DemoOperatorTerminal() {
               className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'dashboard' || activeTab === 'dashboard' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
               onClick={() => handleSectionClick('dashboard')}
             >
-              <BarChart3 className="w-4 h-4" />
-              Dashboard
-            </TabsTrigger>
+                <BarChart3 className="w-4 h-4" />
+                Dashboard
+              </TabsTrigger>
             <TabsTrigger 
               value="fleet" 
               className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'fleet' || activeTab === 'fleet' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
               onClick={() => handleSectionClick('fleet')}
             >
-              <Plane className="w-4 h-4" />
-              Fleet
-            </TabsTrigger>
+                <Plane className="w-4 h-4" />
+                Fleet
+              </TabsTrigger>
             <TabsTrigger 
               value="bookings" 
               className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'bookings' || activeTab === 'bookings' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
@@ -228,15 +228,15 @@ export default function DemoOperatorTerminal() {
             >
               <FileText className="w-4 h-4" />
               Bookings
-            </TabsTrigger>
+              </TabsTrigger>
             <TabsTrigger
               value="analytics"
               className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'analytics' || activeTab === 'analytics' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
               onClick={() => handleSectionClick('analytics')}
             >
               <BarChart3 className="w-4 h-4" />
-              Analytics
-            </TabsTrigger>
+                Analytics
+              </TabsTrigger>
           </TabsList>
 
           <TabsContent value="dashboard" className="mt-6 scroll-smooth">
@@ -259,9 +259,9 @@ export default function DemoOperatorTerminal() {
               <h2 className="text-2xl font-bold text-bright mb-4">Analytics Dashboard</h2>
               <p className="text-text/70">Analytics features coming soon...</p>
             </div>
-          </TabsContent>
-        </Tabs>
-      </main>
-    </div>
+            </TabsContent>
+          </Tabs>
+        </main>
+              </div>
   );
 }

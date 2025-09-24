@@ -2,16 +2,19 @@
 // FCA Compliant Aviation Platform
 
 import { evidenceReceiptGenerator } from './evidence-receipt-generator';
+import type { EvidenceReceipt } from './evidence-receipt-generator';
 import { warRoomChecker } from './war-room-checks';
+import type { WarRoomReport } from './war-room-checks';
 import { greenLightGateValidator } from './green-light-gate';
+import type { GreenLightGate } from './green-light-gate';
 
 export interface EvidencePack {
   id: string;
   generatedAt: string;
   version: string;
   receipts: {
-    charter: Record<string, unknown>;
-    hiring: Record<string, unknown>;
+    charter: EvidenceReceipt;
+    hiring: EvidenceReceipt;
   };
   statusScreenshot: {
     uptime: number;
@@ -50,8 +53,8 @@ export interface EvidencePack {
     dataIntegrity: boolean;
     testData: string;
   };
-  warRoomChecks: Record<string, unknown>;
-  greenLightGate: Record<string, unknown>;
+  warRoomChecks: WarRoomReport;
+  greenLightGate: GreenLightGate;
   summary: string;
 }
 
@@ -228,11 +231,11 @@ CREATE POLICY "Operators can create hires" ON hires
    * Generate summary
    */
   private generateSummary(
-    charterReceipt: any,
-    hiringReceipt: any,
-    statusScreenshot: any,
-    warRoomChecks: any,
-    greenLightGate: any
+    charterReceipt: EvidenceReceipt,
+    hiringReceipt: EvidenceReceipt,
+    statusScreenshot: EvidencePack['statusScreenshot'],
+    warRoomChecks: WarRoomReport,
+    greenLightGate: GreenLightGate
   ): string {
     let summary = 'EVIDENCE PACK SUMMARY\n';
     summary += '====================\n\n';

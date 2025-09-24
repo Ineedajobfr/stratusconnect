@@ -373,11 +373,11 @@ export function AdminConfigPanel() {
                   <Label htmlFor="supportPriority">Support Priority</Label>
                   <p className="text-xs text-muted-foreground">Faster SLA for top leagues</p>
                 </div>
-                <Switch
-                  id="supportPriority"
-                  checked={config.perks.supportPriority}
-                  onCheckedChange={(checked) => handlePerkToggle('supportPriority', checked)}
-                />
+                  <Switch
+                   id="supportPriority"
+                   checked={!!config.perks.supportPriority}
+                   onCheckedChange={(checked) => handlePerkToggle('supportPriority', checked)}
+                 />
               </div>
               <div className="flex items-center justify-between">
                 <div>

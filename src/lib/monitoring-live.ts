@@ -107,10 +107,10 @@ class MonitoringLiveService {
         throw new Error(`UptimeRobot API error: ${data.error?.message || 'Unknown error'}`);
       }
 
-      const monitors = data.monitors || [];
-      const primaryMonitor = monitors.find((m: Record<string, unknown>) => 
-        m.friendly_name === 'Stratus Connect' || 
-        m.url.includes(this.appBaseUrl)
+      const monitors = (data.monitors ?? []) as any[];
+      const primaryMonitor = monitors.find((m: any) => 
+        (m?.friendly_name === 'Stratus Connect') || 
+        (typeof m?.url === 'string' && m.url.includes(this.appBaseUrl))
       ) || monitors[0];
 
       if (!primaryMonitor) {
@@ -140,18 +140,26 @@ class MonitoringLiveService {
    * Calculate uptime metrics from UptimeRobot data
    */
   private calculateUptimeMetrics(monitor: Record<string, unknown>): UptimeMetrics {
-    const uptime_24h = this.calculateUptime(monitor.custom_uptime_ranges, 1);
-    const uptime_7d = this.calculateUptime(monitor.custom_uptime_ranges, 7);
-    const uptime_30d = this.calculateUptime(monitor.custom_uptime_ranges, 30);
+    const ranges = Array.isArray((monitor as any)?.custom_uptime_ranges)
+      ? ((monitor as any).custom_uptime_ranges as Record<string, unknown>[])
+      : [];
+    const logs = Array.isArray((monitor as any)?.logs)
+      ? ((monitor as any).logs as Record<string, unknown>[])
+      : [];
 
-    const response_time_24h = this.calculateResponseTime(monitor.logs, 24);
-    const response_time_7d = this.calculateResponseTime(monitor.logs, 168);
+    const uptime_24h = this.calculateUptime(ranges, 1);
+    const uptime_7d = this.calculateUptime(ranges, 7);
+    const uptime_30d = this.calculateUptime(ranges, 30);
 
-    const incidents_24h = this.countIncidents(monitor.logs, 24);
-    const incidents_7d = this.countIncidents(monitor.logs, 168);
+    const response_time_24h = this.calculateResponseTime(logs, 24);
+    const response_time_7d = this.calculateResponseTime(logs, 168);
 
-    const last_incident = this.getLastIncident(monitor.logs);
+    const incidents_24h = this.countIncidents(logs, 24);
+    const incidents_7d = this.countIncidents(logs, 168);
 
+    const last_incident = this.getLastIncident(logs);
+
+    const statusNum = Number((monitor as any)?.status);
     return {
       uptime_24h,
       uptime_7d,
@@ -161,7 +169,7 @@ class MonitoringLiveService {
       incidents_24h,
       incidents_7d,
       last_incident,
-      current_status: monitor.status === 2 ? 'up' : monitor.status === 9 ? 'paused' : 'down'
+      current_status: statusNum === 2 ? 'up' : statusNum === 9 ? 'paused' : 'down'
     };
   }
 
@@ -170,11 +178,10 @@ class MonitoringLiveService {
    */
   private calculateUptime(ranges: Record<string, unknown>[], days: number): number {
     if (!ranges || ranges.length === 0) return 0;
-    
-    const range = ranges.find((r: Record<string, unknown>) => r.range === days);
-    if (!range) return 0;
-    
-    return parseFloat(range.ratio) || 0;
+    const range = ranges.find((r: Record<string, unknown>) => (r as any)?.range === days) as any;
+    const ratio = range?.ratio;
+    const num = typeof ratio === 'number' ? ratio : parseFloat(String(ratio ?? 0));
+    return isNaN(num) ? 0 : num;
   }
 
   /**
@@ -182,20 +189,22 @@ class MonitoringLiveService {
    */
   private calculateResponseTime(logs: Record<string, unknown>[], hours: number): number {
     if (!logs || logs.length === 0) return 0;
-    
     const cutoff = new Date();
     cutoff.setHours(cutoff.getHours() - hours);
-    
-    const recentLogs = logs.filter((log: Record<string, unknown>) => 
-      new Date(log.datetime * 1000) > cutoff && log.type === 1
-    );
-    
+
+    const recentLogs = logs.filter((log: Record<string, unknown>) => {
+      const dt = Number((log as any)?.datetime);
+      const type = Number((log as any)?.type);
+      return !isNaN(dt) && new Date(dt * 1000) > cutoff && type === 1;
+    });
+
     if (recentLogs.length === 0) return 0;
-    
-    const totalResponseTime = recentLogs.reduce((sum: number, log: Record<string, unknown>) => 
-      sum + (log.duration || 0), 0
-    );
-    
+
+    const totalResponseTime = recentLogs.reduce((sum: number, log: Record<string, unknown>) => {
+      const duration = Number((log as any)?.duration ?? 0);
+      return sum + (isNaN(duration) ? 0 : duration);
+    }, 0);
+
     return Math.round(totalResponseTime / recentLogs.length);
   }
 
@@ -204,13 +213,14 @@ class MonitoringLiveService {
    */
   private countIncidents(logs: Record<string, unknown>[], hours: number): number {
     if (!logs || logs.length === 0) return 0;
-    
     const cutoff = new Date();
     cutoff.setHours(cutoff.getHours() - hours);
-    
-    return logs.filter((log: Record<string, unknown>) => 
-      new Date(log.datetime * 1000) > cutoff && log.type === 0
-    ).length;
+
+    return logs.filter((log: Record<string, unknown>) => {
+      const dt = Number((log as any)?.datetime);
+      const type = Number((log as any)?.type);
+      return !isNaN(dt) && new Date(dt * 1000) > cutoff && type === 0;
+    }).length;
   }
 
   /**
@@ -218,12 +228,11 @@ class MonitoringLiveService {
    */
   private getLastIncident(logs: Record<string, unknown>[]): string | null {
     if (!logs || logs.length === 0) return null;
-    
-    const incidentLogs = logs.filter((log: Record<string, unknown>) => log.type === 0);
+    const incidentLogs = logs.filter((log: Record<string, unknown>) => Number((log as any)?.type) === 0);
     if (incidentLogs.length === 0) return null;
-    
-    const lastIncident = incidentLogs[incidentLogs.length - 1];
-    return new Date(lastIncident.datetime * 1000).toISOString();
+    const lastIncident = incidentLogs[incidentLogs.length - 1] as any;
+    const dt = Number(lastIncident?.datetime);
+    return isNaN(dt) ? null : new Date(dt * 1000).toISOString();
   }
 
   /**
@@ -232,17 +241,17 @@ class MonitoringLiveService {
   private async getActiveIncidents(): Promise<Incident[]> {
     try {
       const { data, error } = await supabase
-        .from('incidents')
+        .from('incidents' as any)
         .select('*')
-        .in('status', ['investigating', 'identified', 'monitoring'])
-        .order('started_at', { ascending: false });
+        .in('status', ['investigating', 'identified', 'monitoring'] as any)
+        .order('started_at', { ascending: false } as any);
 
       if (error) {
         console.error('Failed to fetch incidents:', error);
         return [];
       }
 
-      return data || [];
+      return (data as unknown as Incident[]) || [];
     } catch (error) {
       console.error('Failed to fetch incidents:', error);
       return [];
@@ -261,8 +270,8 @@ class MonitoringLiveService {
 
     try {
       const { error } = await supabase
-        .from('incidents')
-        .insert(newIncident);
+        .from('incidents' as any)
+        .insert(newIncident as any);
 
       if (error) {
         throw new Error(`Failed to create incident: ${error.message}`);
@@ -292,12 +301,12 @@ class MonitoringLiveService {
   async resolveIncident(incidentId: string): Promise<void> {
     try {
       const { error } = await supabase
-        .from('incidents')
+        .from('incidents' as any)
         .update({
           status: 'resolved',
           resolved_at: new Date().toISOString()
-        })
-        .eq('id', incidentId);
+        } as any)
+        .eq('id', incidentId as any);
 
       if (error) {
         throw new Error(`Failed to resolve incident: ${error.message}`);

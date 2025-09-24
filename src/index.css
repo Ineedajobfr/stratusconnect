@@ -1,15 +1,44 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap");
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Theme CSS is imported in main.tsx */
+/* ---- Stratus tokens ---- */
+:root{
+  --bg:#0B0D12;
+  --surface-1:#0F1220;
+  --surface-2:#12162A;
+  --text:#E6E8EE;
+  --muted:#A6ADBF;
 
-.tabular { 
-  font-variant-numeric: tabular-nums; 
+  --brand:#0B6BFF;     /* primary blue */
+  --brand-600:#0952C7;
+  --brand-300:#5AA2FF;
+
+  --fire:#FF7A1A;      /* orange heat */
+  --fire-600:#D7610F;
+  --fire-300:#FFB066;
+
+  --success:#23C483;
+}
+
+html,body,#root{background:var(--bg);color:var(--text);height:100%}
+
+/* starfield + vignette used by the page */
+.star-bg{
+  background:
+    radial-gradient(#ffffff10 1px, transparent 1px) 0 0/300px 300px,
+    radial-gradient(#ffffff08 1px, transparent 1px) 150px 150px/300px 300px;
+  animation:star-move 120s linear infinite;
+}
+@keyframes star-move{from{transform:translate3d(0,0,0)}to{transform:translate3d(-300px,-300px,0)}}
+.vignette{background:radial-gradient(120% 120% at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.35) 100%)}
+
+/* subtle card shadow */
+@layer utilities{
+  .shadow-card{ box-shadow:0 8px 40px rgba(0,0,0,.45) }
+  .shadow-glow{ box-shadow:
+      0 0 0 1px rgba(11,107,255,.25),
+      0 8px 30px rgba(11,107,255,.12) }
 }
 
 /* === StratusConnect Modern Terminal Palette ===

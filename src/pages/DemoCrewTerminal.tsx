@@ -1,342 +1,390 @@
-import React, { useState } from 'react';
+// Enhanced Demo Crew Terminal - Production Design Match
+// FCA Compliant Aviation Platform - 100% Free Until Revenue
+
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Brand } from '@/components/Brand';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ModernHelpGuide } from '@/components/ModernHelpGuide';
-import { StratusConnectLogo } from '@/components/StratusConnectLogo';
-import FloatingChat from '@/components/FloatingChat';
-import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
-import NoteTakingSystem from '@/components/NoteTakingSystem';
-import EnhancedAIChatbot from '@/components/EnhancedAIChatbot';
-import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
-import AvailabilityAssignments from '@/components/Crew/AvailabilityAssignments';
-import { RankingDashboard } from '@/components/gamification/RankingDashboard';
-import { TierSystem } from '@/components/gamification/TierSystem';
-import { useNavigate } from 'react-router-dom';
+import { ChatGPTHelper } from '@/components/ai/ChatGPTHelper';
+import { SmartPricingEngine } from '@/components/ai/SmartPricingEngine';
+import { RealTimeChat } from '@/components/chat/RealTimeChat';
+import { MarketIntelligence } from '@/components/market/MarketIntelligence';
+import { WorkflowAutomation } from '@/components/automation/WorkflowAutomation';
+import { AdvancedAnalytics } from '@/components/analytics/AdvancedAnalytics';
+import { ClientPortal } from '@/components/portal/ClientPortal';
+import BrokerBackdrop from '@/components/BrokerBackdrop';
 import { 
-  HelpCircle,
-  ArrowUp,
-  RefreshCw,
-  Plus,
-  Calendar,
-  Clock,
-  MapPin,
-  Users,
-  Star,
-  Award,
-  Briefcase,
-  Plane,
-  DollarSign,
-  CheckCircle,
+  DollarSign, 
+  FileText, 
+  Shield, 
+  CheckCircle, 
   AlertTriangle,
   TrendingUp,
-  BarChart3,
-  FileText,
-  Navigation,
+  Users,
+  Plane,
+  Clock,
+  Target,
+  Search,
   Bell,
-  Settings,
-  User,
-  Phone,
-  Mail,
+  Award,
+  BarChart3,
+  Zap,
+  Star,
+  MapPin,
+  Calendar,
+  GitCompare,
+  Save,
+  Eye,
+  Plus,
+  Filter,
+  Download,
+  Leaf,
+  Trophy,
   Globe,
-  Shield,
-  Zap
+  ArrowUp,
+  Menu,
+  RefreshCw,
+  MessageSquare,
+  Brain,
+  Settings,
+  X,
+  User,
+  Briefcase,
+  Coffee,
+  Utensils,
+  Heart,
+  Smile,
+  UserCheck
 } from 'lucide-react';
-
-interface Assignment {
-  id: string;
-  flightNumber: string;
-  route: string;
-  aircraft: string;
-  date: string;
-  time: string;
-  duration: string;
-  passengers: number;
-  status: 'upcoming' | 'active' | 'completed';
-  operator: string;
-  pay: number;
-  currency: string;
-  requirements: string[];
-}
-
-interface Performance {
-  id: string;
-  metric: string;
-  value: string;
-  trend: 'up' | 'down' | 'stable';
-  change: string;
-}
 
 export default function DemoCrewTerminal() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [showHelpGuide, setShowHelpGuide] = useState(false);
-  const navigate = useNavigate();
+  const [showAIAssistant, setShowAIAssistant] = useState(false);
+  const [showChat, setShowChat] = useState(false);
+  const [highlightedSection, setHighlightedSection] = useState<string | null>(null);
 
-  const [assignments] = useState<Assignment[]>([
+  // Demo data for crew
+  const demoMetrics = {
+    flightsServed: 89,
+    upcomingFlights: 3,
+    clientSatisfaction: 4.9,
+    serviceHours: 1250,
+    certifications: 6,
+    safetyScore: 99,
+    onTimePerformance: 98,
+    totalPassengers: 1240
+  };
+
+  const demoFlights = [
     {
-      id: 'A-001',
-      flightNumber: 'SC-1234',
-      route: 'LHR - JFK',
+      id: 'F001',
+      route: 'LHR → JFK',
       aircraft: 'Gulfstream G650',
-      date: '2025-09-20',
-      time: '14:30',
-      duration: '7h 30m',
+      departure: '2024-03-20 10:00',
+      arrival: '2024-03-20 18:30',
+      status: 'scheduled',
+      duration: '8h 30m',
       passengers: 8,
-      status: 'upcoming',
-      operator: 'SkyBridge Aviation',
-      pay: 850,
-      currency: 'USD',
-      requirements: ['VIP Service', 'Multi-language', 'Dietary Restrictions']
+      client: 'Elite Aviation Group',
+      role: 'Senior Flight Attendant'
     },
     {
-      id: 'A-002',
-      flightNumber: 'SC-1235',
-      route: 'CDG - LAX',
-      aircraft: 'Global 6000',
-      date: '2025-09-18',
-      time: '09:15',
-      duration: '11h 45m',
-      passengers: 12,
-      status: 'active',
-      operator: 'Elite Wings',
-      pay: 950,
-      currency: 'USD',
-      requirements: ['Champagne Service', 'Gourmet Catering']
-    },
-    {
-      id: 'A-003',
-      flightNumber: 'SC-1236',
-      route: 'FRA - DXB',
+      id: 'F002',
+      route: 'LAX → HNL',
       aircraft: 'Challenger 350',
-      date: '2025-09-15',
-      time: '16:20',
-      duration: '6h 15m',
+      departure: '2024-03-22 14:30',
+      arrival: '2024-03-22 17:45',
+      status: 'in-flight',
+      duration: '5h 15m',
       passengers: 6,
+      client: 'SkyBridge Aviation',
+      role: 'Flight Attendant'
+    },
+    {
+      id: 'F003',
+      route: 'CDG → DXB',
+      aircraft: 'Citation X+',
+      departure: '2024-03-25 09:15',
+      arrival: '2024-03-25 16:20',
       status: 'completed',
-      operator: 'AeroLux',
-      pay: 750,
-      currency: 'USD',
-      requirements: ['Business Class Service']
+      duration: '7h 05m',
+      passengers: 4,
+      client: 'Global Jet Services',
+      role: 'Lead Flight Attendant'
     }
-  ]);
+  ];
 
-  const [performance] = useState<Performance[]>([
+  const demoCertifications = [
     {
-      id: 'P-001',
-      metric: 'Service Rating',
-      value: '4.9/5',
-      trend: 'up',
-      change: '+0.2'
+      id: 'C001',
+      name: 'Flight Attendant Certificate',
+      type: 'Safety Certification',
+      expiry: '2025-06-15',
+      status: 'valid',
+      hours: 1250
     },
     {
-      id: 'P-002',
-      metric: 'Flights Completed',
-      value: '47',
-      trend: 'up',
-      change: '+12'
+      id: 'C002',
+      name: 'First Aid & CPR',
+      type: 'Medical Training',
+      expiry: '2024-09-20',
+      status: 'valid',
+      hours: 40
     },
     {
-      id: 'P-003',
-      metric: 'Monthly Earnings',
-      value: '$3,850',
-      trend: 'up',
-      change: '+$450'
-    },
-    {
-      id: 'P-004',
-      metric: 'Availability',
-      value: '95%',
-      trend: 'stable',
-      change: '0%'
+      id: 'C003',
+      name: 'Catering Excellence',
+      type: 'Service Training',
+      expiry: '2024-07-10',
+      status: 'expiring',
+      hours: 24
     }
-  ]);
+  ];
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.ctrlKey || e.metaKey) {
+        switch (e.key) {
+          case 'h':
+            e.preventDefault();
+            setShowHelpGuide(!showHelpGuide);
+            break;
+          case 'a':
+            e.preventDefault();
+            setShowAIAssistant(!showAIAssistant);
+            break;
+          case 'c':
+            e.preventDefault();
+            setShowChat(!showChat);
+            break;
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [showHelpGuide, showAIAssistant, showChat]);
+
+  const handleSectionClick = (section: string) => {
+    setHighlightedSection(section);
+    setTimeout(() => setHighlightedSection(null), 2000);
+  };
 
   const renderDashboard = () => (
     <div className="space-y-6">
-      {/* Performance Overview */}
+      {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {performance.map((perf) => (
-          <Card key={perf.id} className="terminal-card">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-gunmetal">{perf.metric}</CardTitle>
-              <div className={`w-2 h-2 rounded-full ${
-                perf.trend === 'up' ? 'bg-green-400' : 
-                perf.trend === 'down' ? 'bg-red-400' : 'bg-yellow-400'
-              }`} />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-foreground">{perf.value}</div>
-              <p className="text-xs text-muted-foreground">
-                {perf.change} vs last month
-              </p>
-            </CardContent>
-          </Card>
-        ))}
+        <Card className="card-predictive">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-text/70">Flights Served</p>
+                <p className="text-2xl font-bold text-bright">{demoMetrics.flightsServed}</p>
+                <p className="text-xs text-blue-400">+12 this month</p>
+              </div>
+              <Plane className="w-8 h-8 text-brand" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="card-predictive">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-text/70">Client Satisfaction</p>
+                <p className="text-2xl font-bold text-bright">{demoMetrics.clientSatisfaction}/5.0</p>
+                <p className="text-xs text-green-400">Excellent</p>
+              </div>
+              <Star className="w-8 h-8 text-green-400" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="card-predictive">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-text/70">Service Hours</p>
+                <p className="text-2xl font-bold text-bright">{demoMetrics.serviceHours.toLocaleString()}</p>
+                <p className="text-xs text-purple-400">+85 this month</p>
+              </div>
+              <Clock className="w-8 h-8 text-purple-400" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="card-predictive">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-text/70">Safety Score</p>
+                <p className="text-2xl font-bold text-bright">{demoMetrics.safetyScore}%</p>
+                <p className="text-xs text-green-400">Outstanding</p>
+              </div>
+              <Shield className="w-8 h-8 text-green-400" />
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
-      {/* Upcoming Assignments */}
-      <Card className="terminal-card">
+      {/* Performance & Certifications */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card className="card-predictive">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-bright">
+              <Heart className="w-5 h-5 text-red-400" />
+              Service Excellence
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-text/70">Total Passengers Served</span>
+                <span className="text-xl font-bold text-bright">{demoMetrics.totalPassengers.toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-text/70">On-Time Performance</span>
+                <span className="text-xl font-bold text-bright">{demoMetrics.onTimePerformance}%</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-text/70">Upcoming Flights</span>
+                <span className="text-xl font-bold text-bright">{demoMetrics.upcomingFlights}</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="card-predictive">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-bright">
+              <Award className="w-5 h-5 text-blue-400" />
+              Certifications
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-text/70">Active Certifications</span>
+                <span className="text-lg font-bold text-bright">{demoMetrics.certifications}</span>
+              </div>
+              <div className="space-y-2">
+                {demoCertifications.slice(0, 2).map((cert) => (
+                  <div key={cert.id} className="flex items-center justify-between p-2 bg-surface-2 rounded">
+                    <div>
+                      <p className="text-sm font-medium text-bright">{cert.name}</p>
+                      <p className="text-xs text-text/60">Expires: {cert.expiry}</p>
+                    </div>
+                    <Badge className={`${
+                      cert.status === 'valid' ? 'bg-green-500/20 text-green-400' :
+                      cert.status === 'expiring' ? 'bg-yellow-500/20 text-yellow-400' :
+                      'bg-red-500/20 text-red-400'
+                    } border-transparent text-xs`}>
+                      {cert.status}
+                    </Badge>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Recent Flights */}
+      <Card className="card-predictive">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Calendar className="w-5 h-5 text-accent" />
-            Upcoming Assignments
+          <CardTitle className="flex items-center gap-2 text-bright">
+            <Clock className="w-5 h-5 text-blue-400" />
+            Recent Flights
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            {assignments.filter(a => a.status === 'upcoming').map((assignment) => (
-              <div key={assignment.id} className="flex items-center justify-between p-4 border border-terminal-border rounded-lg">
-                <div className="flex items-center space-x-4">
-                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                    <Plane className="w-5 h-5 text-blue-600" />
-                  </div>
+          <div className="space-y-3">
+            {demoFlights.slice(0, 3).map((flight) => (
+              <div key={flight.id} className="flex items-center justify-between p-3 bg-surface-2 rounded-lg">
+                <div className="flex items-center gap-3">
+                  <Plane className="w-5 h-5 text-text/60" />
                   <div>
-                    <p className="font-medium text-foreground">{assignment.flightNumber} - {assignment.route}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {assignment.date} • {assignment.time} • {assignment.aircraft}
-                    </p>
-                    <div className="flex gap-2 mt-1">
-                      {assignment.requirements.map((req, index) => (
-                        <Badge key={index} variant="secondary" className="text-xs">
-                          {req}
-                        </Badge>
-                      ))}
-                    </div>
+                    <p className="font-medium text-bright">{flight.route}</p>
+                    <p className="text-sm text-text/70">{flight.aircraft} • {flight.role}</p>
+                    <p className="text-sm text-text/60">Client: {flight.client}</p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className="font-medium text-foreground">{assignment.pay} {assignment.currency}</p>
-                  <p className="text-sm text-muted-foreground">{assignment.duration}</p>
+                <div className="flex items-center gap-3">
+                  <Badge className={`${
+                    flight.status === 'completed' ? 'bg-green-500/20 text-green-400' :
+                    flight.status === 'in-flight' ? 'bg-blue-500/20 text-blue-400' :
+                    'bg-yellow-500/20 text-yellow-400'
+                  } border-transparent`}>
+                    {flight.status}
+                  </Badge>
+                  <div className="text-right">
+                    <p className="text-sm text-text/70">Passengers</p>
+                    <p className="text-sm font-semibold text-bright">{flight.passengers}</p>
+                  </div>
+                  <Button size="sm" variant="ghost">
+                    <Eye className="w-4 h-4" />
+                  </Button>
                 </div>
               </div>
             ))}
           </div>
         </CardContent>
       </Card>
-
-      {/* Recent Activity */}
-      <Card className="terminal-card">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Clock className="w-5 h-5 text-accent" />
-            Recent Activity
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="flex items-center space-x-4">
-              <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                <CheckCircle className="w-4 h-4 text-green-600" />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-foreground">Completed FRA - DXB flight</p>
-                <p className="text-xs text-muted-foreground">2 hours ago • $750 earned</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                <Bell className="w-4 h-4 text-blue-600" />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-foreground">New assignment available</p>
-                <p className="text-xs text-muted-foreground">LHR - JFK • Gulfstream G650</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
-                <Award className="w-4 h-4 text-yellow-600" />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-foreground">Performance bonus earned</p>
-                <p className="text-xs text-muted-foreground">$200 for excellent service rating</p>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 
-  const renderAssignments = () => (
+  const renderFlights = () => (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-foreground">My Assignments</h2>
-        <div className="flex gap-2">
-          <Button variant="outline" className="border-terminal-border">
-            <RefreshCw className="w-4 h-4 mr-2" />
-            Refresh
-          </Button>
-          <Button className="btn-terminal-accent">
-            <Plus className="w-4 h-4 mr-2" />
-            Apply for New
-          </Button>
-        </div>
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-bright">Flight Assignments</h2>
+        <Button className="bg-brand hover:bg-brand-600 text-text">
+          <Plus className="w-4 h-4 mr-2" />
+          Request Assignment
+        </Button>
       </div>
 
-      <div className="grid grid-cols-1 gap-6">
-        {assignments.map((assignment) => (
-          <Card key={assignment.id} className="terminal-card">
+      <div className="grid gap-4">
+        {demoFlights.map((flight) => (
+          <Card key={flight.id} className="card-predictive">
             <CardContent className="p-6">
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-3">
-                    <Badge 
-                      variant={assignment.status === 'completed' ? 'default' : 
-                              assignment.status === 'active' ? 'secondary' : 'outline'}
-                      className={
-                        assignment.status === 'completed' ? 'bg-green-100 text-green-800' :
-                        assignment.status === 'active' ? 'bg-blue-100 text-blue-800' :
-                        'bg-yellow-100 text-yellow-800'
-                      }
-                    >
-                      {assignment.status.charAt(0).toUpperCase() + assignment.status.slice(1)}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-brand/15 rounded-lg">
+                    <Plane className="w-6 h-6 text-brand" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-bright">{flight.route}</h3>
+                    <p className="text-text/70">{flight.aircraft} • {flight.duration}</p>
+                    <p className="text-sm text-text/60">Client: {flight.client}</p>
+                    <p className="text-sm text-text/60">Role: {flight.role} • Passengers: {flight.passengers}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="text-right">
+                    <p className="text-sm text-text/70">Status</p>
+                    <Badge className={`${
+                      flight.status === 'completed' ? 'bg-green-500/20 text-green-400' :
+                      flight.status === 'in-flight' ? 'bg-blue-500/20 text-blue-400' :
+                      'bg-yellow-500/20 text-yellow-400'
+                    } border-transparent`}>
+                      {flight.status}
                     </Badge>
-                    <h3 className="text-lg font-semibold text-foreground">
-                      {assignment.flightNumber} - {assignment.route}
-                    </h3>
                   </div>
-                  
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-                    <div>
-                      <p className="text-sm text-muted-foreground">Aircraft</p>
-                      <p className="font-medium text-foreground">{assignment.aircraft}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Date & Time</p>
-                      <p className="font-medium text-foreground">{assignment.date} {assignment.time}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Duration</p>
-                      <p className="font-medium text-foreground">{assignment.duration}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Passengers</p>
-                      <p className="font-medium text-foreground">{assignment.passengers}</p>
-                    </div>
+                  <div className="text-right">
+                    <p className="text-sm text-text/70">Departure</p>
+                    <p className="text-sm font-semibold text-bright">{flight.departure}</p>
                   </div>
-
-                  <div className="mb-4">
-                    <p className="text-sm text-muted-foreground mb-2">Requirements</p>
-                    <div className="flex flex-wrap gap-2">
-                      {assignment.requirements.map((req, index) => (
-                        <Badge key={index} variant="secondary" className="text-xs">
-                          {req}
-                        </Badge>
-                      ))}
-                    </div>
+                  <div className="text-right">
+                    <p className="text-sm text-text/70">Arrival</p>
+                    <p className="text-sm font-semibold text-bright">{flight.arrival}</p>
                   </div>
-
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-muted-foreground">Operator</p>
-                      <p className="font-medium text-foreground">{assignment.operator}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm text-muted-foreground">Pay</p>
-                      <p className="text-lg font-bold text-accent">{assignment.pay} {assignment.currency}</p>
-                    </div>
-                  </div>
+                  <Button variant="ghost" size="sm">
+                    <Eye className="w-4 h-4" />
+                  </Button>
                 </div>
               </div>
             </CardContent>
@@ -346,249 +394,225 @@ export default function DemoCrewTerminal() {
     </div>
   );
 
-  const renderProfile = () => (
+  const renderCertifications = () => (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-foreground">My Profile</h2>
-        <Button className="btn-terminal-accent">
-          <Settings className="w-4 h-4 mr-2" />
-          Edit Profile
-        </Button>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="terminal-card">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <User className="w-5 h-5 text-accent" />
-              Personal Information
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <p className="text-sm text-muted-foreground">Name</p>
-              <p className="font-medium text-foreground">Sophie Chen</p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Role</p>
-              <p className="font-medium text-foreground">Senior Flight Attendant</p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Experience</p>
-              <p className="font-medium text-foreground">8 years</p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Rating</p>
-              <div className="flex items-center gap-1">
-                <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                <span className="font-medium text-foreground">4.9/5</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="terminal-card">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Globe className="w-5 h-5 text-accent" />
-              Languages & Skills
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <p className="text-sm text-muted-foreground mb-2">Languages</p>
-              <div className="flex flex-wrap gap-2">
-                {['English', 'Mandarin', 'French', 'Spanish'].map((lang) => (
-                  <Badge key={lang} variant="secondary">{lang}</Badge>
-                ))}
-              </div>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground mb-2">Specializations</p>
-              <div className="flex flex-wrap gap-2">
-                {['VIP Service', 'Gourmet Catering', 'Medical Assistance', 'Multi-cultural'].map((skill) => (
-                  <Badge key={skill} variant="outline">{skill}</Badge>
-                ))}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="terminal-card">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <DollarSign className="w-5 h-5 text-accent" />
-              Earnings & Availability
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <p className="text-sm text-muted-foreground">This Month</p>
-              <p className="text-2xl font-bold text-foreground">$3,850</p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Availability</p>
-              <p className="font-medium text-foreground">95%</p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Next Available</p>
-              <p className="font-medium text-foreground">Sep 22, 2025</p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
-  );
-
-  const renderNotes = () => (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-foreground">Note Taking System</h2>
-        <Button className="btn-terminal-accent">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-bright">Certifications & Training</h2>
+        <Button className="bg-brand hover:bg-brand-600 text-text">
           <Plus className="w-4 h-4 mr-2" />
-          New Note
+          Enroll in Training
         </Button>
       </div>
-      <NoteTakingSystem terminalType="crew" />
-    </div>
-  );
 
-  const renderTracking = () => (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-foreground">Flight Tracking</h2>
-        <Button className="btn-terminal-accent">
-          <RefreshCw className="w-4 h-4 mr-2" />
-          Refresh
-        </Button>
+      <div className="grid gap-4">
+        {demoCertifications.map((cert) => (
+          <Card key={cert.id} className="card-predictive">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-brand/15 rounded-lg">
+                    <Award className="w-6 h-6 text-brand" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-bright">{cert.name}</h3>
+                    <p className="text-text/70">{cert.type}</p>
+                    <p className="text-sm text-text/60">Hours: {cert.hours} • Expires: {cert.expiry}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="text-right">
+                    <p className="text-sm text-text/70">Status</p>
+                    <Badge className={`${
+                      cert.status === 'valid' ? 'bg-green-500/20 text-green-400' :
+                      cert.status === 'expiring' ? 'bg-yellow-500/20 text-yellow-400' :
+                      'bg-red-500/20 text-red-400'
+                    } border-transparent`}>
+                      {cert.status}
+                    </Badge>
+                  </div>
+                  <Button variant="ghost" size="sm">
+                    <Eye className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
-      <FlightRadar24Widget 
-        tailNumbers={['N123SC', 'N456AV', 'N789OP']}
-        showMap={true}
-        autoRefresh={true}
-        refreshInterval={30}
-        role="crew"
-      />
     </div>
   );
 
   return (
-    <>
+    <div className="min-h-screen bg-app text-body relative overflow-hidden">
+      <BrokerBackdrop />
+      
+      {/* Help Guide */}
       {showHelpGuide && (
-      <ModernHelpGuide 
-        terminalType="crew" 
-        activeTab={activeTab} 
-          showOnMount={false} 
-        isDemo={true}
+        <ModernHelpGuide
+          terminalType="crew"
+          activeTab={activeTab}
           onClose={() => setShowHelpGuide(false)}
-      />
+          showOnMount={false}
+          isDemo={true}
+        />
       )}
-      <div className="min-h-screen bg-app relative overflow-hidden scroll-smooth">
-        <StarfieldRunwayBackground />
-        
-        {/* Header */}
-        <header className="relative z-10 sticky top-0 bg-terminal-card/80 backdrop-blur-modern border-b border-terminal-border">
-          <div className="max-w-7xl mx-auto px-6 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <StratusConnectLogo className="text-orange-400 text-lg mr-6" />
-                <div>
-                  <h1 className="text-xl font-bold text-foreground">Crew Terminal (Demo)</h1>
-                  <p className="text-sm text-gunmetal">Sophie Chen • Senior Flight Attendant</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-4">
-                <div className="text-sm text-slate-400">
-                  STATUS: <span className="text-green-400">AVAILABLE</span>
-                </div>
-                <Button
-                  onClick={() => setShowHelpGuide(true)}
-                  className="w-12 h-12 bg-accent/20 hover:bg-accent/30 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-accent/30"
-                  title="Help Guide"
-                >
-                  <HelpCircle className="w-6 h-6 text-white" />
-                </Button>
-              </div>
+
+      {/* Left Side AI Assistant */}
+      {showAIAssistant && (
+        <div className="fixed left-4 top-1/2 transform -translate-y-1/2 z-50 w-96 max-h-[80vh]">
+          <ChatGPTHelper
+            isOpen={showAIAssistant}
+            onClose={() => setShowAIAssistant(false)}
+            context={{
+              activeTab,
+              userRole: 'crew',
+              recentActivity: []
+            }}
+          />
+        </div>
+      )}
+
+      {/* Right Side Chat */}
+      {showChat && (
+        <div className="fixed right-4 top-1/2 transform -translate-y-1/2 z-50 w-96 max-h-[80vh]">
+          <RealTimeChat
+            chatId="demo_crew_chat_001"
+            participants={[
+              { id: 'crew_001', name: 'You', role: 'crew', isOnline: true },
+              { id: 'pilot_001', name: 'Captain Smith', role: 'pilot', isOnline: true },
+              { id: 'op_001', name: 'Elite Aviation', role: 'operator', isOnline: true }
+            ]}
+            onClose={() => setShowChat(false)}
+          />
+        </div>
+      )}
+      
+      {/* Header */}
+      <header className="sticky top-0 bg-black/20 backdrop-blur-xl border-b border-white/10 shadow-sm">
+        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <Brand />
+            <Badge className="bg-pink-500/20 text-pink-400 border-transparent">
+              CREW DEMO
+            </Badge>
+          </div>
+          
+          <div className="flex items-center gap-4">
+            <div className="flex gap-2">
+              <Button
+                onClick={() => setShowAIAssistant(true)}
+                className="bg-purple-600 hover:bg-purple-700 text-text shadow-glow rounded-xl px-6 py-2 font-medium transition-all duration-200"
+                title="AI Assistant (Ctrl+A)"
+              >
+                <Brain className="h-4 w-4 mr-2" />
+                AI Assistant
+              </Button>
+              <Button
+                onClick={() => setShowChat(true)}
+                className="bg-green-600 hover:bg-green-700 text-text shadow-glow rounded-xl px-6 py-2 font-medium transition-all duration-200"
+                title="Real-time Chat"
+              >
+                <MessageSquare className="h-4 w-4 mr-2" />
+                Chat
+              </Button>
+              <Button
+                onClick={() => setShowHelpGuide(true)}
+                className="bg-brand hover:bg-brand-600 text-text shadow-glow rounded-xl px-6 py-2 font-medium transition-all duration-200"
+                title="Help Guide (Ctrl+H)"
+              >
+                <Trophy className="h-4 w-4 mr-2" />
+                Tutorial
+              </Button>
             </div>
           </div>
-        </header>
+        </div>
+      </header>
 
-        <main className="relative z-10 max-w-7xl mx-auto p-6">
-          {/* Main Navigation */}
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-terminal-border scrollbar-track-transparent pb-2 mb-6">
-              <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-terminal-card/50 backdrop-blur-sm">
-                <TabsTrigger value="dashboard" className="flex items-center gap-2">
-                  <BarChart3 className="w-4 h-4" />
-                  Dashboard
-                </TabsTrigger>
-                <TabsTrigger value="assignments" className="flex items-center gap-2">
-                  <Briefcase className="w-4 h-4" />
-                  Assignments
-                </TabsTrigger>
-                <TabsTrigger value="profile" className="flex items-center gap-2">
-                  <User className="w-4 h-4" />
-                  Profile
-                </TabsTrigger>
-                <TabsTrigger value="notes" className="flex items-center gap-2">
-                  <FileText className="w-4 h-4" />
-                  Notes
-                </TabsTrigger>
-                <TabsTrigger value="tracking" className="flex items-center gap-2">
-                  <Navigation className="w-4 h-4" />
-                  Tracking
-                </TabsTrigger>
-                <TabsTrigger value="availability" className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4" />
-                  Availability
-                </TabsTrigger>
-                <TabsTrigger value="rankings" className="flex items-center gap-2">
-                  <Award className="w-4 h-4" />
-                  Rankings
-                </TabsTrigger>
-              </TabsList>
-            </div>
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-6 py-8">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-white/10 backdrop-blur-sm border border-white/20 shadow-sm rounded-xl p-1">
+            <TabsTrigger 
+              value="dashboard" 
+              className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'dashboard' || activeTab === 'dashboard' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
+              onClick={() => handleSectionClick('dashboard')}
+            >
+              <BarChart3 className="w-4 h-4" />
+              Dashboard
+            </TabsTrigger>
+            <TabsTrigger 
+              value="flights" 
+              className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'flights' || activeTab === 'flights' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
+              onClick={() => handleSectionClick('flights')}
+            >
+              <Plane className="w-4 h-4" />
+              Flights
+            </TabsTrigger>
+            <TabsTrigger 
+              value="certifications" 
+              className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'certifications' || activeTab === 'certifications' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
+              onClick={() => handleSectionClick('certifications')}
+            >
+              <Award className="w-4 h-4" />
+              Certifications
+            </TabsTrigger>
+            <TabsTrigger
+              value="market-intelligence"
+              className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'market-intelligence' || activeTab === 'market-intelligence' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
+              onClick={() => handleSectionClick('market-intelligence')}
+            >
+              <TrendingUp className="w-4 h-4" />
+              Market Intel
+            </TabsTrigger>
+            <TabsTrigger
+              value="automation"
+              className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'automation' || activeTab === 'automation' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
+              onClick={() => handleSectionClick('automation')}
+            >
+              <Zap className="w-4 h-4" />
+              Automation
+            </TabsTrigger>
+            <TabsTrigger
+              value="analytics"
+              className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'analytics' || activeTab === 'analytics' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
+              onClick={() => handleSectionClick('analytics')}
+            >
+              <BarChart3 className="w-4 h-4" />
+              Analytics
+            </TabsTrigger>
+            <TabsTrigger
+              value="clients"
+              className={`flex items-center gap-2 data-[state=active]:bg-brand/15 data-[state=active]:text-text text-text/80 hover:text-text px-4 py-2 rounded-lg font-medium transition-all duration-200 ${highlightedSection === 'clients' || activeTab === 'clients' ? 'ring-2 ring-brand/50 bg-brand/10' : ''}`}
+              onClick={() => handleSectionClick('clients')}
+            >
+              <Users className="w-4 h-4" />
+              Clients
+            </TabsTrigger>
+          </TabsList>
 
-            <TabsContent value="dashboard" className="scroll-smooth">
-              {renderDashboard()}
-            </TabsContent>
-            <TabsContent value="assignments" className="scroll-smooth">
-              {renderAssignments()}
-            </TabsContent>
-            <TabsContent value="profile" className="scroll-smooth">
-              {renderProfile()}
-            </TabsContent>
-            <TabsContent value="notes" className="scroll-smooth">
-              {renderNotes()}
-            </TabsContent>
-            <TabsContent value="tracking" className="scroll-smooth">
-              {renderTracking()}
-            </TabsContent>
-            <TabsContent value="availability" className="scroll-smooth">
-              <AvailabilityAssignments terminalType="crew" />
-            </TabsContent>
-            <TabsContent value="rankings" className="scroll-smooth">
-              <RankingDashboard userType="crew" />
-            </TabsContent>
-          </Tabs>
-        </main>
-
-      </div>
-      
-      {/* Scroll to Top Button */}
-      <Button
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="fixed bottom-6 right-6 z-50 w-12 h-12 bg-accent/80 hover:bg-accent rounded-full flex items-center justify-center transition-all duration-300 shadow-lg backdrop-blur-sm border border-accent/30"
-        title="Scroll to Top"
-      >
-        <ArrowUp className="w-6 h-6 text-white" />
-      </Button>
-      
-      {/* Enhanced AI Chatbot */}
-      <EnhancedAIChatbot terminalType="crew" />
-      
-      {/* Floating Chat */}
-      <FloatingChat userType="crew" isDemo={true} />
-    </>
+          <TabsContent value="dashboard" className="mt-6 scroll-smooth">
+            {renderDashboard()}
+          </TabsContent>
+          <TabsContent value="flights" className="mt-6 scroll-smooth">
+            {renderFlights()}
+          </TabsContent>
+          <TabsContent value="certifications" className="mt-6 scroll-smooth">
+            {renderCertifications()}
+          </TabsContent>
+          <TabsContent value="market-intelligence" className="mt-6 scroll-smooth">
+            <MarketIntelligence />
+          </TabsContent>
+          <TabsContent value="automation" className="mt-6 scroll-smooth">
+            <WorkflowAutomation />
+          </TabsContent>
+          <TabsContent value="analytics" className="mt-6 scroll-smooth">
+            <AdvancedAnalytics />
+          </TabsContent>
+          <TabsContent value="clients" className="mt-6 scroll-smooth">
+            <ClientPortal />
+          </TabsContent>
+        </Tabs>
+      </main>
+    </div>
   );
 }

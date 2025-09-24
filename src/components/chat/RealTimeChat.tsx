@@ -21,7 +21,7 @@ import {
   PhoneOff,
   VideoOff,
   Users,
-  Online,
+  Circle,
   Clock,
   CheckCircle,
   CheckCircle2,
@@ -220,7 +220,7 @@ export const RealTimeChat: React.FC<RealTimeChatProps> = ({
                 }
               </CardTitle>
               <div className="flex items-center gap-1">
-                <Online className="w-3 h-3 text-green-400" />
+                <Circle className="w-3 h-3 text-green-400 fill-current" />
                 <span className="text-xs text-text/70">
                   {participants.filter(p => p.isOnline).length} online
                 </span>

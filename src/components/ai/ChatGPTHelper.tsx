@@ -32,6 +32,7 @@ import {
   Settings,
   RotateCcw
 } from 'lucide-react';
+import { chatGPTService } from '@/services/chatgptService';
 
 interface ChatMessage {
   id: string;
@@ -150,17 +151,18 @@ What would you like help with today?`,
     setIsLoading(true);
 
     try {
-      // Simulate OpenAI API call
-      const response = await simulateOpenAIResponse(input, context);
+      // Use real ChatGPT service
+      const response = await chatGPTService.sendMessage(
+        [{ role: 'user', content: input }],
+        context
+      );
       
       const assistantMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: response.content,
+        content: response,
         timestamp: new Date(),
-        type: response.type || 'text',
-        suggestions: response.suggestions,
-        actions: response.actions
+        type: 'text'
       };
 
       setMessages(prev => [...prev, assistantMessage]);
@@ -347,20 +349,20 @@ What specific task would you like help with? Feel free to ask in natural languag
 
   if (isMinimized) {
     return (
-      <div className="fixed bottom-4 right-4 z-50">
+      <div className="w-16 h-full flex items-center justify-center">
         <Button
           onClick={onMinimize}
-          className="bg-brand hover:bg-brand-600 text-text rounded-full w-14 h-14 shadow-lg"
+          className="bg-brand hover:bg-brand-600 text-text rounded-full w-12 h-12 shadow-lg"
         >
-          <Bot className="w-6 h-6" />
+          <Bot className="w-5 h-5" />
         </Button>
       </div>
     );
   }
 
   return (
-    <Card className={`fixed bottom-4 right-4 z-50 bg-surface-1 border-terminal-border shadow-2xl transition-all duration-300 ${
-      isExpanded ? 'w-96 h-[600px]' : 'w-80 h-[500px]'
+    <Card className={`w-full h-full bg-surface-1 border-terminal-border shadow-2xl transition-all duration-300 ${
+      isExpanded ? 'w-96' : 'w-80'
     }`}>
       <CardHeader className="bg-surface-2 border-b border-terminal-border p-4">
         <div className="flex items-center justify-between">

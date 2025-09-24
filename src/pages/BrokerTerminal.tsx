@@ -15,6 +15,7 @@ import { MarketIntelligence } from '@/components/market/MarketIntelligence';
 import { WorkflowAutomation } from '@/components/automation/WorkflowAutomation';
 import { AdvancedAnalytics } from '@/components/analytics/AdvancedAnalytics';
 import { ClientPortal } from '@/components/portal/ClientPortal';
+import { ComponentTest } from '@/components/debug/ComponentTest';
 import BrokerBackdrop from '@/components/BrokerBackdrop';
 import { 
   DollarSign, 
@@ -782,43 +783,49 @@ export default function BrokerTerminal() {
         />
       )}
 
+      {/* Left Side AI Assistant */}
       {showAIAssistant && (
-        <ChatGPTHelper
-          isOpen={showAIAssistant}
-          onClose={() => setShowAIAssistant(false)}
-          context={{
-            activeTab,
-            userRole: 'broker',
-            recentActivity: []
-          }}
-        />
+        <div className="fixed left-4 top-1/2 transform -translate-y-1/2 z-50 w-96 max-h-[80vh]">
+          <ChatGPTHelper
+            isOpen={showAIAssistant}
+            onClose={() => setShowAIAssistant(false)}
+            context={{
+              activeTab,
+              userRole: 'broker',
+              recentActivity: []
+            }}
+          />
+        </div>
       )}
 
+      {/* Right Side Chat */}
       {showChat && (
-        <RealTimeChat
-          chatId="broker_chat_001"
-          participants={[
-            {
-              id: 'broker_001',
-              name: 'You',
-              role: 'broker',
-              isOnline: true
-            },
-            {
-              id: 'op_001',
-              name: 'Elite Aviation',
-              role: 'operator',
-              isOnline: true
-            },
-            {
-              id: 'client_001',
-              name: 'John Smith',
-              role: 'client',
-              isOnline: false
-            }
-          ]}
-          onClose={() => setShowChat(false)}
-        />
+        <div className="fixed right-4 top-1/2 transform -translate-y-1/2 z-50 w-96 max-h-[80vh]">
+          <RealTimeChat
+            chatId="broker_chat_001"
+            participants={[
+              {
+                id: 'broker_001',
+                name: 'You',
+                role: 'broker',
+                isOnline: true
+              },
+              {
+                id: 'op_001',
+                name: 'Elite Aviation',
+                role: 'operator',
+                isOnline: true
+              },
+              {
+                id: 'client_001',
+                name: 'John Smith',
+                role: 'client',
+                isOnline: false
+              }
+            ]}
+            onClose={() => setShowChat(false)}
+          />
+        </div>
       )}
       
       {/* Header */}
@@ -976,9 +983,10 @@ export default function BrokerTerminal() {
             </TabsList>
             </div>
 
-            <TabsContent value="dashboard" className="mt-6 scroll-smooth">
-              {renderDashboard()}
-            </TabsContent>
+        <TabsContent value="dashboard" className="mt-6 scroll-smooth">
+          <ComponentTest />
+          {renderDashboard()}
+        </TabsContent>
             <TabsContent value="rfqs" className="mt-6 scroll-smooth">
               {renderRFQs()}
             </TabsContent>

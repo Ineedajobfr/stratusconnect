@@ -1,7 +1,7 @@
 // Security Tests for StratusConnect
 // FCA Compliant Aviation Platform
 
-import { describe, it, expect, beforeAll, afterAll } from '@jest/globals';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { createClient } from '@supabase/supabase-js';
 
 // Mock Supabase client for testing

@@ -269,6 +269,7 @@ export default function DemoCrewTerminal() {
           </TabsContent>
         </Tabs>
       </main>
-    </div>
+      </div>
+    </BrokerBackdrop>
   );
 }

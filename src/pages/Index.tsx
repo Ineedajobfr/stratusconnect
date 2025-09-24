@@ -1,369 +1,962 @@
-import React from "react";
-import {
-  Brain, Target, ShieldCheck, Lock, CheckCircle, DollarSign, Globe,
-  Fingerprint, EyeOff, Clock, Book, Sparkles, PlayCircle, DownloadCloud,
-  Users, Search
-} from "lucide-react";
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Plane, Shield, Users, Clock, CheckCircle, Star, Zap, Globe, Lock, DollarSign, Building2, UserCheck, ArrowRight, Info, Percent, MessageSquare, BookOpen, Play, Download } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
+import { useAuth } from "@/contexts/AuthContext";
 
-/** StratusConnect public landing page */
 export default function Index() {
-  return (
-    <div className="relative min-h-screen w-full bg-[var(--bg)] text-[var(--text)]">
-      {/* star field + grain + vignette */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 star-bg" />
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 vignette" />
-      <svg aria-hidden className="pointer-events-none absolute inset-0 -z-10 h-full w-full opacity-[0.08] mix-blend-overlay">
-        <filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
-        <rect width="100%" height="100%" filter="url(#noiseFilter)" />
-      </svg>
+  const navigate = useNavigate();
+  const {
+    user
+  } = useAuth();
 
-      {/* Header */}
-      <header className="relative z-10 border-b border-white/10 bg-white/5 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="text-xl font-bold text-white">StratusConnect</div>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 text-green-400">
-                <CheckCircle className="w-4 h-4" />
-                <span className="text-sm">FCA Compliant</span>
-              </div>
-              <button className="text-white hover:text-gray-300 text-sm">Help</button>
-              <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium">
-                Get Started
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* HERO */}
-      <section className="mx-auto max-w-7xl px-6 py-20 text-center">
-        <div className="mb-16">
-          <div className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/20 rounded-full px-4 py-2 mb-8">
-            <Sparkles className="w-4 h-4 text-orange-400" />
-            <span className="text-orange-400 font-medium">New: AI is getting an upgrade</span>
-          </div>
-          
-          <h1 className="text-6xl md:text-7xl font-bold mb-8">
-            Save 4 hours per person
-            <br />
-            <span className="text-orange-500">
-              every single week
-            </span>
-          </h1>
-          
-          <p className="text-xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed">
-            <span className="text-orange-500 font-bold">
-              StratusConnect
-            </span> is the most productive aviation platform ever made. 
-            Collaborate faster and get more done with AI-native aviation management.
-          </p>
-
-          <div className="flex items-center justify-center gap-8 mb-12">
-            <button className="bg-orange-500 hover:bg-orange-600 text-white font-medium px-8 py-4 text-lg rounded-lg">
-              Get Started
-            </button>
-            <button className="border border-white/20 text-white hover:bg-white/10 font-medium px-8 py-4 text-lg rounded-lg flex items-center gap-2">
-              <Search className="w-5 h-5" />
-              Explore Features
-            </button>
-          </div>
-
-          <div className="text-center">
-            <div className="text-4xl font-bold text-orange-500 mb-2">15 M</div>
-            <p className="text-gray-400 text-lg">
-              <span className="text-orange-500 font-bold">
-                StratusConnect
-              </span> saves teams over 15 million hours every single year.
+  // Redirect authenticated users to their home page
+  useEffect(() => {
+    if (user) {
+      navigate("/home");
+    }
+  }, [user, navigate]);
+  const handleAccessTerminal = (roleId: string) => {
+    navigate(`/login/${roleId}`);
+  };
+  const handleDemoAccess = (demoRoute: string) => {
+    navigate(demoRoute);
+  };
+  return <div className="min-h-screen bg-app relative overflow-hidden">
+      <StarfieldRunwayBackground />
+      
+      {/* Hero Section */}
+      <div className="relative z-10 pt-20 pb-16">
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          <div className="mb-8 animate-fade-in-up">
+            
+            <h1 className="text-6xl md:text-8xl font-bold text-foreground mb-6">
+              Welcome to <span className="text-accent">StratusConnect</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+              The leading platform connecting brokers, operators, pilots, and crew. 
+              Join our growing community of aviation professionals, with real-time data processing and an average response time of 50ms.
             </p>
           </div>
-        </div>
-      </section>
 
-      {/* CHOOSE YOUR TERMINAL */}
-      <Section title="Choose Your Terminal" subtitle="Access your personalized workspace">
-        <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
-          <TerminalCard
-            icon="📊" title="Broker Terminal" subtitle="Quote management & client relations"
-            bullets={["Real-time market data","Automated quote generation","Secure escrow payments"]}
-          />
-          <TerminalCard
-            icon="✈️" title="Operator Terminal" subtitle="Fleet management & optimization"
-            bullets={["Fleet optimization tools","Crew scheduling automation","Real-time performance metrics"]}
-          />
-          <TerminalCard
-            icon="👤" title="Pilot Terminal" subtitle="Flight assignments & credentials"
-            bullets={["Job matching algorithm","Credential verification","Secure payment processing"]}
-          />
-          <TerminalCard
-            icon="👥" title="Crew Terminal" subtitle="Service excellence & scheduling"
-            bullets={["Premium crew opportunities","Flexible scheduling","Reputation building tools"]}
-          />
-        </div>
-      </Section>
-
-      {/* WHY DIFFERENT */}
-      <Section title="Why We're Different" subtitle="The features that set us apart from the competition">
-        <div className="grid gap-6 md:grid-cols-3">
-          <FeatureCard icon={<Brain className="h-6 w-6" />} title="AI That Actually Works"
-            description="Finds better deals, predicts demand, automates the boring stuff. Built to empower, not overwhelm." />
-          <FeatureCard icon={<Target className="h-6 w-6" />} title="We Only Win When You Win"
-            description="No monthly fees. No hidden costs. We only make money when you close deals." />
-          <FeatureCard icon={<ShieldCheck className="h-6 w-6" />} title="Transparency & Trust"
-            description="You see what we do, how we do it, and what it costs. No surprises. Just results." />
-        </div>
-      </Section>
-
-      {/* ESCROW */}
-      <Section title="Secure Escrow System" subtitle="Your funds are protected at every step">
-        <div className="grid gap-10 md:grid-cols-2">
-          <div className="space-y-6">
-            <StepItem number={1} title="Funds Secured" description="Payment held in secure escrow until flight completion." />
-            <StepItem number={2} title="Service Delivered" description="Flight completed and verified by all parties." />
-            <StepItem number={3} title="Automatic Release" description="Funds automatically released to service providers." />
-          </div>
-          <div className="rounded-xl bg-surface-1 p-6 ring-1 ring-white/10 shadow-card">
-            <div className="flex items-center gap-3">
-              <Lock className="h-8 w-8 text-brand" />
-              <h3 className="text-xl font-semibold">Payment Protection</h3>
+          {/* Key Statistics */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+            <div className="text-center">
+              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">99.9%</div>
+              <div className="text-sm text-muted-foreground">Uptime</div>
             </div>
-            <ul className="mt-4 space-y-2 text-sm text-text-muted">
-              <li className="flex items-start gap-2"><CheckCircle className="mt-0.5 h-4 w-4 text-success" /> FDIC-insured escrow accounts</li>
-              <li className="flex items-start gap-2"><CheckCircle className="mt-0.5 h-4 w-4 text-success" /> Real-time transaction monitoring</li>
-              <li className="flex items-start gap-2"><CheckCircle className="mt-0.5 h-4 w-4 text-success" /> Dispute resolution system</li>
-              <li className="flex items-start gap-2"><CheckCircle className="mt-0.5 h-4 w-4 text-success" /> 24/7 fraud protection</li>
-            </ul>
+            <div className="text-center">
+              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">15k+</div>
+              <div className="text-sm text-muted-foreground">Active Users</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">$2B+</div>
+              <div className="text-sm text-muted-foreground">Transactions</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">50ms</div>
+              <div className="text-sm text-muted-foreground">Avg Response</div>
+            </div>
           </div>
         </div>
-      </Section>
+      </div>
 
-      {/* PRICING */}
-      <Section title="Transparent Pricing" subtitle="Fair fees that grow with your success">
-        <div className="grid gap-6 md:grid-cols-3">
-          <PricingCard icon={<DollarSign className="h-6 w-6" />} title="Broker & Operator" price="7%"
-            description="Only charged on successful transactions. No monthly fees or hidden costs." />
-          <PricingCard icon={<Users className="h-6 w-6" />} title="Crew & Pilot Hiring" price="10%"
-            description="One-time fee per successful placement for specific flights." />
-          <PricingCard icon={<ShieldCheck className="h-6 w-6" />} title="Crew & Pilots" price="FREE"
-            description="No fees. No subscriptions. No hidden costs." />
+      {/* Terminal Access Section */}
+      <div className="relative z-10 py-24">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-foreground mb-4 title-glow">Choose Your Terminal</h2>
+            <p className="text-xl text-muted-foreground text-glow-subtle">Access your personalized workspace</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Broker Terminal */}
+            <Card className="group terminal-card hover:terminal-glow cursor-pointer animate-fade-in-up">
+              <CardHeader className="pb-4">
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 bg-accent/20 rounded-xl animate-pulse-glow">
+                    <Building2 className="w-8 h-8 text-accent" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-2xl text-foreground">Broker Terminal</CardTitle>
+                    <CardDescription className="text-muted-foreground">Quote management & client relations</CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground mb-6 text-glow-subtle">
+                  Access real-time aircraft listings, manage client relationships, and close deals faster than ever. 
+                  Our AI-powered matching system connects you with the right opportunities.
+                </p>
+                <div className="space-y-2 mb-6">
+                  <div className="flex items-center text-sm text-gunmetal">
+                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                    Real-time market data
+                  </div>
+                  <div className="flex items-center text-sm text-gunmetal">
+                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                    Automated quote generation
+                  </div>
+                  <div className="flex items-center text-sm text-gunmetal">
+                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                    Secure escrow payments
+                  </div>
+                </div>
+                <div className="flex space-x-3">
+                  <Button onClick={() => handleAccessTerminal("broker")} className="flex-1 btn-terminal-accent button-glow">
+                    Access Terminal <ArrowRight className="w-4 h-4 ml-2 icon-glow" />
+                  </Button>
+                  <Button onClick={() => handleDemoAccess("/demo/broker")} variant="outline" className="px-6 button-glow">
+                    Demo
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Operator Terminal */}
+            <Card className="group terminal-card hover:terminal-glow cursor-pointer animate-fade-in-up" style={{
+            animationDelay: '0.1s'
+          }}>
+              <CardHeader className="pb-4">
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 bg-accent/20 rounded-xl animate-pulse-glow">
+                    <Plane className="w-8 h-8 text-accent" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-2xl text-foreground">Operator Terminal</CardTitle>
+                    <CardDescription className="text-muted-foreground">Fleet management & optimization</CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground mb-6 text-glow-subtle">
+                  Maximize your fleet's potential with intelligent scheduling, crew management, and real-time performance tracking. 
+                  Turn every flight into profit.
+                </p>
+                <div className="space-y-2 mb-6">
+                  <div className="flex items-center text-sm text-gunmetal">
+                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                    Fleet optimization tools
+                  </div>
+                  <div className="flex items-center text-sm text-gunmetal">
+                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                    Crew scheduling automation
+                  </div>
+                  <div className="flex items-center text-sm text-gunmetal">
+                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                    Real-time performance metrics
+                  </div>
+                </div>
+                <div className="flex space-x-3">
+                  <Button onClick={() => handleAccessTerminal("operator")} className="flex-1 btn-terminal-accent button-glow">
+                    Access Terminal <ArrowRight className="w-4 h-4 ml-2 icon-glow" />
+                  </Button>
+                  <Button onClick={() => handleDemoAccess("/demo/operator")} variant="outline" className="px-6 button-glow">
+                    Demo
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Pilot Terminal */}
+            <Card className="group terminal-card hover:terminal-glow cursor-pointer animate-fade-in-up" style={{
+            animationDelay: '0.2s'
+          }}>
+              <CardHeader className="pb-4">
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 bg-accent/20 rounded-xl animate-pulse-glow">
+                    <UserCheck className="w-8 h-8 text-accent" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-2xl text-foreground">Pilot Terminal</CardTitle>
+                    <CardDescription className="text-muted-foreground">Flight assignments & credentials</CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground mb-6 text-glow-subtle">
+                  Find the best flying opportunities that match your skills and schedule. 
+                  Build your reputation and grow your career with verified operators.
+                </p>
+                <div className="space-y-2 mb-6">
+                  <div className="flex items-center text-sm text-gunmetal">
+                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                    Job matching algorithm
+                  </div>
+                  <div className="flex items-center text-sm text-gunmetal">
+                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                    Credential verification
+                  </div>
+                  <div className="flex items-center text-sm text-gunmetal">
+                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                    Secure payment processing
+                  </div>
+                </div>
+                <div className="flex space-x-3">
+                  <Button onClick={() => handleAccessTerminal("pilot")} className="flex-1 btn-terminal-accent button-glow">
+                    Access Terminal <ArrowRight className="w-4 h-4 ml-2 icon-glow" />
+                  </Button>
+                  <Button onClick={() => handleDemoAccess("/demo/pilot")} variant="outline" className="px-6 button-glow">
+                    Demo
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Crew Terminal */}
+            <Card className="group terminal-card hover:terminal-glow cursor-pointer animate-fade-in-up" style={{
+            animationDelay: '0.3s'
+          }}>
+              <CardHeader className="pb-4">
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 bg-accent/20 rounded-xl animate-pulse-glow">
+                    <Users className="w-8 h-8 text-accent" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-2xl text-foreground">Crew Terminal</CardTitle>
+                    <CardDescription className="text-muted-foreground">Service excellence & scheduling</CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground mb-6 text-glow-subtle">
+                  Connect with top operators and build lasting relationships. 
+                  Showcase your skills and availability to find the best crew assignments.
+                </p>
+                <div className="space-y-2 mb-6">
+                  <div className="flex items-center text-sm text-gunmetal">
+                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                    Premium crew opportunities
+                  </div>
+                  <div className="flex items-center text-sm text-gunmetal">
+                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                    Flexible scheduling
+                  </div>
+                  <div className="flex items-center text-sm text-gunmetal">
+                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                    Reputation building tools
+                  </div>
+                </div>
+                <div className="flex space-x-3">
+                  <Button onClick={() => handleAccessTerminal("crew")} className="flex-1 btn-terminal-accent button-glow">
+                    Access Terminal <ArrowRight className="w-4 h-4 ml-2 icon-glow" />
+                  </Button>
+                  <Button onClick={() => handleDemoAccess("/demo/crew")} variant="outline" className="px-6 button-glow">
+                    Demo
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
-      </Section>
+      </div>
 
-      {/* PRIVACY */}
-      <Section title="Privacy by Design" subtitle="Your data is never shared without explicit consent">
-        <div className="grid gap-6 md:grid-cols-4">
-          <PrivacyCard icon={<Globe className="h-6 w-6" />} title="GDPR Compliant" description="Full compliance with global privacy regulations." />
-          <PrivacyCard icon={<Fingerprint className="h-6 w-6" />} title="Data Anonymisation" description="Personal data encrypted and anonymised." />
-          <PrivacyCard icon={<EyeOff className="h-6 w-6" />} title="Selective Disclosure" description="You control what information is visible." />
-          <PrivacyCard icon={<Clock className="h-6 w-6" />} title="Data Retention" description="Automatic deletion of expired data." />
+      {/* Security & Trust Features */}
+      <div className="relative z-10 py-24">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-foreground mb-4">Why We're Different</h2>
+            <p className="text-xl text-muted-foreground">The features that set us apart from the competition</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <Shield className="w-12 h-12 text-accent" />
+                    <div>
+                <CardTitle>AI That Actually Works</CardTitle>
+                    </div>
+                  </div>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Info className="w-4 h-4" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="bg-terminal-card border-terminal-border">
+                      <DialogHeader>
+                        <DialogTitle className="text-accent">AI That Actually Works</DialogTitle>
+                        <DialogDescription>
+                          Real AI that finds you better deals, predicts demand, and automates the boring stuff
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <p className="text-muted-foreground">
+                          Our technology is designed to empower, not overwhelm:
+                        </p>
+                        <ul className="space-y-2 text-sm text-muted-foreground">
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Predictive analytics that actually predict</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Smart matching that finds the right people</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Automation that saves you hours daily</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Real-time data that makes you money</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  Real AI that finds you better deals, predicts demand, and automates the boring stuff. 
+                  Our technology is designed to empower, not overwhelm.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <Lock className="w-12 h-12 text-accent" />
+                    <div>
+                <CardTitle>We Only Win When You Win</CardTitle>
+                    </div>
+                  </div>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Info className="w-4 h-4" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="bg-terminal-card border-terminal-border">
+                      <DialogHeader>
+                        <DialogTitle className="text-accent">We Only Win When You Win</DialogTitle>
+                        <DialogDescription>
+                          No monthly fees. No hidden costs. We only make money when you close deals. Your success is literally our business model.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <p className="text-muted-foreground">
+                          Unlike other platforms that charge you regardless of results:
+                        </p>
+                        <ul className="space-y-2 text-sm text-muted-foreground">
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>7% only when you close deals (brokers/operators)</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>10% hiring fee only when you get hired (crew/pilots)</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Free access for pilots and crew</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>No monthly subscriptions, ever</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  No monthly fees. No hidden costs. We only make money when you close deals. 
+                  Your success is literally our business model.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <CheckCircle className="w-12 h-12 text-accent" />
+                    <div>
+                <CardTitle>Transparency & Trust</CardTitle>
+                    </div>
+                  </div>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Info className="w-4 h-4" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="bg-terminal-card border-terminal-border">
+                      <DialogHeader>
+                        <DialogTitle className="text-accent">Transparency & Trust</DialogTitle>
+                        <DialogDescription>
+                          We show you exactly what we do, how we do it, and what it costs. No hidden fees, no surprises.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <p className="text-muted-foreground">
+                          We believe in complete transparency:
+                        </p>
+                        <ul className="space-y-2 text-sm text-muted-foreground">
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Real-time deal tracking and reporting</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Upfront pricing with no hidden fees</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Honest performance metrics and analytics</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Direct access to support when you need it</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  We show you exactly what we do, how we do it, and what it costs. 
+                  No hidden fees, no surprises. Just results.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
         </div>
-      </Section>
+      </div>
 
-      {/* GUIDES */}
-      <Section title="Stop Guessing, Start Winning" subtitle="Complete guides, AI assistance, and everything you need to succeed">
-        <div className="rounded-xl bg-surface-1 p-6 ring-1 ring-white/10 shadow-card">
-          <div className="flex items-start justify-between gap-6">
+      {/* Escrow & Payment Security */}
+      <div className="relative z-10 py-24">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-foreground mb-4">Secure Escrow System</h2>
+            <p className="text-xl text-muted-foreground">Your funds are protected at every step</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
-              <h3 className="text-lg font-semibold">Master the Platform in Minutes</h3>
-              <p className="mt-1 text-sm text-text-muted">
-                Step-by-step guides, AI assistance, and terminal-specific tutorials that get you up and running fast.
-              </p>
+              <h3 className="text-2xl font-bold text-foreground mb-6">How It Works</h3>
+              <div className="space-y-6">
+                <div className="flex items-start space-x-4">
+                  <div className="bg-accent/20 rounded-full p-2 mt-1">
+                    <span className="text-accent font-bold text-sm">1</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-foreground">Funds Secured</h4>
+                    <p className="text-muted-foreground">Payment held in secure escrow until flight completion</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4">
+                  <div className="bg-accent/20 rounded-full p-2 mt-1">
+                    <span className="text-accent font-bold text-sm">2</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-foreground">Service Delivered</h4>
+                    <p className="text-muted-foreground">Flight completed and verified by all parties</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4">
+                  <div className="bg-accent/20 rounded-full p-2 mt-1">
+                    <span className="text-accent font-bold text-sm">3</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-foreground">Automatic Release</h4>
+                    <p className="text-muted-foreground">Funds automatically released to service providers</p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <a href="#" className="rounded-md bg-fire px-3 py-2 text-sm font-medium text-white hover:bg-fire-600 focus:outline-none focus:ring-2 focus:ring-white/20">
-              View Complete Guide
-            </a>
-          </div>
-          <div className="mt-6 grid gap-4 sm:grid-cols-4">
-            <MiniGuide icon={<Book className="h-5 w-5" />} title="Terminal Guides" desc="Instructions for each terminal." />
-            <MiniGuide icon={<Sparkles className="h-5 w-5" />} title="AI Features" desc="Automation and tooling." />
-            <MiniGuide icon={<PlayCircle className="h-5 w-5" />} title="Quick Start" desc="Be productive in minutes." />
-            <MiniGuide icon={<DownloadCloud className="h-5 w-5" />} title="Resources" desc="Downloads and support." />
-          </div>
-        </div>
-      </Section>
 
-      {/* ENTERPRISE */}
-      <Section title="Enterprise Performance" subtitle="Mission-critical reliability with redundant infrastructure">
-        <div className="grid gap-6 md:grid-cols-3">
-          <StatsCard title="99.99% Uptime" description="Mission-critical reliability with redundant infrastructure." />
-          <StatsCard title="<50ms Response" description="Lightning-fast performance optimised for real-time operations." />
-          <StatsCard title="24/7 Support" description="Dedicated support team available around the clock." />
+            <Card className="terminal-card">
+              <CardHeader>
+                <DollarSign className="w-12 h-12 text-accent mb-4" />
+                <CardTitle>Payment Protection</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-white" />
+                  <span className="text-muted-foreground">FDIC-insured escrow accounts</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-white" />
+                  <span className="text-muted-foreground">Real-time transaction monitoring</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-white" />
+                  <span className="text-muted-foreground">Dispute resolution system</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-white" />
+                  <span className="text-muted-foreground">24/7 fraud protection</span>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
-      </Section>
+      </div>
 
-      {/* FOOTER */}
-      <footer className="bg-surface-2 text-text-muted border-t border-white/10">
-        <div className="mx-auto grid max-w-7xl gap-8 px-6 py-16 md:grid-cols-4">
-          <div>
-            <h3 className="text-xl font-semibold text-[var(--text)]">StratusConnect</h3>
-            <p className="mt-4 text-sm">The platform that's already processing millions in deals.</p>
+      {/* Platform Fees & Pricing */}
+      <div className="relative z-10 py-24">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-12 animate-fade-in-up">
+            <h2 className="text-4xl font-bold text-foreground mb-4">Transparent Pricing</h2>
+            <p className="text-xl text-muted-foreground">Fair fees that grow with your success</p>
           </div>
-          <div>
-            <h4 className="text-sm font-semibold text-[var(--text)]">Legal</h4>
-            <ul className="mt-3 space-y-2 text-sm">
-              <li><a href="#" className="hover:underline">Terms of Service</a></li>
-              <li><a href="#" className="hover:underline">Privacy Policy</a></li>
-              <li><a href="#" className="hover:underline">Cookie Policy</a></li>
-              <li><a href="#" className="hover:underline">User Agreement</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-sm font-semibold text-[var(--text)]">Support</h4>
-            <ul className="mt-3 space-y-2 text-sm">
-              <li><a href="#" className="hover:underline">Help Center</a></li>
-              <li><a href="#" className="hover:underline">Contact Us</a></li>
-              <li><a href="#" className="hover:underline">Status Page</a></li>
-              <li><a href="#" className="hover:underline">API Documentation</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-sm font-semibold text-[var(--text)]">Security</h4>
-            <ul className="mt-3 space-y-2 text-sm">
-              <li><a href="#" className="hover:underline">SOC 2 Compliant</a></li>
-              <li><a href="#" className="hover:underline">End-to-End Encryption</a></li>
-              <li><a href="#" className="hover:underline">Zero-Trust Architecture</a></li>
-            </ul>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Card className="terminal-card group hover:terminal-glow cursor-pointer animate-fade-in-up" style={{
+            animationDelay: '0.1s'
+          }}>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 bg-accent/20 rounded-lg animate-pulse-glow">
+                      <Percent className="w-6 h-6 text-accent" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-xl text-foreground">Broker & Operator Sales</CardTitle>
+                      <CardDescription className="text-muted-foreground">Transaction fees</CardDescription>
+                    </div>
+                  </div>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Info className="w-4 h-4" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="bg-terminal-card border-terminal-border">
+                      <DialogHeader>
+                        <DialogTitle className="text-accent">7% Platform Fee</DialogTitle>
+                        <DialogDescription>
+                          Applied to all successful broker and operator sales transactions
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <p className="text-muted-foreground">
+                          This fee is automatically deducted from completed transactions and covers:
+                        </p>
+                        <ul className="space-y-2 text-sm text-muted-foreground">
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Platform maintenance and security</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Payment processing and escrow services</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Customer support and dispute resolution</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Market intelligence and analytics</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-accent mb-2">7%</div>
+                <p className="text-muted-foreground text-sm">
+                  Only charged on successful transactions. No monthly fees or hidden costs.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 bg-accent/20 rounded-lg">
+                      <Users className="w-6 h-6 text-accent" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-xl">Crew & Pilot Hiring</CardTitle>
+                      <CardDescription>Recruitment fees</CardDescription>
+                    </div>
+                  </div>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Info className="w-4 h-4" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="bg-terminal-card border-terminal-border">
+                      <DialogHeader>
+                        <DialogTitle className="text-accent">10% Recruitment Fee</DialogTitle>
+                        <DialogDescription>
+                          Charged to brokers and operators when hiring crew or pilots for specific flights
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <p className="text-muted-foreground">
+                          This one-time fee covers the cost of connecting you with qualified professionals:
+                        </p>
+                        <ul className="space-y-2 text-sm text-muted-foreground">
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Credential verification and background checks</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Matching algorithm and compatibility scoring</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Contract facilitation and documentation</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Ongoing support during the assignment</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-accent mb-2">10%</div>
+                <p className="text-muted-foreground text-sm">
+                  One-time fee per successful crew/pilot placement for specific flights.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 bg-accent/20 rounded-lg">
+                      <UserCheck className="w-6 h-6 text-accent" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-xl">Crew & Pilots</CardTitle>
+                      <CardDescription>Always free</CardDescription>
+                    </div>
+                  </div>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Info className="w-4 h-4" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="bg-terminal-card border-terminal-border">
+                      <DialogHeader>
+                        <DialogTitle className="text-accent">Free for Crew & Pilots</DialogTitle>
+                        <DialogDescription>
+                          We believe in supporting the professionals who make aviation possible
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <p className="text-muted-foreground">
+                          Crew and pilots enjoy full platform access at no cost because:
+                        </p>
+                        <ul className="space-y-2 text-sm text-muted-foreground">
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>You are essential to our industry</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>We want to maximize your opportunities</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>No barriers to finding great assignments</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <span>Full access to all platform features</span>
+                          </li>
+                        </ul>
+                        <div className="bg-accent/10 p-4 rounded-lg">
+                          <p className="text-sm text-accent font-medium">
+                            "We care for our customers - that's why crew and pilots are always free."
+                          </p>
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-accent mb-2">FREE</div>
+                <p className="text-muted-foreground text-sm">
+                  No fees, no subscriptions, no hidden costs. We care for our customers.
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
-        <div className="border-t border-white/10 py-4 text-center text-xs">
-          © {new Date().getFullYear()} StratusConnect. Built for the aviation industry.
+      </div>
+
+      {/* Privacy Protection */}
+      <div className="relative z-10 py-16 bg-terminal-card/20">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-foreground mb-4">Privacy by Design</h2>
+            <p className="text-xl text-muted-foreground">Your data is never shared without explicit consent</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Card className="terminal-card text-center">
+              <CardContent className="pt-6">
+                <Globe className="w-10 h-10 text-accent mx-auto mb-4" />
+                <h3 className="font-semibold text-foreground mb-2">GDPR Compliant</h3>
+                <p className="text-sm text-muted-foreground">Full compliance with global privacy regulations</p>
+              </CardContent>
+            </Card>
+
+            <Card className="terminal-card text-center">
+              <CardContent className="pt-6">
+                <Shield className="w-10 h-10 text-accent mx-auto mb-4" />
+                <h3 className="font-semibold text-foreground mb-2">Data Anonymization</h3>
+                <p className="text-sm text-muted-foreground">Personal data encrypted and anonymized</p>
+              </CardContent>
+            </Card>
+
+            <Card className="terminal-card text-center">
+              <CardContent className="pt-6">
+                <Lock className="w-10 h-10 text-accent mx-auto mb-4" />
+                <h3 className="font-semibold text-foreground mb-2">Selective Disclosure</h3>
+                <p className="text-sm text-muted-foreground">You control what information is visible</p>
+              </CardContent>
+            </Card>
+
+            <Card className="terminal-card text-center">
+              <CardContent className="pt-6">
+                <Clock className="w-10 h-10 text-accent mx-auto mb-4" />
+                <h3 className="font-semibold text-foreground mb-2">Data Retention</h3>
+                <p className="text-sm text-muted-foreground">Automatic deletion of expired data</p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+
+       {/* How to Use StratusConnect */}
+       <div className="relative z-10 py-24">
+         <div className="max-w-6xl mx-auto px-4">
+           <div className="text-center mb-12">
+             <h2 className="text-4xl font-bold text-foreground mb-4">Stop Guessing, Start Winning</h2>
+             <p className="text-xl text-muted-foreground">Complete guides, AI assistance, and everything you need to succeed</p>
+           </div>
+
+           <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
+             <CardHeader>
+               <div className="flex items-center justify-between">
+                 <div className="flex items-center space-x-4">
+                   <div className="p-3 bg-accent/20 rounded-xl">
+                     <BookOpen className="w-12 h-12 text-accent" />
+                   </div>
+                   <div>
+                     <CardTitle className="text-2xl text-foreground">Master the Platform in Minutes</CardTitle>
+                     <CardDescription className="text-muted-foreground">
+                       Get step-by-step guides, AI assistance, and terminal-specific tutorials 
+                       that get you up and running fast.
+                     </CardDescription>
+                   </div>
+                 </div>
+                 <Button 
+                   onClick={() => navigate('/how-to-use')} 
+                   className="btn-terminal-accent button-glow"
+                 >
+                   <BookOpen className="w-4 h-4 mr-2" />
+                   View Complete Guide
+                 </Button>
+               </div>
+             </CardHeader>
+             <CardContent>
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                 <div className="text-center">
+                   <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                     <Building2 className="w-8 h-8 text-accent" />
+                   </div>
+                   <h3 className="font-semibold text-foreground mb-2">Terminal Guides</h3>
+                   <p className="text-sm text-muted-foreground">Step-by-step instructions for each terminal type</p>
+                 </div>
+                 <div className="text-center">
+                   <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                     <Zap className="w-8 h-8 text-accent" />
+                   </div>
+                   <h3 className="font-semibold text-foreground mb-2">AI Features</h3>
+                   <p className="text-sm text-muted-foreground">Master AI-powered tools and automation</p>
+                 </div>
+                 <div className="text-center">
+                   <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                     <Play className="w-8 h-8 text-accent" />
+                   </div>
+                   <h3 className="font-semibold text-foreground mb-2">Quick Start</h3>
+                   <p className="text-sm text-muted-foreground">Get up and running in minutes</p>
+                 </div>
+                 <div className="text-center">
+                   <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                     <Download className="w-8 h-8 text-accent" />
+                   </div>
+                   <h3 className="font-semibold text-foreground mb-2">Resources</h3>
+                   <p className="text-sm text-muted-foreground">Download guides and access support</p>
+                 </div>
+               </div>
+             </CardContent>
+           </Card>
+        </div>
+      </div>
+
+      {/* Performance & Reliability */}
+      <div className="relative z-10 py-16">
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          <h2 className="text-4xl font-bold text-foreground mb-12">Enterprise Performance</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+              <div className="text-5xl font-bold text-accent mb-4">99.99%</div>
+              <h3 className="text-xl font-semibold text-foreground mb-2">Uptime SLA</h3>
+              <p className="text-muted-foreground">Mission-critical reliability with redundant infrastructure</p>
+            </div>
+            <div>
+              <div className="text-5xl font-bold text-accent mb-4">&lt;50ms</div>
+              <h3 className="text-xl font-semibold text-foreground mb-2">Response Time</h3>
+              <p className="text-muted-foreground">Lightning-fast performance optimized for real-time operations</p>
+            </div>
+            <div>
+              <div className="text-5xl font-bold text-accent mb-4">24/7</div>
+              <h3 className="text-xl font-semibold text-foreground mb-2">Support</h3>
+              <p className="text-muted-foreground">Dedicated support team available around the clock</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="relative z-10 bg-gray-900 text-white">
+        <div className="max-w-7xl mx-auto px-6 py-16">
+          {/* Main Footer Content */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+            {/* Company Info */}
+            <div className="space-y-6">
+            <h3 className="text-xl font-bold text-white">StratusConnect</h3>
+            <p className="text-gray-300 text-sm leading-relaxed">
+              The platform that's already processing millions in deals.
+            </p>
+              <div className="flex space-x-4">
+                <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white p-2">
+                  <Globe className="w-5 h-5" />
+                </Button>
+                <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white p-2">
+                  <MessageSquare className="w-5 h-5" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Legal */}
+             <div className="space-y-6">
+               <h3 className="text-lg font-bold text-white">Legal</h3>
+            <div className="space-y-4">
+                 <div>
+                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/terms-of-service')}>
+                  Terms of Service
+                </Button>
+                 </div>
+                 <div>
+                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/privacy-policy')}>
+                  Privacy Policy
+                </Button>
+                 </div>
+                 <div>
+                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/cookie-policy')}>
+                  Cookie Policy
+                </Button>
+                 </div>
+                 <div>
+                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/user-agreement')}>
+                  User Agreement
+                </Button>
+                 </div>
+              </div>
+            </div>
+
+            {/* Support */}
+             <div className="space-y-6">
+               <h3 className="text-lg font-bold text-white">Support</h3>
+            <div className="space-y-4">
+                 <div>
+                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal">
+                  Help Center
+                </Button>
+                 </div>
+                 <div>
+                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal">
+                  Contact Us
+                </Button>
+                 </div>
+                 <div>
+                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal">
+                  Status Page
+                </Button>
+                 </div>
+                 <div>
+                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal">
+                  API Documentation
+                </Button>
+                 </div>
+              </div>
+            </div>
+
+            {/* Security */}
+            <div className="space-y-6">
+              <h3 className="text-lg font-bold text-white">Security</h3>
+              <div className="space-y-3">
+                <div className="flex items-center text-sm text-gray-300">
+                  <Shield className="w-4 h-4 text-green-400 mr-3" />
+                  SOC 2 Compliant
+                </div>
+                <div className="flex items-center text-sm text-gray-300">
+                  <Lock className="w-4 h-4 text-green-400 mr-3" />
+                  End-to-End Encryption
+                </div>
+                <div className="flex items-center text-sm text-gray-300">
+                  <CheckCircle className="w-4 h-4 text-green-400 mr-3" />
+                  Zero-Trust Architecture
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Separator Line */}
+          <div className="border-t border-gray-700 mb-8"></div>
+
+          {/* Bottom Section */}
+            <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+             <p className="text-sm text-gray-400">
+               © September 2025 StratusConnect. All rights reserved. Built for the aviation industry.
+            </p>
+            <div className="flex items-center space-x-6 text-sm text-gray-400">
+                <span>FCA Compliant</span>
+                <span>•</span>
+                <span>GDPR Ready</span>
+                <span>•</span>
+                <span>ISO 27001</span>
+            </div>
+          </div>
         </div>
       </footer>
-    </div>
-  );
-}
 
-/* ---------- small components ---------- */
-
-function Section({title, subtitle, children}:{title:string;subtitle?:string;children:React.ReactNode}){
-  return (
-    <section className="border-t border-white/10 py-16">
-      <div className="mx-auto max-w-7xl px-6">
-        <h2 className="text-center text-3xl font-semibold">{title}</h2>
-        {subtitle && <p className="mx-auto mt-2 max-w-3xl text-center text-text-muted">{subtitle}</p>}
-        <div className="mt-8">{children}</div>
-      </div>
-    </section>
-  );
-}
-
-function Metric({value,label}:{value:string;label:string}){
-  return (
-    <div className="text-center">
-      <div className="text-2xl font-bold text-fire">{value}</div>
-      <div className="mt-1 text-xs text-text-muted">{label}</div>
-    </div>
-  );
-}
-
-
-function TerminalCard({icon,title,subtitle,bullets}:{icon:string;title:string;subtitle:string;bullets:string[];}){
-  return (
-    <div className="rounded-xl bg-surface-1 p-6 ring-1 ring-white/10 shadow-card">
-      <div className="flex items-start gap-4">
-        <div className="flex h-10 w-10 items-center justify-center rounded-lg text-xl text-orange-500">
-          {icon}
-        </div>
-        <div>
-          <h3 className="text-lg font-semibold">{title}</h3>
-          <p className="text-sm text-text-muted">{subtitle}</p>
-        </div>
-      </div>
-      <ul className="mt-4 space-y-2 text-sm text-text-muted">
-        {bullets.map((b,i)=>(
-          <li key={i} className="flex items-start gap-2">
-            <CheckCircle className="mt-0.5 h-4 w-4 text-success"/>{b}
-          </li>
-        ))}
-      </ul>
-      <div className="mt-5 flex items-center gap-3">
-        <button className="rounded-md bg-orange-500 px-4 py-2 text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-white/20">
-          Access Terminal →
-        </button>
-        <button className="rounded-md bg-white/5 px-3 py-2 text-sm text-[var(--text)] hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/20">
-          Demo
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function FeatureCard({icon,title,description}:{icon:React.ReactNode;title:string;description:string;}){
-  return (
-    <div className="rounded-xl bg-surface-1 p-6 ring-1 ring-white/10 shadow-card hover:ring-brand transition">
-      <div className="flex items-start gap-4">
-        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand/20 text-brand">
-          {icon}
-        </div>
-        <div>
-          <h3 className="text-lg font-semibold">{title}</h3>
-          <p className="mt-1 text-sm text-text-muted">{description}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function StepItem({number,title,description}:{number:number;title:string;description:string;}){
-  return (
-    <div className="flex items-start gap-4">
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand/20 text-lg font-semibold text-brand">{number}</div>
-      <div>
-        <h4 className="text-base font-semibold">{title}</h4>
-        <p className="mt-1 text-sm text-text-muted">{description}</p>
-      </div>
-    </div>
-  );
-}
-
-function PricingCard({icon,title,price,description}:{icon:React.ReactNode;title:string;price:string;description:string;}){
-  return (
-    <div className="flex flex-col rounded-xl bg-surface-1 p-6 ring-1 ring-white/10 shadow-card">
-      <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-fire/20 text-fire">
-          {icon}
-        </div>
-        <h4 className="text-lg font-semibold">{title}</h4>
-      </div>
-      <div className="mt-4 text-4xl font-bold text-fire">{price}</div>
-      <p className="mt-2 text-sm text-text-muted">{description}</p>
-    </div>
-  );
-}
-
-function PrivacyCard({icon,title,description}:{icon:React.ReactNode;title:string;description:string;}){
-  return (
-    <div className="rounded-xl bg-surface-1 p-6 ring-1 ring-white/10 shadow-card">
-      <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand/20 text-brand">
-          {icon}
-        </div>
-        <h4 className="text-lg font-semibold">{title}</h4>
-      </div>
-      <p className="mt-2 text-sm text-text-muted">{description}</p>
-    </div>
-  );
-}
-
-function MiniGuide({icon,title,desc}:{icon:React.ReactNode;title:string;desc:string;}){
-  return (
-    <div className="flex items-start gap-3 rounded-lg bg-white/5 p-3">
-      <div className="text-fire">{icon}</div>
-      <div>
-        <div className="text-sm font-medium">{title}</div>
-        <div className="text-xs text-text-muted">{desc}</div>
-      </div>
-    </div>
-  );
-}
-
-function StatsCard({title,description}:{title:string;description:string;}){
-  return (
-    <div className="rounded-xl bg-surface-1 p-6 ring-1 ring-white/10 shadow-card">
-      <div className="text-3xl font-bold text-brand">{title}</div>
-      <p className="mt-2 text-sm text-text-muted">{description}</p>
-    </div>
-  );
+    </div>;
 }

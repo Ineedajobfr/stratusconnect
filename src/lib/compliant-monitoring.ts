@@ -137,38 +137,39 @@ class CompliantMonitoringService {
   /**
    * Calculate uptime percentage from UptimeRobot data
    */
-  private calculateUptime(customUptimeRanges: Record<string, unknown>[], days: number): number {
+  private calculateUptime(customUptimeRanges: any[], days: number): number {
     if (!customUptimeRanges || customUptimeRanges.length === 0) {
       return 100;
     }
 
-    const range = customUptimeRanges.find((r: Record<string, unknown>) => r.range === days);
+    const range = (customUptimeRanges as any[]).find((r: any) => r.range === days);
     if (!range) {
       return 100;
     }
 
-    return Math.round(range.ratio * 100) / 100;
+    const ratio = typeof range.ratio === 'number' ? range.ratio : Number(range.ratio) || 100;
+    return Math.round(ratio * 100) / 100;
   }
 
   /**
    * Calculate average response time from logs
    */
-  private calculateResponseTime(logs: Record<string, unknown>[], hours: number): number {
+  private calculateResponseTime(logs: any[], hours: number): number {
     if (!logs || logs.length === 0) {
       return 0;
     }
 
     const cutoffTime = Date.now() - (hours * 60 * 60 * 1000);
-    const recentLogs = logs.filter((log: Record<string, unknown>) => 
-      log.datetime * 1000 > cutoffTime && log.type === 1 // Type 1 = successful check
+    const recentLogs = (logs as any[]).filter((log: any) => 
+      Number(log.datetime) * 1000 > cutoffTime && Number(log.type) === 1
     );
 
     if (recentLogs.length === 0) {
       return 0;
     }
 
-    const totalResponseTime = recentLogs.reduce((sum: number, log: Record<string, unknown>) => 
-      sum + (log.duration || 0), 0
+    const totalResponseTime = recentLogs.reduce((sum: number, log: any) => 
+      sum + (Number(log.duration) || 0), 0
     );
 
     return Math.round(totalResponseTime / recentLogs.length);
@@ -177,14 +178,14 @@ class CompliantMonitoringService {
   /**
    * Count incidents in the last N hours
    */
-  private countIncidents(logs: Record<string, unknown>[], hours: number): number {
+  private countIncidents(logs: any[], hours: number): number {
     if (!logs || logs.length === 0) {
       return 0;
     }
 
     const cutoffTime = Date.now() - (hours * 60 * 60 * 1000);
-    const incidentLogs = logs.filter((log: Record<string, unknown>) => 
-      log.datetime * 1000 > cutoffTime && log.type === 0 // Type 0 = down
+    const incidentLogs = (logs as any[]).filter((log: any) => 
+      Number(log.datetime) * 1000 > cutoffTime && Number(log.type) === 0
     );
 
     return incidentLogs.length;
@@ -193,18 +194,18 @@ class CompliantMonitoringService {
   /**
    * Get last incident information
    */
-  private getLastIncident(logs: Record<string, unknown>[]): string | null {
+  private getLastIncident(logs: any[]): string | null {
     if (!logs || logs.length === 0) {
       return null;
     }
 
-    const incidentLogs = logs.filter((log: Record<string, unknown>) => log.type === 0); // Type 0 = down
+    const incidentLogs = (logs as any[]).filter((log: any) => Number(log.type) === 0);
     if (incidentLogs.length === 0) {
       return null;
     }
 
-    const lastIncident = incidentLogs[0]; // Logs are sorted by datetime desc
-    return new Date(lastIncident.datetime * 1000).toISOString();
+    const lastIncident = incidentLogs[0];
+    return new Date(Number(lastIncident.datetime) * 1000).toISOString();
   }
 
   /**

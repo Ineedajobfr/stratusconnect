@@ -334,7 +334,14 @@ export function AdminConfigPanel() {
                   type="number"
                   step="0.1"
                   value={config.perks.earlyAccessMultiplier}
-                  onChange={(e) => handlePerkToggle('earlyAccessMultiplier', parseFloat(e.target.value))}
+                  onChange={(e) => {
+                    const val = parseFloat(e.target.value);
+                    setConfig(prev => ({
+                      ...prev,
+                      perks: { ...prev.perks, earlyAccessMultiplier: isNaN(val) ? 0 : val }
+                    }));
+                    setHasChanges(true);
+                  }}
                   className="w-20"
                 />
               </div>
@@ -348,7 +355,14 @@ export function AdminConfigPanel() {
                   type="number"
                   step="0.01"
                   value={config.perks.rankingBias}
-                  onChange={(e) => handlePerkToggle('rankingBias', parseFloat(e.target.value))}
+                  onChange={(e) => {
+                    const val = parseFloat(e.target.value);
+                    setConfig(prev => ({
+                      ...prev,
+                      perks: { ...prev.perks, rankingBias: isNaN(val) ? 0 : val }
+                    }));
+                    setHasChanges(true);
+                  }}
                   className="w-20"
                 />
               </div>

@@ -228,11 +228,11 @@ CREATE POLICY "Operators can create hires" ON hires
    * Generate summary
    */
   private generateSummary(
-    charterReceipt: Record<string, unknown>,
-    hiringReceipt: Record<string, unknown>,
-    statusScreenshot: Record<string, unknown>,
-    warRoomChecks: Record<string, unknown>,
-    greenLightGate: Record<string, unknown>
+    charterReceipt: any,
+    hiringReceipt: any,
+    statusScreenshot: any,
+    warRoomChecks: any,
+    greenLightGate: any
   ): string {
     let summary = 'EVIDENCE PACK SUMMARY\n';
     summary += '====================\n\n';

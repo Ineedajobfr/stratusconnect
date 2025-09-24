@@ -2,6 +2,7 @@
 // FCA Compliant Identity Verification and Sanctions Screening
 
 import { supabase } from '@/integrations/supabase/client';
+const sb = supabase as any;
 
 export interface KYCData {
   userId: string;
@@ -69,7 +70,7 @@ class KYCLiveService {
       this.validateKYCData(data);
 
       // Store KYC data
-      const { error: kycError } = await supabase
+      const { error: kycError } = await sb
         .from('users')
         .update({
           full_name: data.fullName,
@@ -117,7 +118,7 @@ class KYCLiveService {
    */
   private async runSanctionsScreening(userId: string, kycData: KYCData): Promise<SanctionsResult> {
     const screeningDate = new Date().toISOString();
-    const matches: Record<string, unknown>[] = [];
+    const matches: { list: string; name: string; score: number; reason: string; }[] = [];
     let totalRiskScore = 0;
 
     // Screen against each sanctions list
@@ -156,13 +157,13 @@ class KYCLiveService {
    * Screen against specific sanctions provider
    */
   private async screenAgainstProvider(provider: string, kycData: KYCData): Promise<{
-    matches: Record<string, unknown>[];
+    matches: { list: string; name: string; score: number; reason: string; }[];
     riskScore: number;
   }> {
     // In production, integrate with real sanctions screening APIs
     // For now, simulate screening logic
     
-    const matches: Record<string, unknown>[] = [];
+    const matches: { list: string; name: string; score: number; reason: string; }[] = [];
     let riskScore = 0;
 
     // Simulate name matching
@@ -263,7 +264,7 @@ class KYCLiveService {
    * Update KYC status in database
    */
   private async updateKYCStatus(decision: KYCDecision): Promise<void> {
-    const { error } = await supabase
+    const { error } = await sb
       .from('users')
       .update({
         kyc_status: decision.status,
@@ -281,7 +282,7 @@ class KYCLiveService {
    * Store sanctions screening result
    */
   private async storeSanctionsResult(result: SanctionsResult): Promise<void> {
-    const { error } = await supabase
+    const { error } = await sb
       .from('sanctions_results')
       .insert({
         user_id: result.userId,
@@ -328,7 +329,7 @@ class KYCLiveService {
    */
   private async logAuditEvent(event: Record<string, unknown>): Promise<void> {
     try {
-      await supabase
+      await sb
         .from('audit_log')
         .insert({
           actor_id: event.userId,
@@ -345,11 +346,11 @@ class KYCLiveService {
    * Check if user can receive payouts (KYC verified)
    */
   async canReceivePayouts(userId: string): Promise<boolean> {
-    const { data, error } = await supabase
+    const { data, error } = await sb
       .from('users')
       .select('kyc_status')
       .eq('id', userId)
-      .single();
+      .maybeSingle();
 
     if (error || !data) {
       return false;
@@ -364,7 +365,7 @@ class KYCLiveService {
   async runMonthlySanctionsScreening(): Promise<void> {
     try {
       // Get all active users
-      const { data: users, error } = await supabase
+      const { data: users, error } = await sb
         .from('users')
         .select('id, full_name, nationality')
         .in('role', ['broker', 'operator']);
@@ -400,7 +401,7 @@ class KYCLiveService {
 
           // If hit, block payouts
           if (sanctionsResult.result === 'hit') {
-            await supabase
+            await sb
               .from('users')
               .update({
                 kyc_status: 'rejected',

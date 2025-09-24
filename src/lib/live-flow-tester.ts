@@ -95,8 +95,8 @@ class LiveFlowTester {
         currency: test.currency
       });
 
-      test.receipt = receipt;
-      test.auditHash = receipt.compliance.auditHash;
+      test.receipt = receipt as unknown as Record<string, unknown>;
+      test.auditHash = (receipt as any).compliance.auditHash;
       test.status = 'completed';
       test.completedAt = new Date().toISOString();
 
@@ -152,8 +152,8 @@ class LiveFlowTester {
         currency: test.currency
       });
 
-      test.receipt = receipt;
-      test.auditHash = receipt.compliance.auditHash;
+      test.receipt = receipt as unknown as Record<string, unknown>;
+      test.auditHash = (receipt as any).compliance.auditHash;
       test.status = 'completed';
       test.completedAt = new Date().toISOString();
 

@@ -219,7 +219,7 @@ export default function PilotDashboard() {
       case 'verified': return 'bg-green-500/20 text-white border-green-500/30';
       case 'pending': return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
       case 'incomplete': return 'bg-red-500/20 text-red-400 border-red-500/30';
-      default: return 'bg-slate-500/20 text-slate-400 border-slate-500/30';
+      default: return 'bg-terminal-muted/20 text-terminal-muted border-terminal-muted/30';
     }
   };
 
@@ -253,7 +253,7 @@ export default function PilotDashboard() {
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
-                <span className="text-black font-bold text-sm">P</span>
+                <span className="text-terminal-bg font-bold text-sm">P</span>
               </div>
               <span className="text-xl font-bold">STRATUSCONNECT</span>
             </div>
@@ -332,7 +332,7 @@ export default function PilotDashboard() {
                   <CardContent className="space-y-6">
                     <div className="flex items-center space-x-4">
                       <div className="w-20 h-20 bg-orange-500 rounded-full flex items-center justify-center">
-                        <span className="text-black font-bold text-xl">SJ</span>
+                        <span className="text-terminal-bg font-bold text-xl">SJ</span>
                       </div>
                       <div>
                         <div className="text-2xl font-bold text-white">{profile.name}</div>
@@ -466,7 +466,7 @@ export default function PilotDashboard() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
                         <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
-                          <Calendar className="h-6 w-6 text-black" />
+                          <Calendar className="h-6 w-6 text-terminal-bg" />
                         </div>
                         <div>
                           <div className="font-semibold text-white">{slot.date}</div>
@@ -524,7 +524,7 @@ export default function PilotDashboard() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
                         <div className="w-16 h-16 bg-orange-500 rounded-lg flex items-center justify-center">
-                          <Plane className="h-8 w-8 text-black" />
+                          <Plane className="h-8 w-8 text-terminal-bg" />
                         </div>
                         <div>
                           <div className="text-xl font-bold text-white">{job.operator}</div>
@@ -570,7 +570,7 @@ export default function PilotDashboard() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
                         <div className="w-16 h-16 bg-orange-500 rounded-lg flex items-center justify-center">
-                          <Plane className="h-8 w-8 text-black" />
+                          <Plane className="h-8 w-8 text-terminal-bg" />
                         </div>
                         <div>
                           <div className="text-xl font-bold text-white">{assignment.operator}</div>
@@ -612,12 +612,12 @@ export default function PilotDashboard() {
                           notification.type === 'job_invitation' ? 'bg-orange-500' :
                           notification.type === 'message' ? 'bg-blue-500' :
                           notification.type === 'profile_view' ? 'bg-green-500' :
-                          'bg-slate-500'
+                          'bg-terminal-muted'
                         }`}>
-                          {notification.type === 'job_invitation' && <Briefcase className="h-6 w-6 text-black" />}
-                          {notification.type === 'message' && <MessageCircle className="h-6 w-6 text-black" />}
-                          {notification.type === 'profile_view' && <Eye className="h-6 w-6 text-black" />}
-                          {notification.type === 'assignment_update' && <Plane className="h-6 w-6 text-black" />}
+                          {notification.type === 'job_invitation' && <Briefcase className="h-6 w-6 text-terminal-bg" />}
+                          {notification.type === 'message' && <MessageCircle className="h-6 w-6 text-terminal-bg" />}
+                          {notification.type === 'profile_view' && <Eye className="h-6 w-6 text-terminal-bg" />}
+                          {notification.type === 'assignment_update' && <Plane className="h-6 w-6 text-terminal-bg" />}
                         </div>
                         <div>
                           <div className="font-semibold text-white">{notification.title}</div>

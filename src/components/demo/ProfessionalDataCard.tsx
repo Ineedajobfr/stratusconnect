@@ -103,7 +103,7 @@ export const ProfessionalFlightCard: React.FC<FlightCardProps> = ({
       case 'delayed':
         return 'bg-red-500';
       default:
-        return 'bg-gray-500';
+        return 'bg-terminal-muted';
     }
   };
 

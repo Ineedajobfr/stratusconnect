@@ -7,6 +7,7 @@ import { Plane, Shield, Users, Clock, CheckCircle, Star, Zap, Globe, Lock, Dolla
 import { useNavigate } from "react-router-dom";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 import { useAuth } from "@/contexts/AuthContext";
+import BetaSignupButton from "@/components/BetaSignupButton";
 
 export default function Index() {
   const navigate = useNavigate();
@@ -29,8 +30,8 @@ export default function Index() {
   return <div className="min-h-screen bg-app relative overflow-hidden">
       <StarfieldRunwayBackground />
       
-      {/* About Us Link */}
-      <div className="absolute top-6 right-6 z-20">
+      {/* About Us and Beta Signup Links */}
+      <div className="absolute top-6 right-6 z-20 flex gap-4">
         <Button 
           variant="ghost" 
           onClick={() => navigate('/about')}
@@ -38,6 +39,7 @@ export default function Index() {
         >
           About Us
         </Button>
+        <BetaSignupButton />
       </div>
 
       {/* Hero Section */}

@@ -60,7 +60,7 @@ export const BrokerTradingFloor: React.FC = () => {
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                <span className="text-black font-bold text-sm">B</span>
+                <span className="text-terminal-bg font-bold text-sm">B</span>
               </div>
               <span className="text-xl font-bold">STRATUSCONNECT</span>
             </div>
@@ -166,7 +166,7 @@ export const BrokerTradingFloor: React.FC = () => {
             <CardHeader className="pb-2">
               <CardTitle className="text-white text-sm font-mono flex items-center justify-between">
                 ACTIVE REQUESTS
-                <Badge className="bg-green-500 text-black text-xs">{marketData.pendingRequests}</Badge>
+                <Badge className="bg-green-500 text-terminal-bg text-xs">{marketData.pendingRequests}</Badge>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
@@ -312,7 +312,7 @@ export const BrokerTradingFloor: React.FC = () => {
               <CardTitle className="text-white text-sm font-mono">QUICK ACTIONS</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
-              <Button className="w-full bg-green-500 hover:bg-green-600 text-black text-xs font-mono">
+              <Button className="w-full bg-green-500 hover:bg-green-600 text-terminal-bg text-xs font-mono">
                 NEW REQUEST
               </Button>
               <Button className="w-full bg-gray-700 hover:bg-gray-600 text-white text-xs font-mono">

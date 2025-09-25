@@ -102,7 +102,7 @@ export default function PostTripRequest() {
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
-                <Plane className="h-4 w-4 text-black" />
+                <Plane className="h-4 w-4 text-terminal-bg" />
               </div>
               <span className="text-xl font-bold">STRATUSCONNECT</span>
             </div>
@@ -127,7 +127,7 @@ export default function PostTripRequest() {
           {[1, 2, 3, 4].map((step) => (
             <div key={step} className="flex items-center">
               <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                step <= currentStep ? 'bg-orange-500 text-black' : 'bg-slate-700 text-slate-400'
+                step <= currentStep ? 'bg-orange-500 text-terminal-bg' : 'bg-slate-700 text-slate-400'
               }`}>
                 {step < currentStep ? <Check className="h-4 w-4" /> : step}
               </div>

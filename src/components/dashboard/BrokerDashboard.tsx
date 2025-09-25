@@ -162,7 +162,7 @@ export default function BrokerDashboard() {
       case 'pending': return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
       case 'quotes_received': return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
       case 'booked': return 'bg-green-500/20 text-white border-green-500/30';
-      default: return 'bg-slate-500/20 text-slate-400 border-slate-500/30';
+      default: return 'bg-terminal-muted/20 text-terminal-muted border-terminal-muted/30';
     }
   };
 
@@ -328,7 +328,7 @@ export default function BrokerDashboard() {
                     <div key={request.id} className="flex items-center justify-between p-4 bg-slate-700 rounded-lg border border-slate-600">
                       <div className="flex items-center space-x-4">
                         <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
-                          <Plane className="h-6 w-6 text-black" />
+                          <Plane className="h-6 w-6 text-terminal-bg" />
                         </div>
                         <div>
                           <div className="font-semibold text-white">{request.route}</div>
@@ -360,7 +360,7 @@ export default function BrokerDashboard() {
                     <div key={leg.id} className="flex items-center justify-between p-4 bg-slate-700 rounded-lg border border-slate-600">
                       <div className="flex items-center space-x-4">
                         <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
-                          <Plane className="h-6 w-6 text-black" />
+                          <Plane className="h-6 w-6 text-terminal-bg" />
                         </div>
                         <div>
                           <div className="font-semibold text-white">{leg.route}</div>
@@ -437,7 +437,7 @@ export default function BrokerDashboard() {
                   <CardContent className="p-6">
                     <div className="text-center">
                       <div className="w-16 h-16 bg-orange-500 rounded-lg flex items-center justify-center mx-auto mb-4">
-                        <Plane className="h-8 w-8 text-black" />
+                        <Plane className="h-8 w-8 text-terminal-bg" />
                       </div>
                       <div className="text-xl font-bold text-white mb-2">{leg.route}</div>
                       <div className="text-slate-400 mb-2">{leg.aircraft}</div>
@@ -467,7 +467,7 @@ export default function BrokerDashboard() {
                 <CardContent className="p-4">
                   <div className="flex items-start space-x-3">
                     <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
-                      <span className="text-black font-bold text-sm">GA</span>
+                      <span className="text-terminal-bg font-bold text-sm">GA</span>
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-2">
@@ -643,7 +643,7 @@ export default function BrokerDashboard() {
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center space-x-3">
                           <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
-                            <span className="text-black font-bold text-sm">{operator.name.split(' ').map(n => n[0]).join('')}</span>
+                            <span className="text-terminal-bg font-bold text-sm">{operator.name.split(' ').map(n => n[0]).join('')}</span>
                           </div>
                           <div>
                             <h3 className="font-semibold text-white">{operator.name}</h3>
@@ -718,7 +718,7 @@ export default function BrokerDashboard() {
               <CardContent className="space-y-6">
                 <div className="flex items-center space-x-4">
                   <div className="w-20 h-20 bg-orange-500 rounded-full flex items-center justify-center">
-                    <span className="text-black font-bold text-xl">SB</span>
+                    <span className="text-terminal-bg font-bold text-xl">SB</span>
                   </div>
                   <div>
                     <div className="text-2xl font-bold text-white">Sarah Brooks</div>

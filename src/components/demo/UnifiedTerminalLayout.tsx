@@ -49,9 +49,9 @@ export const UnifiedTerminalLayout: React.FC<UnifiedTerminalLayoutProps> = ({
       case 'busy':
         return 'bg-red-500';
       case 'offline':
-        return 'bg-gray-500';
+        return 'bg-terminal-muted';
       default:
-        return 'bg-gray-500';
+        return 'bg-terminal-muted';
     }
   };
   const getStatusText = (status: string) => {

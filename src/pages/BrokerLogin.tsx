@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -72,11 +72,6 @@ export default function BrokerLogin() {
               <CardDescription className="text-gunmetal">
                 Speed creates advantage. Win more quotes with a cleaner cockpit.
               </CardDescription>
-              <div className="mt-4 p-3 bg-accent/10 border border-accent/20 rounded-lg">
-                <p className="text-sm text-accent font-medium">
-                  💡 Admin users can log in from any terminal (Broker, Operator, Pilot, Crew)
-                </p>
-              </div>
             </CardHeader>
             
             <CardContent className="space-y-6">

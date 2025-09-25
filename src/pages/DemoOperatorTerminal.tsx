@@ -1,7 +1,7 @@
 // Enhanced Demo Operator Terminal - All Features
 // FCA Compliant Aviation Platform - 100% Free Until Revenue
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -1104,7 +1104,7 @@ export default function DemoOperatorTerminal() {
         </main>
 
         {/* Demo Banner */}
-        <div className="fixed bottom-0 left-0 right-0 z-50 bg-yellow-500 text-black text-center py-2 text-sm font-medium">
+        <div className="fixed bottom-0 left-0 right-0 z-50 bg-terminal-warning text-terminal-bg text-center py-2 text-sm font-medium">
           <AlertTriangle className="w-4 h-4 inline mr-2" />
           Demo Mode Active. This is a demonstration of the Operator Terminal. All data is simulated and no real transactions will occur. The platform operates 100% free until revenue is generated.
         </div>

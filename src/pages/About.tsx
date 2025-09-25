@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Users, Target, Heart, Hand, Plane, BarChart3, Shield, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";

@@ -206,7 +206,7 @@ export default function SimplePilotDashboard() {
             <CardContent className="space-y-6">
               <div className="flex items-center space-x-4">
                 <div className="w-20 h-20 bg-orange-500 rounded-full flex items-center justify-center">
-                  <span className="text-black font-bold text-xl">SJ</span>
+                  <span className="text-terminal-bg font-bold text-xl">SJ</span>
                 </div>
                 <div>
                   <div className="text-2xl font-bold text-white">{pilotData.name}</div>
@@ -330,7 +330,7 @@ export default function SimplePilotDashboard() {
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center space-x-3">
                         <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
-                          <Plane className="h-5 w-5 text-black" />
+                          <Plane className="h-5 w-5 text-terminal-bg" />
                         </div>
                         <div>
                           <div className="font-semibold text-white">{flight.route}</div>
@@ -444,7 +444,7 @@ export default function SimplePilotDashboard() {
                   <div key={index} className="flex items-center justify-between p-4 bg-slate-700 rounded-lg">
                     <div className="flex items-center space-x-3">
                       <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
-                        <Award className="h-5 w-5 text-black" />
+                        <Award className="h-5 w-5 text-terminal-bg" />
                       </div>
                       <div>
                         <div className="font-semibold text-white">{license.name}</div>
@@ -484,7 +484,7 @@ export default function SimplePilotDashboard() {
                   <div key={index} className="p-4 bg-slate-700 rounded-lg">
                     <div className="flex items-center space-x-3">
                       <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
-                        <span className="text-black font-bold text-sm">{pilot.name.split(' ').map(n => n[0]).join('')}</span>
+                        <span className="text-terminal-bg font-bold text-sm">{pilot.name.split(' ').map(n => n[0]).join('')}</span>
                       </div>
                       <div>
                         <div className="font-semibold text-white">{pilot.name}</div>

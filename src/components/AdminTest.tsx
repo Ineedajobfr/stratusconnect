@@ -8,8 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { CheckCircle, XCircle, AlertTriangle, Loader2 } from "lucide-react";
 import { AdminDatabase } from "@/lib/admin-database";
 import { broadcastService } from "@/lib/broadcast-service";
-import { disputeService } from "@/lib/dispute-service";
-import { aiMonitoringService } from "@/lib/ai-monitoring-service";
+import { disputeService } from "@/lib/dispute-service-real";
+import { aiMonitoringService } from "@/lib/ai-monitoring-service-real";
 
 interface TestResult {
   name: string;
@@ -31,18 +31,24 @@ const AdminTest = () => {
         name: "Database Connection",
         test: async () => {
           const start = Date.now();
-          const users = await AdminDatabase.getAllUsers();
-          const duration = Date.now() - start;
-          return { success: true, message: `Connected successfully. Found ${users.length} users.`, duration };
+          await AdminDatabase.getAllUsers();
+          return Date.now() - start;
         }
       },
       {
-        name: "System Stats",
+        name: "User Management",
         test: async () => {
           const start = Date.now();
-          const stats = await AdminDatabase.getSystemStats();
-          const duration = Date.now() - start;
-          return { success: true, message: `Stats loaded. Total users: ${stats.totalUsers}`, duration };
+          const users = await AdminDatabase.getAllUsers();
+          return Date.now() - start;
+        }
+      },
+      {
+        name: "Deal Management",
+        test: async () => {
+          const start = Date.now();
+          const deals = await AdminDatabase.getAllDeals();
+          return Date.now() - start;
         }
       },
       {
@@ -50,17 +56,7 @@ const AdminTest = () => {
         test: async () => {
           const start = Date.now();
           const events = await AdminDatabase.getSecurityEvents(10);
-          const duration = Date.now() - start;
-          return { success: true, message: `Loaded ${events.length} security events`, duration };
-        }
-      },
-      {
-        name: "Commission Rules",
-        test: async () => {
-          const start = Date.now();
-          const rules = await AdminDatabase.getCommissionRules();
-          const duration = Date.now() - start;
-          return { success: true, message: `Loaded ${rules.length} commission rules`, duration };
+          return Date.now() - start;
         }
       },
       {
@@ -68,8 +64,7 @@ const AdminTest = () => {
         test: async () => {
           const start = Date.now();
           const messages = await broadcastService.getBroadcastMessages();
-          const duration = Date.now() - start;
-          return { success: true, message: `Broadcast service working. ${messages.length} messages`, duration };
+          return Date.now() - start;
         }
       },
       {
@@ -77,45 +72,47 @@ const AdminTest = () => {
         test: async () => {
           const start = Date.now();
           const disputes = await disputeService.getDisputes();
-          const duration = Date.now() - start;
-          return { success: true, message: `Dispute service working. ${disputes.length} disputes`, duration };
+          return Date.now() - start;
         }
       },
       {
-        name: "AI Monitoring",
+        name: "AI Monitoring Service",
         test: async () => {
           const start = Date.now();
           const alerts = await aiMonitoringService.getFraudAlerts();
-          const duration = Date.now() - start;
-          return { success: true, message: `AI monitoring working. ${alerts.length} alerts`, duration };
+          return Date.now() - start;
+        }
+      },
+      {
+        name: "System Settings",
+        test: async () => {
+          const start = Date.now();
+          const settings = await AdminDatabase.getSystemSettings();
+          return Date.now() - start;
         }
       }
     ];
 
     for (const testCase of testCases) {
+      const testResult: TestResult = {
+        name: testCase.name,
+        status: 'pending',
+        message: 'Running...'
+      };
+      
+      setTests(prev => [...prev, testResult]);
+
       try {
-        setTests(prev => [...prev, { name: testCase.name, status: 'pending', message: 'Running...' }]);
-        
-        const result = await testCase.test();
-        
+        const duration = await testCase.test();
         setTests(prev => prev.map(t => 
           t.name === testCase.name 
-            ? { 
-                name: testCase.name, 
-                status: result.success ? 'success' : 'error', 
-                message: result.message,
-                duration: result.duration
-              }
+            ? { ...t, status: 'success', message: `Completed in ${duration}ms`, duration }
             : t
         ));
       } catch (error) {
         setTests(prev => prev.map(t => 
           t.name === testCase.name 
-            ? { 
-                name: testCase.name, 
-                status: 'error', 
-                message: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` 
-              }
+            ? { ...t, status: 'error', message: `Error: ${error instanceof Error ? error.message : 'Unknown error'}` }
             : t
         ));
       }
@@ -126,71 +123,59 @@ const AdminTest = () => {
 
   const getStatusIcon = (status: TestResult['status']) => {
     switch (status) {
+      case 'pending':
+        return <Loader2 className="w-4 h-4 animate-spin" />;
       case 'success':
         return <CheckCircle className="w-4 h-4 text-green-500" />;
       case 'error':
         return <XCircle className="w-4 h-4 text-red-500" />;
-      case 'pending':
-        return <Loader2 className="w-4 h-4 text-yellow-500 animate-spin" />;
     }
   };
 
   const getStatusColor = (status: TestResult['status']) => {
     switch (status) {
-      case 'success':
-        return 'bg-green-500/20 text-green-500 border-green-500/30';
-      case 'error':
-        return 'bg-red-500/20 text-red-500 border-red-500/30';
       case 'pending':
-        return 'bg-yellow-500/20 text-yellow-500 border-yellow-500/30';
+        return 'bg-yellow-100 text-yellow-800';
+      case 'success':
+        return 'bg-green-100 text-green-800';
+      case 'error':
+        return 'bg-red-100 text-red-800';
     }
   };
 
   return (
     <Card className="terminal-card">
       <CardHeader>
-        <CardTitle className="flex items-center">
-          <AlertTriangle className="w-5 h-5 mr-2" />
-          Admin System Test Suite
+        <CardTitle className="flex items-center gap-2">
+          <AlertTriangle className="w-5 h-5 text-accent" />
+          Admin System Test
         </CardTitle>
-        <p className="text-sm text-muted-foreground">
-          Verify that all admin system components are working correctly
-        </p>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
           <Button 
             onClick={runTests} 
             disabled={running}
-            className="btn-terminal-accent"
+            className="w-full bg-accent hover:bg-accent/90"
           >
-            {running ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Running Tests...
-              </>
-            ) : (
-              'Run Admin System Tests'
-            )}
+            {running ? 'Running Tests...' : 'Run System Tests'}
           </Button>
 
           {tests.length > 0 && (
             <div className="space-y-2">
+              <h4 className="font-semibold text-foreground">Test Results:</h4>
               {tests.map((test, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-terminal-card/50 rounded-lg border border-terminal-border">
-                  <div className="flex items-center space-x-3">
+                <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-terminal-card/50">
+                  <div className="flex items-center gap-3">
                     {getStatusIcon(test.status)}
-                    <div>
-                      <p className="font-medium text-foreground">{test.name}</p>
-                      <p className="text-sm text-muted-foreground">{test.message}</p>
-                    </div>
+                    <span className="text-foreground">{test.name}</span>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <Badge variant="outline" className={getStatusColor(test.status)}>
+                  <div className="flex items-center gap-2">
+                    <Badge className={getStatusColor(test.status)}>
                       {test.status}
                     </Badge>
                     {test.duration && (
-                      <span className="text-xs text-muted-foreground">
+                      <span className="text-sm text-muted-foreground">
                         {test.duration}ms
                       </span>
                     )}
@@ -200,9 +185,9 @@ const AdminTest = () => {
             </div>
           )}
 
-          {tests.length > 0 && !running && (
-            <div className="mt-4 p-4 bg-terminal-card/50 rounded-lg">
-              <h3 className="font-semibold text-foreground mb-2">Test Summary</h3>
+          {tests.length > 0 && tests.every(t => t.status !== 'pending') && (
+            <div className="mt-4 p-3 rounded-lg bg-terminal-card/30">
+              <h4 className="font-semibold text-foreground mb-2">Test Summary:</h4>
               <div className="grid grid-cols-3 gap-4 text-sm">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-green-500">
@@ -217,10 +202,10 @@ const AdminTest = () => {
                   <div className="text-muted-foreground">Failed</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-foreground">
-                    {tests.length}
+                  <div className="text-2xl font-bold text-accent">
+                    {tests.reduce((acc, t) => acc + (t.duration || 0), 0)}ms
                   </div>
-                  <div className="text-muted-foreground">Total</div>
+                  <div className="text-muted-foreground">Total Time</div>
                 </div>
               </div>
             </div>

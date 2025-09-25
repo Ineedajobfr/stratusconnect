@@ -221,7 +221,7 @@ export default function SimpleCrewDashboard() {
             <CardContent className="space-y-6">
               <div className="flex items-center space-x-4">
                 <div className="w-20 h-20 bg-orange-500 rounded-full flex items-center justify-center">
-                  <span className="text-black font-bold text-xl">ED</span>
+                  <span className="text-terminal-bg font-bold text-xl">ED</span>
                 </div>
                 <div>
                   <div className="text-2xl font-bold text-white">{crewData.name}</div>
@@ -364,7 +364,7 @@ export default function SimpleCrewDashboard() {
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center space-x-3">
                         <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
-                          <Utensils className="h-5 w-5 text-black" />
+                          <Utensils className="h-5 w-5 text-terminal-bg" />
                         </div>
                         <div>
                           <div className="font-semibold text-white">{flight.route}</div>
@@ -485,7 +485,7 @@ export default function SimpleCrewDashboard() {
                   <div key={index} className="flex items-center justify-between p-4 bg-slate-700 rounded-lg">
                     <div className="flex items-center space-x-3">
                       <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
-                        <Heart className="h-5 w-5 text-black" />
+                        <Heart className="h-5 w-5 text-terminal-bg" />
                       </div>
                       <div>
                         <div className="font-semibold text-white">{capability.service}</div>
@@ -514,7 +514,7 @@ export default function SimpleCrewDashboard() {
                   <div key={index} className="flex items-center justify-between p-4 bg-slate-700 rounded-lg">
                     <div className="flex items-center space-x-3">
                       <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
-                        <Award className="h-5 w-5 text-black" />
+                        <Award className="h-5 w-5 text-terminal-bg" />
                       </div>
                       <div>
                         <div className="font-semibold text-white">{cert.name}</div>

@@ -67,18 +67,7 @@ const AdminTerminal = () => {
   const loadAllData = async () => {
     setLoading(true);
     try {
-      const [
-        usersData, 
-        dealsData, 
-        securityData, 
-        commissionData, 
-        settingsData, 
-        statsData,
-        broadcastData,
-        disputesData,
-        fraudData,
-        monitorsData
-      ] = await Promise.all([
+      const results = await Promise.allSettled([
         AdminDatabase.getAllUsers(),
         AdminDatabase.getAllDeals(),
         AdminDatabase.getSecurityEvents(50),
@@ -91,22 +80,49 @@ const AdminTerminal = () => {
         aiMonitoringService.getMonitors()
       ]);
 
-      setUsers(usersData);
-      setDeals(dealsData);
-      setSecurityEvents(securityData);
-      setCommissionRules(commissionData);
-      setSystemSettings(settingsData);
-      setSystemStats(statsData);
-      setBroadcastMessages(broadcastData);
-      setDisputes(disputesData);
-      setFraudAlerts(fraudData);
-      setAiMonitors(monitorsData);
-      } catch (error) {
+      // Process results - use data if successful, empty array if failed
+      const [
+        usersResult,
+        dealsResult,
+        securityResult,
+        commissionResult,
+        settingsResult,
+        statsResult,
+        broadcastResult,
+        disputesResult,
+        fraudResult,
+        monitorsResult
+      ] = results;
+
+      setUsers(usersResult.status === 'fulfilled' ? usersResult.value : []);
+      setDeals(dealsResult.status === 'fulfilled' ? dealsResult.value : []);
+      setSecurityEvents(securityResult.status === 'fulfilled' ? securityResult.value : []);
+      setCommissionRules(commissionResult.status === 'fulfilled' ? commissionResult.value : []);
+      setSystemSettings(settingsResult.status === 'fulfilled' ? settingsResult.value : []);
+      setSystemStats(statsResult.status === 'fulfilled' ? statsResult.value : {});
+      setBroadcastMessages(broadcastResult.status === 'fulfilled' ? broadcastResult.value : []);
+      setDisputes(disputesResult.status === 'fulfilled' ? disputesResult.value : []);
+      setFraudAlerts(fraudResult.status === 'fulfilled' ? fraudResult.value : []);
+      setAiMonitors(monitorsResult.status === 'fulfilled' ? monitorsResult.value : []);
+
+      // Log any errors for debugging
+      results.forEach((result, index) => {
+        if (result.status === 'rejected') {
+          const serviceNames = [
+            'getAllUsers', 'getAllDeals', 'getSecurityEvents', 'getCommissionRules',
+            'getSystemSettings', 'getSystemStats', 'getBroadcastMessages', 
+            'getDisputes', 'getFraudAlerts', 'getMonitors'
+          ];
+          console.error(`Error loading ${serviceNames[index]}:`, result.reason);
+        }
+      });
+
+    } catch (error) {
       console.error('Error loading admin data:', error);
     } finally {
           setLoading(false);
-      }
-    };
+    }
+  };
 
   const handleUserAction = async (userId: string, action: 'approve' | 'reject' | 'suspend' | 'activate', notes?: string) => {
     try {

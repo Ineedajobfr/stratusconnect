@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { NavigationArrows } from "@/components/NavigationArrows";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
+import BetaSignupButton from "@/components/BetaSignupButton";
 
 export default function About() {
   const navigate = useNavigate();
@@ -35,6 +36,39 @@ export default function About() {
             crew, operators, and brokers all struggle with the same issue continuously.
           </p>
         </div>
+
+        {/* What We Offer Section */}
+        <section className="mb-20 text-center">
+          <div className="max-w-4xl mx-auto">
+            <div className="flex items-center justify-between mb-8">
+              <div className="text-left">
+                <h2 className="text-4xl md:text-5xl font-bold mb-2 text-foreground">
+                  What we offer
+                </h2>
+                <p className="text-xl text-muted-foreground">
+                  How Stratus keeps you building
+                </p>
+              </div>
+              <BetaSignupButton />
+            </div>
+            
+            <div className="bg-gradient-to-br from-terminal-card/50 to-terminal-card/30 rounded-2xl p-8 md:p-12 border border-terminal-border">
+              <div className="space-y-6 text-lg leading-relaxed">
+                <p className="italic text-foreground/90">
+                  You manage deals, crews, aircraft, time. That's no small load. So when you land here, 
+                  it's not by accident it's because something told you there's got to be a better way. 
+                  Stratus was built to back your next move, your next listing, your next breakthrough.
+                </p>
+                
+                <p className="italic text-foreground/90">
+                  One terminal to stay seen, update your availability, connect with the right people, 
+                  and get what you do in front of those who matter. You've carried the weight long enough 
+                  now let us help you turn that work into wins, and get you where you were always meant to be.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* The Problem */}
         <section className="mb-20">

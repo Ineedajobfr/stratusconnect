@@ -28,6 +28,7 @@ const OperatorTerminal = lazy(() => import("./pages/OperatorTerminal"));
 const PilotTerminal = lazy(() => import("./pages/PilotTerminal"));
 const CrewTerminal = lazy(() => import("./pages/CrewTerminal"));
 const AdminTerminal = lazy(() => import("./pages/AdminTerminal"));
+const BetaSignups = lazy(() => import("./pages/admin/BetaSignups"));
 const BetaNavigator = lazy(() => import("./pages/BetaNavigator"));
 const Status = lazy(() => import("./pages/CompliantStatus"));
 const Cookies = lazy(() => import("./pages/Cookies"));
@@ -296,6 +297,14 @@ const App = memo(() => {
                 element={
                   <ProtectedRoute allowedRoles={['admin']} requireApproved={true}>
                     <AdminConsole />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/beta" 
+                element={
+                  <ProtectedRoute allowedRoles={['admin']} requireApproved={true}>
+                    <BetaSignups />
                   </ProtectedRoute>
                 } 
               />

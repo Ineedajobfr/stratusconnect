@@ -29,6 +29,17 @@ export default function Index() {
   return <div className="min-h-screen bg-app relative overflow-hidden">
       <StarfieldRunwayBackground />
       
+      {/* About Us Link */}
+      <div className="absolute top-6 right-6 z-20">
+        <Button 
+          variant="ghost" 
+          onClick={() => navigate('/about')}
+          className="text-white hover:text-white transition-all duration-300 text-lg font-medium drop-shadow-[0_0_15px_rgba(255,255,255,0.7)] hover:drop-shadow-[0_0_20px_rgba(255,122,26,0.8)] hover:bg-accent/20 hover:scale-105 px-4 py-2 rounded-lg"
+        >
+          About Us
+        </Button>
+      </div>
+
       {/* Hero Section */}
       <div className="relative z-10 pt-20 pb-16">
         <div className="max-w-6xl mx-auto px-4 text-center">

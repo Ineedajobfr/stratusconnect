@@ -62,6 +62,9 @@ const config: Config = {
       },
       boxShadow: { card: "0 12px 28px rgba(0,0,0,.35)" },
       borderRadius: { xl2: "1rem" },
+      fontFamily: {
+        'inter': ['Inter', 'sans-serif'],
+      },
     },
   },
   plugins: [

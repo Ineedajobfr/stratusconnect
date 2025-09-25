@@ -38,7 +38,7 @@ export const OperatorCommandCenter: React.FC = () => {
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
-                <span className="text-black font-bold text-sm">S</span>
+                <span className="text-terminal-bg font-bold text-sm">S</span>
               </div>
               <span className="text-xl font-bold">STRATUSCONNECT</span>
             </div>
@@ -124,7 +124,7 @@ export const OperatorCommandCenter: React.FC = () => {
             <CardHeader className="pb-2">
               <CardTitle className="text-orange-400 text-sm font-mono flex items-center justify-between">
                 NOTIFICATIONS
-                <Badge className="bg-orange-500 text-black text-xs">3</Badge>
+                <Badge className="bg-orange-500 text-terminal-bg text-xs">3</Badge>
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -136,7 +136,7 @@ export const OperatorCommandCenter: React.FC = () => {
             <CardHeader className="pb-2">
               <CardTitle className="text-orange-400 text-sm font-mono flex items-center justify-between">
                 NOTIFICATIONS
-                <Badge className="bg-orange-500 text-black text-xs">8</Badge>
+                <Badge className="bg-orange-500 text-terminal-bg text-xs">8</Badge>
               </CardTitle>
             </CardHeader>
             <CardContent>

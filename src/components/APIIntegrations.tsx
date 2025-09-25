@@ -319,10 +319,10 @@ export default function APIIntegrations() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'active': return 'bg-terminal-success';
-      case 'inactive': return 'bg-slate-500';
+      case 'inactive': return 'bg-terminal-muted';
       case 'error': return 'bg-terminal-danger';
       case 'testing': return 'bg-terminal-warning';
-      default: return 'bg-slate-500';
+      default: return 'bg-terminal-muted';
     }
   };
 

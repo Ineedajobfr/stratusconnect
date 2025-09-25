@@ -66,8 +66,8 @@ export const RealTimeFlightStatus: React.FC = () => {
     switch (status) {
       case 'in_flight': return 'bg-blue-500';
       case 'boarding': return 'bg-yellow-500';
-      case 'scheduled': return 'bg-gray-500';
-      default: return 'bg-gray-500';
+      case 'scheduled': return 'bg-terminal-muted';
+      default: return 'bg-terminal-muted';
     }
   };
 
@@ -80,7 +80,7 @@ export const RealTimeFlightStatus: React.FC = () => {
             <span>REAL-TIME FLIGHT STATUS</span>
           </CardTitle>
           <div className="flex items-center space-x-2">
-            <div className={`w-2 h-2 rounded-full ${isLive ? 'bg-green-500' : 'bg-gray-500'}`}></div>
+            <div className={`w-2 h-2 rounded-full ${isLive ? 'bg-green-500' : 'bg-terminal-muted'}`}></div>
             <span className="text-sm text-gray-400">{isLive ? 'LIVE' : 'OFFLINE'}</span>
           </div>
         </div>
@@ -276,7 +276,7 @@ export const InteractiveNotifications: React.FC = () => {
       case 'urgent': return 'bg-red-500';
       case 'info': return 'bg-blue-500';
       case 'success': return 'bg-green-500';
-      default: return 'bg-gray-500';
+      default: return 'bg-terminal-muted';
     }
   };
 

@@ -189,7 +189,7 @@ export default function DemoDepositGate() {
                     <span className="font-medium">Contact Details Unlocked</span>
                   </div>
                   
-                  <div className="bg-white rounded-lg p-4 space-y-3">
+                  <div className="bg-terminal-bg rounded-lg p-4 space-y-3">
                     <div className="flex items-center gap-2">
                       <User className="h-4 w-4" />
                       <div>
@@ -236,7 +236,7 @@ export default function DemoDepositGate() {
       )}
 
       {/* Compliance Notice */}
-      <Card className="border-slate-200 bg-slate-50">
+      <Card className="border-terminal-border bg-terminal-muted">
         <CardContent className="pt-6">
           <div className="flex items-start gap-3">
             <Shield className="h-5 w-5 text-slate-600 mt-0.5" />

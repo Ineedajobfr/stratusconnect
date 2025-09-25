@@ -150,7 +150,7 @@ export default function CrewJobs() {
       case 'accepted': return 'bg-terminal-success';
       case 'declined': return 'bg-terminal-danger';
       case 'completed': return 'bg-terminal-info';
-      default: return 'bg-slate-500';
+      default: return 'bg-terminal-muted';
     }
   };
 

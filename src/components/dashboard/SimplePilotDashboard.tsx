@@ -513,7 +513,7 @@ export default function SimplePilotDashboard() {
               <CardContent className="p-4">
                 <div className="flex items-start space-x-3">
                   <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
-                    <span className="text-black font-bold text-sm">GA</span>
+                    <span className="text-terminal-bg font-bold text-sm">GA</span>
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between mb-2">

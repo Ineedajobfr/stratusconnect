@@ -108,7 +108,7 @@ export default function HelpBroker() {
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
-                <BarChart3 className="h-4 w-4 text-black" />
+                <BarChart3 className="h-4 w-4 text-terminal-bg" />
               </div>
               <span className="text-xl font-bold">STRATUSCONNECT</span>
             </div>
@@ -158,21 +158,21 @@ export default function HelpBroker() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="text-center">
                 <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl font-bold text-black">1</span>
+                  <span className="text-2xl font-bold text-terminal-bg">1</span>
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-2">Create Request</h3>
                 <p className="text-slate-400">Post a new trip request for your client</p>
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl font-bold text-black">2</span>
+                  <span className="text-2xl font-bold text-terminal-bg">2</span>
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-2">Review Quotes</h3>
                 <p className="text-slate-400">Compare quotes from multiple operators</p>
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl font-bold text-black">3</span>
+                  <span className="text-2xl font-bold text-terminal-bg">3</span>
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-2">Book & Pay</h3>
                 <p className="text-slate-400">Accept quote and process payment through escrow</p>

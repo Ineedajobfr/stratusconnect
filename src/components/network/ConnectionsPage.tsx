@@ -98,7 +98,7 @@ export function ConnectionsPage() {
       case "operator": return "bg-green-500/20 text-green-400 border-green-500/30";
       case "pilot": return "bg-orange-500/20 text-orange-400 border-orange-500/30";
       case "crew": return "bg-purple-500/20 text-purple-400 border-purple-500/30";
-      default: return "bg-gray-500/20 text-gray-400 border-gray-500/30";
+      default: return "bg-terminal-muted/20 text-terminal-muted border-terminal-muted/30";
     }
   };
 

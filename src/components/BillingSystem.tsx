@@ -287,7 +287,7 @@ export default function BillingSystem() {
       case 'cancelled': return 'bg-terminal-danger';
       case 'paid': return 'bg-terminal-success';
       case 'overdue': return 'bg-terminal-danger';
-      default: return 'bg-slate-500';
+      default: return 'bg-terminal-muted';
     }
   };
 

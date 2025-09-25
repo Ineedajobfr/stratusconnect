@@ -303,7 +303,7 @@ export default function CrewProfile() {
                 <Switch checked={profileForm.willing_to_travel} onCheckedChange={checked => setProfileForm(prev => ({
               ...prev,
               willing_to_travel: checked
-            }))} className="text-gray-50 bg-gray-600 hover:bg-gray-500" />
+            }))} className="text-terminal-bg bg-terminal-muted hover:bg-terminal-muted/80" />
                 <Label className="text-white">Willing to travel</Label>
               </div>
             </CardContent>
@@ -375,7 +375,7 @@ export default function CrewProfile() {
                       <h3 className="text-2xl font-bold text-white capitalize">
                         {profile.crew_type.replace('_', ' ')}
                       </h3>
-                      <Badge className={`${profile.availability_status === 'available' ? 'bg-terminal-success' : profile.availability_status === 'busy' ? 'bg-terminal-warning' : 'bg-slate-500'} text-white`}>
+                      <Badge className={`${profile.availability_status === 'available' ? 'bg-terminal-success' : profile.availability_status === 'busy' ? 'bg-terminal-warning' : 'bg-terminal-muted'} text-white`}>
                         {profile.availability_status}
                       </Badge>
                     </div>

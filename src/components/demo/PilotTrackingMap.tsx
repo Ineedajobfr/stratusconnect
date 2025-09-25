@@ -51,9 +51,9 @@ export const PilotTrackingMap: React.FC<PilotTrackingMapProps> = ({
       case 'on_duty':
         return 'bg-yellow-500';
       case 'off_duty':
-        return 'bg-gray-500';
+        return 'bg-terminal-muted';
       default:
-        return 'bg-gray-500';
+        return 'bg-terminal-muted';
     }
   };
 

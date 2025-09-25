@@ -56,7 +56,7 @@ export const AircraftTrackingMap: React.FC<AircraftTrackingMapProps> = ({
       case 'scheduled':
         return 'bg-yellow-500';
       default:
-        return 'bg-gray-500';
+        return 'bg-terminal-muted';
     }
   };
 

@@ -161,7 +161,7 @@ const NoteTakingSystem: React.FC<NoteTakingSystemProps> = ({ terminalType, class
                 placeholder="Search notes..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 bg-white bg-opacity-10 border-terminal-border text-white placeholder-gray-400 focus:bg-white focus:bg-opacity-20 focus:border-accent transition-all duration-200"
+                className="pl-10 bg-terminal-bg bg-opacity-10 border-terminal-border text-white placeholder-gray-400 focus:bg-terminal-bg focus:bg-opacity-20 focus:border-accent transition-all duration-200"
               />
             </div>
             
@@ -207,7 +207,7 @@ const NoteTakingSystem: React.FC<NoteTakingSystemProps> = ({ terminalType, class
                   className={`p-4 rounded-xl border cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-lg ${
                     selectedNote?.id === note.id 
                       ? 'bg-gradient-to-r from-accent from-opacity-20 to-accent to-opacity-10 border-accent shadow-lg' 
-                      : 'bg-white bg-opacity-5 border-white border-opacity-10 hover:bg-white hover:bg-opacity-10 hover:border-white hover:border-opacity-20'
+                      : 'bg-terminal-bg bg-opacity-5 border-terminal-bg border-opacity-10 hover:bg-terminal-bg hover:bg-opacity-10 hover:border-terminal-bg hover:border-opacity-20'
                   }`}
                 >
                   <div className="flex items-start justify-between">
@@ -265,7 +265,7 @@ const NoteTakingSystem: React.FC<NoteTakingSystemProps> = ({ terminalType, class
         </div>
 
         {/* Main Editor */}
-        <div className="lg:col-span-2 bg-white bg-opacity-5 rounded-xl p-6 border border-white border-opacity-10">
+        <div className="lg:col-span-2 bg-terminal-bg bg-opacity-5 rounded-xl p-6 border border-terminal-bg border-opacity-10">
           {isCreating && (
             <div className="space-y-4">
               <div className="flex items-center gap-2">
@@ -273,12 +273,12 @@ const NoteTakingSystem: React.FC<NoteTakingSystemProps> = ({ terminalType, class
                   placeholder="Note title..."
                   value={newNote.title || ''}
                   onChange={(e) => setNewNote(prev => ({ ...prev, title: e.target.value }))}
-                  className="bg-white bg-opacity-10 border-terminal-border text-white placeholder-gray-400 focus:bg-white focus:bg-opacity-20 focus:border-accent transition-all duration-200"
+                  className="bg-terminal-bg bg-opacity-10 border-terminal-border text-white placeholder-gray-400 focus:bg-terminal-bg focus:bg-opacity-20 focus:border-accent transition-all duration-200"
                 />
                 <select
                   value={newNote.type || 'note'}
                   onChange={(e) => setNewNote(prev => ({ ...prev, type: e.target.value as any }))}
-                  className="px-3 py-2 bg-white bg-opacity-10 border border-terminal-border rounded-md text-sm text-white focus:bg-white focus:bg-opacity-20 focus:border-accent transition-all duration-200"
+                  className="px-3 py-2 bg-terminal-bg bg-opacity-10 border border-terminal-border rounded-md text-sm text-white focus:bg-terminal-bg focus:bg-opacity-20 focus:border-accent transition-all duration-200"
                 >
                   <option value="note">Note</option>
                   <option value="checklist">Checklist</option>
@@ -291,7 +291,7 @@ const NoteTakingSystem: React.FC<NoteTakingSystemProps> = ({ terminalType, class
                 placeholder="Start writing your note..."
                 value={newNote.content || ''}
                 onChange={(e) => setNewNote(prev => ({ ...prev, content: e.target.value }))}
-                className="min-h-[300px] bg-white bg-opacity-10 border-terminal-border text-white placeholder-gray-400 focus:bg-white focus:bg-opacity-20 focus:border-accent transition-all duration-200 resize-none"
+                className="min-h-[300px] bg-terminal-bg bg-opacity-10 border-terminal-border text-white placeholder-gray-400 focus:bg-terminal-bg focus:bg-opacity-20 focus:border-accent transition-all duration-200 resize-none"
               />
               
               <div className="flex gap-2">
@@ -315,7 +315,7 @@ const NoteTakingSystem: React.FC<NoteTakingSystemProps> = ({ terminalType, class
                 <Input
                   value={selectedNote.title}
                   onChange={(e) => updateNote(selectedNote.id, { title: e.target.value })}
-                  className="bg-white bg-opacity-10 border-terminal-border text-white placeholder-gray-400 focus:bg-white focus:bg-opacity-20 focus:border-accent transition-all duration-200"
+                  className="bg-terminal-bg bg-opacity-10 border-terminal-border text-white placeholder-gray-400 focus:bg-terminal-bg focus:bg-opacity-20 focus:border-accent transition-all duration-200"
                 />
                 <Button
                   variant="ghost"
@@ -329,7 +329,7 @@ const NoteTakingSystem: React.FC<NoteTakingSystemProps> = ({ terminalType, class
               <Textarea
                 value={selectedNote.content}
                 onChange={(e) => updateNote(selectedNote.id, { content: e.target.value })}
-                className="min-h-[300px] bg-white bg-opacity-10 border-terminal-border text-white placeholder-gray-400 focus:bg-white focus:bg-opacity-20 focus:border-accent transition-all duration-200 resize-none"
+                className="min-h-[300px] bg-terminal-bg bg-opacity-10 border-terminal-border text-white placeholder-gray-400 focus:bg-terminal-bg focus:bg-opacity-20 focus:border-accent transition-all duration-200 resize-none"
               />
               
               <div className="space-y-2">
@@ -349,7 +349,7 @@ const NoteTakingSystem: React.FC<NoteTakingSystemProps> = ({ terminalType, class
                   ))}
                   <Input
                     placeholder="Add tag..."
-                    className="w-24 h-6 text-xs bg-white bg-opacity-10 border-terminal-border text-white placeholder-gray-400 focus:bg-white focus:bg-opacity-20 focus:border-accent transition-all duration-200"
+                    className="w-24 h-6 text-xs bg-terminal-bg bg-opacity-10 border-terminal-border text-white placeholder-gray-400 focus:bg-terminal-bg focus:bg-opacity-20 focus:border-accent transition-all duration-200"
                     onKeyPress={(e) => {
                       if (e.key === 'Enter') {
                         const tag = e.currentTarget.value.trim();

@@ -48,7 +48,7 @@ export const CommissionCalculator = () => {
       booking: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
       crew_hiring: 'bg-green-500/20 text-green-400 border-green-500/30'
     };
-    return colors[type as keyof typeof colors] || 'bg-slate-500/20 text-slate-400 border-slate-500/30';
+    return colors[type as keyof typeof colors] || 'bg-terminal-muted/20 text-terminal-muted border-terminal-muted/30';
   };
 
   // Mock commission totals for demonstration

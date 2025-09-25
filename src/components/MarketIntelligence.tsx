@@ -504,7 +504,7 @@ export default function MarketIntelligence() {
                               <div 
                                 className={`h-2 rounded-full ${
                                   isHigh ? 'bg-terminal-success' : 
-                                  isMedium ? 'bg-terminal-warning' : 'bg-slate-500'
+                                  isMedium ? 'bg-terminal-warning' : 'bg-terminal-muted'
                                 }`}
                                 style={{ width: `${demandLevel}%` }}
                               />

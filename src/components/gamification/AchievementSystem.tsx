@@ -206,11 +206,11 @@ export function AchievementCard({ achievement }: { achievement: Achievement }) {
 
   const getRarityBadgeColor = (rarity: string) => {
     switch (rarity) {
-      case 'common': return 'bg-gray-500';
+      case 'common': return 'bg-terminal-muted';
       case 'rare': return 'bg-blue-500';
       case 'epic': return 'bg-purple-500';
       case 'legendary': return 'bg-yellow-500';
-      default: return 'bg-gray-500';
+      default: return 'bg-terminal-muted';
     }
   };
 

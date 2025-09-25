@@ -315,7 +315,7 @@ export const CrewFlightDeck: React.FC = () => {
                           <div className="text-sm text-slate-400">3-course dinner service</div>
                 </div>
               </div>
-                      <Badge className="bg-yellow-500 text-black">Preparing</Badge>
+                      <Badge className="bg-yellow-500 text-terminal-bg">Preparing</Badge>
                     </div>
                     <div className="flex items-center justify-between p-3 bg-slate-700 rounded-lg">
                       <div className="flex items-center space-x-3">

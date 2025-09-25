@@ -292,7 +292,7 @@ export default function DemoEvidenceBundle() {
                 <span className="font-medium">Evidence bundle generated successfully</span>
               </div>
               
-              <div className="bg-white rounded-lg p-4 space-y-3">
+              <div className="bg-terminal-bg rounded-lg p-4 space-y-3">
                 <div className="flex justify-between items-center">
                   <div>
                     <h4 className="font-medium">Bundle Details</h4>
@@ -347,7 +347,7 @@ export default function DemoEvidenceBundle() {
       </Card>
 
       {/* Universal Compliance Notice */}
-      <Card className="border-slate-200 bg-slate-50">
+      <Card className="border-terminal-border bg-terminal-muted">
         <CardContent className="pt-6">
           <div className="flex items-start gap-3">
             <CheckCircle className="h-5 w-5 text-slate-600 mt-0.5" />

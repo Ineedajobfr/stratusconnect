@@ -288,7 +288,7 @@ export function AdminImpersonation({ onImpersonationStarted, onImpersonationEnde
                     <h4 className="font-medium mb-2">Actions Log ({session.actions.length})</h4>
                     <div className="space-y-2 max-h-40 overflow-y-auto">
                       {session.actions.map(action => (
-                        <div key={action.id} className="flex items-center gap-2 p-2 bg-gray-50 rounded text-sm">
+                        <div key={action.id} className="flex items-center gap-2 p-2 bg-terminal-muted rounded text-sm">
                           <Badge className={getRiskColor(action.riskLevel)}>
                             {action.riskLevel}
                           </Badge>

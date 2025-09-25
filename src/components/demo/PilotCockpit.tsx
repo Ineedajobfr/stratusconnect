@@ -49,7 +49,7 @@ export const PilotCockpit: React.FC = () => {
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
-                <span className="text-black font-bold text-sm">P</span>
+                <span className="text-terminal-bg font-bold text-sm">P</span>
               </div>
               <span className="text-xl font-bold">STRATUSCONNECT</span>
             </div>
@@ -105,7 +105,7 @@ export const PilotCockpit: React.FC = () => {
                       <div className="flex items-center justify-between p-4 bg-slate-700 rounded-lg border border-slate-600">
                         <div className="flex items-center space-x-4">
                           <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
-                            <Plane className="h-6 w-6 text-black" />
+                            <Plane className="h-6 w-6 text-terminal-bg" />
                           </div>
                           <div>
                             <div className="font-semibold text-white">Charter Flight #CF-2025-001</div>
@@ -132,7 +132,7 @@ export const PilotCockpit: React.FC = () => {
                 </div>
                         <div className="text-right">
                           <div className="text-cyan-400 font-semibold">Jan 12, 09:00</div>
-                          <Badge className="bg-yellow-500 text-black">Pending</Badge>
+                          <Badge className="bg-yellow-500 text-terminal-bg">Pending</Badge>
                 </div>
               </div>
 

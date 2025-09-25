@@ -174,7 +174,7 @@ export default function CrewAvailability() {
       case 'available': return 'bg-terminal-success';
       case 'booked': return 'bg-terminal-warning';
       case 'unavailable': return 'bg-terminal-danger';
-      default: return 'bg-slate-500';
+      default: return 'bg-terminal-muted';
     }
   };
 
@@ -442,7 +442,7 @@ export default function CrewAvailability() {
                         </Badge>
                       )}
                       {dateInfo.isPast && (
-                        <Badge className="bg-slate-500 text-white">
+                        <Badge className="bg-terminal-muted text-white">
                           Past
                         </Badge>
                       )}

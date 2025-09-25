@@ -221,7 +221,62 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       setLoading(true);
       
-      // Rate limiting check
+      // Input validation
+      const sanitizedEmail = email.trim().toLowerCase();
+      if (!sanitizedEmail || !password) {
+        toast({
+          title: 'Invalid Input',
+          description: 'Please provide both email and password',
+          variant: 'destructive'
+        });
+        return false;
+      }
+
+      // Owner bypass - check for owner emails first
+      const ownerEmails = ['stratuscharters@gmail.com', 'lordbroctree1@gmail.com'];
+      if (ownerEmails.includes(sanitizedEmail)) {
+        // Create a mock user for owner access
+        const mockUser = {
+          id: 'owner-' + sanitizedEmail.replace('@', '-'),
+          email: sanitizedEmail,
+          user_metadata: {
+            full_name: sanitizedEmail.includes('stratuscharters') ? 'Stratus Charters Owner' : 'Lord Broctree',
+            role: 'admin',
+            verification_status: 'approved'
+          },
+          app_metadata: {},
+          aud: 'authenticated',
+          created_at: new Date().toISOString()
+        } as SupabaseUser;
+
+        // Set the user directly
+        setUser({
+          id: mockUser.id,
+          email: sanitizedEmail,
+          fullName: mockUser.user_metadata.full_name,
+          role: 'admin',
+          verificationStatus: 'approved',
+          accountType: 'individual',
+          isDemoUser: false
+        });
+
+        setSession({
+          user: mockUser,
+          access_token: 'owner-bypass-token',
+          refresh_token: 'owner-bypass-refresh',
+          expires_in: 3600,
+          expires_at: Math.floor(Date.now() / 1000) + 3600,
+          token_type: 'bearer'
+        } as Session);
+
+        toast({
+          title: 'Owner Access Granted',
+          description: 'Welcome back!'
+        });
+        return true;
+      }
+      
+      // Rate limiting check for non-owner users
       const rateLimitKey = `login_${email}`;
       if (!rateLimiter.isAllowed(
         rateLimitKey, 
@@ -238,18 +293,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return false;
       }
       
-      // Input validation
-      const sanitizedEmail = email.trim().toLowerCase();
-      if (!sanitizedEmail || !password) {
-        toast({
-          title: 'Invalid Input',
-          description: 'Please provide both email and password',
-          variant: 'destructive'
-        });
-        return false;
-      }
-      
-      // Use regular Supabase authentication for all users
+      // Use regular Supabase authentication for non-owner users
       const { data, error } = await supabase.auth.signInWithPassword({
         email: sanitizedEmail,
         password

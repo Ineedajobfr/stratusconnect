@@ -1,5 +1,5 @@
 // Owner access bypass utility for specific whitelisted emails
-export const OWNER_EMAILS = ['stratuscharter@gmail.com', 'Lordbroctree1@gmail.com'];
+export const OWNER_EMAILS = ['stratuscharters@gmail.com', 'lordbroctree1@gmail.com'];
 
 export const isOwner = (email: string): boolean => {
   return OWNER_EMAILS.includes(email?.toLowerCase());

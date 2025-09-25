@@ -127,14 +127,12 @@ export class AdminDatabase {
 
       if (error) {
         console.error('Database error:', error);
-        // Return mock data if database fails
-        return this.getMockUsers();
+        throw error;
       }
       return data || [];
     } catch (error) {
       console.error('Error fetching users:', error);
-      // Return mock data if connection fails
-      return this.getMockUsers();
+      throw error;
     }
   }
 

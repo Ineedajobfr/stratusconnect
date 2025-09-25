@@ -21,8 +21,8 @@ import { useNavigate } from "react-router-dom";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 import { AdminDatabase, AdminUser, Deal, SecurityEvent, CommissionRule, SystemSettings } from "@/lib/admin-database";
 import { broadcastService } from "@/lib/broadcast-service";
-import { disputeService } from "@/lib/dispute-service";
-import { aiMonitoringService } from "@/lib/ai-monitoring-service-simple";
+import { disputeService } from "@/lib/dispute-service-real";
+import { aiMonitoringService } from "@/lib/ai-monitoring-service-real";
 import AdminTest from "@/components/AdminTest";
 import AdminCharts from "@/components/admin/AdminCharts";
 import UserDetailsModal from "@/components/admin/UserDetailsModal";
@@ -104,7 +104,7 @@ const AdminTerminal = () => {
       } catch (error) {
       console.error('Error loading admin data:', error);
     } finally {
-        setLoading(false);
+          setLoading(false);
       }
     };
 
@@ -120,7 +120,7 @@ const AdminTerminal = () => {
       
       // Show success message
       console.log(`User ${action}ed successfully`);
-    } catch (error) {
+      } catch (error) {
       console.error('Error updating user:', error);
       alert(`Error ${action}ing user: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
@@ -311,17 +311,17 @@ const AdminTerminal = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <Card className="terminal-card">
                 <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
+          <div className="flex items-center justify-between">
+            <div>
                       <p className="text-sm font-medium text-muted-foreground">Total Users</p>
                       <p className="text-3xl font-bold text-foreground">{systemStats.totalUsers || 0}</p>
-                    </div>
+            </div>
                     <Users className="w-8 h-8 text-accent" />
-                  </div>
+              </div>
                   <div className="flex items-center mt-2">
                     <TrendingUp className="w-4 h-4 text-data-positive mr-1" />
                     <span className="text-sm text-data-positive">+{systemStats.activeUsers || 0} active</span>
-                  </div>
+              </div>
                 </CardContent>
               </Card>
 
@@ -331,9 +331,9 @@ const AdminTerminal = () => {
                     <div>
                       <p className="text-sm font-medium text-muted-foreground">Pending Approval</p>
                       <p className="text-3xl font-bold text-foreground">{systemStats.pendingApprovals || 0}</p>
-                    </div>
+            </div>
                     <Clock className="w-8 h-8 text-terminal-warning" />
-                  </div>
+          </div>
                   <div className="flex items-center mt-2">
                     <AlertCircle className="w-4 h-4 text-terminal-warning mr-1" />
                     <span className="text-sm text-terminal-warning">Requires review</span>
@@ -347,7 +347,7 @@ const AdminTerminal = () => {
                     <div>
                       <p className="text-sm font-medium text-muted-foreground">Total Revenue</p>
                       <p className="text-3xl font-bold text-foreground">${(systemStats.totalRevenue || 0).toLocaleString()}</p>
-                    </div>
+          </div>
                     <DollarSign className="w-8 h-8 text-data-positive" />
                   </div>
                   <div className="flex items-center mt-2">
@@ -464,7 +464,7 @@ const AdminTerminal = () => {
                   >
                     <Send className="w-6 h-6" />
                     <span>Send Broadcast</span>
-                  </Button>
+                </Button>
                   <Button 
                     onClick={() => setShowBroadcastModal(true)}
                     variant="outline"
@@ -516,7 +516,7 @@ const AdminTerminal = () => {
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="pl-10 w-64"
             />
-          </div>
+              </div>
                     <Select value={userFilters.role} onValueChange={(value) => setUserFilters({...userFilters, role: value})}>
                       <SelectTrigger className="w-32">
                         <SelectValue placeholder="Role" />
@@ -546,7 +546,7 @@ const AdminTerminal = () => {
                       <RefreshCw className="w-4 h-4 mr-2" />
                       Refresh
                     </Button>
-                  </div>
+        </div>
                 </div>
               </CardHeader>
               <CardContent>
@@ -661,7 +661,7 @@ const AdminTerminal = () => {
                       <div className="flex items-center space-x-4">
                         <div className="w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center">
                           <Plane className="w-5 h-5 text-accent" />
-                        </div>
+        </div>
                         <div>
                           <h3 className="font-semibold text-foreground">Deal #{deal.id.slice(0, 8)}</h3>
                           <p className="text-sm text-muted-foreground">{deal.route}</p>
@@ -707,14 +707,14 @@ const AdminTerminal = () => {
 
           {/* Security Tab */}
           <TabsContent value="security" className="space-y-6">
-            <Card className="terminal-card">
-              <CardHeader>
+          <Card className="terminal-card">
+            <CardHeader>
                 <CardTitle className="flex items-center">
                   <Shield className="w-5 h-5 mr-2" />
                   Security Events
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
                 <div className="space-y-4">
                   {securityEvents.map((event) => (
                     <div key={event.id} className={`p-4 rounded-lg border ${
@@ -736,8 +736,8 @@ const AdminTerminal = () => {
                               {event.user_id && `User: ${event.user_id}`}
                               {event.ip_address && ` • IP: ${event.ip_address}`}
                             </p>
-                          </div>
-                        </div>
+                  </div>
+                </div>
                         <div className="flex items-center space-x-2">
                           <Badge variant={
                             event.severity === 'critical' ? 'destructive' :
@@ -758,9 +758,9 @@ const AdminTerminal = () => {
                           <span className="text-xs text-muted-foreground">
                             {new Date(event.created_at).toLocaleString()}
                           </span>
-                        </div>
-                      </div>
-                    </div>
+                  </div>
+                </div>
+                  </div>
                   ))}
                 </div>
               </CardContent>
@@ -775,17 +775,17 @@ const AdminTerminal = () => {
                 <p className="text-sm text-muted-foreground">Manage platform commission rates and rules</p>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
+              <div className="space-y-4">
                   {commissionRules.map((rule) => (
                     <div key={rule.id} className="flex items-center justify-between p-4 bg-terminal-card/50 rounded-lg border border-terminal-border">
-                      <div>
+                        <div>
                         <h3 className="font-semibold text-foreground">{rule.role} - {rule.transaction_type}</h3>
                         <p className="text-sm text-muted-foreground">
                           Rate: {rule.rate_percentage}%
                           {rule.minimum_amount && ` • Min: $${rule.minimum_amount}`}
                           {rule.maximum_amount && ` • Max: $${rule.maximum_amount}`}
                         </p>
-                      </div>
+                        </div>
                       <div className="flex items-center space-x-2">
                         <Input
                           type="number"
@@ -834,10 +834,10 @@ const AdminTerminal = () => {
                     <p className="text-2xl font-bold text-data-positive">
                       {users.filter(u => u.verification_status === 'approved').length}
                     </p>
-                  </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </CardContent>
+          </Card>
           </TabsContent>
 
           {/* Analytics Tab */}
@@ -854,7 +854,7 @@ const AdminTerminal = () => {
                       <span className="text-2xl font-bold text-data-positive">
                         ${(systemStats.totalRevenue || 0).toLocaleString()}
                       </span>
-                    </div>
+        </div>
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-muted-foreground">Platform Commission</span>
                       <span className="text-xl font-semibold text-foreground">
@@ -880,7 +880,7 @@ const AdminTerminal = () => {
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-muted-foreground">Active Users</span>
                       <span className="text-2xl font-bold text-data-positive">{systemStats.activeUsers || 0}</span>
-                    </div>
+        </div>
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-muted-foreground">Pending Approvals</span>
                       <span className="text-xl font-semibold text-terminal-warning">{systemStats.pendingApprovals || 0}</span>
@@ -905,7 +905,7 @@ const AdminTerminal = () => {
                   <div>
                     <CardTitle>Broadcast Messages</CardTitle>
                     <p className="text-sm text-muted-foreground">Send system-wide notifications and updates</p>
-                  </div>
+        </div>
                   <Button className="btn-terminal-accent">
                     <Send className="w-4 h-4 mr-2" />
                     New Message
@@ -958,7 +958,7 @@ const AdminTerminal = () => {
                   <div>
                     <CardTitle>Dispute Resolution</CardTitle>
                     <p className="text-sm text-muted-foreground">Manage and resolve user disputes</p>
-                  </div>
+        </div>
                   <div className="flex items-center space-x-2">
                     <Badge variant="outline" className="bg-terminal-warning/20 text-terminal-warning">
                       {disputes.filter(d => d.status === 'open').length} Open
@@ -1061,7 +1061,7 @@ const AdminTerminal = () => {
                                     {indicator}
                                   </Badge>
                                 ))}
-                              </div>
+        </div>
                             </div>
                             <div className="flex items-center space-x-2">
                               <Badge variant={
@@ -1095,7 +1095,7 @@ const AdminTerminal = () => {
                             } className="text-xs">
                               {monitor.status}
                             </Badge>
-                          </div>
+        </div>
                           <p className="text-sm text-muted-foreground mb-2">{monitor.type}</p>
                           <div className="flex items-center justify-between text-xs text-muted-foreground">
                             <span>Threshold: {monitor.confidence_threshold * 100}%</span>
@@ -1127,7 +1127,7 @@ const AdminTerminal = () => {
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-muted-foreground">Enable two-factor authentication</span>
                         <Switch defaultChecked />
-                      </div>
+        </div>
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-muted-foreground">Require email verification</span>
                         <Switch defaultChecked />
@@ -1145,7 +1145,7 @@ const AdminTerminal = () => {
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-muted-foreground">Pilot Marketplace</span>
                         <Switch defaultChecked />
-                      </div>
+        </div>
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-muted-foreground">Crew Marketplace</span>
                         <Switch defaultChecked />
@@ -1195,7 +1195,7 @@ const AdminTerminal = () => {
               </Button>
             </CardContent>
           </Card>
-        </div>
+              </div>
       )}
 
       {/* Dispute Modal Placeholder */}

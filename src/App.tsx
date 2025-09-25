@@ -29,6 +29,7 @@ const PilotTerminal = lazy(() => import("./pages/PilotTerminal"));
 const CrewTerminal = lazy(() => import("./pages/CrewTerminal"));
 const AdminTerminal = lazy(() => import("./pages/AdminTerminal"));
 const BetaSignups = lazy(() => import("./pages/admin/BetaSignups"));
+const RoleSelection = lazy(() => import("./pages/RoleSelection"));
 const BetaNavigator = lazy(() => import("./pages/BetaNavigator"));
 const Status = lazy(() => import("./pages/CompliantStatus"));
 const Cookies = lazy(() => import("./pages/Cookies"));
@@ -134,6 +135,7 @@ const App = memo(() => {
               <Route path="/enter" element={<Enter />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/demo" element={<Demo />} />
+              <Route path="/roles" element={<RoleSelection />} />
               <Route path="/how-to-use" element={<HowToUse />} />
               <Route path="/about" element={<About />} />
               <Route path="/fees" element={<Fees />} />

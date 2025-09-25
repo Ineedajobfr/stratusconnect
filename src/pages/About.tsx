@@ -70,58 +70,82 @@ export default function About() {
           </div>
         </section>
 
-        {/* The Problem */}
+        {/* The StratusConnect Way */}
         <section className="mb-20">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl font-bold mb-6 text-foreground">
-                The Problem We Saw
-              </h2>
-              <div className="space-y-4 text-muted-foreground text-lg">
-                <p>
-                  They were unable to navigate their workspaces with ease. They use multiple 
-                  tools just to achieve their goals, constantly switching between platforms, 
-                  losing time, and losing focus.
-                </p>
-                <p>
-                  We thought to ourselves: <span className="text-accent font-semibold">
-                    "Let's be different."
-                  </span>
-                </p>
-                <p>
-                  Let's give them the opportunity to become the best versions of themselves.
-                </p>
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-6 text-foreground">
+              The StratusConnect Way
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Real partnership, not just software. We're here to give you the tools to become your own hero.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-12 items-start">
+            <div className="space-y-8">
+              <div className="flex items-start space-x-4">
+                <div className="bg-accent/20 rounded-full p-3 mt-1">
+                  <span className="text-accent font-bold text-lg">1</span>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2 text-foreground">We Listen</h3>
+                  <p className="text-muted-foreground">
+                    We see the real problems you face every day. Not what we think you need, 
+                    but what you actually struggle with.
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex items-start space-x-4">
+                <div className="bg-accent/20 rounded-full p-3 mt-1">
+                  <span className="text-accent font-bold text-lg">2</span>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2 text-foreground">We Build</h3>
+                  <p className="text-muted-foreground">
+                    We create solutions that actually work for you, not just look good 
+                    in a boardroom presentation.
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex items-start space-x-4">
+                <div className="bg-accent/20 rounded-full p-3 mt-1">
+                  <span className="text-accent font-bold text-lg">3</span>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2 text-foreground">We Support</h3>
+                  <p className="text-muted-foreground">
+                    We're here to give you that helping hand, that foot on the ladder. 
+                    Your success is literally our business model.
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <Card className="terminal-card">
-                <CardContent className="p-6 text-center">
-                  <BarChart3 className="w-12 h-12 text-accent mx-auto mb-4" />
-                  <h3 className="font-semibold mb-2">Multiple Tools</h3>
-                  <p className="text-sm text-muted-foreground">Scattered across platforms</p>
-                </CardContent>
-              </Card>
-              <Card className="terminal-card">
-                <CardContent className="p-6 text-center">
-                  <Clock className="w-12 h-12 text-accent mx-auto mb-4" />
-                  <h3 className="font-semibold mb-2">Lost Time</h3>
-                  <p className="text-sm text-muted-foreground">Constant switching</p>
-                </CardContent>
-              </Card>
-              <Card className="terminal-card">
-                <CardContent className="p-6 text-center">
-                  <Users className="w-12 h-12 text-accent mx-auto mb-4" />
-                  <h3 className="font-semibold mb-2">Fragmented Teams</h3>
-                  <p className="text-sm text-muted-foreground">Working in silos</p>
-                </CardContent>
-              </Card>
-              <Card className="terminal-card">
-                <CardContent className="p-6 text-center">
-                  <Target className="w-12 h-12 text-accent mx-auto mb-4" />
-                  <h3 className="font-semibold mb-2">Lost Focus</h3>
-                  <p className="text-sm text-muted-foreground">Distracted workflows</p>
-                </CardContent>
-              </Card>
+            
+            <div className="bg-gradient-to-br from-accent/10 to-accent/5 rounded-2xl p-8">
+              <h3 className="text-2xl font-bold mb-6 text-foreground text-center">
+                Join the Revolution
+              </h3>
+              <p className="text-muted-foreground text-center mb-8">
+                Ready to become the best version of yourself? Ready to stop struggling 
+                with multiple tools and start thriving with one platform?
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button 
+                  onClick={() => navigate('/roles')}
+                  className="bg-accent hover:bg-accent/90 text-white"
+                >
+                  Try StratusConnect
+                </Button>
+                <Button 
+                  variant="outline"
+                  onClick={() => navigate('/contact')}
+                  className="border-accent text-accent hover:bg-accent/10"
+                >
+                  Get in Touch
+                </Button>
+              </div>
             </div>
           </div>
         </section>
@@ -268,7 +292,7 @@ export default function About() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button 
-                  onClick={() => navigate('/demo')}
+                  onClick={() => navigate('/roles')}
                   className="bg-accent hover:bg-accent/90 text-white"
                 >
                   Try StratusConnect

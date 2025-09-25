@@ -142,7 +142,7 @@ export default function DemoSignedQuotePDF() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="bg-terminal-bg border-2 border-dashed border-terminal-border rounded-lg p-6">
+          <div className="bg-white border-2 border-dashed border-gray-300 rounded-lg p-6">
             {/* PDF Header */}
             <div className="text-center mb-6">
               <h1 className="text-2xl font-bold text-gray-900">SIGNED QUOTE</h1>
@@ -196,8 +196,8 @@ export default function DemoSignedQuotePDF() {
 
             {/* Financial Breakdown */}
             <div className="mb-6">
-              <h3 className="font-semibold text-terminal-text mb-2">Financial Breakdown</h3>
-              <div className="bg-terminal-muted rounded-lg p-4">
+              <h3 className="font-semibold text-gray-900 mb-2">Financial Breakdown</h3>
+              <div className="bg-gray-50 rounded-lg p-4">
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span>Gross Amount</span>
@@ -306,7 +306,7 @@ export default function DemoSignedQuotePDF() {
       </Card>
 
       {/* Universal Compliance Notice */}
-      <Card className="border-terminal-border bg-terminal-muted">
+      <Card className="border-slate-200 bg-slate-50">
         <CardContent className="pt-6">
           <div className="flex items-start gap-3">
             <CheckCircle className="h-5 w-5 text-slate-600 mt-0.5" />

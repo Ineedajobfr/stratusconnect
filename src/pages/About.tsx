@@ -56,14 +56,14 @@ export default function About() {
               <div className="space-y-6 text-lg leading-relaxed">
                 <p className="italic text-foreground/90">
                   You manage deals, crews, aircraft, time. That's no small load. So when you land here, 
-                  it's not by accident it's because something told you there's got to be a better way. 
+                  it's not by accident—it's because something told you there's got to be a better way. 
                   Stratus was built to back your next move, your next listing, your next breakthrough.
                 </p>
                 
                 <p className="italic text-foreground/90">
                   One terminal to stay seen, update your availability, connect with the right people, 
-                  and get what you do in front of those who matter. You've carried the weight long enough 
-                  now let us help you turn that work into wins, and get you where you were always meant to be.
+                  and get what you do in front of those who matter. You've carried the weight long enough—now 
+                  let us help you turn that work into wins, and get you where you were always meant to be.
                 </p>
               </div>
             </div>

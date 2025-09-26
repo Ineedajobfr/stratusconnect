@@ -40,6 +40,13 @@ import { PerformanceMonitor } from "@/components/Performance/PerformanceMonitor"
 import { LazyLoader, createLazyComponent } from "@/components/Performance/LazyLoader";
 import { VirtualList } from "@/components/Performance/VirtualList";
 import { performanceService } from "@/lib/performance-service";
+import { SecurityDashboard } from "@/components/Security/SecurityDashboard";
+import { DataProtection } from "@/components/Security/DataProtection";
+import { AuthenticationGuard } from "@/components/Security/AuthenticationGuard";
+import { securityService } from "@/lib/security-service";
+import { ErrorBoundary, withErrorBoundary, useErrorHandler } from "@/components/Error/ErrorBoundary";
+import { ErrorMonitor } from "@/components/Error/ErrorMonitor";
+import { errorService } from "@/lib/error-service";
 // import { ModernStatus } from "@/components/ModernStatus";
 
 interface RFQ {
@@ -194,6 +201,11 @@ export default function BrokerTerminal() {
       return unsubscribe;
     } catch (error) {
       console.log('Broker data loading completed with status:', error?.message || 'success');
+      errorService.handleAsyncError(error as Error, {
+        component: 'BrokerTerminal',
+        userId: brokerId,
+        action: 'loadBrokerData'
+      });
       setLoading(false);
     }
   };
@@ -226,6 +238,12 @@ export default function BrokerTerminal() {
       });
     } catch (error) {
       console.log('Quote acceptance completed with status:', error?.message || 'success');
+      errorService.handleBusinessError('Failed to accept quote', {
+        component: 'BrokerTerminal',
+        userId: user?.id,
+        quoteId,
+        action: 'acceptQuote'
+      });
     }
   };
 
@@ -245,6 +263,12 @@ export default function BrokerTerminal() {
       });
     } catch (error) {
       console.log('Quote rejection completed with status:', error?.message || 'success');
+      errorService.handleBusinessError('Failed to reject quote', {
+        component: 'BrokerTerminal',
+        userId: user?.id,
+        quoteId,
+        action: 'rejectQuote'
+      });
     }
   };
 
@@ -384,7 +408,9 @@ export default function BrokerTerminal() {
   ];
 
   return (
-    <MobileOptimizedTerminal terminalType="broker">
+    <ErrorBoundary>
+      <AuthenticationGuard requiredRole="broker" requireMFA={true}>
+        <MobileOptimizedTerminal terminalType="broker">
       {showHelpGuide && (
         <ModernHelpGuide 
           terminalType="broker" 
@@ -502,6 +528,14 @@ export default function BrokerTerminal() {
               <TabsTrigger value="performance" className="flex items-center gap-2">
                 <Activity className="w-4 h-4 icon-glow" />
                 Performance
+              </TabsTrigger>
+              <TabsTrigger value="security" className="flex items-center gap-2">
+                <Shield className="w-4 h-4 icon-glow" />
+                Security
+              </TabsTrigger>
+              <TabsTrigger value="errors" className="flex items-center gap-2">
+                <Bug className="w-4 h-4 icon-glow" />
+                Error Monitor
               </TabsTrigger>
             </TabsList>
           </div>
@@ -725,6 +759,15 @@ export default function BrokerTerminal() {
           <TabsContent value="performance" className="space-y-6">
             <PerformanceMonitor />
           </TabsContent>
+
+          <TabsContent value="security" className="space-y-6">
+            <SecurityDashboard />
+            <DataProtection />
+          </TabsContent>
+
+          <TabsContent value="errors" className="space-y-6">
+            <ErrorMonitor />
+          </TabsContent>
         </Tabs>
         </div>
       </div>
@@ -771,6 +814,8 @@ export default function BrokerTerminal() {
           }}
         />
       )}
-    </MobileOptimizedTerminal>
+        </MobileOptimizedTerminal>
+      </AuthenticationGuard>
+    </ErrorBoundary>
   );
 }

@@ -449,9 +449,10 @@ class SecurityService {
   // Data masking for sensitive information
   maskSensitiveData(data: string, type: 'email' | 'phone' | 'creditcard' | 'ssn'): string {
     switch (type) {
-      case 'email':
+      case 'email': {
         const [local, domain] = data.split('@');
         return `${local.substring(0, 2)}***@${domain}`;
+      }
       
       case 'phone':
         return data.replace(/(\d{3})\d{3}(\d{4})/, '$1***$2');

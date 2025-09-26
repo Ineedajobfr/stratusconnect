@@ -73,8 +73,30 @@ const transactionColors = {
 };
 
 export const EscrowManager: React.FC = () => {
+  const { user } = useAuth();
   const [deals, setDeals] = useState<Deal[]>([]);
   const [selectedDeal, setSelectedDeal] = useState<Deal | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Load deals from real workflow
+  useEffect(() => {
+    const loadDeals = async () => {
+      if (!user?.id) return;
+      
+      try {
+        setLoading(true);
+        // This would need to be implemented to get deals for the current user
+        // const data = await EscrowWorkflow.getUserDeals(user.id);
+        // setDeals(data);
+      } catch (error) {
+        console.error('Error loading deals:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDeals();
+  }, [user?.id]);
 
   // Mock data - replace with actual API calls
   useEffect(() => {

@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Search, Filter, MapPin, Clock, DollarSign, Users, Star, Calendar } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { JobBoardWorkflow } from '@/lib/real-workflows/job-board-workflow';
 
 interface JobPost {
   id: string;
@@ -54,6 +55,29 @@ const JobBoard = React.memo(function JobBoard({ userRole }: JobBoardProps) {
   const [selectedJobType, setSelectedJobType] = useState('all');
   const [selectedLocation, setSelectedLocation] = useState('all');
   const [sortBy, setSortBy] = useState('newest');
+
+  // Load jobs from real workflow
+  useEffect(() => {
+    const loadJobs = async () => {
+      try {
+        setLoading(true);
+        const data = await JobBoardWorkflow.getJobs({
+          job_type: selectedJobType === 'all' ? undefined : selectedJobType,
+          category: selectedCategory === 'all' ? undefined : selectedCategory,
+          location: selectedLocation === 'all' ? undefined : selectedLocation,
+          search: searchTerm || undefined
+        });
+        setJobs(data);
+        setFilteredJobs(data);
+      } catch (error) {
+        console.error('Error loading jobs:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadJobs();
+  }, [selectedJobType, selectedCategory, selectedLocation, searchTerm]);
 
   // Mock data for now - replace with actual API calls
   useEffect(() => {

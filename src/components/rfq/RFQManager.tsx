@@ -73,26 +73,7 @@ export const RFQManager: React.FC = () => {
     };
 
     loadRFQs();
-  }, [user?.id]);,
-        legs: [
-          {
-            origin: 'KORD',
-            destination: 'KDFW',
-            departure_date: '2024-12-20',
-            departure_time: '09:00',
-            arrival_date: '2024-12-20',
-            arrival_time: '11:30',
-          }
-        ],
-        pax_count: 6,
-        notes: 'Client meeting in Dallas',
-        created_at: new Date(Date.now() - 1000 * 60 * 60 * 6).toISOString(),
-        updated_at: new Date(Date.now() - 1000 * 60 * 60 * 6).toISOString(),
-      },
-    ];
-
-    setRfqs(mockRFQs);
-  }, []);
+  }, [user?.id]);
 
   const getFilteredRFQs = () => {
     let filtered = rfqs;

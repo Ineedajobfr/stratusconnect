@@ -73,7 +73,7 @@ class PerformanceService {
   }
 
   // Lazy loading utilities - simplified for TypeScript service
-  createLazyComponentConfig<T>(
+  createLazyComponentConfig<T,>(
     importFunc: () => Promise<{ default: T }>,
     fallback?: string
   ) {

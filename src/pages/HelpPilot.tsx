@@ -91,6 +91,39 @@ export default function HelpPilot() {
         "Monitor performance bonuses",
         "Generate earnings reports"
       ]
+    },
+    {
+      icon: <FileText className="h-6 w-6" />,
+      title: "Job Board",
+      description: "Find and apply for aviation jobs",
+      steps: [
+        "Browse available pilot positions",
+        "Filter by aircraft type, location, and pay",
+        "Apply for positions with skill matching",
+        "Track application status and responses"
+      ]
+    },
+    {
+      icon: <Users className="h-6 w-6" />,
+      title: "Community Forums",
+      description: "Connect with fellow pilots",
+      steps: [
+        "Participate in pilot-specific discussions",
+        "Share flight experiences and tips",
+        "Ask questions and get expert advice",
+        "Build professional relationships and network"
+      ]
+    },
+    {
+      icon: <Target className="h-6 w-6" />,
+      title: "Document Management",
+      description: "Store and manage your documents",
+      steps: [
+        "View contracts and agreements",
+        "Access receipts and payment records",
+        "Store certificates and credentials",
+        "Track document expiration dates"
+      ]
     }
   ];
 

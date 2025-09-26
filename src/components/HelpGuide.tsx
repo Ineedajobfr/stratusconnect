@@ -82,6 +82,30 @@ export const HelpGuide: React.FC<HelpGuideProps> = ({
             icon: Users,
             status: 'available' as 'locked' | 'available' | 'completed',
             action: 'Always accessible for profile updates'
+          },
+          {
+            title: 'Job Board',
+            description: 'Post and manage aviation jobs for pilots and crew.',
+            icon: Building,
+            status: (isVerified ? 'available' : 'locked') as 'locked' | 'available' | 'completed'
+          },
+          {
+            title: 'Community Forums',
+            description: 'Connect with industry professionals and share insights.',
+            icon: MessageSquare,
+            status: (isVerified ? 'available' : 'locked') as 'locked' | 'available' | 'completed'
+          },
+          {
+            title: 'Saved Crews',
+            description: 'Manage your favorite crew members and track performance.',
+            icon: Users,
+            status: (isVerified ? 'available' : 'locked') as 'locked' | 'available' | 'completed'
+          },
+          {
+            title: 'Document Management',
+            description: 'Generate contracts, receipts, and manage all documents.',
+            icon: Shield,
+            status: (isVerified ? 'available' : 'locked') as 'locked' | 'available' | 'completed'
           }
         ]
       },
@@ -239,6 +263,129 @@ export const HelpGuide: React.FC<HelpGuideProps> = ({
             title: 'Export Reports',
             description: 'Generate detailed reports for accounting, tax preparation, and business planning.',
             icon: CheckCircle,
+            status: (isVerified ? 'available' : 'locked') as 'locked' | 'available' | 'completed'
+          }
+        ]
+      },
+      'broker-dashboard': {
+        title: 'Broker Dashboard',
+        description: 'Your trading floor for managing client requests, quotes, and deals.',
+        verificationRequired: true,
+        steps: [
+          {
+            title: 'Active Requests',
+            description: 'Manage client trip requests and track their progress through the pipeline.',
+            icon: Plane,
+            status: (isVerified ? 'available' : 'locked') as 'locked' | 'available' | 'completed'
+          },
+          {
+            title: 'Quote Management',
+            description: 'Review operator quotes, compare pricing, and make informed decisions.',
+            icon: DollarSign,
+            status: (isVerified ? 'available' : 'locked') as 'locked' | 'available' | 'completed'
+          },
+          {
+            title: 'Deal Pipeline',
+            description: 'Track deals from quote acceptance to completion and payment.',
+            icon: BarChart3,
+            status: (isVerified ? 'available' : 'locked') as 'locked' | 'available' | 'completed'
+          },
+          {
+            title: 'Job Board',
+            description: 'Post and manage aviation jobs for pilots and crew.',
+            icon: Building,
+            status: (isVerified ? 'available' : 'locked') as 'locked' | 'available' | 'completed'
+          },
+          {
+            title: 'Community Forums',
+            description: 'Connect with industry professionals and share market insights.',
+            icon: MessageSquare,
+            status: (isVerified ? 'available' : 'locked') as 'locked' | 'available' | 'completed'
+          },
+          {
+            title: 'Saved Crews',
+            description: 'Manage your favorite crew members and track performance.',
+            icon: Users,
+            status: (isVerified ? 'available' : 'locked') as 'locked' | 'available' | 'completed'
+          },
+          {
+            title: 'Document Management',
+            description: 'Generate contracts, receipts, and manage all documents.',
+            icon: Shield,
+            status: (isVerified ? 'available' : 'locked') as 'locked' | 'available' | 'completed'
+          }
+        ]
+      },
+      'pilot-dashboard': {
+        title: 'Pilot Dashboard',
+        description: 'Your cockpit for managing flights, certifications, and career opportunities.',
+        verificationRequired: true,
+        steps: [
+          {
+            title: 'Flight Schedule',
+            description: 'View assigned flights, check schedules, and manage availability.',
+            icon: Calendar,
+            status: (isVerified ? 'available' : 'locked') as 'locked' | 'available' | 'completed'
+          },
+          {
+            title: 'Certifications',
+            description: 'Track licenses, ratings, and training requirements.',
+            icon: Shield,
+            status: (isVerified ? 'available' : 'locked') as 'locked' | 'available' | 'completed'
+          },
+          {
+            title: 'Job Board',
+            description: 'Find and apply for pilot positions with skill matching.',
+            icon: Building,
+            status: (isVerified ? 'available' : 'locked') as 'locked' | 'available' | 'completed'
+          },
+          {
+            title: 'Community Forums',
+            description: 'Connect with fellow pilots and share experiences.',
+            icon: MessageSquare,
+            status: (isVerified ? 'available' : 'locked') as 'locked' | 'available' | 'completed'
+          },
+          {
+            title: 'Document Management',
+            description: 'Store contracts, receipts, and professional documents.',
+            icon: Shield,
+            status: (isVerified ? 'available' : 'locked') as 'locked' | 'available' | 'completed'
+          }
+        ]
+      },
+      'crew-dashboard': {
+        title: 'Crew Dashboard',
+        description: 'Your professional hub for cabin crew assignments and career development.',
+        verificationRequired: true,
+        steps: [
+          {
+            title: 'Assignments',
+            description: 'View cabin crew assignments and manage your schedule.',
+            icon: Calendar,
+            status: (isVerified ? 'available' : 'locked') as 'locked' | 'available' | 'completed'
+          },
+          {
+            title: 'Certifications',
+            description: 'Track training, certifications, and compliance requirements.',
+            icon: Shield,
+            status: (isVerified ? 'available' : 'locked') as 'locked' | 'available' | 'completed'
+          },
+          {
+            title: 'Job Board',
+            description: 'Find and apply for cabin crew positions.',
+            icon: Building,
+            status: (isVerified ? 'available' : 'locked') as 'locked' | 'available' | 'completed'
+          },
+          {
+            title: 'Community Forums',
+            description: 'Connect with fellow crew members and share best practices.',
+            icon: MessageSquare,
+            status: (isVerified ? 'available' : 'locked') as 'locked' | 'available' | 'completed'
+          },
+          {
+            title: 'Document Management',
+            description: 'Store contracts, receipts, and professional documents.',
+            icon: Shield,
             status: (isVerified ? 'available' : 'locked') as 'locked' | 'available' | 'completed'
           }
         ]

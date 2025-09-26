@@ -96,6 +96,50 @@ export default function HelpBroker() {
         "Save preferred jets and operators",
         "Contact operators directly"
       ]
+    },
+    {
+      icon: <FileText className="h-6 w-6" />,
+      title: "Job Board",
+      description: "Post and manage aviation jobs",
+      steps: [
+        "Create detailed job postings for pilots and crew",
+        "Set requirements, pay rates, and schedules",
+        "Review applications and manage hiring process",
+        "Track job performance and completion rates"
+      ]
+    },
+    {
+      icon: <MessageCircle className="h-6 w-6" />,
+      title: "Community Forums",
+      description: "Connect with industry professionals",
+      steps: [
+        "Participate in broker-specific discussions",
+        "Share market insights and pricing strategies",
+        "Ask questions and get expert advice",
+        "Build professional relationships and network"
+      ]
+    },
+    {
+      icon: <Star className="h-6 w-6" />,
+      title: "Saved Crews",
+      description: "Manage your favorite crew members",
+      steps: [
+        "Save high-performing pilots and crew",
+        "Add notes and ratings for future reference",
+        "Quickly contact saved crew for new jobs",
+        "Track crew performance and reliability"
+      ]
+    },
+    {
+      icon: <Target className="h-6 w-6" />,
+      title: "Contract & Document Management",
+      description: "Generate and manage contracts and receipts",
+      steps: [
+        "Generate professional PDF contracts",
+        "Create detailed receipts for all transactions",
+        "Store all documents in centralized location",
+        "Track contract status and renewals"
+      ]
     }
   ];
 

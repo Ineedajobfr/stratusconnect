@@ -9,6 +9,12 @@ import { Brand } from '@/components/Brand';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ModernHelpGuide } from '@/components/ModernHelpGuide';
 import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
+import JobBoard from '@/components/job-board/JobBoard';
+import CommunityForums from '@/components/community/CommunityForums';
+import SavedCrews from '@/components/job-board/SavedCrews';
+import ContractGenerator from '@/components/contracts/ContractGenerator';
+import ReceiptGenerator from '@/components/contracts/ReceiptGenerator';
+import DocumentStorage from '@/components/documents/DocumentStorage';
 import { 
   DollarSign, 
   FileText, 
@@ -38,7 +44,8 @@ import {
   Trophy,
   ArrowUp,
   Menu,
-  RefreshCw
+  RefreshCw,
+  Receipt
 } from 'lucide-react';
 import { ComplianceNotice, EvidencePack } from '@/components/ComplianceNotice';
 import { evidenceReceiptGenerator } from '@/lib/evidence-receipt-generator';
@@ -107,42 +114,63 @@ export default function DemoBrokerTerminal() {
   const [liveFlowResult, setLiveFlowResult] = useState<Record<string, unknown> | null>(null);
   const [warRoomResult, setWarRoomResult] = useState<Record<string, unknown> | null>(null);
   const [evidencePack, setEvidencePack] = useState<Record<string, unknown> | null>(null);
+  const [showJobBoard, setShowJobBoard] = useState(false);
+  const [showCommunityForums, setShowCommunityForums] = useState(false);
+  const [showSavedCrews, setShowSavedCrews] = useState(false);
+  const [showDocumentStorage, setShowDocumentStorage] = useState(false);
+  const [showContractGenerator, setShowContractGenerator] = useState(false);
+  const [showReceiptGenerator, setShowReceiptGenerator] = useState(false);
+  const [selectedDeal, setSelectedDeal] = useState(null);
   const [rfqs, setRfqs] = useState<RFQ[]>([
     {
       id: 'RFQ-001',
       route: 'London - New York',
       aircraft: 'Gulfstream G650',
       date: '2025-09-20',
-      price: 45000,
+      price: 85000,
       currency: 'USD',
       status: 'quoted',
       legs: 1,
       passengers: 8,
-      specialRequirements: 'VIP handling, customs clearance',
+      specialRequirements: 'VIP handling, customs clearance, catering',
       quotes: [
         {
           id: 'Q-001',
           operator: 'Elite Aviation',
-          price: 45000,
+          price: 85000,
           currency: 'USD',
           validUntil: '2025-09-18T23:59:59Z',
           aircraft: 'Gulfstream G650',
           verified: true,
           rating: 4.8,
           responseTime: 3.2,
-          dealScore: 89
+          dealScore: 89,
+          fees: {
+            basePrice: 75000,
+            fuelSurcharge: 8500,
+            handling: 1200,
+            catering: 800,
+            total: 85000
+          }
         },
         {
           id: 'Q-002',
           operator: 'SkyHigh Jets',
-          price: 48000,
+          price: 92000,
           currency: 'USD',
           validUntil: '2025-09-19T12:00:00Z',
           aircraft: 'Gulfstream G650',
           verified: true,
           rating: 4.6,
           responseTime: 5.1,
-          dealScore: 76
+          dealScore: 76,
+          fees: {
+            basePrice: 82000,
+            fuelSurcharge: 7500,
+            handling: 1500,
+            catering: 1000,
+            total: 92000
+          }
         }
       ]
     },
@@ -151,12 +179,130 @@ export default function DemoBrokerTerminal() {
       route: 'Paris - Dubai',
       aircraft: 'Global 6000',
       date: '2025-09-25',
-      price: 32000,
+      price: 65000,
       currency: 'EUR',
       status: 'sent',
       legs: 1,
       passengers: 12,
-      specialRequirements: 'Catering for dietary restrictions',
+      specialRequirements: 'Catering for dietary restrictions, ground transportation',
+      quotes: [
+        {
+          id: 'Q-003',
+          operator: 'Luxury Wings',
+          price: 65000,
+          currency: 'EUR',
+          validUntil: '2025-09-23T18:00:00Z',
+          aircraft: 'Global 6000',
+          verified: true,
+          rating: 4.9,
+          responseTime: 2.1,
+          dealScore: 94,
+          fees: {
+            basePrice: 58000,
+            fuelSurcharge: 4500,
+            handling: 1500,
+            catering: 1000,
+            total: 65000
+          }
+        }
+      ]
+    },
+    {
+      id: 'RFQ-003',
+      route: 'Los Angeles - Tokyo',
+      aircraft: 'Bombardier Global 7500',
+      date: '2025-10-02',
+      price: 125000,
+      currency: 'USD',
+      status: 'quoted',
+      legs: 1,
+      passengers: 16,
+      specialRequirements: 'Custom interior, premium catering, ground crew',
+      quotes: [
+        {
+          id: 'Q-004',
+          operator: 'Pacific Elite',
+          price: 125000,
+          currency: 'USD',
+          validUntil: '2025-09-30T20:00:00Z',
+          aircraft: 'Bombardier Global 7500',
+          verified: true,
+          rating: 4.7,
+          responseTime: 4.5,
+          dealScore: 87,
+          fees: {
+            basePrice: 110000,
+            fuelSurcharge: 12000,
+            handling: 2000,
+            catering: 1000,
+            total: 125000
+          }
+        },
+        {
+          id: 'Q-005',
+          operator: 'TransGlobal Aviation',
+          price: 135000,
+          currency: 'USD',
+          validUntil: '2025-10-01T12:00:00Z',
+          aircraft: 'Bombardier Global 7500',
+          verified: true,
+          rating: 4.5,
+          responseTime: 6.2,
+          dealScore: 82,
+          fees: {
+            basePrice: 120000,
+            fuelSurcharge: 10000,
+            handling: 3000,
+            catering: 2000,
+            total: 135000
+          }
+        }
+      ]
+    },
+    {
+      id: 'RFQ-004',
+      route: 'Miami - London',
+      aircraft: 'Challenger 650',
+      date: '2025-09-28',
+      price: 45000,
+      currency: 'USD',
+      status: 'booked',
+      legs: 1,
+      passengers: 8,
+      specialRequirements: 'Pet transport, special handling',
+      quotes: [
+        {
+          id: 'Q-006',
+          operator: 'Atlantic Aviation',
+          price: 45000,
+          currency: 'USD',
+          validUntil: '2025-09-26T15:00:00Z',
+          aircraft: 'Challenger 650',
+          verified: true,
+          rating: 4.8,
+          responseTime: 2.8,
+          dealScore: 91,
+          fees: {
+            basePrice: 40000,
+            fuelSurcharge: 3500,
+            handling: 1000,
+            catering: 500,
+            total: 45000
+          }
+        }
+      ]
+    },
+    {
+      id: 'RFQ-005',
+      route: 'Zurich - Singapore',
+      aircraft: 'Falcon 8X',
+      date: '2025-10-05',
+      price: 95000,
+      currency: 'EUR',
+      status: 'draft',
+      legs: 1,
+      passengers: 8,
+      specialRequirements: 'VIP terminal access, customs pre-clearance',
       quotes: []
     }
   ]);
@@ -170,10 +316,62 @@ export default function DemoBrokerTerminal() {
       dateFrom: '2025-09-20',
       dateTo: '2025-09-25',
       passengers: 8,
-      budgetMax: 50000,
+      budgetMax: 95000,
       currency: 'USD',
       alerts: 3,
       lastAlert: '2025-09-16T14:30:00Z'
+    },
+    {
+      id: 'SS-002',
+      name: 'CDG to DXB Luxury',
+      from: 'CDG',
+      to: 'DXB',
+      dateFrom: '2025-09-25',
+      dateTo: '2025-09-30',
+      passengers: 12,
+      budgetMax: 70000,
+      currency: 'EUR',
+      alerts: 1,
+      lastAlert: '2025-09-22T09:15:00Z'
+    },
+    {
+      id: 'SS-003',
+      name: 'LAX to NRT Premium',
+      from: 'LAX',
+      to: 'NRT',
+      dateFrom: '2025-10-01',
+      dateTo: '2025-10-10',
+      passengers: 16,
+      budgetMax: 140000,
+      currency: 'USD',
+      alerts: 2,
+      lastAlert: '2025-09-28T16:45:00Z'
+    },
+    {
+      id: 'SS-004',
+      name: 'MIA to LHR Executive',
+      from: 'MIA',
+      to: 'LHR',
+      dateFrom: '2025-09-28',
+      dateTo: '2025-10-05',
+      passengers: 8,
+      budgetMax: 55000,
+      currency: 'USD',
+      alerts: 0,
+      lastAlert: null
+    },
+    {
+      id: 'SS-005',
+      name: 'ZUR to SIN Ultra Long Range',
+      from: 'ZUR',
+      to: 'SIN',
+      dateFrom: '2025-10-05',
+      dateTo: '2025-10-15',
+      passengers: 8,
+      budgetMax: 110000,
+      currency: 'EUR',
+      alerts: 1,
+      lastAlert: '2025-10-02T11:20:00Z'
     }
   ]);
 
@@ -182,7 +380,7 @@ export default function DemoBrokerTerminal() {
       id: 'ALERT-001',
       type: 'price_drop',
       title: 'Price Drop: LHR to JFK',
-      message: 'Gulfstream G650 dropped 18% to $41,000',
+      message: 'Gulfstream G650 dropped 12% to $75,000',
       time: '2025-09-16T14:30:00Z',
       unread: true
     },
@@ -190,9 +388,41 @@ export default function DemoBrokerTerminal() {
       id: 'ALERT-002',
       type: 'last_minute',
       title: 'Last Minute: CDG to LHR',
-      message: 'Citation X available in 8 hours for $18,000',
+      message: 'Citation X available in 6 hours for $35,000',
       time: '2025-09-16T16:45:00Z',
       unread: true
+    },
+    {
+      id: 'ALERT-003',
+      type: 'new_operator',
+      title: 'New Operator: Elite Wings',
+      message: 'Premium operator with 4.9 rating joined platform',
+      time: '2025-09-16T10:45:00Z',
+      unread: false
+    },
+    {
+      id: 'ALERT-004',
+      type: 'price_drop',
+      title: 'Price Drop: LAX to NRT',
+      message: 'Bombardier Global 7500 dropped 8% to $115,000',
+      time: '2025-09-15T16:20:00Z',
+      unread: true
+    },
+    {
+      id: 'ALERT-005',
+      type: 'availability',
+      title: 'New Availability: MIA to LHR',
+      message: 'Challenger 650 available for $42,000 on Sep 28',
+      time: '2025-09-15T14:10:00Z',
+      unread: false
+    },
+    {
+      id: 'ALERT-006',
+      type: 'fuel_surcharge',
+      title: 'Fuel Surcharge Update',
+      message: 'Global fuel surcharge increased by 3% across all operators',
+      time: '2025-09-15T11:30:00Z',
+      unread: false
     }
   ]);
 
@@ -611,6 +841,25 @@ export default function DemoBrokerTerminal() {
 
   const renderBilling = () => (
     <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold text-foreground">Billing & Analytics</h2>
+        <div className="flex space-x-2">
+          <Button 
+            onClick={() => setShowContractGenerator(true)}
+            className="bg-terminal-accent hover:bg-terminal-accent/90"
+          >
+            <FileText className="w-4 h-4 mr-2" />
+            Generate Contract
+          </Button>
+          <Button 
+            onClick={() => setShowReceiptGenerator(true)}
+            className="bg-terminal-accent hover:bg-terminal-accent/90"
+          >
+            <Receipt className="w-4 h-4 mr-2" />
+            Generate Receipt
+          </Button>
+        </div>
+      </div>
       <MonthlyStatements />
     </div>
   );
@@ -761,6 +1010,22 @@ export default function DemoBrokerTerminal() {
             <TabsTrigger value="trophy" className="flex items-center gap-2">
               <Trophy className="w-4 h-4 icon-glow" />
               Trophy
+            </TabsTrigger>
+            <TabsTrigger value="jobs" className="flex items-center gap-2">
+              <Briefcase className="w-4 h-4 icon-glow" />
+              Job Board
+            </TabsTrigger>
+            <TabsTrigger value="community" className="flex items-center gap-2">
+              <Users className="w-4 h-4 icon-glow" />
+              Community
+            </TabsTrigger>
+            <TabsTrigger value="saved-crews" className="flex items-center gap-2">
+              <Star className="w-4 h-4 icon-glow" />
+              Saved Crews
+            </TabsTrigger>
+            <TabsTrigger value="documents" className="flex items-center gap-2">
+              <FileText className="w-4 h-4 icon-glow" />
+              Documents
             </TabsTrigger>
             </TabsList>
           </div>
@@ -1005,6 +1270,18 @@ export default function DemoBrokerTerminal() {
               </Card>
             </div>
           </TabsContent>
+          <TabsContent value="jobs" className="mt-6 scroll-smooth">
+            <JobBoard userRole="broker" />
+          </TabsContent>
+          <TabsContent value="community" className="mt-6 scroll-smooth">
+            <CommunityForums userRole="broker" />
+          </TabsContent>
+          <TabsContent value="saved-crews" className="mt-6 scroll-smooth">
+            <SavedCrews brokerId="demo-broker-1" />
+          </TabsContent>
+          <TabsContent value="documents" className="mt-6 scroll-smooth">
+            <DocumentStorage userRole="broker" />
+          </TabsContent>
         </Tabs>
 
         {/* Demo Notice */}
@@ -1035,6 +1312,30 @@ export default function DemoBrokerTerminal() {
         <ArrowUp className="w-6 h-6 text-white" />
       </Button>
       
+      {/* Contract Generator Modal */}
+      {showContractGenerator && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+          <div className="bg-terminal-bg border border-terminal-border rounded-lg max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+            <ContractGenerator 
+              dealId="demo-deal-1" 
+              onClose={() => setShowContractGenerator(false)} 
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Receipt Generator Modal */}
+      {showReceiptGenerator && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+          <div className="bg-terminal-bg border border-terminal-border rounded-lg max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+            <ReceiptGenerator 
+              dealId="demo-deal-1" 
+              onClose={() => setShowReceiptGenerator(false)} 
+            />
+          </div>
+        </div>
+      )}
+
       {/* AI Chatbot */}
       <AIChatbot terminalType="broker" />
     </>

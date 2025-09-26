@@ -15,6 +15,12 @@ import AIChatbot from '@/components/AIChatbot';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
 import EnhancedAIChatbot from '@/components/EnhancedAIChatbot';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
+import JobBoard from '@/components/job-board/JobBoard';
+import CommunityForums from '@/components/community/CommunityForums';
+import SavedCrews from '@/components/job-board/SavedCrews';
+import ContractGenerator from '@/components/contracts/ContractGenerator';
+import ReceiptGenerator from '@/components/contracts/ReceiptGenerator';
+import DocumentStorage from '@/components/documents/DocumentStorage';
 import { useNavigate } from 'react-router-dom';
 import { 
   DollarSign, 
@@ -54,7 +60,8 @@ import {
   HelpCircle,
   ArrowUp,
   RefreshCw,
-  Plus
+  Plus,
+  Receipt
 } from 'lucide-react';
 
 interface RFQ {
@@ -121,6 +128,13 @@ export default function DemoOperatorTerminal() {
   const [warRoomResult, setWarRoomResult] = useState<unknown>(null);
   const [evidencePack, setEvidencePack] = useState<unknown>(null);
   const [showHelpGuide, setShowHelpGuide] = useState(false);
+  const [showJobBoard, setShowJobBoard] = useState(false);
+  const [showCommunityForums, setShowCommunityForums] = useState(false);
+  const [showSavedCrews, setShowSavedCrews] = useState(false);
+  const [showDocumentStorage, setShowDocumentStorage] = useState(false);
+  const [showContractGenerator, setShowContractGenerator] = useState(false);
+  const [showReceiptGenerator, setShowReceiptGenerator] = useState(false);
+  const [selectedDeal, setSelectedDeal] = useState(null);
 
   const [rfqs, setRfqs] = useState<RFQ[]>([
     {
@@ -128,42 +142,63 @@ export default function DemoOperatorTerminal() {
       route: 'London - New York',
       aircraft: 'Gulfstream G650',
       date: '2025-09-20',
-      price: 45000,
+      price: 85000,
       currency: 'USD',
       status: 'pending',
       legs: 1,
       passengers: 8,
-      specialRequirements: 'WiFi, catering for dietary restrictions',
+      specialRequirements: 'WiFi, premium catering, ground transportation',
       broker: 'Elite Aviation Brokers',
-      priority: 'high'
+      priority: 'high',
+      fees: {
+        basePrice: 75000,
+        fuelSurcharge: 8500,
+        handling: 1200,
+        catering: 800,
+        total: 85000
+      }
     },
     {
       id: 'RFQ-002',
       route: 'Paris - Dubai',
       aircraft: 'Global 6000',
       date: '2025-09-25',
-      price: 32000,
+      price: 65000,
       currency: 'EUR',
       status: 'quoted',
       legs: 1,
       passengers: 12,
-      specialRequirements: 'Pet transport approved',
+      specialRequirements: 'Pet transport approved, VIP terminal access',
       broker: 'SkyHigh Aviation',
-      priority: 'medium'
+      priority: 'medium',
+      fees: {
+        basePrice: 58000,
+        fuelSurcharge: 4500,
+        handling: 1500,
+        catering: 1000,
+        total: 65000
+      }
     },
     {
       id: 'RFQ-003',
       route: 'Los Angeles - Tokyo',
       aircraft: 'Bombardier Global 7500',
       date: '2025-09-28',
-      price: 85000,
+      price: 125000,
       currency: 'USD',
       status: 'accepted',
       legs: 1,
-      passengers: 6,
-      specialRequirements: 'VIP security detail',
+      passengers: 16,
+      specialRequirements: 'VIP security detail, custom interior',
       broker: 'Pacific Aviation Group',
-      priority: 'high'
+      priority: 'high',
+      fees: {
+        basePrice: 110000,
+        fuelSurcharge: 12000,
+        handling: 2000,
+        catering: 1000,
+        total: 125000
+      }
     }
   ]);
 
@@ -717,10 +752,26 @@ export default function DemoOperatorTerminal() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-foreground">Billing & Analytics</h2>
-        <Button className="btn-terminal-accent">
-          <Download className="w-4 h-4 mr-2" />
-          Export Report
-        </Button>
+        <div className="flex space-x-2">
+          <Button 
+            onClick={() => setShowContractGenerator(true)}
+            className="bg-terminal-accent hover:bg-terminal-accent/90"
+          >
+            <FileText className="w-4 h-4 mr-2" />
+            Generate Contract
+          </Button>
+          <Button 
+            onClick={() => setShowReceiptGenerator(true)}
+            className="bg-terminal-accent hover:bg-terminal-accent/90"
+          >
+            <Receipt className="w-4 h-4 mr-2" />
+            Generate Receipt
+          </Button>
+          <Button className="btn-terminal-accent">
+            <Download className="w-4 h-4 mr-2" />
+            Export Report
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -1065,6 +1116,22 @@ export default function DemoOperatorTerminal() {
                 <Navigation className="w-4 h-4" />
                 Tracking
               </TabsTrigger>
+              <TabsTrigger value="jobs" className="flex items-center gap-2">
+                <Briefcase className="w-4 h-4" />
+                Job Board
+              </TabsTrigger>
+              <TabsTrigger value="community" className="flex items-center gap-2">
+                <Users className="w-4 h-4" />
+                Community
+              </TabsTrigger>
+              <TabsTrigger value="saved-crews" className="flex items-center gap-2">
+                <Star className="w-4 h-4" />
+                Saved Crews
+              </TabsTrigger>
+              <TabsTrigger value="documents" className="flex items-center gap-2">
+                <FileText className="w-4 h-4" />
+                Documents
+              </TabsTrigger>
               </TabsList>
             </div>
 
@@ -1100,6 +1167,18 @@ export default function DemoOperatorTerminal() {
             <TabsContent value="tracking" className="scroll-smooth">
               {renderTracking()}
             </TabsContent>
+            <TabsContent value="jobs" className="scroll-smooth">
+              <JobBoard userRole="operator" />
+            </TabsContent>
+            <TabsContent value="community" className="scroll-smooth">
+              <CommunityForums userRole="operator" />
+            </TabsContent>
+            <TabsContent value="saved-crews" className="scroll-smooth">
+              <SavedCrews brokerId="demo-operator-1" />
+            </TabsContent>
+            <TabsContent value="documents" className="scroll-smooth">
+              <DocumentStorage userRole="operator" />
+            </TabsContent>
           </Tabs>
         </main>
 
@@ -1119,6 +1198,30 @@ export default function DemoOperatorTerminal() {
         <ArrowUp className="w-6 h-6 text-white" />
       </Button>
       
+      {/* Contract Generator Modal */}
+      {showContractGenerator && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+          <div className="bg-terminal-bg border border-terminal-border rounded-lg max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+            <ContractGenerator 
+              dealId="demo-deal-1" 
+              onClose={() => setShowContractGenerator(false)} 
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Receipt Generator Modal */}
+      {showReceiptGenerator && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+          <div className="bg-terminal-bg border border-terminal-border rounded-lg max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+            <ReceiptGenerator 
+              dealId="demo-deal-1" 
+              onClose={() => setShowReceiptGenerator(false)} 
+            />
+          </div>
+        </div>
+      )}
+
       {/* Enhanced AI Chatbot */}
       <EnhancedAIChatbot terminalType="operator" />
     </>

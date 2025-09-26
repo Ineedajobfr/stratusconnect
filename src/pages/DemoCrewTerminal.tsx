@@ -10,6 +10,9 @@ import NoteTakingSystem from '@/components/NoteTakingSystem';
 import EnhancedAIChatbot from '@/components/EnhancedAIChatbot';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
 import { DemoBanner } from '@/components/DemoBanner';
+import JobBoard from '@/components/job-board/JobBoard';
+import CommunityForums from '@/components/community/CommunityForums';
+import DocumentStorage from '@/components/documents/DocumentStorage';
 import { useNavigate } from 'react-router-dom';
 import { 
   HelpCircle,
@@ -68,6 +71,9 @@ interface Performance {
 export default function DemoCrewTerminal() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [showHelpGuide, setShowHelpGuide] = useState(false);
+  const [showJobBoard, setShowJobBoard] = useState(false);
+  const [showCommunityForums, setShowCommunityForums] = useState(false);
+  const [showDocumentStorage, setShowDocumentStorage] = useState(false);
   const navigate = useNavigate();
 
   const [assignments] = useState<Assignment[]>([
@@ -535,6 +541,18 @@ export default function DemoCrewTerminal() {
                   <Navigation className="w-4 h-4" />
                   Tracking
                 </TabsTrigger>
+                <TabsTrigger value="jobs" className="flex items-center gap-2">
+                  <Briefcase className="w-4 h-4" />
+                  Job Board
+                </TabsTrigger>
+                <TabsTrigger value="community" className="flex items-center gap-2">
+                  <Users className="w-4 h-4" />
+                  Community
+                </TabsTrigger>
+                <TabsTrigger value="documents" className="flex items-center gap-2">
+                  <FileText className="w-4 h-4" />
+                  Documents
+                </TabsTrigger>
               </TabsList>
             </div>
 
@@ -552,6 +570,15 @@ export default function DemoCrewTerminal() {
             </TabsContent>
             <TabsContent value="tracking" className="scroll-smooth">
               {renderTracking()}
+            </TabsContent>
+            <TabsContent value="jobs" className="scroll-smooth">
+              <JobBoard userRole="crew" />
+            </TabsContent>
+            <TabsContent value="community" className="scroll-smooth">
+              <CommunityForums userRole="crew" />
+            </TabsContent>
+            <TabsContent value="documents" className="scroll-smooth">
+              <DocumentStorage userRole="crew" />
             </TabsContent>
           </Tabs>
         </main>

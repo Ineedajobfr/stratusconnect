@@ -217,7 +217,7 @@ export const LazyDataTable = createLazyComponent(
 );
 
 // Hook for lazy loading with retry logic
-export const useLazyLoad = <T>(
+export const useLazyLoad = <T,>(
   importFunc: () => Promise<T>,
   deps: any[] = []
 ): { data: T | null; loading: boolean; error: Error | null; retry: () => void } => {
@@ -247,7 +247,7 @@ export const useLazyLoad = <T>(
 };
 
 // Higher-order component for lazy loading
-export const withLazyLoad = <P extends object>(
+export const withLazyLoad = <P extends object,>(
   importFunc: () => Promise<{ default: React.ComponentType<P> }>,
   fallback?: React.ComponentType,
   errorBoundary?: React.ComponentType<{ error: Error; retry: () => void }>

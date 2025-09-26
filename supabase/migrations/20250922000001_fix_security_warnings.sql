@@ -70,13 +70,13 @@ DROP POLICY IF EXISTS "profiles_update_own" ON public.profiles;
 DROP POLICY IF EXISTS "profiles_insert_own" ON public.profiles;
 
 CREATE POLICY "profiles_select_own" ON public.profiles
-  FOR SELECT USING (auth.uid() = user_id);
+  FOR SELECT USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "profiles_update_own" ON public.profiles
-  FOR UPDATE USING (auth.uid() = user_id);
+  FOR UPDATE USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "profiles_insert_own" ON public.profiles
-  FOR INSERT WITH CHECK (auth.uid() = user_id);
+  FOR INSERT WITH CHECK ((select auth.uid()) = user_id);
 
 -- Update companies table RLS
 DROP POLICY IF EXISTS "companies_select_own" ON public.companies;
@@ -85,7 +85,7 @@ DROP POLICY IF EXISTS "companies_insert_own" ON public.companies;
 
 CREATE POLICY "companies_select_own" ON public.companies
   FOR SELECT USING (
-    auth.uid() IN (
+    (select auth.uid()) IN (
       SELECT user_id FROM public.profiles 
       WHERE company_id = companies.id
     ) OR
@@ -94,7 +94,7 @@ CREATE POLICY "companies_select_own" ON public.companies
 
 CREATE POLICY "companies_update_own" ON public.companies
   FOR UPDATE USING (
-    auth.uid() IN (
+    (select auth.uid()) IN (
       SELECT user_id FROM public.profiles 
       WHERE company_id = companies.id AND platform_role IN ('admin', 'operator')
     ) OR
@@ -103,7 +103,7 @@ CREATE POLICY "companies_update_own" ON public.companies
 
 CREATE POLICY "companies_insert_own" ON public.companies
   FOR INSERT WITH CHECK (
-    auth.uid() IN (
+    (select auth.uid()) IN (
       SELECT user_id FROM public.profiles 
       WHERE platform_role IN ('admin', 'operator')
     ) OR
@@ -147,7 +147,7 @@ BEGIN
     ip_address,
     user_agent
   ) VALUES (
-    auth.uid(),
+    (select auth.uid()),
     event_type,
     event_data,
     ip_address,
@@ -171,12 +171,12 @@ BEGIN
   FROM public.security_audit_log
   WHERE event_type = 'login_failed'
     AND created_at > now() - interval '1 hour'
-    AND user_id = auth.uid();
+    AND user_id = (select auth.uid());
   
   -- Check for unusual activity patterns
   SELECT COUNT(*) INTO recent_events
   FROM public.security_audit_log
-  WHERE user_id = auth.uid()
+  WHERE user_id = (select auth.uid())
     AND created_at > now() - interval '1 hour';
   
   -- If more than 5 failed logins or 20 events in the last hour, flag as suspicious

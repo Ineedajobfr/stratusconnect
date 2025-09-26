@@ -83,30 +83,30 @@ ALTER TABLE public.webhook_events ENABLE ROW LEVEL SECURITY;
 -- Escrow intents policies
 CREATE POLICY "Users can view their own escrow intents" ON public.escrow_intents
   FOR SELECT USING (
-    auth.uid() = buyer_id OR 
-    auth.uid() = seller_id OR
+    (select auth.uid()) = buyer_id OR 
+    (select auth.uid()) = seller_id OR
     EXISTS (
       SELECT 1 FROM public.profiles 
-      WHERE user_id = auth.uid() AND role = 'admin'
+      WHERE user_id = (select auth.uid()) AND role = 'admin'
     )
   );
 
 CREATE POLICY "Users can create escrow intents" ON public.escrow_intents
   FOR INSERT WITH CHECK (
-    auth.uid() = buyer_id OR
+    (select auth.uid()) = buyer_id OR
     EXISTS (
       SELECT 1 FROM public.profiles 
-      WHERE user_id = auth.uid() AND role IN ('admin', 'broker')
+      WHERE user_id = (select auth.uid()) AND role IN ('admin', 'broker')
     )
   );
 
 CREATE POLICY "Users can update their own escrow intents" ON public.escrow_intents
   FOR UPDATE USING (
-    auth.uid() = buyer_id OR 
-    auth.uid() = seller_id OR
+    (select auth.uid()) = buyer_id OR 
+    (select auth.uid()) = seller_id OR
     EXISTS (
       SELECT 1 FROM public.profiles 
-      WHERE user_id = auth.uid() AND role = 'admin'
+      WHERE user_id = (select auth.uid()) AND role = 'admin'
     )
   );
 
@@ -116,13 +116,13 @@ CREATE POLICY "Users can view releases for their intents" ON public.escrow_relea
     EXISTS (
       SELECT 1 FROM public.escrow_intents 
       WHERE id = intent_id AND (
-        buyer_id = auth.uid() OR 
-        seller_id = auth.uid()
+        buyer_id = (select auth.uid()) OR 
+        seller_id = (select auth.uid())
       )
     ) OR
     EXISTS (
       SELECT 1 FROM public.profiles 
-      WHERE user_id = auth.uid() AND role = 'admin'
+      WHERE user_id = (select auth.uid()) AND role = 'admin'
     )
   );
 
@@ -131,13 +131,13 @@ CREATE POLICY "Users can create releases for their intents" ON public.escrow_rel
     EXISTS (
       SELECT 1 FROM public.escrow_intents 
       WHERE id = intent_id AND (
-        buyer_id = auth.uid() OR 
-        seller_id = auth.uid()
+        buyer_id = (select auth.uid()) OR 
+        seller_id = (select auth.uid())
       )
     ) OR
     EXISTS (
       SELECT 1 FROM public.profiles 
-      WHERE user_id = auth.uid() AND role = 'admin'
+      WHERE user_id = (select auth.uid()) AND role = 'admin'
     )
   );
 
@@ -147,13 +147,13 @@ CREATE POLICY "Users can view receipts for their intents" ON public.payment_rece
     EXISTS (
       SELECT 1 FROM public.escrow_intents 
       WHERE id = intent_id AND (
-        buyer_id = auth.uid() OR 
-        seller_id = auth.uid()
+        buyer_id = (select auth.uid()) OR 
+        seller_id = (select auth.uid())
       )
     ) OR
     EXISTS (
       SELECT 1 FROM public.profiles 
-      WHERE user_id = auth.uid() AND role = 'admin'
+      WHERE user_id = (select auth.uid()) AND role = 'admin'
     )
   );
 
@@ -162,7 +162,7 @@ CREATE POLICY "Only admins can view webhook events" ON public.webhook_events
   FOR SELECT USING (
     EXISTS (
       SELECT 1 FROM public.profiles 
-      WHERE user_id = auth.uid() AND role = 'admin'
+      WHERE user_id = (select auth.uid()) AND role = 'admin'
     )
   );
 

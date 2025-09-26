@@ -33,7 +33,7 @@ BEGIN
     RETURN (
         SELECT company_id 
         FROM users 
-        WHERE id = auth.uid()
+        WHERE id = (select auth.uid())
     );
 END;
 $$;
@@ -48,7 +48,7 @@ BEGIN
     RETURN (
         SELECT role 
         FROM users 
-        WHERE id = auth.uid()
+        WHERE id = (select auth.uid())
     );
 END;
 $$;
@@ -86,7 +86,7 @@ CREATE POLICY "users_select_company" ON users
 
 CREATE POLICY "users_update_own" ON users
     FOR UPDATE USING (
-        id = auth.uid() OR is_admin()
+        id = (select auth.uid()) OR is_admin()
     );
 
 CREATE POLICY "users_insert_admin" ON users
@@ -169,7 +169,7 @@ CREATE POLICY "flights_select_crew" ON flights
     FOR SELECT USING (
         id IN (
             SELECT flight_id FROM crew_assignments 
-            WHERE user_id = auth.uid()
+            WHERE user_id = (select auth.uid())
         )
     );
 
@@ -185,7 +185,7 @@ CREATE POLICY "flights_update_crew" ON flights
     FOR UPDATE USING (
         id IN (
             SELECT flight_id FROM crew_assignments 
-            WHERE user_id = auth.uid()
+            WHERE user_id = (select auth.uid())
         )
     );
 
@@ -197,7 +197,7 @@ CREATE POLICY "crew_assignments_select_company" ON crew_assignments
             JOIN bookings b ON f.booking_id = b.id
             WHERE b.operator_company_id = get_user_company_id()
         ) OR 
-        user_id = auth.uid() OR 
+        user_id = (select auth.uid()) OR 
         is_admin()
     );
 
@@ -212,7 +212,7 @@ CREATE POLICY "crew_assignments_insert_operator" ON crew_assignments
 
 CREATE POLICY "crew_assignments_update_crew" ON crew_assignments
     FOR UPDATE USING (
-        user_id = auth.uid() OR 
+        user_id = (select auth.uid()) OR 
         flight_id IN (
             SELECT f.id FROM flights f
             JOIN bookings b ON f.booking_id = b.id
@@ -273,7 +273,7 @@ CREATE POLICY "maintenance_update_operator" ON maintenance
 -- Crew profiles policies
 CREATE POLICY "crew_profiles_select_own" ON crew_profiles
     FOR SELECT USING (
-        user_id = auth.uid() OR 
+        user_id = (select auth.uid()) OR 
         user_id IN (
             SELECT id FROM users 
             WHERE company_id = get_user_company_id()
@@ -283,7 +283,7 @@ CREATE POLICY "crew_profiles_select_own" ON crew_profiles
 
 CREATE POLICY "crew_profiles_update_own" ON crew_profiles
     FOR UPDATE USING (
-        user_id = auth.uid() OR 
+        user_id = (select auth.uid()) OR 
         user_id IN (
             SELECT id FROM users 
             WHERE company_id = get_user_company_id()
@@ -293,13 +293,13 @@ CREATE POLICY "crew_profiles_update_own" ON crew_profiles
 
 CREATE POLICY "crew_profiles_insert_own" ON crew_profiles
     FOR INSERT WITH CHECK (
-        user_id = auth.uid() OR is_admin()
+        user_id = (select auth.uid()) OR is_admin()
     );
 
 -- Documents policies
 CREATE POLICY "documents_select_owner" ON documents
     FOR SELECT USING (
-        (owner_type = 'user' AND owner_id = auth.uid()) OR
+        (owner_type = 'user' AND owner_id = (select auth.uid())) OR
         (owner_type = 'company' AND owner_id = get_user_company_id()) OR
         (owner_type = 'booking' AND owner_id IN (
             SELECT id FROM bookings 
@@ -315,7 +315,7 @@ CREATE POLICY "documents_select_owner" ON documents
 
 CREATE POLICY "documents_insert_owner" ON documents
     FOR INSERT WITH CHECK (
-        (owner_type = 'user' AND owner_id = auth.uid()) OR
+        (owner_type = 'user' AND owner_id = (select auth.uid())) OR
         (owner_type = 'company' AND owner_id = get_user_company_id()) OR
         is_admin()
     );
@@ -327,8 +327,8 @@ CREATE POLICY "sanctions_admin_only" ON sanctions
 -- Messages policies
 CREATE POLICY "messages_select_participants" ON messages
     FOR SELECT USING (
-        sender_id = auth.uid() OR 
-        receiver_id = auth.uid() OR
+        sender_id = (select auth.uid()) OR 
+        receiver_id = (select auth.uid()) OR
         booking_id IN (
             SELECT id FROM bookings 
             WHERE broker_company_id = get_user_company_id() OR 
@@ -343,7 +343,7 @@ CREATE POLICY "messages_select_participants" ON messages
 
 CREATE POLICY "messages_insert_participants" ON messages
     FOR INSERT WITH CHECK (
-        sender_id = auth.uid() AND (
+        sender_id = (select auth.uid()) AND (
             receiver_id IS NOT NULL OR
             booking_id IN (
                 SELECT id FROM bookings 
@@ -359,13 +359,13 @@ CREATE POLICY "messages_insert_participants" ON messages
 
 -- Notifications policies
 CREATE POLICY "notifications_select_own" ON notifications
-    FOR SELECT USING (user_id = auth.uid());
+    FOR SELECT USING (user_id = (select auth.uid()));
 
 CREATE POLICY "notifications_insert_own" ON notifications
-    FOR INSERT WITH CHECK (user_id = auth.uid() OR is_admin());
+    FOR INSERT WITH CHECK (user_id = (select auth.uid()) OR is_admin());
 
 CREATE POLICY "notifications_update_own" ON notifications
-    FOR UPDATE USING (user_id = auth.uid());
+    FOR UPDATE USING (user_id = (select auth.uid()));
 
 -- Analytics policies
 CREATE POLICY "analytics_select_company" ON analytics
@@ -414,7 +414,7 @@ CREATE POLICY "crew_requests_update_operator" ON crew_requests
 -- Crew applications policies
 CREATE POLICY "crew_applications_select_participants" ON crew_applications
     FOR SELECT USING (
-        applicant_id = auth.uid() OR
+        applicant_id = (select auth.uid()) OR
         crew_request_id IN (
             SELECT id FROM crew_requests 
             WHERE operator_company_id = get_user_company_id()
@@ -424,7 +424,7 @@ CREATE POLICY "crew_applications_select_participants" ON crew_applications
 
 CREATE POLICY "crew_applications_insert_crew" ON crew_applications
     FOR INSERT WITH CHECK (
-        applicant_id = auth.uid() AND get_user_role() IN ('pilot', 'crew')
+        applicant_id = (select auth.uid()) AND get_user_role() IN ('pilot', 'crew')
     );
 
 CREATE POLICY "crew_applications_update_operator" ON crew_applications

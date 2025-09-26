@@ -151,7 +151,7 @@ SECURITY DEFINER
 AS $$
     SELECT EXISTS (
         SELECT 1 FROM public.platform_admins 
-        WHERE user_id = auth.uid() AND is_admin = true
+        WHERE user_id = (select auth.uid()) AND is_admin = true
     );
 $$;
 
@@ -161,7 +161,7 @@ RETURNS text
 LANGUAGE sql
 SECURITY DEFINER
 AS $$
-    SELECT platform_role FROM public.profiles WHERE user_id = auth.uid();
+    SELECT platform_role FROM public.profiles WHERE user_id = (select auth.uid());
 $$;
 
 -- Grant necessary permissions
@@ -173,7 +173,7 @@ GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO authenticated;
 -- Create RLS policy for admin access
 CREATE POLICY "admin_full_access" ON public.profiles
     FOR ALL USING (
-        auth.uid() IN (
+        (select auth.uid()) IN (
             '10000000-0000-0000-0000-000000000001'::uuid,
             '10000000-0000-0000-0000-000000000002'::uuid,
             '10000000-0000-0000-0000-000000000003'::uuid

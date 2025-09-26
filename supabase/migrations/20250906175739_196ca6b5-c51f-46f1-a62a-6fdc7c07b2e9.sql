@@ -165,13 +165,13 @@ CREATE POLICY "read_all_aircraft" ON aircraft FOR SELECT USING (true);
 CREATE POLICY "read_all_ops" ON operators FOR SELECT USING (true);
 
 CREATE POLICY "broker_own_requests" ON charter_requests
-  FOR ALL USING (broker_id = auth.uid()) WITH CHECK (broker_id = auth.uid());
+  FOR ALL USING (broker_id = (select auth.uid())) WITH CHECK (broker_id = (select auth.uid()));
 
 CREATE POLICY "broker_own_saves" ON saved_jets
-  FOR ALL USING (profile_id = auth.uid()) WITH CHECK (profile_id = auth.uid());
+  FOR ALL USING (profile_id = (select auth.uid())) WITH CHECK (profile_id = (select auth.uid()));
 
 CREATE POLICY "broker_own_alerts" ON alerts
-  FOR ALL USING (profile_id = auth.uid()) WITH CHECK (profile_id = auth.uid());
+  FOR ALL USING (profile_id = (select auth.uid())) WITH CHECK (profile_id = (select auth.uid()));
 
 CREATE POLICY "quotes_visible" ON quotes FOR SELECT USING (true);
 CREATE POLICY "quotes_create" ON quotes FOR INSERT WITH CHECK (true);

@@ -63,7 +63,7 @@ CREATE POLICY "Users can view invoice counters for their company" ON public.invo
     FOR SELECT USING (
         company_country IN (
             SELECT DISTINCT country FROM public.users 
-            WHERE id = auth.uid()
+            WHERE id = (select auth.uid())
         )
     );
 
@@ -71,7 +71,7 @@ CREATE POLICY "Admin can manage all invoice counters" ON public.invoice_counters
     FOR ALL USING (
         EXISTS (
             SELECT 1 FROM public.users 
-            WHERE id = auth.uid() AND role = 'admin'
+            WHERE id = (select auth.uid()) AND role = 'admin'
         )
     );
 
@@ -80,7 +80,7 @@ CREATE POLICY "Users can view their company invoices" ON public.sequential_invoi
     FOR SELECT USING (
         company_country IN (
             SELECT DISTINCT country FROM public.users 
-            WHERE id = auth.uid()
+            WHERE id = (select auth.uid())
         )
     );
 
@@ -88,7 +88,7 @@ CREATE POLICY "Admin can manage all sequential invoices" ON public.sequential_in
     FOR ALL USING (
         EXISTS (
             SELECT 1 FROM public.users 
-            WHERE id = auth.uid() AND role = 'admin'
+            WHERE id = (select auth.uid()) AND role = 'admin'
         )
     );
 
@@ -100,7 +100,7 @@ CREATE POLICY "Admin can manage exchange rates" ON public.exchange_rates
     FOR ALL USING (
         EXISTS (
             SELECT 1 FROM public.users 
-            WHERE id = auth.uid() AND role = 'admin'
+            WHERE id = (select auth.uid()) AND role = 'admin'
         )
     );
 

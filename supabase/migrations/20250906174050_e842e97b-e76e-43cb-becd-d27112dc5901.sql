@@ -4,7 +4,7 @@
 CREATE POLICY "Admin can manage security settings" 
 ON public.security_settings 
 FOR ALL 
-USING (auth.uid() IN (
+USING ((select auth.uid()) IN (
   SELECT user_id FROM public.profiles 
   WHERE platform_role = 'admin'
 ));
@@ -13,11 +13,11 @@ USING (auth.uid() IN (
 CREATE POLICY "Users can insert their own profile" 
 ON public.profiles 
 FOR INSERT 
-WITH CHECK (auth.uid() = user_id);
+WITH CHECK ((select auth.uid()) = user_id);
 
 -- Create users table if it doesn't exist for custom registration flow
 CREATE TABLE IF NOT EXISTS public.users (
-  id UUID PRIMARY KEY DEFAULT auth.uid(),
+  id UUID PRIMARY KEY DEFAULT (select auth.uid()),
   email TEXT UNIQUE NOT NULL,
   full_name TEXT,
   company_name TEXT,
@@ -42,12 +42,12 @@ ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Users can view their own data" 
 ON public.users 
 FOR SELECT 
-USING (auth.uid() = id);
+USING ((select auth.uid()) = id);
 
 CREATE POLICY "Users can update their own data" 
 ON public.users 
 FOR UPDATE 
-USING (auth.uid() = id);
+USING ((select auth.uid()) = id);
 
 -- Create trigger to sync auth.users with public.users
 CREATE OR REPLACE FUNCTION public.handle_new_user()

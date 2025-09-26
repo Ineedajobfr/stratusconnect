@@ -109,13 +109,13 @@ alter table public.sc_xp_events      enable row level security;
 alter table public.sc_user_badges    enable row level security;
 
 create policy "own membership" on public.sc_league_members
-  for select using (auth.uid() = user_id);
+  for select using ((select auth.uid()) = user_id);
 
 create policy "own events" on public.sc_xp_events
-  for select using (auth.uid() = user_id);
+  for select using ((select auth.uid()) = user_id);
 
 create policy "own badges" on public.sc_user_badges
-  for select using (auth.uid() = user_id);
+  for select using ((select auth.uid()) = user_id);
 
 -- Public read access for leaderboard
 create policy "public leaderboard" on public.sc_leaderboard

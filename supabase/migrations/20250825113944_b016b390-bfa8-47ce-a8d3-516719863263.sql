@@ -77,7 +77,7 @@ ALTER TABLE public.hiring_requests ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Crew can manage their own profile" 
 ON public.crew_profiles 
 FOR ALL 
-USING (auth.uid() = user_id);
+USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "Everyone can view crew profiles" 
 ON public.crew_profiles 
@@ -88,7 +88,7 @@ USING (true);
 CREATE POLICY "Crew can manage their own certifications" 
 ON public.crew_certifications 
 FOR ALL 
-USING (auth.uid() IN (SELECT user_id FROM crew_profiles WHERE id = crew_certifications.crew_id));
+USING ((select auth.uid()) IN (SELECT user_id FROM crew_profiles WHERE id = crew_certifications.crew_id));
 
 CREATE POLICY "Everyone can view crew certifications" 
 ON public.crew_certifications 
@@ -99,7 +99,7 @@ USING (true);
 CREATE POLICY "Crew can manage their own availability" 
 ON public.crew_availability 
 FOR ALL 
-USING (auth.uid() IN (SELECT user_id FROM crew_profiles WHERE id = crew_availability.crew_id));
+USING ((select auth.uid()) IN (SELECT user_id FROM crew_profiles WHERE id = crew_availability.crew_id));
 
 CREATE POLICY "Everyone can view crew availability" 
 ON public.crew_availability 
@@ -110,22 +110,22 @@ USING (true);
 CREATE POLICY "Brokers can create hiring requests" 
 ON public.hiring_requests 
 FOR INSERT 
-WITH CHECK (auth.uid() = broker_id);
+WITH CHECK ((select auth.uid()) = broker_id);
 
 CREATE POLICY "Brokers can view their hiring requests" 
 ON public.hiring_requests 
 FOR SELECT 
-USING (auth.uid() = broker_id);
+USING ((select auth.uid()) = broker_id);
 
 CREATE POLICY "Crew can view requests for them" 
 ON public.hiring_requests 
 FOR SELECT 
-USING (auth.uid() IN (SELECT user_id FROM crew_profiles WHERE id = hiring_requests.crew_id));
+USING ((select auth.uid()) IN (SELECT user_id FROM crew_profiles WHERE id = hiring_requests.crew_id));
 
 CREATE POLICY "Crew can update requests for them" 
 ON public.hiring_requests 
 FOR UPDATE 
-USING (auth.uid() IN (SELECT user_id FROM crew_profiles WHERE id = hiring_requests.crew_id));
+USING ((select auth.uid()) IN (SELECT user_id FROM crew_profiles WHERE id = hiring_requests.crew_id));
 
 -- Add triggers for updated_at
 CREATE TRIGGER update_crew_profiles_updated_at

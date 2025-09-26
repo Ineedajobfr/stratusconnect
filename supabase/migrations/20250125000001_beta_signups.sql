@@ -30,7 +30,7 @@ using (
   exists (
     select 1
     from public.profiles 
-    where profiles.id = auth.uid()
+    where profiles.id = (select auth.uid())
       and profiles.role = 'admin'
   )
 );

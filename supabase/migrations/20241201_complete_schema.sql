@@ -252,23 +252,23 @@ ALTER TABLE aircraft ENABLE ROW LEVEL SECURITY;
 ALTER TABLE crew_profiles ENABLE ROW LEVEL SECURITY;
 
 -- RLS Policies
-CREATE POLICY "Users can view own profile" ON profiles FOR SELECT USING (auth.uid() = id);
-CREATE POLICY "Users can update own profile" ON profiles FOR UPDATE USING (auth.uid() = id);
+CREATE POLICY "Users can view own profile" ON profiles FOR SELECT USING ((select auth.uid()) = id);
+CREATE POLICY "Users can update own profile" ON profiles FOR UPDATE USING ((select auth.uid()) = id);
 
-CREATE POLICY "Users can view own preferences" ON user_preferences FOR ALL USING (auth.uid() = user_id);
+CREATE POLICY "Users can view own preferences" ON user_preferences FOR ALL USING ((select auth.uid()) = user_id);
 
-CREATE POLICY "Users can view own notifications" ON notifications FOR ALL USING (auth.uid() = user_id);
+CREATE POLICY "Users can view own notifications" ON notifications FOR ALL USING ((select auth.uid()) = user_id);
 
-CREATE POLICY "Users can view own tasks" ON tasks FOR ALL USING (auth.uid() = user_id OR auth.uid() = assigned_to);
+CREATE POLICY "Users can view own tasks" ON tasks FOR ALL USING ((select auth.uid()) = user_id OR (select auth.uid()) = assigned_to);
 
-CREATE POLICY "Brokers can view own RFQs" ON rfqs FOR ALL USING (auth.uid() = broker_id);
+CREATE POLICY "Brokers can view own RFQs" ON rfqs FOR ALL USING ((select auth.uid()) = broker_id);
 CREATE POLICY "Operators can view RFQs they're invited to" ON rfqs FOR SELECT USING (
-  EXISTS (SELECT 1 FROM rfq_recipients WHERE rfq_id = rfqs.id AND operator_id = auth.uid())
+  EXISTS (SELECT 1 FROM rfq_recipients WHERE rfq_id = rfqs.id AND operator_id = (select auth.uid()))
 );
 
 CREATE POLICY "Users can view relevant quotes" ON quotes FOR ALL USING (
-  auth.uid() = operator_id OR 
-  EXISTS (SELECT 1 FROM rfqs WHERE id = quotes.rfq_id AND broker_id = auth.uid())
+  (select auth.uid()) = operator_id OR 
+  EXISTS (SELECT 1 FROM rfqs WHERE id = quotes.rfq_id AND broker_id = (select auth.uid()))
 );
 
 -- ========================================

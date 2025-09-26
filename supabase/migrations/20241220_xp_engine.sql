@@ -222,11 +222,11 @@ alter table public.sc_daily_quests enable row level security;
 alter table public.sc_weekly_missions enable row level security;
 
 -- Users can see their own data
-create policy "own daily activity" on public.sc_daily_activity for select using (auth.uid() = user_id);
-create policy "own streaks" on public.sc_streaks for all using (auth.uid() = user_id);
-create policy "own xp events" on public.sc_xp_events for select using (auth.uid() = user_id);
-create policy "own daily quests" on public.sc_daily_quests for all using (auth.uid() = user_id);
-create policy "own weekly missions" on public.sc_weekly_missions for all using (auth.uid() = user_id);
+create policy "own daily activity" on public.sc_daily_activity for select using ((select auth.uid()) = user_id);
+create policy "own streaks" on public.sc_streaks for all using ((select auth.uid()) = user_id);
+create policy "own xp events" on public.sc_xp_events for select using ((select auth.uid()) = user_id);
+create policy "own daily quests" on public.sc_daily_quests for all using ((select auth.uid()) = user_id);
+create policy "own weekly missions" on public.sc_weekly_missions for all using ((select auth.uid()) = user_id);
 
 -- Admin can see all (service key)
 create policy "admin all daily activity" on public.sc_daily_activity for all using (true);

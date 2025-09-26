@@ -73,33 +73,33 @@ ALTER TABLE public.api_integrations ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Deal participants can view contracts" 
 ON public.contracts 
 FOR SELECT 
-USING ((auth.uid() IN ( SELECT deals.operator_id FROM deals WHERE deals.id = contracts.deal_id)) OR 
-       (auth.uid() IN ( SELECT deals.broker_id FROM deals WHERE deals.id = contracts.deal_id)));
+USING (((select auth.uid()) IN ( SELECT deals.operator_id FROM deals WHERE deals.id = contracts.deal_id)) OR 
+       ((select auth.uid()) IN ( SELECT deals.broker_id FROM deals WHERE deals.id = contracts.deal_id)));
 
 CREATE POLICY "Deal participants can create contracts" 
 ON public.contracts 
 FOR INSERT 
-WITH CHECK (auth.uid() = created_by);
+WITH CHECK ((select auth.uid()) = created_by);
 
 CREATE POLICY "Deal participants can update contracts" 
 ON public.contracts 
 FOR UPDATE 
-USING ((auth.uid() IN ( SELECT deals.operator_id FROM deals WHERE deals.id = contracts.deal_id)) OR 
-       (auth.uid() IN ( SELECT deals.broker_id FROM deals WHERE deals.id = contracts.deal_id)));
+USING (((select auth.uid()) IN ( SELECT deals.operator_id FROM deals WHERE deals.id = contracts.deal_id)) OR 
+       ((select auth.uid()) IN ( SELECT deals.broker_id FROM deals WHERE deals.id = contracts.deal_id)));
 
 -- RLS Policies for billing schedules
 CREATE POLICY "Deal participants can manage billing schedules" 
 ON public.billing_schedules 
 FOR ALL 
-USING ((auth.uid() IN ( SELECT deals.operator_id FROM deals WHERE deals.id = billing_schedules.deal_id)) OR 
-       (auth.uid() IN ( SELECT deals.broker_id FROM deals WHERE deals.id = billing_schedules.deal_id)));
+USING (((select auth.uid()) IN ( SELECT deals.operator_id FROM deals WHERE deals.id = billing_schedules.deal_id)) OR 
+       ((select auth.uid()) IN ( SELECT deals.broker_id FROM deals WHERE deals.id = billing_schedules.deal_id)));
 
 -- RLS Policies for escrow accounts
 CREATE POLICY "Deal participants can view escrow accounts" 
 ON public.escrow_accounts 
 FOR SELECT 
-USING ((auth.uid() IN ( SELECT deals.operator_id FROM deals WHERE deals.id = escrow_accounts.deal_id)) OR 
-       (auth.uid() IN ( SELECT deals.broker_id FROM deals WHERE deals.id = escrow_accounts.deal_id)));
+USING (((select auth.uid()) IN ( SELECT deals.operator_id FROM deals WHERE deals.id = escrow_accounts.deal_id)) OR 
+       ((select auth.uid()) IN ( SELECT deals.broker_id FROM deals WHERE deals.id = escrow_accounts.deal_id)));
 
 -- RLS Policies for market trends
 CREATE POLICY "Everyone can view market trends" 

@@ -59,14 +59,14 @@ ALTER TABLE public.data_processing_activities ENABLE ROW LEVEL SECURITY;
 
 -- DSAR requests policies
 CREATE POLICY "Users can view their own DSAR requests" ON public.dsar_requests
-  FOR SELECT USING (auth.uid() = user_id);
+  FOR SELECT USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "Users can create their own DSAR requests" ON public.dsar_requests
-  FOR INSERT WITH CHECK (auth.uid() = user_id);
+  FOR INSERT WITH CHECK ((select auth.uid()) = user_id);
 
 CREATE POLICY "Users can update their own pending DSAR requests" ON public.dsar_requests
   FOR UPDATE USING (
-    auth.uid() = user_id AND 
+    (select auth.uid()) = user_id AND 
     status = 'pending'
   );
 
@@ -74,7 +74,7 @@ CREATE POLICY "Admins can view all DSAR requests" ON public.dsar_requests
   FOR SELECT USING (
     EXISTS (
       SELECT 1 FROM public.profiles 
-      WHERE user_id = auth.uid() AND role = 'admin'
+      WHERE user_id = (select auth.uid()) AND role = 'admin'
     )
   );
 
@@ -82,7 +82,7 @@ CREATE POLICY "Admins can update DSAR requests" ON public.dsar_requests
   FOR UPDATE USING (
     EXISTS (
       SELECT 1 FROM public.profiles 
-      WHERE user_id = auth.uid() AND role = 'admin'
+      WHERE user_id = (select auth.uid()) AND role = 'admin'
     )
   );
 
@@ -91,7 +91,7 @@ CREATE POLICY "Users can view audit logs for their requests" ON public.dsar_audi
   FOR SELECT USING (
     EXISTS (
       SELECT 1 FROM public.dsar_requests 
-      WHERE id = request_id AND user_id = auth.uid()
+      WHERE id = request_id AND user_id = (select auth.uid())
     )
   );
 
@@ -99,7 +99,7 @@ CREATE POLICY "Admins can view all audit logs" ON public.dsar_audit_log
   FOR SELECT USING (
     EXISTS (
       SELECT 1 FROM public.profiles 
-      WHERE user_id = auth.uid() AND role = 'admin'
+      WHERE user_id = (select auth.uid()) AND role = 'admin'
     )
   );
 
@@ -111,7 +111,7 @@ CREATE POLICY "Only admins can view processing activities" ON public.data_proces
   FOR SELECT USING (
     EXISTS (
       SELECT 1 FROM public.profiles 
-      WHERE user_id = auth.uid() AND role = 'admin'
+      WHERE user_id = (select auth.uid()) AND role = 'admin'
     )
   );
 
@@ -119,7 +119,7 @@ CREATE POLICY "Only admins can manage processing activities" ON public.data_proc
   FOR ALL USING (
     EXISTS (
       SELECT 1 FROM public.profiles 
-      WHERE user_id = auth.uid() AND role = 'admin'
+      WHERE user_id = (select auth.uid()) AND role = 'admin'
     )
   );
 
@@ -198,7 +198,7 @@ BEGIN
   ) VALUES (
     p_request_id,
     'status_updated',
-    auth.uid(),
+    (select auth.uid()),
     jsonb_build_object(
       'old_status', v_old_status,
       'new_status', p_status,
@@ -226,7 +226,7 @@ BEGIN
   ) VALUES (
     p_request_id,
     p_action,
-    auth.uid(),
+    (select auth.uid()),
     p_details,
     current_setting('request.headers', true)::json->>'x-forwarded-for',
     current_setting('request.headers', true)::json->>'user-agent'

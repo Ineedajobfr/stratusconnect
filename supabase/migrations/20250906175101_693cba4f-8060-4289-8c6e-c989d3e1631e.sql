@@ -9,7 +9,7 @@ CREATE POLICY "profiles_secure_read" ON public.profiles
 FOR SELECT 
 USING (
   -- Users can always see their own profile
-  auth.uid() = user_id 
+  (select auth.uid()) = user_id 
   OR
   -- Others can only see limited public info based on privacy settings
   (
@@ -68,7 +68,7 @@ BEGIN
     p.platform_role,
     p.avatar_url,
     CASE 
-      WHEN auth.uid() = p.user_id OR auth.uid() IS NULL THEN p.country
+      WHEN (select auth.uid()) = p.user_id OR (select auth.uid()) IS NULL THEN p.country
       ELSE p.country  -- Country is considered less sensitive
     END as country,
     p.created_at
@@ -82,11 +82,11 @@ CREATE POLICY "profiles_restricted_public_read" ON public.profiles
 FOR SELECT 
 USING (
   -- Users can see their own profile completely
-  auth.uid() = user_id 
+  (select auth.uid()) = user_id 
   OR
   -- For public access, only show basic info (no phone, limited based on privacy)
   (
-    auth.uid() IS NOT NULL  -- Must be authenticated
+    (select auth.uid()) IS NOT NULL  -- Must be authenticated
     AND
     -- Only basic profile info visible to authenticated users
     NOT EXISTS (

@@ -178,7 +178,7 @@ CREATE POLICY "Admin access to broadcast_messages" ON broadcast_messages
     FOR ALL USING (
         EXISTS (
             SELECT 1 FROM profiles 
-            WHERE profiles.id = auth.uid() 
+            WHERE profiles.id = (select auth.uid()) 
             AND profiles.role = 'admin'
         )
     );
@@ -187,19 +187,19 @@ CREATE POLICY "Admin access to user_notifications" ON user_notifications
     FOR ALL USING (
         EXISTS (
             SELECT 1 FROM profiles 
-            WHERE profiles.id = auth.uid() 
+            WHERE profiles.id = (select auth.uid()) 
             AND profiles.role = 'admin'
         )
     );
 
 CREATE POLICY "Users can view own notifications" ON user_notifications
-    FOR SELECT USING (user_id = auth.uid());
+    FOR SELECT USING (user_id = (select auth.uid()));
 
 CREATE POLICY "Admin access to notification_templates" ON notification_templates
     FOR ALL USING (
         EXISTS (
             SELECT 1 FROM profiles 
-            WHERE profiles.id = auth.uid() 
+            WHERE profiles.id = (select auth.uid()) 
             AND profiles.role = 'admin'
         )
     );
@@ -208,22 +208,22 @@ CREATE POLICY "Admin access to disputes" ON disputes
     FOR ALL USING (
         EXISTS (
             SELECT 1 FROM profiles 
-            WHERE profiles.id = auth.uid() 
+            WHERE profiles.id = (select auth.uid()) 
             AND profiles.role = 'admin'
         )
     );
 
 CREATE POLICY "Users can view own disputes" ON disputes
     FOR SELECT USING (
-        complainant_id = auth.uid() OR 
-        respondent_id = auth.uid()
+        complainant_id = (select auth.uid()) OR 
+        respondent_id = (select auth.uid())
     );
 
 CREATE POLICY "Admin access to dispute_evidence" ON dispute_evidence
     FOR ALL USING (
         EXISTS (
             SELECT 1 FROM profiles 
-            WHERE profiles.id = auth.uid() 
+            WHERE profiles.id = (select auth.uid()) 
             AND profiles.role = 'admin'
         )
     );
@@ -232,18 +232,18 @@ CREATE POLICY "Admin access to dispute_communications" ON dispute_communications
     FOR ALL USING (
         EXISTS (
             SELECT 1 FROM profiles 
-            WHERE profiles.id = auth.uid() 
+            WHERE profiles.id = (select auth.uid()) 
             AND profiles.role = 'admin'
         )
     );
 
 CREATE POLICY "Users can view own dispute communications" ON dispute_communications
     FOR SELECT USING (
-        sender_id = auth.uid() OR
+        sender_id = (select auth.uid()) OR
         EXISTS (
             SELECT 1 FROM disputes 
             WHERE disputes.id = dispute_communications.dispute_id 
-            AND (disputes.complainant_id = auth.uid() OR disputes.respondent_id = auth.uid())
+            AND (disputes.complainant_id = (select auth.uid()) OR disputes.respondent_id = (select auth.uid()))
         )
     );
 
@@ -251,7 +251,7 @@ CREATE POLICY "Admin access to dispute_resolutions" ON dispute_resolutions
     FOR ALL USING (
         EXISTS (
             SELECT 1 FROM profiles 
-            WHERE profiles.id = auth.uid() 
+            WHERE profiles.id = (select auth.uid()) 
             AND profiles.role = 'admin'
         )
     );
@@ -260,7 +260,7 @@ CREATE POLICY "Admin access to ai_monitors" ON ai_monitors
     FOR ALL USING (
         EXISTS (
             SELECT 1 FROM profiles 
-            WHERE profiles.id = auth.uid() 
+            WHERE profiles.id = (select auth.uid()) 
             AND profiles.role = 'admin'
         )
     );
@@ -269,7 +269,7 @@ CREATE POLICY "Admin access to fraud_alerts" ON fraud_alerts
     FOR ALL USING (
         EXISTS (
             SELECT 1 FROM profiles 
-            WHERE profiles.id = auth.uid() 
+            WHERE profiles.id = (select auth.uid()) 
             AND profiles.role = 'admin'
         )
     );
@@ -278,19 +278,19 @@ CREATE POLICY "Admin access to user_activities" ON user_activities
     FOR ALL USING (
         EXISTS (
             SELECT 1 FROM profiles 
-            WHERE profiles.id = auth.uid() 
+            WHERE profiles.id = (select auth.uid()) 
             AND profiles.role = 'admin'
         )
     );
 
 CREATE POLICY "Users can view own activities" ON user_activities
-    FOR SELECT USING (user_id = auth.uid());
+    FOR SELECT USING (user_id = (select auth.uid()));
 
 CREATE POLICY "Admin access to email_logs" ON email_logs
     FOR ALL USING (
         EXISTS (
             SELECT 1 FROM profiles 
-            WHERE profiles.id = auth.uid() 
+            WHERE profiles.id = (select auth.uid()) 
             AND profiles.role = 'admin'
         )
     );
@@ -299,7 +299,7 @@ CREATE POLICY "Admin access to sms_logs" ON sms_logs
     FOR ALL USING (
         EXISTS (
             SELECT 1 FROM profiles 
-            WHERE profiles.id = auth.uid() 
+            WHERE profiles.id = (select auth.uid()) 
             AND profiles.role = 'admin'
         )
     );

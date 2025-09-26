@@ -25,22 +25,22 @@ ALTER TABLE deposit_payments ENABLE ROW LEVEL SECURITY;
 
 -- RLS Policy: Users can only see their own deposit payments
 CREATE POLICY "Users can view their own deposit payments" ON deposit_payments
-  FOR SELECT USING (auth.uid() = user_id);
+  FOR SELECT USING ((select auth.uid()) = user_id);
 
 -- RLS Policy: Users can insert their own deposit payments
 CREATE POLICY "Users can insert their own deposit payments" ON deposit_payments
-  FOR INSERT WITH CHECK (auth.uid() = user_id);
+  FOR INSERT WITH CHECK ((select auth.uid()) = user_id);
 
 -- RLS Policy: Users can update their own deposit payments
 CREATE POLICY "Users can update their own deposit payments" ON deposit_payments
-  FOR UPDATE USING (auth.uid() = user_id);
+  FOR UPDATE USING ((select auth.uid()) = user_id);
 
 -- RLS Policy: Admins can view all deposit payments
 CREATE POLICY "Admins can view all deposit payments" ON deposit_payments
   FOR ALL USING (
     EXISTS (
       SELECT 1 FROM auth.users 
-      WHERE auth.users.id = auth.uid() 
+      WHERE auth.users.id = (select auth.uid()) 
       AND auth.users.raw_user_meta_data->>'role' = 'admin'
     )
   );

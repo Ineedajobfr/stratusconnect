@@ -149,49 +149,49 @@ ALTER TABLE public.stripe_webhook_events ENABLE ROW LEVEL SECURITY;
 
 -- Users policies
 CREATE POLICY "Users can view own profile" ON public.users
-  FOR SELECT USING (auth.uid() = id);
+  FOR SELECT USING ((select auth.uid()) = id);
 
 CREATE POLICY "Users can update own profile" ON public.users
-  FOR UPDATE USING (auth.uid() = id);
+  FOR UPDATE USING ((select auth.uid()) = id);
 
 CREATE POLICY "Admins can view all users" ON public.users
   FOR SELECT USING (
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin')
+    EXISTS (SELECT 1 FROM public.users WHERE id = (select auth.uid()) AND role = 'admin')
   );
 
 -- Deals policies
 CREATE POLICY "Users can view deals they're involved in" ON public.deals
   FOR SELECT USING (
-    auth.uid() = broker_id OR 
-    auth.uid() = operator_id OR
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin')
+    (select auth.uid()) = broker_id OR 
+    (select auth.uid()) = operator_id OR
+    EXISTS (SELECT 1 FROM public.users WHERE id = (select auth.uid()) AND role = 'admin')
   );
 
 CREATE POLICY "Brokers can create deals" ON public.deals
   FOR INSERT WITH CHECK (
-    auth.uid() = broker_id AND
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'broker')
+    (select auth.uid()) = broker_id AND
+    EXISTS (SELECT 1 FROM public.users WHERE id = (select auth.uid()) AND role = 'broker')
   );
 
 CREATE POLICY "Operators can update deals they're involved in" ON public.deals
   FOR UPDATE USING (
-    auth.uid() = operator_id OR
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin')
+    (select auth.uid()) = operator_id OR
+    EXISTS (SELECT 1 FROM public.users WHERE id = (select auth.uid()) AND role = 'admin')
   );
 
 -- Hires policies
 CREATE POLICY "Users can view hires they're involved in" ON public.hires
   FOR SELECT USING (
-    auth.uid() = operator_id OR 
-    auth.uid() = pilot_id OR 
-    auth.uid() = crew_id OR
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin')
+    (select auth.uid()) = operator_id OR 
+    (select auth.uid()) = pilot_id OR 
+    (select auth.uid()) = crew_id OR
+    EXISTS (SELECT 1 FROM public.users WHERE id = (select auth.uid()) AND role = 'admin')
   );
 
 CREATE POLICY "Operators can create hires" ON public.hires
   FOR INSERT WITH CHECK (
-    auth.uid() = operator_id AND
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'operator')
+    (select auth.uid()) = operator_id AND
+    EXISTS (SELECT 1 FROM public.users WHERE id = (select auth.uid()) AND role = 'operator')
   );
 
 -- Payments policies
@@ -199,53 +199,53 @@ CREATE POLICY "Users can view payments for their deals/hires" ON public.payments
   FOR SELECT USING (
     EXISTS (
       SELECT 1 FROM public.deals d 
-      WHERE d.id = deal_id AND (d.broker_id = auth.uid() OR d.operator_id = auth.uid())
+      WHERE d.id = deal_id AND (d.broker_id = (select auth.uid()) OR d.operator_id = (select auth.uid()))
     ) OR
     EXISTS (
       SELECT 1 FROM public.hires h 
-      WHERE h.id = hire_id AND (h.operator_id = auth.uid() OR h.pilot_id = auth.uid() OR h.crew_id = auth.uid())
+      WHERE h.id = hire_id AND (h.operator_id = (select auth.uid()) OR h.pilot_id = (select auth.uid()) OR h.crew_id = (select auth.uid()))
     ) OR
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin')
+    EXISTS (SELECT 1 FROM public.users WHERE id = (select auth.uid()) AND role = 'admin')
   );
 
 -- Credentials policies
 CREATE POLICY "Users can view own credentials" ON public.credentials
-  FOR SELECT USING (auth.uid() = user_id);
+  FOR SELECT USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "Users can manage own credentials" ON public.credentials
-  FOR ALL USING (auth.uid() = user_id);
+  FOR ALL USING ((select auth.uid()) = user_id);
 
 -- Sanctions results policies
 CREATE POLICY "Users can view own sanctions results" ON public.sanctions_results
-  FOR SELECT USING (auth.uid() = user_id);
+  FOR SELECT USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "Admins can view all sanctions results" ON public.sanctions_results
   FOR SELECT USING (
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin')
+    EXISTS (SELECT 1 FROM public.users WHERE id = (select auth.uid()) AND role = 'admin')
   );
 
 -- Audit log policies (read-only for users, full access for admins)
 CREATE POLICY "Users can view own audit log" ON public.audit_log
-  FOR SELECT USING (auth.uid() = actor_id);
+  FOR SELECT USING ((select auth.uid()) = actor_id);
 
 CREATE POLICY "Admins can view all audit log" ON public.audit_log
   FOR SELECT USING (
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin')
+    EXISTS (SELECT 1 FROM public.users WHERE id = (select auth.uid()) AND role = 'admin')
   );
 
 -- DSAR requests policies
 CREATE POLICY "Users can manage own DSAR requests" ON public.dsar_requests
-  FOR ALL USING (auth.uid() = user_id);
+  FOR ALL USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "Admins can view all DSAR requests" ON public.dsar_requests
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin')
+    EXISTS (SELECT 1 FROM public.users WHERE id = (select auth.uid()) AND role = 'admin')
   );
 
 -- Stripe webhook events policies (admin only)
 CREATE POLICY "Admins can manage webhook events" ON public.stripe_webhook_events
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role = 'admin')
+    EXISTS (SELECT 1 FROM public.users WHERE id = (select auth.uid()) AND role = 'admin')
   );
 
 -- Indexes for performance

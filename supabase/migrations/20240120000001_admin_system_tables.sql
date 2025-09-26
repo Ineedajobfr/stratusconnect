@@ -147,7 +147,7 @@ CREATE POLICY "Admin access to commission_rules" ON commission_rules
     FOR ALL USING (
         EXISTS (
             SELECT 1 FROM profiles 
-            WHERE profiles.id = auth.uid() 
+            WHERE profiles.id = (select auth.uid()) 
             AND profiles.role = 'admin'
         )
     );
@@ -156,7 +156,7 @@ CREATE POLICY "Admin access to security_events" ON security_events
     FOR ALL USING (
         EXISTS (
             SELECT 1 FROM profiles 
-            WHERE profiles.id = auth.uid() 
+            WHERE profiles.id = (select auth.uid()) 
             AND profiles.role = 'admin'
         )
     );
@@ -165,7 +165,7 @@ CREATE POLICY "Admin access to system_settings" ON system_settings
     FOR ALL USING (
         EXISTS (
             SELECT 1 FROM profiles 
-            WHERE profiles.id = auth.uid() 
+            WHERE profiles.id = (select auth.uid()) 
             AND profiles.role = 'admin'
         )
     );
@@ -174,7 +174,7 @@ CREATE POLICY "Admin access to deals" ON deals
     FOR ALL USING (
         EXISTS (
             SELECT 1 FROM profiles 
-            WHERE profiles.id = auth.uid() 
+            WHERE profiles.id = (select auth.uid()) 
             AND profiles.role = 'admin'
         )
     );
@@ -183,7 +183,7 @@ CREATE POLICY "Admin access to kyc_documents" ON kyc_documents
     FOR ALL USING (
         EXISTS (
             SELECT 1 FROM profiles 
-            WHERE profiles.id = auth.uid() 
+            WHERE profiles.id = (select auth.uid()) 
             AND profiles.role = 'admin'
         )
     );
@@ -192,22 +192,22 @@ CREATE POLICY "Admin access to sanctions_entities" ON sanctions_entities
     FOR ALL USING (
         EXISTS (
             SELECT 1 FROM profiles 
-            WHERE profiles.id = auth.uid() 
+            WHERE profiles.id = (select auth.uid()) 
             AND profiles.role = 'admin'
         )
     );
 
 -- Users can view their own KYC documents
 CREATE POLICY "Users can view own kyc_documents" ON kyc_documents
-    FOR SELECT USING (user_id = auth.uid());
+    FOR SELECT USING (user_id = (select auth.uid()));
 
 -- Users can view their own deals
 CREATE POLICY "Users can view own deals" ON deals
     FOR SELECT USING (
-        broker_id = auth.uid() OR 
-        operator_id = auth.uid() OR 
-        pilot_id = auth.uid() OR 
-        crew_id = auth.uid()
+        broker_id = (select auth.uid()) OR 
+        operator_id = (select auth.uid()) OR 
+        pilot_id = (select auth.uid()) OR 
+        crew_id = (select auth.uid())
     );
 
 -- Insert default commission rules

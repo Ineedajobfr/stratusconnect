@@ -10,6 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Plus, Upload, X, Calendar, Users, Package, Clock, FileText } from 'lucide-react';
+import { rfqService } from '@/lib/rfq-service';
 
 export interface RFQLeg {
   id: string;
@@ -139,12 +140,40 @@ export function MultiLegRFQ() {
     }));
   };
 
-  const publishRFQ = () => {
-    setRfq(prev => ({
-      ...prev,
-      status: 'published'
-    }));
-    console.log('RFQ Published:', rfq);
+  const publishRFQ = async () => {
+    try {
+      // Calculate pricing breakdown
+      const pricing = await rfqService.calculatePricing(
+        rfq.legs, 
+        'Gulfstream G650', // Default aircraft for now
+        rfq.totalPassengers
+      );
+      
+      // Update RFQ with pricing
+      const updatedRfq = {
+        ...rfq,
+        totalValue: pricing.total,
+        currency: pricing.currency
+      };
+      
+      // Save to database
+      const savedRfq = await rfqService.createRFQ(updatedRfq);
+      
+      // Publish to operators
+      await rfqService.publishRFQ(savedRfq.id);
+      
+      setRfq(prev => ({
+        ...prev,
+        status: 'published',
+        id: savedRfq.id,
+        totalValue: pricing.total,
+        currency: pricing.currency
+      }));
+      
+      console.log('RFQ Published:', savedRfq);
+    } catch (error) {
+      console.error('Error publishing RFQ:', error);
+    }
   };
 
   return (

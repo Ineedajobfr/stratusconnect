@@ -102,7 +102,7 @@ interface ContractGeneratorProps {
   onClose: () => void;
 }
 
-export default function ContractGenerator({ dealId, onClose }: ContractGeneratorProps) {
+const ContractGenerator = React.memo(function ContractGenerator({ dealId, onClose }: ContractGeneratorProps) {
   const { user } = useAuth();
   const [templates, setTemplates] = useState<ContractTemplate[]>([]);
   const [deal, setDeal] = useState<Deal | null>(null);
@@ -615,4 +615,6 @@ export default function ContractGenerator({ dealId, onClose }: ContractGenerator
       </Tabs>
     </div>
   );
-}
+});
+
+export default ContractGenerator;

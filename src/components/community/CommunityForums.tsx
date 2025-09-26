@@ -73,7 +73,7 @@ interface CommunityForumsProps {
   userRole: 'pilot' | 'crew' | 'broker' | 'operator';
 }
 
-export default function CommunityForums({ userRole }: CommunityForumsProps) {
+const CommunityForums = React.memo(function CommunityForums({ userRole }: CommunityForumsProps) {
   const { user } = useAuth();
   const [forums, setForums] = useState<Forum[]>([]);
   const [posts, setPosts] = useState<ForumPost[]>([]);
@@ -594,4 +594,6 @@ export default function CommunityForums({ userRole }: CommunityForumsProps) {
       </Tabs>
     </div>
   );
-}
+});
+
+export default CommunityForums;

@@ -45,7 +45,8 @@ import {
   ArrowUp,
   Menu,
   RefreshCw,
-  Receipt
+  Receipt,
+  Briefcase
 } from 'lucide-react';
 import { WeekOneScoreboard } from '@/components/WeekOneScoreboard';
 import { MultiLegRFQ } from '@/components/DealFlow/MultiLegRFQ';
@@ -285,6 +286,131 @@ export default function DemoBrokerTerminal() {
       passengers: 8,
       specialRequirements: 'VIP terminal access, customs pre-clearance',
       quotes: []
+    },
+    {
+      id: 'RFQ-006',
+      route: 'Dubai - Mumbai - Singapore',
+      aircraft: 'Bombardier Challenger 350',
+      date: '2025-10-10',
+      price: 95000,
+      currency: 'USD',
+      status: 'pending',
+      legs: 2,
+      passengers: 8,
+      specialRequirements: 'Multi-leg itinerary, cargo space for luxury goods',
+      quotes: []
+    },
+    {
+      id: 'RFQ-007',
+      route: 'New York - London - Paris - Rome',
+      aircraft: 'Airbus ACJ320neo',
+      date: '2025-10-12',
+      price: 280000,
+      currency: 'USD',
+      status: 'quoted',
+      legs: 3,
+      passengers: 18,
+      specialRequirements: 'European tour, diplomatic clearance, conference facilities',
+      quotes: [
+        {
+          id: 'Q-008',
+          operator: 'European Executive',
+          price: 280000,
+          currency: 'USD',
+          validUntil: '2025-10-10T14:00:00Z',
+          aircraft: 'Airbus ACJ320neo',
+          verified: true,
+          rating: 4.8,
+          responseTime: 3.5,
+          dealScore: 91,
+          fees: {
+            basePrice: 250000,
+            fuelSurcharge: 20000,
+            handling: 5000,
+            catering: 5000,
+            total: 280000
+          }
+        }
+      ]
+    },
+    {
+      id: 'RFQ-008',
+      route: 'São Paulo - Buenos Aires',
+      aircraft: 'Embraer Legacy 650E',
+      date: '2025-10-15',
+      price: 55000,
+      currency: 'USD',
+      status: 'quoted',
+      legs: 1,
+      passengers: 12,
+      specialRequirements: 'Bilingual crew, South American customs expertise',
+      quotes: [
+        {
+          id: 'Q-009',
+          operator: 'Latam Executive',
+          price: 55000,
+          currency: 'USD',
+          validUntil: '2025-10-13T16:30:00Z',
+          aircraft: 'Embraer Legacy 650E',
+          verified: true,
+          rating: 4.7,
+          responseTime: 2.2,
+          dealScore: 88,
+          fees: {
+            basePrice: 50000,
+            fuelSurcharge: 3000,
+            handling: 1500,
+            catering: 500,
+            total: 55000
+          }
+        }
+      ]
+    },
+    {
+      id: 'RFQ-009',
+      route: 'Hong Kong - Sydney',
+      aircraft: 'Bombardier Global 7500',
+      date: '2025-10-18',
+      price: 165000,
+      currency: 'USD',
+      status: 'pending',
+      legs: 1,
+      passengers: 14,
+      specialRequirements: 'Extended range, medical equipment, quarantine protocols',
+      quotes: []
+    },
+    {
+      id: 'RFQ-010',
+      route: 'Moscow - Istanbul - Dubai',
+      aircraft: 'Gulfstream G550',
+      date: '2025-10-20',
+      price: 120000,
+      currency: 'USD',
+      status: 'quoted',
+      legs: 2,
+      passengers: 10,
+      specialRequirements: 'Multi-leg business trip, security detail, cargo space',
+      quotes: [
+        {
+          id: 'Q-010',
+          operator: 'Eurasian Aviation',
+          price: 120000,
+          currency: 'USD',
+          validUntil: '2025-10-18T12:00:00Z',
+          aircraft: 'Gulfstream G550',
+          verified: true,
+          rating: 4.6,
+          responseTime: 4.1,
+          dealScore: 83,
+          fees: {
+            basePrice: 110000,
+            fuelSurcharge: 7000,
+            handling: 2000,
+            catering: 1000,
+            total: 120000
+          }
+        }
+      ]
     }
   ]);
 

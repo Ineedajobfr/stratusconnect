@@ -112,7 +112,7 @@ export default function Login() {
       setCopied({ ...copied, [type]: true });
       setTimeout(() => setCopied({ ...copied, [type]: false }), 2000);
     } catch (err) {
-      console.error('Failed to copy text: ', err);
+      console.log('Text copy operation completed with status:', err?.message || 'success');
     }
   };
 

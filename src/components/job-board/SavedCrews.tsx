@@ -65,7 +65,7 @@ interface SavedCrewsProps {
   brokerId: string;
 }
 
-export default function SavedCrews({ brokerId }: SavedCrewsProps) {
+const SavedCrews = React.memo(function SavedCrews({ brokerId }: SavedCrewsProps) {
   const { user } = useAuth();
   const [savedCrews, setSavedCrews] = useState<SavedCrew[]>([]);
   const [filteredCrews, setFilteredCrews] = useState<SavedCrew[]>([]);
@@ -506,4 +506,6 @@ export default function SavedCrews({ brokerId }: SavedCrewsProps) {
       </div>
     </div>
   );
-}
+});
+
+export default SavedCrews;

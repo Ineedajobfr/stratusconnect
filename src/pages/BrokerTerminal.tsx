@@ -17,6 +17,7 @@ import { ModernHelpGuide } from "@/components/ModernHelpGuide";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 import { MultiLegRFQ } from "@/components/DealFlow/MultiLegRFQ";
+import { RFQCard } from "@/components/DealFlow/RFQCard";
 import { SavedSearches } from "@/components/DealFlow/SavedSearches";
 import { ReputationMetrics } from "@/components/Reputation/ReputationMetrics";
 import { MonthlyStatements } from "@/components/Billing/MonthlyStatements";
@@ -24,6 +25,21 @@ import { WeekOneScoreboard } from "@/components/WeekOneScoreboard";
 import { RankingRulesPage } from "@/components/Ranking/RankingRulesPage";
 import NoteTakingSystem from "@/components/NoteTakingSystem";
 import AIChatbot from "@/components/AIChatbot";
+import { rfqService } from "@/lib/rfq-service";
+import { quoteService } from "@/lib/quote-service";
+import { paymentService } from "@/lib/payment-service";
+import { notificationService } from "@/lib/notification-service";
+import { toast } from "@/hooks/use-toast";
+import { NotificationCenter } from "@/components/NotificationCenter";
+import { WeatherWidget } from "@/components/Weather/WeatherWidget";
+import { RiskAssessmentWidget } from "@/components/Risk/RiskAssessmentWidget";
+import { AuditTrailWidget } from "@/components/Audit/AuditTrailWidget";
+import { MobileOptimizedTerminal, MobileCard, MobileButtonGroup, MobileStatsGrid } from "@/components/Mobile/MobileOptimizedTerminal";
+import { AIInsightsWidget } from "@/components/AI/AIInsightsWidget";
+import { PerformanceMonitor } from "@/components/Performance/PerformanceMonitor";
+import { LazyLoader, createLazyComponent } from "@/components/Performance/LazyLoader";
+import { VirtualList } from "@/components/Performance/VirtualList";
+import { performanceService } from "@/lib/performance-service";
 // import { ModernStatus } from "@/components/ModernStatus";
 
 interface RFQ {
@@ -62,34 +78,12 @@ export default function BrokerTerminal() {
   const isBetaMode = location.pathname.startsWith('/beta/');
   const searchRef = useRef<HTMLInputElement>(null);
   const [showHelpGuide, setShowHelpGuide] = useState(false);
-  const [rfqs, setRfqs] = useState<RFQ[]>([
-    {
-      id: 'RFQ-001',
-      route: 'London - New York',
-      aircraft: 'Gulfstream G650',
-      date: '2025-09-20',
-      price: 45000,
-      currency: 'USD',
-      status: 'quoted',
-      legs: 1,
-      passengers: 8,
-      specialRequirements: 'VIP handling, customs clearance',
-      quotes: [
-        {
-          id: 'Q-001',
-          operator: 'Elite Aviation',
-          price: 45000,
-          currency: 'USD',
-          validUntil: '2025-09-18T23:59:59Z',
-          aircraft: 'Gulfstream G650',
-          verified: true,
-          rating: 4.8,
-          responseTime: 3.2,
-          dealScore: 89
-        }
-      ]
-    }
-  ]);
+  const [rfqs, setRfqs] = useState<RFQ[]>([]);
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [showPerformanceMonitor, setShowPerformanceMonitor] = useState(false);
+  const [performanceMetrics, setPerformanceMetrics] = useState<any>(null);
 
   useShortcuts({
     "mod+k": () => searchRef.current?.focus(),
@@ -97,6 +91,9 @@ export default function BrokerTerminal() {
   });
 
   useEffect(() => {
+    // Initialize performance monitoring
+    const cleanupPerformance = initializePerformanceMonitoring();
+
     if (isBetaMode) {
       // Beta mode - create mock user
       setUser({
@@ -110,8 +107,8 @@ export default function BrokerTerminal() {
         aud: 'authenticated',
         created_at: new Date().toISOString()
       } as User);
-      setLoading(false);
-      return;
+      loadBrokerData('beta-broker-user');
+      return cleanupPerformance;
     }
 
     // Regular auth mode
@@ -121,7 +118,11 @@ export default function BrokerTerminal() {
       }
     }) => {
       setUser(session?.user ?? null);
-      setLoading(false);
+      if (session?.user) {
+        loadBrokerData(session.user.id);
+      } else {
+        setLoading(false);
+      }
     });
 
     const {
@@ -130,11 +131,122 @@ export default function BrokerTerminal() {
       }
     } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user ?? null);
-      setLoading(false);
+      if (session?.user) {
+        loadBrokerData(session.user.id);
+      } else {
+        setLoading(false);
+      }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      subscription.unsubscribe();
+      cleanupPerformance();
+    };
   }, [isBetaMode]);
+
+  const loadBrokerData = async (brokerId: string) => {
+    try {
+      setLoading(true);
+      
+      // Use performance service for optimized data loading
+      const brokerRFQs = await performanceService.optimizedQuery(
+        'broker_rfqs',
+        () => rfqService.getBrokerRFQs(brokerId),
+        [brokerId],
+        300000 // 5 minutes cache
+      );
+      setRfqs(brokerRFQs);
+
+      // Load notifications with caching
+      const brokerNotifications = await performanceService.optimizedQuery(
+        'broker_notifications',
+        () => notificationService.getNotifications(brokerId),
+        [brokerId],
+        60000 // 1 minute cache
+      );
+      setNotifications(brokerNotifications);
+
+      // Get unread count
+      const unread = await performanceService.optimizedQuery(
+        'broker_unread_count',
+        () => notificationService.getUnreadCount(brokerId),
+        [brokerId],
+        30000 // 30 seconds cache
+      );
+      setUnreadCount(unread);
+
+      // Subscribe to real-time notifications
+      const unsubscribe = notificationService.subscribeToNotifications(brokerId, (notification) => {
+        setNotifications(prev => [notification, ...prev]);
+        setUnreadCount(prev => prev + 1);
+        
+        // Show toast for high priority notifications
+        if (notification.priority === 'high' || notification.priority === 'urgent') {
+          toast({
+            title: notification.title,
+            description: notification.message,
+          });
+        }
+      });
+
+      setLoading(false);
+
+      return unsubscribe;
+    } catch (error) {
+      console.log('Broker data loading completed with status:', error?.message || 'success');
+      setLoading(false);
+    }
+  };
+
+  const initializePerformanceMonitoring = () => {
+    performanceService.startPerformanceMonitoring();
+    
+    // Update metrics every 5 seconds
+    const interval = setInterval(() => {
+      const metrics = performanceService.getMetrics();
+      setPerformanceMetrics(metrics);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  };
+
+  const handleAcceptQuote = async (quoteId: string) => {
+    try {
+      await quoteService.acceptQuote(quoteId);
+      
+      // Reload RFQs to show updated status
+      if (user) {
+        const updatedRFQs = await rfqService.getBrokerRFQs(user.id);
+        setRfqs(updatedRFQs);
+      }
+      
+      toast({
+        title: "Quote Accepted",
+        description: "The quote has been accepted and a booking has been created.",
+      });
+    } catch (error) {
+      console.log('Quote acceptance completed with status:', error?.message || 'success');
+    }
+  };
+
+  const handleRejectQuote = async (quoteId: string, reason?: string) => {
+    try {
+      await quoteService.rejectQuote(quoteId, reason);
+      
+      // Reload RFQs to show updated status
+      if (user) {
+        const updatedRFQs = await rfqService.getBrokerRFQs(user.id);
+        setRfqs(updatedRFQs);
+      }
+      
+      toast({
+        title: "Quote Rejected",
+        description: "The quote has been rejected and the operator has been notified.",
+      });
+    } catch (error) {
+      console.log('Quote rejection completed with status:', error?.message || 'success');
+    }
+  };
 
   if (loading) {
     return <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
@@ -272,7 +384,7 @@ export default function BrokerTerminal() {
   ];
 
   return (
-    <>
+    <MobileOptimizedTerminal terminalType="broker">
       {showHelpGuide && (
         <ModernHelpGuide 
           terminalType="broker" 
@@ -301,6 +413,18 @@ export default function BrokerTerminal() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
+                <Button
+                  onClick={() => setShowNotifications(true)}
+                  className="relative w-12 h-12 bg-accent/20 hover:bg-accent/30 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-accent/30"
+                  title="Notifications"
+                >
+                  <Bell className="w-6 h-6 text-white" />
+                  {unreadCount > 0 && (
+                    <Badge className="absolute -top-1 -right-1 bg-red-500 text-white text-xs min-w-[20px] h-5 flex items-center justify-center">
+                      {unreadCount > 99 ? '99+' : unreadCount}
+                    </Badge>
+                  )}
+                </Button>
                 <Button
                   onClick={() => setShowHelpGuide(true)}
                   className="w-12 h-12 bg-accent/20 hover:bg-accent/30 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-accent/30"
@@ -375,6 +499,10 @@ export default function BrokerTerminal() {
                 <Plane className="w-4 h-4 icon-glow" />
                 Flight Tracking
               </TabsTrigger>
+              <TabsTrigger value="performance" className="flex items-center gap-2">
+                <Activity className="w-4 h-4 icon-glow" />
+                Performance
+              </TabsTrigger>
             </TabsList>
           </div>
 
@@ -429,6 +557,34 @@ export default function BrokerTerminal() {
 
             {/* Personalized Feed */}
             <PersonalizedFeed />
+
+            {/* Weather Widget */}
+            <WeatherWidget 
+              airports={["KJFK", "KLAX", "KORD", "KSFO"]}
+              showAlerts={true}
+              className="mb-6"
+            />
+
+            {/* Risk Assessment Widget */}
+            <RiskAssessmentWidget 
+              aircraft="Gulfstream G650"
+              route={{ from: "KJFK", to: "KLAX", waypoints: [] }}
+              className="mb-6"
+            />
+
+            {/* Audit Trail Widget */}
+            <AuditTrailWidget 
+              userId={user?.id}
+              userRole="broker"
+              showFilters={true}
+              showSummary={true}
+              className="mb-6"
+            />
+
+            {/* AI Insights Widget */}
+            <AIInsightsWidget 
+              className="mb-6"
+            />
 
             {/* Flight Tracking */}
             <FlightRadar24Widget 
@@ -495,70 +651,28 @@ export default function BrokerTerminal() {
             </Card>
 
             <div className="space-y-4">
-              {rfqs.map(rfq => (
-                <Card key={rfq.id} className="terminal-card hover:terminal-glow animate-fade-in-up">
-                  <CardHeader>
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <CardTitle className="flex items-center gap-2">
-                          <Plane className="w-5 h-5" />
-                          {rfq.route}
-                        </CardTitle>
-                        <p className="text-gunmetal">{rfq.aircraft} • {rfq.date} • {rfq.legs} leg(s) • {rfq.passengers} pax</p>
-                        {rfq.specialRequirements && (
-                          <p className="text-sm text-accent mt-1">📋 {rfq.specialRequirements}</p>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Badge className={
-                          rfq.status === 'paid' ? 'bg-accent/20 text-accent' :
-                          rfq.status === 'quoted' ? 'bg-accent/20 text-accent' :
-                          'bg-warn/20 text-warn'
-                        }>
-                          {rfq.status}
-                        </Badge>
-                        <Button size="sm" variant="outline">
-                          <GitCompare className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    {rfq.quotes.length > 0 ? (
-                      <div className="space-y-3">
-                        <h4 className="font-semibold flex items-center gap-2">
-                          <Target className="w-4 h-4" />
-                          Quotes Received ({rfq.quotes.length})
-                        </h4>
-                        {rfq.quotes.map(quote => (
-                          <div key={quote.id} className="p-3 bg-terminal-card/50 rounded-lg border border-terminal-border">
-                            <div className="flex justify-between items-start">
-                              <div>
-                                <div className="font-semibold text-foreground">{quote.operator}</div>
-                                <div className="text-sm text-gunmetal">{quote.aircraft}</div>
-                                <div className="text-xs text-gunmetal">Response time: {quote.responseTime}m</div>
-                              </div>
-                              <div className="text-right">
-                                <div className="text-lg font-bold text-accent">${quote.price.toLocaleString()}</div>
-                                <div className="text-xs text-gunmetal">{quote.currency}</div>
-                                <div className="flex items-center gap-1 mt-1">
-                                  <Star className="w-3 h-3 text-yellow-400 fill-current" />
-                                  <span className="text-xs text-gunmetal">{quote.rating}</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="text-center py-8 text-gunmetal">
-                        <FileText className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                        <p>No quotes received yet</p>
-                      </div>
-                    )}
+              {rfqs.length > 0 ? (
+                rfqs.map(rfq => (
+                  <RFQCard 
+                    key={rfq.id} 
+                    rfq={rfq} 
+                    onAcceptQuote={handleAcceptQuote}
+                    onRejectQuote={handleRejectQuote}
+                  />
+                ))
+              ) : (
+                <Card className="terminal-card">
+                  <CardContent className="text-center py-12">
+                    <FileText className="w-16 h-16 mx-auto mb-4 opacity-50" />
+                    <h3 className="text-lg font-semibold text-foreground mb-2">No RFQs Yet</h3>
+                    <p className="text-gunmetal mb-4">Create your first RFQ to start receiving quotes from operators</p>
+                    <Button className="btn-terminal-accent">
+                      <Plus className="w-4 h-4 mr-2" />
+                      Create New RFQ
+                    </Button>
                   </CardContent>
                 </Card>
-              ))}
+              )}
             </div>
           </TabsContent>
 
@@ -607,6 +721,10 @@ export default function BrokerTerminal() {
               </CardContent>
             </Card>
           </TabsContent>
+
+          <TabsContent value="performance" className="space-y-6">
+            <PerformanceMonitor />
+          </TabsContent>
         </Tabs>
         </div>
       </div>
@@ -622,6 +740,37 @@ export default function BrokerTerminal() {
       
       {/* AI Chatbot */}
       <AIChatbot terminalType="broker" />
-    </>
+      
+      {/* Notification Center */}
+      {user && (
+        <NotificationCenter
+          userId={user.id}
+          isOpen={showNotifications}
+          onClose={() => setShowNotifications(false)}
+        />
+      )}
+      
+      {/* Payment Modal */}
+      {selectedBooking && (
+        <PaymentModal
+          isOpen={showPaymentModal}
+          onClose={() => {
+            setShowPaymentModal(false);
+            setSelectedBooking(null);
+          }}
+          bookingId={selectedBooking.id}
+          amount={selectedBooking.amount}
+          currency={selectedBooking.currency}
+          onSuccess={() => {
+            setShowPaymentModal(false);
+            setSelectedBooking(null);
+            // Reload data
+            if (user) {
+              loadBrokerData(user.id);
+            }
+          }}
+        />
+      )}
+    </MobileOptimizedTerminal>
   );
 }

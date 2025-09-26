@@ -6,6 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
 import { formatDistanceToNow, format } from 'date-fns';
+import { EscrowWorkflow, Deal, EscrowTransaction } from '@/lib/real-workflows/escrow-workflow';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface EscrowTransaction {
   id: string;

@@ -7,6 +7,8 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { formatDistanceToNow, format } from 'date-fns';
+import { RFQWorkflow, RFQData } from '@/lib/real-workflows/rfq-workflow';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface RFQ {
   id: string;
@@ -47,55 +49,31 @@ const statusLabels = {
 };
 
 export const RFQManager: React.FC = () => {
-  const [rfqs, setRfqs] = useState<RFQ[]>([]);
+  const { user } = useAuth();
+  const [rfqs, setRfqs] = useState<RFQData[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [selectedRFQ, setSelectedRFQ] = useState<RFQ | null>(null);
+  const [selectedRFQ, setSelectedRFQ] = useState<RFQData | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // Mock data - replace with actual API calls
+  // Load RFQs from real workflow
   useEffect(() => {
-    const mockRFQs: RFQ[] = [
-      {
-        id: '1',
-        status: 'quoting',
-        legs: [
-          {
-            origin: 'KJFK',
-            destination: 'KLAX',
-            departure_date: '2024-12-15',
-            departure_time: '14:00',
-            arrival_date: '2024-12-15',
-            arrival_time: '17:30',
-          }
-        ],
-        pax_count: 8,
-        notes: 'Corporate trip for executive team',
-        created_at: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
-        updated_at: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
-        quote_count: 3,
-      },
-      {
-        id: '2',
-        status: 'booked',
-        legs: [
-          {
-            origin: 'KMIA',
-            destination: 'MYNN',
-            departure_date: '2024-12-10',
-            departure_time: '10:00',
-            arrival_date: '2024-12-10',
-            arrival_time: '11:30',
-          }
-        ],
-        pax_count: 4,
-        notes: 'Weekend getaway to Bahamas',
-        created_at: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
-        updated_at: new Date(Date.now() - 1000 * 60 * 60 * 4).toISOString(),
-        quote_count: 5,
-      },
-      {
-        id: '3',
-        status: 'draft',
+    const loadRFQs = async () => {
+      if (!user?.id) return;
+      
+      try {
+        setLoading(true);
+        const data = await RFQWorkflow.getBrokerRFQs(user.id);
+        setRfqs(data);
+      } catch (error) {
+        console.error('Error loading RFQs:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadRFQs();
+  }, [user?.id]);,
         legs: [
           {
             origin: 'KORD',

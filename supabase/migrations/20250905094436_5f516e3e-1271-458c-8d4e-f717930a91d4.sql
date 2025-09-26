@@ -1,6 +1,6 @@
 -- Fix missing RLS policies for psych_share_tokens table
 CREATE POLICY "users can manage their own share tokens" ON public.psych_share_tokens 
-FOR ALL USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
+FOR ALL USING ((select auth.uid()) = user_id) WITH CHECK ((select auth.uid()) = user_id);
 
 -- Add trigger for updated_at on user_reviews
 CREATE OR REPLACE FUNCTION public.update_user_reviews_updated_at()

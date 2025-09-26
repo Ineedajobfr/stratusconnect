@@ -19,11 +19,11 @@ ALTER TABLE public.strikes ENABLE ROW LEVEL SECURITY;
 -- Create policies
 CREATE POLICY "Admin can manage strikes" ON public.strikes
 FOR ALL USING (EXISTS (
-  SELECT 1 FROM profiles WHERE user_id = auth.uid() AND role = 'admin'
+  SELECT 1 FROM profiles WHERE user_id = (select auth.uid()) AND role = 'admin'
 ));
 
 CREATE POLICY "Users can view their own strikes" ON public.strikes
-FOR SELECT USING (user_id = auth.uid());
+FOR SELECT USING (user_id = (select auth.uid()));
 
 -- Create commission_settings table
 CREATE TABLE public.commission_settings (
@@ -44,7 +44,7 @@ FOR SELECT USING (true);
 
 CREATE POLICY "Admin can manage commission settings" ON public.commission_settings
 FOR ALL USING (EXISTS (
-  SELECT 1 FROM profiles WHERE user_id = auth.uid() AND role = 'admin'
+  SELECT 1 FROM profiles WHERE user_id = (select auth.uid()) AND role = 'admin'
 ));
 
 -- Insert default commission settings
@@ -73,7 +73,7 @@ ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
 -- Create policies
 CREATE POLICY "Admin can view all audit logs" ON public.audit_logs
 FOR SELECT USING (EXISTS (
-  SELECT 1 FROM profiles WHERE user_id = auth.uid() AND role = 'admin'
+  SELECT 1 FROM profiles WHERE user_id = (select auth.uid()) AND role = 'admin'
 ));
 
 CREATE POLICY "System can insert audit logs" ON public.audit_logs

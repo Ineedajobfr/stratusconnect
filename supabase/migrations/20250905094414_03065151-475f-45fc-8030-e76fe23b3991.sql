@@ -23,7 +23,7 @@ ALTER TABLE public.user_reviews ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Users can create reviews for completed transactions"
 ON public.user_reviews FOR INSERT
 WITH CHECK (
-  auth.uid() = reviewer_id AND
+  (select auth.uid()) = reviewer_id AND
   (
     (deal_id IS NOT NULL AND EXISTS (
       SELECT 1 FROM deals d 
@@ -48,7 +48,7 @@ USING (true);
 
 CREATE POLICY "Reviewers can update their own reviews"
 ON public.user_reviews FOR UPDATE
-USING (auth.uid() = reviewer_id);
+USING ((select auth.uid()) = reviewer_id);
 
 -- ============ PSYCHOMETRIC TEST SYSTEM ============
 -- Extensions
@@ -166,14 +166,14 @@ CREATE POLICY "items read" ON public.psych_items FOR SELECT USING (true);
 CREATE POLICY "norms read" ON public.psych_norms FOR SELECT USING (true);
 
 -- Sessions and responses: owner only
-CREATE POLICY "sessions insert self" ON public.psych_sessions FOR INSERT WITH CHECK (auth.uid() = user_id);
-CREATE POLICY "sessions read self" ON public.psych_sessions FOR SELECT USING (auth.uid() = user_id);
-CREATE POLICY "sessions update self" ON public.psych_sessions FOR UPDATE USING (auth.uid() = user_id);
+CREATE POLICY "sessions insert self" ON public.psych_sessions FOR INSERT WITH CHECK ((select auth.uid()) = user_id);
+CREATE POLICY "sessions read self" ON public.psych_sessions FOR SELECT USING ((select auth.uid()) = user_id);
+CREATE POLICY "sessions update self" ON public.psych_sessions FOR UPDATE USING ((select auth.uid()) = user_id);
 
-CREATE POLICY "responses insert self" ON public.psych_responses FOR INSERT WITH CHECK (auth.uid() = user_id);
-CREATE POLICY "responses read self" ON public.psych_responses FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "responses insert self" ON public.psych_responses FOR INSERT WITH CHECK ((select auth.uid()) = user_id);
+CREATE POLICY "responses read self" ON public.psych_responses FOR SELECT USING ((select auth.uid()) = user_id);
 
-CREATE POLICY "scores read self" ON public.psych_scores FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "scores read self" ON public.psych_scores FOR SELECT USING ((select auth.uid()) = user_id);
 CREATE POLICY "scores read shared" ON public.psych_scores FOR SELECT USING (
   user_id IN (
     SELECT pc.user_id FROM psych_consent pc WHERE pc.share_profile = true
@@ -181,9 +181,9 @@ CREATE POLICY "scores read shared" ON public.psych_scores FOR SELECT USING (
 );
 
 -- Consent
-CREATE POLICY "consent self upsert" ON public.psych_consent FOR INSERT WITH CHECK (auth.uid() = user_id);
-CREATE POLICY "consent self update" ON public.psych_consent FOR UPDATE USING (auth.uid() = user_id);
-CREATE POLICY "consent self read" ON public.psych_consent FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "consent self upsert" ON public.psych_consent FOR INSERT WITH CHECK ((select auth.uid()) = user_id);
+CREATE POLICY "consent self update" ON public.psych_consent FOR UPDATE USING ((select auth.uid()) = user_id);
+CREATE POLICY "consent self read" ON public.psych_consent FOR SELECT USING ((select auth.uid()) = user_id);
 
 -- Insert seed test data
 INSERT INTO public.psych_tests(code, name, description, duration_min)

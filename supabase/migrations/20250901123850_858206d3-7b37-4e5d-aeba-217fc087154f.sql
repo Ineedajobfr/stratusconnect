@@ -26,7 +26,7 @@ FOR ALL
 USING (
   EXISTS (
     SELECT 1 FROM profiles 
-    WHERE profiles.user_id = auth.uid() 
+    WHERE profiles.user_id = (select auth.uid()) 
     AND profiles.role = 'admin'
   )
 );

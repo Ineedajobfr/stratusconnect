@@ -14,7 +14,7 @@ USING (availability_status = 'available');
 CREATE POLICY "Operators can view their own aircraft details"
 ON aircraft  
 FOR SELECT
-USING (auth.uid() = operator_id);
+USING ((select auth.uid()) = operator_id);
 
 -- 2. Fix Marketplace Listings - Remove public access to business operations data
 DROP POLICY IF EXISTS "Everyone can view active listings" ON marketplace_listings;
@@ -32,7 +32,7 @@ DROP POLICY IF EXISTS "Users can view their own profile" ON profiles;
 CREATE POLICY "Users can only view their own profile"
 ON profiles
 FOR SELECT
-USING (auth.uid() = user_id);
+USING ((select auth.uid()) = user_id);
 
 -- 4. Secure crew availability data - require authentication
 DROP POLICY IF EXISTS "Everyone can view crew availability" ON crew_availability;

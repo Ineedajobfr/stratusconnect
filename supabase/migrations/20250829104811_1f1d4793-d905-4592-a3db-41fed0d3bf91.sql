@@ -90,47 +90,47 @@ ALTER TABLE public.privacy_settings ENABLE ROW LEVEL SECURITY;
 -- RLS Policies for user_profiles
 CREATE POLICY "Public profiles are viewable by verified users" 
 ON public.user_profiles FOR SELECT 
-USING (EXISTS (SELECT 1 FROM profiles p WHERE p.user_id = auth.uid() AND p.verification_status = 'approved'));
+USING (EXISTS (SELECT 1 FROM profiles p WHERE p.user_id = (select auth.uid()) AND p.verification_status = 'approved'));
 
 CREATE POLICY "Users can update their own profile" 
 ON public.user_profiles FOR UPDATE 
-USING (auth.uid() = user_id);
+USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "Users can insert their own profile" 
 ON public.user_profiles FOR INSERT 
-WITH CHECK (auth.uid() = user_id);
+WITH CHECK ((select auth.uid()) = user_id);
 
 -- RLS Policies for experience
 CREATE POLICY "Users can manage their own experience" 
 ON public.experience FOR ALL 
-USING (auth.uid() = user_id);
+USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "Verified users can view experience" 
 ON public.experience FOR SELECT 
-USING (EXISTS (SELECT 1 FROM profiles p WHERE p.user_id = auth.uid() AND p.verification_status = 'approved'));
+USING (EXISTS (SELECT 1 FROM profiles p WHERE p.user_id = (select auth.uid()) AND p.verification_status = 'approved'));
 
 -- RLS Policies for credentials
 CREATE POLICY "Users can manage their own credentials" 
 ON public.credentials FOR ALL 
-USING (auth.uid() = user_id);
+USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "Level 2 counterparties can view masked credentials" 
 ON public.credentials FOR SELECT 
-USING (EXISTS (SELECT 1 FROM user_profiles up WHERE up.user_id = auth.uid() AND up.level >= 2));
+USING (EXISTS (SELECT 1 FROM user_profiles up WHERE up.user_id = (select auth.uid()) AND up.level >= 2));
 
 -- RLS Policies for references
 CREATE POLICY "Users can manage their own references" 
 ON public.references FOR ALL 
-USING (auth.uid() = user_id);
+USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "Verified users can view references" 
 ON public.references FOR SELECT 
-USING (EXISTS (SELECT 1 FROM profiles p WHERE p.user_id = auth.uid() AND p.verification_status = 'approved'));
+USING (EXISTS (SELECT 1 FROM profiles p WHERE p.user_id = (select auth.uid()) AND p.verification_status = 'approved'));
 
 -- RLS Policies for activity
 CREATE POLICY "Users can view their own activity" 
 ON public.activity FOR SELECT 
-USING (auth.uid() = user_id);
+USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "System can insert activity" 
 ON public.activity FOR INSERT 
@@ -139,12 +139,12 @@ WITH CHECK (true);
 CREATE POLICY "Public activity viewable by verified users" 
 ON public.activity FOR SELECT 
 USING (EXISTS (SELECT 1 FROM privacy_settings ps WHERE ps.user_id = activity.user_id AND ps.show_activity = true) 
-       AND EXISTS (SELECT 1 FROM profiles p WHERE p.user_id = auth.uid() AND p.verification_status = 'approved'));
+       AND EXISTS (SELECT 1 FROM profiles p WHERE p.user_id = (select auth.uid()) AND p.verification_status = 'approved'));
 
 -- RLS Policies for privacy_settings
 CREATE POLICY "Users can manage their own privacy settings" 
 ON public.privacy_settings FOR ALL 
-USING (auth.uid() = user_id);
+USING ((select auth.uid()) = user_id);
 
 -- Create updated_at trigger for profiles
 CREATE TRIGGER update_user_profiles_updated_at

@@ -9,7 +9,7 @@ DROP POLICY IF EXISTS "Users can view their own profile" ON public.profiles;
 CREATE POLICY "Users can view their own profile"
 ON public.profiles
 FOR SELECT
-USING (auth.uid() = user_id);
+USING ((select auth.uid()) = user_id);
 
 -- Keep existing INSERT/UPDATE policies as-is (assumed already present per schema)
 -- Optionally, force RLS to be applied strictly

@@ -56,4 +56,4 @@ ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
 CREATE POLICY IF NOT EXISTS "Users can view their own audit logs"
 ON public.audit_logs
 FOR SELECT
-USING (actor_id = auth.uid());
+USING (actor_id = (select auth.uid()));

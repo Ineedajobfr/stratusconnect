@@ -66,7 +66,7 @@ ON public.sanctions_lists
 FOR ALL 
 USING (EXISTS (
   SELECT 1 FROM profiles 
-  WHERE user_id = auth.uid() AND role = 'admin'
+  WHERE user_id = (select auth.uid()) AND role = 'admin'
 ));
 
 CREATE POLICY "Authenticated users can view sanctions lists" 
@@ -84,7 +84,7 @@ USING (true);
 CREATE POLICY "Users can view their own screenings" 
 ON public.sanctions_screenings 
 FOR SELECT 
-USING (auth.uid() = user_id);
+USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "System can create screenings" 
 ON public.sanctions_screenings 
@@ -96,14 +96,14 @@ ON public.sanctions_screenings
 FOR SELECT 
 USING (EXISTS (
   SELECT 1 FROM profiles 
-  WHERE user_id = auth.uid() AND role = 'admin'
+  WHERE user_id = (select auth.uid()) AND role = 'admin'
 ));
 
 -- Create policies for sanctions_matches
 CREATE POLICY "Users can view their own matches" 
 ON public.sanctions_matches 
 FOR SELECT 
-USING (auth.uid() IN (
+USING ((select auth.uid()) IN (
   SELECT user_id FROM sanctions_screenings 
   WHERE id = sanctions_matches.screening_id
 ));
@@ -118,7 +118,7 @@ ON public.sanctions_matches
 FOR ALL 
 USING (EXISTS (
   SELECT 1 FROM profiles 
-  WHERE user_id = auth.uid() AND role = 'admin'
+  WHERE user_id = (select auth.uid()) AND role = 'admin'
 ));
 
 -- Create indexes for performance

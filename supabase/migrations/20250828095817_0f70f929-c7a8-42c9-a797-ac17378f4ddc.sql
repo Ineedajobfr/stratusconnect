@@ -15,7 +15,7 @@ USING (
     SELECT 1 
     FROM hiring_requests hr
     WHERE hr.crew_id = crew_profiles.id
-    AND hr.broker_id = auth.uid()
+    AND hr.broker_id = (select auth.uid())
     AND hr.status IN ('pending', 'accepted', 'completed')
   )
 );
@@ -29,7 +29,7 @@ USING (
   EXISTS (
     SELECT 1
     FROM hiring_requests hr
-    INNER JOIN profiles p ON p.user_id = auth.uid()
+    INNER JOIN profiles p ON p.user_id = (select auth.uid())
     WHERE hr.crew_id = crew_profiles.id
     AND p.role = 'operator'
     AND hr.status IN ('pending', 'accepted', 'completed')
@@ -43,7 +43,7 @@ FOR SELECT
 USING (
   EXISTS (
     SELECT 1 FROM profiles p 
-    WHERE p.user_id = auth.uid() 
+    WHERE p.user_id = (select auth.uid()) 
     AND p.role = 'admin'
   )
 );

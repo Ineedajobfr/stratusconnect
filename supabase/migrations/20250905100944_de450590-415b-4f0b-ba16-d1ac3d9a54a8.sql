@@ -65,5 +65,5 @@ DO $$ BEGIN
   CREATE POLICY "Users can view their own audit logs"
   ON public.audit_logs
   FOR SELECT
-  USING (actor_id = auth.uid());
+  USING (actor_id = (select auth.uid()));
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;

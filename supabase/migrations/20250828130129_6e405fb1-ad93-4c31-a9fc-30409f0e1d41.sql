@@ -26,7 +26,7 @@ ON public.security_events
 FOR SELECT 
 USING (EXISTS (
   SELECT 1 FROM profiles 
-  WHERE profiles.user_id = auth.uid() 
+  WHERE profiles.user_id = (select auth.uid()) 
   AND profiles.role = 'admin'
 ));
 
@@ -42,7 +42,7 @@ ON public.security_events
 FOR UPDATE 
 USING (EXISTS (
   SELECT 1 FROM profiles 
-  WHERE profiles.user_id = auth.uid() 
+  WHERE profiles.user_id = (select auth.uid()) 
   AND profiles.role = 'admin'
 ));
 
@@ -66,13 +66,13 @@ ALTER TABLE public.ai_warnings ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Users can view their own warnings" 
 ON public.ai_warnings 
 FOR SELECT 
-USING (auth.uid() = user_id);
+USING ((select auth.uid()) = user_id);
 
 -- Users can acknowledge their warnings
 CREATE POLICY "Users can acknowledge their warnings" 
 ON public.ai_warnings 
 FOR UPDATE 
-USING (auth.uid() = user_id);
+USING ((select auth.uid()) = user_id);
 
 -- System can create warnings
 CREATE POLICY "System can create warnings" 
@@ -99,7 +99,7 @@ ON public.security_settings
 FOR ALL 
 USING (EXISTS (
   SELECT 1 FROM profiles 
-  WHERE profiles.user_id = auth.uid() 
+  WHERE profiles.user_id = (select auth.uid()) 
   AND profiles.role = 'admin'
 ));
 

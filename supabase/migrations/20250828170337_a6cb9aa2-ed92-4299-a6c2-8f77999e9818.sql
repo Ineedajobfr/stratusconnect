@@ -18,12 +18,12 @@ ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Users can view their own profile"
 ON public.profiles
 FOR SELECT
-USING (auth.uid() = user_id);
+USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "Users can update their own profile"
 ON public.profiles
 FOR UPDATE
-USING (auth.uid() = user_id);
+USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "Admins can view all profiles"
 ON public.profiles
@@ -31,7 +31,7 @@ FOR SELECT
 USING (
   EXISTS (
     SELECT 1 FROM public.profiles p 
-    WHERE p.user_id = auth.uid() AND p.role = 'admin'
+    WHERE p.user_id = (select auth.uid()) AND p.role = 'admin'
   )
 );
 
@@ -41,7 +41,7 @@ FOR UPDATE
 USING (
   EXISTS (
     SELECT 1 FROM public.profiles p 
-    WHERE p.user_id = auth.uid() AND p.role = 'admin'
+    WHERE p.user_id = (select auth.uid()) AND p.role = 'admin'
   )
 );
 

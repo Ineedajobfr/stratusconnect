@@ -11,6 +11,7 @@ import { FullPageLoader } from "@/components/LoadingSpinner";
 import { NavigationOptimizer } from "@/components/NavigationOptimizer";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { logger } from "@/utils/performance";
+import { WorkflowProvider } from "@/components/real-workflows/WorkflowIntegration";
 
 import { StatusBanner } from "@/components/StatusBanner";
 
@@ -127,10 +128,11 @@ const App = memo(() => {
               <MemoizedNavigationOptimizer />
               <StatusBanner />
               <AuthProvider>
-              <MemoizedToaster />
-              <MemoizedSonner />
-              <Suspense fallback={<FullPageLoader />}>
-                <Routes>
+                <WorkflowProvider>
+                  <MemoizedToaster />
+                  <MemoizedSonner />
+                  <Suspense fallback={<FullPageLoader />}>
+                    <Routes>
               {/* Public routes */}
               <Route path="/" element={<Index />} />
               <Route path="/enter" element={<Enter />} />
@@ -334,9 +336,10 @@ const App = memo(() => {
               
               {/* Catch all route */}
               <Route path="*" element={<NotFound />} />
-            </Routes>
-              </Suspense>
-            </AuthProvider>
+                    </Routes>
+                  </Suspense>
+                </WorkflowProvider>
+              </AuthProvider>
           </BrowserRouter>
           </TooltipProvider>
         </QueryClientProvider>

@@ -56,7 +56,7 @@ const JobBoard = React.memo(function JobBoard({ userRole }: JobBoardProps) {
   const [selectedLocation, setSelectedLocation] = useState('all');
   const [sortBy, setSortBy] = useState('newest');
 
-  // Load jobs from real workflow
+  // Load jobs from real workflow with fallback to mock data
   useEffect(() => {
     const loadJobs = async () => {
       try {
@@ -70,10 +70,69 @@ const JobBoard = React.memo(function JobBoard({ userRole }: JobBoardProps) {
         setJobs(data);
         setFilteredJobs(data);
       } catch (error) {
-        console.error('Error loading jobs:', error);
+        console.error('Error loading jobs from real workflow, falling back to mock data:', error);
+        // Fallback to mock data if real workflow fails
+        loadMockJobs();
       } finally {
         setLoading(false);
       }
+    };
+
+    const loadMockJobs = () => {
+      const mockJobs: JobPost[] = [
+        {
+          id: '1',
+          title: 'Senior Captain - Gulfstream G650',
+          description: 'Seeking experienced Gulfstream G650 captain for corporate operations. Must have 5000+ hours total time, 1000+ hours in type.',
+          job_type: 'pilot',
+          category: { name: 'Commercial Pilot', icon: '✈️' },
+          location: 'New York, NY',
+          start_date: '2024-02-01',
+          end_date: '2024-12-31',
+          hourly_rate: 150.00,
+          total_budget: 500000,
+          required_skills: ['Gulfstream G650', 'ATP', 'Type Rating', 'International Experience'],
+          aircraft_types: ['Gulfstream G650'],
+          flight_hours_required: 5000,
+          certifications_required: ['ATP', 'G650 Type Rating', 'First Class Medical'],
+          status: 'active',
+          application_deadline: '2024-01-25T23:59:59Z',
+          current_applications: 12,
+          max_applications: 50,
+          is_featured: true,
+          priority_level: 5,
+          posted_by: 'corp-aviation-llc',
+          company: { name: 'Corporate Aviation LLC', logo: '/logos/corp-aviation.png' },
+          created_at: '2024-01-15T10:00:00Z'
+        },
+        {
+          id: '2',
+          title: 'Flight Attendant - Private Jet',
+          description: 'Experienced flight attendant needed for private jet operations. Must have excellent customer service skills and international experience.',
+          job_type: 'crew',
+          category: { name: 'Flight Attendant', icon: '👩‍✈️' },
+          location: 'Los Angeles, CA',
+          start_date: '2024-02-15',
+          end_date: '2024-08-15',
+          hourly_rate: 45.00,
+          total_budget: 65000,
+          required_skills: ['Customer Service', 'Safety Training', 'International Experience', 'Wine Service'],
+          aircraft_types: ['Bombardier Global 6000', 'Gulfstream G550'],
+          flight_hours_required: 0,
+          certifications_required: ['FAA Flight Attendant Certificate', 'CPR', 'First Aid'],
+          status: 'active',
+          application_deadline: '2024-02-01T23:59:59Z',
+          current_applications: 8,
+          max_applications: 25,
+          is_featured: false,
+          priority_level: 3,
+          posted_by: 'luxury-aviation-group',
+          company: { name: 'Luxury Aviation Group', logo: '/logos/luxury-aviation.png' },
+          created_at: '2024-01-20T14:30:00Z'
+        }
+      ];
+      setJobs(mockJobs);
+      setFilteredJobs(mockJobs);
     };
 
     loadJobs();

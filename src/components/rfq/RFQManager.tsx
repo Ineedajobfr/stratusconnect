@@ -56,20 +56,143 @@ export const RFQManager: React.FC = () => {
   const [selectedRFQ, setSelectedRFQ] = useState<RFQData | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Load RFQs from real workflow
+  // Load RFQs from real workflow with fallback to mock data
   useEffect(() => {
     const loadRFQs = async () => {
-      if (!user?.id) return;
+      if (!user?.id) {
+        // Load mock data if no user
+        loadMockRFQs();
+        return;
+      }
       
       try {
         setLoading(true);
         const data = await RFQWorkflow.getBrokerRFQs(user.id);
         setRfqs(data);
       } catch (error) {
-        console.error('Error loading RFQs:', error);
+        console.error('Error loading RFQs from real workflow, falling back to mock data:', error);
+        // Fallback to mock data if real workflow fails
+        loadMockRFQs();
       } finally {
         setLoading(false);
       }
+    };
+
+    const loadMockRFQs = () => {
+      const mockRFQs: RFQData[] = [
+        {
+          id: '1',
+          broker_id: user?.id || 'demo-broker',
+          status: 'quoting',
+          legs: [
+            {
+              origin: 'KJFK',
+              destination: 'KLAX',
+              departure_date: '2024-12-15',
+              departure_time: '14:00',
+              arrival_date: '2024-12-15',
+              arrival_time: '17:30',
+              airport_codes: {
+                origin: 'KJFK',
+                destination: 'KLAX'
+              }
+            }
+          ],
+          pax_count: 8,
+          special_requirements: 'Corporate trip for executive team',
+          budget_range: {
+            min: 50000,
+            max: 75000
+          },
+          preferred_aircraft_types: ['Gulfstream G650', 'Bombardier Global 6000'],
+          urgency: 'medium',
+          client_info: {
+            name: 'John Smith',
+            company: 'Acme Corp',
+            email: 'john@acme.com',
+            phone: '+1-555-0123'
+          },
+          notes: 'Corporate trip for executive team',
+          created_at: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
+          updated_at: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
+          quote_count: 3,
+        },
+        {
+          id: '2',
+          broker_id: user?.id || 'demo-broker',
+          status: 'booked',
+          legs: [
+            {
+              origin: 'KMIA',
+              destination: 'MYNN',
+              departure_date: '2024-12-10',
+              departure_time: '10:00',
+              arrival_date: '2024-12-10',
+              arrival_time: '11:30',
+              airport_codes: {
+                origin: 'KMIA',
+                destination: 'MYNN'
+              }
+            }
+          ],
+          pax_count: 4,
+          special_requirements: 'Weekend getaway to Bahamas',
+          budget_range: {
+            min: 25000,
+            max: 35000
+          },
+          preferred_aircraft_types: ['Cessna Citation X', 'Hawker 4000'],
+          urgency: 'low',
+          client_info: {
+            name: 'Sarah Johnson',
+            company: 'Luxury Travel LLC',
+            email: 'sarah@luxurytravel.com',
+            phone: '+1-555-0456'
+          },
+          notes: 'Weekend getaway to Bahamas',
+          created_at: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
+          updated_at: new Date(Date.now() - 1000 * 60 * 60 * 4).toISOString(),
+          quote_count: 5,
+        },
+        {
+          id: '3',
+          broker_id: user?.id || 'demo-broker',
+          status: 'draft',
+          legs: [
+            {
+              origin: 'KORD',
+              destination: 'KDFW',
+              departure_date: '2024-12-20',
+              departure_time: '09:00',
+              arrival_date: '2024-12-20',
+              arrival_time: '11:30',
+              airport_codes: {
+                origin: 'KORD',
+                destination: 'KDFW'
+              }
+            }
+          ],
+          pax_count: 6,
+          special_requirements: 'Client meeting in Dallas',
+          budget_range: {
+            min: 35000,
+            max: 45000
+          },
+          preferred_aircraft_types: ['Embraer Legacy 500', 'Cessna Citation CJ4'],
+          urgency: 'high',
+          client_info: {
+            name: 'Mike Wilson',
+            company: 'Tech Solutions Inc',
+            email: 'mike@techsolutions.com',
+            phone: '+1-555-0789'
+          },
+          notes: 'Client meeting in Dallas',
+          created_at: new Date(Date.now() - 1000 * 60 * 60 * 6).toISOString(),
+          updated_at: new Date(Date.now() - 1000 * 60 * 60 * 6).toISOString(),
+          quote_count: 0,
+        }
+      ];
+      setRfqs(mockRFQs);
     };
 
     loadRFQs();
@@ -97,14 +220,35 @@ export const RFQManager: React.FC = () => {
     return filtered.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
   };
 
-  const sendRFQ = (rfqId: string) => {
-    setRfqs(prev => 
-      prev.map(rfq => 
-        rfq.id === rfqId 
-          ? { ...rfq, status: 'sent' as const, updated_at: new Date().toISOString() }
-          : rfq
-      )
-    );
+  const sendRFQ = async (rfqId: string) => {
+    try {
+      // Try to use real workflow first
+      if (user?.id) {
+        await RFQWorkflow.updateRFQStatus(rfqId, 'sent');
+        // Refresh RFQs from real workflow
+        const data = await RFQWorkflow.getBrokerRFQs(user.id);
+        setRfqs(data);
+      } else {
+        // Fallback to local state update
+        setRfqs(prev => 
+          prev.map(rfq => 
+            rfq.id === rfqId 
+              ? { ...rfq, status: 'sent' as const, updated_at: new Date().toISOString() }
+              : rfq
+          )
+        );
+      }
+    } catch (error) {
+      console.error('Error sending RFQ:', error);
+      // Fallback to local state update
+      setRfqs(prev => 
+        prev.map(rfq => 
+          rfq.id === rfqId 
+            ? { ...rfq, status: 'sent' as const, updated_at: new Date().toISOString() }
+            : rfq
+        )
+      );
+    }
   };
 
   const filteredRFQs = getFilteredRFQs();

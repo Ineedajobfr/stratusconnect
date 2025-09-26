@@ -60,7 +60,6 @@ import {
   HelpCircle,
   ArrowUp,
   RefreshCw,
-  Plus,
   Receipt
 } from 'lucide-react';
 

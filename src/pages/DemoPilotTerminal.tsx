@@ -13,6 +13,7 @@ import { DemoBanner } from '@/components/DemoBanner';
 import JobBoard from '@/components/job-board/JobBoard';
 import CommunityForums from '@/components/community/CommunityForums';
 import DocumentStorage from '@/components/documents/DocumentStorage';
+import AIHunterWidget from '@/components/ai/AIHunterWidget';
 import { useNavigate } from 'react-router-dom';
 import { 
   HelpCircle,
@@ -203,6 +204,11 @@ export default function DemoPilotTerminal() {
           </CardContent>
         </Card>
       </div>
+
+      {/* AI Hunter Widget - Real Data, Real Actions */}
+      <AIHunterWidget 
+        currency="GBP"
+      />
 
       {/* Upcoming Flights */}
       <Card className="terminal-card">

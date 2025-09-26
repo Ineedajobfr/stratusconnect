@@ -56,6 +56,7 @@ import { MonthlyStatements } from '@/components/Billing/MonthlyStatements';
 import { RankingRulesPage } from '@/components/Ranking/RankingRulesPage';
 import AISearchAssistant from '@/components/AISearchAssistant';
 import PredictiveAnalytics from '@/components/PredictiveAnalytics';
+import AIHunterWidget from '@/components/ai/AIHunterWidget';
 import AIChatbot from '@/components/AIChatbot';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
@@ -661,6 +662,12 @@ export default function DemoBrokerTerminal() {
 
       {/* Predictive Analytics */}
       <PredictiveAnalytics terminalType="broker" className="mb-6" />
+
+      {/* AI Hunter Widget - Real Data, Real Actions */}
+      <AIHunterWidget 
+        routes={["EGGW-LFPB", "EGGW-LIRQ", "EGGW-LEMD", "EGGW-LEBL", "EGGW-LOWW"]}
+        currency="GBP"
+      />
 
       {/* Alerts */}
       {alerts.length > 0 && (

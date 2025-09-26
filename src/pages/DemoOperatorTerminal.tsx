@@ -11,6 +11,7 @@ import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
 import AISearchAssistant from '@/components/AISearchAssistant';
 import PredictiveAnalytics from '@/components/PredictiveAnalytics';
+import AIHunterWidget from '@/components/ai/AIHunterWidget';
 import AIChatbot from '@/components/AIChatbot';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
 import EnhancedAIChatbot from '@/components/EnhancedAIChatbot';
@@ -630,6 +631,13 @@ export default function DemoOperatorTerminal() {
 
       {/* Predictive Analytics */}
       <PredictiveAnalytics terminalType="operator" className="mb-6" />
+
+      {/* AI Hunter Widget - Real Data, Real Actions */}
+      <AIHunterWidget 
+        routes={["EGGW-LFPB", "EGGW-LIRQ", "EGGW-LEMD"]}
+        aircraft_ids={["aircraft-1", "aircraft-2", "aircraft-3"]}
+        currency="GBP"
+      />
 
       {/* Recent Activity */}
       <Card className="terminal-card">

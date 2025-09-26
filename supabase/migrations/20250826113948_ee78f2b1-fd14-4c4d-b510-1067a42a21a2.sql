@@ -24,7 +24,7 @@ FOR SELECT
 TO authenticated 
 USING (
   -- Allow crew members to see their own full details
-  auth.uid() IN (SELECT user_id FROM crew_profiles WHERE id = crew_certifications.crew_id)
+  (select auth.uid()) IN (SELECT user_id FROM crew_profiles WHERE id = crew_certifications.crew_id)
   OR 
   -- Or allow others to see basic info only (this would need application-level filtering)
   true

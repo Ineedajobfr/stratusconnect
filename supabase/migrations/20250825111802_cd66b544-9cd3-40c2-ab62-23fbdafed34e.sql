@@ -100,7 +100,7 @@ USING (
   EXISTS (
     SELECT 1 FROM aircraft a
     WHERE a.id = aircraft_utilization.aircraft_id
-    AND a.operator_id = auth.uid()
+    AND a.operator_id = (select auth.uid())
   )
 );
 
@@ -111,7 +111,7 @@ USING (
   EXISTS (
     SELECT 1 FROM aircraft a
     WHERE a.id = aircraft_utilization.aircraft_id
-    AND a.operator_id = auth.uid()
+    AND a.operator_id = (select auth.uid())
   )
 );
 
@@ -119,17 +119,17 @@ USING (
 CREATE POLICY "Users can view ratings about themselves"
 ON public.user_ratings
 FOR SELECT
-USING (rated_user_id = auth.uid());
+USING (rated_user_id = (select auth.uid()));
 
 CREATE POLICY "Deal participants can rate each other"
 ON public.user_ratings
 FOR INSERT
 WITH CHECK (
-  rater_user_id = auth.uid() AND
+  rater_user_id = (select auth.uid()) AND
   EXISTS (
     SELECT 1 FROM deals d
     WHERE d.id = user_ratings.deal_id
-    AND (d.operator_id = auth.uid() OR d.broker_id = auth.uid())
+    AND (d.operator_id = (select auth.uid()) OR d.broker_id = (select auth.uid()))
     AND d.status = 'completed'
   )
 );
@@ -141,7 +141,7 @@ USING (
   EXISTS (
     SELECT 1 FROM deals d
     WHERE d.id = user_ratings.deal_id
-    AND (d.operator_id = auth.uid() OR d.broker_id = auth.uid())
+    AND (d.operator_id = (select auth.uid()) OR d.broker_id = (select auth.uid()))
   )
 );
 
@@ -160,7 +160,7 @@ USING (true);
 CREATE POLICY "Users can view their own performance metrics"
 ON public.performance_metrics
 FOR SELECT
-USING (user_id = auth.uid());
+USING (user_id = (select auth.uid()));
 
 CREATE POLICY "System can manage performance metrics"
 ON public.performance_metrics
@@ -175,7 +175,7 @@ USING (
   EXISTS (
     SELECT 1 FROM aircraft a
     WHERE a.id = maintenance_schedules.aircraft_id
-    AND a.operator_id = auth.uid()
+    AND a.operator_id = (select auth.uid())
   )
 );
 

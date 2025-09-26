@@ -5,13 +5,13 @@ DROP POLICY IF EXISTS "Users can view all profiles" ON public.profiles;
 CREATE POLICY "Users can view their own profile" 
 ON public.profiles 
 FOR SELECT 
-USING (auth.uid() = user_id);
+USING ((select auth.uid()) = user_id);
 
 -- Ensure authenticated users are required for profile access
 CREATE POLICY "Authenticated users can view basic public profile info" 
 ON public.profiles 
 FOR SELECT 
 TO authenticated 
-USING (auth.uid() = user_id OR user_id IN (
-  SELECT user_id FROM public.profiles WHERE user_id = auth.uid()
+USING ((select auth.uid()) = user_id OR user_id IN (
+  SELECT user_id FROM public.profiles WHERE user_id = (select auth.uid())
 ));

@@ -121,46 +121,46 @@ ALTER TABLE public.payments ENABLE ROW LEVEL SECURITY;
 
 -- Create RLS policies for profiles
 CREATE POLICY "Users can view all profiles" ON public.profiles FOR SELECT USING (true);
-CREATE POLICY "Users can insert their own profile" ON public.profiles FOR INSERT WITH CHECK (auth.uid() = user_id);
-CREATE POLICY "Users can update their own profile" ON public.profiles FOR UPDATE USING (auth.uid() = user_id);
+CREATE POLICY "Users can insert their own profile" ON public.profiles FOR INSERT WITH CHECK ((select auth.uid()) = user_id);
+CREATE POLICY "Users can update their own profile" ON public.profiles FOR UPDATE USING ((select auth.uid()) = user_id);
 
 -- Create RLS policies for aircraft
 CREATE POLICY "Everyone can view available aircraft" ON public.aircraft FOR SELECT USING (true);
-CREATE POLICY "Operators can manage their own aircraft" ON public.aircraft FOR INSERT WITH CHECK (auth.uid() = operator_id);
-CREATE POLICY "Operators can update their own aircraft" ON public.aircraft FOR UPDATE USING (auth.uid() = operator_id);
-CREATE POLICY "Operators can delete their own aircraft" ON public.aircraft FOR DELETE USING (auth.uid() = operator_id);
+CREATE POLICY "Operators can manage their own aircraft" ON public.aircraft FOR INSERT WITH CHECK ((select auth.uid()) = operator_id);
+CREATE POLICY "Operators can update their own aircraft" ON public.aircraft FOR UPDATE USING ((select auth.uid()) = operator_id);
+CREATE POLICY "Operators can delete their own aircraft" ON public.aircraft FOR DELETE USING ((select auth.uid()) = operator_id);
 
 -- Create RLS policies for marketplace listings
 CREATE POLICY "Everyone can view active listings" ON public.marketplace_listings FOR SELECT USING (true);
-CREATE POLICY "Operators can create listings for their aircraft" ON public.marketplace_listings FOR INSERT WITH CHECK (auth.uid() = operator_id);
-CREATE POLICY "Operators can update their own listings" ON public.marketplace_listings FOR UPDATE USING (auth.uid() = operator_id);
-CREATE POLICY "Operators can delete their own listings" ON public.marketplace_listings FOR DELETE USING (auth.uid() = operator_id);
+CREATE POLICY "Operators can create listings for their aircraft" ON public.marketplace_listings FOR INSERT WITH CHECK ((select auth.uid()) = operator_id);
+CREATE POLICY "Operators can update their own listings" ON public.marketplace_listings FOR UPDATE USING ((select auth.uid()) = operator_id);
+CREATE POLICY "Operators can delete their own listings" ON public.marketplace_listings FOR DELETE USING ((select auth.uid()) = operator_id);
 
 -- Create RLS policies for bids
 CREATE POLICY "Users can view bids on their listings or their own bids" ON public.bids FOR SELECT USING (
-  auth.uid() = broker_id OR 
-  auth.uid() IN (SELECT operator_id FROM public.marketplace_listings WHERE id = listing_id)
+  (select auth.uid()) = broker_id OR 
+  (select auth.uid()) IN (SELECT operator_id FROM public.marketplace_listings WHERE id = listing_id)
 );
-CREATE POLICY "Brokers can create bids" ON public.bids FOR INSERT WITH CHECK (auth.uid() = broker_id);
-CREATE POLICY "Brokers can update their own bids" ON public.bids FOR UPDATE USING (auth.uid() = broker_id);
+CREATE POLICY "Brokers can create bids" ON public.bids FOR INSERT WITH CHECK ((select auth.uid()) = broker_id);
+CREATE POLICY "Brokers can update their own bids" ON public.bids FOR UPDATE USING ((select auth.uid()) = broker_id);
 
 -- Create RLS policies for deals
 CREATE POLICY "Deal participants can view deals" ON public.deals FOR SELECT USING (
-  auth.uid() = operator_id OR auth.uid() = broker_id
+  (select auth.uid()) = operator_id OR (select auth.uid()) = broker_id
 );
-CREATE POLICY "Operators can create deals" ON public.deals FOR INSERT WITH CHECK (auth.uid() = operator_id);
+CREATE POLICY "Operators can create deals" ON public.deals FOR INSERT WITH CHECK ((select auth.uid()) = operator_id);
 CREATE POLICY "Deal participants can update deals" ON public.deals FOR UPDATE USING (
-  auth.uid() = operator_id OR auth.uid() = broker_id
+  (select auth.uid()) = operator_id OR (select auth.uid()) = broker_id
 );
 
 -- Create RLS policies for messages
 CREATE POLICY "Deal participants can view messages" ON public.messages FOR SELECT USING (
-  auth.uid() IN (SELECT operator_id FROM public.deals WHERE id = deal_id) OR
-  auth.uid() IN (SELECT broker_id FROM public.deals WHERE id = deal_id)
+  (select auth.uid()) IN (SELECT operator_id FROM public.deals WHERE id = deal_id) OR
+  (select auth.uid()) IN (SELECT broker_id FROM public.deals WHERE id = deal_id)
 );
 CREATE POLICY "Deal participants can send messages" ON public.messages FOR INSERT WITH CHECK (
-  auth.uid() = sender_id AND
-  auth.uid() IN (
+  (select auth.uid()) = sender_id AND
+  (select auth.uid()) IN (
     SELECT operator_id FROM public.deals WHERE id = deal_id
     UNION
     SELECT broker_id FROM public.deals WHERE id = deal_id
@@ -169,11 +169,11 @@ CREATE POLICY "Deal participants can send messages" ON public.messages FOR INSER
 
 -- Create RLS policies for payments
 CREATE POLICY "Deal participants can view payments" ON public.payments FOR SELECT USING (
-  auth.uid() = payer_id OR
-  auth.uid() IN (SELECT operator_id FROM public.deals WHERE id = deal_id) OR
-  auth.uid() IN (SELECT broker_id FROM public.deals WHERE id = deal_id)
+  (select auth.uid()) = payer_id OR
+  (select auth.uid()) IN (SELECT operator_id FROM public.deals WHERE id = deal_id) OR
+  (select auth.uid()) IN (SELECT broker_id FROM public.deals WHERE id = deal_id)
 );
-CREATE POLICY "Users can create payments" ON public.payments FOR INSERT WITH CHECK (auth.uid() = payer_id);
+CREATE POLICY "Users can create payments" ON public.payments FOR INSERT WITH CHECK ((select auth.uid()) = payer_id);
 
 -- Create function to update updated_at timestamp
 CREATE OR REPLACE FUNCTION public.update_updated_at_column()

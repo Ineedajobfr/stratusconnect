@@ -57,17 +57,17 @@ ALTER TABLE public.saved_searches ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Users can view their own verification documents"
 ON public.verification_documents
 FOR SELECT
-USING (auth.uid() = user_id);
+USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "Users can upload their own verification documents"
 ON public.verification_documents
 FOR INSERT
-WITH CHECK (auth.uid() = user_id);
+WITH CHECK ((select auth.uid()) = user_id);
 
 CREATE POLICY "Users can update their own verification documents"
 ON public.verification_documents
 FOR UPDATE
-USING (auth.uid() = user_id);
+USING ((select auth.uid()) = user_id);
 
 -- RLS Policies for message_attachments
 CREATE POLICY "Deal participants can view message attachments"
@@ -78,7 +78,7 @@ USING (
     SELECT 1 FROM messages m
     JOIN deals d ON m.deal_id = d.id
     WHERE m.id = message_attachments.message_id
-    AND (d.operator_id = auth.uid() OR d.broker_id = auth.uid())
+    AND (d.operator_id = (select auth.uid()) OR d.broker_id = (select auth.uid()))
   )
 );
 
@@ -90,8 +90,8 @@ WITH CHECK (
     SELECT 1 FROM messages m
     JOIN deals d ON m.deal_id = d.id
     WHERE m.id = message_attachments.message_id
-    AND m.sender_id = auth.uid()
-    AND (d.operator_id = auth.uid() OR d.broker_id = auth.uid())
+    AND m.sender_id = (select auth.uid())
+    AND (d.operator_id = (select auth.uid()) OR d.broker_id = (select auth.uid()))
   )
 );
 
@@ -99,18 +99,18 @@ WITH CHECK (
 CREATE POLICY "Users can view their own notifications"
 ON public.notifications
 FOR SELECT
-USING (auth.uid() = user_id);
+USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "Users can update their own notifications"
 ON public.notifications
 FOR UPDATE
-USING (auth.uid() = user_id);
+USING ((select auth.uid()) = user_id);
 
 -- RLS Policies for saved_searches
 CREATE POLICY "Users can manage their own saved searches"
 ON public.saved_searches
 FOR ALL
-USING (auth.uid() = user_id);
+USING ((select auth.uid()) = user_id);
 
 -- Add triggers for updated_at
 CREATE TRIGGER update_verification_documents_updated_at
@@ -131,20 +131,20 @@ INSERT INTO storage.buckets (id, name, public) VALUES ('message-attachments', 'm
 CREATE POLICY "Users can upload their own verification documents"
 ON storage.objects
 FOR INSERT
-WITH CHECK (bucket_id = 'verification-docs' AND auth.uid()::text = (storage.foldername(name))[1]);
+WITH CHECK (bucket_id = 'verification-docs' AND (select auth.uid())::text = (storage.foldername(name))[1]);
 
 CREATE POLICY "Users can view their own verification documents"
 ON storage.objects
 FOR SELECT
-USING (bucket_id = 'verification-docs' AND auth.uid()::text = (storage.foldername(name))[1]);
+USING (bucket_id = 'verification-docs' AND (select auth.uid())::text = (storage.foldername(name))[1]);
 
 -- Storage policies for message attachments
 CREATE POLICY "Deal participants can upload message attachments"
 ON storage.objects
 FOR INSERT
-WITH CHECK (bucket_id = 'message-attachments' AND auth.uid()::text = (storage.foldername(name))[1]);
+WITH CHECK (bucket_id = 'message-attachments' AND (select auth.uid())::text = (storage.foldername(name))[1]);
 
 CREATE POLICY "Deal participants can view message attachments"
 ON storage.objects
 FOR SELECT
-USING (bucket_id = 'message-attachments' AND auth.uid()::text = (storage.foldername(name))[1]);
+USING (bucket_id = 'message-attachments' AND (select auth.uid())::text = (storage.foldername(name))[1]);

@@ -87,6 +87,7 @@ interface TerminationQueue {
 
 interface UserMonitoringProps {
   // Admin-only component
+  [key: string]: unknown;
 }
 
 export default function UserMonitoring({}: UserMonitoringProps) {

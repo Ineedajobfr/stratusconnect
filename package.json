@@ -9,7 +9,15 @@
     "build": "vite build --mode production",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "lint:fix": "eslint . --fix",
+    "lint:warn": "eslint . --max-warnings 0",
+    "type-check": "tsc --noEmit",
+    "clean": "rimraf dist node_modules/.vite",
+    "preview": "vite preview",
+    "audit:fix": "npm audit fix",
+    "deps:check": "npm outdated",
+    "deps:update": "npm update",
+    "postinstall": "npm audit --audit-level moderate"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -83,6 +91,7 @@
     "globals": "^15.15.0",
     "lovable-tagger": "^1.1.9",
     "postcss": "^8.5.6",
+    "rimraf": "^6.0.1",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.38.0",

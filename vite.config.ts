@@ -24,7 +24,10 @@ export default defineConfig(({ mode }) => ({
   ].filter(Boolean),
   define: {
     global: 'globalThis',
-    'process.env': 'process.env',
+    'process.env': 'import.meta.env',
+    'process': JSON.stringify({
+      env: process.env
+    }),
   },
   resolve: {
     alias: {

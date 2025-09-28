@@ -340,12 +340,12 @@ export class LemonwayProvider implements PaymentProvider {
 
 // Factory function to create provider based on environment
 export function createPaymentProvider(): PaymentProvider {
-  const provider = process.env.VITE_PAYMENT_PROVIDER || 'shieldpay';
-  const isSandbox = process.env.VITE_PAYMENT_SANDBOX === 'true';
+  const provider = import.meta.env.VITE_PAYMENT_PROVIDER || 'shieldpay';
+  const isSandbox = import.meta.env.VITE_PAYMENT_SANDBOX === 'true';
 
   switch (provider.toLowerCase()) {
     case 'shieldpay': {
-      const shieldpayKey = process.env.VITE_SHIELDPAY_API_KEY;
+      const shieldpayKey = import.meta.env.VITE_SHIELDPAY_API_KEY;
       if (!shieldpayKey) {
         throw new Error('VITE_SHIELDPAY_API_KEY environment variable is required');
       }
@@ -353,8 +353,8 @@ export function createPaymentProvider(): PaymentProvider {
     }
     
     case 'mangopay': {
-      const mangopayClientId = process.env.VITE_MANGOPAY_CLIENT_ID;
-      const mangopayApiKey = process.env.VITE_MANGOPAY_API_KEY;
+      const mangopayClientId = import.meta.env.VITE_MANGOPAY_CLIENT_ID;
+      const mangopayApiKey = import.meta.env.VITE_MANGOPAY_API_KEY;
       if (!mangopayClientId || !mangopayApiKey) {
         throw new Error('VITE_MANGOPAY_CLIENT_ID and VITE_MANGOPAY_API_KEY environment variables are required');
       }
@@ -362,7 +362,7 @@ export function createPaymentProvider(): PaymentProvider {
     }
     
     case 'lemonway': {
-      const lemonwayKey = process.env.VITE_LEMONWAY_API_KEY;
+      const lemonwayKey = import.meta.env.VITE_LEMONWAY_API_KEY;
       if (!lemonwayKey) {
         throw new Error('VITE_LEMONWAY_API_KEY environment variable is required');
       }

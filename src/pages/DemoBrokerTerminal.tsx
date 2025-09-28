@@ -56,7 +56,7 @@ import { MonthlyStatements } from '@/components/Billing/MonthlyStatements';
 import { RankingRulesPage } from '@/components/Ranking/RankingRulesPage';
 import AISearchAssistant from '@/components/AISearchAssistant';
 import PredictiveAnalytics from '@/components/PredictiveAnalytics';
-import AIHunterWidget from '@/components/ai/AIHunterWidget';
+import AIHunterWidget from '@/components/AI/AIHunterWidget';
 import AIChatbot from '@/components/AIChatbot';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';

@@ -13,7 +13,7 @@ import { DemoBanner } from '@/components/DemoBanner';
 import JobBoard from '@/components/job-board/JobBoard';
 import CommunityForums from '@/components/community/CommunityForums';
 import DocumentStorage from '@/components/documents/DocumentStorage';
-import AIHunterWidget from '@/components/ai/AIHunterWidget';
+import AIHunterWidget from '@/components/AI/AIHunterWidget';
 import { useNavigate } from 'react-router-dom';
 import { 
   HelpCircle,

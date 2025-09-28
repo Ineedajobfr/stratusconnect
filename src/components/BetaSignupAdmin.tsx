@@ -70,12 +70,12 @@ export default function BetaSignupAdmin() {
   const fetchSignups = async () => {
     try {
       const { data, error } = await supabase
-        .from('beta_signups')
+        .from('beta_signups' as any)
         .select('*')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setSignups(data || []);
+      setSignups((data as any) || []);
     } catch (error) {
       console.error('Error fetching signups:', error);
       toast({
@@ -130,7 +130,7 @@ export default function BetaSignupAdmin() {
   const updateStatus = async (id: string, status: string, notes?: string) => {
     try {
       const { error } = await supabase
-        .from('beta_signups')
+        .from('beta_signups' as any)
         .update({ 
           status,
           review_notes: notes,

@@ -5,7 +5,7 @@ import React, { Component, ReactNode } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { errorService, ErrorBoundaryState } from '@/lib/error-service';
+import { errorService } from '@/lib/error-service';
 import { 
   AlertTriangle, 
   RefreshCw, 

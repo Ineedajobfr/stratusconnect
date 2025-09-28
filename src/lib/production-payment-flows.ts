@@ -86,7 +86,7 @@ class ProductionPaymentFlows {
     return {
       paymentIntent,
       receipt,
-      auditHash: receipt.compliance.auditHash
+      auditHash: (receipt as any)?.compliance?.auditHash || 'missing-hash'
     };
   }
 
@@ -144,7 +144,7 @@ class ProductionPaymentFlows {
     return {
       paymentIntent,
       receipt,
-      auditHash: receipt.compliance.auditHash
+      auditHash: (receipt as any)?.compliance?.auditHash || 'missing-hash'
     };
   }
 

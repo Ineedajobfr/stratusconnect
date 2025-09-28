@@ -218,11 +218,11 @@ export class ShieldpayProvider implements PaymentProvider {
     }
 
     return {
-      type: payload.event_type,
-      intentId: payload.intent_id,
-      status: payload.status,
-      timestamp: payload.timestamp,
-      data: payload.data,
+      type: payload.event_type as string,
+      intentId: payload.intent_id as string,
+      status: payload.status as string,
+      timestamp: payload.timestamp as string,
+      data: payload.data as Record<string, unknown>,
     };
   }
 
@@ -234,16 +234,16 @@ export class ShieldpayProvider implements PaymentProvider {
 
   private mapToEscrowIntent(data: Record<string, unknown>): EscrowIntent {
     return {
-      id: data.id,
-      dealId: data.external_reference,
-      amount: data.amount / 100,
-      currency: data.currency,
-      buyerId: data.buyer_id,
-      sellerId: data.seller_id,
-      description: data.description,
-      status: data.status,
-      createdAt: data.created_at,
-      expiresAt: data.expires_at,
+      id: data.id as string,
+      dealId: data.external_reference as string,
+      amount: (data.amount as number) / 100,
+      currency: data.currency as string,
+      buyerId: data.buyer_id as string,
+      sellerId: data.seller_id as string,
+      description: data.description as string,
+      status: data.status as 'pending' | 'funded' | 'released' | 'refunded' | 'disputed',
+      createdAt: data.created_at as string,
+      expiresAt: data.expires_at as string | undefined,
     };
   }
 }

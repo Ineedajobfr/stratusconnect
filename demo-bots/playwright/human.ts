@@ -70,3 +70,36 @@ export async function fillHuman(page: Page, sel: string, text: string, wpm = 42)
   await typeHuman(page, sel, text, wpm);
   await waitHuman(rand(200, 500));
 }
+
+export async function ensureBlankTerminal(page: Page) {
+  // Clear all browser data to ensure completely blank terminal
+  await page.context().clearCookies();
+  
+  // Only clear storage if we're on a valid page
+  try {
+    await page.evaluate(() => {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.clear();
+      }
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.clear();
+      }
+      // Clear any indexedDB data
+      if ('indexedDB' in window && indexedDB.databases) {
+        indexedDB.databases().then(databases => {
+          databases.forEach(db => {
+            if (db.name) {
+              indexedDB.deleteDatabase(db.name);
+            }
+          });
+        });
+      }
+    });
+  } catch (error) {
+    // If we can't clear storage (e.g., on about:blank), that's fine
+    console.log('Note: Could not clear browser storage - page not loaded yet');
+  }
+  
+  // Wait for cleanup to complete
+  await waitHuman(500);
+}

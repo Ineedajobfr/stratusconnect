@@ -2,6 +2,7 @@
 // FCA Compliant Aviation Platform - Proof of Life System
 
 import { test, chromium, expect } from '@playwright/test';
+import { ensureBlankTerminal } from './human';
 
 test('demo video recording - all terminals', async () => {
   const browser = await chromium.launch({ 
@@ -23,6 +24,9 @@ test('demo video recording - all terminals', async () => {
     // Demo Broker Terminal
     console.log('🎬 Recording Broker Terminal...');
     await page.goto('/beta/broker');
+    
+    // Clear all browser data to ensure blank terminal
+    await ensureBlankTerminal(page);
     await page.waitForLoadState('networkidle');
     await page.screenshot({ path: 'test-results/broker-terminal.png' });
     await page.waitForTimeout(3000);

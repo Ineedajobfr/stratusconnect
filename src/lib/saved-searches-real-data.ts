@@ -264,7 +264,7 @@ class SavedSearchesRealData {
         ...listing,
         score: this.calculateScore(listing, criteria)
       }))
-      .sort((a, b) => b.score - a.score);
+      .sort((a, b) => (b.score as number) - (a.score as number));
   }
 
   /**
@@ -280,22 +280,22 @@ class SavedSearchesRealData {
     // Aircraft matching
     if (criteria.aircraft.length > 0) {
       if (!criteria.aircraft.some(aircraft => 
-        listing.aircraft.toLowerCase().includes(aircraft.toLowerCase())
+        (listing.aircraft as string).toLowerCase().includes(aircraft.toLowerCase())
       )) return false;
     }
 
     // Seats matching
-    if (listing.seats < criteria.minSeats || listing.seats > criteria.maxSeats) {
+    if ((listing.seats as number) < criteria.minSeats || (listing.seats as number) > criteria.maxSeats) {
       return false;
     }
 
     // Price matching
-    if (listing.price < criteria.priceRange.min || listing.price > criteria.priceRange.max) {
+    if ((listing.price as number) < criteria.priceRange.min || (listing.price as number) > criteria.priceRange.max) {
       return false;
     }
 
     // Date matching
-    const listingDate = new Date(listing.date);
+    const listingDate = new Date(listing.date as string);
     const startDate = new Date(criteria.dateRange.start);
     const endDate = new Date(criteria.dateRange.end);
     
@@ -305,22 +305,22 @@ class SavedSearchesRealData {
 
     // Operator matching
     if (criteria.operators.length > 0) {
-      if (!criteria.operators.includes(listing.operator)) return false;
+      if (!criteria.operators.includes(listing.operator as string)) return false;
     }
 
     // Verified only
-    if (criteria.verifiedOnly && !listing.verified) {
+    if (criteria.verifiedOnly && !(listing.verified as boolean)) {
       return false;
     }
 
     // Empty legs only
-    if (criteria.emptyLegsOnly && !listing.emptyLeg) {
+    if (criteria.emptyLegsOnly && !(listing.emptyLeg as boolean)) {
       return false;
     }
 
     // Tags matching
     if (criteria.tags.length > 0) {
-      if (!criteria.tags.some(tag => listing.tags.includes(tag))) {
+      if (!criteria.tags.some(tag => (listing.tags as string[]).includes(tag))) {
         return false;
       }
     }
@@ -338,19 +338,19 @@ class SavedSearchesRealData {
     score += 50;
 
     // Verified operator bonus
-    if (listing.verified) score += 20;
+    if (listing.verified as boolean) score += 20;
 
     // Empty leg bonus
-    if (listing.emptyLeg) score += 15;
+    if (listing.emptyLeg as boolean) score += 15;
 
     // Price proximity bonus
     const priceRange = criteria.priceRange.max - criteria.priceRange.min;
-    const priceDistance = Math.abs(listing.price - criteria.priceRange.min);
+    const priceDistance = Math.abs((listing.price as number) - criteria.priceRange.min);
     const priceProximity = Math.max(0, 1 - (priceDistance / priceRange));
     score += priceProximity * 10;
 
     // Date proximity bonus
-    const listingDate = new Date(listing.date);
+    const listingDate = new Date(listing.date as string);
     const now = new Date();
     const daysUntil = Math.ceil((listingDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
     const dateProximity = Math.max(0, 1 - (daysUntil / 30)); // 30 days max
@@ -392,18 +392,18 @@ class SavedSearchesRealData {
 
     for (const result of results) {
       const listing = result.data;
-      const priceDrop = this.calculatePriceDrop(listing.id, listing.price);
+      const priceDrop = this.calculatePriceDrop(listing.id as string, listing.price as number);
       
       if (priceDrop && priceDrop.percentage >= alert.threshold) {
         const priceDropAlert: PriceDropAlert = {
           id: `PRICE_ALERT_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
           searchId: search.id,
-          listingId: listing.id,
+          listingId: listing.id as string,
           originalPrice: priceDrop.originalPrice,
-          currentPrice: listing.price,
+          currentPrice: listing.price as number,
           priceDrop: priceDrop.amount,
           priceDropPercentage: priceDrop.percentage,
-          currency: listing.currency,
+          currency: listing.currency as string,
           triggeredAt: new Date().toISOString(),
           notified: false
         };
@@ -428,7 +428,7 @@ class SavedSearchesRealData {
     
     for (const result of results) {
       const listing = result.data;
-      const listingDate = new Date(listing.createdAt || listing.date);
+      const listingDate = new Date((listing.createdAt as string) || (listing.date as string));
       
       if (listingDate > oneDayAgo) {
         // Trigger new listing alert
@@ -451,13 +451,13 @@ class SavedSearchesRealData {
     
     for (const result of results) {
       const listing = result.data;
-      const departureTime = new Date(listing.departureTime || listing.date);
+      const departureTime = new Date((listing.departureTime as string) || (listing.date as string));
       
       if (departureTime <= oneHourFromNow && departureTime > now) {
         const lastMinuteAlert: LastMinuteAlert = {
           id: `LAST_MIN_ALERT_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
           searchId: search.id,
-          listingId: listing.id,
+          listingId: listing.id as string,
           departureTime: departureTime.toISOString(),
           hoursUntilDeparture: Math.ceil((departureTime.getTime() - now.getTime()) / (1000 * 60 * 60)),
           triggeredAt: new Date().toISOString(),

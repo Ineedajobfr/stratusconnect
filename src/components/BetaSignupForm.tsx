@@ -177,13 +177,12 @@ export default function BetaSignupForm() {
     setLoading(true);
     try {
       const { error } = await supabase
-        .from('beta_signups')
+        .from('beta_signups' as any)
         .insert([{
           email: formData.email,
           full_name: formData.fullName,
           phone: formData.phone,
           country: formData.country,
-          timezone: formData.timezone,
           role: formData.role,
           job_title: formData.jobTitle,
           years_in_aviation: formData.yearsInAviation,

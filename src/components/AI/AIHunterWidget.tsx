@@ -74,7 +74,8 @@ export default function AIHunterWidget({
   aircraft_ids = [],
   currency = "GBP" 
 }: AIHunterWidgetProps) {
-  const { user, role } = useAuth();
+  const { user } = useAuth();
+  const role = user?.role || 'guest';
   const [insights, setInsights] = useState<Insight[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

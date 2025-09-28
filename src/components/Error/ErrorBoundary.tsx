@@ -5,7 +5,22 @@ import React, { Component, ReactNode } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { errorService, ErrorBoundaryState } from '@/lib/error-service';
+import { errorService } from '@/lib/error-service';
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+  error: Error | null;
+  errorId: string | null;
+  timestamp: string | null;
+  userFeedback: string;
+  errorDetails: {
+    stack: string;
+    componentStack: string;
+    url: string;
+    userAgent: string;
+    timestamp: string;
+  } | null;
+}
 import { 
   AlertTriangle, 
   RefreshCw, 

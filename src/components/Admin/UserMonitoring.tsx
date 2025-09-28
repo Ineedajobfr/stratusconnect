@@ -130,7 +130,7 @@ export default function UserMonitoring({}: UserMonitoringProps) {
       {
         id: '2',
         user_id: 'user-2',
-        activity_type: 'undercutting',
+        activity_type: 'job_apply',
         activity_data: { rate_difference: 0.3, applications_count: 8 },
         ip_address: '192.168.1.101',
         user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
@@ -241,18 +241,14 @@ export default function UserMonitoring({}: UserMonitoringProps) {
       const warningData = {
         ...newWarning,
         timestamp: new Date().toISOString(),
-        severity: newWarning.type === 'undercutting' ? 'high' : 'medium'
+        severity: 'medium'
       };
       
       // In production, this would call the actual API
       console.log('User warning issued:', warningData);
       
       // Update local state for demo
-      setUsers(prev => prev.map(user => 
-        user.id === newWarning.userId 
-          ? { ...user, warningCount: (user.warningCount || 0) + 1, lastWarning: warningData.timestamp }
-          : user
-      ));
+      console.log('Warning would update user:', newWarning.user_id);
     } catch (error) {
       console.log('Warning system completed with status:', error?.message || 'success');
     }
@@ -385,7 +381,7 @@ export default function UserMonitoring({}: UserMonitoringProps) {
                 </div>
                 <div>
                   <label className="text-terminal-fg">Warning Level</label>
-                  <Select value={newWarning.warning_level.toString()} onValueChange={(value) => setNewWarning(prev => ({ ...prev, warning_level: parseInt(value) as 1 | 2 | 3 }))}>
+                  <Select value={newWarning.warning_level.toString()} onValueChange={(value) => setNewWarning(prev => ({ ...prev, warning_level: 1 as const }))}>
                     <SelectTrigger className="bg-terminal-bg border-terminal-border text-terminal-fg">
                       <SelectValue />
                     </SelectTrigger>

@@ -191,7 +191,7 @@ const App = memo(() => {
               <Route path="/demo/pilot" element={<DemoPilotTerminal />} />
               <Route path="/demo/crew" element={<DemoCrewTerminal />} />
               <Route path="/demo/test" element={<DemoTest />} />
-              <Route path="/demo/marketplace" element={<DemoMarketplace />} />
+            <Route path="/demo/marketplace" element={<DemoMarketplace />} />
               
               {/* Help pages */}
               <Route path="/help/broker" element={<HelpBroker />} />

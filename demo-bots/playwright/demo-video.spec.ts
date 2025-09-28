@@ -10,7 +10,7 @@ test('demo video recording - all terminals', async () => {
   });
   
   const context = await browser.newContext({ 
-    baseURL: 'http://localhost:8080',
+    baseURL: process.env.STRATUS_URL || 'http://localhost:8080',
     recordVideo: {
       dir: 'test-results/videos/',
       size: { width: 1280, height: 720 }

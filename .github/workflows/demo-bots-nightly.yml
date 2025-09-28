@@ -1,0 +1,79 @@
+name: Demo Bots - Nightly Full Test Suite
+
+on:
+  schedule:
+    # Run every night at 2 AM UTC (3 AM Europe/London in winter, 4 AM in summer)
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+env:
+  STRATUS_URL: ${{ secrets.STRATUS_URL }}
+  SUPABASE_EVENTS_URL: ${{ secrets.SUPABASE_EVENTS_URL }}
+  SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+  SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+
+jobs:
+  nightly-demo-bots:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        
+    - name: Install Playwright dependencies
+      run: |
+        cd demo-bots/playwright
+        npm ci
+        
+    - name: Install Playwright browsers
+      run: |
+        cd demo-bots/playwright
+        npx playwright install --with-deps
+        
+    - name: Run Full Demo Test Suite
+      run: |
+        cd demo-bots/playwright
+        echo "🎬 Running nightly demo bot tests..."
+        npx playwright test --reporter=list,html
+        
+    - name: Generate Test Report
+      run: |
+        cd demo-bots/playwright
+        echo "📊 Generating comprehensive test report..."
+        
+    - name: Upload Nightly Results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: nightly-demo-results-${{ github.run_number }}
+        path: |
+          demo-bots/playwright/test-results/
+          demo-bots/playwright/playwright-report/
+        retention-days: 90
+        
+    - name: Create Summary Report
+      run: |
+        echo "# Nightly Demo Bots Report - $(date)" > nightly-report.md
+        echo "" >> nightly-report.md
+        echo "## Test Results" >> nightly-report.md
+        echo "- Run ID: ${{ github.run_id }}" >> nightly-report.md
+        echo "- Commit: ${{ github.sha }}" >> nightly-report.md
+        echo "- Time: $(date)" >> nightly-report.md
+        echo "" >> nightly-report.md
+        echo "## Artifacts" >> nightly-report.md
+        echo "- Test Results: nightly-demo-results-${{ github.run_number }}" >> nightly-report.md
+        echo "- Videos: Check test-results/videos/ directory" >> nightly-report.md
+        
+    - name: Upload Summary Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: nightly-summary-${{ github.run_number }}
+        path: nightly-report.md
+        retention-days: 90

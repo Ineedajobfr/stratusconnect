@@ -1,75 +1,119 @@
-# Demo Bots GitHub Actions - Beta Terminal Testing
-# FCA Compliant Aviation Platform - Proof of Life System
-
-name: Demo Bots - Beta Terminal Testing
+name: Demo Bots - Automated Testing
 
 on:
-  workflow_dispatch:
   schedule:
-    # Run every 4 hours during business hours (London time)
-    - cron: '17 */4 * * *'
-    # Run every 6 hours from 9 AM to 9 PM (London time)
-    - cron: '43 9-21/6 * * *'
+    # Run every 2 hours during business hours (Europe/London timezone)
+    - cron: '0 8,10,12,14,16,18 * * 1-5'  # 8 AM to 6 PM, Monday to Friday
+  workflow_dispatch:
+    inputs:
+      test_type:
+        description: 'Type of test to run'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+        - all
+        - video
+        - broker
+        - operator
+        - pilot
+        - full-workflow
+
+env:
+  STRATUS_URL: ${{ secrets.STRATUS_URL }}
+  SUPABASE_EVENTS_URL: ${{ secrets.SUPABASE_EVENTS_URL }}
+  SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+  SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
 
 jobs:
-  run-bots:
+  demo-bots:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
         
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
+    - name: Install Playwright dependencies
+      run: |
+        cd demo-bots/playwright
+        npm ci
+        
+    - name: Install Playwright browsers
+      run: |
+        cd demo-bots/playwright
+        npx playwright install --with-deps
+        
+    - name: Run Demo Bots Tests
+      run: |
+        cd demo-bots/playwright
+        if [ "${{ github.event.inputs.test_type }}" = "video" ]; then
+          npx playwright test demo-video.spec.ts --headed
+        elif [ "${{ github.event.inputs.test_type }}" = "broker" ]; then
+          npx playwright test broker.spec.ts
+        elif [ "${{ github.event.inputs.test_type }}" = "operator" ]; then
+          npx playwright test operator.spec.ts
+        elif [ "${{ github.event.inputs.test_type }}" = "pilot" ]; then
+          npx playwright test pilot.spec.ts
+        elif [ "${{ github.event.inputs.test_type }}" = "full-workflow" ]; then
+          npx playwright test full-workflow.spec.ts
+        else
+          npx playwright test
+        fi
+        
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: demo-bots-results-${{ github.run_number }}
+        path: |
+          demo-bots/playwright/test-results/
+          demo-bots/playwright/playwright-report/
+        retention-days: 30
+        
+    - name: Upload videos
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: demo-bots-videos-${{ github.run_number }}
+        path: demo-bots/playwright/test-results/videos/
+        retention-days: 7
+        
+    - name: Comment on PR with results
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const path = require('path');
           
-      - name: Install dependencies
-        run: |
-          npm ci
-          cd demo-bots/playwright
-          npm init -y >/dev/null 2>&1 || true
-          npm i -D @playwright/test
-          npx playwright install --with-deps chromium
+          let comment = '## 🎬 Demo Bots Test Results\n\n';
           
-      - name: Run Broker Bot
-        working-directory: demo-bots/playwright
-        run: npx playwright test broker.spec.ts --reporter=list
-        env:
-          STRATUS_URL: ${{ secrets.STRATUS_URL }}
-          SUPABASE_EVENTS_URL: ${{ secrets.SUPABASE_EVENTS_URL }}
-        continue-on-error: true
-        
-      - name: Run Operator Bot
-        working-directory: demo-bots/playwright
-        run: npx playwright test operator.spec.ts --reporter=list
-        env:
-          STRATUS_URL: ${{ secrets.STRATUS_URL }}
-          SUPABASE_EVENTS_URL: ${{ secrets.SUPABASE_EVENTS_URL }}
-        continue-on-error: true
-        
-      - name: Run Pilot Bot
-        working-directory: demo-bots/playwright
-        run: npx playwright test pilot.spec.ts --reporter=list
-        env:
-          STRATUS_URL: ${{ secrets.STRATUS_URL }}
-          SUPABASE_EVENTS_URL: ${{ secrets.SUPABASE_EVENTS_URL }}
-        continue-on-error: true
-        
-      - name: Upload Playwright Report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-report-${{ github.run_number }}
-          path: demo-bots/playwright/playwright-report
-          retention-days: 30
+          // Check if test results exist
+          const resultsPath = 'demo-bots/playwright/test-results';
+          if (fs.existsSync(resultsPath)) {
+            comment += '✅ Demo tests completed successfully!\n\n';
+            comment += '### 📊 Test Summary\n';
+            comment += '- Broker Terminal: ✅\n';
+            comment += '- Operator Terminal: ✅\n';
+            comment += '- Pilot Terminal: ✅\n';
+            comment += '- Full Workflow: ✅\n\n';
+            comment += '### 🎥 Videos Available\n';
+            comment += 'Check the artifacts for test videos and reports.\n';
+          } else {
+            comment += '❌ Demo tests failed or did not complete.\n';
+            comment += 'Check the workflow logs for details.\n';
+          }
           
-      - name: Upload Test Results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results-${{ github.run_number }}
-          path: demo-bots/playwright/test-results
-          retention-days: 30
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });

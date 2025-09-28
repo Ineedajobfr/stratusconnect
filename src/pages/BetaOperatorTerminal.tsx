@@ -173,7 +173,7 @@ export default function BetaOperatorTerminal() {
     <div className="space-y-6">
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="terminal-card">
+          <Card className="terminal-card">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gunmetal">Active RFQs</CardTitle>
             <FileText className="h-4 w-4 text-accent" />
@@ -181,10 +181,10 @@ export default function BetaOperatorTerminal() {
           <CardContent>
             <div className="text-2xl font-bold text-foreground">{rfqs.length}</div>
             <p className="text-xs text-muted-foreground">Ready for AI testing</p>
-          </CardContent>
-        </Card>
-
-        <Card className="terminal-card">
+            </CardContent>
+          </Card>
+          
+          <Card className="terminal-card">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gunmetal">Fleet Utilization</CardTitle>
             <Plane className="h-4 w-4 text-accent" />
@@ -192,10 +192,10 @@ export default function BetaOperatorTerminal() {
           <CardContent>
             <div className="text-2xl font-bold text-foreground">0%</div>
             <p className="text-xs text-muted-foreground">Waiting for AI data</p>
-          </CardContent>
-        </Card>
-
-        <Card className="terminal-card">
+            </CardContent>
+          </Card>
+          
+          <Card className="terminal-card">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gunmetal">Monthly Revenue</CardTitle>
             <DollarSign className="h-4 w-4 text-accent" />
@@ -203,10 +203,10 @@ export default function BetaOperatorTerminal() {
           <CardContent>
             <div className="text-2xl font-bold text-foreground">$0</div>
             <p className="text-xs text-muted-foreground">Beta testing mode</p>
-          </CardContent>
-        </Card>
-
-        <Card className="terminal-card">
+            </CardContent>
+          </Card>
+          
+          <Card className="terminal-card">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gunmetal">Active Crew</CardTitle>
             <Users className="h-4 w-4 text-accent" />
@@ -214,9 +214,9 @@ export default function BetaOperatorTerminal() {
           <CardContent>
             <div className="text-2xl font-bold text-foreground">{crew.length}</div>
             <p className="text-xs text-muted-foreground">AI managed</p>
-          </CardContent>
-        </Card>
-      </div>
+            </CardContent>
+          </Card>
+        </div>
 
       {/* AI Search Assistant */}
       <AISearchAssistant terminalType="operator" className="mb-6" />
@@ -242,12 +242,12 @@ export default function BetaOperatorTerminal() {
         <CardContent className="space-y-4">
           <div className="flex items-center space-x-4">
             <div className="w-2 h-2 bg-accent rounded-full"></div>
-            <div className="flex-1">
+                      <div className="flex-1">
               <p className="text-sm font-medium text-foreground">Ready for AI Testing</p>
               <p className="text-xs text-muted-foreground">This terminal is cleared of dummy data and ready for AI agent testing</p>
             </div>
             <Badge variant="secondary" className="bg-green-100 text-green-800">Beta Ready</Badge>
-          </div>
+                        </div>
         </CardContent>
       </Card>
 
@@ -262,11 +262,11 @@ export default function BetaOperatorTerminal() {
               <Plane className="w-12 h-12 mx-auto mb-4 opacity-50" />
               <p>No RFQs received yet</p>
               <p className="text-sm">AI brokers will send RFQs here for your response</p>
-            </div>
+                          </div>
           </CardContent>
         </Card>
       )}
-    </div>
+                          </div>
   );
 
   return (
@@ -291,29 +291,29 @@ export default function BetaOperatorTerminal() {
               <StratusConnectLogo className="text-orange-400 text-lg mr-6" />
               <div className="text-sm text-slate-400">
                 TERMINAL STATUS: <span className="text-white">OPERATIONAL</span>
-              </div>
+                          </div>
               <div className="text-sm text-slate-400">
                 USER: <span className="text-orange-400">Beta Operator</span>
-              </div>
-            </div>
+                          </div>
+                        </div>
             <div className="flex items-center space-x-4">
               <div className="text-sm text-slate-400">
                 <Clock className="w-4 h-4 inline mr-1" />
                 {new Date().toLocaleTimeString()} UTC
-              </div>
+                      </div>
               <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">
                 <AlertTriangle className="w-3 h-3 mr-1" />
                 AI Testing Mode
               </Badge>
-              <Button
+                        <Button 
                 onClick={() => setShowHelpGuide(true)}
                 className="w-12 h-12 bg-accent/20 hover:bg-accent/30 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-accent/30"
                 title="Help Guide"
               >
                 <HelpCircle className="w-6 h-6 text-white" />
-              </Button>
-            </div>
-        </div>
+                        </Button>
+                      </div>
+                    </div>
         </header>
 
         <main className="relative z-10 max-w-7xl mx-auto p-6">
@@ -378,7 +378,7 @@ export default function BetaOperatorTerminal() {
 
             <TabsContent value="dashboard" className="scroll-smooth">
               {renderDashboard()}
-            </TabsContent>
+          </TabsContent>
 
             <TabsContent value="rfqs" className="scroll-smooth">
               <div className="space-y-6">
@@ -388,7 +388,7 @@ export default function BetaOperatorTerminal() {
                     <Plus className="w-4 h-4 mr-2" />
                     New RFQ
                   </Button>
-                </div>
+            </div>
 
                 <div className="space-y-4">
                   {rfqs.length === 0 ? (
@@ -418,51 +418,51 @@ export default function BetaOperatorTerminal() {
                               >
                                 {rfq.priority}
                               </Badge>
-                              <Badge 
+                          <Badge 
                                 variant={rfq.status === 'accepted' ? 'default' : 
                                         rfq.status === 'quoted' ? 'secondary' : 'outline'}
-                              >
+                          >
                                 {rfq.status}
-                              </Badge>
-                            </div>
+                          </Badge>
+                        </div>
                           </div>
                         </CardHeader>
                         <CardContent>
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div>
+                          <div>
                               <p className="text-sm font-medium text-gunmetal">Date</p>
                               <p className="text-foreground">{rfq.date}</p>
-                            </div>
-                            <div>
+                          </div>
+                          <div>
                               <p className="text-sm font-medium text-gunmetal">Budget</p>
                               <p className="text-foreground">{rfq.currency} {rfq.price.toLocaleString()}</p>
-                            </div>
-                            <div>
+                          </div>
+                          <div>
                               <p className="text-sm font-medium text-gunmetal">Broker</p>
                               <p className="text-foreground">{rfq.broker}</p>
-                            </div>
                           </div>
+                        </div>
                           <div className="mt-4">
                             <p className="text-sm font-medium text-gunmetal">Special Requirements</p>
                             <p className="text-sm text-muted-foreground">{rfq.specialRequirements}</p>
-                          </div>
+                      </div>
                           <div className="flex space-x-2 mt-4">
                             <Button variant="outline" size="sm">
                               <Eye className="w-4 h-4 mr-2" />
-                              View Details
-                            </Button>
+                          View Details
+                        </Button>
                             <Button variant="outline" size="sm">
                               <FileText className="w-4 h-4 mr-2" />
                               Quote
                             </Button>
-                          </div>
-                        </CardContent>
-                      </Card>
+                    </div>
+                  </CardContent>
+                </Card>
                     ))
                   )}
                 </div>
-              </div>
-            </TabsContent>
+            </div>
+          </TabsContent>
 
             <TabsContent value="pilots" className="scroll-smooth">
               <div className="space-y-6">
@@ -479,8 +479,8 @@ export default function BetaOperatorTerminal() {
                   <h3 className="text-lg font-medium mb-2">No Pilots Yet</h3>
                   <p className="text-sm mb-4">AI agents can add pilots to your fleet</p>
                   <p className="text-xs text-muted">All functionality works - waiting for AI data</p>
-                </div>
-              </div>
+                    </div>
+                  </div>
             </TabsContent>
 
             <TabsContent value="crew" className="scroll-smooth">
@@ -498,8 +498,8 @@ export default function BetaOperatorTerminal() {
                   <h3 className="text-lg font-medium mb-2">No Crew Yet</h3>
                   <p className="text-sm mb-4">AI agents can add crew members to your fleet</p>
                   <p className="text-xs text-muted">All functionality works - waiting for AI data</p>
-                </div>
-              </div>
+                  </div>
+                  </div>
             </TabsContent>
 
             <TabsContent value="fleet" className="scroll-smooth">
@@ -509,9 +509,9 @@ export default function BetaOperatorTerminal() {
                   <Button className="btn-terminal-accent">
                     <Plus className="w-4 h-4 mr-2" />
                     Add Aircraft
-                  </Button>
-                </div>
-
+                    </Button>
+                  </div>
+                  
                 <div className="text-center py-12 text-gunmetal">
                   <Plane className="w-16 h-16 mx-auto mb-4 opacity-50" />
                   <h3 className="text-lg font-medium mb-2">No Aircraft Yet</h3>
@@ -526,22 +526,22 @@ export default function BetaOperatorTerminal() {
                 <div className="flex justify-between items-center">
                   <h2 className="text-2xl font-bold text-foreground">Billing & Analytics</h2>
                   <div className="flex space-x-2">
-                    <Button 
+                      <Button 
                       onClick={() => setShowContractGenerator(true)}
                       className="bg-terminal-accent hover:bg-terminal-accent/90"
-                    >
+                      >
                       <FileText className="w-4 h-4 mr-2" />
-                      Generate Contract
-                    </Button>
-                    <Button 
+                        Generate Contract
+                      </Button>
+                      <Button 
                       onClick={() => setShowReceiptGenerator(true)}
                       className="bg-terminal-accent hover:bg-terminal-accent/90"
-                    >
+                      >
                       <Receipt className="w-4 h-4 mr-2" />
-                      Generate Receipt
-                    </Button>
+                        Generate Receipt
+                      </Button>
+                    </div>
                   </div>
-                </div>
 
                 <div className="text-center py-12 text-gunmetal">
                   <CreditCard className="w-16 h-16 mx-auto mb-4 opacity-50" />
@@ -624,8 +624,8 @@ export default function BetaOperatorTerminal() {
               onClose={() => setShowContractGenerator(false)} 
             />
           </div>
-        </div>
-      )}
+          </div>
+        )}
 
       {/* Receipt Generator Modal */}
       {showReceiptGenerator && (
@@ -635,16 +635,12 @@ export default function BetaOperatorTerminal() {
               dealId="beta-deal-1" 
               onClose={() => setShowReceiptGenerator(false)} 
             />
-          </div>
-        </div>
+      </div>
+    </div>
       )}
 
       {/* Enhanced AI Chatbot */}
       <EnhancedAIChatbot terminalType="operator" />
     </>
-  );
-}
-      </div>
-    </div>
   );
 }

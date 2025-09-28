@@ -36,6 +36,7 @@ const BetaBrokerTerminal = lazy(() => import("./pages/BetaBrokerTerminal"));
 const BetaOperatorTerminal = lazy(() => import("./pages/BetaOperatorTerminal"));
 const BetaPilotTerminal = lazy(() => import("./pages/BetaPilotTerminal"));
 const BetaCrewTerminal = lazy(() => import("./pages/BetaCrewTerminal"));
+const BetaTest = lazy(() => import("./pages/BetaTest"));
 const Status = lazy(() => import("./pages/CompliantStatus"));
 const Cookies = lazy(() => import("./pages/Cookies"));
 const Unauthorized = lazy(() => import("./pages/Unauthorized"));
@@ -204,6 +205,7 @@ const App = memo(() => {
               
               {/* Public Beta Testing Routes - Protected for users/owners */}
               <Route path="/beta" element={<BetaNavigator />} />
+              <Route path="/beta/test" element={<BetaTest />} />
               <Route 
                 path="/beta/broker" 
                 element={<BetaBrokerTerminal />}

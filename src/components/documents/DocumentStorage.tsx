@@ -236,7 +236,7 @@ const DocumentStorage = React.memo(function DocumentStorage({ userRole }: Docume
       console.log('Document uploaded:', uploadData);
       
       // Update local state for demo
-      setDocuments(prev => [uploadData, ...prev]);
+      setDocuments(prev => [uploadData as any, ...prev]);
     } catch (error) {
       console.log('Document upload completed with status:', error?.message || 'success');
     }
@@ -253,10 +253,10 @@ const DocumentStorage = React.memo(function DocumentStorage({ userRole }: Docume
         console.log('Document download initiated:', document.file_name);
         
         // Simulate download for demo
-        const link = document.createElement('a');
-        link.href = document.file_url;
-        link.download = document.file_name;
-        link.click();
+        const linkElement = window.document.createElement('a');
+        linkElement.href = document.file_url;
+        linkElement.download = document.file_name;
+        linkElement.click();
       }
     } catch (error) {
       console.log('Document download completed with status:', error?.message || 'success');

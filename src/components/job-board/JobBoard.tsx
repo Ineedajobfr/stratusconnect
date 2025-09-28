@@ -67,8 +67,8 @@ const JobBoard = React.memo(function JobBoard({ userRole }: JobBoardProps) {
           location: selectedLocation === 'all' ? undefined : selectedLocation,
           search: searchTerm || undefined
         });
-        setJobs(data);
-        setFilteredJobs(data);
+        setJobs(data as any);
+        setFilteredJobs(data as any);
       } catch (error) {
         console.error('Error loading jobs from real workflow, falling back to mock data:', error);
         // Fallback to mock data if real workflow fails

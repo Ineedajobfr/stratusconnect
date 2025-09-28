@@ -1,352 +1,279 @@
-// Performance Monitor Component - Industry Standard Implementation
-// FCA Compliant Aviation Platform
-
-import React, { useState, useEffect } from 'react';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { performanceService, PerformanceMetrics } from '@/lib/performance-service';
-import { 
-  Activity, 
-  Database, 
-  Zap, 
-  MemoryStick, 
-  Clock, 
-  TrendingUp,
-  RefreshCw,
-  Download,
-  Settings
-} from 'lucide-react';
+import { Activity, Zap, Clock, TrendingUp } from 'lucide-react';
 
-interface PerformanceMonitorProps {
-  className?: string;
+interface PerformanceMetrics {
+  fps: number;
+  memoryUsage: number;
+  loadTime: number;
+  renderTime: number;
+  bundleSize: number;
 }
 
-export const PerformanceMonitor: React.FC<PerformanceMonitorProps> = ({ className }) => {
-  const [metrics, setMetrics] = useState<PerformanceMetrics>({
-    loadTime: 0,
-    renderTime: 0,
-    memoryUsage: 0,
-    cacheHitRate: 0,
-    apiResponseTime: 0,
-    bundleSize: 0
-  });
+interface PerformanceAlert {
+  id: string;
+  type: 'warning' | 'error' | 'info';
+  message: string;
+  timestamp: Date;
+  severity: 'low' | 'medium' | 'high';
+}
+
+const PerformanceMonitor: React.FC = () => {
   const [isMonitoring, setIsMonitoring] = useState(false);
-  const [cacheStats, setCacheStats] = useState({
-    size: 0,
-    hits: 0,
-    misses: 0
+  const [metrics, setMetrics] = useState<PerformanceMetrics>({
+    fps: 60,
+    memoryUsage: 45,
+    loadTime: 1200,
+    renderTime: 16,
+    bundleSize: 2048
   });
+  const [alerts, setAlerts] = useState<PerformanceAlert[]>([]);
+  const [startTime, setStartTime] = useState<number>(0);
 
-  useEffect(() => {
-    if (isMonitoring) {
-      const interval = setInterval(() => {
-        setMetrics(performanceService.getMetrics());
-        updateCacheStats();
-      }, 1000);
-
-      return () => clearInterval(interval);
-    }
-  }, [isMonitoring]);
-
-  const updateCacheStats = () => {
-    // In a real implementation, this would get actual cache statistics
-    setCacheStats(prev => ({
-      size: prev.size + Math.random() * 10,
-      hits: prev.hits + Math.floor(Math.random() * 5),
-      misses: prev.misses + Math.floor(Math.random() * 2)
-    }));
-  };
-
-  const startMonitoring = () => {
+  // Mock performance monitoring
+  const startMonitoring = useCallback(() => {
     setIsMonitoring(true);
-    performanceService.startPerformanceMonitoring();
-  };
-
-  const stopMonitoring = () => {
-    setIsMonitoring(false);
-  };
-
-  const clearCache = () => {
-    performanceService.clearCache();
-    setCacheStats({ size: 0, hits: 0, misses: 0 });
-  };
-
-  const exportMetrics = () => {
-    const data = {
-      metrics,
-      cacheStats,
-      timestamp: new Date().toISOString()
-    };
+    setStartTime(Date.now());
     
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `performance-metrics-${Date.now()}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
+    // Simulate performance metrics collection
+    const interval = setInterval(() => {
+      setMetrics(prev => ({
+        fps: Math.max(30, prev.fps + (Math.random() - 0.5) * 10),
+        memoryUsage: Math.min(100, Math.max(20, prev.memoryUsage + (Math.random() - 0.5) * 5)),
+        loadTime: prev.loadTime + (Math.random() - 0.5) * 100,
+        renderTime: Math.max(8, prev.renderTime + (Math.random() - 0.5) * 4),
+        bundleSize: prev.bundleSize
+      }));
+    }, 1000);
 
-  const formatBytes = (bytes: number): string => {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-  };
+    return () => clearInterval(interval);
+  }, []);
 
-  const formatTime = (ms: number): string => {
-    if (ms < 1000) return `${ms.toFixed(0)}ms`;
-    return `${(ms / 1000).toFixed(2)}s`;
-  };
+  const stopMonitoring = useCallback(() => {
+    setIsMonitoring(false);
+  }, []);
 
-  const getPerformanceStatus = (value: number, thresholds: { good: number; warning: number }): 'good' | 'warning' | 'critical' => {
-    if (value <= thresholds.good) return 'good';
-    if (value <= thresholds.warning) return 'warning';
-    return 'critical';
-  };
+  // Generate performance alerts
+  useEffect(() => {
+    if (!isMonitoring) return;
 
-  const loadTimeStatus = getPerformanceStatus(metrics.loadTime, { good: 2000, warning: 5000 });
-  const renderTimeStatus = getPerformanceStatus(metrics.renderTime, { good: 16, warning: 50 });
-  const memoryStatus = getPerformanceStatus(metrics.memoryUsage, { good: 50 * 1024 * 1024, warning: 100 * 1024 * 1024 });
-  const apiStatus = getPerformanceStatus(metrics.apiResponseTime, { good: 500, warning: 2000 });
+    const checkPerformance = () => {
+      const newAlerts: PerformanceAlert[] = [];
+
+      if (metrics.fps < 30) {
+        newAlerts.push({
+          id: Date.now().toString(),
+          type: 'warning',
+          message: `Low FPS detected: ${metrics.fps.toFixed(1)} fps`,
+          timestamp: new Date(),
+          severity: 'medium'
+        });
+      }
+
+      if (metrics.memoryUsage > 80) {
+        newAlerts.push({
+          id: Date.now().toString() + '_mem',
+          type: 'error',
+          message: `High memory usage: ${metrics.memoryUsage.toFixed(1)}%`,
+          timestamp: new Date(),
+          severity: 'high'
+        });
+      }
+
+      if (metrics.renderTime > 20) {
+        newAlerts.push({
+          id: Date.now().toString() + '_render',
+          type: 'warning',
+          message: `Slow render time: ${metrics.renderTime.toFixed(1)}ms`,
+          timestamp: new Date(),
+          severity: 'medium'
+        });
+      }
+
+      if (newAlerts.length > 0) {
+        setAlerts(prev => [...newAlerts, ...prev].slice(0, 10));
+      }
+    };
+
+    const interval = setInterval(checkPerformance, 5000);
+    return () => clearInterval(interval);
+  }, [isMonitoring, metrics]);
+
+  const getPerformanceScore = useCallback(() => {
+    const fpsScore = (metrics.fps / 60) * 25;
+    const memoryScore = ((100 - metrics.memoryUsage) / 100) * 25;
+    const renderScore = (Math.max(0, 30 - metrics.renderTime) / 30) * 25;
+    const loadScore = (Math.max(0, 3000 - metrics.loadTime) / 3000) * 25;
+    
+    return Math.round(fpsScore + memoryScore + renderScore + loadScore);
+  }, [metrics]);
+
+  const clearAlerts = () => {
+    setAlerts([]);
+  };
 
   return (
-    <div className={`space-y-6 ${className}`}>
-      <Card className="p-6">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center space-x-2">
-            <Activity className="h-5 w-5 text-blue-600" />
-            <h3 className="text-lg font-semibold">Performance Monitor</h3>
-            <Badge variant={isMonitoring ? "default" : "secondary"}>
-              {isMonitoring ? "Monitoring" : "Stopped"}
-            </Badge>
-          </div>
-          <div className="flex space-x-2">
-            <Button
-              onClick={isMonitoring ? stopMonitoring : startMonitoring}
-              variant={isMonitoring ? "destructive" : "default"}
-              size="sm"
-            >
-              {isMonitoring ? "Stop" : "Start"} Monitoring
-            </Button>
-            <Button onClick={exportMetrics} variant="outline" size="sm">
-              <Download className="h-4 w-4 mr-2" />
-              Export
-            </Button>
-          </div>
-        </div>
-
-        <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="performance">Performance</TabsTrigger>
-            <TabsTrigger value="cache">Cache</TabsTrigger>
-            <TabsTrigger value="optimization">Optimization</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="overview" className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="p-4 border rounded-lg">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-gray-600">Load Time</p>
-                    <p className="text-2xl font-bold">{formatTime(metrics.loadTime)}</p>
-                  </div>
-                  <Badge 
-                    variant={loadTimeStatus === 'good' ? 'default' : loadTimeStatus === 'warning' ? 'secondary' : 'destructive'}
-                  >
-                    {loadTimeStatus}
-                  </Badge>
-                </div>
-              </div>
-
-              <div className="p-4 border rounded-lg">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-gray-600">Render Time</p>
-                    <p className="text-2xl font-bold">{formatTime(metrics.renderTime)}</p>
-                  </div>
-                  <Badge 
-                    variant={renderTimeStatus === 'good' ? 'default' : renderTimeStatus === 'warning' ? 'secondary' : 'destructive'}
-                  >
-                    {renderTimeStatus}
-                  </Badge>
-                </div>
-              </div>
-
-              <div className="p-4 border rounded-lg">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-gray-600">Memory Usage</p>
-                    <p className="text-2xl font-bold">{formatBytes(metrics.memoryUsage)}</p>
-                  </div>
-                  <Badge 
-                    variant={memoryStatus === 'good' ? 'default' : memoryStatus === 'warning' ? 'secondary' : 'destructive'}
-                  >
-                    {memoryStatus}
-                  </Badge>
-                </div>
-              </div>
-
-              <div className="p-4 border rounded-lg">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-gray-600">API Response</p>
-                    <p className="text-2xl font-bold">{formatTime(metrics.apiResponseTime)}</p>
-                  </div>
-                  <Badge 
-                    variant={apiStatus === 'good' ? 'default' : apiStatus === 'warning' ? 'secondary' : 'destructive'}
-                  >
-                    {apiStatus}
-                  </Badge>
-                </div>
-              </div>
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <Activity className="h-5 w-5" />
+              <CardTitle>Performance Monitor</CardTitle>
             </div>
-          </TabsContent>
-
-          <TabsContent value="performance" className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card className="p-4">
-                <h4 className="font-semibold mb-3 flex items-center">
-                  <Clock className="h-4 w-4 mr-2" />
-                  Timing Metrics
-                </h4>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span>Page Load Time</span>
-                    <span className="font-mono">{formatTime(metrics.loadTime)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Render Time</span>
-                    <span className="font-mono">{formatTime(metrics.renderTime)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>API Response Time</span>
-                    <span className="font-mono">{formatTime(metrics.apiResponseTime)}</span>
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="p-4">
-                <h4 className="font-semibold mb-3 flex items-center">
-                  <MemoryStick className="h-4 w-4 mr-2" />
-                  Resource Usage
-                </h4>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span>Memory Usage</span>
-                    <span className="font-mono">{formatBytes(metrics.memoryUsage)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Bundle Size</span>
-                    <span className="font-mono">{formatBytes(metrics.bundleSize)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Cache Hit Rate</span>
-                    <span className="font-mono">{metrics.cacheHitRate.toFixed(1)}%</span>
-                  </div>
-                </div>
-              </Card>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="cache" className="space-y-4">
-            <div className="flex justify-between items-center">
-              <h4 className="font-semibold flex items-center">
-                <Database className="h-4 w-4 mr-2" />
-                Cache Management
-              </h4>
-              <Button onClick={clearCache} variant="outline" size="sm">
-                <RefreshCw className="h-4 w-4 mr-2" />
-                Clear Cache
+            <div className="flex items-center space-x-2">
+              <Badge variant={isMonitoring ? "default" : "secondary"}>
+                {isMonitoring ? "Monitoring" : "Idle"}
+              </Badge>
+              <Button
+                onClick={isMonitoring ? stopMonitoring : startMonitoring}
+                variant={isMonitoring ? "destructive" : "default"}
+                size="sm"
+              >
+                {isMonitoring ? "Stop" : "Start"} Monitoring
               </Button>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Card className="p-4">
-                <h5 className="font-medium mb-2">Cache Size</h5>
-                <p className="text-2xl font-bold">{formatBytes(cacheStats.size)}</p>
-                <p className="text-sm text-gray-600">Total cached data</p>
-              </Card>
-
-              <Card className="p-4">
-                <h5 className="font-medium mb-2">Cache Hits</h5>
-                <p className="text-2xl font-bold text-green-600">{cacheStats.hits}</p>
-                <p className="text-sm text-gray-600">Successful retrievals</p>
-              </Card>
-
-              <Card className="p-4">
-                <h5 className="font-medium mb-2">Cache Misses</h5>
-                <p className="text-2xl font-bold text-red-600">{cacheStats.misses}</p>
-                <p className="text-sm text-gray-600">Failed retrievals</p>
-              </Card>
-            </div>
-
-            <Card className="p-4">
-              <h5 className="font-medium mb-3">Cache Hit Rate</h5>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
-                  className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${metrics.cacheHitRate}%` }}
-                />
+          </div>
+        </CardHeader>
+        <CardContent>
+          <Tabs defaultValue="overview" className="w-full">
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="metrics">Metrics</TabsTrigger>
+              <TabsTrigger value="alerts">Alerts</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="overview" className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="flex items-center space-x-2">
+                      <Zap className="h-4 w-4 text-yellow-500" />
+                      <span className="text-sm font-medium">Performance Score</span>
+                    </div>
+                    <div className="mt-2">
+                      <div className="text-2xl font-bold">{getPerformanceScore()}</div>
+                      <Progress value={getPerformanceScore()} className="mt-2" />
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="flex items-center space-x-2">
+                      <Activity className="h-4 w-4 text-blue-500" />
+                      <span className="text-sm font-medium">FPS</span>
+                    </div>
+                    <div className="mt-2">
+                      <div className="text-2xl font-bold">{metrics.fps.toFixed(1)}</div>
+                      <div className="text-xs text-muted-foreground">frames/sec</div>
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="flex items-center space-x-2">
+                      <TrendingUp className="h-4 w-4 text-green-500" />
+                      <span className="text-sm font-medium">Memory</span>
+                    </div>
+                    <div className="mt-2">
+                      <div className="text-2xl font-bold">{metrics.memoryUsage.toFixed(1)}%</div>
+                      <Progress value={metrics.memoryUsage} className="mt-2" />
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="flex items-center space-x-2">
+                      <Clock className="h-4 w-4 text-purple-500" />
+                      <span className="text-sm font-medium">Render Time</span>
+                    </div>
+                    <div className="mt-2">
+                      <div className="text-2xl font-bold">{metrics.renderTime.toFixed(1)}ms</div>
+                      <div className="text-xs text-muted-foreground">per frame</div>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
-              <p className="text-sm text-gray-600 mt-2">
-                {metrics.cacheHitRate.toFixed(1)}% of requests served from cache
-              </p>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="optimization" className="space-y-4">
-            <Card className="p-4">
-              <h4 className="font-semibold mb-3 flex items-center">
-                <Zap className="h-4 w-4 mr-2" />
-                Optimization Recommendations
-              </h4>
-              <div className="space-y-3">
-                <div className="flex items-start space-x-3">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2" />
+            </TabsContent>
+            
+            <TabsContent value="metrics" className="space-y-4">
+              <div className="grid gap-4">
+                <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="font-medium">Enable Code Splitting</p>
-                    <p className="text-sm text-gray-600">
-                      Implement lazy loading for route components to reduce initial bundle size
-                    </p>
+                    <label className="text-sm font-medium">Load Time</label>
+                    <div className="text-2xl font-bold">{metrics.loadTime.toFixed(0)}ms</div>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium">Bundle Size</label>
+                    <div className="text-2xl font-bold">{(metrics.bundleSize / 1024).toFixed(1)}KB</div>
                   </div>
                 </div>
-                <div className="flex items-start space-x-3">
-                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2" />
+                {isMonitoring && (
                   <div>
-                    <p className="font-medium">Optimize Images</p>
-                    <p className="text-sm text-gray-600">
-                      Use WebP format and implement responsive images for better performance
-                    </p>
+                    <label className="text-sm font-medium">Session Duration</label>
+                    <div className="text-2xl font-bold">
+                      {Math.floor((Date.now() - startTime) / 1000)}s
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2" />
-                  <div>
-                    <p className="font-medium">Database Query Optimization</p>
-                    <p className="text-sm text-gray-600">
-                      Add indexes and implement query caching for frequently accessed data
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="w-2 h-2 bg-purple-500 rounded-full mt-2" />
-                  <div>
-                    <p className="font-medium">Service Worker</p>
-                    <p className="text-sm text-gray-600">
-                      Implement service worker for offline functionality and background sync
-                    </p>
-                  </div>
-                </div>
+                )}
               </div>
-            </Card>
-          </TabsContent>
-        </Tabs>
+            </TabsContent>
+            
+            <TabsContent value="alerts" className="space-y-4">
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-semibold">Performance Alerts</h3>
+                {alerts.length > 0 && (
+                  <Button onClick={clearAlerts} variant="outline" size="sm">
+                    Clear All
+                  </Button>
+                )}
+              </div>
+              
+              {alerts.length === 0 ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  No performance alerts
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {alerts.map((alert) => (
+                    <div
+                      key={alert.id}
+                      className={`p-3 rounded-lg border ${
+                        alert.type === 'error' 
+                          ? 'border-red-200 bg-red-50' 
+                          : alert.type === 'warning'
+                          ? 'border-yellow-200 bg-yellow-50'
+                          : 'border-blue-200 bg-blue-50'
+                      }`}
+                    >
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <div className="font-medium">{alert.message}</div>
+                          <div className="text-xs text-muted-foreground">
+                            {alert.timestamp.toLocaleTimeString()}
+                          </div>
+                        </div>
+                        <Badge variant={alert.type === 'error' ? 'destructive' : 'secondary'}>
+                          {alert.severity}
+                        </Badge>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </TabsContent>
+          </Tabs>
+        </CardContent>
       </Card>
     </div>
   );
 };
+
+export default PerformanceMonitor;

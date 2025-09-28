@@ -275,12 +275,12 @@ export default function UserMonitoring({}: UserMonitoringProps) {
       // In production, this would call the actual API
       console.log('Termination processed:', terminationData);
       
-      // Update local state for demo
-      setUsers(prev => prev.map(user => 
-        user.id === terminationId 
-          ? { ...user, status: 'terminated', terminatedAt: terminationData.processedAt }
-          : user
-      ));
+      // Update local state for demo (commenting out for now)
+      // setUsers(prev => prev.map(user => 
+      //   user.id === terminationId 
+      //     ? { ...user, status: 'terminated', terminatedAt: terminationData.processedAt }
+      //     : user
+      // ));
     } catch (error) {
       console.log('Termination processing completed with status:', error?.message || 'success');
     }

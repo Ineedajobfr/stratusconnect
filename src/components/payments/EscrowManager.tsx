@@ -6,10 +6,24 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
 import { formatDistanceToNow, format } from 'date-fns';
-import { EscrowWorkflow, Deal, EscrowTransaction } from '@/lib/real-workflows/escrow-workflow';
+import { EscrowWorkflow } from '@/lib/real-workflows/escrow-workflow';
 import { useAuth } from '@/contexts/AuthContext';
 
-interface EscrowTransaction {
+interface LocalDeal {
+  id: string;
+  title: string;
+  buyer_id: string;
+  seller_id: string;
+  aircraft_id: string;
+  price: number;
+  status: string;
+  created_at: string;
+  escrow_amount: number;
+  completion_date?: string;
+  transactions: LocalEscrowTransaction[];
+}
+
+interface LocalEscrowTransaction {
   id: string;
   deal_id: string;
   type: 'payment_intent' | 'funds_held' | 'release_to_operator' | 'payout_fee' | 'refund' | 'chargeback';
@@ -74,7 +88,7 @@ const transactionColors = {
 
 export const EscrowManager: React.FC = () => {
   const { user } = useAuth();
-  const [deals, setDeals] = useState<Deal[]>([]);
+  const [deals, setDeals] = useState<LocalDeal[]>([]);
   const [selectedDeal, setSelectedDeal] = useState<Deal | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -129,7 +143,7 @@ export const EscrowManager: React.FC = () => {
               amount: 45000,
               currency: 'USD',
               provider_tx: 'pi_1234567890',
-              stripe_payment_intent_id: 'pi_1234567890',
+              // stripe_payment_intent_id: 'pi_1234567890',
               status: 'completed',
               created_at: new Date(Date.now() - 1000 * 60 * 60 * 4).toISOString(),
               created_by: user?.id || 'demo-broker',
@@ -171,7 +185,7 @@ export const EscrowManager: React.FC = () => {
               amount: 32000,
               currency: 'USD',
               provider_tx: 'pi_0987654321',
-              stripe_payment_intent_id: 'pi_0987654321',
+              // stripe_payment_intent_id: 'pi_0987654321',
               status: 'completed',
               created_at: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
               created_by: user?.id || 'demo-broker',
@@ -194,7 +208,7 @@ export const EscrowManager: React.FC = () => {
               amount: 28800,
               currency: 'USD',
               provider_tx: 'tr_0987654321',
-              stripe_transfer_id: 'tr_0987654321',
+              // stripe_transfer_id: 'tr_0987654321',
               status: 'completed',
               created_at: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
               created_by: user?.id || 'demo-broker',

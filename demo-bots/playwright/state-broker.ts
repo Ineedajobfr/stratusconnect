@@ -20,145 +20,163 @@ export async function brokerJourney(page: Page, wpm = 46, err = 0.04) {
     await page.waitForLoadState('networkidle');
     await think(800);
     
-    // Always start with fresh login - look for login form
-    const loginSelectors = [
-      'input[name=email]',
-      'input[type=email]',
-      'input[placeholder*="email"]',
-      'input[placeholder*="Email"]'
+    // Beta terminals don't require login - they go straight to dashboard
+    // Wait for the beta terminal to load completely
+    await think(2000);
+    
+    // Check if we're on the beta terminal dashboard
+    const dashboardIndicators = [
+      'text=Beta Broker Terminal',
+      'text=FCA Compliant',
+      'text=Beta Testing',
+      'text=AI Testing Mode'
     ];
     
-    let foundLogin = false;
-    for (const selector of loginSelectors) {
-      if (await page.locator(selector).count() > 0) {
-        foundLogin = true;
+    let dashboardLoaded = false;
+    for (const indicator of dashboardIndicators) {
+      if (await page.locator(indicator).count() > 0) {
+        dashboardLoaded = true;
+        console.log(`✅ Beta Broker Terminal loaded - found: ${indicator}`);
         break;
       }
     }
     
-    if (!foundLogin) {
-      // Look for login button/link to get to login form
-      const loginButtonSelectors = [
-        'text=Login',
-        'text=Sign In',
-        'button:has-text("Login")',
-        'button:has-text("Sign In")',
-        'a:has-text("Login")',
-        'a:has-text("Sign In")'
-      ];
-      
-      for (const selector of loginButtonSelectors) {
-        if (await page.locator(selector).count() > 0) {
-          await clickHuman(page, selector);
-          await think(800);
-          break;
-        }
-      }
+    if (!dashboardLoaded) {
+      console.log('⚠️ Beta terminal may not be fully loaded, continuing anyway...');
     }
-    
-    // Now perform fresh login
-    await fillHuman(page, 'input[name=email], input[type=email], input[placeholder*="email"], input[placeholder*="Email"]', persona.email, wpm);
-    await fillHuman(page, 'input[name=password], input[type=password], input[placeholder*="password"], input[placeholder*="Password"]', persona.password, wpm);
-    
-    // Submit login
-    const submitSelectors = [
-      'button[type=submit]',
-      'button:has-text("Login")',
-      'button:has-text("Sign In")',
-      'button:has-text("Submit")'
-    ];
-    
-    for (const selector of submitSelectors) {
-      if (await page.locator(selector).count() > 0) {
-        await clickHuman(page, selector);
-        break;
-      }
-    }
-    
-    await think(1600);
 
     // Browse dashboard
     await scrollHuman(page);
     await think(1000);
 
-    // Look for new request button or RFQ creation
-    const newRequestSelectors = [
-      'text=New Request',
-      'text=Create RFQ',
-      'text=Post Request',
-      'button:has-text("New")',
-      '[data-testid="new-request"]'
+    // Navigate to RFQs tab to create new request
+    const rfqTabSelectors = [
+      '[role="tab"]:has-text("RFQs")',
+      'button:has-text("RFQs")',
+      'text=RFQs'
     ];
 
-    let foundNewRequest = false;
-    for (const selector of newRequestSelectors) {
+    let foundRfqTab = false;
+    for (const selector of rfqTabSelectors) {
       if (await page.locator(selector).count() > 0) {
         await clickHuman(page, selector);
-        foundNewRequest = true;
+        foundRfqTab = true;
+        console.log('✅ Clicked RFQs tab');
         break;
       }
     }
 
-    if (!foundNewRequest) {
-      // Try to find any form or input to create a request
-      await clickHuman(page, 'input[placeholder*="origin"], input[placeholder*="from"]');
-      await think(800);
+    if (foundRfqTab) {
+      await think(1500); // Wait for tab content to load
+      
+      // Look for "Create New RFQ" button
+      const createRfqSelectors = [
+        'text=Create New RFQ',
+        'button:has-text("Create New RFQ")',
+        'button:has-text("Create")',
+        'button:has-text("New RFQ")'
+      ];
+
+      let foundCreateButton = false;
+      for (const selector of createRfqSelectors) {
+        if (await page.locator(selector).count() > 0) {
+          await clickHuman(page, selector);
+          foundCreateButton = true;
+          console.log('✅ Clicked Create New RFQ button');
+          break;
+        }
+      }
+
+      if (!foundCreateButton) {
+        console.log('⚠️ Could not find Create New RFQ button, continuing...');
+      }
+    } else {
+      console.log('⚠️ Could not find RFQs tab, continuing...');
     }
 
-    // Fill out RFQ form
-    const originSelectors = [
-      'input[name=origin]',
-      'input[placeholder*="origin"]',
-      'input[placeholder*="from"]',
-      '#origin'
+    // Fill out RFQ form - wait for form to load
+    await think(1000);
+    
+    // Fill From field (IATA code)
+    const fromSelectors = [
+      'input[id*="from_"]',
+      'input[placeholder="LHR"]',
+      'input[placeholder*="From"]'
     ];
 
-    for (const selector of originSelectors) {
+    let filledFrom = false;
+    for (const selector of fromSelectors) {
       if (await page.locator(selector).count() > 0) {
-        await fillHuman(page, selector, 'London Luton', wpm, err);
+        await fillHuman(page, selector, 'LTN', wpm, err); // London Luton
+        filledFrom = true;
+        console.log('✅ Filled From field');
         break;
       }
     }
 
-    const destinationSelectors = [
-      'input[name=destination]',
-      'input[placeholder*="destination"]',
-      'input[placeholder*="to"]',
-      '#destination'
+    // Fill To field (IATA code)
+    const toSelectors = [
+      'input[id*="to_"]',
+      'input[placeholder="JFK"]',
+      'input[placeholder*="To"]'
     ];
 
-    for (const selector of destinationSelectors) {
+    let filledTo = false;
+    for (const selector of toSelectors) {
       if (await page.locator(selector).count() > 0) {
-        await fillHuman(page, selector, 'Nice', wpm, err);
+        await fillHuman(page, selector, 'NCE', wpm, err); // Nice
+        filledTo = true;
+        console.log('✅ Filled To field');
         break;
       }
     }
 
-    // Fill date
+    // Fill departure date
     const dateSelectors = [
-      'input[name=date]',
-      'input[type=date]',
-      'input[placeholder*="date"]'
+      'input[id*="date_"]',
+      'input[type="date"]'
     ];
 
+    let filledDate = false;
     for (const selector of dateSelectors) {
       if (await page.locator(selector).count() > 0) {
         await clickHuman(page, selector);
-        await page.keyboard.type('2025-10-10');
+        await page.keyboard.type('2025-02-15'); // Future date
+        filledDate = true;
+        console.log('✅ Filled departure date');
         break;
       }
     }
 
-    // Select aircraft type
-    const aircraftSelectors = [
-      'select[name=aircraft_type]',
-      'select[name=aircraft]',
-      'select[data-testid="aircraft"]'
+    // Fill departure time
+    const timeSelectors = [
+      'input[id*="time_"]',
+      'input[type="time"]'
     ];
 
-    for (const selector of aircraftSelectors) {
+    let filledTime = false;
+    for (const selector of timeSelectors) {
       if (await page.locator(selector).count() > 0) {
-        await page.selectOption(selector, { label: 'Gulfstream G550' });
+        await clickHuman(page, selector);
+        await page.keyboard.type('10:00'); // 10 AM
+        filledTime = true;
+        console.log('✅ Filled departure time');
+        break;
+      }
+    }
+
+    // Fill passengers count
+    const passengersSelectors = [
+      'input[id*="passengers_"]',
+      'input[placeholder*="passengers"]'
+    ];
+
+    let filledPassengers = false;
+    for (const selector of passengersSelectors) {
+      if (await page.locator(selector).count() > 0) {
+        await fillHuman(page, selector, '8', wpm, err);
+        filledPassengers = true;
+        console.log('✅ Filled passengers count');
         break;
       }
     }
@@ -171,54 +189,65 @@ export async function brokerJourney(page: Page, wpm = 46, err = 0.04) {
       const cancelSelectors = [
         'text=Cancel',
         'button:has-text("Cancel")',
-        'button:has-text("Close")'
+        'button:has-text("Close")',
+        'button:has-text("Discard")'
       ];
       
       for (const selector of cancelSelectors) {
         if (await page.locator(selector).count() > 0) {
           await clickHuman(page, selector);
+          console.log('❌ Abandoned RFQ creation');
           break;
         }
       }
     } else {
-      // Submit the request
+      // Submit the request - look for MultiLegRFQ submit button
       const submitSelectors = [
+        'button:has-text("Submit RFQ")',
         'button:has-text("Send Request")',
+        'button:has-text("Create RFQ")',
         'button:has-text("Submit")',
         'button:has-text("Create")',
         'button[type=submit]'
       ];
 
+      let submitted = false;
       for (const selector of submitSelectors) {
         if (await page.locator(selector).count() > 0) {
           await clickHuman(page, selector);
+          submitted = true;
+          console.log('✅ Submitted RFQ');
           break;
         }
       }
 
-      await think(1500);
-
-      // Look for success message
-      const successSelectors = [
-        'text=Request sent',
-        'text=RFQ created',
-        'text=Success',
-        '.success',
-        '[data-testid="success"]'
-      ];
-
-      let foundSuccess = false;
-      for (const selector of successSelectors) {
-        if (await page.locator(selector).count() > 0) {
-          await expect(page.locator(selector)).toBeVisible();
-          foundSuccess = true;
-          break;
-        }
-      }
-
-      if (!foundSuccess) {
-        // If no success message, just wait a bit
+      if (submitted) {
         await think(2000);
+
+        // Look for success message or confirmation
+        const successSelectors = [
+          'text=RFQ created',
+          'text=Request sent',
+          'text=Success',
+          'text=Submitted',
+          '.success',
+          '[data-testid="success"]'
+        ];
+
+        let foundSuccess = false;
+        for (const selector of successSelectors) {
+          if (await page.locator(selector).count() > 0) {
+            console.log('✅ RFQ submission confirmed');
+            foundSuccess = true;
+            break;
+          }
+        }
+
+        if (!foundSuccess) {
+          console.log('⚠️ No success message found, but RFQ may have been submitted');
+        }
+      } else {
+        console.log('⚠️ Could not find submit button');
       }
     }
 

@@ -30,9 +30,9 @@ async function record(action: string, payload?: Record<string, unknown>) {
 }
 
 test('broker journey - beta terminal', async () => {
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch({ headless: false });
   const ctx = await browser.newContext({ 
-    baseURL: process.env.STRATUS_URL || 'http://localhost:8086'
+    baseURL: process.env.STRATUS_URL || 'http://localhost:8080'
   });
   const page = await ctx.newPage();
 

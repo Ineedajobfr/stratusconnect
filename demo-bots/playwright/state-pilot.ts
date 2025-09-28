@@ -20,62 +20,30 @@ export async function pilotJourney(page: Page, wpm = 40, err = 0.03) {
     await page.waitForLoadState('networkidle');
     await think(800);
     
-    // Always start with fresh login - look for login form
-    const loginSelectors = [
-      'input[name=email]',
-      'input[type=email]',
-      'input[placeholder*="email"]',
-      'input[placeholder*="Email"]'
+    // Beta terminals don't require login - they go straight to dashboard
+    // Wait for the beta terminal to load completely
+    await think(2000);
+    
+    // Check if we're on the beta terminal dashboard
+    const dashboardIndicators = [
+      'text=Beta Pilot Terminal',
+      'text=FCA Compliant',
+      'text=Beta Testing',
+      'text=AI Testing Mode'
     ];
     
-    let foundLogin = false;
-    for (const selector of loginSelectors) {
-      if (await page.locator(selector).count() > 0) {
-        foundLogin = true;
+    let dashboardLoaded = false;
+    for (const indicator of dashboardIndicators) {
+      if (await page.locator(indicator).count() > 0) {
+        dashboardLoaded = true;
+        console.log(`✅ Beta Pilot Terminal loaded - found: ${indicator}`);
         break;
       }
     }
     
-    if (!foundLogin) {
-      // Look for login button/link to get to login form
-      const loginButtonSelectors = [
-        'text=Login',
-        'text=Sign In',
-        'button:has-text("Login")',
-        'button:has-text("Sign In")',
-        'a:has-text("Login")',
-        'a:has-text("Sign In")'
-      ];
-      
-      for (const selector of loginButtonSelectors) {
-        if (await page.locator(selector).count() > 0) {
-          await clickHuman(page, selector);
-          await think(800);
-          break;
-        }
-      }
+    if (!dashboardLoaded) {
+      console.log('⚠️ Beta terminal may not be fully loaded, continuing anyway...');
     }
-    
-    // Now perform fresh login
-    await fillHuman(page, 'input[name=email], input[type=email], input[placeholder*="email"], input[placeholder*="Email"]', persona.email, wpm);
-    await fillHuman(page, 'input[name=password], input[type=password], input[placeholder*="password"], input[placeholder*="Password"]', persona.password, wpm);
-    
-    // Submit login
-    const submitSelectors = [
-      'button[type=submit]',
-      'button:has-text("Login")',
-      'button:has-text("Sign In")',
-      'button:has-text("Submit")'
-    ];
-    
-    for (const selector of submitSelectors) {
-      if (await page.locator(selector).count() > 0) {
-        await clickHuman(page, selector);
-        break;
-      }
-    }
-    
-    await think(1600);
 
     // Navigate to assignments
     const assignmentSelectors = [

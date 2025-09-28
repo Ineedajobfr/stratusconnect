@@ -32,6 +32,10 @@ const AdminTerminal = lazy(() => import("./pages/AdminTerminal"));
 const BetaSignups = lazy(() => import("./pages/admin/BetaSignups"));
 const RoleSelection = lazy(() => import("./pages/RoleSelection"));
 const BetaNavigator = lazy(() => import("./pages/BetaNavigator"));
+const BetaBrokerTerminal = lazy(() => import("./pages/BetaBrokerTerminal"));
+const BetaOperatorTerminal = lazy(() => import("./pages/BetaOperatorTerminal"));
+const BetaPilotTerminal = lazy(() => import("./pages/BetaPilotTerminal"));
+const BetaCrewTerminal = lazy(() => import("./pages/BetaCrewTerminal"));
 const Status = lazy(() => import("./pages/CompliantStatus"));
 const Cookies = lazy(() => import("./pages/Cookies"));
 const Unauthorized = lazy(() => import("./pages/Unauthorized"));
@@ -202,35 +206,19 @@ const App = memo(() => {
               <Route path="/beta" element={<BetaNavigator />} />
               <Route 
                 path="/beta/broker" 
-                element={
-                  <ProtectedRoute allowedRoles={['broker']}>
-                    <BrokerDashboard />
-                  </ProtectedRoute>
-                } 
+                element={<BetaBrokerTerminal />}
               />
               <Route 
                 path="/beta/operator" 
-                element={
-                  <ProtectedRoute allowedRoles={['operator']}>
-                    <OperatorDashboard />
-                  </ProtectedRoute>
-                } 
+                element={<BetaOperatorTerminal />}
               />
               <Route 
                 path="/beta/pilot" 
-                element={
-                  <ProtectedRoute allowedRoles={['pilot']}>
-                    <PilotTerminal />
-                  </ProtectedRoute>
-                } 
+                element={<BetaPilotTerminal />}
               />
               <Route 
                 path="/beta/crew" 
-                element={
-                  <ProtectedRoute allowedRoles={['pilot', 'crew']}>
-                    <CrewTerminal />
-                  </ProtectedRoute>
-                } 
+                element={<BetaCrewTerminal />}
               />
               <Route 
                 path="/beta/admin" 

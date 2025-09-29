@@ -1,17 +1,17 @@
 // Theme is imported in main.tsx
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { lazy, Suspense, memo } from "react";
-import { AuthProvider } from "@/contexts/AuthContext";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { FullPageLoader } from "@/components/LoadingSpinner";
 import { NavigationOptimizer } from "@/components/NavigationOptimizer";
-import { ProtectedRoute } from "./components/ProtectedRoute";
-import { logger } from "@/utils/performance";
 import { WorkflowProvider } from "@/components/real-workflows/WorkflowIntegration";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { Toaster } from "@/components/ui/toaster";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { logger } from "@/utils/performance";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { lazy, memo, Suspense } from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 import { StatusBanner } from "@/components/StatusBanner";
 

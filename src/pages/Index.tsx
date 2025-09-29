@@ -1,13 +1,12 @@
-import { useState, useEffect } from "react";
+import BetaSignupButton from "@/components/BetaSignupButton";
+import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Plane, Shield, Users, Clock, CheckCircle, Star, Zap, Globe, Lock, DollarSign, Building2, UserCheck, ArrowRight, Info, Percent, MessageSquare, BookOpen, Play, Download } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 import { useAuth } from "@/contexts/AuthContext";
-import BetaSignupButton from "@/components/BetaSignupButton";
+import { ArrowRight, BookOpen, Building2, CheckCircle, Clock, DollarSign, Download, Globe, Info, Lock, MessageSquare, Percent, Plane, Play, Shield, UserCheck, Users, Zap } from "lucide-react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 // AI removed - using Botpress instead
 
 export default function Index() {
@@ -52,28 +51,84 @@ export default function Index() {
               Welcome to <span className="text-accent">StratusConnect</span>
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-              The leading platform connecting brokers, operators, pilots, and crew. 
-              Join our growing community of aviation professionals, with real-time data processing and an average response time of 50ms.
+              The next-generation platform connecting brokers, operators, pilots, and crew. 
+              Built for aviation professionals who demand excellence, with real-time data processing and lightning-fast response times.
             </p>
           </div>
 
           {/* Key Statistics */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
             <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">99.9%</div>
-              <div className="text-sm text-muted-foreground">Uptime</div>
+              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">100%</div>
+              <div className="text-sm text-muted-foreground">Free Until Revenue</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">15k+</div>
-              <div className="text-sm text-muted-foreground">Active Users</div>
+              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">24/7</div>
+              <div className="text-sm text-muted-foreground">Platform Access</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">$2B+</div>
-              <div className="text-sm text-muted-foreground">Transactions</div>
+              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">FCA</div>
+              <div className="text-sm text-muted-foreground">Compliant</div>
             </div>
             <div className="text-center">
               <div className="text-4xl md:text-5xl font-bold text-accent mb-2">50ms</div>
               <div className="text-sm text-muted-foreground">Avg Response</div>
+            </div>
+          </div>
+
+          {/* Platform Features */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <div className="text-center p-6 rounded-lg bg-card/50 border border-border/50">
+              <div className="text-2xl font-bold text-accent mb-2">Real-Time</div>
+              <div className="text-sm text-muted-foreground">Live flight tracking and instant updates</div>
+            </div>
+            <div className="text-center p-6 rounded-lg bg-card/50 border border-border/50">
+              <div className="text-2xl font-bold text-accent mb-2">Secure</div>
+              <div className="text-sm text-muted-foreground">Bank-grade encryption and FCA compliance</div>
+            </div>
+            <div className="text-center p-6 rounded-lg bg-card/50 border border-border/50">
+              <div className="text-2xl font-bold text-accent mb-2">Intuitive</div>
+              <div className="text-sm text-muted-foreground">Designed by aviation professionals</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Early Access Section */}
+      <div className="relative z-10 py-16">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <div className="mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Join the <span className="text-accent">Early Access</span> Program
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Be among the first aviation professionals to experience the future of charter operations. 
+              Free access during our beta phase - no strings attached.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <div className="p-6 rounded-lg bg-card/50 border border-border/50 text-left">
+              <h3 className="text-xl font-semibold text-foreground mb-3">What You Get</h3>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>• Full access to all terminal types</li>
+                <li>• Real-time flight tracking</li>
+                <li>• Advanced search capabilities</li>
+                <li>• Document management system</li>
+                <li>• Communication tools</li>
+                <li>• Priority support</li>
+              </ul>
+            </div>
+            <div className="p-6 rounded-lg bg-card/50 border border-border/50 text-left">
+              <h3 className="text-xl font-semibold text-foreground mb-3">Beta Benefits</h3>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>• Shape the platform's development</li>
+                <li>• Direct feedback to our team</li>
+                <li>• Early access to new features</li>
+                <li>• Exclusive beta community</li>
+                <li>• Free forever for early adopters</li>
+                <li>• Help build the future of aviation</li>
+              </ul>
             </div>
           </div>
         </div>

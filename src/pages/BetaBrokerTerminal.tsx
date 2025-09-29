@@ -1,65 +1,41 @@
 // Enhanced Beta Broker Terminal - All Features
 // FCA Compliant Aviation Platform - 100% Free Until Revenue
 
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import AdvancedSearch from '@/components/AdvancedSearch';
+import { MonthlyStatements } from '@/components/Billing/MonthlyStatements';
 import { Brand } from '@/components/Brand';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ModernHelpGuide } from '@/components/ModernHelpGuide';
+import CommunicationTools from '@/components/CommunicationTools';
+import { MultiLegRFQ } from '@/components/DealFlow/MultiLegRFQ';
+import RealTimeFlightTracker from '@/components/RealTimeFlightTracker';
 import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
-import JobBoard from '@/components/job-board/JobBoard';
 import CommunityForums from '@/components/community/CommunityForums';
-import SavedCrews from '@/components/job-board/SavedCrews';
 import ContractGenerator from '@/components/contracts/ContractGenerator';
 import ReceiptGenerator from '@/components/contracts/ReceiptGenerator';
 import DocumentStorage from '@/components/documents/DocumentStorage';
-import { 
-  DollarSign, 
-  FileText, 
-  Shield, 
-  CheckCircle, 
-  AlertTriangle,
-  TrendingUp,
-  Users,
-  Plane,
-  Clock,
-  Target,
-  Search,
-  Bell,
-  Award,
-  BarChart3,
-  Zap,
-  Star,
-  MapPin,
-  Calendar,
-  GitCompare,
-  Save,
-  Eye,
-  Plus,
-  Filter,
-  Download,
-  Leaf,
-  Trophy,
-  ArrowUp,
-  Menu,
-  RefreshCw,
-  Receipt,
-  Briefcase
+import JobBoard from '@/components/job-board/JobBoard';
+import SavedCrews from '@/components/job-board/SavedCrews';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+    AlertTriangle,
+    Bell,
+    Clock,
+    DollarSign,
+    FileText,
+    MessageCircle,
+    Plane,
+    Plus,
+    Receipt,
+    Search,
+    Shield,
+    TrendingUp,
+    Trophy,
+    Zap
 } from 'lucide-react';
-import { WeekOneScoreboard } from '@/components/WeekOneScoreboard';
-import { MultiLegRFQ } from '@/components/DealFlow/MultiLegRFQ';
-import { SavedSearches } from '@/components/DealFlow/SavedSearches';
-import { ReputationMetrics } from '@/components/Reputation/ReputationMetrics';
-import { MonthlyStatements } from '@/components/Billing/MonthlyStatements';
-import { RankingRulesPage } from '@/components/Ranking/RankingRulesPage';
-import AISearchAssistant from '@/components/AISearchAssistant';
-import PredictiveAnalytics from '@/components/PredictiveAnalytics';
-import AIHunterWidget from '@/components/AI/AIHunterWidget';
-import IntelligentAIChatbot from '@/components/IntelligentAIChatbot';
-import NoteTakingSystem from '@/components/NoteTakingSystem';
-import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
+import { useState } from 'react';
+// AI removed - using real functionality instead
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 
 interface RFQ {
@@ -198,6 +174,18 @@ export default function BetaBrokerTerminal() {
               <TabsTrigger value="community">Community</TabsTrigger>
               <TabsTrigger value="saved-crews">Saved Crews</TabsTrigger>
               <TabsTrigger value="documents">Documents</TabsTrigger>
+              <TabsTrigger value="flight-tracking" className="flex items-center gap-2">
+                <Plane className="w-4 h-4 icon-glow" />
+                Flight Tracking
+              </TabsTrigger>
+              <TabsTrigger value="advanced-search" className="flex items-center gap-2">
+                <Search className="w-4 h-4 icon-glow" />
+                Search
+              </TabsTrigger>
+              <TabsTrigger value="communication" className="flex items-center gap-2">
+                <MessageCircle className="w-4 h-4 icon-glow" />
+                Communication
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="dashboard" className="space-y-6">
@@ -438,6 +426,18 @@ export default function BetaBrokerTerminal() {
 
             <TabsContent value="documents" className="space-y-6">
               <DocumentStorage />
+            </TabsContent>
+
+            <TabsContent value="flight-tracking" className="space-y-6">
+              <RealTimeFlightTracker terminalType="broker" />
+            </TabsContent>
+
+            <TabsContent value="advanced-search" className="space-y-6">
+              <AdvancedSearch terminalType="broker" onResults={(results) => console.log('Search results:', results)} />
+            </TabsContent>
+
+            <TabsContent value="communication" className="space-y-6">
+              <CommunicationTools terminalType="broker" />
             </TabsContent>
           </Tabs>
         </div>

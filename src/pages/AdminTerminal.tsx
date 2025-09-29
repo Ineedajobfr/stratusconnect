@@ -1,28 +1,44 @@
-import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { 
-  Shield, Users, CheckCircle, AlertTriangle, UserCheck, FileText, Clock, 
-  Globe, Eye, X, Gavel, BarChart3, Lock, ChevronRight, Bot, Search, 
-  Filter, Download, Settings, Activity, Database, Server, Zap, TrendingUp, 
-  TrendingDown, AlertCircle, UserX, UserPlus, Mail, Phone, MapPin, Calendar, 
-  DollarSign, Plane, Building2, Briefcase, RefreshCw, Ban, CheckSquare, 
-  Square, AlertOctagon, FileCheck, FileX, CreditCard, Receipt, MessageSquare,
-  Send, Bell, Edit, Trash2, Plus, Minus, ArrowUpDown, Target, PieChart
-} from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
-import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
-import { AdminDatabase, AdminUser, Deal, SecurityEvent, CommissionRule, SystemSettings } from "@/lib/admin-database";
+import { AdminDatabase, AdminUser, CommissionRule, Deal, SecurityEvent, SystemSettings } from "@/lib/admin-database";
 import { broadcastService } from "@/lib/broadcast-service";
 import { disputeService } from "@/lib/dispute-service-real";
-import { aiMonitoringService } from "@/lib/ai-monitoring-service-real";
+import {
+    Activity,
+    AlertCircle,
+    AlertTriangle,
+    BarChart3,
+    Bot,
+    CheckCircle,
+    Clock,
+    DollarSign,
+    Eye,
+    FileCheck,
+    Gavel,
+    MessageSquare,
+    Plane,
+    RefreshCw,
+    Search,
+    Send,
+    Settings,
+    Shield,
+    TrendingUp,
+    UserPlus,
+    Users,
+    UserX,
+    X,
+    Zap
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+// AI monitoring removed - keeping admin monitoring only
 import AdminTest from "@/components/AdminTest";
 import AdminCharts from "@/components/admin/AdminCharts";
 import UserDetailsModal from "@/components/admin/UserDetailsModal";
@@ -76,8 +92,9 @@ const AdminTerminal = () => {
         AdminDatabase.getSystemStats(),
         broadcastService.getBroadcastMessages(),
         disputeService.getDisputes(),
-        aiMonitoringService.getFraudAlerts(),
-        aiMonitoringService.getMonitors()
+        // AI monitoring removed
+        Promise.resolve([]),
+        Promise.resolve([])
       ]);
 
       // Process results - use data if successful, empty array if failed

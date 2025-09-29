@@ -176,3 +176,4 @@ ollama pull [model-name]
 
 Max is now ready to help with aviation tasks using free, local AI models!
 
+

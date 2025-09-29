@@ -76,7 +76,7 @@ Always end with a clear next step or recommendation.
 // Model-specific prompts
 export const MODEL_PROMPTS = {
   "llama3:8b": MAX_SYSTEM_PROMPT,
-  "gemma3:4b": MAX_SUMMARY_PROMPT
+  "gemma2:9b": MAX_SUMMARY_PROMPT
 };
 
 // Voice rules for Max
@@ -112,4 +112,5 @@ export const MAX_GUARDRAIL_RESPONSES = {
   targetUsers: "User data is private. Stratus Connect only provides verified aircraft, operator, and crew information.",
   explicit: "Stratus Connect is a professional aviation platform. That request is not permitted here."
 };
+
 

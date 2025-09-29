@@ -35,11 +35,11 @@ export class MaxOllamaClient {
   };
 
   constructor() {
-    this.baseUrl = import.meta.env.VITE_OLLAMA_URL || 'http://127.0.0.1:11434';
+    this.baseUrl = 'http://127.0.0.1:11434';
     this.models = {
-      primary: import.meta.env.VITE_PRIMARY_MODEL || 'llama3:8b',
-      reasoning: import.meta.env.VITE_REASONING_MODEL || 'llama3:8b', // Use Llama 3 for reasoning
-      summary: import.meta.env.VITE_SUMMARY_MODEL || 'gemma3:4b' // Use Gemma 3 you have
+      primary: 'llama3:8b',
+      reasoning: 'llama3:8b', // Use Llama 3 for everything for now
+      summary: 'llama3:8b' // Use Llama 3 for everything for now
     };
   }
 
@@ -88,33 +88,39 @@ export class MaxOllamaClient {
   }
 
   private async callOllama(model: string, prompt: string): Promise<string> {
-    const body: OllamaBody = {
-      model,
-      prompt,
-      stream: false,
-      options: {
-        temperature: 0.7,
-        top_p: 0.9,
-        max_tokens: 1000,
-        stop: ['User:', 'System:', 'Context:']
+    try {
+      const body: OllamaBody = {
+        model,
+        prompt,
+        stream: false,
+        options: {
+          temperature: 0.7,
+          top_p: 0.9,
+          max_tokens: 1000,
+          stop: ['User:', 'System:', 'Context:']
+        }
+      };
+
+      const response = await fetch(`${this.baseUrl}/api/generate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body)
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`Ollama error ${response.status}: ${errorText}`);
+        throw new Error(`Ollama error ${response.status}: ${errorText}`);
       }
-    };
 
-    const response = await fetch(`${this.baseUrl}/api/generate`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body)
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Ollama error ${response.status}: ${errorText}`);
+      const data = await response.json();
+      return data.response || '';
+    } catch (error) {
+      console.error('Ollama call failed:', error);
+      throw error;
     }
-
-    const data = await response.json();
-    return data.response || '';
   }
 
   private buildPrompt(

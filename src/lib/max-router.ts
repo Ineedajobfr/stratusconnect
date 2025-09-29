@@ -79,7 +79,7 @@ export function getModelName(slot: ModelSlot): string {
     case "reasoning":
       return "llama3:8b"; // Use Llama 3 for reasoning too
     case "summary":
-      return "gemma3:4b"; // Use the Gemma 3 you have
+      return "gemma2:9b"; // Use the Gemma 2 you have
     default:
       return "llama3:8b";
   }
@@ -138,4 +138,5 @@ export function getRoutingDecision(userMsg: string, ctx: Partial<AviationContext
     reasoning
   };
 }
+
 

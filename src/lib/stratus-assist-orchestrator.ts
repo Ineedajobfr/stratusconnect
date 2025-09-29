@@ -16,6 +16,7 @@ import {
   type OperatorProfile
 } from './stratus-assist-tools';
 import { maxOllamaClient, type OllamaResponse } from './max-ollama-client';
+import { simpleMaxClient, type SimpleMaxResponse } from './simple-max-client';
 import { detectIntent, type Intent } from './stratus-assist-policy';
 
 export type ConversationState = 
@@ -77,12 +78,32 @@ export class StratusAssistOrchestrator {
     const extractedContext = extractContext(userMsg);
     const updatedContext = { ...convContext.context, ...extractedContext };
 
-    // 3. Get Max's response using local models (with intelligent fallback)
-    const maxResponse = await maxOllamaClient.generateResponse(
-      userMsg,
-      updatedContext,
-      this.buildContextString(convContext)
-    );
+    // 3. Get Max's response using simple client (works without Ollama)
+    let maxResponse: SimpleMaxResponse;
+    
+    try {
+      // Try Ollama first
+      const ollamaResponse = await maxOllamaClient.generateResponse(
+        userMsg,
+        updatedContext,
+        this.buildContextString(convContext)
+      );
+      maxResponse = {
+        text: ollamaResponse.text,
+        intent: ollamaResponse.intent,
+        modelUsed: ollamaResponse.modelUsed,
+        confidence: ollamaResponse.confidence,
+        reasoning: ollamaResponse.reasoning
+      };
+    } catch (error) {
+      // Fallback to simple client
+      console.log('Ollama not available, using simple Max client');
+      maxResponse = await simpleMaxClient.generateResponse(
+        userMsg,
+        updatedContext,
+        this.buildContextString(convContext)
+      );
+    }
 
     // 4. Handle transactional requests with tools
     let finalResponse = maxResponse.text;

@@ -34,10 +34,6 @@ export default defineConfig(({ mode }) => ({
     'import.meta.env.VITE_OPENAI_API_KEY': JSON.stringify(process.env.VITE_OPENAI_API_KEY || ''),
     'import.meta.env.VITE_OPENAI_BASE_URL': JSON.stringify(process.env.VITE_OPENAI_BASE_URL || 'https://api.openai.com/v1'),
     'import.meta.env.VITE_OPENAI_MODEL': JSON.stringify(process.env.VITE_OPENAI_MODEL || 'gpt-4o-mini'),
-    'import.meta.env.VITE_OLLAMA_URL': JSON.stringify(process.env.VITE_OLLAMA_URL || 'http://127.0.0.1:11434'),
-    'import.meta.env.VITE_PRIMARY_MODEL': JSON.stringify(process.env.VITE_PRIMARY_MODEL || 'llama3:8b'),
-    'import.meta.env.VITE_REASONING_MODEL': JSON.stringify(process.env.VITE_REASONING_MODEL || 'mixtral:8x22b'),
-    'import.meta.env.VITE_SUMMARY_MODEL': JSON.stringify(process.env.VITE_SUMMARY_MODEL || 'gemma2:9b'),
   },
   resolve: {
     alias: {

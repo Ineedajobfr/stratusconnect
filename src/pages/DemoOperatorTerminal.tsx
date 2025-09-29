@@ -9,10 +9,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ModernHelpGuide } from '@/components/ModernHelpGuide';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
-import AISearchAssistant from '@/components/AISearchAssistant';
-import PredictiveAnalytics from '@/components/PredictiveAnalytics';
-import AIHunterWidget from '@/components/AI/AIHunterWidget';
-import IntelligentAIChatbot from '@/components/IntelligentAIChatbot';
+import RealTimeFlightTracker from '@/components/RealTimeFlightTracker';
+import AdvancedSearch from '@/components/AdvancedSearch';
+import DocumentManagement from '@/components/DocumentManagement';
+import CommunicationTools from '@/components/CommunicationTools';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
 import EnhancedAIChatbot from '@/components/EnhancedAIChatbot';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
@@ -1476,7 +1476,7 @@ export default function DemoOperatorTerminal() {
       )}
 
       {/* Intelligent AI Chatbot */}
-      <IntelligentAIChatbot terminalType="operator" />
+            <RealTimeFlightTracker terminalType="operator" />
     </>
   );
 }

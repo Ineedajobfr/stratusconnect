@@ -7,7 +7,10 @@ import { ModernHelpGuide } from '@/components/ModernHelpGuide';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
-import IntelligentAIChatbot from '@/components/IntelligentAIChatbot';
+import RealTimeFlightTracker from '@/components/RealTimeFlightTracker';
+import AdvancedSearch from '@/components/AdvancedSearch';
+import DocumentManagement from '@/components/DocumentManagement';
+import CommunicationTools from '@/components/CommunicationTools';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
 import { DemoBanner } from '@/components/DemoBanner';
 import JobBoard from '@/components/job-board/JobBoard';
@@ -606,7 +609,7 @@ export default function DemoCrewTerminal() {
       </Button>
       
       {/* Intelligent AI Chatbot */}
-      <IntelligentAIChatbot terminalType="crew" />
+            <RealTimeFlightTracker terminalType="crew" />
     </>
   );
 }

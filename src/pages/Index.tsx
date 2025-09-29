@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 import { useAuth } from "@/contexts/AuthContext";
 import BetaSignupButton from "@/components/BetaSignupButton";
-import AIIntelligenceDemo from "@/components/AIIntelligenceDemo";
+// AI removed - using Botpress instead
 
 export default function Index() {
   const navigate = useNavigate();
@@ -975,7 +975,7 @@ export default function Index() {
       {/* AI Intelligence Demo Section */}
       <section className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
-          <AIIntelligenceDemo />
+          {/* AI removed - using Botpress instead */}
         </div>
       </section>
 

@@ -46,7 +46,8 @@ import {
   Menu,
   RefreshCw,
   Receipt,
-  Briefcase
+  Briefcase,
+  MessageCircle
 } from 'lucide-react';
 import { WeekOneScoreboard } from '@/components/WeekOneScoreboard';
 import { MultiLegRFQ } from '@/components/DealFlow/MultiLegRFQ';
@@ -54,10 +55,10 @@ import { SavedSearches } from '@/components/DealFlow/SavedSearches';
 import { ReputationMetrics } from '@/components/Reputation/ReputationMetrics';
 import { MonthlyStatements } from '@/components/Billing/MonthlyStatements';
 import { RankingRulesPage } from '@/components/Ranking/RankingRulesPage';
-import AISearchAssistant from '@/components/AISearchAssistant';
-import PredictiveAnalytics from '@/components/PredictiveAnalytics';
-import AIHunterWidget from '@/components/AI/AIHunterWidget';
-import IntelligentAIChatbot from '@/components/IntelligentAIChatbot';
+import RealTimeFlightTracker from '@/components/RealTimeFlightTracker';
+import AdvancedSearch from '@/components/AdvancedSearch';
+import DocumentManagement from '@/components/DocumentManagement';
+import CommunicationTools from '@/components/CommunicationTools';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
@@ -1159,6 +1160,18 @@ export default function DemoBrokerTerminal() {
               <FileText className="w-4 h-4 icon-glow" />
               Documents
             </TabsTrigger>
+            <TabsTrigger value="flight-tracking" className="flex items-center gap-2">
+              <Plane className="w-4 h-4 icon-glow" />
+              Flight Tracking
+            </TabsTrigger>
+            <TabsTrigger value="advanced-search" className="flex items-center gap-2">
+              <Search className="w-4 h-4 icon-glow" />
+              Search
+            </TabsTrigger>
+            <TabsTrigger value="communication" className="flex items-center gap-2">
+              <MessageCircle className="w-4 h-4 icon-glow" />
+              Communication
+            </TabsTrigger>
             </TabsList>
           </div>
 
@@ -1414,6 +1427,18 @@ export default function DemoBrokerTerminal() {
           <TabsContent value="documents" className="mt-6 scroll-smooth">
             <DocumentStorage userRole="broker" />
           </TabsContent>
+
+          <TabsContent value="flight-tracking" className="mt-6 scroll-smooth">
+            <RealTimeFlightTracker terminalType="broker" />
+          </TabsContent>
+
+          <TabsContent value="advanced-search" className="mt-6 scroll-smooth">
+            <AdvancedSearch terminalType="broker" onResults={(results) => console.log('Search results:', results)} />
+          </TabsContent>
+
+          <TabsContent value="communication" className="mt-6 scroll-smooth">
+            <CommunicationTools terminalType="broker" />
+          </TabsContent>
         </Tabs>
 
         {/* Demo Notice */}
@@ -1469,7 +1494,7 @@ export default function DemoBrokerTerminal() {
       )}
 
       {/* Intelligent AI Chatbot */}
-      <IntelligentAIChatbot terminalType="broker" />
+            <RealTimeFlightTracker terminalType="broker" />
     </>
   );
 }

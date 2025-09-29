@@ -43,6 +43,28 @@ export default function TermsOfService() {
               </section>
 
               <section>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">2.1 Advertising Policy</h2>
+                <div className="space-y-4">
+                  <p className="text-muted-foreground leading-relaxed">
+                    StratusConnect maintains strict control over all advertising content displayed on our platform. We do not allow third-party advertising networks, external ad servers, or any form of external advertising on our platform.
+                  </p>
+                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
+                    <h3 className="text-lg font-medium text-foreground mb-2">Our Advertising Policy:</h3>
+                    <ul className="text-muted-foreground space-y-2">
+                      <li>• <strong>Internal Advertising Only:</strong> Only StratusConnect-approved advertisements are permitted</li>
+                      <li>• <strong>No Third-Party Ads:</strong> External advertising networks are strictly prohibited</li>
+                      <li>• <strong>No Tracking Scripts:</strong> Third-party tracking or analytics scripts are blocked</li>
+                      <li>• <strong>Quality Control:</strong> All advertisements must meet our professional standards</li>
+                      <li>• <strong>User Experience:</strong> Advertising will not interfere with platform functionality</li>
+                    </ul>
+                  </div>
+                  <p className="text-muted-foreground leading-relaxed">
+                    This policy ensures a clean, professional environment free from external advertising interference while allowing us to promote relevant aviation services and opportunities.
+                  </p>
+                </div>
+              </section>
+
+              <section>
                 <h2 className="text-2xl font-semibold text-foreground mb-4">3. User Responsibilities</h2>
                 <div className="space-y-4">
                   <div>

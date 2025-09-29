@@ -1,6 +1,8 @@
 // AI Intelligence Service - Advanced Aviation AI
 // FCA Compliant Aviation Platform
 
+import { ultimateDataEngine } from './ultimate-data-engine';
+
 export interface AIAnalysis {
   id: string;
   type: 'market_analysis' | 'route_optimization' | 'pricing_insight' | 'demand_forecast' | 'risk_assessment';
@@ -32,6 +34,8 @@ export interface AIMessage {
     suggestions?: string[];
     actions?: string[];
     confidence?: number;
+    sources?: any[];
+    reasoning?: string;
   };
   timestamp: Date;
 }
@@ -102,20 +106,21 @@ class AIIntelligenceService {
     };
     conversation.messages.push(userMsg);
 
-    // Analyze the message and generate intelligent response
-    const analysis = await this.analyzeMessage(userMessage, conversation.context);
-    const response = await this.generateIntelligentResponse(userMessage, analysis, conversation.context);
+    // Use real search service for intelligent responses
+    const searchResponse = await this.performRealTimeSearch(userMessage, conversationId, conversation.context.terminalType);
 
     // Add AI response
     const aiMsg: AIMessage = {
       id: crypto.randomUUID(),
       role: 'assistant',
-      content: response.content,
+      content: searchResponse.content,
       metadata: {
-        analysis: analysis,
-        suggestions: response.suggestions,
-        actions: response.actions,
-        confidence: response.confidence
+        analysis: searchResponse.analysis,
+        suggestions: searchResponse.suggestions,
+        actions: searchResponse.actions,
+        confidence: searchResponse.confidence,
+        sources: searchResponse.sources,
+        reasoning: searchResponse.reasoning
       },
       timestamp: new Date()
     };
@@ -123,6 +128,29 @@ class AIIntelligenceService {
     conversation.updatedAt = new Date();
 
     return aiMsg;
+  }
+
+  // Perform real-time search and analysis with Ultimate Data Engine
+  private async performRealTimeSearch(
+    query: string,
+    conversationId: string,
+    terminalType: 'broker' | 'operator' | 'pilot' | 'crew'
+  ): Promise<AIResponse> {
+    // Import search service dynamically to avoid circular imports
+    const { aiSearchService } = await import('./ai-search-service');
+    
+    // Get ultimate data from the scraping engine
+    const ultimateData = await ultimateDataEngine.getUltimateData(query);
+    
+    // Perform comprehensive search with ultimate data
+    const searchResponse = await aiSearchService.searchAndRespond(query, conversationId, terminalType);
+    
+    // Enhance response with ultimate data insights
+    if (ultimateData && ultimateData.totalDataPoints > 0) {
+      searchResponse.response = this.enhanceResponseWithUltimateData(searchResponse.response, ultimateData);
+    }
+    
+    return searchResponse;
   }
 
   // Analyze message intent and context
@@ -592,6 +620,68 @@ class AIIntelligenceService {
       "Set Availability",
       "Contact Operator"
     ];
+  }
+
+  // Enhance response with ultimate data insights - formatted properly
+  private enhanceResponseWithUltimateData(response: string, ultimateData: any): string {
+    let enhancedResponse = response;
+    
+    // Format charter rates properly
+    if (ultimateData.marketIntelligence?.charterRates) {
+      const rates = ultimateData.marketIntelligence.charterRates;
+      enhancedResponse += `\n\n**Current Charter Rates:**\n`;
+      
+      Object.entries(rates).forEach(([aircraft, data]: [string, any]) => {
+        const aircraftName = aircraft.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        enhancedResponse += `• **${aircraftName}**: $${data.min.toLocaleString()} - $${data.max.toLocaleString()} per hour (avg: $${data.avg.toLocaleString()})\n`;
+      });
+    }
+    
+    // Format aircraft data properly
+    if (ultimateData.aircraftData && ultimateData.aircraftData.length > 0) {
+      enhancedResponse += `\n\n**Available Aircraft:**\n`;
+      ultimateData.aircraftData.slice(0, 3).forEach((aircraft: any) => {
+        enhancedResponse += `• **${aircraft.make} ${aircraft.model}** (${aircraft.year}) - $${aircraft.price?.toLocaleString()} - ${aircraft.hours} hours\n`;
+      });
+    }
+    
+    // Format charter rates properly
+    if (ultimateData.charterRates && ultimateData.charterRates.length > 0) {
+      enhancedResponse += `\n\n**Current Charter Options:**\n`;
+      ultimateData.charterRates.slice(0, 3).forEach((rate: any) => {
+        enhancedResponse += `• **${rate.route}** - ${rate.aircraft} - $${rate.price?.toLocaleString()} (${rate.duration})\n`;
+      });
+    }
+    
+    // Format news properly
+    if (ultimateData.news && ultimateData.news.length > 0) {
+      enhancedResponse += `\n\n**Latest Aviation News:**\n`;
+      ultimateData.news.slice(0, 2).forEach((article: any) => {
+        enhancedResponse += `• **${article.title}** - ${article.summary?.substring(0, 100)}...\n`;
+      });
+    }
+    
+    // Format weather data properly
+    if (ultimateData.weather) {
+      const weather = ultimateData.weather;
+      enhancedResponse += `\n\n**Current Weather Conditions:**\n`;
+      enhancedResponse += `• Temperature: ${weather.temperature}°C\n`;
+      enhancedResponse += `• Conditions: ${weather.conditions}\n`;
+      enhancedResponse += `• Visibility: ${weather.visibility} miles\n`;
+      enhancedResponse += `• Wind: ${weather.windSpeed} knots from ${weather.windDirection}°\n`;
+    }
+    
+    // Format fuel prices properly
+    if (ultimateData.fuelPrices) {
+      const fuel = ultimateData.fuelPrices;
+      enhancedResponse += `\n\n**Current Fuel Prices:**\n`;
+      enhancedResponse += `• Jet A: $${fuel.jetA}/gallon (${fuel.trend})\n`;
+      if (fuel.change) {
+        enhancedResponse += `• Change: ${fuel.change > 0 ? '+' : ''}$${fuel.change}/gallon\n`;
+      }
+    }
+    
+    return enhancedResponse;
   }
 
   // Get conversation history

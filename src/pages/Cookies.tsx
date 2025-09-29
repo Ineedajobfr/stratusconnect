@@ -98,7 +98,7 @@ export default function Cookies() {
                   Cookie Consent
                 </h3>
                 <p className="text-gunmetal mb-4">
-                  We use cookies to enhance your experience, analyze site usage, and assist in our marketing efforts. 
+                  We use cookies to enhance your experience, analyze site usage, and improve our services. 
                   You can customize your preferences or accept all cookies.
                 </p>
                 <div className="flex gap-3">
@@ -264,18 +264,18 @@ export default function Cookies() {
               <div className="border-l-4 border-purple-500 pl-4">
                 <h4 className="font-medium text-foreground flex items-center gap-2">
                   <Eye className="w-4 h-4" />
-                  Marketing Cookies
+                  Analytics Cookies
                 </h4>
                 <p className="text-gunmetal text-sm mt-1 mb-3">
-                  These cookies are used to deliver advertisements that are relevant to you and your interests.
+                  These cookies are used for analytics, performance monitoring, and internal advertising to improve our services.
                 </p>
                 <div className="bg-slate-800 rounded-lg p-3">
                   <p className="text-sm font-medium text-foreground mb-2">Examples:</p>
                   <ul className="text-sm text-gunmetal space-y-1">
-                    <li>• Facebook Pixel (_fbp, _fbc)</li>
-                    <li>• Google Ads conversion tracking</li>
-                    <li>• Retargeting cookies</li>
-                    <li>• Social media integration</li>
+                    <li>• Performance monitoring</li>
+                    <li>• Analytics tracking</li>
+                    <li>• Internal advertising optimization</li>
+                    <li>• Service improvement metrics</li>
                   </ul>
                 </div>
               </div>

@@ -2,7 +2,7 @@
 // The brain that coordinates dialogue, tools, and responses
 // FCA Compliant Aviation Platform
 
-import { enforcePolicy, detectIntent, extractContext, hasAllRequiredContext, getMissingContext, type AviationContext, type Intent } from './stratus-assist-policy';
+import { enforcePolicy, extractContext, type AviationContext } from './stratus-assist-policy';
 import { 
   get_aircraft_availability, 
   price_estimate, 
@@ -15,7 +15,8 @@ import {
   type PriceMatchResult,
   type OperatorProfile
 } from './stratus-assist-tools';
-import { MASTER_SYSTEM_PROMPT, VOICE_RULES, REPLY_TEMPLATES } from './stratus-assist-prompts';
+import { maxOllamaClient, type OllamaResponse } from './max-ollama-client';
+import { detectIntent, type Intent } from './stratus-assist-policy';
 
 export type ConversationState = 
   | "idle"
@@ -34,6 +35,7 @@ export interface ConversationContext {
   priceResults?: PriceEstimate[];
   matchResult?: PriceMatchResult;
   operatorProfile?: OperatorProfile;
+  conversationHistory: string[];
 }
 
 export interface OrchestratorResponse {
@@ -56,7 +58,8 @@ export class StratusAssistOrchestrator {
     // Get or create conversation context
     let convContext = this.conversationHistory.get(conversationId) || {
       state: "idle" as ConversationState,
-      context: {}
+      context: {},
+      conversationHistory: []
     };
 
     // 1. Policy enforcement
@@ -70,28 +73,186 @@ export class StratusAssistOrchestrator {
       };
     }
 
-    // 2. Intent detection
-    const intent = detectIntent(userMsg);
-    
-    // 3. Context extraction
+    // 2. Extract context from user message
     const extractedContext = extractContext(userMsg);
     const updatedContext = { ...convContext.context, ...extractedContext };
 
-    // 4. State machine logic
-    const response = await this.handleStateMachine(
-      userMsg, 
-      intent, 
-      convContext.state, 
-      updatedContext, 
-      terminalType
+    // 3. Get Max's response using local models (with intelligent fallback)
+    const maxResponse = await maxOllamaClient.generateResponse(
+      userMsg,
+      updatedContext,
+      this.buildContextString(convContext)
     );
 
-    // 5. Update conversation context
-    convContext.state = response.newState;
-    convContext.context = response.context;
+    // 4. Handle transactional requests with tools
+    let finalResponse = maxResponse.text;
+    let toolCalls: string[] = [];
+
+    if (this.shouldUseTools(maxResponse.intent, updatedContext)) {
+      const toolResults = await this.executeAviationTools(updatedContext);
+      toolCalls = toolResults.map(t => t.toolName);
+      
+      // Let Max process the tool results
+      const toolContext = this.formatToolResults(toolResults);
+      const finalMaxResponse = await maxOllamaClient.generateResponse(
+        `Process these results and respond: ${toolContext}`,
+        updatedContext
+      );
+      finalResponse = finalMaxResponse.text;
+    }
+
+    // 5. Update conversation history
+    convContext.conversationHistory.push(userMsg, finalResponse);
+    convContext.context = updatedContext;
+    convContext.state = this.determineNewState(maxResponse.intent, updatedContext);
     this.conversationHistory.set(conversationId, convContext);
 
-    return response;
+    return {
+      reply: finalResponse,
+      newState: convContext.state,
+      context: convContext.context,
+      toolCalls,
+      confidence: maxResponse.confidence
+    };
+  }
+
+  private buildContextString(convContext: ConversationContext): string {
+    const contextParts = [];
+    
+    if (convContext.searchResults) {
+      contextParts.push(`Available aircraft: ${convContext.searchResults.length} options`);
+    }
+    
+    if (convContext.priceResults) {
+      contextParts.push(`Pricing: ${convContext.priceResults.length} quotes`);
+    }
+    
+    if (convContext.operatorProfile) {
+      contextParts.push(`Selected operator: ${convContext.operatorProfile.name}`);
+    }
+    
+    return contextParts.join('. ');
+  }
+
+  private shouldUseTools(intent: Intent, context: Partial<AviationContext>): boolean {
+    // Use tools for availability, pricing, and when we have complete context
+    return (intent === 'availability' || intent === 'pricing' || intent === 'tools') &&
+           !!(context.aircraft && context.origin && context.destination && context.date && context.pax && context.budget_gbp);
+  }
+
+  private async executeAviationTools(context: Partial<AviationContext>) {
+    const results = [];
+
+    try {
+      // 1. Get availability
+      const availability = await get_aircraft_availability({
+        aircraft_type: context.aircraft,
+        origin: context.origin,
+        destination: context.destination,
+        depart_date: context.date,
+        pax: context.pax,
+        budget_gbp: context.budget_gbp
+      });
+
+      results.push({
+        toolName: 'get_aircraft_availability',
+        result: availability
+      });
+
+      if (availability.ok && availability.data.length > 0) {
+        const topOptions = availability.data.slice(0, 3);
+
+        // 2. Price each option
+        const priceResults: PriceEstimate[] = [];
+        for (const option of topOptions) {
+          const price = await price_estimate({
+            operator_id: option.operator_id,
+            aircraft_type: option.aircraft_type,
+            origin: context.origin!,
+            destination: context.destination!,
+            depart_date: context.date!,
+            pax: context.pax!,
+            extras: {}
+          });
+
+          results.push({
+            toolName: 'price_estimate',
+            result: price
+          });
+
+          if (price.ok) {
+            priceResults.push(price.data);
+          }
+        }
+
+        if (priceResults.length > 0) {
+          // 3. Price match
+          const match = await price_match({
+            candidates: priceResults.map(p => ({ 
+              operator_id: p.operator_id, 
+              est_price_gbp: p.est_price_gbp 
+            })),
+            target_budget_gbp: context.budget_gbp!,
+            tie_break: "home_base_fit"
+          });
+
+          results.push({
+            toolName: 'price_match',
+            result: match
+          });
+
+          if (match.ok) {
+            // 4. Get operator profile
+            const bestPrice = priceResults.find(p => p.operator_id === match.data.best_operator_id)!;
+            const profile = await get_operator_profile({ operator_id: bestPrice.operator_id });
+
+            results.push({
+              toolName: 'get_operator_profile',
+              result: profile
+            });
+          }
+        }
+      }
+    } catch (error: any) {
+      results.push({
+        toolName: 'error',
+        result: { ok: false, error: error.message }
+      });
+    }
+
+    return results;
+  }
+
+  private formatToolResults(toolResults: Array<{ toolName: string; result: any }>): string {
+    const formatted = toolResults.map(tr => {
+      if (tr.toolName === 'get_aircraft_availability' && tr.result.ok) {
+        return `Found ${tr.result.data.length} available aircraft options`;
+      }
+      if (tr.toolName === 'price_estimate' && tr.result.ok) {
+        return `Price estimate: £${tr.result.data.est_price_gbp.toLocaleString()}`;
+      }
+      if (tr.toolName === 'price_match' && tr.result.ok) {
+        return `Best match: ${tr.result.data.best_operator_id}`;
+      }
+      if (tr.toolName === 'get_operator_profile' && tr.result.ok) {
+        return `Operator: ${tr.result.data.name}`;
+      }
+      return null;
+    }).filter(Boolean);
+
+    return formatted.join('. ');
+  }
+
+  private determineNewState(intent: Intent, context: Partial<AviationContext>): ConversationState {
+    if (intent === 'reassure') return 'reassure';
+    if (intent === 'intake' || !this.hasAllRequiredContext(context)) return 'intake';
+    if (intent === 'availability' || intent === 'pricing') return 'searching';
+    if (intent === 'tools') return 'presenting';
+    return 'idle';
+  }
+
+  private hasAllRequiredContext(context: Partial<AviationContext>): boolean {
+    return !!(context.aircraft && context.origin && context.destination && context.date && context.pax && context.budget_gbp);
   }
 
   private async handleStateMachine(

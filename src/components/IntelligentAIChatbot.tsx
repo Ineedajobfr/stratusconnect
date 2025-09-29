@@ -83,6 +83,7 @@ export default function IntelligentAIChatbot({
   const [showSources, setShowSources] = useState(false);
   const [searchSources, setSearchSources] = useState<SearchResult[]>([]);
   const [searchReasoning, setSearchReasoning] = useState<string>('');
+  const [maxStatus, setMaxStatus] = useState<'local' | 'fallback' | 'checking'>('checking');
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -125,6 +126,25 @@ export default function IntelligentAIChatbot({
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  // Check Max status on mount
+  useEffect(() => {
+    const checkMaxStatus = async () => {
+      try {
+        // Test if Ollama is available
+        const response = await fetch('http://127.0.0.1:11434/api/tags');
+        if (response.ok) {
+          setMaxStatus('local');
+        } else {
+          setMaxStatus('fallback');
+        }
+      } catch {
+        setMaxStatus('fallback');
+      }
+    };
+
+    checkMaxStatus();
+  }, []);
 
   // Focus input when opened
   useEffect(() => {
@@ -257,7 +277,13 @@ export default function IntelligentAIChatbot({
             <div>
               <CardTitle className="text-lg font-bold text-white flex items-center space-x-2">
                 <Sparkles className="w-5 h-5 text-accent" />
-                <span>AI Intelligence</span>
+                <span>Max AI</span>
+                <Badge 
+                  variant={maxStatus === 'local' ? 'default' : maxStatus === 'fallback' ? 'destructive' : 'outline'}
+                  className="text-xs"
+                >
+                  {maxStatus === 'local' ? 'Local' : maxStatus === 'fallback' ? 'Fallback' : 'Checking...'}
+                </Badge>
               </CardTitle>
               <p className="text-xs text-gray-300 capitalize font-medium">{terminalType} Terminal</p>
             </div>

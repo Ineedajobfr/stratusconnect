@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 import { useAuth } from "@/contexts/AuthContext";
 import BetaSignupButton from "@/components/BetaSignupButton";
+import AIIntelligenceDemo from "@/components/AIIntelligenceDemo";
 
 export default function Index() {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ export default function Index() {
   const handleDemoAccess = (demoRoute: string) => {
     navigate(demoRoute);
   };
-  return <div className="min-h-screen bg-app relative overflow-hidden">
+  return <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0B1426' }}>
       <StarfieldRunwayBackground />
       
       {/* About Us and Beta Signup Links */}
@@ -970,6 +971,13 @@ export default function Index() {
           </div>
         </div>
       </footer>
+
+      {/* AI Intelligence Demo Section */}
+      <section className="py-20 px-6">
+        <div className="max-w-7xl mx-auto">
+          <AIIntelligenceDemo />
+        </div>
+      </section>
 
     </div>;
 }

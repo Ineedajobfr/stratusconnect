@@ -45,7 +45,7 @@ export default function BrokerLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-app relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0B1426' }}>
       <StarfieldRunwayBackground />
       
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4">

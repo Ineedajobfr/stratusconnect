@@ -48,7 +48,7 @@ export default function Auth() {
   // Redirect if already authenticated
   if (loading) {
     return (
-      <div className="min-h-screen bg-terminal-bg relative">
+      <div className="min-h-screen relative" style={{ backgroundColor: '#0B1426' }}>
         <DemoBanner />
         <StarfieldRunwayBackground intensity={0.3} starCount={150} />
         <div className="relative z-10 flex items-center justify-center min-h-screen">

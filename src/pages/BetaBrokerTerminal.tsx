@@ -57,7 +57,7 @@ import { RankingRulesPage } from '@/components/Ranking/RankingRulesPage';
 import AISearchAssistant from '@/components/AISearchAssistant';
 import PredictiveAnalytics from '@/components/PredictiveAnalytics';
 import AIHunterWidget from '@/components/AI/AIHunterWidget';
-import AIChatbot from '@/components/AIChatbot';
+import IntelligentAIChatbot from '@/components/IntelligentAIChatbot';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
@@ -476,8 +476,8 @@ export default function BetaBrokerTerminal() {
         )}
       </div>
       
-      {/* AI Chatbot */}
-      <AIChatbot terminalType="broker" />
+      {/* Intelligent AI Chatbot */}
+      <IntelligentAIChatbot terminalType="broker" />
     </div>
   );
 }

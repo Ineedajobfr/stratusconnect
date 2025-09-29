@@ -47,10 +47,10 @@ const AdminTerminal = () => {
   const [securityEvents, setSecurityEvents] = useState<SecurityEvent[]>([]);
   const [commissionRules, setCommissionRules] = useState<CommissionRule[]>([]);
   const [systemSettings, setSystemSettings] = useState<SystemSettings[]>([]);
-  const [systemStats, setSystemStats] = useState<any>({});
-  const [broadcastMessages, setBroadcastMessages] = useState<any[]>([]);
-  const [disputes, setDisputes] = useState<any[]>([]);
-  const [fraudAlerts, setFraudAlerts] = useState<any[]>([]);
+  const [systemStats, setSystemStats] = useState<Record<string, number | string>>({});
+  const [broadcastMessages, setBroadcastMessages] = useState<Array<{ id: string; message: string; timestamp: string }>>([]);
+  const [disputes, setDisputes] = useState<Array<{ id: string; reason: string; status: string; timestamp: string }>>([]);
+  const [fraudAlerts, setFraudAlerts] = useState<Array<{ id: string; type: string; severity: string; timestamp: string }>>([]);
   const [aiMonitors, setAiMonitors] = useState<any[]>([]);
 
   // Filters
@@ -227,7 +227,7 @@ const AdminTerminal = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-app relative overflow-hidden">
+      <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0B1426' }}>
         <StarfieldRunwayBackground />
         <div className="relative z-10 flex items-center justify-center min-h-screen">
           <div className="text-center">
@@ -240,7 +240,7 @@ const AdminTerminal = () => {
   }
 
   return (
-    <div className="min-h-screen bg-app relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0B1426' }}>
       <StarfieldRunwayBackground />
       
       {/* Header */}

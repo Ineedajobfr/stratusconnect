@@ -44,9 +44,9 @@ export default function Landing() {
     label: "Contact",
     href: "#"
   }];
-  return <div className="min-h-screen bg-terminal-bg text-foreground">
+  return <div className="min-h-screen text-foreground" style={{ backgroundColor: '#0B1426' }}>
       {/* Top Navigation */}
-      <nav className="border-b border-terminal-border bg-terminal-card/50">
+      <nav className="border-b border-terminal-border" style={{ backgroundColor: 'hsl(210, 30%, 15%)' }}>
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-8">
@@ -72,7 +72,7 @@ export default function Landing() {
       </nav>
 
       {/* Hero Section */}
-      <section className="px-6 py-24 bg-terminal-bg">
+      <section className="px-6 py-24" style={{ backgroundColor: '#0B1426' }}>
         <div className="max-w-5xl mx-auto">
           <div className="max-w-3xl">
             <h1 className="text-5xl text-foreground tracking-tight mb-6 font-bold">
@@ -88,7 +88,7 @@ export default function Landing() {
       </section>
 
       {/* Terminal Access */}
-      <section className="px-6 py-24 bg-terminal-bg">
+      <section className="px-6 py-24" style={{ backgroundColor: '#0B1426' }}>
         <div className="max-w-5xl mx-auto">
           <div className="mb-12 text-center">
             <h2 className="text-3xl font-semibold text-foreground mb-4">Terminal Access</h2>
@@ -108,7 +108,7 @@ export default function Landing() {
       </section>
 
       {/* Live Analytics Preview */}
-      <section className="px-6 py-20 bg-terminal-bg bg-slate-900">
+      <section className="px-6 py-20" style={{ backgroundColor: '#0B1426' }}>
         <div className="max-w-5xl mx-auto">
           <div className="terminal-card relative overflow-hidden border border-terminal-border/50">
             <div className="absolute inset-0 bg-terminal-bg/95 backdrop-blur-sm flex items-center justify-center z-10">
@@ -188,7 +188,7 @@ export default function Landing() {
       
 
       {/* Footer */}
-      <footer className="border-t border-terminal-border bg-terminal-card/50 px-6 py-8">
+      <footer className="border-t border-terminal-border px-6 py-8" style={{ backgroundColor: 'hsl(210, 30%, 15%)' }}>
         <div className="max-w-5xl mx-auto">
           <div className="text-center">
             <p className="text-gunmetal">© 2025 StratusConnect. Professional aviation trading platform.</p>

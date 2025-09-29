@@ -7,7 +7,7 @@ import { ModernHelpGuide } from '@/components/ModernHelpGuide';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
-import EnhancedAIChatbot from '@/components/EnhancedAIChatbot';
+import IntelligentAIChatbot from '@/components/IntelligentAIChatbot';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
 import { DemoBanner } from '@/components/DemoBanner';
 import JobBoard from '@/components/job-board/JobBoard';
@@ -492,11 +492,11 @@ export default function DemoCrewTerminal() {
           onClose={() => setShowHelpGuide(false)}
       />
       )}
-      <div className="min-h-screen bg-app relative overflow-hidden scroll-smooth">
+      <div className="min-h-screen relative overflow-hidden scroll-smooth" style={{ backgroundColor: '#0B1426' }}>
         <StarfieldRunwayBackground />
         
         {/* Header */}
-        <header className="relative z-10 sticky top-0 bg-terminal-card/80 backdrop-blur-modern border-b border-terminal-border">
+        <header className="relative z-10 sticky top-0 backdrop-blur-modern border-b border-terminal-border" style={{ backgroundColor: 'hsl(210, 30%, 15%)' }}>
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
@@ -526,7 +526,7 @@ export default function DemoCrewTerminal() {
           {/* Main Navigation */}
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-terminal-border scrollbar-track-transparent pb-2 mb-6">
-              <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-terminal-card/50 backdrop-blur-sm">
+              <TabsList className="flex w-max min-w-full justify-start space-x-1 backdrop-blur-sm" style={{ backgroundColor: 'hsla(210, 30%, 15%, 0.5)' }}>
                 <TabsTrigger value="dashboard" className="flex items-center gap-2">
                   <BarChart3 className="w-4 h-4" />
                   Dashboard
@@ -605,8 +605,8 @@ export default function DemoCrewTerminal() {
         <ArrowUp className="w-6 h-6 text-white" />
       </Button>
       
-      {/* Enhanced AI Chatbot */}
-      <EnhancedAIChatbot terminalType="crew" />
+      {/* Intelligent AI Chatbot */}
+      <IntelligentAIChatbot terminalType="crew" />
     </>
   );
 }

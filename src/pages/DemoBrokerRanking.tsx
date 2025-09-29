@@ -48,14 +48,14 @@ interface DemoXpEvent {
   points: number;
   description: string;
   timestamp: string;
-  meta?: Record<string, any>;
+  meta?: Record<string, string | number | boolean>;
 }
 
 export default function DemoBrokerRanking() {
   const [userStats, setUserStats] = useState<DemoUser | null>(null);
   const [leaderboard, setLeaderboard] = useState<DemoUser[]>([]);
   const [xpEvents, setXpEvents] = useState<DemoXpEvent[]>([]);
-  const [challenges, setChallenges] = useState<any[]>([]);
+  const [challenges, setChallenges] = useState<Array<{ id: string; title: string; description: string; points: number; completed: boolean }>>([]);
   const [achievements, setAchievements] = useState<any[]>([]);
   const [performanceMetrics, setPerformanceMetrics] = useState<any>(null);
   const [seasonInfo, setSeasonInfo] = useState<any>(null);
@@ -97,7 +97,7 @@ export default function DemoBrokerRanking() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-app text-body">
+      <div className="min-h-screen text-body" style={{ backgroundColor: '#0B1426' }}>
         <main className="max-w-7xl mx-auto p-6">
           <div className="text-center py-12">
             <div className="text-muted-foreground">Loading ranking data...</div>

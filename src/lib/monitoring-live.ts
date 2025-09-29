@@ -39,8 +39,8 @@ class MonitoringLiveService {
   private appBaseUrl: string;
 
   constructor() {
-    this.uptimeRobotApiKey = process.env.UPTIMEROBOT_API_KEY || '';
-    this.appBaseUrl = process.env.VITE_APP_BASE_URL || 'https://stratusconnect.com';
+    this.uptimeRobotApiKey = import.meta.env.VITE_UPTIMEROBOT_API_KEY || '';
+    this.appBaseUrl = import.meta.env.VITE_APP_BASE_URL || 'https://stratusconnect.com';
   }
 
   /**

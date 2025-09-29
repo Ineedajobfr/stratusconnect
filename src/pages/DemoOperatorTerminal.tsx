@@ -12,7 +12,7 @@ import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
 import AISearchAssistant from '@/components/AISearchAssistant';
 import PredictiveAnalytics from '@/components/PredictiveAnalytics';
 import AIHunterWidget from '@/components/AI/AIHunterWidget';
-import AIChatbot from '@/components/AIChatbot';
+import IntelligentAIChatbot from '@/components/IntelligentAIChatbot';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
 import EnhancedAIChatbot from '@/components/EnhancedAIChatbot';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
@@ -124,9 +124,9 @@ export default function DemoOperatorTerminal() {
   const navigate = useNavigate();
   const [showWeekOneScoreboard, setShowWeekOneScoreboard] = useState(false);
   const [showWarRoomChecks, setShowWarRoomChecks] = useState(false);
-  const [liveFlowResult, setLiveFlowResult] = useState<unknown>(null);
-  const [warRoomResult, setWarRoomResult] = useState<unknown>(null);
-  const [evidencePack, setEvidencePack] = useState<unknown>(null);
+  const [liveFlowResult, setLiveFlowResult] = useState<{ allPassed: boolean; summary: string } | null>(null);
+  const [warRoomResult, setWarRoomResult] = useState<{ allChecksPassed: boolean; summary: string } | null>(null);
+  const [evidencePack, setEvidencePack] = useState<{ id: string; timestamp: string } | null>(null);
   const [showHelpGuide, setShowHelpGuide] = useState(false);
   const [showJobBoard, setShowJobBoard] = useState(false);
   const [showCommunityForums, setShowCommunityForums] = useState(false);
@@ -1002,7 +1002,25 @@ export default function DemoOperatorTerminal() {
             <Receipt className="w-4 h-4 mr-2" />
             Generate Receipt
           </Button>
-          <Button className="btn-terminal-accent">
+          <Button 
+            onClick={() => {
+              const reportData = {
+                timestamp: new Date().toISOString(),
+                rfqs: rfqs.length,
+                fleet: fleet.length,
+                crew: crew.length,
+                activeDeals: rfqs.filter(rfq => rfq.status === 'pending').length
+              };
+              const blob = new Blob([JSON.stringify(reportData, null, 2)], { type: 'application/json' });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = `operator_report_${Date.now()}.json`;
+              a.click();
+              URL.revokeObjectURL(url);
+            }}
+            className="btn-terminal-accent"
+          >
             <Download className="w-4 h-4 mr-2" />
             Export Report
           </Button>
@@ -1275,11 +1293,11 @@ export default function DemoOperatorTerminal() {
         />
       )}
       
-      <div className="min-h-screen bg-app relative overflow-hidden scroll-smooth">
+      <div className="min-h-screen relative overflow-hidden scroll-smooth" style={{ backgroundColor: '#0B1426' }}>
         <StarfieldRunwayBackground />
         
         {/* Header */}
-        <header className="relative z-10 bg-terminal-card border-b border-terminal-border px-6 py-4 backdrop-blur-modern">
+        <header className="relative z-10 border-b border-terminal-border px-6 py-4 backdrop-blur-modern" style={{ backgroundColor: 'hsl(210, 30%, 15%)' }}>
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <StratusConnectLogo className="text-orange-400 text-lg mr-6" />
@@ -1314,7 +1332,7 @@ export default function DemoOperatorTerminal() {
           {/* Main Navigation */}
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-terminal-border scrollbar-track-transparent pb-2 mb-6">
-              <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-terminal-card/50 backdrop-blur-sm">
+              <TabsList className="flex w-max min-w-full justify-start space-x-1 backdrop-blur-sm" style={{ backgroundColor: 'hsla(210, 30%, 15%, 0.5)' }}>
               <TabsTrigger value="dashboard" className="flex items-center gap-2">
                 <BarChart3 className="w-4 h-4" />
                 Dashboard
@@ -1457,8 +1475,8 @@ export default function DemoOperatorTerminal() {
         </div>
       )}
 
-      {/* Enhanced AI Chatbot */}
-      <EnhancedAIChatbot terminalType="operator" />
+      {/* Intelligent AI Chatbot */}
+      <IntelligentAIChatbot terminalType="operator" />
     </>
   );
 }

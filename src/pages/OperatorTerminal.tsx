@@ -197,7 +197,7 @@ const OperatorTerminal = () => {
           onClose={() => setShowHelpGuide(false)}
         />
       )}
-      <div className="min-h-screen bg-app relative overflow-hidden">
+      <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0B1426' }}>
         <StarfieldRunwayBackground />
         
         {/* Terminal Header */}

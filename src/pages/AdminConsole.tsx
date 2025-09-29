@@ -141,7 +141,7 @@ export default function AdminConsole() {
   // Show auth form if not authenticated
   if (!user) {
     return (
-      <div className="relative min-h-screen bg-slate-900">
+      <div className="relative min-h-screen" style={{ backgroundColor: '#0B1426' }}>
         <StarfieldRunwayBackground intensity={0.5} starCount={200} />
         
         <div className="relative z-10 min-h-screen flex items-center justify-center p-6">
@@ -172,7 +172,7 @@ export default function AdminConsole() {
 
   if (loading) {
     return (
-      <div className="relative min-h-screen bg-slate-900">
+      <div className="relative min-h-screen" style={{ backgroundColor: '#0B1426' }}>
         <StarfieldRunwayBackground intensity={0.5} starCount={200} />
         <div className="relative z-10 min-h-screen flex items-center justify-center">
           <div className="text-white text-xl">Loading admin console...</div>

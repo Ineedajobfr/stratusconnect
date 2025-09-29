@@ -57,7 +57,7 @@ import { RankingRulesPage } from '@/components/Ranking/RankingRulesPage';
 import AISearchAssistant from '@/components/AISearchAssistant';
 import PredictiveAnalytics from '@/components/PredictiveAnalytics';
 import AIHunterWidget from '@/components/AI/AIHunterWidget';
-import AIChatbot from '@/components/AIChatbot';
+import IntelligentAIChatbot from '@/components/IntelligentAIChatbot';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
@@ -94,9 +94,9 @@ export default function DemoBrokerTerminal() {
   const [showWeekOneScoreboard, setShowWeekOneScoreboard] = useState(false);
   const [showWarRoomChecks, setShowWarRoomChecks] = useState(false);
   const [showEvidencePack, setShowEvidencePack] = useState(false);
-  const [liveFlowResult, setLiveFlowResult] = useState<Record<string, unknown> | null>(null);
-  const [warRoomResult, setWarRoomResult] = useState<Record<string, unknown> | null>(null);
-  const [evidencePack, setEvidencePack] = useState<Record<string, unknown> | null>(null);
+  const [liveFlowResult, setLiveFlowResult] = useState<{ allPassed: boolean; summary: string } | null>(null);
+  const [warRoomResult, setWarRoomResult] = useState<{ allChecksPassed: boolean; summary: string } | null>(null);
+  const [evidencePack, setEvidencePack] = useState<{ id: string; timestamp: string } | null>(null);
   const [showJobBoard, setShowJobBoard] = useState(false);
   const [showCommunityForums, setShowCommunityForums] = useState(false);
   const [showSavedCrews, setShowSavedCrews] = useState(false);
@@ -841,11 +841,30 @@ export default function DemoBrokerTerminal() {
                           <FileText className="w-4 h-4 mr-2" />
                           Generate Receipt
                         </Button>
-                        <Button variant="outline" size="sm">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => {
+                            alert(`🔍 Compare Quote\n\nOperator: ${quote.operator}\nPrice: $${quote.price.toLocaleString()}\nRating: ${quote.rating}/5\nResponse Time: ${quote.responseTime}m\n\n✅ Comparison feature coming soon!`);
+                          }}
+                        >
                           <GitCompare className="w-4 h-4 mr-2" />
                           Compare
                         </Button>
-                        <Button variant="outline" size="sm">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => {
+                            const savedQuote = {
+                              id: quote.id,
+                              operator: quote.operator,
+                              price: quote.price,
+                              savedAt: new Date().toISOString()
+                            };
+                            localStorage.setItem(`saved_quote_${quote.id}`, JSON.stringify(savedQuote));
+                            alert(`💾 Quote Saved!\n\nOperator: ${quote.operator}\nPrice: $${quote.price.toLocaleString()}\n\n✅ Quote saved to your favorites!`);
+                          }}
+                        >
                           <Save className="w-4 h-4 mr-2" />
                           Save
                         </Button>
@@ -1031,10 +1050,10 @@ export default function DemoBrokerTerminal() {
           isDemo={true}
         />
       )}
-      <div className="min-h-screen bg-app relative overflow-hidden scroll-smooth">
+      <div className="min-h-screen relative overflow-hidden scroll-smooth" style={{ backgroundColor: '#0B1426' }}>
         <StarfieldRunwayBackground />
         
-        <header className="relative z-10 sticky top-0 bg-terminal-card/80 backdrop-blur-modern border-b border-terminal-border">
+        <header className="relative z-10 sticky top-0 backdrop-blur-modern border-b border-terminal-border" style={{ backgroundColor: 'hsl(210, 30%, 15%)' }}>
         <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <StratusConnectLogo className="text-xl" />
@@ -1075,7 +1094,7 @@ export default function DemoBrokerTerminal() {
         {/* Main Navigation */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-terminal-border scrollbar-track-transparent pb-2">
-            <TabsList className="flex w-max min-w-full justify-start space-x-1 bg-terminal-card/50 backdrop-blur-sm">
+            <TabsList className="flex w-max min-w-full justify-start space-x-1 backdrop-blur-sm" style={{ backgroundColor: 'hsla(210, 30%, 15%, 0.5)' }}>
             <TabsTrigger value="dashboard" className="flex items-center gap-2">
               <BarChart3 className="w-4 h-4 icon-glow" />
               Dashboard
@@ -1449,8 +1468,8 @@ export default function DemoBrokerTerminal() {
         </div>
       )}
 
-      {/* AI Chatbot */}
-      <AIChatbot terminalType="broker" />
+      {/* Intelligent AI Chatbot */}
+      <IntelligentAIChatbot terminalType="broker" />
     </>
   );
 }

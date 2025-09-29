@@ -12,7 +12,7 @@ export default function About() {
   const navigate = useNavigate();
 
   return (
-    <div className="relative min-h-screen bg-app">
+    <div className="relative min-h-screen" style={{ backgroundColor: '#0B1426' }}>
       <StarfieldRunwayBackground />
       
       <div className="absolute top-4 left-4 z-40">

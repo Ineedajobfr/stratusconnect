@@ -8,7 +8,7 @@ export default function TermsOfService() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-app relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0B1426' }}>
       <StarfieldRunwayBackground />
       
       <div className="relative z-10 py-12">

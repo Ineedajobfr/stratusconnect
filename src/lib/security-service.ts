@@ -35,7 +35,7 @@ export interface SecurityMetrics {
 
 class SecurityService {
   private config: SecurityConfig = {
-    encryptionKey: process.env.REACT_APP_ENCRYPTION_KEY || 'default-key-change-in-production',
+    encryptionKey: import.meta.env.VITE_ENCRYPTION_KEY || 'default-key-change-in-production',
     sessionTimeout: 8 * 60 * 60 * 1000, // 8 hours
     maxLoginAttempts: 5,
     lockoutDuration: 15 * 60 * 1000, // 15 minutes

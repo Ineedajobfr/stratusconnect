@@ -86,11 +86,11 @@ export default function BrokerTerminal() {
   const searchRef = useRef<HTMLInputElement>(null);
   const [showHelpGuide, setShowHelpGuide] = useState(false);
   const [rfqs, setRfqs] = useState<RFQ[]>([]);
-  const [notifications, setNotifications] = useState<any[]>([]);
+  const [notifications, setNotifications] = useState<Array<{ id: string; message: string; type: string; timestamp: string }>>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showPerformanceMonitor, setShowPerformanceMonitor] = useState(false);
-  const [performanceMetrics, setPerformanceMetrics] = useState<any>(null);
+  const [performanceMetrics, setPerformanceMetrics] = useState<{ totalDeals: number; revenue: number; successRate: number } | null>(null);
 
   useShortcuts({
     "mod+k": () => searchRef.current?.focus(),
@@ -420,7 +420,7 @@ export default function BrokerTerminal() {
           onClose={() => setShowHelpGuide(false)}
         />
       )}
-      <div className="min-h-screen bg-app relative overflow-hidden">
+      <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0B1426' }}>
         <StarfieldRunwayBackground />
         
       {/* Terminal Header */}

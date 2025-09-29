@@ -11,8 +11,8 @@ import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
 import AISearchAssistant from '@/components/AISearchAssistant';
 import PredictiveAnalytics from '@/components/PredictiveAnalytics';
-import AIHunterWidget from '@/components/ai/AIHunterWidget';
-import AIChatbot from '@/components/AIChatbot';
+import AIHunterWidget from '@/components/AI/AIHunterWidget';
+import IntelligentAIChatbot from '@/components/IntelligentAIChatbot';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
 import EnhancedAIChatbot from '@/components/EnhancedAIChatbot';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
@@ -124,9 +124,9 @@ export default function BetaOperatorTerminal() {
   const navigate = useNavigate();
   const [showWeekOneScoreboard, setShowWeekOneScoreboard] = useState(false);
   const [showWarRoomChecks, setShowWarRoomChecks] = useState(false);
-  const [liveFlowResult, setLiveFlowResult] = useState<unknown>(null);
-  const [warRoomResult, setWarRoomResult] = useState<unknown>(null);
-  const [evidencePack, setEvidencePack] = useState<unknown>(null);
+  const [liveFlowResult, setLiveFlowResult] = useState<{ allPassed: boolean; summary: string } | null>(null);
+  const [warRoomResult, setWarRoomResult] = useState<{ allChecksPassed: boolean; summary: string } | null>(null);
+  const [evidencePack, setEvidencePack] = useState<{ id: string; timestamp: string } | null>(null);
   const [showHelpGuide, setShowHelpGuide] = useState(false);
   const [showJobBoard, setShowJobBoard] = useState(false);
   const [showCommunityForums, setShowCommunityForums] = useState(false);
@@ -639,8 +639,8 @@ export default function BetaOperatorTerminal() {
     </div>
       )}
 
-      {/* Enhanced AI Chatbot */}
-      <EnhancedAIChatbot terminalType="operator" />
+      {/* Intelligent AI Chatbot */}
+      <IntelligentAIChatbot terminalType="operator" />
     </>
   );
 }

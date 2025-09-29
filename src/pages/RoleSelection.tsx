@@ -22,7 +22,7 @@ export default function RoleSelection() {
   };
 
   return (
-    <div className="min-h-screen bg-app relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0B1426' }}>
       <StarfieldRunwayBackground />
       
       <div className="absolute top-4 left-4 z-40">

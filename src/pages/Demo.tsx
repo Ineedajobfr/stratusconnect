@@ -113,7 +113,7 @@ export default function DemoSetup() {
 
   return (
     <ErrorBoundary>
-      <div className="relative min-h-screen bg-terminal-bg">
+      <div className="relative min-h-screen" style={{ backgroundColor: '#0B1426' }}>
         <DemoBanner />
         <StarfieldRunwayBackground intensity={0.5} starCount={200} />
         

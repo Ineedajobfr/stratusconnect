@@ -4,8 +4,8 @@
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  'https://pvgqfqkrtflpvajhddhr.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB2Z3FmcWtydGZscHZhamhkZGhyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Mzc4ODIxNywiZXhwIjoyMDY5MzY0MjE3fQ.UoKnIPZ8gfnoc8S1QovaMt8oYoKsE0wWgaVAi2VGEJU'
 );
 
 export interface CreateQuoteAction {

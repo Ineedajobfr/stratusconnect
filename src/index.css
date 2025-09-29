@@ -38,7 +38,7 @@
 
   /* Terminal tokens - Modern Enhanced */
   --terminal-bg:        210 25% 3%;   /* deeper background for better contrast */
-  --terminal-card:      210 30% 10%;  /* enhanced card visibility */
+  --terminal-card:      210 30% 15%;  /* Italian luxury navy card - slightly lighter than page background */
   --terminal-border:    210 25% 20%;  /* better border contrast */
   --terminal-glow:       25 70% 50%;  /* enhanced glow effect */
   --gunmetal:           210 15% 70%; /* improved secondary text contrast */

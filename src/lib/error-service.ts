@@ -81,12 +81,12 @@ class ErrorService {
     this.errorListeners.forEach(listener => listener(errorInfo));
 
     // Log to console in development
-    if (process.env.NODE_ENV === 'development') {
+    if (import.meta.env.DEV) {
       console.error('Error logged:', errorInfo);
     }
 
     // Send to external logging service in production
-    if (process.env.NODE_ENV === 'production') {
+    if (import.meta.env.PROD) {
       this.sendToExternalLogger(errorInfo);
     }
 

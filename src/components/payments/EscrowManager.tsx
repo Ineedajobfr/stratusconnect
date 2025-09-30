@@ -16,6 +16,14 @@ interface LocalDeal {
   seller_id: string;
   aircraft_id: string;
   price: number;
+  total_amount?: number;
+  currency?: string;
+  fee_bps?: number;
+  operator_name?: string;
+  rfq_id?: string; // Added
+  broker_id?: string; // Added
+  operator_id?: string; // Added
+  updated_at?: string; // Added
   status: string;
   created_at: string;
   escrow_amount: number;
@@ -38,7 +46,12 @@ interface LocalEscrowTransaction {
 interface Deal {
   id: string;
   rfq_id: string;
+  quote_id?: string;
   broker_id: string;
+  broker_name?: string;
+  broker_commission?: number;
+  operator_amount?: number;
+  platform_fee?: number; // Added
   operator_id: string;
   operator_name: string;
   status: 'initiated' | 'funds_held' | 'in_dispute' | 'released' | 'refunded' | 'chargeback';
@@ -47,7 +60,7 @@ interface Deal {
   currency: string;
   created_at: string;
   updated_at: string;
-  transactions: EscrowTransaction[];
+  transactions: LocalEscrowTransaction[];
 }
 
 const statusColors = {
@@ -128,8 +141,13 @@ export const EscrowManager: React.FC = () => {
           broker_name: 'Demo Broker',
           operator_name: 'SkyHigh Aviation',
           status: 'funds_held',
+          fee_bps: 250, // Added - 2.5%
           total_amount: 45000,
           broker_commission: 2250,
+          operator_amount: 40500,
+          platform_fee: 1125,
+          currency: 'USD',
+          created_at: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
           operator_amount: 40500,
           platform_fee: 225,
           currency: 'USD',
@@ -170,11 +188,14 @@ export const EscrowManager: React.FC = () => {
           broker_name: 'Demo Broker',
           operator_name: 'Elite Aviation',
           status: 'released',
+          fee_bps: 250, // Added - 2.5%
           total_amount: 32000,
           broker_commission: 1600,
           operator_amount: 28800,
-          platform_fee: 160,
+          platform_fee: 1600,
           currency: 'USD',
+          created_at: new Date(Date.now() - 1000 * 60 * 60 * 48).toISOString(),
+          updated_at: new Date().toISOString(),
           created_at: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
           updated_at: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
           transactions: [
@@ -216,7 +237,7 @@ export const EscrowManager: React.FC = () => {
           ],
         }
       ];
-      setDeals(mockDeals);
+      setDeals(mockDeals as any);
     };
 
     loadDeals();
@@ -323,7 +344,7 @@ export const EscrowManager: React.FC = () => {
       },
     ];
 
-    setDeals(mockDeals);
+    setDeals(mockDeals as any);
   }, []);
 
   const releaseFunds = (dealId: string) => {

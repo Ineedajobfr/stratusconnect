@@ -173,7 +173,19 @@ export default function DocumentManagement({ terminalType }: DocumentManagementP
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-      const fileType = file.type.split('/')[0] as 'pdf' | 'image' | 'spreadsheet' | 'text' | 'other';
+      // Determine file type based on MIME type or extension
+      let fileType: 'pdf' | 'image' | 'spreadsheet' | 'text' | 'other';
+      if (file.type.includes('pdf')) {
+        fileType = 'pdf';
+      } else if (file.type.startsWith('image/')) {
+        fileType = 'image';
+      } else if (file.type.includes('spreadsheet') || file.type.includes('excel')) {
+        fileType = 'spreadsheet';
+      } else if (file.type.startsWith('text/')) {
+        fileType = 'text';
+      } else {
+        fileType = 'other';
+      }
       
       // Simulate upload progress
       for (let progress = 0; progress <= 100; progress += 10) {
@@ -184,7 +196,7 @@ export default function DocumentManagement({ terminalType }: DocumentManagementP
       const newDocument: Document = {
         id: Date.now().toString() + i,
         name: file.name,
-        type: fileType === 'application' ? 'pdf' : fileType,
+        type: fileType,
         size: file.size,
         uploadDate: new Date(),
         category: 'personal',

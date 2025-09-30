@@ -327,7 +327,7 @@ export const WorkflowProvider: React.FC<WorkflowProviderProps> = ({ children }) 
 
   const signContract = async (contractId: string, signatureData: string, ipAddress: string, userAgent: string) => {
     try {
-      const data = await ContractWorkflow.signContract(contractId, signatureData, ipAddress, userAgent);
+      const data = await ContractWorkflow.signContract(contractId, signatureData, ipAddress, userAgent, user?.id || '');
       // Refresh contracts
       await loadContracts();
       return data;
@@ -373,7 +373,7 @@ export const WorkflowProvider: React.FC<WorkflowProviderProps> = ({ children }) 
 
   const updateApplicationStatus = async (applicationId: string, status: string) => {
     try {
-      await JobBoardWorkflow.updateApplicationStatus(applicationId, status);
+      await JobBoardWorkflow.updateApplicationStatus(applicationId, status as any);
       // Refresh applications
       if (user?.id) {
         const data = await JobBoardWorkflow.getUserApplications(user.id);

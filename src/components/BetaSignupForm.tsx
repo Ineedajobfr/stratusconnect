@@ -176,9 +176,22 @@ export default function BetaSignupForm() {
 
     setLoading(true);
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        toast({
+          title: "Authentication Required",
+          description: "Please sign in to submit a beta application.",
+          variant: "destructive"
+        });
+        setLoading(false);
+        return;
+      }
+
       const { error } = await supabase
         .from('beta_signups' as any)
         .insert([{
+          user_id: user.id,
           email: formData.email,
           full_name: formData.fullName,
           phone: formData.phone,

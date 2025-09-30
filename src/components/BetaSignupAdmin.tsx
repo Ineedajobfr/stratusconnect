@@ -71,7 +71,7 @@ export default function BetaSignupAdmin() {
     try {
       const { data, error } = await supabase
         .from('beta_signups' as any)
-        .select('*')
+        .select('*, profiles(username, display_name)')
         .order('created_at', { ascending: false });
 
       if (error) throw error;

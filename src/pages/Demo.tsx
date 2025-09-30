@@ -1,32 +1,30 @@
-import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { NavigationArrows } from "@/components/NavigationArrows";
-import { StratusConnectLogo } from "@/components/StratusConnectLogo";
-import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
-import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { DemoBanner } from "@/components/DemoBanner";
-import DemoStatusWidget from "@/components/DemoStatusWidget";
 import DemoDSARWorkflow from "@/components/DemoDSARWorkflow";
 import DemoFeeStructure from "@/components/DemoFeeStructure";
+import DemoStatusWidget from "@/components/DemoStatusWidget";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { NavigationArrows } from "@/components/NavigationArrows";
+import StratusCinematicBackground from "@/components/StratusCinematicBackground";
+import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 import DemoDepositGate from "@/components/demo/DemoDepositGate";
 import DemoEvidenceBundle from "@/components/demo/DemoEvidenceBundle";
 import DemoSignedQuotePDF from "@/components/demo/DemoSignedQuotePDF";
-import { 
-  Plane, 
-  Users, 
-  BarChart3, 
-  Shield, 
-  DollarSign, 
-  Activity,
-  FileText,
-  Calculator,
-  CheckCircle,
-  AlertTriangle,
-  Download
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+    Activity,
+    AlertTriangle,
+    BarChart3,
+    CheckCircle,
+    DollarSign,
+    Download,
+    FileText,
+    Plane,
+    Shield,
+    Users
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function DemoSetup() {
@@ -115,7 +113,7 @@ export default function DemoSetup() {
     <ErrorBoundary>
       <div className="relative min-h-screen" style={{ backgroundColor: '#0B1426' }}>
         <DemoBanner />
-        <StarfieldRunwayBackground intensity={0.5} starCount={200} />
+        <StratusCinematicBackground />
         
         <div className="relative z-10 min-h-screen flex items-center justify-center p-6">
           <div className="absolute top-6 left-6">

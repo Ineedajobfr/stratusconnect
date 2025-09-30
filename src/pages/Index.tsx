@@ -1,5 +1,5 @@
 import BetaSignupButton from "@/components/BetaSignupButton";
-import StratusNightFlightBackground from "@/components/StratusNightFlightBackground";
+import StratusCinematicBackground from "@/components/StratusCinematicBackground";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -28,7 +28,7 @@ export default function Index() {
     navigate(demoRoute);
   };
   return <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0B1426' }}>
-      <StratusNightFlightBackground />
+      <StratusCinematicBackground />
       
       {/* About Us and Beta Signup Links */}
       <div className="absolute top-6 right-6 z-20 flex gap-4">
@@ -47,10 +47,15 @@ export default function Index() {
         <div className="max-w-6xl mx-auto px-4 text-center">
           <div className="mb-8 animate-fade-in-up">
             
-            <h1 className="text-6xl md:text-8xl font-bold text-foreground mb-6">
-              Welcome to <span className="text-accent">StratusConnect</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+            <div className="text-center mb-6">
+              <div className="text-4xl md:text-6xl font-bold italic text-accent mb-2 drop-shadow-[0_0_20px_rgba(255,122,26,0.8)]" style={{ fontFamily: 'sans-serif' }}>
+                Welcome to
+              </div>
+              <div className="text-6xl md:text-8xl font-bold italic text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.5)]" style={{ fontFamily: 'sans-serif' }}>
+                STRATUS
+              </div>
+            </div>
+            <p className="text-xl md:text-2xl text-white max-w-4xl mx-auto leading-relaxed drop-shadow-[0_0_15px_rgba(0,0,0,0.8)] bg-black/20 px-8 py-4 rounded-lg backdrop-blur-sm">
               The next-generation platform connecting brokers, operators, pilots, and crew. 
               Built for aviation professionals who demand excellence, with real-time data processing and lightning-fast response times.
             </p>
@@ -58,37 +63,37 @@ export default function Index() {
 
           {/* Key Statistics */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">100%</div>
-              <div className="text-sm text-muted-foreground">Free Until Revenue</div>
+            <div className="text-center p-6 rounded-lg bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 transition-all duration-300">
+              <div className="text-4xl md:text-5xl font-bold text-accent mb-2 drop-shadow-[0_0_15px_rgba(255,122,26,0.6)]">100%</div>
+              <div className="text-sm text-white font-medium">Free Until Revenue</div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">24/7</div>
-              <div className="text-sm text-muted-foreground">Platform Access</div>
+            <div className="text-center p-6 rounded-lg bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 transition-all duration-300">
+              <div className="text-4xl md:text-5xl font-bold text-accent mb-2 drop-shadow-[0_0_15px_rgba(255,122,26,0.6)]">24/7</div>
+              <div className="text-sm text-white font-medium">Platform Access</div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">FCA</div>
-              <div className="text-sm text-muted-foreground">Compliant</div>
+            <div className="text-center p-6 rounded-lg bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 transition-all duration-300">
+              <div className="text-4xl md:text-5xl font-bold text-accent mb-2 drop-shadow-[0_0_15px_rgba(255,122,26,0.6)]">FCA</div>
+              <div className="text-sm text-white font-medium">Compliant</div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">50ms</div>
-              <div className="text-sm text-muted-foreground">Avg Response</div>
+            <div className="text-center p-6 rounded-lg bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 transition-all duration-300">
+              <div className="text-4xl md:text-5xl font-bold text-accent mb-2 drop-shadow-[0_0_15px_rgba(255,122,26,0.6)]">50ms</div>
+              <div className="text-sm text-white font-medium">Avg Response</div>
             </div>
           </div>
 
           {/* Platform Features */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-            <div className="text-center p-6 rounded-lg bg-card/50 border border-border/50">
-              <div className="text-2xl font-bold text-accent mb-2">Real-Time</div>
-              <div className="text-sm text-muted-foreground">Live flight tracking and instant updates</div>
+            <div className="text-center p-6 rounded-lg bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 transition-all duration-300">
+              <div className="text-2xl font-bold text-accent mb-2 drop-shadow-[0_0_10px_rgba(255,122,26,0.6)]">Real-Time</div>
+              <div className="text-sm text-white font-medium">Live flight tracking and instant updates</div>
             </div>
-            <div className="text-center p-6 rounded-lg bg-card/50 border border-border/50">
-              <div className="text-2xl font-bold text-accent mb-2">Secure</div>
-              <div className="text-sm text-muted-foreground">Bank-grade encryption and FCA compliance</div>
+            <div className="text-center p-6 rounded-lg bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 transition-all duration-300">
+              <div className="text-2xl font-bold text-accent mb-2 drop-shadow-[0_0_10px_rgba(255,122,26,0.6)]">Secure</div>
+              <div className="text-sm text-white font-medium">Bank-grade encryption and FCA compliance</div>
             </div>
-            <div className="text-center p-6 rounded-lg bg-card/50 border border-border/50">
-              <div className="text-2xl font-bold text-accent mb-2">Intuitive</div>
-              <div className="text-sm text-muted-foreground">Designed by aviation professionals</div>
+            <div className="text-center p-6 rounded-lg bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 transition-all duration-300">
+              <div className="text-2xl font-bold text-accent mb-2 drop-shadow-[0_0_10px_rgba(255,122,26,0.6)]">Intuitive</div>
+              <div className="text-sm text-white font-medium">Designed by aviation professionals</div>
             </div>
           </div>
         </div>
@@ -98,19 +103,19 @@ export default function Index() {
       <div className="relative z-10 py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <div className="mb-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Join the <span className="text-accent">Early Access</span> Program
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
+              Join the <span className="text-accent drop-shadow-[0_0_15px_rgba(255,122,26,0.8)]">Early Access</span> Program
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg text-white max-w-2xl mx-auto drop-shadow-[0_0_10px_rgba(0,0,0,0.8)] bg-black/20 px-6 py-3 rounded-lg backdrop-blur-sm">
               Be among the first aviation professionals to experience the future of charter operations. 
               Free access during our beta phase - no strings attached.
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-            <div className="p-6 rounded-lg bg-card/50 border border-border/50 text-left">
-              <h3 className="text-xl font-semibold text-foreground mb-3">What You Get</h3>
-              <ul className="space-y-2 text-muted-foreground">
+            <div className="p-6 rounded-lg bg-black/30 backdrop-blur-sm border border-accent/30 text-left hover:bg-black/40 transition-all duration-300">
+              <h3 className="text-xl font-semibold text-white mb-3 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">What You Get</h3>
+              <ul className="space-y-2 text-white">
                 <li>• Full access to all terminal types</li>
                 <li>• Real-time flight tracking</li>
                 <li>• Advanced search capabilities</li>
@@ -119,9 +124,9 @@ export default function Index() {
                 <li>• Priority support</li>
               </ul>
             </div>
-            <div className="p-6 rounded-lg bg-card/50 border border-border/50 text-left">
-              <h3 className="text-xl font-semibold text-foreground mb-3">Beta Benefits</h3>
-              <ul className="space-y-2 text-muted-foreground">
+            <div className="p-6 rounded-lg bg-black/30 backdrop-blur-sm border border-accent/30 text-left hover:bg-black/40 transition-all duration-300">
+              <h3 className="text-xl font-semibold text-white mb-3 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">Beta Benefits</h3>
+              <ul className="space-y-2 text-white">
                 <li>• Shape the platform's development</li>
                 <li>• Direct feedback to our team</li>
                 <li>• Early access to new features</li>
@@ -138,40 +143,40 @@ export default function Index() {
       <div className="relative z-10 py-24">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-foreground mb-4 title-glow">Choose Your Terminal</h2>
-            <p className="text-xl text-muted-foreground text-glow-subtle">Access your personalized workspace</p>
+            <h2 className="text-4xl font-bold text-white mb-4 drop-shadow-[0_0_25px_rgba(255,255,255,0.6)]">Choose Your Terminal</h2>
+            <p className="text-xl text-white drop-shadow-[0_0_15px_rgba(0,0,0,0.8)] bg-black/20 px-6 py-3 rounded-lg backdrop-blur-sm">Access your personalized workspace</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Broker Terminal */}
-            <Card className="group terminal-card hover:terminal-glow cursor-pointer animate-fade-in-up">
+            <Card className="group bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 hover:border-accent/50 cursor-pointer animate-fade-in-up transition-all duration-300">
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
                   <div className="p-3 bg-accent/20 rounded-xl animate-pulse-glow">
-                    <Building2 className="w-8 h-8 text-accent" />
+                    <Building2 className="w-8 h-8 text-accent drop-shadow-[0_0_10px_rgba(255,122,26,0.6)]" />
                   </div>
                   <div>
-                    <CardTitle className="text-2xl text-foreground">Broker Terminal</CardTitle>
-                    <CardDescription className="text-muted-foreground">Quote management & client relations</CardDescription>
+                    <CardTitle className="text-2xl text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">Broker Terminal</CardTitle>
+                    <CardDescription className="text-white/80">Quote management & client relations</CardDescription>
                   </div>
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground mb-6 text-glow-subtle">
+                <p className="text-white/90 mb-6 drop-shadow-[0_0_8px_rgba(0,0,0,0.6)]">
                   Access real-time aircraft listings, manage client relationships, and close deals faster than ever. 
                   Our AI-powered matching system connects you with the right opportunities.
                 </p>
                 <div className="space-y-2 mb-6">
-                  <div className="flex items-center text-sm text-gunmetal">
-                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                  <div className="flex items-center text-sm text-white">
+                    <CheckCircle className="w-4 h-4 text-green-400 mr-2 drop-shadow-[0_0_5px_rgba(34,197,94,0.6)]" />
                     Real-time market data
                   </div>
-                  <div className="flex items-center text-sm text-gunmetal">
-                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                  <div className="flex items-center text-sm text-white">
+                    <CheckCircle className="w-4 h-4 text-green-400 mr-2 drop-shadow-[0_0_5px_rgba(34,197,94,0.6)]" />
                     Automated quote generation
                   </div>
-                  <div className="flex items-center text-sm text-gunmetal">
-                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                  <div className="flex items-center text-sm text-white">
+                    <CheckCircle className="w-4 h-4 text-green-400 mr-2 drop-shadow-[0_0_5px_rgba(34,197,94,0.6)]" />
                     Secure escrow payments
                   </div>
                 </div>
@@ -187,36 +192,36 @@ export default function Index() {
             </Card>
 
             {/* Operator Terminal */}
-            <Card className="group terminal-card hover:terminal-glow cursor-pointer animate-fade-in-up" style={{
+            <Card className="group bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 hover:border-accent/50 cursor-pointer animate-fade-in-up transition-all duration-300" style={{
             animationDelay: '0.1s'
           }}>
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
                   <div className="p-3 bg-accent/20 rounded-xl animate-pulse-glow">
-                    <Plane className="w-8 h-8 text-accent" />
+                    <Plane className="w-8 h-8 text-accent drop-shadow-[0_0_10px_rgba(255,122,26,0.6)]" />
                   </div>
                   <div>
-                    <CardTitle className="text-2xl text-foreground">Operator Terminal</CardTitle>
-                    <CardDescription className="text-muted-foreground">Fleet management & optimization</CardDescription>
+                    <CardTitle className="text-2xl text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">Operator Terminal</CardTitle>
+                    <CardDescription className="text-white/80">Fleet management & optimization</CardDescription>
                   </div>
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground mb-6 text-glow-subtle">
+                <p className="text-white/90 mb-6 drop-shadow-[0_0_8px_rgba(0,0,0,0.6)]">
                   Maximize your fleet's potential with intelligent scheduling, crew management, and real-time performance tracking. 
                   Turn every flight into profit.
                 </p>
                 <div className="space-y-2 mb-6">
-                  <div className="flex items-center text-sm text-gunmetal">
-                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                  <div className="flex items-center text-sm text-white">
+                    <CheckCircle className="w-4 h-4 text-green-400 mr-2 drop-shadow-[0_0_5px_rgba(34,197,94,0.6)]" />
                     Fleet optimization tools
                   </div>
-                  <div className="flex items-center text-sm text-gunmetal">
-                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                  <div className="flex items-center text-sm text-white">
+                    <CheckCircle className="w-4 h-4 text-green-400 mr-2 drop-shadow-[0_0_5px_rgba(34,197,94,0.6)]" />
                     Crew scheduling automation
                   </div>
-                  <div className="flex items-center text-sm text-gunmetal">
-                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                  <div className="flex items-center text-sm text-white">
+                    <CheckCircle className="w-4 h-4 text-green-400 mr-2 drop-shadow-[0_0_5px_rgba(34,197,94,0.6)]" />
                     Real-time performance metrics
                   </div>
                 </div>
@@ -232,36 +237,36 @@ export default function Index() {
             </Card>
 
             {/* Pilot Terminal */}
-            <Card className="group terminal-card hover:terminal-glow cursor-pointer animate-fade-in-up" style={{
+            <Card className="group bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 hover:border-accent/50 cursor-pointer animate-fade-in-up transition-all duration-300" style={{
             animationDelay: '0.2s'
           }}>
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
                   <div className="p-3 bg-accent/20 rounded-xl animate-pulse-glow">
-                    <UserCheck className="w-8 h-8 text-accent" />
+                    <UserCheck className="w-8 h-8 text-accent drop-shadow-[0_0_10px_rgba(255,122,26,0.6)]" />
                   </div>
                   <div>
-                    <CardTitle className="text-2xl text-foreground">Pilot Terminal</CardTitle>
-                    <CardDescription className="text-muted-foreground">Flight assignments & credentials</CardDescription>
+                    <CardTitle className="text-2xl text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">Pilot Terminal</CardTitle>
+                    <CardDescription className="text-white/80">Flight assignments & credentials</CardDescription>
                   </div>
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground mb-6 text-glow-subtle">
+                <p className="text-white/90 mb-6 drop-shadow-[0_0_8px_rgba(0,0,0,0.6)]">
                   Find the best flying opportunities that match your skills and schedule. 
                   Build your reputation and grow your career with verified operators.
                 </p>
                 <div className="space-y-2 mb-6">
-                  <div className="flex items-center text-sm text-gunmetal">
-                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                  <div className="flex items-center text-sm text-white">
+                    <CheckCircle className="w-4 h-4 text-green-400 mr-2 drop-shadow-[0_0_5px_rgba(34,197,94,0.6)]" />
                     Job matching algorithm
                   </div>
-                  <div className="flex items-center text-sm text-gunmetal">
-                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                  <div className="flex items-center text-sm text-white">
+                    <CheckCircle className="w-4 h-4 text-green-400 mr-2 drop-shadow-[0_0_5px_rgba(34,197,94,0.6)]" />
                     Credential verification
                   </div>
-                  <div className="flex items-center text-sm text-gunmetal">
-                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                  <div className="flex items-center text-sm text-white">
+                    <CheckCircle className="w-4 h-4 text-green-400 mr-2 drop-shadow-[0_0_5px_rgba(34,197,94,0.6)]" />
                     Secure payment processing
                   </div>
                 </div>
@@ -277,36 +282,36 @@ export default function Index() {
             </Card>
 
             {/* Crew Terminal */}
-            <Card className="group terminal-card hover:terminal-glow cursor-pointer animate-fade-in-up" style={{
+            <Card className="group bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 hover:border-accent/50 cursor-pointer animate-fade-in-up transition-all duration-300" style={{
             animationDelay: '0.3s'
           }}>
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
                   <div className="p-3 bg-accent/20 rounded-xl animate-pulse-glow">
-                    <Users className="w-8 h-8 text-accent" />
+                    <Users className="w-8 h-8 text-accent drop-shadow-[0_0_10px_rgba(255,122,26,0.6)]" />
                   </div>
                   <div>
-                    <CardTitle className="text-2xl text-foreground">Crew Terminal</CardTitle>
-                    <CardDescription className="text-muted-foreground">Service excellence & scheduling</CardDescription>
+                    <CardTitle className="text-2xl text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">Crew Terminal</CardTitle>
+                    <CardDescription className="text-white/80">Service excellence & scheduling</CardDescription>
                   </div>
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground mb-6 text-glow-subtle">
+                <p className="text-white/90 mb-6 drop-shadow-[0_0_8px_rgba(0,0,0,0.6)]">
                   Connect with top operators and build lasting relationships. 
                   Showcase your skills and availability to find the best crew assignments.
                 </p>
                 <div className="space-y-2 mb-6">
-                  <div className="flex items-center text-sm text-gunmetal">
-                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                  <div className="flex items-center text-sm text-white">
+                    <CheckCircle className="w-4 h-4 text-green-400 mr-2 drop-shadow-[0_0_5px_rgba(34,197,94,0.6)]" />
                     Premium crew opportunities
                   </div>
-                  <div className="flex items-center text-sm text-gunmetal">
-                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                  <div className="flex items-center text-sm text-white">
+                    <CheckCircle className="w-4 h-4 text-green-400 mr-2 drop-shadow-[0_0_5px_rgba(34,197,94,0.6)]" />
                     Flexible scheduling
                   </div>
-                  <div className="flex items-center text-sm text-gunmetal">
-                    <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
+                  <div className="flex items-center text-sm text-white">
+                    <CheckCircle className="w-4 h-4 text-green-400 mr-2 drop-shadow-[0_0_5px_rgba(34,197,94,0.6)]" />
                     Reputation building tools
                   </div>
                 </div>
@@ -333,13 +338,13 @@ export default function Index() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
+            <Card className="group bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 hover:border-accent/50 cursor-pointer transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     <Shield className="w-12 h-12 text-accent" />
                     <div>
-                <CardTitle>AI That Actually Works</CardTitle>
+                <CardTitle>Real-Time Intelligence</CardTitle>
                     </div>
                   </div>
                   <Dialog>
@@ -350,9 +355,9 @@ export default function Index() {
                     </DialogTrigger>
                     <DialogContent className="bg-terminal-card border-terminal-border">
                       <DialogHeader>
-                        <DialogTitle className="text-accent">AI That Actually Works</DialogTitle>
+                        <DialogTitle className="text-accent">Real-Time Intelligence</DialogTitle>
                         <DialogDescription>
-                          Real AI that finds you better deals, predicts demand, and automates the boring stuff
+                          Live market data, instant notifications, and smart alerts that help you make better decisions
                         </DialogDescription>
                       </DialogHeader>
                       <div className="space-y-4">
@@ -390,7 +395,7 @@ export default function Index() {
               </CardContent>
             </Card>
 
-            <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
+            <Card className="group bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 hover:border-accent/50 cursor-pointer transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
@@ -447,7 +452,7 @@ export default function Index() {
               </CardContent>
             </Card>
 
-            <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
+            <Card className="group bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 hover:border-accent/50 cursor-pointer transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
@@ -648,7 +653,7 @@ export default function Index() {
               </CardContent>
             </Card>
 
-            <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
+            <Card className="group bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 hover:border-accent/50 cursor-pointer transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
@@ -708,7 +713,7 @@ export default function Index() {
               </CardContent>
             </Card>
 
-            <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
+            <Card className="group bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 hover:border-accent/50 cursor-pointer transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
@@ -828,7 +833,7 @@ export default function Index() {
              <p className="text-xl text-muted-foreground">Complete guides, AI assistance, and everything you need to succeed</p>
            </div>
 
-           <Card className="terminal-card group hover:terminal-glow cursor-pointer transition-all duration-300">
+           <Card className="group bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 hover:border-accent/50 cursor-pointer transition-all duration-300">
              <CardHeader>
                <div className="flex items-center justify-between">
                  <div className="flex items-center space-x-4">

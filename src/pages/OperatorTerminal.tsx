@@ -17,7 +17,7 @@ import { PrivacyOverlay } from "@/components/PrivacyOverlay";
 import { ProfileWidget } from "@/components/ProfileWidget";
 import RealTimeFlightTracker from "@/components/RealTimeFlightTracker";
 import { Section } from "@/components/Section";
-import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
+import StratusCinematicBackground from "@/components/StratusCinematicBackground";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -197,7 +197,7 @@ const OperatorTerminal = () => {
         />
       )}
       <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0B1426' }}>
-        <StarfieldRunwayBackground />
+        <StratusCinematicBackground />
         
         {/* Terminal Header */}
         <div className="relative z-10 bg-terminal-card border-b border-terminal-border backdrop-blur-modern">

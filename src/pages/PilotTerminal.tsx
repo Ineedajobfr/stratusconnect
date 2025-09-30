@@ -12,7 +12,7 @@ import { PrivacyOverlay } from "@/components/PrivacyOverlay";
 import { ProfileWidget } from "@/components/ProfileWidget";
 import RealTimeFlightTracker from "@/components/RealTimeFlightTracker";
 import { Section } from "@/components/Section";
-import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
+import StratusCinematicBackground from "@/components/StratusCinematicBackground";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -58,7 +58,7 @@ export default function PilotTerminal() {
         />
       )}
       <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0B1426' }}>
-        <StarfieldRunwayBackground />
+        <StratusCinematicBackground />
         
         {/* Header */}
         <div className="relative z-10 bg-terminal-card border-b border-terminal-border px-6 py-4 backdrop-blur-modern">

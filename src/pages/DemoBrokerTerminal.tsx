@@ -20,7 +20,7 @@ import NoteTakingSystem from '@/components/NoteTakingSystem';
 import { RankingRulesPage } from '@/components/Ranking/RankingRulesPage';
 import RealTimeFlightTracker from '@/components/RealTimeFlightTracker';
 import { ReputationMetrics } from '@/components/Reputation/ReputationMetrics';
-import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
+import StratusCinematicBackground from '@/components/StratusCinematicBackground';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -1045,7 +1045,7 @@ export default function DemoBrokerTerminal() {
         />
       )}
       <div className="min-h-screen relative overflow-hidden scroll-smooth" style={{ backgroundColor: '#0B1426' }}>
-        <StarfieldRunwayBackground />
+        <StratusCinematicBackground />
         
         <header className="relative z-10 sticky top-0 backdrop-blur-modern border-b border-terminal-border" style={{ backgroundColor: 'hsl(210, 30%, 15%)' }}>
         <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">

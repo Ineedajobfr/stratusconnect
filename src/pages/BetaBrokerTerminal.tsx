@@ -7,7 +7,7 @@ import { Brand } from '@/components/Brand';
 import CommunicationTools from '@/components/CommunicationTools';
 import { MultiLegRFQ } from '@/components/DealFlow/MultiLegRFQ';
 import RealTimeFlightTracker from '@/components/RealTimeFlightTracker';
-import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
+import StratusCinematicBackground from '@/components/StratusCinematicBackground';
 import CommunityForums from '@/components/community/CommunityForums';
 import ContractGenerator from '@/components/contracts/ContractGenerator';
 import ReceiptGenerator from '@/components/contracts/ReceiptGenerator';
@@ -122,7 +122,7 @@ export default function BetaBrokerTerminal() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      <StarfieldRunwayBackground />
+      <StratusCinematicBackground />
       
       <div className="relative z-10">
         {/* Header */}

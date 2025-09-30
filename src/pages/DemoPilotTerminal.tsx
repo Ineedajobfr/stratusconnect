@@ -5,7 +5,7 @@ import JobBoard from '@/components/job-board/JobBoard';
 import { ModernHelpGuide } from '@/components/ModernHelpGuide';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
 import RealTimeFlightTracker from '@/components/RealTimeFlightTracker';
-import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
+import StratusCinematicBackground from '@/components/StratusCinematicBackground';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -510,7 +510,7 @@ export default function DemoPilotTerminal() {
       />
       )}
       <div className="min-h-screen relative overflow-hidden scroll-smooth" style={{ backgroundColor: '#0B1426' }}>
-        <StarfieldRunwayBackground />
+        <StratusCinematicBackground />
         
         {/* Header */}
         <header className="relative z-10 sticky top-0 backdrop-blur-modern border-b border-terminal-border" style={{ backgroundColor: 'hsl(210, 30%, 15%)' }}>

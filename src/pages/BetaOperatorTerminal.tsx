@@ -6,7 +6,7 @@ import CommunicationTools from '@/components/CommunicationTools';
 import DocumentManagement from '@/components/DocumentManagement';
 import { ModernHelpGuide } from '@/components/ModernHelpGuide';
 import RealTimeFlightTracker from '@/components/RealTimeFlightTracker';
-import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
+import StratusCinematicBackground from '@/components/StratusCinematicBackground';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -260,7 +260,7 @@ export default function BetaOperatorTerminal() {
       )}
       
       <div className="min-h-screen bg-app relative overflow-hidden scroll-smooth">
-        <StarfieldRunwayBackground />
+        <StratusCinematicBackground />
         
         {/* Header */}
         <header className="relative z-10 bg-terminal-card border-b border-terminal-border px-6 py-4 backdrop-blur-modern">

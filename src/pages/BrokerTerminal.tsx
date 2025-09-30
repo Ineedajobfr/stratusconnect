@@ -1,52 +1,45 @@
-import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import TerminalTemplate from "@/components/TerminalTemplate";
-import { useShortcuts } from "@/hooks/use-shortcuts";
-import { useRef } from "react";
-import { BarChart3, MessageSquare, TrendingUp, DollarSign, Clock, Users, Globe, Bookmark, FileText, Settings, AlertTriangle, Star, Calendar, Shield, Plus, Search, Bell, Award, Plane, Target, GitCompare, Save, Eye, Filter, Download, Leaf, Trophy, ArrowUp, Menu, RefreshCw, X } from "lucide-react";
-import type { User } from '@supabase/supabase-js';
-import DemoMarketplace from './DemoMarketplace';
-import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24Widget";
-import { PersonalizedFeed } from "@/components/feed/PersonalizedFeed";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ModernHelpGuide } from "@/components/ModernHelpGuide";
-import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
-import { StratusConnectLogo } from "@/components/StratusConnectLogo";
+import { AIInsightsWidget } from "@/components/AI/AIInsightsWidget";
+import AIChatbot from "@/components/AIChatbot";
+import { AuditTrailWidget } from "@/components/Audit/AuditTrailWidget";
+import { MonthlyStatements } from "@/components/Billing/MonthlyStatements";
 import { MultiLegRFQ } from "@/components/DealFlow/MultiLegRFQ";
 import { RFQCard } from "@/components/DealFlow/RFQCard";
 import { SavedSearches } from "@/components/DealFlow/SavedSearches";
-import { ReputationMetrics } from "@/components/Reputation/ReputationMetrics";
-import { MonthlyStatements } from "@/components/Billing/MonthlyStatements";
-import { WeekOneScoreboard } from "@/components/WeekOneScoreboard";
-import { RankingRulesPage } from "@/components/Ranking/RankingRulesPage";
-import NoteTakingSystem from "@/components/NoteTakingSystem";
-import AIChatbot from "@/components/AIChatbot";
-import { rfqService } from "@/lib/rfq-service";
-import { quoteService } from "@/lib/quote-service";
-import { paymentService } from "@/lib/payment-service";
-import { notificationService } from "@/lib/notification-service";
-import { toast } from "@/hooks/use-toast";
-import { NotificationCenter } from "@/components/NotificationCenter";
-import { WeatherWidget } from "@/components/Weather/WeatherWidget";
-import { RiskAssessmentWidget } from "@/components/Risk/RiskAssessmentWidget";
-import { AuditTrailWidget } from "@/components/Audit/AuditTrailWidget";
-import { MobileOptimizedTerminal, MobileCard, MobileButtonGroup, MobileStatsGrid } from "@/components/Mobile/MobileOptimizedTerminal";
-import { AIInsightsWidget } from "@/components/AI/AIInsightsWidget";
-import { PerformanceMonitor } from "@/components/Performance/PerformanceMonitor";
-import { LazyLoader, createLazyComponent } from "@/components/Performance/LazyLoader";
-import { VirtualList } from "@/components/Performance/VirtualList";
-import { performanceService } from "@/lib/performance-service";
-import { SecurityDashboard } from "@/components/Security/SecurityDashboard";
-import { DataProtection } from "@/components/Security/DataProtection";
-import { AuthenticationGuard } from "@/components/Security/AuthenticationGuard";
-import { securityService } from "@/lib/security-service";
-import { ErrorBoundary, withErrorBoundary, useErrorHandler } from "@/components/Error/ErrorBoundary";
+import { ErrorBoundary } from "@/components/Error/ErrorBoundary";
 import { ErrorMonitor } from "@/components/Error/ErrorMonitor";
+import { PersonalizedFeed } from "@/components/feed/PersonalizedFeed";
+import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24Widget";
+import { MobileOptimizedTerminal } from "@/components/Mobile/MobileOptimizedTerminal";
+import { ModernHelpGuide } from "@/components/ModernHelpGuide";
+import NoteTakingSystem from "@/components/NoteTakingSystem";
+import { NotificationCenter } from "@/components/NotificationCenter";
+import { PerformanceMonitor } from "@/components/Performance/PerformanceMonitor";
+import { ReputationMetrics } from "@/components/Reputation/ReputationMetrics";
+import { RiskAssessmentWidget } from "@/components/Risk/RiskAssessmentWidget";
+import { AuthenticationGuard } from "@/components/Security/AuthenticationGuard";
+import { DataProtection } from "@/components/Security/DataProtection";
+import { SecurityDashboard } from "@/components/Security/SecurityDashboard";
+import StratusCinematicBackground from "@/components/StratusCinematicBackground";
+import { StratusConnectLogo } from "@/components/StratusConnectLogo";
+import TerminalTemplate from "@/components/TerminalTemplate";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { WeatherWidget } from "@/components/Weather/WeatherWidget";
+import { useShortcuts } from "@/hooks/use-shortcuts";
+import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import { errorService } from "@/lib/error-service";
+import { notificationService } from "@/lib/notification-service";
+import { performanceService } from "@/lib/performance-service";
+import { quoteService } from "@/lib/quote-service";
+import { rfqService } from "@/lib/rfq-service";
+import type { User } from '@supabase/supabase-js';
+import { AlertTriangle, ArrowUp, Award, BarChart3, Bell, Bookmark, Clock, DollarSign, FileText, Globe, MessageSquare, Plane, Plus, Search, Settings, Shield, TrendingUp, Users } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import DemoMarketplace from './DemoMarketplace';
 // import { ModernStatus } from "@/components/ModernStatus";
 
 interface RFQ {
@@ -421,7 +414,7 @@ export default function BrokerTerminal() {
         />
       )}
       <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0B1426' }}>
-        <StarfieldRunwayBackground />
+        <StratusCinematicBackground />
         
       {/* Terminal Header */}
         <div className="relative z-10 bg-terminal-card border-b border-terminal-border backdrop-blur-modern">

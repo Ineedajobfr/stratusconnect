@@ -1,52 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ModernHelpGuide } from '@/components/ModernHelpGuide';
-import { StratusConnectLogo } from '@/components/StratusConnectLogo';
-import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
-import NoteTakingSystem from '@/components/NoteTakingSystem';
-import RealTimeFlightTracker from '@/components/RealTimeFlightTracker';
-import AdvancedSearch from '@/components/AdvancedSearch';
-import DocumentManagement from '@/components/DocumentManagement';
-import CommunicationTools from '@/components/CommunicationTools';
-import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
-import { DemoBanner } from '@/components/DemoBanner';
-import JobBoard from '@/components/job-board/JobBoard';
+import AIHunterWidget from '@/components/AI/AIHunterWidget';
 import CommunityForums from '@/components/community/CommunityForums';
 import DocumentStorage from '@/components/documents/DocumentStorage';
-import AIHunterWidget from '@/components/AI/AIHunterWidget';
-import { useNavigate } from 'react-router-dom';
-import { 
-  HelpCircle,
-  ArrowUp,
-  RefreshCw,
-  Plus,
-  Calendar,
-  Clock,
-  MapPin,
-  Users,
-  Star,
-  Award,
-  Briefcase,
-  Plane,
-  DollarSign,
-  CheckCircle,
-  AlertTriangle,
-  TrendingUp,
-  BarChart3,
-  FileText,
-  Navigation,
-  Bell,
-  Settings,
-  User,
-  Phone,
-  Mail,
-  Globe,
-  Shield,
-  Zap
+import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
+import JobBoard from '@/components/job-board/JobBoard';
+import { ModernHelpGuide } from '@/components/ModernHelpGuide';
+import NoteTakingSystem from '@/components/NoteTakingSystem';
+import RealTimeFlightTracker from '@/components/RealTimeFlightTracker';
+import StratusCinematicBackground from '@/components/StratusCinematicBackground';
+import { StratusConnectLogo } from '@/components/StratusConnectLogo';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+    AlertTriangle,
+    ArrowUp,
+    Award,
+    BarChart3,
+    Bell,
+    Briefcase,
+    Calendar,
+    CheckCircle,
+    Clock,
+    DollarSign,
+    FileText,
+    Globe,
+    HelpCircle,
+    Navigation,
+    Plane,
+    Plus,
+    RefreshCw,
+    Settings,
+    Star,
+    User,
+    Users
 } from 'lucide-react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface Assignment {
   id: string;
@@ -496,7 +486,7 @@ export default function DemoCrewTerminal() {
       />
       )}
       <div className="min-h-screen relative overflow-hidden scroll-smooth" style={{ backgroundColor: '#0B1426' }}>
-        <StarfieldRunwayBackground />
+        <StratusCinematicBackground />
         
         {/* Header */}
         <header className="relative z-10 sticky top-0 backdrop-blur-modern border-b border-terminal-border" style={{ backgroundColor: 'hsl(210, 30%, 15%)' }}>

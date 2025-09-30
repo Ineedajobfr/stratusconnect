@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
+import { DemoBanner } from '@/components/DemoBanner';
+import { NavigationArrows } from '@/components/NavigationArrows';
+import StratusCinematicBackground from '@/components/StratusCinematicBackground';
+import { StratusConnectLogo } from '@/components/StratusConnectLogo';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
-import { NavigationArrows } from '@/components/NavigationArrows';
-import { StratusConnectLogo } from '@/components/StratusConnectLogo';
-import { DemoBanner } from '@/components/DemoBanner';
-import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
-import { Loader2, Shield, Eye, EyeOff, Mail, Plane, User, Building, Users, Briefcase } from 'lucide-react';
+import { Briefcase, Building, Eye, EyeOff, Loader2, Mail, Plane, Shield, User, Users } from 'lucide-react';
+import React, { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 
 export default function Auth() {
   const { user, loading, login, loginWithMagicLink, register } = useAuth();
@@ -50,7 +50,7 @@ export default function Auth() {
     return (
       <div className="min-h-screen relative" style={{ backgroundColor: '#0B1426' }}>
         <DemoBanner />
-        <StarfieldRunwayBackground intensity={0.3} starCount={150} />
+        <StratusCinematicBackground />
         <div className="relative z-10 flex items-center justify-center min-h-screen">
           <div className="flex items-center gap-3">
             <Loader2 className="h-6 w-6 animate-spin text-terminal-glow" />
@@ -150,7 +150,7 @@ export default function Auth() {
   return (
     <div className="min-h-screen bg-terminal-bg relative">
       <DemoBanner />
-      <StarfieldRunwayBackground intensity={0.3} starCount={150} />
+      <StratusNightFlightBackground />
       
       <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
         <div className="absolute top-6 left-6">

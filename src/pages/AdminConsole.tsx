@@ -1,17 +1,17 @@
-import { useState, useEffect } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import AuthForm from "@/components/AuthForm";
+import StratusCinematicBackground from "@/components/StratusCinematicBackground";
+import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/contexts/AuthContext";
+import { Activity, AlertTriangle, Lock, Search, Shield, Users } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import { Shield, Users, Activity, AlertTriangle, Search, Lock } from "lucide-react";
-import AuthForm from "@/components/AuthForm";
-import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
-import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 
 interface AdminUser {
   id: string;
@@ -142,7 +142,7 @@ export default function AdminConsole() {
   if (!user) {
     return (
       <div className="relative min-h-screen" style={{ backgroundColor: '#0B1426' }}>
-        <StarfieldRunwayBackground intensity={0.5} starCount={200} />
+        <StratusCinematicBackground />
         
         <div className="relative z-10 min-h-screen flex items-center justify-center p-6">
           <div className="absolute top-6 left-6">
@@ -173,7 +173,7 @@ export default function AdminConsole() {
   if (loading) {
     return (
       <div className="relative min-h-screen" style={{ backgroundColor: '#0B1426' }}>
-        <StarfieldRunwayBackground intensity={0.5} starCount={200} />
+        <StratusCinematicBackground />
         <div className="relative z-10 min-h-screen flex items-center justify-center">
           <div className="text-white text-xl">Loading admin console...</div>
         </div>
@@ -183,7 +183,7 @@ export default function AdminConsole() {
 
   return (
     <div className="relative min-h-screen bg-slate-900">
-      <StarfieldRunwayBackground intensity={0.3} starCount={150} />
+      <StratusNightFlightBackground />
       
       <div className="relative z-10 min-h-screen p-6">
         <div className="absolute top-6 left-6">

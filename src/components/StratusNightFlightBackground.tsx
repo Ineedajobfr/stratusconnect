@@ -9,6 +9,8 @@ import { useEffect, useRef } from "react";
  *  - High-altitude cloud haze
  *  - HUD: horizon line, concentric radar arcs, rotating sweep
  *  - HUD: heading tape at top, altitude ladder at right
+ *  - CURSOR REACTIVE: HUD elements respond to mouse movement
+ *  - FULL PAGE: Fixed positioning covers entire page with scroll parallax
  *
  * Framework: React + Tailwind. No external libraries.
  */
@@ -23,6 +25,10 @@ export function StratusNightFlightBackgroundHUD() {
   const cloudsRef = useRef<HTMLCanvasElement>(null);
   const hudRef = useRef<HTMLCanvasElement>(null);
 
+  // Cursor tracking
+  const cursorRef = useRef({ x: 0, y: 0 });
+  const scrollRef = useRef(0);
+
   useEffect(() => {
     const sky = skyRef.current!;
     const stars = starsRef.current!;
@@ -33,6 +39,15 @@ export function StratusNightFlightBackgroundHUD() {
     const stCtx = stars.getContext("2d")!;
     const cCtx = clouds.getContext("2d")!;
     const hCtx = hud.getContext("2d")!;
+
+    // Cursor tracking
+    const handleMouseMove = (e: MouseEvent) => {
+      cursorRef.current = { x: e.clientX, y: e.clientY };
+    };
+
+    const handleScroll = () => {
+      scrollRef.current = window.scrollY;
+    };
 
     function resize() {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -51,10 +66,15 @@ export function StratusNightFlightBackgroundHUD() {
       drawHUDStatic();
     }
 
-    // SKY
+    // SKY with scroll parallax
     function drawSky() {
       const w = sky.width / (window.devicePixelRatio || 1);
       const h = sky.height / (window.devicePixelRatio || 1);
+      const scroll = scrollRef.current;
+      
+      // Scroll parallax - horizon glow compresses as you scroll
+      const parallax = Math.max(0, 1 - scroll / (h * 2));
+      
       const g = sCtx.createLinearGradient(0, 0, 0, h);
       g.addColorStop(0, "#04060a");
       g.addColorStop(0.7, "#080c14");
@@ -62,8 +82,8 @@ export function StratusNightFlightBackgroundHUD() {
       sCtx.fillStyle = g;
       sCtx.fillRect(0, 0, w, h);
 
-      const hg = sCtx.createRadialGradient(w * 0.5, h * 1.05, 2, w * 0.5, h * 1.05, h * 0.35);
-      hg.addColorStop(0, "rgba(90,130,240,0.18)");
+      const hg = sCtx.createRadialGradient(w * 0.5, h * 1.05, 2, w * 0.5, h * 1.05, h * 0.35 * parallax);
+      hg.addColorStop(0, `rgba(90,130,240,${0.18 * parallax})`);
       hg.addColorStop(1, "rgba(10,15,25,0)");
       sCtx.fillStyle = hg;
       sCtx.fillRect(0, 0, w, h);
@@ -92,10 +112,15 @@ export function StratusNightFlightBackgroundHUD() {
       const w = stars.width / (window.devicePixelRatio || 1);
       const h = stars.height / (window.devicePixelRatio || 1);
       stCtx.clearRect(0, 0, w, h);
+      
+      // Cursor influence on star drift (gentle yaw and pitch)
+      const windX = (cursorRef.current.x - w * 0.5) / w * 0.3;
+      const windY = (cursorRef.current.y - h * 0.5) / h * 0.2;
+      
       for (const s of starsArr) {
         const twinkle = 0.65 + 0.35 * Math.sin(s.tw + t * 0.0015 + s.z * 3);
-        const px = (s.x - 0.02 * t * (0.5 + s.z)) % w;
-        const py = (s.y + 0.01 * t * (0.5 + s.z)) % h;
+        const px = (s.x - 0.02 * t * (0.5 + s.z) + windX * s.z * 50) % w;
+        const py = (s.y + 0.01 * t * (0.5 + s.z) + windY * s.z * 30) % h;
         stCtx.globalAlpha = Math.min(1, 0.25 + 0.75 * twinkle * s.z);
         stCtx.fillStyle = "#ffffff";
         stCtx.beginPath();
@@ -127,8 +152,11 @@ export function StratusNightFlightBackgroundHUD() {
       const h = clouds.height / (window.devicePixelRatio || 1);
       cCtx.clearRect(0, 0, w, h);
       if (!cloudTex) return;
+      
+      // Cursor influence on cloud drift
+      const windX = (cursorRef.current.x - w * 0.5) / w * 0.1;
       const speed = t * 0.00005;
-      const x = -((speed * w) % 256);
+      const x = -((speed * w) % 256) + windX * 20;
       cCtx.globalAlpha = 0.15;
       for (let i = -1; i < Math.ceil(w / 256) + 1; i++) {
         for (let j = -1; j < Math.ceil(h / 256) + 1; j++) {
@@ -187,7 +215,7 @@ export function StratusNightFlightBackgroundHUD() {
       hCtx.restore();
     }
 
-    // HUD SWEEP
+    // HUD SWEEP with cursor yaw
     function drawHUDSweep(t: number) {
       const w = hud.width / (window.devicePixelRatio || 1);
       const h = hud.height / (window.devicePixelRatio || 1);
@@ -197,8 +225,10 @@ export function StratusNightFlightBackgroundHUD() {
       drawHUDStatic(); // redraw faint static
 
       const base = (t * 0.00015) % 1; // 0..1
-      const startA = (200 * Math.PI) / 180 + base * 0.2;
-      const endA = (340 * Math.PI) / 180 + base * 0.2;
+      // Cursor yaw influence on radar sweep
+      const drift = (cursorRef.current.x - w * 0.5) / w * 0.1;
+      const startA = (200 * Math.PI) / 180 + base * 0.2 + drift;
+      const endA = (340 * Math.PI) / 180 + base * 0.2 + drift;
 
       const grad = hCtx.createRadialGradient(cx, cy, h * 0.1, cx, cy, h * 0.28);
       grad.addColorStop(0, "rgba(140,190,255,0.00)");
@@ -225,7 +255,7 @@ export function StratusNightFlightBackgroundHUD() {
       drawAltitudeLadder(t);
     }
 
-    // HEADING TAPE (top)
+    // HEADING TAPE (top) with cursor response
     function drawHeadingTape(t: number) {
       const w = hud.width / (window.devicePixelRatio || 1);
       const h = hud.height / (window.devicePixelRatio || 1);
@@ -242,12 +272,13 @@ export function StratusNightFlightBackgroundHUD() {
       hCtx.fillStyle = bg;
       hCtx.fillRect(x0, y - 18, tapeWidth, 36);
 
-      // scrolling degrees 0..359, slow drift
+      // scrolling degrees 0..359, slow drift + cursor influence
       const degPerPx = 2.5;
       const drift = (t * 0.02) % (360 * degPerPx);
+      const cursorDrift = (cursorRef.current.x - w * 0.5) / w * 50;
 
       for (let px = 0; px <= tapeWidth; px += 10) {
-        const deg = Math.floor(((px + drift) / degPerPx) % 360);
+        const deg = Math.floor(((px + drift + cursorDrift) / degPerPx) % 360);
         const x = x0 + px;
         const tall = deg % 10 === 0;
         hCtx.strokeStyle = "rgba(160,200,255,0.35)";
@@ -274,7 +305,7 @@ export function StratusNightFlightBackgroundHUD() {
       hCtx.restore();
     }
 
-    // ALTITUDE LADDER (right)
+    // ALTITUDE LADDER (right) with cursor following
     function drawAltitudeLadder(t: number) {
       const w = hud.width / (window.devicePixelRatio || 1);
       const h = hud.height / (window.devicePixelRatio || 1);
@@ -291,11 +322,12 @@ export function StratusNightFlightBackgroundHUD() {
       hCtx.fillStyle = bg;
       hCtx.fillRect(x - 36, y0, 72, ladderH);
 
-      // slow oscillation to imply flight
+      // slow oscillation to imply flight + cursor Y influence
       const offset = Math.sin(t * 0.0006) * 20;
+      const centreOffset = (cursorRef.current.y - h * 0.5) / h * 40;
 
       for (let i = -5; i <= 5; i++) {
-        const y = y0 + ladderH / 2 + i * 36 + offset;
+        const y = y0 + ladderH / 2 + i * 36 + offset + centreOffset;
         hCtx.strokeStyle = "rgba(160,200,255,0.35)";
         hCtx.lineWidth = 1;
         hCtx.beginPath();
@@ -311,8 +343,8 @@ export function StratusNightFlightBackgroundHUD() {
         }
       }
 
-      // centre window box
-      const winY = y0 + ladderH / 2 - 16 + offset;
+      // centre window box follows cursor Y
+      const winY = y0 + ladderH / 2 - 16 + offset + centreOffset;
       hCtx.strokeStyle = "rgba(220,245,255,0.8)";
       hCtx.strokeRect(x - 34, winY, 68, 32);
       hCtx.restore();
@@ -332,16 +364,20 @@ export function StratusNightFlightBackgroundHUD() {
 
     resize();
     window.addEventListener("resize", resize);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("scroll", handleScroll);
     frame();
 
     return () => {
       cancelAnimationFrame(rafId);
       window.removeEventListener("resize", resize);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   return (
-    <div className="absolute inset-0 overflow-hidden">
+    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
       <canvas ref={skyRef} className="absolute inset-0 w-full h-full" />
       <canvas ref={starsRef} className="absolute inset-0 w-full h-full" />
       <canvas ref={cloudsRef} className="absolute inset-0 w-full h-full" />

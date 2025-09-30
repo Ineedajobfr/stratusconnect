@@ -1,4 +1,4 @@
-import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
+import StratusCinematicBackground from "@/components/StratusCinematicBackground";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -245,7 +245,7 @@ const AdminTerminal = () => {
   if (loading) {
     return (
       <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0B1426' }}>
-        <StarfieldRunwayBackground />
+        <StratusCinematicBackground />
         <div className="relative z-10 flex items-center justify-center min-h-screen">
           <div className="text-center">
             <div className="w-16 h-16 border-4 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
@@ -258,7 +258,7 @@ const AdminTerminal = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0B1426' }}>
-      <StarfieldRunwayBackground />
+      <StratusCinematicBackground />
       
       {/* Header */}
       <div className="relative z-10 border-b border-terminal-border bg-terminal-card/50 backdrop-blur-sm">

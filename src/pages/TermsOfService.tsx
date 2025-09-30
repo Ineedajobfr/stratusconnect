@@ -1,15 +1,15 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import StratusCinematicBackground from "@/components/StratusCinematicBackground";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 
 export default function TermsOfService() {
   const navigate = useNavigate();
 
   return (
     <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0B1426' }}>
-      <StarfieldRunwayBackground />
+      <StratusCinematicBackground />
       
       <div className="relative z-10 py-12">
         <div className="max-w-4xl mx-auto px-4">

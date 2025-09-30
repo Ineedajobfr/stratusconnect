@@ -1,15 +1,16 @@
 // Status Banner for Homepage
 // FCA Compliant Aviation Platform
 
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { 
-  Activity, 
-  CheckCircle, 
-  AlertTriangle, 
-  Clock,
-  ExternalLink
+import { realTimeMonitoring } from '@/lib/real-time-monitoring';
+import {
+    Activity,
+    AlertTriangle,
+    CheckCircle,
+    Clock,
+    ExternalLink
 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export interface StatusData {
   uptime: number;
@@ -31,38 +32,20 @@ export function StatusBanner() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate API call to get status data
-    const fetchStatus = async () => {
+    const fetchStatus = () => {
       try {
-        // Simulate API delay
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        const systemStatus = realTimeMonitoring.getSystemStatus();
         
-        // Mock status data
-        const mockStatus: StatusData = {
-          uptime: 99.95,
-          p50Response: 180,
-          p90Response: 450,
-          p99Response: 850,
-          incidents: [
-            {
-              id: 'INC_001',
-              title: 'Test Incident 1',
-              status: 'resolved',
-              createdAt: '2024-01-16T10:00:00Z',
-              resolvedAt: '2024-01-16T11:00:00Z'
-            },
-            {
-              id: 'INC_002',
-              title: 'Test Incident 2',
-              status: 'resolved',
-              createdAt: '2024-01-16T14:00:00Z',
-              resolvedAt: '2024-01-16T15:00:00Z'
-            }
-          ],
-          lastUpdated: new Date().toISOString()
+        const statusData: StatusData = {
+          uptime: systemStatus.uptime.current,
+          p50Response: systemStatus.uptime.p50,
+          p90Response: systemStatus.uptime.p90,
+          p99Response: systemStatus.uptime.p99,
+          incidents: [], // Real-time monitoring doesn't track incidents yet
+          lastUpdated: systemStatus.lastUpdated
         };
         
-        setStatusData(mockStatus);
+        setStatusData(statusData);
       } catch (error) {
         console.error('Failed to fetch status:', error);
       } finally {
@@ -70,7 +53,13 @@ export function StatusBanner() {
       }
     };
 
+    // Initial fetch
     fetchStatus();
+    
+    // Update every 10 seconds
+    const interval = setInterval(fetchStatus, 10000);
+    
+    return () => clearInterval(interval);
   }, []);
 
   if (isLoading) {
@@ -103,7 +92,7 @@ export function StatusBanner() {
   const isHealthy = activeIncidents.length === 0 && statusData.uptime > 99.9;
 
   return (
-    <div className="border-b py-3 bg-slate-900/20 border-slate-700">
+    <div className="border-b py-3 bg-black/80 backdrop-blur-sm border-slate-700/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">

@@ -1,12 +1,14 @@
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { NavigationArrows } from "@/components/NavigationArrows";
 import { DemoBanner } from "@/components/DemoBanner";
 import { Plane, Home } from "lucide-react";
+import StratusConnectHeader from "@/components/StratusConnectHeader";
 
 const NotFound = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.error(
@@ -21,6 +23,8 @@ const NotFound = () => {
       <div className="fixed top-20 right-6 z-40">
         <NavigationArrows />
       </div>
+      
+      <StratusConnectHeader />
       <div className="text-center max-w-md mx-auto px-6">
         <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-6">
           <Plane className="w-8 h-8 text-primary-foreground" />

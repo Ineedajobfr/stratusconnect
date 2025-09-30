@@ -19,7 +19,6 @@ import { RiskAssessmentWidget } from "@/components/Risk/RiskAssessmentWidget";
 import { AuthenticationGuard } from "@/components/Security/AuthenticationGuard";
 import { DataProtection } from "@/components/Security/DataProtection";
 import { SecurityDashboard } from "@/components/Security/SecurityDashboard";
-import StratusCinematicBackground from "@/components/StratusCinematicBackground";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 import TerminalTemplate from "@/components/TerminalTemplate";
 import { Badge } from "@/components/ui/badge";
@@ -413,8 +412,35 @@ export default function BrokerTerminal() {
           onClose={() => setShowHelpGuide(false)}
         />
       )}
-      <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0B1426' }}>
-        <StratusCinematicBackground />
+      <div className="min-h-screen relative overflow-hidden">
+        {/* Cinematic Burnt Orange to Obsidian Gradient */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: 'radial-gradient(ellipse at center, rgba(139, 69, 19, 0.9) 0%, rgba(91, 30, 13, 0.95) 25%, rgba(59, 30, 13, 0.98) 50%, rgba(20, 20, 20, 0.99) 75%, rgba(10, 10, 12, 1) 100%), linear-gradient(135deg, #3b1e0d 0%, #2d1a0a 25%, #1a0f08 50%, #0f0a06 75%, #0a0a0c 100%)',
+          }}
+        />
+        
+        {/* Cinematic Vignette - Creates spotlight effect on center */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: 'radial-gradient(ellipse 80% 60% at center, transparent 0%, transparent 40%, rgba(0, 0, 0, 0.1) 60%, rgba(0, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0.6) 100%)',
+          }}
+        />
+        
+        {/* Subtle golden-orange glow in the center */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: 'radial-gradient(ellipse 60% 40% at center, rgba(255, 140, 0, 0.08) 0%, rgba(255, 140, 0, 0.04) 30%, transparent 60%)',
+          }}
+        />
+        
+        {/* Subtle grid pattern overlay - more refined */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxwYXRoIGQ9Ik0gMTAwIDAgTCAwIDAgTCAwIDEwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjAuNSIvPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0idXJsKCNncmlkKSIvPgo8L3N2Zz4=')] opacity-30"></div>
+        </div>
         
       {/* Terminal Header */}
         <div className="relative z-10 bg-terminal-card border-b border-terminal-border backdrop-blur-modern">

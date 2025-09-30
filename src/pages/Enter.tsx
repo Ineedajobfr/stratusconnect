@@ -10,6 +10,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { NavigationArrows } from "@/components/NavigationArrows";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
+import StratusConnectHeader from "@/components/StratusConnectHeader";
 
 export default function Enter() {
   const navigate = useNavigate();
@@ -99,6 +100,8 @@ export default function Enter() {
         <NavigationArrows />
       </div>
       
+      <StratusConnectHeader />
+
       <div className="relative z-10 w-full max-w-md">
         {/* Back to Home */}
         <div className="mb-6">

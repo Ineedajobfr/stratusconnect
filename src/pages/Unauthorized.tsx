@@ -5,6 +5,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Shield, AlertTriangle, Lock, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import StratusConnectHeader from '@/components/StratusConnectHeader';
 
 export default function Unauthorized() {
   const navigate = useNavigate();
@@ -12,6 +13,8 @@ export default function Unauthorized() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-background flex items-center justify-center p-4">
+      <StratusConnectHeader />
+      
       <div className="w-full max-w-md space-y-6">
         <Card className="bg-slate-900/20 border-orange-500/30">
           <CardHeader className="text-center">

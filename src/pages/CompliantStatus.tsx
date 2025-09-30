@@ -1,45 +1,56 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { 
-  Activity, 
-  CheckCircle, 
-  AlertTriangle, 
-  XCircle, 
-  RefreshCw,
-  Clock,
-  TrendingUp,
-  Users,
-  DollarSign,
-  Server,
-  Shield,
-  Globe,
-  AlertCircle
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { realTimeMonitoring } from '@/lib/real-time-monitoring';
+import {
+    AlertCircle,
+    AlertTriangle,
+    CheckCircle,
+    RefreshCw,
+    Server,
+    Shield,
+    XCircle
 } from 'lucide-react';
-import { compliantMonitoring, UptimeMetrics, Incident } from '@/lib/compliant-monitoring';
+import { useEffect, useState } from 'react';
 
 export default function CompliantStatus() {
-  const [metrics, setMetrics] = useState<UptimeMetrics | null>(null);
-  const [incidents, setIncidents] = useState<Incident[]>([]);
+  const [statusData, setStatusData] = useState<{
+    overall: string;
+    uptime: {
+      current: number;
+      p50: number;
+      p90: number;
+      p99: number;
+    };
+    monitors: Array<{
+      id: string;
+      name: string;
+      status: string;
+      responseTime: number;
+      uptime24h: number;
+      uptime7d: number;
+      uptime30d: number;
+    }>;
+    lastUpdated: string;
+    version: string;
+    incidents: number;
+  } | null>(null);
   const [loading, setLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState<string>('');
 
   useEffect(() => {
     loadStatus();
-    const interval = setInterval(loadStatus, 30000); // Update every 30 seconds
+    const interval = setInterval(loadStatus, 10000); // Update every 10 seconds
     return () => clearInterval(interval);
   }, []);
 
   const loadStatus = async () => {
     try {
       setLoading(true);
-      const systemStatus = await compliantMonitoring.getSystemStatus();
-      const allIncidents = compliantMonitoring.getIncidents();
+      const systemStatus = realTimeMonitoring.getSystemStatus();
       
-      setMetrics(systemStatus.uptime);
-      setIncidents(allIncidents);
-      setLastUpdated(systemStatus.timestamp);
+      setStatusData(systemStatus);
+      setLastUpdated(systemStatus.lastUpdated);
     } catch (error) {
       console.error('Error loading status:', error);
     } finally {
@@ -47,119 +58,124 @@ export default function CompliantStatus() {
     }
   };
 
-  const createDemoIncident = async () => {
-    try {
-      const incident = await compliantMonitoring.createIncident({
-        name: 'Demo Incident - Service Degradation',
-        status: 'investigating',
-        description: 'This is a demo incident to test the status page functionality. No actual service issues.',
-        affected_services: ['API', 'Web Interface']
-      });
-      
-      setIncidents(prev => [incident, ...prev]);
-      alert('Demo incident created successfully');
-    } catch (error) {
-      console.error('Error creating incident:', error);
-      alert('Failed to create demo incident');
-    }
-  };
-
-  const resolveIncident = async (incidentId: string) => {
-    try {
-      await compliantMonitoring.resolveIncident(incidentId);
-      setIncidents(prev => 
-        prev.map(inc => 
-          inc.id === incidentId 
-            ? { ...inc, status: 'resolved' as const, resolved_at: new Date().toISOString() }
-            : inc
-        )
-      );
-      alert('Incident resolved successfully');
-    } catch (error) {
-      console.error('Error resolving incident:', error);
-      alert('Failed to resolve incident');
-    }
-  };
-
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'up':
-        return <CheckCircle className="w-5 h-5 text-white" />;
-      case 'down':
-        return <XCircle className="w-5 h-5 text-red-500" />;
-      case 'paused':
-        return <AlertTriangle className="w-5 h-5 text-yellow-500" />;
+      case 'operational':
+        return <CheckCircle className="w-6 h-6 text-green-400" />;
+      case 'degraded':
+        return <AlertTriangle className="w-6 h-6 text-yellow-400" />;
+      case 'outage':
+        return <XCircle className="w-6 h-6 text-red-400" />;
       default:
-        return <Clock className="w-5 h-5 text-gray-500" />;
+        return <AlertCircle className="w-6 h-6 text-gray-400" />;
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'up':
-        return 'bg-green-900/20 text-green-400 border-green-500/30';
-      case 'down':
-        return 'bg-red-900/20 text-red-400 border-red-500/30';
-      case 'paused':
-        return 'bg-yellow-900/20 text-yellow-400 border-yellow-500/30';
+      case 'operational':
+        return 'bg-green-500/20 text-green-400 border-green-500/30';
+      case 'degraded':
+        return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
+      case 'outage':
+        return 'bg-red-500/20 text-red-400 border-red-500/30';
       default:
-        return 'bg-slate-900/20 text-slate-400 border-slate-500/30';
+        return 'bg-gray-500/20 text-gray-400 border-gray-500/30';
     }
   };
 
-  const getIncidentStatusColor = (status: string) => {
+  const getMonitorStatusIcon = (status: string) => {
     switch (status) {
-      case 'investigating':
-        return 'bg-red-900/20 text-red-400 border-red-500/30';
-      case 'identified':
-        return 'bg-orange-900/20 text-orange-400 border-orange-500/30';
-      case 'monitoring':
-        return 'bg-yellow-900/20 text-yellow-400 border-yellow-500/30';
-      case 'resolved':
-        return 'bg-green-900/20 text-green-400 border-green-500/30';
+      case 'up':
+        return <CheckCircle className="w-4 h-4 text-green-400" />;
+      case 'degraded':
+        return <AlertTriangle className="w-4 h-4 text-yellow-400" />;
+      case 'down':
+        return <XCircle className="w-4 h-4 text-red-400" />;
       default:
-        return 'bg-slate-900/20 text-slate-400 border-slate-500/30';
+        return <AlertCircle className="w-4 h-4 text-gray-400" />;
     }
   };
 
   const formatUptime = (uptime: number) => {
-    if (uptime >= 99.9) {
-      return `${uptime.toFixed(3)}%`;
-    } else if (uptime >= 99.0) {
-      return `${uptime.toFixed(2)}%`;
-    } else {
-      return `${uptime.toFixed(1)}%`;
-    }
+    return `${uptime.toFixed(2)}%`;
   };
 
-  const formatResponseTime = (ms: number) => {
-    if (ms < 1000) {
-      return `${Math.round(ms)}ms`;
-    } else {
-      return `${(ms / 1000).toFixed(1)}s`;
-    }
+  const formatResponseTime = (time: number) => {
+    if (time === 0) return 'N/A';
+    return `${time}ms`;
   };
 
-  if (loading && !metrics) {
+  if (loading && !statusData) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <RefreshCw className="w-8 h-8 animate-spin mx-auto mb-4 text-accent" />
-          <p className="text-gunmetal">Loading system status...</p>
+      <div className="min-h-screen relative overflow-hidden">
+        {/* Aviation background image - matching index page */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyMCIgaGVpZ2h0PSIxMDgwIiB2aWV3Qm94PSIwIDAgMTkyMCAxMDgwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJhdmlhdGlvbi1ncmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNmZmE1MDA7c3RvcC1vcGFjaXR5OjAuOCIvPgo8c3RvcCBvZmZzZXQ9IjUwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZmNzUwMDtzdG9wLW9wYWNpdHk6MC42Ii8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzAwMDAwMDtzdG9wLW9wYWNpdHk6MC45Ii8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjE5MjAiIGhlaWdodD0iMTA4MCIgZmlsbD0idXJsKCNhdmlhdGlvbi1ncmFkaWVudCkiLz4KPC9zdmc+')`,
+          }}
+        />
+        
+        {/* Dark overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/40"></div>
+        
+        {/* Subtle grid pattern overlay */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxwYXRoIGQ9Ik0gMTAwIDAgTCAwIDAgTCAwIDEwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjAuNSIvPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0idXJsKCNncmlkKSIvPgo8L3N2Zz4=')] opacity-20"></div>
+        </div>
+
+        {/* STRATUSCONNECT Logo - Top Left */}
+        <div 
+          className="absolute top-8 left-8 text-white text-lg font-bold bg-black px-6 py-3 rounded backdrop-blur-sm cursor-pointer hover:bg-gray-800 transition-colors z-20"
+          onClick={() => window.history.back()}
+        >
+          STRATUSCONNECT
+        </div>
+
+        <div className="relative z-10 container mx-auto px-4 py-8">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto"></div>
+            <p className="text-white/80 mt-4">Loading system status...</p>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Aviation background image - matching index page */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyMCIgaGVpZ2h0PSIxMDgwIiB2aWV3Qm94PSIwIDAgMTkyMCAxMDgwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJhdmlhdGlvbi1ncmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNmZmE1MDA7c3RvcC1vcGFjaXR5OjAuOCIvPgo8c3RvcCBvZmZzZXQ9IjUwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZmNzUwMDtzdG9wLW9wYWNpdHk6MC42Ii8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzAwMDAwMDtzdG9wLW9wYWNpdHk6MC45Ii8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjE5MjAiIGhlaWdodD0iMTA4MCIgZmlsbD0idXJsKCNhdmlhdGlvbi1ncmFkaWVudCkiLz4KPC9zdmc+')`,
+        }}
+      />
+      
+      {/* Dark overlay for better text readability */}
+      <div className="absolute inset-0 bg-black/40"></div>
+      
+      {/* Subtle grid pattern overlay */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxwYXRoIGQ9Ik0gMTAwIDAgTCAwIDAgTCAwIDEwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjAuNSIvPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0idXJsKCNncmlkKSIvPgo8L3N2Zz4=')] opacity-20"></div>
+      </div>
+
+      {/* STRATUSCONNECT Logo - Top Left */}
+      <div 
+        className="absolute top-8 left-8 text-white text-lg font-bold bg-black px-6 py-3 rounded backdrop-blur-sm cursor-pointer hover:bg-gray-800 transition-colors z-20"
+        onClick={() => window.history.back()}
+      >
+        STRATUSCONNECT
+      </div>
+
+      <div className="relative z-10 container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-foreground mb-4">
+          <h1 className="text-4xl font-bold text-white mb-4 drop-shadow-lg">
             System Status
           </h1>
-          <p className="text-gunmetal text-lg">
+          <p className="text-white/80 text-lg drop-shadow-lg">
             Real-time monitoring and performance metrics
           </p>
           <div className="flex items-center justify-center gap-4 mt-4">
@@ -168,26 +184,27 @@ export default function CompliantStatus() {
               variant="outline"
               size="sm"
               disabled={loading}
+              className="bg-black/30 border-white/30 text-white hover:bg-black/50"
             >
               <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
               Refresh
             </Button>
-            <p className="text-sm text-gunmetal">
+            <p className="text-sm text-white/80">
               Last updated: {lastUpdated ? new Date(lastUpdated).toLocaleString() : 'Never'}
             </p>
           </div>
         </div>
 
         {/* Compliance Notice */}
-        <Card className="mb-8 border-blue-200 bg-slate-800">
+        <Card className="mb-8 bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50">
           <CardContent className="p-4">
             <div className="flex items-start gap-3">
               <Shield className="w-5 h-5 text-blue-600 mt-0.5" />
               <div>
-                <h3 className="font-medium text-blue-800">Compliant Monitoring</h3>
-                <p className="text-blue-700 text-sm mt-1">
-                  All metrics shown are live from UptimeRobot monitoring. No static claims or fabricated data. 
-                  This status page meets regulatory requirements for accurate service level reporting.
+                <h3 className="font-medium text-white">Real-Time Monitoring</h3>
+                <p className="text-white/80 text-sm mt-1">
+                  All metrics shown are live from our monitoring system. This status page provides 
+                  real-time system health data with 10-second update intervals.
                 </p>
               </div>
             </div>
@@ -195,270 +212,128 @@ export default function CompliantStatus() {
         </Card>
 
         {/* Overall Status */}
-        {metrics && (
-          <Card className="mb-8">
+        {statusData && (
+          <Card className="mb-8 bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50">
             <CardHeader>
-              <CardTitle className="flex items-center gap-3">
-                {getStatusIcon(metrics.current_status)}
+              <CardTitle className="flex items-center gap-3 text-white">
+                {getStatusIcon(statusData.overall)}
                 <span>Overall Status</span>
-                <Badge className={getStatusColor(metrics.current_status)}>
-                  {metrics.current_status.toUpperCase()}
+                <Badge className={getStatusColor(statusData.overall)}>
+                  {statusData.overall.toUpperCase()}
                 </Badge>
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-foreground mb-2">
-                    {formatUptime(metrics.uptime_24h)}
+                  <div className="text-3xl font-bold text-white mb-2">
+                    {formatUptime(statusData.uptime.current)}
                   </div>
-                  <p className="text-gunmetal">Uptime (24h)</p>
+                  <p className="text-white/80">Current Uptime</p>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-foreground mb-2">
-                    {formatUptime(metrics.uptime_7d)}
+                  <div className="text-3xl font-bold text-white mb-2">
+                    {formatResponseTime(statusData.uptime.p50)}
                   </div>
-                  <p className="text-gunmetal">Uptime (7d)</p>
+                  <p className="text-white/80">P50 Response</p>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-foreground mb-2">
-                    {formatResponseTime(metrics.response_time_24h)}
+                  <div className="text-3xl font-bold text-white mb-2">
+                    {formatResponseTime(statusData.uptime.p90)}
                   </div>
-                  <p className="text-gunmetal">Avg Response Time (24h)</p>
+                  <p className="text-white/80">P90 Response</p>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-foreground mb-2">
-                    {metrics.incidents_24h}
+                  <div className="text-3xl font-bold text-white mb-2">
+                    {statusData.incidents}
                   </div>
-                  <p className="text-gunmetal">Incidents (24h)</p>
+                  <p className="text-white/80">Active Issues</p>
                 </div>
               </div>
             </CardContent>
           </Card>
         )}
 
-        {/* Detailed Metrics */}
-        {metrics && (
+        {/* Service Monitors */}
+        {statusData && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            {/* Uptime Metrics */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Activity className="w-5 h-5" />
-                  Uptime Metrics
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-gunmetal">Last 24 hours</span>
-                    <span className="font-mono font-semibold">
-                      {formatUptime(metrics.uptime_24h)}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gunmetal">Last 7 days</span>
-                    <span className="font-mono font-semibold">
-                      {formatUptime(metrics.uptime_7d)}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gunmetal">Last 30 days</span>
-                    <span className="font-mono font-semibold">
-                      {formatUptime(metrics.uptime_30d)}
-                    </span>
-                  </div>
-                  {metrics.last_incident && (
-                    <div className="pt-4 border-t">
-                      <p className="text-sm text-gunmetal mb-1">Last Incident</p>
-                      <p className="text-sm font-mono">
-                        {new Date(metrics.last_incident).toLocaleString()}
-                      </p>
+            {statusData.monitors.map((monitor) => (
+              <Card key={monitor.id} className="bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50">
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between text-white">
+                    <div className="flex items-center gap-2">
+                      {getMonitorStatusIcon(monitor.status)}
+                      <span>{monitor.name}</span>
                     </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Response Time Metrics */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <TrendingUp className="w-5 h-5" />
-                  Response Time Metrics
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-gunmetal">Last 24 hours</span>
-                    <span className="font-mono font-semibold">
-                      {formatResponseTime(metrics.response_time_24h)}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gunmetal">Last 7 days</span>
-                    <span className="font-mono font-semibold">
-                      {formatResponseTime(metrics.response_time_7d)}
-                    </span>
-                  </div>
-                  <div className="pt-4 border-t">
-                    <p className="text-sm text-gunmetal mb-2">Incident Count</p>
-                    <div className="grid grid-cols-2 gap-4 text-sm">
-                      <div>
-                        <span className="text-gunmetal">24h:</span>
-                        <span className="font-mono ml-1">{metrics.incidents_24h}</span>
-                      </div>
-                      <div>
-                        <span className="text-gunmetal">7d:</span>
-                        <span className="font-mono ml-1">{metrics.incidents_7d}</span>
-                      </div>
+                    <Badge className={getStatusColor(monitor.status)}>
+                      {monitor.status.toUpperCase()}
+                    </Badge>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-white/80">Response Time</span>
+                      <span className="font-mono font-semibold text-white">
+                        {formatResponseTime(monitor.responseTime)}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-white/80">Uptime (24h)</span>
+                      <span className="font-mono font-semibold text-white">
+                        {formatUptime(monitor.uptime24h)}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-white/80">Uptime (7d)</span>
+                      <span className="font-mono font-semibold text-white">
+                        {formatUptime(monitor.uptime7d)}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-white/80">Uptime (30d)</span>
+                      <span className="font-mono font-semibold text-white">
+                        {formatUptime(monitor.uptime30d)}
+                      </span>
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         )}
 
-        {/* Incidents */}
-        {incidents.length > 0 && (
-          <Card className="mb-8">
-            <CardHeader>
-              <div className="flex justify-between items-center">
-                <CardTitle className="flex items-center gap-2">
-                  <AlertCircle className="w-5 h-5" />
-                  Recent Incidents
-                </CardTitle>
-                <div className="flex gap-2">
-                  <Button
-                    onClick={createDemoIncident}
-                    variant="outline"
-                    size="sm"
-                    className="text-yellow-600 border-yellow-600 hover:bg-slate-800"
-                  >
-                    <AlertTriangle className="w-4 h-4 mr-1" />
-                    Create Demo Incident
-                  </Button>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {incidents.slice(0, 5).map((incident) => (
-                  <div key={incident.id} className="border rounded-lg p-4">
-                    <div className="flex justify-between items-start mb-2">
-                      <h4 className="font-medium text-foreground">{incident.name}</h4>
-                      <Badge className={getIncidentStatusColor(incident.status)}>
-                        {incident.status.toUpperCase()}
-                      </Badge>
-                    </div>
-                    <p className="text-gunmetal text-sm mb-2">{incident.description}</p>
-                    <div className="flex justify-between items-center text-sm text-gunmetal">
-                      <span>Started: {new Date(incident.started_at).toLocaleString()}</span>
-                      <div className="flex gap-2">
-                        {incident.resolved_at ? (
-                          <span>Resolved: {new Date(incident.resolved_at).toLocaleString()}</span>
-                        ) : (
-                          <Button
-                            onClick={() => resolveIncident(incident.id)}
-                            variant="outline"
-                            size="sm"
-                            className="text-white border-green-600 hover:bg-slate-800"
-                          >
-                            <CheckCircle className="w-3 h-3 mr-1" />
-                            Resolve
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* SLA Information */}
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Shield className="w-5 h-5" />
-              Service Level Agreement
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex justify-between items-center p-3 bg-slate-800 rounded-lg">
-                <span className="text-foreground font-medium">Target Uptime</span>
-                <span className="font-mono font-semibold">99.9%</span>
-              </div>
-              <div className="flex justify-between items-center p-3 bg-slate-800 rounded-lg">
-                <span className="text-foreground font-medium">Current Uptime (7d)</span>
-                <span className="font-mono font-semibold">
-                  {metrics ? formatUptime(metrics.uptime_7d) : 'N/A'}
-                </span>
-              </div>
-              <div className="flex justify-between items-center p-3 bg-slate-800 rounded-lg">
-                <span className="text-foreground font-medium">SLA Status</span>
-                <span className={`font-semibold ${
-                  metrics && metrics.uptime_7d >= 99.9 ? 'text-white' : 'text-red-600'
-                }`}>
-                  {metrics && metrics.uptime_7d >= 99.9 ? 'COMPLIANT' : 'NON-COMPLIANT'}
-                </span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
         {/* System Information */}
-        <Card>
+        <Card className="bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-white">
               <Server className="w-5 h-5" />
               System Information
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <span className="text-gunmetal">Version:</span>
-                <span className="font-mono ml-2">1.0.0</span>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-white mb-1">
+                  {statusData?.version || '1.0.0'}
+                </div>
+                <p className="text-white/80 text-sm">Version</p>
               </div>
-              <div>
-                <span className="text-gunmetal">Environment:</span>
-                <span className="font-mono ml-2">Production</span>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-white mb-1">
+                  Real-Time
+                </div>
+                <p className="text-white/80 text-sm">Monitoring</p>
               </div>
-              <div>
-                <span className="text-gunmetal">Monitoring:</span>
-                <span className="font-mono ml-2">UptimeRobot</span>
-              </div>
-              <div>
-                <span className="text-gunmetal">Status:</span>
-                <span className="ml-2">
-                  {metrics ? (
-                    <Badge className={getStatusColor(metrics.current_status)}>
-                      {metrics.current_status.toUpperCase()}
-                    </Badge>
-                  ) : (
-                    <Badge className="bg-slate-800 text-slate-300 border-slate-600">UNKNOWN</Badge>
-                  )}
-                </span>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-white mb-1">
+                  {statusData?.monitors.length || 0}
+                </div>
+                <p className="text-white/80 text-sm">Monitors</p>
               </div>
             </div>
           </CardContent>
         </Card>
-
-        {/* Footer */}
-        <div className="text-center mt-12 text-gunmetal text-sm">
-          <p>
-            This status page shows real-time metrics from UptimeRobot monitoring.
-            All data is verified and compliant with regulatory requirements.
-          </p>
-          <p className="mt-2">
-            For support or to report issues, please contact our support team.
-          </p>
-        </div>
       </div>
     </div>
   );

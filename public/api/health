@@ -1,0 +1,11 @@
+{
+  "status": "ok",
+  "timestamp": "2024-01-16T12:00:00Z",
+  "uptime": "100%",
+  "version": "1.0.0",
+  "services": {
+    "database": "healthy",
+    "api": "healthy",
+    "auth": "healthy"
+  }
+}

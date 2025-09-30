@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import StratusConnectHeader from '@/components/StratusConnectHeader';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
-import { 
-  Cookie, 
-  Shield, 
-  Settings, 
-  CheckCircle, 
-  XCircle, 
-  AlertTriangle,
-  BarChart3,
-  Eye
+import {
+    AlertTriangle,
+    BarChart3,
+    CheckCircle,
+    Cookie,
+    Eye,
+    Settings,
+    Shield,
+    XCircle
 } from 'lucide-react';
+import { useState } from 'react';
 
 export default function Cookies() {
   const [cookiePreferences, setCookiePreferences] = useState({
@@ -73,6 +74,7 @@ export default function Cookies() {
 
   return (
     <div className="min-h-screen bg-background">
+      <StratusConnectHeader />
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Header */}
         <div className="text-center mb-8">

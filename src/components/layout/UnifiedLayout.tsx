@@ -1,46 +1,44 @@
-import React, { useState, useCallback, useMemo } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { 
-  Search, 
-  Bell, 
-  MessageCircle, 
-  User, 
-  Settings, 
-  LogOut, 
-  ChevronDown,
-  Home,
-  Users,
-  Briefcase,
-  Plane,
-  Building2,
-  UserCheck,
-  Shield,
-  Calendar,
-  Award,
-  DollarSign,
-  Globe,
-  Menu,
-  X
-} from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { cn } from "@/lib/utils";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
-import { supabase } from "@/integrations/supabase/client";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import {
+    Sheet,
+    SheetContent,
+    SheetTrigger,
+} from "@/components/ui/sheet";
+import { useAuth } from "@/contexts/AuthContext";
+import { cn } from "@/lib/utils";
+import {
+    Award,
+    Bell,
+    Briefcase,
+    Building2,
+    Calendar,
+    ChevronDown,
+    DollarSign,
+    Globe,
+    Home,
+    LogOut,
+    Menu,
+    MessageCircle,
+    Plane,
+    Search,
+    Settings,
+    Shield,
+    User,
+    Users,
+    X
+} from "lucide-react";
+import React, { useCallback, useMemo, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface NavigationItem {
   id: string;
@@ -192,9 +190,9 @@ export function UnifiedLayout({ children, title }: UnifiedLayoutProps) {
               {/* Logo */}
               <button
                 onClick={handleLogoClick}
-                className="text-2xl font-bold text-accent hover:text-accent/80 transition-colors"
+                className="text-lg font-bold bg-black text-white px-6 py-3 rounded backdrop-blur-sm hover:bg-gray-800 transition-colors"
               >
-                StratusConnect
+                STRATUSCONNECT
               </button>
             </div>
 

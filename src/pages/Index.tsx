@@ -25,21 +25,35 @@ export default function Index() {
   const handleDemoAccess = (demoRoute: string) => {
     navigate(demoRoute);
   };
-  return <div className="min-h-screen relative overflow-hidden">
-      {/* Aviation background image - matching title screen */}
+  return (
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Cinematic Burnt Orange to Obsidian Gradient */}
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0"
         style={{
-          backgroundImage: `url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyMCIgaGVpZ2h0PSIxMDgwIiB2aWV3Qm94PSIwIDAgMTkyMCAxMDgwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJhdmlhdGlvbi1ncmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNmZmE1MDA7c3RvcC1vcGFjaXR5OjAuOCIvPgo8c3RvcCBvZmZzZXQ9IjUwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZmNzUwMDtzdG9wLW9wYWNpdHk6MC42Ii8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzAwMDAwMDtzdG9wLW9wYWNpdHk6MC45Ii8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjE5MjAiIGhlaWdodD0iMTA4MCIgZmlsbD0idXJsKCNhdmlhdGlvbi1ncmFkaWVudCkiLz4KPC9zdmc+')`,
+          background: 'radial-gradient(ellipse at center, rgba(139, 69, 19, 0.9) 0%, rgba(91, 30, 13, 0.95) 25%, rgba(59, 30, 13, 0.98) 50%, rgba(20, 20, 20, 0.99) 75%, rgba(10, 10, 12, 1) 100%), linear-gradient(135deg, #3b1e0d 0%, #2d1a0a 25%, #1a0f08 50%, #0f0a06 75%, #0a0a0c 100%)',
         }}
       />
       
-      {/* Dark overlay for better text readability */}
-      <div className="absolute inset-0 bg-black/40"></div>
+      {/* Cinematic Vignette - Creates spotlight effect on center */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse 80% 60% at center, transparent 0%, transparent 40%, rgba(0, 0, 0, 0.1) 60%, rgba(0, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0.6) 100%)',
+        }}
+      />
       
-      {/* Subtle grid pattern overlay */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxwYXRoIGQ9Ik0gMTAwIDAgTCAwIDAgTCAwIDEwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjAuNSIvPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0idXJsKCNncmlkKSIvPgo8L3N2Zz4=')] opacity-20"></div>
+      {/* Subtle golden-orange glow in the center */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse 60% 40% at center, rgba(255, 140, 0, 0.08) 0%, rgba(255, 140, 0, 0.04) 30%, transparent 60%)',
+        }}
+      />
+      
+      {/* Subtle grid pattern overlay - more refined */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxwYXRoIGQ9Ik0gMTAwIDAgTCAwIDAgTCAwIDEwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjAuNSIvPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0idXJsKCNncmlkKSIvPgo8L3N2Zz4=')] opacity-30"></div>
       </div>
       
       {/* STRATUSCONNECT Logo - Top Left */}
@@ -50,6 +64,50 @@ export default function Index() {
         STRATUSCONNECT
       </div>
 
+      {/* STRATUS logo and Welcome banner */}
+      <div className="relative z-10 pt-20 pb-16">
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          {/* STRATUS logo with cinematic spotlight effect */}
+          <div className="relative mb-32 inline-block">
+            {/* Spotlight glow behind the logo */}
+            <div 
+              className="absolute inset-0 rounded-lg blur-xl opacity-30"
+              style={{
+                background: 'radial-gradient(ellipse at center, rgba(255, 140, 0, 0.4) 0%, rgba(255, 140, 0, 0.2) 30%, transparent 70%)',
+                transform: 'scale(1.2)',
+              }}
+            />
+            
+            {/* Main logo container with enhanced styling */}
+            <div 
+              className="relative bg-white/95 backdrop-blur-sm px-12 py-6 shadow-2xl border border-white/20 rounded-lg"
+              style={{
+                boxShadow: '0 0 40px rgba(255, 140, 0, 0.3), 0 0 80px rgba(255, 140, 0, 0.1), 0 25px 50px rgba(0, 0, 0, 0.5)',
+              }}
+            >
+              <h1 className="text-6xl font-black text-black tracking-wider drop-shadow-lg">
+                STRATUS
+              </h1>
+              </div>
+            </div>
+          
+          {/* Welcome heading */}
+          <h2 className="text-4xl font-bold text-white mb-4 drop-shadow-lg">
+            Welcome
+          </h2>
+          
+          <div className="space-y-6 text-white/90 leading-relaxed text-2xl max-w-4xl mx-auto">
+            <p className="italic">
+              You manage deals, crews, aircraft, time. That's no small load. So when you land here, it's not by accident it's because something told you there's got to be a better way. Stratus was built to back your next move, your next listing, your next breakthrough.
+            </p>
+            
+            <p className="italic">
+              One terminal to stay seen, update your availability, connect with the right people, and get what you do in front of those who matter. You've carried the weight long enough now let us help you turn that work into wins, and get you where you were always meant to be.
+            </p>
+            </div>
+            </div>
+          </div>
+
       {/* About Us and Login Links - styled like title screen */}
       <div className="absolute top-6 right-6 z-20 flex gap-4">
         <div 
@@ -57,7 +115,7 @@ export default function Index() {
           onClick={() => navigate('/about')}
         >
           About Us
-        </div>
+            </div>
         <div 
           className="text-white/90 text-lg font-mono bg-orange-600/80 px-6 py-3 rounded backdrop-blur-sm cursor-pointer hover:bg-orange-700/90 transition-colors"
           onClick={() => navigate('/auth')}
@@ -70,27 +128,10 @@ export default function Index() {
       <div className="relative z-10 pt-20 pb-16">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <div className="mb-8 animate-fade-in-up">
-            <div className="text-center mb-6">
-              <div className="bg-white/95 backdrop-blur-sm px-12 py-6 mb-6 inline-block shadow-2xl border border-white/20">
-                <h1 className="text-6xl font-black text-black tracking-wider drop-shadow-lg">STRATUS</h1>
-              </div>
-            </div>
           </div>
         </div>
       </div>
 
-      {/* AVIATION HERO IMAGE - Private Jet at Golden Hour */}
-      <div className="relative z-10 py-32">
-        <div className="max-w-6xl mx-auto px-4 text-center">
-          <div className="h-96 flex items-center justify-center rounded-lg overflow-hidden shadow-2xl">
-            <img 
-              src="https://images.unsplash.com/photo-1566041510394-cf7c8fe21800?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80"
-              alt="Airplane during golden hour with jet reflection"
-              className="w-full h-full object-cover rounded-lg"
-            />
-          </div>
-        </div>
-      </div>
 
       {/* Terminal Access Section */}
       <div className="relative z-10 py-24">
@@ -102,7 +143,12 @@ export default function Index() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Broker Terminal */}
-            <Card className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer animate-fade-in-up transition-all duration-300">
+            <Card 
+              className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer animate-fade-in-up transition-all duration-300"
+              style={{
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 140, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+              }}
+            >
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
                   <div className="p-3 bg-slate-800/20 rounded-xl">
@@ -134,10 +180,23 @@ export default function Index() {
                   </div>
                 </div>
                 <div className="flex space-x-3">
-                  <Button onClick={() => handleAccessTerminal("broker")} className="flex-1 bg-slate-700 hover:bg-slate-600 text-white">
+                  <Button 
+                    onClick={() => handleAccessTerminal("broker")} 
+                    className="flex-1 bg-slate-700 hover:bg-slate-600 text-white transition-all duration-300"
+                    style={{
+                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                    }}
+                  >
                     Access Terminal <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
-                  <Button onClick={() => handleDemoAccess("/demo/broker")} variant="outline" className="px-6 border-slate-600 text-slate-300 hover:bg-slate-800">
+                  <Button 
+                    onClick={() => handleDemoAccess("/demo/broker")} 
+                    variant="outline" 
+                    className="px-6 border-slate-600 text-slate-300 hover:bg-slate-800 transition-all duration-300"
+                    style={{
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+                    }}
+                  >
                     Demo
                   </Button>
                 </div>
@@ -145,9 +204,12 @@ export default function Index() {
             </Card>
 
             {/* Operator Terminal */}
-            <Card className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer animate-fade-in-up transition-all duration-300" style={{
-            animationDelay: '0.1s'
-          }}>
+            <Card 
+              className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer animate-fade-in-up transition-all duration-300"
+              style={{
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 140, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+              }}
+            >
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
                   <div className="p-3 bg-slate-800/20 rounded-xl">
@@ -179,10 +241,23 @@ export default function Index() {
                   </div>
                 </div>
                 <div className="flex space-x-3">
-                  <Button onClick={() => handleAccessTerminal("operator")} className="flex-1 bg-slate-700 hover:bg-slate-600 text-white">
+                  <Button 
+                    onClick={() => handleAccessTerminal("operator")} 
+                    className="flex-1 bg-slate-700 hover:bg-slate-600 text-white transition-all duration-300"
+                    style={{
+                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                    }}
+                  >
                     Access Terminal <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
-                  <Button onClick={() => handleDemoAccess("/demo/operator")} variant="outline" className="px-6 border-slate-600 text-slate-300 hover:bg-slate-800">
+                  <Button 
+                    onClick={() => handleDemoAccess("/demo/operator")} 
+                    variant="outline" 
+                    className="px-6 border-slate-600 text-slate-300 hover:bg-slate-800 transition-all duration-300"
+                    style={{
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+                    }}
+                  >
                     Demo
                   </Button>
                 </div>
@@ -190,9 +265,12 @@ export default function Index() {
             </Card>
 
             {/* Pilot Terminal */}
-            <Card className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer animate-fade-in-up transition-all duration-300" style={{
-            animationDelay: '0.2s'
-          }}>
+            <Card 
+              className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer animate-fade-in-up transition-all duration-300"
+              style={{
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 140, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+              }}
+            >
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
                   <div className="p-3 bg-slate-800/20 rounded-xl">
@@ -224,10 +302,23 @@ export default function Index() {
                   </div>
                 </div>
                 <div className="flex space-x-3">
-                  <Button onClick={() => handleAccessTerminal("pilot")} className="flex-1 bg-slate-700 hover:bg-slate-600 text-white">
+                  <Button 
+                    onClick={() => handleAccessTerminal("pilot")} 
+                    className="flex-1 bg-slate-700 hover:bg-slate-600 text-white transition-all duration-300"
+                    style={{
+                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                    }}
+                  >
                     Access Terminal <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
-                  <Button onClick={() => handleDemoAccess("/demo/pilot")} variant="outline" className="px-6 border-slate-600 text-slate-300 hover:bg-slate-800">
+                  <Button 
+                    onClick={() => handleDemoAccess("/demo/pilot")} 
+                    variant="outline" 
+                    className="px-6 border-slate-600 text-slate-300 hover:bg-slate-800 transition-all duration-300"
+                    style={{
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+                    }}
+                  >
                     Demo
                   </Button>
                 </div>
@@ -235,9 +326,12 @@ export default function Index() {
             </Card>
 
             {/* Crew Terminal */}
-            <Card className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer animate-fade-in-up transition-all duration-300" style={{
-            animationDelay: '0.3s'
-          }}>
+            <Card 
+              className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer animate-fade-in-up transition-all duration-300"
+              style={{
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 140, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+              }}
+            >
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
                   <div className="p-3 bg-slate-800/20 rounded-xl">
@@ -269,10 +363,23 @@ export default function Index() {
                   </div>
                 </div>
                 <div className="flex space-x-3">
-                  <Button onClick={() => handleAccessTerminal("crew")} className="flex-1 bg-slate-700 hover:bg-slate-600 text-white">
+                  <Button 
+                    onClick={() => handleAccessTerminal("crew")} 
+                    className="flex-1 bg-slate-700 hover:bg-slate-600 text-white transition-all duration-300"
+                    style={{
+                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                    }}
+                  >
                     Access Terminal <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
-                  <Button onClick={() => handleDemoAccess("/demo/crew")} variant="outline" className="px-6 border-slate-600 text-slate-300 hover:bg-slate-800">
+                  <Button 
+                    onClick={() => handleDemoAccess("/demo/crew")} 
+                    variant="outline" 
+                    className="px-6 border-slate-600 text-slate-300 hover:bg-slate-800 transition-all duration-300"
+                    style={{
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+                    }}
+                  >
                     Demo
                   </Button>
                 </div>
@@ -544,9 +651,12 @@ export default function Index() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer animate-fade-in-up transition-all duration-300" style={{
-            animationDelay: '0.1s'
-          }}>
+            <Card 
+              className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer animate-fade-in-up transition-all duration-300"
+              style={{
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 140, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+              }}
+            >
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
@@ -992,6 +1102,6 @@ export default function Index() {
         </div>
       </section>
 
-
-    </div>;
+    </div>
+  );
 }

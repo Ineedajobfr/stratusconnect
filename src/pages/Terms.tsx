@@ -1,11 +1,12 @@
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import StratusConnectHeader from '@/components/StratusConnectHeader';
 import { Badge } from '@/components/ui/badge';
-import { FileText, Calendar, Shield, DollarSign, Users, AlertTriangle } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { AlertTriangle, Calendar, DollarSign, FileText, Shield, Users } from 'lucide-react';
 
 export default function Terms() {
   return (
     <div className="min-h-screen bg-background">
+      <StratusConnectHeader />
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Header */}
         <div className="text-center mb-8">

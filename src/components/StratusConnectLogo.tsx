@@ -9,18 +9,15 @@ export const StratusConnectLogo = ({ className = "" }: StratusConnectLogoProps) 
 
   const handleLogoClick = () => {
     // Always redirect to home page
-    navigate('/');
+    navigate('/home');
   };
 
   return (
-    <h1 
-      className={`text-4xl font-bold text-white cursor-pointer transition-all duration-300 hover:scale-105 
-        drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] 
-        hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]
-        ${className}`}
+    <div 
+      className={`text-lg font-bold bg-black text-white px-6 py-3 rounded backdrop-blur-sm cursor-pointer hover:bg-gray-800 transition-colors ${className}`}
       onClick={handleLogoClick}
     >
-      StratusConnect
-    </h1>
+      STRATUSCONNECT
+    </div>
   );
 };

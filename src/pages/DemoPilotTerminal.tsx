@@ -1,55 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ModernHelpGuide } from '@/components/ModernHelpGuide';
-import { StratusConnectLogo } from '@/components/StratusConnectLogo';
-import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
-import NoteTakingSystem from '@/components/NoteTakingSystem';
-import RealTimeFlightTracker from '@/components/RealTimeFlightTracker';
-import AdvancedSearch from '@/components/AdvancedSearch';
-import DocumentManagement from '@/components/DocumentManagement';
-import CommunicationTools from '@/components/CommunicationTools';
-import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
-import { DemoBanner } from '@/components/DemoBanner';
-import JobBoard from '@/components/job-board/JobBoard';
 import CommunityForums from '@/components/community/CommunityForums';
 import DocumentStorage from '@/components/documents/DocumentStorage';
-import AIHunterWidget from '@/components/AI/AIHunterWidget';
-import { useNavigate } from 'react-router-dom';
-import { 
-  HelpCircle,
+import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
+import JobBoard from '@/components/job-board/JobBoard';
+import { ModernHelpGuide } from '@/components/ModernHelpGuide';
+import NoteTakingSystem from '@/components/NoteTakingSystem';
+import RealTimeFlightTracker from '@/components/RealTimeFlightTracker';
+import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
+import { StratusConnectLogo } from '@/components/StratusConnectLogo';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  AlertTriangle,
   ArrowUp,
-  RefreshCw,
-  Plus,
+  Award,
+  BarChart3,
+  Briefcase,
   Calendar,
   Clock,
-  MapPin,
-  Users,
-  Star,
-  Award,
-  Briefcase,
-  Plane,
   DollarSign,
-  CheckCircle,
-  AlertTriangle,
-  TrendingUp,
-  BarChart3,
   FileText,
+  HelpCircle,
   Navigation,
-  Bell,
+  Plane,
+  Plus,
+  RefreshCw,
   Settings,
-  User,
-  Phone,
-  Mail,
-  Globe,
   Shield,
-  Zap,
-  BookOpen,
-  Target,
-  Compass
+  Star,
+  User,
+  Users
 } from 'lucide-react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface Flight {
   id: string;
@@ -208,10 +192,8 @@ export default function DemoPilotTerminal() {
         </Card>
       </div>
 
-      {/* AI Hunter Widget - Real Data, Real Actions */}
-      <AIHunterWidget 
-        currency="GBP"
-      />
+      {/* Real-Time Flight Tracker */}
+      <RealTimeFlightTracker terminalType="pilot" />
 
       {/* Upcoming Flights */}
       <Card className="terminal-card">

@@ -1,67 +1,63 @@
 // Enhanced Demo Broker Terminal - All Features
 // FCA Compliant Aviation Platform - 100% Free Until Revenue
 
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import AdvancedSearch from '@/components/AdvancedSearch';
+import { MonthlyStatements } from '@/components/Billing/MonthlyStatements';
 import { Brand } from '@/components/Brand';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ModernHelpGuide } from '@/components/ModernHelpGuide';
-import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
-import JobBoard from '@/components/job-board/JobBoard';
+import CommunicationTools from '@/components/CommunicationTools';
 import CommunityForums from '@/components/community/CommunityForums';
-import SavedCrews from '@/components/job-board/SavedCrews';
 import ContractGenerator from '@/components/contracts/ContractGenerator';
 import ReceiptGenerator from '@/components/contracts/ReceiptGenerator';
-import DocumentStorage from '@/components/documents/DocumentStorage';
-import { 
-  DollarSign, 
-  FileText, 
-  Shield, 
-  CheckCircle, 
-  AlertTriangle,
-  TrendingUp,
-  Users,
-  Plane,
-  Clock,
-  Target,
-  Search,
-  Bell,
-  Award,
-  BarChart3,
-  Zap,
-  Star,
-  MapPin,
-  Calendar,
-  GitCompare,
-  Save,
-  Eye,
-  Plus,
-  Filter,
-  Download,
-  Leaf,
-  Trophy,
-  ArrowUp,
-  Menu,
-  RefreshCw,
-  Receipt,
-  Briefcase,
-  MessageCircle
-} from 'lucide-react';
-import { WeekOneScoreboard } from '@/components/WeekOneScoreboard';
 import { MultiLegRFQ } from '@/components/DealFlow/MultiLegRFQ';
 import { SavedSearches } from '@/components/DealFlow/SavedSearches';
-import { ReputationMetrics } from '@/components/Reputation/ReputationMetrics';
-import { MonthlyStatements } from '@/components/Billing/MonthlyStatements';
+import DocumentManagement from '@/components/DocumentManagement';
+import DocumentStorage from '@/components/documents/DocumentStorage';
+import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
+import JobBoard from '@/components/job-board/JobBoard';
+import SavedCrews from '@/components/job-board/SavedCrews';
+import { ModernHelpGuide } from '@/components/ModernHelpGuide';
+import NoteTakingSystem from '@/components/NoteTakingSystem';
 import { RankingRulesPage } from '@/components/Ranking/RankingRulesPage';
 import RealTimeFlightTracker from '@/components/RealTimeFlightTracker';
-import AdvancedSearch from '@/components/AdvancedSearch';
-import DocumentManagement from '@/components/DocumentManagement';
-import CommunicationTools from '@/components/CommunicationTools';
-import NoteTakingSystem from '@/components/NoteTakingSystem';
-import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
+import { ReputationMetrics } from '@/components/Reputation/ReputationMetrics';
+import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { WeekOneScoreboard } from '@/components/WeekOneScoreboard';
+import {
+    AlertTriangle,
+    ArrowUp,
+    Award,
+    BarChart3,
+    Bell,
+    Briefcase,
+    Calendar,
+    CheckCircle,
+    Clock,
+    DollarSign,
+    Eye,
+    FileText,
+    Filter,
+    GitCompare,
+    MapPin,
+    MessageCircle,
+    Plane,
+    Plus,
+    Receipt,
+    Save,
+    Search,
+    Shield,
+    Star,
+    Target,
+    TrendingUp,
+    Trophy,
+    Users,
+    Zap
+} from 'lucide-react';
+import { useState } from 'react';
 
 interface RFQ {
   id: string;
@@ -658,17 +654,14 @@ export default function DemoBrokerTerminal() {
         </Brand.Card>
       </div>
 
-      {/* AI Search Assistant */}
-      <AISearchAssistant terminalType="broker" className="mb-6" />
+      {/* Real-Time Flight Tracker */}
+      <RealTimeFlightTracker terminalType="broker" />
 
-      {/* Predictive Analytics */}
-      <PredictiveAnalytics terminalType="broker" className="mb-6" />
+      {/* Advanced Search */}
+      <AdvancedSearch terminalType="broker" onResults={(results) => console.log('Search results:', results)} />
 
-      {/* AI Hunter Widget - Real Data, Real Actions */}
-      <AIHunterWidget 
-        routes={["EGGW-LFPB", "EGGW-LIRQ", "EGGW-LEMD", "EGGW-LEBL", "EGGW-LOWW"]}
-        currency="GBP"
-      />
+      {/* Document Management */}
+      <DocumentManagement userRole="broker" />
 
       {/* Alerts */}
       {alerts.length > 0 && (

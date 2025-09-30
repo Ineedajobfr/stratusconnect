@@ -1,5 +1,5 @@
 import BetaSignupButton from "@/components/BetaSignupButton";
-import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
+import StratusNightFlightBackground from "@/components/StratusNightFlightBackground";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -28,7 +28,7 @@ export default function Index() {
     navigate(demoRoute);
   };
   return <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0B1426' }}>
-      <StarfieldRunwayBackground />
+      <StratusNightFlightBackground />
       
       {/* About Us and Beta Signup Links */}
       <div className="absolute top-6 right-6 z-20 flex gap-4">

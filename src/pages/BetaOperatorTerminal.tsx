@@ -1,68 +1,50 @@
 // Enhanced Beta Operator Terminal - All Features
 // FCA Compliant Aviation Platform - 100% Free Until Revenue
 
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ModernHelpGuide } from '@/components/ModernHelpGuide';
-import { StratusConnectLogo } from '@/components/StratusConnectLogo';
-import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
-import RealTimeFlightTracker from '@/components/RealTimeFlightTracker';
 import AdvancedSearch from '@/components/AdvancedSearch';
-import DocumentManagement from '@/components/DocumentManagement';
 import CommunicationTools from '@/components/CommunicationTools';
+import DocumentManagement from '@/components/DocumentManagement';
+import { ModernHelpGuide } from '@/components/ModernHelpGuide';
+import RealTimeFlightTracker from '@/components/RealTimeFlightTracker';
+import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
+import { StratusConnectLogo } from '@/components/StratusConnectLogo';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useState } from 'react';
 // AI removed - using real functionality instead
 import NoteTakingSystem from '@/components/NoteTakingSystem';
-import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
-import JobBoard from '@/components/job-board/JobBoard';
 import CommunityForums from '@/components/community/CommunityForums';
-import SavedCrews from '@/components/job-board/SavedCrews';
 import ContractGenerator from '@/components/contracts/ContractGenerator';
 import ReceiptGenerator from '@/components/contracts/ReceiptGenerator';
 import DocumentStorage from '@/components/documents/DocumentStorage';
-import { useNavigate } from 'react-router-dom';
-import { 
-  DollarSign, 
-  FileText, 
-  Shield, 
-  CheckCircle, 
-  AlertTriangle,
-  TrendingUp,
-  Users,
-  Plane,
-  Clock,
-  Target,
-  Search,
-  Bell,
-  Award,
-  BarChart3,
-  Zap,
-  Star,
-  MapPin,
-  Calendar,
-  GitCompare,
-  Save,
-  Eye,
-  Plus,
-  Filter,
-  Download,
-  UserPlus,
-  Briefcase,
-  CreditCard,
-  Building,
-  Activity,
-  Settings,
-  Wrench,
-  Fuel,
-  Navigation,
-  Headphones,
-  HelpCircle,
-  ArrowUp,
-  RefreshCw,
-  Receipt
+import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
+import JobBoard from '@/components/job-board/JobBoard';
+import SavedCrews from '@/components/job-board/SavedCrews';
+import {
+    AlertTriangle,
+    ArrowUp,
+    BarChart3,
+    Bell,
+    Briefcase,
+    Clock,
+    CreditCard,
+    DollarSign,
+    Eye,
+    FileText,
+    HelpCircle,
+    Navigation,
+    Plane,
+    Plus,
+    Receipt,
+    RefreshCw,
+    Star,
+    TrendingUp,
+    UserPlus,
+    Users
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface RFQ {
   id: string;
@@ -218,18 +200,14 @@ export default function BetaOperatorTerminal() {
           </Card>
         </div>
 
-      {/* AI Search Assistant */}
-      <AISearchAssistant terminalType="operator" className="mb-6" />
+      {/* Real-Time Flight Tracker */}
+      <RealTimeFlightTracker terminalType="operator" />
 
-      {/* Predictive Analytics */}
-      <PredictiveAnalytics terminalType="operator" className="mb-6" />
+      {/* Advanced Search */}
+      <AdvancedSearch terminalType="operator" onResults={(results) => console.log('Search results:', results)} />
 
-      {/* AI Hunter Widget - Real Data, Real Actions */}
-      <AIHunterWidget 
-        routes={["EGGW-LFPB", "EGGW-LIRQ", "EGGW-LEMD"]}
-        aircraft_ids={["aircraft-1", "aircraft-2", "aircraft-3"]}
-        currency="GBP"
-      />
+      {/* Document Management */}
+      <DocumentManagement userRole="operator" />
 
       {/* Beta Testing Notice */}
       <Card className="terminal-card">
@@ -552,7 +530,7 @@ export default function BetaOperatorTerminal() {
               </div>
             </TabsContent>
             <TabsContent value="analytics" className="scroll-smooth">
-              <PredictiveAnalytics />
+              <AdvancedSearch terminalType="operator" onResults={(results) => console.log('Analytics results:', results)} />
             </TabsContent>
             <TabsContent value="notes" className="scroll-smooth">
               <div className="space-y-6">
@@ -639,8 +617,8 @@ export default function BetaOperatorTerminal() {
     </div>
       )}
 
-      {/* Intelligent AI Chatbot */}
-      <IntelligentAIChatbot terminalType="operator" />
+      {/* Communication Tools */}
+      <CommunicationTools terminalType="operator" />
     </>
   );
 }

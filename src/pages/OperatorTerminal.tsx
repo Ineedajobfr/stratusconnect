@@ -1,34 +1,33 @@
-import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
-import { KPICard } from "@/components/KPICard";
-import { Section } from "@/components/Section";
-import { DataTile } from "@/components/DataTile";
-import FleetManagement from "@/components/FleetManagement";
-import EnhancedMessaging from "@/components/EnhancedMessaging";
-import EnhancedMarketplace from "@/components/EnhancedMarketplace";
-import VerificationSystem from "@/components/VerificationSystem";
-import { AviationNews } from "@/components/AviationNews";
-import { PrivacyOverlay } from "@/components/PrivacyOverlay";
+import AdvancedSearch from "@/components/AdvancedSearch";
 import { OperatorAnalytics } from "@/components/analytics/OperatorAnalytics";
-import { ProfileWidget } from "@/components/ProfileWidget";
 import AuthForm from "@/components/AuthForm";
-import { Plane, Calendar, DollarSign, TrendingUp, Users, MapPin, Clock, Settings, MessageSquare, BarChart3, CheckCircle, Activity, Gauge, Shield, Globe, FileText, Navigation, Plus, RefreshCw, ArrowUp, HelpCircle, Search, Bell, Award, Target, GitCompare, Save, Eye, Filter, Download, UserPlus, Briefcase, CreditCard, Building, Wrench, Zap, Star } from "lucide-react";
-import { NavigationArrows } from "@/components/NavigationArrows";
-import { ModernHelpGuide } from "@/components/ModernHelpGuide";
-import { StratusConnectLogo } from "@/components/StratusConnectLogo";
-import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24Widget";
+import { AviationNews } from "@/components/AviationNews";
+import CommunicationTools from "@/components/CommunicationTools";
+import { DataTile } from "@/components/DataTile";
+import DocumentManagement from "@/components/DocumentManagement";
+import EnhancedMarketplace from "@/components/EnhancedMarketplace";
+import EnhancedMessaging from "@/components/EnhancedMessaging";
 import { PersonalizedFeed } from "@/components/feed/PersonalizedFeed";
+import FleetManagement from "@/components/FleetManagement";
+import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24Widget";
+import { KPICard } from "@/components/KPICard";
+import { ModernHelpGuide } from "@/components/ModernHelpGuide";
 import NoteTakingSystem from "@/components/NoteTakingSystem";
-import EnhancedAIChatbot from "@/components/EnhancedAIChatbot";
-import AISearchAssistant from "@/components/AISearchAssistant";
-import PredictiveAnalytics from "@/components/PredictiveAnalytics";
+import { PrivacyOverlay } from "@/components/PrivacyOverlay";
+import { ProfileWidget } from "@/components/ProfileWidget";
+import RealTimeFlightTracker from "@/components/RealTimeFlightTracker";
+import { Section } from "@/components/Section";
+import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
+import { StratusConnectLogo } from "@/components/StratusConnectLogo";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import VerificationSystem from "@/components/VerificationSystem";
+import { supabase } from "@/integrations/supabase/client";
 import type { User } from '@supabase/supabase-js';
+import { Activity, ArrowUp, BarChart3, Calendar, DollarSign, FileText, Globe, HelpCircle, MessageSquare, Navigation, Plane, Plus, RefreshCw, Search, Settings, Shield, TrendingUp, Users } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const OperatorTerminal = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -312,9 +311,14 @@ const OperatorTerminal = () => {
               {/* Personalized Feed */}
               <PersonalizedFeed />
 
-              {/* AI Components */}
-              <AISearchAssistant terminalType="operator" className="mb-6" />
-              <PredictiveAnalytics terminalType="operator" className="mb-6" />
+              {/* Real-Time Flight Tracker */}
+              <RealTimeFlightTracker terminalType="operator" />
+
+              {/* Advanced Search */}
+              <AdvancedSearch terminalType="operator" onResults={(results) => console.log('Search results:', results)} />
+
+              {/* Document Management */}
+              <DocumentManagement userRole="operator" />
 
               {/* Flight Tracking Widget */}
               <Card className="terminal-card">
@@ -497,8 +501,8 @@ const OperatorTerminal = () => {
         <ArrowUp className="w-6 h-6 text-white" />
       </Button>
       
-      {/* Enhanced AI Chatbot */}
-      <EnhancedAIChatbot terminalType="operator" />
+      {/* Communication Tools */}
+      <CommunicationTools terminalType="operator" />
     </>
   );
 };

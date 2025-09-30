@@ -239,17 +239,14 @@ export default function BetaBrokerTerminal() {
                 </Brand.Card>
               </div>
 
-              {/* AI Search Assistant */}
-              <AISearchAssistant terminalType="broker" className="mb-6" />
+              {/* Real-Time Flight Tracker */}
+              <RealTimeFlightTracker terminalType="broker" />
 
-              {/* Predictive Analytics */}
-              <PredictiveAnalytics terminalType="broker" className="mb-6" />
+              {/* Advanced Search */}
+              <AdvancedSearch terminalType="broker" onResults={(results) => console.log('Search results:', results)} />
 
-              {/* AI Hunter Widget - Real Data, Real Actions */}
-              <AIHunterWidget 
-                routes={["EGGW-LFPB", "EGGW-LIRQ", "EGGW-LEMD", "EGGW-LEBL", "EGGW-LOWW"]}
-                currency="GBP"
-              />
+              {/* Document Management */}
+              <DocumentManagement userRole="broker" />
 
               {/* Beta Testing Notice */}
               <Brand.Card>
@@ -409,7 +406,7 @@ export default function BetaBrokerTerminal() {
 
             <TabsContent value="analytics" className="space-y-6">
               <h2 className="text-2xl font-bold text-white">Analytics Dashboard</h2>
-              <PredictiveAnalytics />
+              <AdvancedSearch terminalType="broker" onResults={(results) => console.log('Analytics results:', results)} />
             </TabsContent>
 
             <TabsContent value="job-board" className="space-y-6">
@@ -476,8 +473,8 @@ export default function BetaBrokerTerminal() {
         )}
       </div>
       
-      {/* Intelligent AI Chatbot */}
-      <IntelligentAIChatbot terminalType="broker" />
+      {/* Communication Tools */}
+      <CommunicationTools terminalType="broker" />
     </div>
   );
 }

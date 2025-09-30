@@ -1,49 +1,43 @@
-import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { KPICard } from "@/components/KPICard";
-import { Section } from "@/components/Section";
-import { DataTile } from "@/components/DataTile";
-import VerificationSystem from "@/components/VerificationSystem";
+import AdvancedSearch from "@/components/AdvancedSearch";
 import { AviationNews } from "@/components/AviationNews";
+import CommunicationTools from "@/components/CommunicationTools";
+import { DataTile } from "@/components/DataTile";
+import DocumentManagement from "@/components/DocumentManagement";
+import { PersonalizedFeed } from "@/components/feed/PersonalizedFeed";
+import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24Widget";
+import { KPICard } from "@/components/KPICard";
+import { ModernHelpGuide } from "@/components/ModernHelpGuide";
+import NoteTakingSystem from "@/components/NoteTakingSystem";
 import { PrivacyOverlay } from "@/components/PrivacyOverlay";
 import { ProfileWidget } from "@/components/ProfileWidget";
-import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24Widget";
-import { PersonalizedFeed } from "@/components/feed/PersonalizedFeed";
-import NoteTakingSystem from "@/components/NoteTakingSystem";
-import EnhancedAIChatbot from "@/components/EnhancedAIChatbot";
-import AISearchAssistant from "@/components/AISearchAssistant";
-import PredictiveAnalytics from "@/components/PredictiveAnalytics";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { 
-  User, 
-  Briefcase, 
-  Award, 
-  Calendar, 
-  DollarSign, 
-  Globe, 
-  Shield, 
-  Plane,
-  Clock,
-  MapPin,
-  CheckCircle,
-  AlertTriangle,
-  HelpCircle,
-  FileText,
-  Navigation,
-  Plus,
-  RefreshCw,
-  ArrowUp,
-  BarChart3,
-  TrendingUp,
-  Activity,
-  Settings
-} from "lucide-react";
+import RealTimeFlightTracker from "@/components/RealTimeFlightTracker";
+import { Section } from "@/components/Section";
+import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
+import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ModernHelpGuide } from "@/components/ModernHelpGuide";
-import { StratusConnectLogo } from "@/components/StratusConnectLogo";
-import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import VerificationSystem from "@/components/VerificationSystem";
+import {
+    ArrowUp,
+    Award,
+    BarChart3,
+    Briefcase,
+    Calendar,
+    CheckCircle,
+    Clock,
+    DollarSign,
+    FileText,
+    Globe,
+    HelpCircle,
+    Navigation,
+    Plus,
+    RefreshCw,
+    Shield
+} from "lucide-react";
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function PilotTerminal() {
   const [activeSection, setActiveSection] = useState("dashboard");
@@ -193,9 +187,14 @@ export default function PilotTerminal() {
             {/* Personalized Feed */}
             <PersonalizedFeed />
 
-            {/* AI Components */}
-            <AISearchAssistant terminalType="pilot" className="mb-6" />
-            <PredictiveAnalytics terminalType="pilot" className="mb-6" />
+            {/* Real-Time Flight Tracker */}
+            <RealTimeFlightTracker terminalType="pilot" />
+
+            {/* Advanced Search */}
+            <AdvancedSearch terminalType="pilot" onResults={(results) => console.log('Search results:', results)} />
+
+            {/* Document Management */}
+            <DocumentManagement userRole="pilot" />
 
             {/* Main Content Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -543,8 +542,8 @@ export default function PilotTerminal() {
         <ArrowUp className="w-6 h-6 text-white" />
       </Button>
       
-      {/* Enhanced AI Chatbot */}
-      <EnhancedAIChatbot terminalType="pilot" />
+      {/* Communication Tools */}
+      <CommunicationTools terminalType="pilot" />
     </>
   );
 }

@@ -176,7 +176,7 @@ export const AuthenticationGuard: React.FC<AuthenticationGuardProps> = ({
       // In a real implementation, this would verify the MFA code
       const { error } = await supabase.auth.verifyOtp({
         token: loginForm.mfaCode,
-        type: 'totp'
+        type: 'totp' as any // Type cast for demo
       });
 
       if (error) {

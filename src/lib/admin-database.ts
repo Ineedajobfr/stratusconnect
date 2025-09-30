@@ -141,22 +141,22 @@ export class AdminDatabase {
     const { data, error } = await supabase
       .from('profiles')
       .select('*')
-      .eq('id', userId)
-      .single();
+      .eq('user_id', userId) // Changed from 'id' to 'user_id'
+      .maybeSingle();
 
     if (error) throw error;
-    return data;
+    return (data as any) || null;
   }
 
   static async updateUserStatus(userId: string, status: AdminUser['status'], adminNotes?: string): Promise<void> {
     const { error } = await supabase
-      .from('profiles')
+      .from('profiles' as any)
       .update({ 
-        status,
+        status: status as any,
         admin_notes: adminNotes,
         updated_at: new Date().toISOString()
       })
-      .eq('id', userId);
+      .eq('user_id', userId);
 
     if (error) throw error;
 
@@ -164,8 +164,9 @@ export class AdminDatabase {
     await this.logSecurityEvent({
       event_type: 'admin_action',
       severity: 'medium',
-      message: `User status changed to ${status}`,
+      description: `User status changed to ${status}`,
       user_id: userId,
+      resolved: false,
       metadata: { status, admin_notes: adminNotes }
     });
   }

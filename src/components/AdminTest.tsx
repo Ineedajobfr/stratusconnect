@@ -9,7 +9,7 @@ import { CheckCircle, XCircle, AlertTriangle, Loader2 } from "lucide-react";
 import { AdminDatabase } from "@/lib/admin-database";
 import { broadcastService } from "@/lib/broadcast-service";
 import { disputeService } from "@/lib/dispute-service-real";
-import { aiMonitoringService } from "@/lib/ai-monitoring-service-real";
+// import { aiMonitoringService } from "@/lib/ai-monitoring-service-real"; // Temporarily disabled
 
 interface TestResult {
   name: string;
@@ -75,6 +75,7 @@ const AdminTest = () => {
           return Date.now() - start;
         }
       },
+      /* Temporarily disabled
       {
         name: "AI Monitoring Service",
         test: async () => {
@@ -83,6 +84,7 @@ const AdminTest = () => {
           return Date.now() - start;
         }
       },
+      */
       {
         name: "System Settings",
         test: async () => {

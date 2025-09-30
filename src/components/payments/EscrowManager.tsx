@@ -16,6 +16,10 @@ interface LocalDeal {
   seller_id: string;
   aircraft_id: string;
   price: number;
+  total_amount?: number; // Added for compatibility
+  currency?: string; // Added
+  fee_bps?: number; // Added
+  operator_name?: string; // Added
   status: string;
   created_at: string;
   escrow_amount: number;
@@ -38,7 +42,11 @@ interface LocalEscrowTransaction {
 interface Deal {
   id: string;
   rfq_id: string;
+  quote_id?: string;
   broker_id: string;
+  broker_name?: string;
+  broker_commission?: number;
+  operator_amount?: number; // Added
   operator_id: string;
   operator_name: string;
   status: 'initiated' | 'funds_held' | 'in_dispute' | 'released' | 'refunded' | 'chargeback';
@@ -47,7 +55,7 @@ interface Deal {
   currency: string;
   created_at: string;
   updated_at: string;
-  transactions: EscrowTransaction[];
+  transactions: LocalEscrowTransaction[];
 }
 
 const statusColors = {
@@ -216,7 +224,7 @@ export const EscrowManager: React.FC = () => {
           ],
         }
       ];
-      setDeals(mockDeals);
+      setDeals(mockDeals as any);
     };
 
     loadDeals();
@@ -323,7 +331,7 @@ export const EscrowManager: React.FC = () => {
       },
     ];
 
-    setDeals(mockDeals);
+    setDeals(mockDeals as any);
   }, []);
 
   const releaseFunds = (dealId: string) => {

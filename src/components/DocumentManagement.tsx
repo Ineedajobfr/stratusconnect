@@ -1,27 +1,21 @@
-import React, { useState, useRef } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
-import { 
-  Upload, 
-  File, 
-  Download, 
-  Trash2, 
-  Eye, 
-  Search, 
-  Filter, 
-  Folder,
-  FileText,
-  Image,
-  FileSpreadsheet,
-  FilePdf,
-  MoreVertical,
-  Share,
-  Lock,
-  Unlock
+import {
+    Download,
+    File,
+    FileText,
+    Filter,
+    Folder,
+    Image,
+    Search,
+    Share,
+    Trash2,
+    Upload
 } from 'lucide-react';
+import React, { useRef, useState } from 'react';
 
 interface Document {
   id: string;
@@ -126,9 +120,9 @@ export default function DocumentManagement({ terminalType }: DocumentManagementP
 
   const getFileIcon = (type: string) => {
     switch (type) {
-      case 'pdf': return <FilePdf className="w-5 h-5 text-red-400" />;
+      case 'pdf': return <File className="w-5 h-5 text-red-400" />;
       case 'image': return <Image className="w-5 h-5 text-green-400" />;
-      case 'spreadsheet': return <FileSpreadsheet className="w-5 h-5 text-green-600" />;
+      case 'spreadsheet': return <File className="w-5 h-5 text-green-600" />;
       case 'text': return <FileText className="w-5 h-5 text-blue-400" />;
       default: return <File className="w-5 h-5 text-gray-400" />;
     }

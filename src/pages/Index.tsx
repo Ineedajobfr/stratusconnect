@@ -1,5 +1,3 @@
-import BetaSignupButton from "@/components/BetaSignupButton";
-import StratusCinematicBackground from "@/components/StratusCinematicBackground";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -27,114 +25,69 @@ export default function Index() {
   const handleDemoAccess = (demoRoute: string) => {
     navigate(demoRoute);
   };
-  return <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0B1426' }}>
-      <StratusCinematicBackground />
+  return <div className="min-h-screen relative overflow-hidden">
+      {/* Aviation background image - matching title screen */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyMCIgaGVpZ2h0PSIxMDgwIiB2aWV3Qm94PSIwIDAgMTkyMCAxMDgwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJhdmlhdGlvbi1ncmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNmZmE1MDA7c3RvcC1vcGFjaXR5OjAuOCIvPgo8c3RvcCBvZmZzZXQ9IjUwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZmNzUwMDtzdG9wLW9wYWNpdHk6MC42Ii8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzAwMDAwMDtzdG9wLW9wYWNpdHk6MC45Ii8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjE5MjAiIGhlaWdodD0iMTA4MCIgZmlsbD0idXJsKCNhdmlhdGlvbi1ncmFkaWVudCkiLz4KPC9zdmc+')`,
+        }}
+      />
       
-      {/* About Us and Beta Signup Links */}
-      <div className="absolute top-6 right-6 z-20 flex gap-4">
-        <Button 
-          variant="ghost" 
-          onClick={() => navigate('/about')}
-          className="text-white hover:text-white transition-all duration-300 text-lg font-medium drop-shadow-[0_0_15px_rgba(255,255,255,0.7)] hover:drop-shadow-[0_0_20px_rgba(255,122,26,0.8)] hover:bg-accent/20 hover:scale-105 px-4 py-2 rounded-lg"
-        >
-          About Us
-        </Button>
-        <BetaSignupButton />
+      {/* Dark overlay for better text readability */}
+      <div className="absolute inset-0 bg-black/40"></div>
+      
+      {/* Subtle grid pattern overlay */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxwYXRoIGQ9Ik0gMTAwIDAgTCAwIDAgTCAwIDEwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjAuNSIvPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0idXJsKCNncmlkKSIvPgo8L3N2Zz4=')] opacity-20"></div>
+      </div>
+      
+      {/* STRATUSCONNECT Logo - Top Left */}
+      <div 
+        className="absolute top-8 left-8 text-white text-lg font-bold bg-black px-6 py-3 rounded backdrop-blur-sm cursor-pointer hover:bg-gray-800 transition-colors z-20"
+        onClick={() => navigate('/')}
+      >
+        STRATUSCONNECT
       </div>
 
-      {/* Hero Section */}
+      {/* About Us and Login Links - styled like title screen */}
+      <div className="absolute top-6 right-6 z-20 flex gap-4">
+        <div 
+          className="text-white/90 text-lg font-mono bg-black/30 px-6 py-3 rounded backdrop-blur-sm cursor-pointer hover:bg-black/50 transition-colors"
+          onClick={() => navigate('/about')}
+        >
+          About Us
+        </div>
+        <div 
+          className="text-white/90 text-lg font-mono bg-orange-600/80 px-6 py-3 rounded backdrop-blur-sm cursor-pointer hover:bg-orange-700/90 transition-colors"
+          onClick={() => navigate('/auth')}
+        >
+          Sign up
+        </div>
+      </div>
+
+      {/* Hero Section - Simplified */}
       <div className="relative z-10 pt-20 pb-16">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <div className="mb-8 animate-fade-in-up">
-            
             <div className="text-center mb-6">
-              <div className="text-4xl md:text-6xl font-bold italic text-accent mb-2 drop-shadow-[0_0_20px_rgba(255,122,26,0.8)]" style={{ fontFamily: 'sans-serif' }}>
-                Welcome to
+              <div className="bg-white/95 backdrop-blur-sm px-12 py-6 mb-6 inline-block shadow-2xl border border-white/20">
+                <h1 className="text-6xl font-black text-black tracking-wider drop-shadow-lg">STRATUS</h1>
               </div>
-              <div className="text-6xl md:text-8xl font-bold italic text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.5)]" style={{ fontFamily: 'sans-serif' }}>
-                STRATUS
-              </div>
-            </div>
-            <p className="text-xl md:text-2xl text-white max-w-4xl mx-auto leading-relaxed drop-shadow-[0_0_15px_rgba(0,0,0,0.8)] bg-black/20 px-8 py-4 rounded-lg backdrop-blur-sm">
-              The next-generation platform connecting brokers, operators, pilots, and crew. 
-              Built for aviation professionals who demand excellence, with real-time data processing and lightning-fast response times.
-            </p>
-          </div>
-
-          {/* Key Statistics */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
-            <div className="text-center p-6 rounded-lg bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 transition-all duration-300">
-              <div className="text-4xl md:text-5xl font-bold text-accent mb-2 drop-shadow-[0_0_15px_rgba(255,122,26,0.6)]">100%</div>
-              <div className="text-sm text-white font-medium">Free Until Revenue</div>
-            </div>
-            <div className="text-center p-6 rounded-lg bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 transition-all duration-300">
-              <div className="text-4xl md:text-5xl font-bold text-accent mb-2 drop-shadow-[0_0_15px_rgba(255,122,26,0.6)]">24/7</div>
-              <div className="text-sm text-white font-medium">Platform Access</div>
-            </div>
-            <div className="text-center p-6 rounded-lg bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 transition-all duration-300">
-              <div className="text-4xl md:text-5xl font-bold text-accent mb-2 drop-shadow-[0_0_15px_rgba(255,122,26,0.6)]">FCA</div>
-              <div className="text-sm text-white font-medium">Compliant</div>
-            </div>
-            <div className="text-center p-6 rounded-lg bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 transition-all duration-300">
-              <div className="text-4xl md:text-5xl font-bold text-accent mb-2 drop-shadow-[0_0_15px_rgba(255,122,26,0.6)]">50ms</div>
-              <div className="text-sm text-white font-medium">Avg Response</div>
-            </div>
-          </div>
-
-          {/* Platform Features */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-            <div className="text-center p-6 rounded-lg bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 transition-all duration-300">
-              <div className="text-2xl font-bold text-accent mb-2 drop-shadow-[0_0_10px_rgba(255,122,26,0.6)]">Real-Time</div>
-              <div className="text-sm text-white font-medium">Live flight tracking and instant updates</div>
-            </div>
-            <div className="text-center p-6 rounded-lg bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 transition-all duration-300">
-              <div className="text-2xl font-bold text-accent mb-2 drop-shadow-[0_0_10px_rgba(255,122,26,0.6)]">Secure</div>
-              <div className="text-sm text-white font-medium">Bank-grade encryption and FCA compliance</div>
-            </div>
-            <div className="text-center p-6 rounded-lg bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 transition-all duration-300">
-              <div className="text-2xl font-bold text-accent mb-2 drop-shadow-[0_0_10px_rgba(255,122,26,0.6)]">Intuitive</div>
-              <div className="text-sm text-white font-medium">Designed by aviation professionals</div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Early Access Section */}
-      <div className="relative z-10 py-16">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <div className="mb-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
-              Join the <span className="text-accent drop-shadow-[0_0_15px_rgba(255,122,26,0.8)]">Early Access</span> Program
-            </h2>
-            <p className="text-lg text-white max-w-2xl mx-auto drop-shadow-[0_0_10px_rgba(0,0,0,0.8)] bg-black/20 px-6 py-3 rounded-lg backdrop-blur-sm">
-              Be among the first aviation professionals to experience the future of charter operations. 
-              Free access during our beta phase - no strings attached.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-            <div className="p-6 rounded-lg bg-black/30 backdrop-blur-sm border border-accent/30 text-left hover:bg-black/40 transition-all duration-300">
-              <h3 className="text-xl font-semibold text-white mb-3 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">What You Get</h3>
-              <ul className="space-y-2 text-white">
-                <li>• Full access to all terminal types</li>
-                <li>• Real-time flight tracking</li>
-                <li>• Advanced search capabilities</li>
-                <li>• Document management system</li>
-                <li>• Communication tools</li>
-                <li>• Priority support</li>
-              </ul>
-            </div>
-            <div className="p-6 rounded-lg bg-black/30 backdrop-blur-sm border border-accent/30 text-left hover:bg-black/40 transition-all duration-300">
-              <h3 className="text-xl font-semibold text-white mb-3 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">Beta Benefits</h3>
-              <ul className="space-y-2 text-white">
-                <li>• Shape the platform's development</li>
-                <li>• Direct feedback to our team</li>
-                <li>• Early access to new features</li>
-                <li>• Exclusive beta community</li>
-                <li>• Free forever for early adopters</li>
-                <li>• Help build the future of aviation</li>
-              </ul>
-            </div>
+      {/* AVIATION HERO IMAGE - Private Jet at Golden Hour */}
+      <div className="relative z-10 py-32">
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          <div className="h-96 flex items-center justify-center rounded-lg overflow-hidden shadow-2xl">
+            <img 
+              src="https://images.unsplash.com/photo-1566041510394-cf7c8fe21800?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80"
+              alt="Airplane during golden hour with jet reflection"
+              className="w-full h-full object-cover rounded-lg"
+            />
           </div>
         </div>
       </div>
@@ -149,14 +102,14 @@ export default function Index() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Broker Terminal */}
-            <Card className="group bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 hover:border-accent/50 cursor-pointer animate-fade-in-up transition-all duration-300">
+            <Card className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer animate-fade-in-up transition-all duration-300">
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
-                  <div className="p-3 bg-accent/20 rounded-xl animate-pulse-glow">
-                    <Building2 className="w-8 h-8 text-accent drop-shadow-[0_0_10px_rgba(255,122,26,0.6)]" />
+                  <div className="p-3 bg-slate-800/20 rounded-xl">
+                    <Building2 className="w-8 h-8 text-slate-300" />
                   </div>
                   <div>
-                    <CardTitle className="text-2xl text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">Broker Terminal</CardTitle>
+                    <CardTitle className="text-2xl font-semibold text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">Broker Terminal</CardTitle>
                     <CardDescription className="text-white/80">Quote management & client relations</CardDescription>
                   </div>
                 </div>
@@ -181,10 +134,10 @@ export default function Index() {
                   </div>
                 </div>
                 <div className="flex space-x-3">
-                  <Button onClick={() => handleAccessTerminal("broker")} className="flex-1 btn-terminal-accent button-glow">
-                    Access Terminal <ArrowRight className="w-4 h-4 ml-2 icon-glow" />
+                  <Button onClick={() => handleAccessTerminal("broker")} className="flex-1 bg-slate-700 hover:bg-slate-600 text-white">
+                    Access Terminal <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
-                  <Button onClick={() => handleDemoAccess("/demo/broker")} variant="outline" className="px-6 button-glow">
+                  <Button onClick={() => handleDemoAccess("/demo/broker")} variant="outline" className="px-6 border-slate-600 text-slate-300 hover:bg-slate-800">
                     Demo
                   </Button>
                 </div>
@@ -192,16 +145,16 @@ export default function Index() {
             </Card>
 
             {/* Operator Terminal */}
-            <Card className="group bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 hover:border-accent/50 cursor-pointer animate-fade-in-up transition-all duration-300" style={{
+            <Card className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer animate-fade-in-up transition-all duration-300" style={{
             animationDelay: '0.1s'
           }}>
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
-                  <div className="p-3 bg-accent/20 rounded-xl animate-pulse-glow">
-                    <Plane className="w-8 h-8 text-accent drop-shadow-[0_0_10px_rgba(255,122,26,0.6)]" />
+                  <div className="p-3 bg-slate-800/20 rounded-xl">
+                    <Plane className="w-8 h-8 text-slate-300" />
                   </div>
                   <div>
-                    <CardTitle className="text-2xl text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">Operator Terminal</CardTitle>
+                    <CardTitle className="text-2xl font-semibold text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">Operator Terminal</CardTitle>
                     <CardDescription className="text-white/80">Fleet management & optimization</CardDescription>
                   </div>
                 </div>
@@ -226,10 +179,10 @@ export default function Index() {
                   </div>
                 </div>
                 <div className="flex space-x-3">
-                  <Button onClick={() => handleAccessTerminal("operator")} className="flex-1 btn-terminal-accent button-glow">
-                    Access Terminal <ArrowRight className="w-4 h-4 ml-2 icon-glow" />
+                  <Button onClick={() => handleAccessTerminal("operator")} className="flex-1 bg-slate-700 hover:bg-slate-600 text-white">
+                    Access Terminal <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
-                  <Button onClick={() => handleDemoAccess("/demo/operator")} variant="outline" className="px-6 button-glow">
+                  <Button onClick={() => handleDemoAccess("/demo/operator")} variant="outline" className="px-6 border-slate-600 text-slate-300 hover:bg-slate-800">
                     Demo
                   </Button>
                 </div>
@@ -237,16 +190,16 @@ export default function Index() {
             </Card>
 
             {/* Pilot Terminal */}
-            <Card className="group bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 hover:border-accent/50 cursor-pointer animate-fade-in-up transition-all duration-300" style={{
+            <Card className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer animate-fade-in-up transition-all duration-300" style={{
             animationDelay: '0.2s'
           }}>
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
-                  <div className="p-3 bg-accent/20 rounded-xl animate-pulse-glow">
-                    <UserCheck className="w-8 h-8 text-accent drop-shadow-[0_0_10px_rgba(255,122,26,0.6)]" />
+                  <div className="p-3 bg-slate-800/20 rounded-xl">
+                    <UserCheck className="w-8 h-8 text-slate-300" />
                   </div>
                   <div>
-                    <CardTitle className="text-2xl text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">Pilot Terminal</CardTitle>
+                    <CardTitle className="text-2xl font-semibold text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">Pilot Terminal</CardTitle>
                     <CardDescription className="text-white/80">Flight assignments & credentials</CardDescription>
                   </div>
                 </div>
@@ -271,10 +224,10 @@ export default function Index() {
                   </div>
                 </div>
                 <div className="flex space-x-3">
-                  <Button onClick={() => handleAccessTerminal("pilot")} className="flex-1 btn-terminal-accent button-glow">
-                    Access Terminal <ArrowRight className="w-4 h-4 ml-2 icon-glow" />
+                  <Button onClick={() => handleAccessTerminal("pilot")} className="flex-1 bg-slate-700 hover:bg-slate-600 text-white">
+                    Access Terminal <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
-                  <Button onClick={() => handleDemoAccess("/demo/pilot")} variant="outline" className="px-6 button-glow">
+                  <Button onClick={() => handleDemoAccess("/demo/pilot")} variant="outline" className="px-6 border-slate-600 text-slate-300 hover:bg-slate-800">
                     Demo
                   </Button>
                 </div>
@@ -282,16 +235,16 @@ export default function Index() {
             </Card>
 
             {/* Crew Terminal */}
-            <Card className="group bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 hover:border-accent/50 cursor-pointer animate-fade-in-up transition-all duration-300" style={{
+            <Card className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer animate-fade-in-up transition-all duration-300" style={{
             animationDelay: '0.3s'
           }}>
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
-                  <div className="p-3 bg-accent/20 rounded-xl animate-pulse-glow">
-                    <Users className="w-8 h-8 text-accent drop-shadow-[0_0_10px_rgba(255,122,26,0.6)]" />
+                  <div className="p-3 bg-slate-800/20 rounded-xl">
+                    <Users className="w-8 h-8 text-slate-300" />
                   </div>
                   <div>
-                    <CardTitle className="text-2xl text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">Crew Terminal</CardTitle>
+                    <CardTitle className="text-2xl font-semibold text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">Crew Terminal</CardTitle>
                     <CardDescription className="text-white/80">Service excellence & scheduling</CardDescription>
                   </div>
                 </div>
@@ -316,10 +269,10 @@ export default function Index() {
                   </div>
                 </div>
                 <div className="flex space-x-3">
-                  <Button onClick={() => handleAccessTerminal("crew")} className="flex-1 btn-terminal-accent button-glow">
-                    Access Terminal <ArrowRight className="w-4 h-4 ml-2 icon-glow" />
+                  <Button onClick={() => handleAccessTerminal("crew")} className="flex-1 bg-slate-700 hover:bg-slate-600 text-white">
+                    Access Terminal <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
-                  <Button onClick={() => handleDemoAccess("/demo/crew")} variant="outline" className="px-6 button-glow">
+                  <Button onClick={() => handleDemoAccess("/demo/crew")} variant="outline" className="px-6 border-slate-600 text-slate-300 hover:bg-slate-800">
                     Demo
                   </Button>
                 </div>
@@ -338,11 +291,11 @@ export default function Index() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="group bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 hover:border-accent/50 cursor-pointer transition-all duration-300">
+            <Card className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <Shield className="w-12 h-12 text-accent" />
+                    <Shield className="w-12 h-12 text-slate-300" />
                     <div>
                 <CardTitle>Real-Time Intelligence</CardTitle>
                     </div>
@@ -355,7 +308,7 @@ export default function Index() {
                     </DialogTrigger>
                     <DialogContent className="bg-terminal-card border-terminal-border">
                       <DialogHeader>
-                        <DialogTitle className="text-accent">Real-Time Intelligence</DialogTitle>
+                        <DialogTitle className="text-slate-300">Real-Time Intelligence</DialogTitle>
                         <DialogDescription>
                           Live market data, instant notifications, and smart alerts that help you make better decisions
                         </DialogDescription>
@@ -366,19 +319,19 @@ export default function Index() {
                         </p>
                         <ul className="space-y-2 text-sm text-muted-foreground">
                           <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <CheckCircle className="w-4 h-4 text-slate-300" />
                             <span>Predictive analytics that actually predict</span>
                           </li>
                           <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <CheckCircle className="w-4 h-4 text-slate-300" />
                             <span>Smart matching that finds the right people</span>
                           </li>
                           <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <CheckCircle className="w-4 h-4 text-slate-300" />
                             <span>Automation that saves you hours daily</span>
                           </li>
                           <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <CheckCircle className="w-4 h-4 text-slate-300" />
                             <span>Real-time data that makes you money</span>
                           </li>
                         </ul>
@@ -395,11 +348,11 @@ export default function Index() {
               </CardContent>
             </Card>
 
-            <Card className="group bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 hover:border-accent/50 cursor-pointer transition-all duration-300">
+            <Card className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <Lock className="w-12 h-12 text-accent" />
+                    <Lock className="w-12 h-12 text-slate-300" />
                     <div>
                 <CardTitle>We Only Win When You Win</CardTitle>
                     </div>
@@ -412,7 +365,7 @@ export default function Index() {
                     </DialogTrigger>
                     <DialogContent className="bg-terminal-card border-terminal-border">
                       <DialogHeader>
-                        <DialogTitle className="text-accent">We Only Win When You Win</DialogTitle>
+                        <DialogTitle className="text-slate-300">We Only Win When You Win</DialogTitle>
                         <DialogDescription>
                           No monthly fees. No hidden costs. We only make money when you close deals. Your success is literally our business model.
                         </DialogDescription>
@@ -423,19 +376,19 @@ export default function Index() {
                         </p>
                         <ul className="space-y-2 text-sm text-muted-foreground">
                           <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <CheckCircle className="w-4 h-4 text-slate-300" />
                             <span>7% only when you close deals (brokers/operators)</span>
                           </li>
                           <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <CheckCircle className="w-4 h-4 text-slate-300" />
                             <span>10% hiring fee only when you get hired (crew/pilots)</span>
                           </li>
                           <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <CheckCircle className="w-4 h-4 text-slate-300" />
                             <span>Free access for pilots and crew</span>
                           </li>
                           <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <CheckCircle className="w-4 h-4 text-slate-300" />
                             <span>No monthly subscriptions, ever</span>
                           </li>
                         </ul>
@@ -452,11 +405,11 @@ export default function Index() {
               </CardContent>
             </Card>
 
-            <Card className="group bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 hover:border-accent/50 cursor-pointer transition-all duration-300">
+            <Card className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-12 h-12 text-accent" />
+                    <CheckCircle className="w-12 h-12 text-slate-300" />
                     <div>
                 <CardTitle>Transparency & Trust</CardTitle>
                     </div>
@@ -469,7 +422,7 @@ export default function Index() {
                     </DialogTrigger>
                     <DialogContent className="bg-terminal-card border-terminal-border">
                       <DialogHeader>
-                        <DialogTitle className="text-accent">Transparency & Trust</DialogTitle>
+                        <DialogTitle className="text-slate-300">Transparency & Trust</DialogTitle>
                         <DialogDescription>
                           We show you exactly what we do, how we do it, and what it costs. No hidden fees, no surprises.
                         </DialogDescription>
@@ -480,19 +433,19 @@ export default function Index() {
                         </p>
                         <ul className="space-y-2 text-sm text-muted-foreground">
                           <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <CheckCircle className="w-4 h-4 text-slate-300" />
                             <span>Real-time deal tracking and reporting</span>
                           </li>
                           <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <CheckCircle className="w-4 h-4 text-slate-300" />
                             <span>Upfront pricing with no hidden fees</span>
                           </li>
                           <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <CheckCircle className="w-4 h-4 text-slate-300" />
                             <span>Honest performance metrics and analytics</span>
                           </li>
                           <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <CheckCircle className="w-4 h-4 text-slate-300" />
                             <span>Direct access to support when you need it</span>
                           </li>
                         </ul>
@@ -525,8 +478,8 @@ export default function Index() {
               <h3 className="text-2xl font-bold text-foreground mb-6">How It Works</h3>
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
-                  <div className="bg-accent/20 rounded-full p-2 mt-1">
-                    <span className="text-accent font-bold text-sm">1</span>
+                  <div className="bg-slate-800/20 rounded-full p-2 mt-1">
+                    <span className="text-slate-300 font-bold text-sm">1</span>
                   </div>
                   <div>
                     <h4 className="font-semibold text-foreground">Funds Secured</h4>
@@ -534,8 +487,8 @@ export default function Index() {
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
-                  <div className="bg-accent/20 rounded-full p-2 mt-1">
-                    <span className="text-accent font-bold text-sm">2</span>
+                  <div className="bg-slate-800/20 rounded-full p-2 mt-1">
+                    <span className="text-slate-300 font-bold text-sm">2</span>
                   </div>
                   <div>
                     <h4 className="font-semibold text-foreground">Service Delivered</h4>
@@ -543,8 +496,8 @@ export default function Index() {
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
-                  <div className="bg-accent/20 rounded-full p-2 mt-1">
-                    <span className="text-accent font-bold text-sm">3</span>
+                  <div className="bg-slate-800/20 rounded-full p-2 mt-1">
+                    <span className="text-slate-300 font-bold text-sm">3</span>
                   </div>
                   <div>
                     <h4 className="font-semibold text-foreground">Automatic Release</h4>
@@ -554,9 +507,9 @@ export default function Index() {
               </div>
             </div>
 
-            <Card className="terminal-card">
+            <Card className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer transition-all duration-300">
               <CardHeader>
-                <DollarSign className="w-12 h-12 text-accent mb-4" />
+                <DollarSign className="w-12 h-12 text-slate-300 mb-4" />
                 <CardTitle>Payment Protection</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -591,14 +544,14 @@ export default function Index() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="terminal-card group hover:terminal-glow cursor-pointer animate-fade-in-up" style={{
+            <Card className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer animate-fade-in-up transition-all duration-300" style={{
             animationDelay: '0.1s'
           }}>
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <div className="p-2 bg-accent/20 rounded-lg animate-pulse-glow">
-                      <Percent className="w-6 h-6 text-accent" />
+                    <div className="p-2 bg-slate-800/20 rounded-lg animate-pulse-glow">
+                      <Percent className="w-6 h-6 text-slate-300" />
                     </div>
                     <div>
                       <CardTitle className="text-xl text-foreground">Broker & Operator Sales</CardTitle>
@@ -613,7 +566,7 @@ export default function Index() {
                     </DialogTrigger>
                     <DialogContent className="bg-terminal-card border-terminal-border">
                       <DialogHeader>
-                        <DialogTitle className="text-accent">7% Platform Fee</DialogTitle>
+                        <DialogTitle className="text-slate-300">7% Platform Fee</DialogTitle>
                         <DialogDescription>
                           Applied to all successful broker and operator sales transactions
                         </DialogDescription>
@@ -624,19 +577,19 @@ export default function Index() {
                         </p>
                         <ul className="space-y-2 text-sm text-muted-foreground">
                           <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <CheckCircle className="w-4 h-4 text-slate-300" />
                             <span>Platform maintenance and security</span>
                           </li>
                           <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <CheckCircle className="w-4 h-4 text-slate-300" />
                             <span>Payment processing and escrow services</span>
                           </li>
                           <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <CheckCircle className="w-4 h-4 text-slate-300" />
                             <span>Customer support and dispute resolution</span>
                           </li>
                           <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <CheckCircle className="w-4 h-4 text-slate-300" />
                             <span>Market intelligence and analytics</span>
                           </li>
                         </ul>
@@ -646,19 +599,19 @@ export default function Index() {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold text-accent mb-2">7%</div>
+                <div className="text-3xl font-bold text-slate-300 mb-2">7%</div>
                 <p className="text-muted-foreground text-sm">
                   Only charged on successful transactions. No monthly fees or hidden costs.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="group bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 hover:border-accent/50 cursor-pointer transition-all duration-300">
+            <Card className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <div className="p-2 bg-accent/20 rounded-lg">
-                      <Users className="w-6 h-6 text-accent" />
+                    <div className="p-2 bg-slate-800/20 rounded-lg">
+                      <Users className="w-6 h-6 text-slate-300" />
                     </div>
                     <div>
                       <CardTitle className="text-xl">Crew & Pilot Hiring</CardTitle>
@@ -673,7 +626,7 @@ export default function Index() {
                     </DialogTrigger>
                     <DialogContent className="bg-terminal-card border-terminal-border">
                       <DialogHeader>
-                        <DialogTitle className="text-accent">10% Recruitment Fee</DialogTitle>
+                        <DialogTitle className="text-slate-300">10% Recruitment Fee</DialogTitle>
                         <DialogDescription>
                           Charged to brokers and operators when hiring crew or pilots for specific flights
                         </DialogDescription>
@@ -684,19 +637,19 @@ export default function Index() {
                         </p>
                         <ul className="space-y-2 text-sm text-muted-foreground">
                           <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <CheckCircle className="w-4 h-4 text-slate-300" />
                             <span>Credential verification and background checks</span>
                           </li>
                           <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <CheckCircle className="w-4 h-4 text-slate-300" />
                             <span>Matching algorithm and compatibility scoring</span>
                           </li>
                           <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <CheckCircle className="w-4 h-4 text-slate-300" />
                             <span>Contract facilitation and documentation</span>
                           </li>
                           <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <CheckCircle className="w-4 h-4 text-slate-300" />
                             <span>Ongoing support during the assignment</span>
                           </li>
                         </ul>
@@ -706,19 +659,19 @@ export default function Index() {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold text-accent mb-2">10%</div>
+                <div className="text-3xl font-bold text-slate-300 mb-2">10%</div>
                 <p className="text-muted-foreground text-sm">
                   One-time fee per successful crew/pilot placement for specific flights.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="group bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 hover:border-accent/50 cursor-pointer transition-all duration-300">
+            <Card className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <div className="p-2 bg-accent/20 rounded-lg">
-                      <UserCheck className="w-6 h-6 text-accent" />
+                    <div className="p-2 bg-slate-800/20 rounded-lg">
+                      <UserCheck className="w-6 h-6 text-slate-300" />
                     </div>
                     <div>
                       <CardTitle className="text-xl">Crew & Pilots</CardTitle>
@@ -733,7 +686,7 @@ export default function Index() {
                     </DialogTrigger>
                     <DialogContent className="bg-terminal-card border-terminal-border">
                       <DialogHeader>
-                        <DialogTitle className="text-accent">Free for Crew & Pilots</DialogTitle>
+                        <DialogTitle className="text-slate-300">Free for Crew & Pilots</DialogTitle>
                         <DialogDescription>
                           We believe in supporting the professionals who make aviation possible
                         </DialogDescription>
@@ -744,24 +697,24 @@ export default function Index() {
                         </p>
                         <ul className="space-y-2 text-sm text-muted-foreground">
                           <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <CheckCircle className="w-4 h-4 text-slate-300" />
                             <span>You are essential to our industry</span>
                           </li>
                           <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <CheckCircle className="w-4 h-4 text-slate-300" />
                             <span>We want to maximize your opportunities</span>
                           </li>
                           <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <CheckCircle className="w-4 h-4 text-slate-300" />
                             <span>No barriers to finding great assignments</span>
                           </li>
                           <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-accent" />
+                            <CheckCircle className="w-4 h-4 text-slate-300" />
                             <span>Full access to all platform features</span>
                           </li>
                         </ul>
-                        <div className="bg-accent/10 p-4 rounded-lg">
-                          <p className="text-sm text-accent font-medium">
+                        <div className="bg-slate-800/10 p-4 rounded-lg">
+                          <p className="text-sm text-slate-300 font-medium">
                             "We care for our customers - that's why crew and pilots are always free."
                           </p>
                         </div>
@@ -771,7 +724,7 @@ export default function Index() {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold text-accent mb-2">FREE</div>
+                <div className="text-3xl font-bold text-slate-300 mb-2">FREE</div>
                 <p className="text-muted-foreground text-sm">
                   No fees, no subscriptions, no hidden costs. We care for our customers.
                 </p>
@@ -790,33 +743,33 @@ export default function Index() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card className="terminal-card text-center">
+            <Card className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer transition-all duration-300 text-center">
               <CardContent className="pt-6">
-                <Globe className="w-10 h-10 text-accent mx-auto mb-4" />
+                <Globe className="w-10 h-10 text-slate-300 mx-auto mb-4" />
                 <h3 className="font-semibold text-foreground mb-2">GDPR Compliant</h3>
                 <p className="text-sm text-muted-foreground">Full compliance with global privacy regulations</p>
               </CardContent>
             </Card>
 
-            <Card className="terminal-card text-center">
+            <Card className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer transition-all duration-300 text-center">
               <CardContent className="pt-6">
-                <Shield className="w-10 h-10 text-accent mx-auto mb-4" />
+                <Shield className="w-10 h-10 text-slate-300 mx-auto mb-4" />
                 <h3 className="font-semibold text-foreground mb-2">Data Anonymization</h3>
                 <p className="text-sm text-muted-foreground">Personal data encrypted and anonymized</p>
               </CardContent>
             </Card>
 
-            <Card className="terminal-card text-center">
+            <Card className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer transition-all duration-300 text-center">
               <CardContent className="pt-6">
-                <Lock className="w-10 h-10 text-accent mx-auto mb-4" />
+                <Lock className="w-10 h-10 text-slate-300 mx-auto mb-4" />
                 <h3 className="font-semibold text-foreground mb-2">Selective Disclosure</h3>
                 <p className="text-sm text-muted-foreground">You control what information is visible</p>
               </CardContent>
             </Card>
 
-            <Card className="terminal-card text-center">
+            <Card className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer transition-all duration-300 text-center">
               <CardContent className="pt-6">
-                <Clock className="w-10 h-10 text-accent mx-auto mb-4" />
+                <Clock className="w-10 h-10 text-slate-300 mx-auto mb-4" />
                 <h3 className="font-semibold text-foreground mb-2">Data Retention</h3>
                 <p className="text-sm text-muted-foreground">Automatic deletion of expired data</p>
               </CardContent>
@@ -833,12 +786,12 @@ export default function Index() {
              <p className="text-xl text-muted-foreground">Complete guides, AI assistance, and everything you need to succeed</p>
            </div>
 
-           <Card className="group bg-black/30 backdrop-blur-sm border border-accent/30 hover:bg-black/40 hover:border-accent/50 cursor-pointer transition-all duration-300">
+           <Card className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer transition-all duration-300">
              <CardHeader>
                <div className="flex items-center justify-between">
                  <div className="flex items-center space-x-4">
-                   <div className="p-3 bg-accent/20 rounded-xl">
-                     <BookOpen className="w-12 h-12 text-accent" />
+                   <div className="p-3 bg-slate-800/20 rounded-xl">
+                     <BookOpen className="w-12 h-12 text-slate-300" />
                    </div>
                    <div>
                      <CardTitle className="text-2xl text-foreground">Master the Platform in Minutes</CardTitle>
@@ -860,29 +813,29 @@ export default function Index() {
              <CardContent>
                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                  <div className="text-center">
-                   <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                     <Building2 className="w-8 h-8 text-accent" />
+                   <div className="w-16 h-16 bg-slate-800/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                     <Building2 className="w-8 h-8 text-slate-300" />
                    </div>
                    <h3 className="font-semibold text-foreground mb-2">Terminal Guides</h3>
                    <p className="text-sm text-muted-foreground">Step-by-step instructions for each terminal type</p>
                  </div>
                  <div className="text-center">
-                   <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                     <Zap className="w-8 h-8 text-accent" />
+                   <div className="w-16 h-16 bg-slate-800/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                     <Zap className="w-8 h-8 text-slate-300" />
                    </div>
                    <h3 className="font-semibold text-foreground mb-2">AI Features</h3>
                    <p className="text-sm text-muted-foreground">Master AI-powered tools and automation</p>
                  </div>
                  <div className="text-center">
-                   <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                     <Play className="w-8 h-8 text-accent" />
+                   <div className="w-16 h-16 bg-slate-800/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                     <Play className="w-8 h-8 text-slate-300" />
                    </div>
                    <h3 className="font-semibold text-foreground mb-2">Quick Start</h3>
                    <p className="text-sm text-muted-foreground">Get up and running in minutes</p>
                  </div>
                  <div className="text-center">
-                   <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                     <Download className="w-8 h-8 text-accent" />
+                   <div className="w-16 h-16 bg-slate-800/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                     <Download className="w-8 h-8 text-slate-300" />
                    </div>
                    <h3 className="font-semibold text-foreground mb-2">Resources</h3>
                    <p className="text-sm text-muted-foreground">Download guides and access support</p>
@@ -900,17 +853,17 @@ export default function Index() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <div className="text-5xl font-bold text-accent mb-4">99.99%</div>
+              <div className="text-5xl font-bold text-slate-300 mb-4">99.99%</div>
               <h3 className="text-xl font-semibold text-foreground mb-2">Uptime SLA</h3>
               <p className="text-muted-foreground">Mission-critical reliability with redundant infrastructure</p>
             </div>
             <div>
-              <div className="text-5xl font-bold text-accent mb-4">&lt;50ms</div>
+              <div className="text-5xl font-bold text-slate-300 mb-4">&lt;50ms</div>
               <h3 className="text-xl font-semibold text-foreground mb-2">Response Time</h3>
               <p className="text-muted-foreground">Lightning-fast performance optimized for real-time operations</p>
             </div>
             <div>
-              <div className="text-5xl font-bold text-accent mb-4">24/7</div>
+              <div className="text-5xl font-bold text-slate-300 mb-4">24/7</div>
               <h3 className="text-xl font-semibold text-foreground mb-2">Support</h3>
               <p className="text-muted-foreground">Dedicated support team available around the clock</p>
             </div>

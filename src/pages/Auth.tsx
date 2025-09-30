@@ -1,7 +1,6 @@
 import { DemoBanner } from '@/components/DemoBanner';
 import { NavigationArrows } from '@/components/NavigationArrows';
 import StratusCinematicBackground from '@/components/StratusCinematicBackground';
-import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -148,14 +147,29 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen bg-terminal-bg relative">
-      <DemoBanner />
-      <StratusNightFlightBackground />
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
+      {/* Aviation background image - matching index page */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyMCIgaGVpZ2h0PSIxMDgwIiB2aWV3Qm94PSIwIDAgMTkyMCAxMDgwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJhdmlhdGlvbi1ncmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNmZmE1MDA7c3RvcC1vcGFjaXR5OjAuOCIvPgo8c3RvcCBvZmZzZXQ9IjUwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZmNzUwMDtzdG9wLW9wYWNpdHk6MC42Ii8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzAwMDAwMDtzdG9wLW9wYWNpdHk6MC45Ii8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjE5MjAiIGhlaWdodD0iMTA4MCIgZmlsbD0idXJsKCNhdmlhdGlvbi1ncmFkaWVudCkiLz4KPC9zdmc+')`,
+        }}
+      />
+      
+      {/* Dark overlay for better text readability */}
+      <div className="absolute inset-0 bg-black/40"></div>
+      
+      {/* Subtle grid pattern overlay */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxwYXRoIGQ9Ik0gMTAwIDAgTCAwIDAgTCAwIDEwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjAuNSIvPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0idXJsKCNncmlkKSIvPgo8L3N2Zz4=')] opacity-20"></div>
+      </div>
+
+      {/* STRATUSCONNECT Logo - Top Left */}
+      <div className="absolute top-8 left-8 text-white text-lg font-bold bg-black px-6 py-3 rounded backdrop-blur-sm z-20">
+        STRATUSCONNECT
+      </div>
       
       <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
-        <div className="absolute top-6 left-6">
-          <StratusConnectLogo />
-        </div>
         <div className="absolute top-4 right-4">
           <NavigationArrows />
         </div>
@@ -170,14 +184,16 @@ export default function Auth() {
             </Alert>
           )}
 
-          <Card className="terminal-card bg-terminal-card/90 backdrop-blur-sm">
+          <Card className="bg-white/95 backdrop-blur-sm shadow-2xl border border-white/20">
             <CardHeader className="text-center space-y-4">
               <div className="flex justify-center">
-                <Shield className="h-12 w-12 text-terminal-glow" />
+                <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center">
+                  <Shield className="h-6 w-6 text-white" />
+                </div>
               </div>
               <div>
-                <CardTitle className="text-2xl text-foreground">StratusConnect</CardTitle>
-                <CardDescription className="text-muted-foreground">
+                <CardTitle className="text-2xl text-black font-bold">StratusConnect</CardTitle>
+                <CardDescription className="text-gray-600">
                   Secure Aviation Marketplace Platform
                 </CardDescription>
               </div>
@@ -185,16 +201,16 @@ export default function Auth() {
             
             <CardContent>
               <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-                <TabsList className="grid w-full grid-cols-2 bg-terminal-card">
+                <TabsList className="grid w-full grid-cols-2 bg-gray-100">
                   <TabsTrigger 
                     value="login" 
-                    className="text-muted-foreground data-[state=active]:bg-terminal-glow data-[state=active]:text-white"
+                    className="text-gray-600 data-[state=active]:bg-black data-[state=active]:text-white"
                   >
                     Sign In
                   </TabsTrigger>
                   <TabsTrigger 
                     value="register" 
-                    className="text-muted-foreground data-[state=active]:bg-terminal-glow data-[state=active]:text-white"
+                    className="text-gray-600 data-[state=active]:bg-black data-[state=active]:text-white"
                   >
                     Register
                   </TabsTrigger>
@@ -203,20 +219,20 @@ export default function Auth() {
                 <TabsContent value="login" className="space-y-4">
                   <form onSubmit={handleLogin} className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="login-email" className="text-foreground">Email</Label>
+                      <Label htmlFor="login-email" className="text-black font-medium">Email</Label>
                       <Input
                         id="login-email"
                         type="email"
                         value={loginData.email}
                         onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
                         placeholder="Enter your email"
-                        className="terminal-input"
+                        className="bg-white border-gray-300 text-black placeholder-gray-500 focus:border-black focus:ring-black"
                         required
                       />
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="login-password" className="text-foreground">Password</Label>
+                      <Label htmlFor="login-password" className="text-black font-medium">Password</Label>
                       <div className="relative">
                         <Input
                           id="login-password"
@@ -224,7 +240,7 @@ export default function Auth() {
                           value={loginData.password}
                           onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
                           placeholder="Enter your password"
-                          className="terminal-input pr-10"
+                          className="bg-white border-gray-300 text-black placeholder-gray-500 focus:border-black focus:ring-black pr-10"
                           required
                         />
                         <Button
@@ -235,9 +251,9 @@ export default function Auth() {
                           onClick={() => setShowPassword(!showPassword)}
                         >
                           {showPassword ? (
-                            <EyeOff className="h-4 w-4 text-muted-foreground" />
+                            <EyeOff className="h-4 w-4 text-gray-500" />
                           ) : (
-                            <Eye className="h-4 w-4 text-muted-foreground" />
+                            <Eye className="h-4 w-4 text-gray-500" />
                           )}
                         </Button>
                       </div>
@@ -246,7 +262,7 @@ export default function Auth() {
                     <div className="space-y-3">
                       <Button
                         type="submit"
-                        className="w-full btn-terminal-primary"
+                        className="w-full bg-black hover:bg-gray-800 text-white"
                         disabled={isLoading || !loginData.email || !loginData.password}
                       >
                         {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
@@ -256,7 +272,7 @@ export default function Auth() {
                       <Button
                         type="button"
                         variant="outline"
-                        className="w-full border-terminal-border text-foreground hover:bg-terminal-card"
+                        className="w-full border-black text-black hover:bg-black hover:text-white"
                         onClick={handleMagicLinkLogin}
                         disabled={isLoading || !loginData.email}
                       >
@@ -267,8 +283,8 @@ export default function Auth() {
                   </form>
 
                   {/* Demo Login Section */}
-                  <div className="pt-4 border-t border-terminal-border">
-                    <p className="text-sm text-muted-foreground text-center mb-3">
+                  <div className="pt-4 border-t border-gray-300">
+                    <p className="text-sm text-gray-600 text-center mb-3">
                       Quick Demo Access:
                     </p>
                     <div className="grid grid-cols-2 gap-2">
@@ -281,7 +297,7 @@ export default function Auth() {
                             size="sm"
                             onClick={() => handleDemoLogin(role as keyof typeof demoCredentials)}
                             disabled={isLoading}
-                            className="border-terminal-border text-muted-foreground hover:bg-terminal-card hover:text-foreground text-xs"
+                            className="border-gray-300 text-gray-700 hover:bg-gray-100 text-xs"
                           >
                             <Icon className="mr-1 h-3 w-3" />
                             {role}
@@ -295,74 +311,74 @@ export default function Auth() {
                 <TabsContent value="register" className="space-y-4">
                   <form onSubmit={handleRegister} className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="register-name" className="text-foreground">Full Name</Label>
+                      <Label htmlFor="register-name" className="text-black font-medium">Full Name</Label>
                       <Input
                         id="register-name"
                         type="text"
                         value={registerData.fullName}
                         onChange={(e) => setRegisterData({ ...registerData, fullName: e.target.value })}
                         placeholder="Enter your full name"
-                        className="terminal-input"
+                        className="bg-white border-gray-300 text-black placeholder-gray-500 focus:border-black focus:ring-black"
                         required
                       />
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="register-email" className="text-foreground">Email</Label>
+                      <Label htmlFor="register-email" className="text-black font-medium">Email</Label>
                       <Input
                         id="register-email"
                         type="email"
                         value={registerData.email}
                         onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
                         placeholder="Enter your email"
-                        className="terminal-input"
+                        className="bg-white border-gray-300 text-black placeholder-gray-500 focus:border-black focus:ring-black"
                         required
                       />
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="company" className="text-foreground">Company (Optional)</Label>
+                      <Label htmlFor="company" className="text-black font-medium">Company (Optional)</Label>
                       <Input
                         id="company"
                         type="text"
                         value={registerData.companyName}
                         onChange={(e) => setRegisterData({ ...registerData, companyName: e.target.value })}
                         placeholder="Enter your company name"
-                        className="terminal-input"
+                        className="bg-white border-gray-300 text-black placeholder-gray-500 focus:border-black focus:ring-black"
                       />
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="role" className="text-foreground">Role</Label>
+                      <Label htmlFor="role" className="text-black font-medium">Role</Label>
                       <Select 
                         value={registerData.role} 
                         onValueChange={(value: 'broker' | 'operator' | 'pilot' | 'crew') => 
                           setRegisterData({ ...registerData, role: value })
                         }
                       >
-                        <SelectTrigger className="terminal-input">
+                        <SelectTrigger className="bg-white border-gray-300 text-black focus:border-black focus:ring-black">
                           <SelectValue placeholder="Select your role" />
                         </SelectTrigger>
-                        <SelectContent className="bg-terminal-card border-terminal-border">
-                          <SelectItem value="broker" className="text-foreground">
+                        <SelectContent className="bg-white border-gray-300">
+                          <SelectItem value="broker" className="text-black hover:bg-gray-100">
                             <div className="flex items-center">
                               <Briefcase className="mr-2 h-4 w-4" />
                               Charter Broker
                             </div>
                           </SelectItem>
-                          <SelectItem value="operator" className="text-foreground">
+                          <SelectItem value="operator" className="text-black hover:bg-gray-100">
                             <div className="flex items-center">
                               <Building className="mr-2 h-4 w-4" />
                               Aircraft Operator
                             </div>
                           </SelectItem>
-                          <SelectItem value="pilot" className="text-foreground">
+                          <SelectItem value="pilot" className="text-black hover:bg-gray-100">
                             <div className="flex items-center">
                               <Plane className="mr-2 h-4 w-4" />
                               Pilot
                             </div>
                           </SelectItem>
-                          <SelectItem value="crew" className="text-foreground">
+                          <SelectItem value="crew" className="text-black hover:bg-gray-100">
                             <div className="flex items-center">
                               <Users className="mr-2 h-4 w-4" />
                               Cabin Crew
@@ -373,7 +389,7 @@ export default function Auth() {
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="register-password" className="text-foreground">Password</Label>
+                      <Label htmlFor="register-password" className="text-black font-medium">Password</Label>
                       <div className="relative">
                         <Input
                           id="register-password"
@@ -381,7 +397,7 @@ export default function Auth() {
                           value={registerData.password}
                           onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
                           placeholder="Minimum 8 characters with letters and numbers"
-                          className="terminal-input pr-10"
+                          className="bg-white border-gray-300 text-black placeholder-gray-500 focus:border-black focus:ring-black pr-10"
                           required
                         />
                         <Button
@@ -392,30 +408,30 @@ export default function Auth() {
                           onClick={() => setShowPassword(!showPassword)}
                         >
                           {showPassword ? (
-                            <EyeOff className="h-4 w-4 text-muted-foreground" />
+                            <EyeOff className="h-4 w-4 text-gray-500" />
                           ) : (
-                            <Eye className="h-4 w-4 text-muted-foreground" />
+                            <Eye className="h-4 w-4 text-gray-500" />
                           )}
                         </Button>
                       </div>
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="confirm-password" className="text-foreground">Confirm Password</Label>
+                      <Label htmlFor="confirm-password" className="text-black font-medium">Confirm Password</Label>
                       <Input
                         id="confirm-password"
                         type="password"
                         value={registerData.confirmPassword}
                         onChange={(e) => setRegisterData({ ...registerData, confirmPassword: e.target.value })}
                         placeholder="Confirm your password"
-                        className="terminal-input"
+                        className="bg-white border-gray-300 text-black placeholder-gray-500 focus:border-black focus:ring-black"
                         required
                       />
                     </div>
                     
                     {registerData.password && registerData.password !== registerData.confirmPassword && (
-                      <Alert className="border-terminal-danger bg-terminal-danger/10">
-                        <AlertDescription className="text-terminal-danger">
+                      <Alert className="border-red-500 bg-red-500/10">
+                        <AlertDescription className="text-red-500">
                           Passwords do not match
                         </AlertDescription>
                       </Alert>
@@ -424,8 +440,8 @@ export default function Auth() {
                     {registerData.password && (registerData.password.length < 8 || 
                       !/[a-zA-Z]/.test(registerData.password) || 
                       !/[0-9]/.test(registerData.password)) && (
-                      <Alert className="border-terminal-warning bg-terminal-warning/10">
-                        <AlertDescription className="text-terminal-warning">
+                      <Alert className="border-yellow-500 bg-yellow-500/10">
+                        <AlertDescription className="text-yellow-600">
                           Password must be at least 8 characters with letters and numbers
                         </AlertDescription>
                       </Alert>
@@ -433,7 +449,7 @@ export default function Auth() {
 
                     <Button
                       type="submit"
-                      className="w-full btn-terminal-primary"
+                      className="w-full bg-black hover:bg-gray-800 text-white"
                       disabled={
                         isLoading || 
                         !registerData.email || 

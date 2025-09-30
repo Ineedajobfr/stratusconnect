@@ -1273,11 +1273,11 @@ export default function DemoOperatorTerminal() {
         />
       )}
       
-      <div className="min-h-screen relative overflow-hidden scroll-smooth" style={{ backgroundColor: '#0B1426' }}>
+      <div className="min-h-screen relative overflow-hidden scroll-smooth bg-slate-900">
         <StarfieldRunwayBackground />
         
         {/* Header */}
-        <header className="relative z-10 border-b border-terminal-border px-6 py-4 backdrop-blur-modern" style={{ backgroundColor: 'hsl(210, 30%, 15%)' }}>
+        <header className="relative z-10 border-b border-terminal-border px-6 py-4 backdrop-blur-modern bg-slate-800">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <StratusConnectLogo className="text-orange-400 text-lg mr-6" />

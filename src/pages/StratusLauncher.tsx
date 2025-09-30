@@ -46,7 +46,7 @@ const terminalSections: TerminalSection[] = [
   { 
     id: 'broker', 
     label: 'Broker Terminal', 
-    route: '/demo/broker', 
+    route: '/terminal/broker', 
     icon: Briefcase, 
     description: 'Quote management & client relations',
     fullDescription: 'Comprehensive broker management system for aviation deals, client relations, and market analysis.',
@@ -62,7 +62,7 @@ const terminalSections: TerminalSection[] = [
   { 
     id: 'operator', 
     label: 'Operator Terminal', 
-    route: '/demo/operator', 
+    route: '/terminal/operator', 
     icon: Settings, 
     description: 'Flight operations & fleet management',
     fullDescription: 'Complete flight operations control center for managing aircraft, schedules, and operational efficiency.',
@@ -78,7 +78,7 @@ const terminalSections: TerminalSection[] = [
   { 
     id: 'pilot', 
     label: 'Pilot Terminal', 
-    route: '/demo/pilot', 
+    route: '/terminal/pilot', 
     icon: Plane, 
     description: 'Flight planning & execution',
     fullDescription: 'Advanced flight planning and execution tools for pilots with real-time navigation and weather data.',
@@ -94,7 +94,7 @@ const terminalSections: TerminalSection[] = [
   { 
     id: 'crew', 
     label: 'Crew Terminal', 
-    route: '/demo/crew', 
+    route: '/terminal/crew', 
     icon: Users, 
     description: 'Crew management & scheduling',
     fullDescription: 'Comprehensive crew management system for scheduling, training, and crew coordination.',
@@ -105,7 +105,7 @@ const terminalSections: TerminalSection[] = [
       'Communication tools',
       'Compliance reporting'
     ],
-    status: 'demo'
+    status: 'active'
   }
 ];
 
@@ -121,8 +121,8 @@ export default function StratusLauncher() {
     if (currentScreen === 'title') {
       if (event.key === 'Enter') {
         event.preventDefault();
-        setCurrentScreen('menu');
-        setShowInstructions(false);
+        // Navigate to the original index page instead of menu
+        navigate('/home');
       }
     } else if (currentScreen === 'menu') {
       switch (event.key) {
@@ -197,16 +197,19 @@ export default function StratusLauncher() {
           </h2>
           
           <div className="text-white/90 text-xl font-mono bg-black/30 px-6 py-3 rounded backdrop-blur-sm animate-pulse" style={{ animationDuration: '2s' }}>
-            PRESS [Enter] TO ENTER THE TERMINAL
+            PRESS [Enter] TO START
           </div>
         </div>
 
         {/* Enhanced atmospheric elements */}
-        <div className="absolute top-8 left-8 text-white text-lg font-bold bg-black px-6 py-3 rounded backdrop-blur-sm">
+        <div 
+          className="absolute top-8 left-8 text-white text-lg font-bold bg-black px-6 py-3 rounded backdrop-blur-sm cursor-pointer hover:bg-gray-800 transition-colors"
+          onClick={() => setCurrentScreen('title')}
+        >
           STRATUSCONNECT
         </div>
         <div className="absolute bottom-8 right-8 text-white/80 text-sm font-mono bg-black/30 px-4 py-2 rounded backdrop-blur-sm">
-          AVIATION NETWORK
+          ACCESS ONLINE
         </div>
         
       </div>

@@ -1,6 +1,7 @@
 import AuthForm from "@/components/AuthForm";
 import StratusCinematicBackground from "@/components/StratusCinematicBackground";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
+import StratusNightFlightBackground from "@/components/StratusNightFlightBackground";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";

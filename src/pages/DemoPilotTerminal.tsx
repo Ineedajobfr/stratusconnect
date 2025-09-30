@@ -12,25 +12,25 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
-  AlertTriangle,
-  ArrowUp,
-  Award,
-  BarChart3,
-  Briefcase,
-  Calendar,
-  Clock,
-  DollarSign,
-  FileText,
-  HelpCircle,
-  Navigation,
-  Plane,
-  Plus,
-  RefreshCw,
-  Settings,
-  Shield,
-  Star,
-  User,
-  Users
+    AlertTriangle,
+    ArrowUp,
+    Award,
+    BarChart3,
+    Briefcase,
+    Calendar,
+    Clock,
+    DollarSign,
+    FileText,
+    HelpCircle,
+    Navigation,
+    Plane,
+    Plus,
+    RefreshCw,
+    Settings,
+    Shield,
+    Star,
+    User,
+    Users
 } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -509,11 +509,11 @@ export default function DemoPilotTerminal() {
           onClose={() => setShowHelpGuide(false)}
       />
       )}
-      <div className="min-h-screen relative overflow-hidden scroll-smooth" style={{ backgroundColor: '#0B1426' }}>
+      <div className="min-h-screen relative overflow-hidden scroll-smooth bg-slate-900">
         <StratusCinematicBackground />
         
         {/* Header */}
-        <header className="relative z-10 sticky top-0 backdrop-blur-modern border-b border-terminal-border" style={{ backgroundColor: 'hsl(210, 30%, 15%)' }}>
+        <header className="relative z-10 sticky top-0 backdrop-blur-modern border-b border-terminal-border bg-slate-800">
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">

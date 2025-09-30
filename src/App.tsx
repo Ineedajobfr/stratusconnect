@@ -20,6 +20,7 @@ import BrokerDashboard from "@/components/dashboard/BrokerDashboard";
 import OperatorDashboard from "@/components/dashboard/OperatorDashboard";
 
 // Lazy load pages for better performance - prioritize by usage frequency
+const StratusLauncher = lazy(() => import("./pages/StratusLauncher"));
 const Index = lazy(() => import("./pages/Index"));
 const Enter = lazy(() => import("./pages/Enter"));
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -144,7 +145,8 @@ const App = memo(() => {
                   <Suspense fallback={<FullPageLoader />}>
                     <Routes>
               {/* Public routes */}
-              <Route path="/" element={<Index />} />
+              <Route path="/" element={<StratusLauncher />} />
+              <Route path="/home" element={<Index />} />
               <Route path="/enter" element={<Enter />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/demo" element={<Demo />} />

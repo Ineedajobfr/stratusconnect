@@ -55,6 +55,12 @@ class CompliantMonitoringService {
    * Get real uptime metrics from UptimeRobot
    */
   async getUptimeMetrics(): Promise<UptimeMetrics> {
+    // Return mock data if no API key is configured or if CSP blocks the request
+    if (!this.config.uptimeRobotApiKey) {
+      console.log('UptimeRobot API key not configured, using mock data');
+      return this.getMockUptimeMetrics();
+    }
+
     try {
       const response = await fetch(`https://api.uptimerobot.com/v2/getMonitors`, {
         method: 'POST',
@@ -119,7 +125,8 @@ class CompliantMonitoringService {
       return this.metrics;
     } catch (error) {
       console.error('Error fetching uptime metrics:', error);
-      // Return fallback metrics if API fails
+      // Return fallback metrics if API fails (e.g., due to CSP violations)
+      console.log('Using fallback metrics due to API error');
       return {
         uptime_24h: 99.9,
         uptime_7d: 99.9,

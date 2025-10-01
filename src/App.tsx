@@ -78,7 +78,9 @@ const PublicProfile = lazy(() => import("./pages/PublicProfile"));
 const ProfileSettings = lazy(() => import("./pages/ProfileSettings"));
 const Directory = lazy(() => import("./pages/Directory"));
 const Auth = lazy(() => import("./pages/Auth"));
+const AuthCallback = lazy(() => import("./pages/AuthCallback"));
 const SecureAdminSetup = lazy(() => import("./pages/SecureAdminSetup"));
+const MessagingCenter = lazy(() => import("./components/messaging/MessagingCenter"));
 
 // Demo terminals
 const DemoBrokerTerminal = lazy(() => import("./pages/DemoBrokerTerminal"));
@@ -149,6 +151,7 @@ const App = memo(() => {
               <Route path="/home" element={<Index />} />
               <Route path="/enter" element={<Enter />} />
               <Route path="/auth" element={<Auth />} />
+              <Route path="/auth/callback" element={<AuthCallback />} />
               <Route path="/demo" element={<Demo />} />
               <Route path="/roles" element={<RoleSelection />} />
               <Route path="/how-to-use" element={<HowToUse />} />
@@ -181,6 +184,14 @@ const App = memo(() => {
                 element={
                   <ProtectedRoute>
                     <NetworkPage />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/messages" 
+                element={
+                  <ProtectedRoute>
+                    <MessagingCenter />
                   </ProtectedRoute>
                 } 
               />

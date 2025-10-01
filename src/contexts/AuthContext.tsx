@@ -1,9 +1,9 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { User as SupabaseUser, Session } from '@supabase/supabase-js';
+import { supabase } from '@/integrations/supabase/client';
+import { SECURITY_CONFIG, logSecurityEvent, rateLimiter } from '@/lib/security-config';
+import { Session, User as SupabaseUser } from '@supabase/supabase-js';
+import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SECURITY_CONFIG, checkPasswordStrength, rateLimiter, logSecurityEvent } from '@/lib/security-config';
 
 interface User {
   id: string;
@@ -24,6 +24,9 @@ interface AuthContextType {
   loading: boolean;
   login: (email: string, password: string) => Promise<boolean>;
   loginWithMagicLink: (email: string) => Promise<boolean>;
+  loginWithGoogle: () => Promise<boolean>;
+  loginWithMicrosoft: () => Promise<boolean>;
+  loginWithApple: () => Promise<boolean>;
   register: (data: RegisterData) => Promise<RegisterResult | null>;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
@@ -488,6 +491,104 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  // Social login methods
+  const loginWithGoogle = async (): Promise<boolean> => {
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          },
+        },
+      });
+
+      if (error) {
+        console.error('Google OAuth error:', error);
+        toast({
+          title: 'Google Sign-In Failed',
+          description: error.message,
+          variant: 'destructive',
+        });
+        return false;
+      }
+
+      // OAuth redirect happens automatically, no need to return
+      return true;
+    } catch (error: any) {
+      console.error('Google login error:', error);
+      toast({
+        title: 'Google Sign-In Error',
+        description: error.message || 'An unexpected error occurred during Google sign-in',
+        variant: 'destructive',
+      });
+      return false;
+    }
+  };
+
+  const loginWithMicrosoft = async (): Promise<boolean> => {
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'azure',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+          scopes: 'email',
+        },
+      });
+
+      if (error) {
+        toast({
+          title: 'Microsoft Sign-In Failed',
+          description: error.message,
+          variant: 'destructive',
+        });
+        return false;
+      }
+
+      return true;
+    } catch (error: any) {
+      console.error('Microsoft login error:', error);
+      toast({
+        title: 'Microsoft Sign-In Error',
+        description: 'An unexpected error occurred during Microsoft sign-in',
+        variant: 'destructive',
+      });
+      return false;
+    }
+  };
+
+  const loginWithApple = async (): Promise<boolean> => {
+    try {
+      const { data, error} = await supabase.auth.signInWithOAuth({
+        provider: 'apple',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+
+      if (error) {
+        toast({
+          title: 'Apple Sign-In Failed',
+          description: error.message,
+          variant: 'destructive',
+        });
+        return false;
+      }
+
+      return true;
+    } catch (error: any) {
+      console.error('Apple login error:', error);
+      toast({
+        title: 'Apple Sign-In Error',
+        description: 'An unexpected error occurred during Apple sign-in',
+        variant: 'destructive',
+      });
+      return false;
+    }
+  };
+
   const logout = async () => {
     try {
       await supabase.auth.signOut();
@@ -519,6 +620,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     loading,
     login,
     loginWithMagicLink,
+    loginWithGoogle,
+    loginWithMicrosoft,
+    loginWithApple,
     register,
     logout,
     refreshUser,

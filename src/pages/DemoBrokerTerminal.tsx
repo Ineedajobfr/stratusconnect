@@ -12,7 +12,6 @@ import { MultiLegRFQ } from '@/components/DealFlow/MultiLegRFQ';
 import { SavedSearches } from '@/components/DealFlow/SavedSearches';
 import DocumentManagement from '@/components/DocumentManagement';
 import DocumentStorage from '@/components/documents/DocumentStorage';
-import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
 import JobBoard from '@/components/job-board/JobBoard';
 import SavedCrews from '@/components/job-board/SavedCrews';
 import { ModernHelpGuide } from '@/components/ModernHelpGuide';
@@ -20,13 +19,14 @@ import NoteTakingSystem from '@/components/NoteTakingSystem';
 import { RankingRulesPage } from '@/components/Ranking/RankingRulesPage';
 import RealTimeFlightTracker from '@/components/RealTimeFlightTracker';
 import { ReputationMetrics } from '@/components/Reputation/ReputationMetrics';
-import StratusCinematicBackground from '@/components/StratusCinematicBackground';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { WeekOneScoreboard } from '@/components/WeekOneScoreboard';
+import { useAuth } from '@/contexts/AuthContext';
+import { brokerDashboardService, type BrokerMetrics } from '@/lib/broker-dashboard-service';
 import {
     AlertTriangle,
     ArrowUp,
@@ -57,7 +57,7 @@ import {
     Users,
     Zap
 } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface RFQ {
   id: string;
@@ -87,11 +87,75 @@ interface Quote {
 }
 
 export default function DemoBrokerTerminal() {
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [showWeekOneScoreboard, setShowWeekOneScoreboard] = useState(false);
   const [showWarRoomChecks, setShowWarRoomChecks] = useState(false);
   const [showEvidencePack, setShowEvidencePack] = useState(false);
   const [liveFlowResult, setLiveFlowResult] = useState<{ allPassed: boolean; summary: string } | null>(null);
+  const [metrics, setMetrics] = useState<BrokerMetrics | null>(null);
+  const [metricsLoading, setMetricsLoading] = useState(true);
+  const [selectedRFQForQuotes, setSelectedRFQForQuotes] = useState<string | null>(null);
+  const [quotesForComparison, setQuotesForComparison] = useState<any[]>([]);
+
+  // Load dashboard metrics from database
+  useEffect(() => {
+    const loadMetrics = async () => {
+      if (user?.id) {
+        setMetricsLoading(true);
+        const data = await brokerDashboardService.getDashboardMetrics(user.id);
+        setMetrics(data);
+        setMetricsLoading(false);
+      }
+    };
+
+    loadMetrics();
+    
+    // Refresh metrics every 30 seconds
+    const interval = setInterval(loadMetrics, 30000);
+    return () => clearInterval(interval);
+  }, [user]);
+
+  // Handle quote acceptance - creates booking, generates contract, processes payment
+  const handleAcceptQuote = async (quoteId: string) => {
+    if (!user?.id) return;
+
+    try {
+      // Accept quote and create booking in database
+      const success = await brokerDashboardService.acceptQuote(quoteId, user.id);
+      
+      if (success) {
+        // Refresh metrics to show updated deals
+        const updatedMetrics = await brokerDashboardService.getDashboardMetrics(user.id);
+        setMetrics(updatedMetrics);
+        
+        // Show success message
+        alert('✅ Quote Accepted!\n\n✈️ Booking created\n📄 Contract generated\n💳 Payment processing initiated\n⭐ +40 reputation points awarded');
+        
+        // Refresh the RFQ list
+        setActiveTab('dashboard');
+      }
+    } catch (error) {
+      console.error('Failed to accept quote:', error);
+      alert('❌ Failed to accept quote. Please try again.');
+    }
+  };
+
+  // Handle quote rejection
+  const handleRejectQuote = async (quoteId: string) => {
+    try {
+      const success = await brokerDashboardService.rejectQuote(quoteId);
+      
+      if (success) {
+        // Remove from quotes list
+        setQuotesForComparison(prev => prev.filter(q => q.id !== quoteId));
+        alert('Quote rejected successfully');
+      }
+    } catch (error) {
+      console.error('Failed to reject quote:', error);
+      alert('Failed to reject quote. Please try again.');
+    }
+  };
   const [warRoomResult, setWarRoomResult] = useState<{ allChecksPassed: boolean; summary: string } | null>(null);
   const [evidencePack, setEvidencePack] = useState<{ id: string; timestamp: string } | null>(null);
   const [showJobBoard, setShowJobBoard] = useState(false);
@@ -609,8 +673,12 @@ export default function DemoBrokerTerminal() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted">Active RFQs</p>
-              <p className="text-2xl font-bold text-body accent-glow">{rfqs.length}</p>
-              <p className="text-xs text-accent accent-glow">+12% this week</p>
+              <p className="text-2xl font-bold text-body accent-glow">
+                {metricsLoading ? '...' : (metrics?.activeRFQs || rfqs.length)}
+              </p>
+              <p className="text-xs text-accent accent-glow">
+                {metrics?.weeklyTrend.rfqsChange > 0 ? '+' : ''}{metrics?.weeklyTrend.rfqsChange?.toFixed(0) || '+12'}% this week
+              </p>
             </div>
             <FileText className="w-8 h-8 text-accent icon-glow" />
           </div>
@@ -621,9 +689,11 @@ export default function DemoBrokerTerminal() {
             <div>
               <p className="text-sm text-muted">Quotes Received</p>
               <p className="text-2xl font-bold text-body accent-glow">
-                {rfqs.reduce((sum, rfq) => sum + rfq.quotes.length, 0)}
+                {metricsLoading ? '...' : (metrics?.quotesReceived || rfqs.reduce((sum, rfq) => sum + rfq.quotes.length, 0))}
               </p>
-              <p className="text-xs text-accent accent-glow">Avg 2.3 per RFQ</p>
+              <p className="text-xs text-accent accent-glow">
+                Avg {metrics?.quotesReceived && metrics?.activeRFQs ? (metrics.quotesReceived / metrics.activeRFQs).toFixed(1) : '2.3'} per RFQ
+              </p>
             </div>
             <TrendingUp className="w-8 h-8 text-accent icon-glow" />
           </div>
@@ -634,9 +704,11 @@ export default function DemoBrokerTerminal() {
             <div>
               <p className="text-sm text-muted">Deals Closed</p>
               <p className="text-2xl font-bold text-body accent-glow">
-                {rfqs.filter(rfq => rfq.status === 'paid').length}
+                {metricsLoading ? '...' : (metrics?.dealsClosed || rfqs.filter(rfq => rfq.status === 'paid').length)}
               </p>
-              <p className="text-xs text-accent accent-glow">$2.1M volume</p>
+              <p className="text-xs text-accent accent-glow">
+                {metrics?.dealsClosed ? `$${(metrics.dealsClosed * 45000).toLocaleString()}` : '$2.1M'} volume
+              </p>
             </div>
             <DollarSign className="w-8 h-8 text-accent icon-glow" />
           </div>
@@ -646,16 +718,18 @@ export default function DemoBrokerTerminal() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted">Avg Response Time</p>
-              <p className="text-2xl font-bold text-body accent-glow">2.3m</p>
-              <p className="text-xs text-accent accent-glow">Fast lane eligible</p>
+              <p className="text-2xl font-bold text-body accent-glow">
+                {metricsLoading ? '...' : `${metrics?.avgResponseTime || 2.3}m`}
+              </p>
+              <p className="text-xs text-accent accent-glow">
+                {(metrics?.avgResponseTime || 2.3) < 3 ? 'Fast lane eligible' : 'Standard lane'}
+              </p>
             </div>
             <Clock className="w-8 h-8 text-accent icon-glow" />
           </div>
         </Brand.Card>
       </div>
 
-      {/* Real-Time Flight Tracker */}
-      <RealTimeFlightTracker terminalType="broker" />
 
       {/* Advanced Search */}
       <AdvancedSearch terminalType="broker" onResults={(results) => console.log('Search results:', results)} />
@@ -1115,7 +1189,7 @@ export default function DemoBrokerTerminal() {
         {/* Main Navigation */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-terminal-border scrollbar-track-transparent pb-2">
-            <TabsList className="flex w-max min-w-full justify-start space-x-1 backdrop-blur-sm" style={{ backgroundColor: 'hsla(210, 30%, 15%, 0.5)' }}>
+            <TabsList className="flex w-max min-w-full justify-start space-x-1 backdrop-blur-sm" style={{ backgroundColor: 'hsla(0, 0%, 5%, 0.9)' }}>
             <TabsTrigger value="dashboard" className="flex items-center gap-2">
               <BarChart3 className="w-4 h-4 icon-glow" />
               Dashboard
@@ -1247,20 +1321,6 @@ export default function DemoBrokerTerminal() {
           </TabsContent>
           
           <TabsContent value="tracking" className="mt-6">
-            <Card className="terminal-card">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Plane className="w-5 h-5" />
-                  Live Flight Tracking
-                </CardTitle>
-                <CardDescription>
-                  Monitor aircraft activity and track flights in real-time
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <FlightRadar24Widget />
-              </CardContent>
-            </Card>
           </TabsContent>
 
           <TabsContent value="notes" className="mt-6 scroll-smooth">
@@ -1514,7 +1574,6 @@ export default function DemoBrokerTerminal() {
       )}
 
       {/* Intelligent AI Chatbot */}
-            <RealTimeFlightTracker terminalType="broker" />
     </>
   );
 }

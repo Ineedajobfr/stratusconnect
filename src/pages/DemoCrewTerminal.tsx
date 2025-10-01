@@ -5,7 +5,6 @@ import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24W
 import JobBoard from '@/components/job-board/JobBoard';
 import { ModernHelpGuide } from '@/components/ModernHelpGuide';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
-import RealTimeFlightTracker from '@/components/RealTimeFlightTracker';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -456,13 +455,6 @@ export default function DemoCrewTerminal() {
 
   const renderTracking = () => (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-foreground">Flight Tracking</h2>
-        <Button className="btn-terminal-accent">
-          <RefreshCw className="w-4 h-4 mr-2" />
-          Refresh
-        </Button>
-      </div>
       <FlightRadar24Widget 
         tailNumbers={['N123SC', 'N456AV', 'N789OP']}
         showMap={true}

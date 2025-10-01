@@ -248,13 +248,31 @@ export default function StratusLauncher() {
           STRATUSCONNECT
         </div>
         <div 
-          className="absolute bottom-8 right-8 text-white/80 text-sm font-mono bg-black/30 px-4 py-2 rounded backdrop-blur-sm"
+          className="absolute bottom-8 right-8 text-sm font-mono bg-black/30 px-4 py-2 rounded backdrop-blur-sm"
           style={{
-            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+            color: '#22c55e',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 15px rgba(34, 197, 94, 0.5)',
+            animation: 'pulse-green 2s ease-in-out infinite',
+            textShadow: '0 0 10px rgba(34, 197, 94, 0.8), 0 0 20px rgba(34, 197, 94, 0.6)',
           }}
         >
           ACCESS ONLINE
         </div>
+        
+        <style>{`
+          @keyframes pulse-green {
+            0%, 100% {
+              opacity: 1;
+              text-shadow: 0 0 10px rgba(34, 197, 94, 0.8), 0 0 20px rgba(34, 197, 94, 0.6);
+              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 15px rgba(34, 197, 94, 0.5);
+            }
+            50% {
+              opacity: 0.7;
+              text-shadow: 0 0 20px rgba(34, 197, 94, 1), 0 0 30px rgba(34, 197, 94, 0.8), 0 0 40px rgba(34, 197, 94, 0.6);
+              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 25px rgba(34, 197, 94, 0.8);
+            }
+          }
+        `}</style>
         
       </div>
     );

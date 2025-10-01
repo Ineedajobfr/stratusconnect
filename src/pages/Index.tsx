@@ -9,9 +9,16 @@ import { useNavigate } from "react-router-dom";
 
 export default function Index() {
   const navigate = useNavigate();
-  const {
-    user
-  } = useAuth();
+  
+  // Optional auth check - won't break if not in AuthProvider
+  let user = null;
+  try {
+    const auth = useAuth();
+    user = auth.user;
+  } catch (error) {
+    // Not in AuthProvider context, that's okay for public page
+    console.log('Index page loaded without auth context');
+  }
 
   // Redirect authenticated users to their home page
   useEffect(() => {

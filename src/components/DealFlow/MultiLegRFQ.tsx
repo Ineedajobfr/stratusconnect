@@ -1,16 +1,16 @@
 // Multi-leg RFQ with Attachments and Special Requirements
 // FCA Compliant Aviation Platform
 
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
-import { Plus, Upload, X, Calendar, Users, Package, Clock, FileText } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 import { rfqService } from '@/lib/rfq-service';
+import { Calendar, Clock, FileText, Package, Plus, Upload, Users, X } from 'lucide-react';
+import React, { useState } from 'react';
 
 export interface RFQLeg {
   id: string;
@@ -46,6 +46,7 @@ export interface MultiLegRFQ {
 }
 
 export function MultiLegRFQ() {
+  const { toast } = useToast();
   const [rfq, setRfq] = useState<MultiLegRFQ>({
     id: `RFQ_${Date.now()}`,
     brokerId: 'broker_001',
@@ -141,7 +142,24 @@ export function MultiLegRFQ() {
   };
 
   const publishRFQ = async () => {
+    // Validation
+    const hasInvalidLegs = rfq.legs.some(leg => !leg.from || !leg.to || !leg.departureDate || !leg.departureTime);
+    
+    if (hasInvalidLegs) {
+      toast({
+        title: 'Validation Error',
+        description: 'Please fill in all required fields for each leg (From, To, Date, Time)',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     try {
+      toast({
+        title: 'Publishing RFQ...',
+        description: 'Calculating pricing and notifying operators',
+      });
+
       // Calculate pricing breakdown
       const pricing = await rfqService.calculatePricing(
         rfq.legs, 
@@ -159,7 +177,7 @@ export function MultiLegRFQ() {
       // Save to database
       const savedRfq = await rfqService.createRFQ(updatedRfq);
       
-      // Publish to operators
+      // Publish to operators (notifies matching operators)
       await rfqService.publishRFQ(savedRfq.id);
       
       setRfq(prev => ({
@@ -170,9 +188,19 @@ export function MultiLegRFQ() {
         currency: pricing.currency
       }));
       
+      toast({
+        title: 'RFQ Published Successfully! ✈️',
+        description: `RFQ ${savedRfq.id} published. Matching operators have been notified.`,
+      });
+      
       console.log('RFQ Published:', savedRfq);
     } catch (error) {
       console.error('Error publishing RFQ:', error);
+      toast({
+        title: 'Publication Failed',
+        description: 'Failed to publish RFQ. Please try again.',
+        variant: 'destructive',
+      });
     }
   };
 

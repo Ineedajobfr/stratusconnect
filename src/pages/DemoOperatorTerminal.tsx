@@ -2,23 +2,24 @@
 // FCA Compliant Aviation Platform - 100% Free Until Revenue
 
 import AdvancedSearch from '@/components/AdvancedSearch';
-import DocumentManagement from '@/components/DocumentManagement';
-import { ModernHelpGuide } from '@/components/ModernHelpGuide';
-import NoteTakingSystem from '@/components/NoteTakingSystem';
-import RealTimeFlightTracker from '@/components/RealTimeFlightTracker';
-import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
-import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import CommunityForums from '@/components/community/CommunityForums';
 import ContractGenerator from '@/components/contracts/ContractGenerator';
 import ReceiptGenerator from '@/components/contracts/ReceiptGenerator';
+import DocumentManagement from '@/components/DocumentManagement';
 import DocumentStorage from '@/components/documents/DocumentStorage';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
 import JobBoard from '@/components/job-board/JobBoard';
 import SavedCrews from '@/components/job-board/SavedCrews';
+import { ModernHelpGuide } from '@/components/ModernHelpGuide';
+import NoteTakingSystem from '@/components/NoteTakingSystem';
+import RealTimeFlightTracker from '@/components/RealTimeFlightTracker';
+import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useAuth } from '@/contexts/AuthContext';
+import { operatorDashboardService, type OperatorMetrics } from '@/lib/operator-dashboard-service';
 import {
     Activity,
     AlertTriangle,
@@ -38,14 +39,13 @@ import {
     Plane,
     Plus,
     Receipt,
-    RefreshCw,
     Star,
     TrendingUp,
     UserPlus,
     Users,
     Wrench
 } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface RFQ {
@@ -104,9 +104,28 @@ interface Aircraft {
 }
 
 export default function DemoOperatorTerminal() {
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('dashboard');
   const navigate = useNavigate();
+  const [metrics, setMetrics] = useState<OperatorMetrics | null>(null);
+  const [metricsLoading, setMetricsLoading] = useState(true);
   const [showWeekOneScoreboard, setShowWeekOneScoreboard] = useState(false);
+
+  // Load operator dashboard metrics
+  useEffect(() => {
+    const loadMetrics = async () => {
+      if (user?.id) {
+        setMetricsLoading(true);
+        const data = await operatorDashboardService.getDashboardMetrics(user.id);
+        setMetrics(data);
+        setMetricsLoading(false);
+      }
+    };
+
+    loadMetrics();
+    const interval = setInterval(loadMetrics, 30000);
+    return () => clearInterval(interval);
+  }, [user]);
   const [showWarRoomChecks, setShowWarRoomChecks] = useState(false);
   const [liveFlowResult, setLiveFlowResult] = useState<{ allPassed: boolean; summary: string } | null>(null);
   const [warRoomResult, setWarRoomResult] = useState<{ allChecksPassed: boolean; summary: string } | null>(null);
@@ -610,8 +629,6 @@ export default function DemoOperatorTerminal() {
         </Card>
       </div>
 
-      {/* Real-Time Flight Tracker */}
-      <RealTimeFlightTracker terminalType="operator" />
 
       {/* Advanced Search */}
       <AdvancedSearch terminalType="operator" onResults={(results) => console.log('Search results:', results)} />
@@ -1244,13 +1261,6 @@ export default function DemoOperatorTerminal() {
 
   const renderTracking = () => (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-foreground">Flight Tracking</h2>
-        <Button className="btn-terminal-accent">
-          <RefreshCw className="w-4 h-4 mr-2" />
-          Refresh
-        </Button>
-      </div>
       <FlightRadar24Widget 
         tailNumbers={['N123SC', 'N456AV', 'N789OP']}
         showMap={true}
@@ -1339,7 +1349,7 @@ export default function DemoOperatorTerminal() {
           {/* Main Navigation */}
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-terminal-border scrollbar-track-transparent pb-2 mb-6">
-              <TabsList className="flex w-max min-w-full justify-start space-x-1 backdrop-blur-sm" style={{ backgroundColor: 'hsla(210, 30%, 15%, 0.5)' }}>
+              <TabsList className="flex w-max min-w-full justify-start space-x-1 backdrop-blur-sm" style={{ backgroundColor: 'hsla(0, 0%, 5%, 0.9)' }}>
               <TabsTrigger value="dashboard" className="flex items-center gap-2">
                 <BarChart3 className="w-4 h-4" />
                 Dashboard

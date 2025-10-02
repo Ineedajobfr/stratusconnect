@@ -1,19 +1,26 @@
-import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
-import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { 
-  Plane, MapPin, Calendar, Users, Clock, DollarSign, Loader2, Plus, 
-  Search, Filter, Bell, Bookmark, TrendingUp, Globe, Zap 
+import { supabase } from "@/integrations/supabase/client";
+import {
+    Bell, Bookmark,
+    Calendar,
+    DollarSign,
+    Filter,
+    Globe,
+    Loader2,
+    MapPin,
+    Plane,
+    Search,
+    TrendingUp,
+    Users,
+    Zap
 } from "lucide-react";
+import { useEffect, useState } from "react";
 
 interface MarketplaceListing {
   id: string;
@@ -136,7 +143,7 @@ export default function EnhancedMarketplace() {
       const listingsWithOperators = await Promise.all(
         (data || []).map(async (listing) => {
           const { data: userData } = await supabase
-            .from('users')
+            .from('profiles')
             .select('full_name, company_name')
             .eq('id', listing.operator_id)
             .single();

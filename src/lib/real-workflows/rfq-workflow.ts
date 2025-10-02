@@ -215,7 +215,7 @@ export class RFQWorkflow {
         .from('rfqs')
         .select(`
           *,
-          quotes(id, operator_name, total_price, status, created_at)
+          quotes(id, operator_id, price_total, status, created_at)
         `)
         .eq('broker_id', brokerId)
         .order('created_at', { ascending: false });
@@ -235,18 +235,42 @@ export class RFQWorkflow {
   // Get RFQs for operator
   static async getOperatorRFQs(operatorId: string): Promise<RFQData[]> {
     try {
-      const { data, error } = await supabase
-        .from('rfqs')
+      // First get RFQs that this operator has been invited to
+      const { data: invitedRfqs, error: invitedError } = await supabase
+        .from('rfq_recipients')
         .select(`
-          *,
-          quotes!inner(id, operator_id, status)
+          rfq_id,
+          rfqs(*)
         `)
-        .eq('quotes.operator_id', operatorId)
-        .order('created_at', { ascending: false });
+        .eq('operator_id', operatorId);
 
-      if (error) throw error;
+      if (invitedError) throw invitedError;
 
-      return data;
+      // Then get RFQs where this operator has submitted quotes
+      const { data: quotedRfqs, error: quotedError } = await supabase
+        .from('quotes')
+        .select(`
+          rfq_id,
+          rfqs(*)
+        `)
+        .eq('operator_id', operatorId);
+
+      if (quotedError) throw quotedError;
+
+      // Combine and deduplicate
+      const allRfqs = [
+        ...(invitedRfqs?.map(item => item.rfqs) || []),
+        ...(quotedRfqs?.map(item => item.rfqs) || [])
+      ];
+
+      // Remove duplicates
+      const uniqueRfqs = allRfqs.filter((rfq, index, self) => 
+        index === self.findIndex(r => r.id === rfq.id)
+      );
+
+      return uniqueRfqs.sort((a, b) => 
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
     } catch (error) {
       console.error('Error fetching operator RFQs:', error);
       throw error;

@@ -3,7 +3,6 @@
 
 import AdvancedSearch from '@/components/AdvancedSearch';
 import { MonthlyStatements } from '@/components/Billing/MonthlyStatements';
-import { Brand } from '@/components/Brand';
 import CommunicationTools from '@/components/CommunicationTools';
 import CommunityForums from '@/components/community/CommunityForums';
 import ContractGenerator from '@/components/contracts/ContractGenerator';
@@ -16,7 +15,6 @@ import JobBoard from '@/components/job-board/JobBoard';
 import SavedCrews from '@/components/job-board/SavedCrews';
 import { ModernHelpGuide } from '@/components/ModernHelpGuide';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
-import { RankingRulesPage } from '@/components/Ranking/RankingRulesPage';
 import RealTimeFlightTracker from '@/components/RealTimeFlightTracker';
 import { ReputationMetrics } from '@/components/Reputation/ReputationMetrics';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
@@ -36,6 +34,8 @@ import {
     Briefcase,
     Calendar,
     CheckCircle,
+    ChevronDown,
+    ChevronUp,
     Clock,
     DollarSign,
     Eye,
@@ -57,7 +57,7 @@ import {
     Users,
     Zap
 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface RFQ {
   id: string;
@@ -93,10 +93,67 @@ export default function DemoBrokerTerminal() {
   const [showWarRoomChecks, setShowWarRoomChecks] = useState(false);
   const [showEvidencePack, setShowEvidencePack] = useState(false);
   const [liveFlowResult, setLiveFlowResult] = useState<{ allPassed: boolean; summary: string } | null>(null);
+  const [showAlertsDropdown, setShowAlertsDropdown] = useState(false);
+  const alertsDropdownRef = useRef<HTMLDivElement>(null);
+  const [alerts, setAlerts] = useState([
+    {
+      id: 'ALERT-001',
+      type: 'price_drop',
+      title: 'Price Drop: LHR to JFK',
+      message: 'Gulfstream G650 dropped 12% to $75,000',
+      time: '2025-09-16T14:30:00Z',
+      unread: true
+    },
+    {
+      id: 'ALERT-002',
+      type: 'last_minute',
+      title: 'Last Minute: CDG to LHR',
+      message: 'Citation X available in 6 hours for $35,000',
+      time: '2025-09-16T16:45:00Z',
+      unread: true
+    },
+    {
+      id: 'ALERT-003',
+      type: 'new_operator',
+      title: 'New Operator: Elite Wings',
+      message: 'Premium operator with 4.9 rating joined platform',
+      time: '2025-09-16T10:45:00Z',
+      unread: false
+    },
+    {
+      id: 'ALERT-004',
+      type: 'price_drop',
+      title: 'Price Drop: LAX to NRT',
+      message: 'Bombardier Global 7500 dropped 8% to $115,000',
+      time: '2025-09-15T16:20:00Z',
+      unread: true
+    },
+    {
+      id: 'ALERT-005',
+      type: 'availability',
+      title: 'New Availability: MIA to LHR',
+      message: 'Challenger 650 available for $42,000 on Sep 28',
+      time: '2025-09-15T14:10:00Z',
+      unread: false
+    },
+    {
+      id: 'ALERT-006',
+      type: 'fuel_surcharge',
+      title: 'Fuel Surcharge Update',
+      message: 'Global fuel surcharge increased by 3% across all operators',
+      time: '2025-09-15T11:30:00Z',
+      unread: false
+    }
+  ]);
   const [metrics, setMetrics] = useState<BrokerMetrics | null>(null);
   const [metricsLoading, setMetricsLoading] = useState(true);
   const [selectedRFQForQuotes, setSelectedRFQForQuotes] = useState<string | null>(null);
   const [quotesForComparison, setQuotesForComparison] = useState<any[]>([]);
+  
+  // Collapsible sections state
+  const [isDocumentManagementCollapsed, setIsDocumentManagementCollapsed] = useState(false);
+  const [isCreateRFQCollapsed, setIsCreateRFQCollapsed] = useState(false);
+  const [isRFQFormsCollapsed, setIsRFQFormsCollapsed] = useState(false);
 
   // Load dashboard metrics from database
   useEffect(() => {
@@ -115,6 +172,23 @@ export default function DemoBrokerTerminal() {
     const interval = setInterval(loadMetrics, 30000);
     return () => clearInterval(interval);
   }, [user]);
+
+  // Close alerts dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (alertsDropdownRef.current && !alertsDropdownRef.current.contains(event.target as Node)) {
+        setShowAlertsDropdown(false);
+      }
+    };
+
+    if (showAlertsDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showAlertsDropdown]);
 
   // Handle quote acceptance - creates booking, generates contract, processes payment
   const handleAcceptQuote = async (quoteId: string) => {
@@ -544,56 +618,12 @@ export default function DemoBrokerTerminal() {
     }
   ]);
 
-  const [alerts, setAlerts] = useState([
-    {
-      id: 'ALERT-001',
-      type: 'price_drop',
-      title: 'Price Drop: LHR to JFK',
-      message: 'Gulfstream G650 dropped 12% to $75,000',
-      time: '2025-09-16T14:30:00Z',
-      unread: true
-    },
-    {
-      id: 'ALERT-002',
-      type: 'last_minute',
-      title: 'Last Minute: CDG to LHR',
-      message: 'Citation X available in 6 hours for $35,000',
-      time: '2025-09-16T16:45:00Z',
-      unread: true
-    },
-    {
-      id: 'ALERT-003',
-      type: 'new_operator',
-      title: 'New Operator: Elite Wings',
-      message: 'Premium operator with 4.9 rating joined platform',
-      time: '2025-09-16T10:45:00Z',
-      unread: false
-    },
-    {
-      id: 'ALERT-004',
-      type: 'price_drop',
-      title: 'Price Drop: LAX to NRT',
-      message: 'Bombardier Global 7500 dropped 8% to $115,000',
-      time: '2025-09-15T16:20:00Z',
-      unread: true
-    },
-    {
-      id: 'ALERT-005',
-      type: 'availability',
-      title: 'New Availability: MIA to LHR',
-      message: 'Challenger 650 available for $42,000 on Sep 28',
-      time: '2025-09-15T14:10:00Z',
-      unread: false
-    },
-    {
-      id: 'ALERT-006',
-      type: 'fuel_surcharge',
-      title: 'Fuel Surcharge Update',
-      message: 'Global fuel surcharge increased by 3% across all operators',
-      time: '2025-09-15T11:30:00Z',
-      unread: false
-    }
-  ]);
+
+  // Debug alerts state
+  useEffect(() => {
+    console.log('Alerts state updated:', alerts);
+    console.log('Unread alerts count:', alerts.filter(a => a.unread).length);
+  }, [alerts]);
 
   const isDemoMode = import.meta.env.VITE_SC_DEMO_MODE === 'true';
 
@@ -665,165 +695,266 @@ export default function DemoBrokerTerminal() {
     alert('Evidence pack generated and downloaded!');
   };
 
+  const handleAlertClick = (alert: any) => {
+    console.log('Alert clicked:', alert);
+    
+    // Close dropdown immediately
+    setShowAlertsDropdown(false);
+    
+    // Mark alert as read
+    setAlerts(prev => prev.map(a => 
+      a.id === alert.id ? { ...a, unread: false } : a
+    ));
+
+    // Navigate based on alert type with a small delay to ensure dropdown closes first
+    setTimeout(() => {
+      switch (alert.type) {
+        case 'price_drop':
+          // Navigate to marketplace to see the price drop
+          console.log('Navigating to marketplace for price drop');
+          setActiveTab('marketplace');
+          break;
+        case 'last_minute':
+          // Navigate to marketplace for last minute deals
+          console.log('Navigating to marketplace for last minute deal');
+          setActiveTab('marketplace');
+          break;
+        case 'new_operator':
+          // Navigate to marketplace to see new operators
+          console.log('Navigating to marketplace for new operator');
+          setActiveTab('marketplace');
+          break;
+        default:
+          // Default to marketplace
+          console.log('Navigating to marketplace (default)');
+          setActiveTab('marketplace');
+      }
+    }, 100);
+  };
+
+  const dismissAlert = (alertId: string) => {
+    setAlerts(prev => prev.filter(alert => alert.id !== alertId));
+  };
+
   const renderDashboard = () => (
     <div className="space-y-6">
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Brand.Card>
+        <Card className="p-4 border-slate-700" style={{ backgroundColor: '#0e141b' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-muted">Active RFQs</p>
-              <p className="text-2xl font-bold text-body accent-glow">
+              <p className="text-sm text-muted-foreground">Active RFQs</p>
+              <p className="text-2xl font-bold text-foreground">
                 {metricsLoading ? '...' : (metrics?.activeRFQs || rfqs.length)}
               </p>
-              <p className="text-xs text-accent accent-glow">
+              <p className="text-xs text-accent">
                 {metrics?.weeklyTrend.rfqsChange > 0 ? '+' : ''}{metrics?.weeklyTrend.rfqsChange?.toFixed(0) || '+12'}% this week
               </p>
             </div>
-            <FileText className="w-8 h-8 text-accent icon-glow" />
+            <FileText className="w-8 h-8 text-accent" />
           </div>
-        </Brand.Card>
+        </Card>
 
-        <Brand.Card>
+        <Card className="p-4 border-slate-700" style={{ backgroundColor: '#0e141b' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-muted">Quotes Received</p>
-              <p className="text-2xl font-bold text-body accent-glow">
+              <p className="text-sm text-muted-foreground">Quotes Received</p>
+              <p className="text-2xl font-bold text-foreground">
                 {metricsLoading ? '...' : (metrics?.quotesReceived || rfqs.reduce((sum, rfq) => sum + rfq.quotes.length, 0))}
               </p>
-              <p className="text-xs text-accent accent-glow">
+              <p className="text-xs text-accent">
                 Avg {metrics?.quotesReceived && metrics?.activeRFQs ? (metrics.quotesReceived / metrics.activeRFQs).toFixed(1) : '2.3'} per RFQ
               </p>
             </div>
-            <TrendingUp className="w-8 h-8 text-accent icon-glow" />
+            <TrendingUp className="w-8 h-8 text-accent" />
           </div>
-        </Brand.Card>
+        </Card>
 
-        <Brand.Card>
+        <Card className="p-4 border-slate-700" style={{ backgroundColor: '#0e141b' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-muted">Deals Closed</p>
-              <p className="text-2xl font-bold text-body accent-glow">
+              <p className="text-sm text-muted-foreground">Deals Closed</p>
+              <p className="text-2xl font-bold text-foreground">
                 {metricsLoading ? '...' : (metrics?.dealsClosed || rfqs.filter(rfq => rfq.status === 'paid').length)}
               </p>
-              <p className="text-xs text-accent accent-glow">
+              <p className="text-xs text-accent">
                 {metrics?.dealsClosed ? `$${(metrics.dealsClosed * 45000).toLocaleString()}` : '$2.1M'} volume
               </p>
             </div>
-            <DollarSign className="w-8 h-8 text-accent icon-glow" />
+            <DollarSign className="w-8 h-8 text-accent" />
           </div>
-        </Brand.Card>
+        </Card>
 
-        <Brand.Card>
+        <Card className="p-4 border-slate-700" style={{ backgroundColor: '#0e141b' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-muted">Avg Response Time</p>
-              <p className="text-2xl font-bold text-body accent-glow">
+              <p className="text-sm text-muted-foreground">Avg Response Time</p>
+              <p className="text-2xl font-bold text-foreground">
                 {metricsLoading ? '...' : `${metrics?.avgResponseTime || 2.3}m`}
               </p>
-              <p className="text-xs text-accent accent-glow">
+              <p className="text-xs text-accent">
                 {(metrics?.avgResponseTime || 2.3) < 3 ? 'Fast lane eligible' : 'Standard lane'}
               </p>
             </div>
-            <Clock className="w-8 h-8 text-accent icon-glow" />
+            <Clock className="w-8 h-8 text-accent" />
           </div>
-        </Brand.Card>
+        </Card>
+      </div>
+
+      {/* Ranking Widget */}
+      <div className="flex justify-end">
+        <Card className="w-fit p-4 border-slate-700" style={{ backgroundColor: '#0e141b' }}>
+          <div className="flex items-center gap-3">
+            <div className="text-center">
+              <p className="text-sm text-muted-foreground">Ranking</p>
+              <div className="flex items-center gap-2">
+                <Trophy className="w-5 h-5 text-accent" />
+                <span className="text-lg font-bold text-accent">Golden</span>
+              </div>
+              <p className="text-xs text-accent">#12 Global</p>
+            </div>
+            <div className="w-px h-8" style={{ backgroundColor: '#2a3441' }}></div>
+            <div className="text-center">
+              <p className="text-sm text-muted-foreground">Points</p>
+              <p className="text-lg font-bold text-foreground">567</p>
+              <p className="text-xs text-accent">+23 this week</p>
+            </div>
+          </div>
+        </Card>
       </div>
 
 
       {/* Advanced Search */}
       <AdvancedSearch terminalType="broker" onResults={(results) => console.log('Search results:', results)} />
 
-      {/* Document Management */}
-      <DocumentManagement userRole="broker" />
-
-      {/* Alerts */}
-      {alerts.length > 0 && (
-        <Brand.Card>
-          <Brand.SectionTitle>
-            <Bell className="w-5 h-5 inline mr-2" />
-            Live Alerts ({alerts.filter(a => a.unread).length} unread)
-          </Brand.SectionTitle>
-          <div className="space-y-3">
-            {alerts.map(alert => (
-              <Brand.Panel key={alert.id} className={alert.unread ? 'bg-elev' : 'bg-surface'}>
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start gap-3">
-                    {alert.type === 'price_drop' ? (
-                      <TrendingUp className="w-4 h-4 text-accent mt-0.5" />
-                    ) : (
-                      <Clock className="w-4 h-4 text-accent mt-0.5" />
-                    )}
-                    <div>
-                      <h4 className="font-medium text-body">{alert.title}</h4>
-                      <p className="text-sm text-muted">{alert.message}</p>
-                      <p className="text-xs text-muted">{new Date(alert.time).toLocaleString()}</p>
-                    </div>
-                  </div>
-                  {alert.unread && (
-                    <Brand.StatusChip status="info">New</Brand.StatusChip>
-                  )}
-                </div>
-              </Brand.Panel>
-            ))}
+      {/* Document Management - Collapsible */}
+      <Card className="p-4 border-slate-700" style={{ backgroundColor: '#0e141b' }}>
+        <div 
+          className="cursor-pointer flex items-center justify-between mb-4"
+          onClick={() => setIsDocumentManagementCollapsed(!isDocumentManagementCollapsed)}
+        >
+          <div className="flex items-center gap-2">
+            <FileText className="w-5 h-5" />
+            <h2 className="text-lg font-semibold text-foreground">Document Management</h2>
           </div>
-        </Brand.Card>
-      )}
+          {isDocumentManagementCollapsed ? (
+            <ChevronDown className="w-5 h-5 text-muted-foreground" />
+          ) : (
+            <ChevronUp className="w-5 h-5 text-muted-foreground" />
+          )}
+        </div>
+        {!isDocumentManagementCollapsed && (
+          <div className="mt-4">
+            <DocumentManagement userRole="broker" />
+          </div>
+        )}
+      </Card>
+
 
       {/* Recent Activity */}
-      <Brand.Card>
-        <Brand.SectionTitle>
-          <BarChart3 className="w-5 h-5 inline mr-2" />
-          Recent Activity
-        </Brand.SectionTitle>
+      <Card className="p-4 border-slate-700" style={{ backgroundColor: '#0e141b' }}>
+        <div className="flex items-center gap-2 mb-4">
+          <BarChart3 className="w-5 h-5 text-accent" />
+          <h2 className="text-lg font-semibold text-foreground">Recent Activity</h2>
+        </div>
         <div className="space-y-3">
           {rfqs.slice(0, 3).map(rfq => (
-            <Brand.Panel key={rfq.id} className="hover:bg-elev transition-colors">
+            <div key={rfq.id} className="p-3 rounded-lg border border-slate-600 hover:opacity-80 transition-opacity" style={{ backgroundColor: '#1a2332' }}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-2 h-2 bg-accent rounded-full"></div>
                   <div>
-                    <p className="font-medium text-body">{rfq.route}</p>
-                    <p className="text-sm text-muted">{rfq.aircraft} • {rfq.quotes.length} quotes • {rfq.passengers} pax</p>
+                    <p className="font-medium text-foreground">{rfq.route}</p>
+                    <p className="text-sm text-muted-foreground">{rfq.aircraft} • {rfq.quotes.length} quotes • {rfq.passengers} pax</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Brand.StatusChip status={
-                    rfq.status === 'paid' ? 'success' :
-                    rfq.status === 'quoted' ? 'info' :
-                    'warn'
-                  }>
+                  <Badge className={`${
+                    rfq.status === 'paid' ? 'bg-green-500/20 text-green-400 border-green-500/30' :
+                    rfq.status === 'quoted' ? 'bg-blue-500/20 text-blue-400 border-blue-500/30' :
+                    'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'
+                  }`}>
                     {rfq.status}
-                  </Brand.StatusChip>
-                  <Brand.Secondary size="sm">
+                  </Badge>
+                  <Button variant="outline" size="sm" className="border-slate-600 text-muted-foreground hover:opacity-80" style={{ backgroundColor: '#1a2332' }}>
                     <Eye className="w-4 h-4" />
-                  </Brand.Secondary>
+                  </Button>
                 </div>
               </div>
-            </Brand.Panel>
+            </div>
           ))}
         </div>
-      </Brand.Card>
+      </Card>
     </div>
   );
 
   const renderRFQs = () => (
     <div className="space-y-6">
-      <Card className="terminal-card animate-fade-in-up">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Plus className="w-5 h-5" />
-            Create New RFQ
+      {/* Create New RFQ - Collapsible */}
+      <Card className="animate-fade-in-up border-slate-700" style={{ backgroundColor: '#0e141b' }}>
+        <CardHeader 
+          className="cursor-pointer"
+          onClick={() => setIsCreateRFQCollapsed(!isCreateRFQCollapsed)}
+        >
+          <CardTitle className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Plus className="w-5 h-5" />
+              Create New RFQ
+            </div>
+            {isCreateRFQCollapsed ? (
+              <ChevronDown className="w-5 h-5 text-muted" />
+            ) : (
+              <ChevronUp className="w-5 h-5 text-muted" />
+            )}
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <MultiLegRFQ />
-        </CardContent>
+        {!isCreateRFQCollapsed && (
+          <CardContent>
+            <MultiLegRFQ />
+          </CardContent>
+        )}
+      </Card>
+
+      {/* RFQ Forms with Flight Trackers - Collapsible */}
+      <Card className="animate-fade-in-up border-slate-700" style={{ backgroundColor: '#0e141b' }}>
+        <CardHeader 
+          className="cursor-pointer"
+          onClick={() => setIsRFQFormsCollapsed(!isRFQFormsCollapsed)}
+        >
+          <CardTitle className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Plane className="w-5 h-5" />
+              RFQ Forms with Flight Trackers
+            </div>
+            {isRFQFormsCollapsed ? (
+              <ChevronDown className="w-5 h-5 text-muted" />
+            ) : (
+              <ChevronUp className="w-5 h-5 text-muted" />
+            )}
+          </CardTitle>
+        </CardHeader>
+        {!isRFQFormsCollapsed && (
+          <CardContent>
+            <div className="space-y-4">
+              <p className="text-muted">Flight tracking forms and templates will be available here.</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 border rounded-lg">
+                  <h4 className="font-semibold mb-2">Standard RFQ Form</h4>
+                  <p className="text-sm text-muted">Basic flight request template</p>
+                </div>
+                <div className="p-4 border rounded-lg">
+                  <h4 className="font-semibold mb-2">Multi-Leg RFQ Form</h4>
+                  <p className="text-sm text-muted">Complex routing template</p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        )}
       </Card>
 
       <div className="space-y-4">
         {rfqs.map(rfq => (
-          <Card key={rfq.id} className="terminal-card hover:terminal-glow animate-fade-in-up" style={{animationDelay: `${(rfq.id || 0) * 0.1}s`}}>
+          <Card key={rfq.id} className="hover:opacity-80 animate-fade-in-up border-slate-700" style={{backgroundColor: '#0e141b', animationDelay: `${(rfq.id || 0) * 0.1}s`}}>
             <CardHeader>
               <div className="flex justify-between items-start">
                 <div>
@@ -956,7 +1087,7 @@ export default function DemoBrokerTerminal() {
 
   const renderMarketplace = () => (
     <div className="space-y-6">
-      <Card className="terminal-card">
+      <Card className="border-slate-700" style={{ backgroundColor: '#0e141b' }}>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Search className="w-5 h-5" />
@@ -981,7 +1112,7 @@ export default function DemoBrokerTerminal() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {[1, 2, 3, 4, 5, 6].map(i => (
-              <Card key={i} className="p-4 hover:terminal-glow transition-all">
+              <Card key={i} className="p-4 hover:opacity-80 transition-all border-slate-700" style={{ backgroundColor: '#0e141b' }}>
                 <div className="flex items-start justify-between mb-3">
                   <div>
                     <h3 className="font-semibold">Elite Aviation</h3>
@@ -1066,7 +1197,7 @@ export default function DemoBrokerTerminal() {
 
   const renderTrophyRoom = () => (
     <div className="space-y-6">
-      <Card className="terminal-card">
+      <Card className="border-slate-700" style={{ backgroundColor: '#0e141b' }}>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Trophy className="w-5 h-5 text-accent" />
@@ -1118,7 +1249,7 @@ export default function DemoBrokerTerminal() {
           isDemo={true}
         />
       )}
-      <div className="min-h-screen relative overflow-hidden scroll-smooth">
+      <div className="min-h-screen relative overflow-hidden scroll-smooth z-0">
         {/* Cinematic Burnt Orange to Obsidian Gradient */}
         <div 
           className="absolute inset-0"
@@ -1148,16 +1279,108 @@ export default function DemoBrokerTerminal() {
           <div className="w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxwYXRoIGQ9Ik0gMTAwIDAgTCAwIDAgTCAwIDEwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjAuNSIvPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0idXJsKCNncmlkKSIvPgo8L3N2Zz4=')] opacity-30"></div>
         </div>
         
-        <header className="relative z-10 sticky top-0 backdrop-blur-modern border-b border-terminal-border bg-slate-800">
-        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
+        <header className="relative z-50 sticky top-0 backdrop-blur-modern border-b border-terminal-border bg-slate-800">
+        <div className="w-full px-6 py-3 flex items-center justify-between">
+          {/* Logo and Alerts */}
+          <div className="flex items-center gap-4 relative">
             <StratusConnectLogo className="text-xl" />
-            <div>
-              <Brand.PageTitle className="hero-glow">Broker Terminal</Brand.PageTitle>
-              <p className="text-muted text-glow-subtle">FCA Compliant Trading Floor • 100% Free Until Revenue</p>
-            </div>
+            {alerts.length > 0 && (
+              <div className="relative z-[100]">
+                <button
+                  onClick={() => {
+                    console.log('Bell clicked, current state:', showAlertsDropdown);
+                    setShowAlertsDropdown(!showAlertsDropdown);
+                  }}
+                  className="relative p-2 rounded-full hover:bg-slate-700/50 transition-colors"
+                >
+                  <Bell className="w-5 h-5 text-accent" />
+                  {alerts.filter(a => a.unread).length > 0 && (
+                    <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full text-xs text-white flex items-center justify-center">
+                      {alerts.filter(a => a.unread).length}
+                    </span>
+                  )}
+                </button>
+                
+                {/* Alerts Dropdown */}
+                {showAlertsDropdown && (
+                  <div 
+                    ref={alertsDropdownRef}
+                    className="absolute top-full left-0 mt-2 w-72 border border-slate-600 rounded-lg shadow-2xl"
+                    style={{ 
+                      backgroundColor: '#362620', 
+                      zIndex: 999999,
+                      position: 'absolute',
+                      isolation: 'isolate'
+                    }}
+                  >
+                    <div className="p-2 border-b border-slate-500/40">
+                      <h3 className="text-xs font-semibold text-white">Live Alerts</h3>
+                      <p className="text-xs text-slate-300">{alerts.filter(a => a.unread).length} unread</p>
+                    </div>
+                    <div className="max-h-48 overflow-y-auto">
+                      {alerts.map(alert => (
+                        <button
+                          key={alert.id}
+                          onClick={() => handleAlertClick(alert)}
+                          className={`w-full p-2 text-left hover:bg-slate-700/40 transition-colors border-b border-slate-500/30 last:border-b-0 ${
+                            alert.unread ? 'bg-slate-700/20' : ''
+                          }`}
+                        >
+                          <div className="flex items-start gap-2">
+                            <div className="flex-shrink-0 mt-0.5">
+                              {alert.type === 'price_drop' ? (
+                                <TrendingUp className="w-3 h-3 text-accent" />
+                              ) : alert.type === 'last_minute' ? (
+                                <Clock className="w-3 h-3 text-accent" />
+                              ) : (
+                                <Bell className="w-3 h-3 text-accent" />
+                              )}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-1 mb-0.5">
+                                <h4 className="text-xs font-medium text-white truncate">{alert.title}</h4>
+                                {alert.unread && (
+                                  <span className="w-1.5 h-1.5 bg-accent rounded-full flex-shrink-0"></span>
+                                )}
+                              </div>
+                              <p className="text-xs text-slate-300 mb-0.5 truncate">{alert.message}</p>
+                              <p className="text-xs text-slate-400">{new Date(alert.time).toLocaleDateString()}</p>
+                            </div>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                    <div className="p-2 border-t border-slate-500/40 flex justify-between items-center">
+                      <button
+                        onClick={() => {
+                          console.log('Mark all as read clicked');
+                          setAlerts(prev => prev.map(alert => ({ ...alert, unread: false })));
+                        }}
+                        className="text-xs text-slate-300 hover:text-white transition-colors"
+                      >
+                        Mark all read
+                      </button>
+                      <button
+                        onClick={() => {
+                          console.log('Close dropdown clicked');
+                          setShowAlertsDropdown(false);
+                        }}
+                        className="text-xs text-slate-300 hover:text-white transition-colors"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
-          <div className="flex gap-2">
+          
+          {/* Middle space cleared for future content */}
+          <div className="flex-1"></div>
+          
+          {/* Tutorial button at absolute right corner */}
+          <div className="flex items-center">
             <Button
               onClick={() => window.location.href = '/tutorial/broker'}
               className="bg-orange-500 hover:bg-orange-600 text-white"
@@ -1165,20 +1388,6 @@ export default function DemoBrokerTerminal() {
               <Trophy className="h-4 w-4 mr-2" />
               Tutorial
             </Button>
-            <Brand.StatusChip status="success">
-              <Shield className="w-3 h-3 mr-1 icon-glow" />
-              FCA Compliant
-            </Brand.StatusChip>
-            <Brand.StatusChip status="info">
-              <Zap className="w-3 h-3 mr-1 icon-glow" />
-              Gold League
-            </Brand.StatusChip>
-            {isDemoMode && (
-              <Brand.StatusChip status="warn">
-                <AlertTriangle className="w-3 h-3 mr-1 icon-glow" />
-                Demo Mode
-              </Brand.StatusChip>
-            )}
           </div>
         </div>
       </header>
@@ -1209,14 +1418,6 @@ export default function DemoBrokerTerminal() {
             <TabsTrigger value="reputation" className="flex items-center gap-2">
               <Award className="w-4 h-4 icon-glow" />
               Reputation
-            </TabsTrigger>
-            <TabsTrigger value="ranking" className="flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 icon-glow" />
-              Ranking
-            </TabsTrigger>
-            <TabsTrigger value="tracking" className="flex items-center gap-2">
-              <Plane className="w-4 h-4 icon-glow" />
-              Flight Tracking
             </TabsTrigger>
             <TabsTrigger value="notes" className="flex items-center gap-2">
               <FileText className="w-4 h-4 icon-glow" />
@@ -1291,7 +1492,7 @@ export default function DemoBrokerTerminal() {
             <WeekOneScoreboard />
           </TabsContent>
           <TabsContent value="warroom" className="mt-6 scroll-smooth">
-            <Card className="terminal-card">
+            <Card className="border-slate-700" style={{ backgroundColor: '#0e141b' }}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Shield className="w-5 h-5" />
@@ -1316,12 +1517,7 @@ export default function DemoBrokerTerminal() {
               </CardContent>
             </Card>
           </TabsContent>
-          <TabsContent value="ranking" className="mt-6">
-            <RankingRulesPage />
-          </TabsContent>
           
-          <TabsContent value="tracking" className="mt-6">
-          </TabsContent>
 
           <TabsContent value="notes" className="mt-6 scroll-smooth">
             <div className="space-y-6">
@@ -1348,7 +1544,7 @@ export default function DemoBrokerTerminal() {
               {renderTrophyRoom()}
               
               {/* League Status Card */}
-              <Card className="terminal-card border-accent border-2">
+              <Card className="border-accent border-2" style={{ backgroundColor: '#0e141b' }}>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 title-glow">
                     <Trophy className="w-6 h-6 text-accent" />
@@ -1407,7 +1603,7 @@ export default function DemoBrokerTerminal() {
               </Card>
 
               {/* Weekly Challenges */}
-              <Card className="terminal-card">
+              <Card className="border-slate-700" style={{ backgroundColor: '#0e141b' }}>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 title-glow">
                     <Target className="w-6 h-6 text-accent" />
@@ -1459,7 +1655,7 @@ export default function DemoBrokerTerminal() {
               </Card>
 
               {/* Recent Activity */}
-              <Card className="terminal-card">
+              <Card className="border-slate-700" style={{ backgroundColor: '#0e141b' }}>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 title-glow">
                     <Zap className="w-6 h-6 text-accent" />
@@ -1523,7 +1719,7 @@ export default function DemoBrokerTerminal() {
 
         {/* Demo Notice */}
         {isDemoMode && (
-          <Brand.Card className="mt-8">
+          <div className="mt-8 p-4 border border-slate-700 rounded-lg" style={{ backgroundColor: '#0e141b' }}>
             <div className="flex items-start gap-3">
               <AlertTriangle className="w-5 h-5 text-warn mt-0.5" />
               <div>
@@ -1535,7 +1731,7 @@ export default function DemoBrokerTerminal() {
                 </p>
               </div>
             </div>
-          </Brand.Card>
+          </div>
         )}
         </main>
       </div>

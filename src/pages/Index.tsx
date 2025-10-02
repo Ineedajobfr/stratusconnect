@@ -50,11 +50,28 @@ export default function Index() {
         }}
       />
       
-      {/* Subtle golden-orange glow in the center */}
+      {/* Enhanced golden-orange glow in the center */}
       <div 
         className="absolute inset-0"
         style={{
-          background: 'radial-gradient(ellipse 60% 40% at center, rgba(255, 140, 0, 0.08) 0%, rgba(255, 140, 0, 0.04) 30%, transparent 60%)',
+          background: 'radial-gradient(ellipse 80% 60% at center, rgba(255, 140, 0, 0.25) 0%, rgba(255, 140, 0, 0.15) 20%, rgba(255, 140, 0, 0.08) 40%, rgba(255, 140, 0, 0.04) 60%, transparent 80%)',
+        }}
+      />
+      
+      {/* Additional orange glow layer for more intensity */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse 100% 80% at center, rgba(255, 165, 0, 0.12) 0%, rgba(255, 140, 0, 0.08) 30%, rgba(255, 140, 0, 0.04) 50%, transparent 70%)',
+        }}
+      />
+      
+      {/* Subtle pulsing orange glow effect */}
+      <div 
+        className="absolute inset-0 animate-pulse"
+        style={{
+          background: 'radial-gradient(ellipse 70% 50% at center, rgba(255, 140, 0, 0.08) 0%, rgba(255, 140, 0, 0.04) 25%, transparent 50%)',
+          animation: 'pulse 4s ease-in-out infinite',
         }}
       />
       
@@ -76,12 +93,21 @@ export default function Index() {
         <div className="max-w-6xl mx-auto px-4 text-center">
           {/* STRATUS logo with cinematic spotlight effect */}
           <div className="relative mb-32 inline-block">
-            {/* Spotlight glow behind the logo */}
+            {/* Enhanced spotlight glow behind the logo */}
             <div 
-              className="absolute inset-0 rounded-lg blur-xl opacity-30"
+              className="absolute inset-0 rounded-lg blur-2xl opacity-40"
               style={{
-                background: 'radial-gradient(ellipse at center, rgba(255, 140, 0, 0.4) 0%, rgba(255, 140, 0, 0.2) 30%, transparent 70%)',
-                transform: 'scale(1.2)',
+                background: 'radial-gradient(ellipse at center, rgba(255, 140, 0, 0.6) 0%, rgba(255, 140, 0, 0.4) 25%, rgba(255, 140, 0, 0.2) 50%, transparent 75%)',
+                transform: 'scale(1.4)',
+              }}
+            />
+            
+            {/* Additional orange glow layer for the logo */}
+            <div 
+              className="absolute inset-0 rounded-lg blur-xl opacity-25"
+              style={{
+                background: 'radial-gradient(ellipse at center, rgba(255, 165, 0, 0.5) 0%, rgba(255, 140, 0, 0.3) 30%, transparent 60%)',
+                transform: 'scale(1.6)',
               }}
             />
             
@@ -89,7 +115,7 @@ export default function Index() {
             <div 
               className="relative bg-white/95 backdrop-blur-sm px-12 py-6 shadow-2xl border border-white/20 rounded-lg"
               style={{
-                boxShadow: '0 0 40px rgba(255, 140, 0, 0.3), 0 0 80px rgba(255, 140, 0, 0.1), 0 25px 50px rgba(0, 0, 0, 0.5)',
+                boxShadow: '0 0 60px rgba(255, 140, 0, 0.5), 0 0 120px rgba(255, 140, 0, 0.2), 0 0 200px rgba(255, 140, 0, 0.1), 0 25px 50px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 140, 0, 0.1)',
               }}
             >
               <h1 className="text-6xl font-black text-black tracking-wider drop-shadow-lg">
@@ -124,7 +150,10 @@ export default function Index() {
           About Us
             </div>
         <div 
-          className="text-white/90 text-lg font-mono bg-orange-600/80 px-6 py-3 rounded backdrop-blur-sm cursor-pointer hover:bg-orange-700/90 transition-colors"
+          className="text-white/90 text-lg font-mono bg-orange-600/80 px-6 py-3 rounded backdrop-blur-sm cursor-pointer hover:bg-orange-700/90 transition-all duration-300"
+          style={{
+            boxShadow: '0 0 20px rgba(255, 140, 0, 0.3), 0 0 40px rgba(255, 140, 0, 0.1), inset 0 0 10px rgba(255, 140, 0, 0.2)',
+          }}
           onClick={() => navigate('/auth')}
         >
           Sign up
@@ -144,7 +173,7 @@ export default function Index() {
       <div className="relative z-10 py-24">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-white mb-4 drop-shadow-[0_0_25px_rgba(255,255,255,0.6)]">Choose Your Terminal</h2>
+            <h2 className="text-4xl font-bold text-white mb-4 drop-shadow-[0_0_25px_rgba(255,255,255,0.6)]" style={{ textShadow: '0 0 30px rgba(255, 140, 0, 0.4), 0 0 60px rgba(255, 140, 0, 0.2)' }}>Choose Your Terminal</h2>
             <p className="text-xl text-white drop-shadow-[0_0_15px_rgba(0,0,0,0.8)] bg-black/20 px-6 py-3 rounded-lg backdrop-blur-sm">Access your personalized workspace</p>
           </div>
 
@@ -153,7 +182,7 @@ export default function Index() {
             <Card 
               className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer animate-fade-in-up transition-all duration-300"
               style={{
-                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 140, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 140, 0, 0.2), 0 0 20px rgba(255, 140, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
               }}
             >
               <CardHeader className="pb-4">
@@ -214,7 +243,7 @@ export default function Index() {
             <Card 
               className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer animate-fade-in-up transition-all duration-300"
               style={{
-                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 140, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 140, 0, 0.2), 0 0 20px rgba(255, 140, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
               }}
             >
               <CardHeader className="pb-4">
@@ -275,7 +304,7 @@ export default function Index() {
             <Card 
               className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer animate-fade-in-up transition-all duration-300"
               style={{
-                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 140, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 140, 0, 0.2), 0 0 20px rgba(255, 140, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
               }}
             >
               <CardHeader className="pb-4">
@@ -336,7 +365,7 @@ export default function Index() {
             <Card 
               className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer animate-fade-in-up transition-all duration-300"
               style={{
-                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 140, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 140, 0, 0.2), 0 0 20px rgba(255, 140, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
               }}
             >
               <CardHeader className="pb-4">
@@ -661,7 +690,7 @@ export default function Index() {
             <Card 
               className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer animate-fade-in-up transition-all duration-300"
               style={{
-                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 140, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 140, 0, 0.2), 0 0 20px rgba(255, 140, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
               }}
             >
               <CardHeader>

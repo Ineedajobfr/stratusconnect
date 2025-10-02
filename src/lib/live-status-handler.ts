@@ -180,7 +180,7 @@ class LiveStatusHandler {
     // Check Supabase connectivity
     try {
       const start = Date.now();
-      const { error } = await supabase.from('users').select('count').limit(1);
+      const { error } = await supabase.from('profiles').select('count').limit(1);
       const responseTime = Date.now() - start;
 
       checks.push({

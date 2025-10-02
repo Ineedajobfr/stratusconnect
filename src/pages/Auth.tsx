@@ -89,7 +89,7 @@ export default function Auth() {
     // Redirect authenticated users to their respective terminals
     switch (user.role) {
       case 'broker':
-        return <Navigate to="/broker-terminal" replace />;
+        return <Navigate to="/demo/broker" replace />;
       case 'operator':
         return <Navigate to="/operator-terminal" replace />;
       case 'pilot':

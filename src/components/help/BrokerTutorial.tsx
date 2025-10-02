@@ -1,39 +1,29 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { Brand } from '@/components/Brand';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
-import { 
-  Play, 
-  Pause, 
-  CheckCircle, 
-  Circle, 
-  ArrowRight,
-  ArrowLeft,
-  HelpCircle,
-  BookOpen,
-  Zap,
-  Target,
-  Shield,
-  DollarSign,
-  MessageCircle,
-  Search,
-  Star,
-  BarChart3,
-  Users,
-  Clock,
-  AlertCircle,
-  CheckSquare,
-  Eye,
-  Trophy,
-  Plane,
-  TrendingUp,
-  Bell,
-  FileText,
-  UserCheck
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import {
+    AlertCircle,
+    ArrowLeft,
+    ArrowRight,
+    BarChart3,
+    BookOpen,
+    CheckCircle,
+    CheckSquare,
+    Circle,
+    DollarSign,
+    Eye,
+    FileText,
+    HelpCircle,
+    MessageCircle,
+    Search,
+    Shield,
+    Star,
+    Target,
+    Trophy,
+    Zap
 } from 'lucide-react';
+import React, { useState } from 'react';
 
 interface TutorialStep {
   id: string;
@@ -51,7 +41,6 @@ interface BrokerTutorialProps {
 
 export default function BrokerTutorial({ isDemo = false }: BrokerTutorialProps) {
   const [currentStep, setCurrentStep] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [completedSteps, setCompletedSteps] = useState<Set<string>>(new Set());
 
   const tutorialSteps: TutorialStep[] = [
@@ -145,6 +134,22 @@ export default function BrokerTutorial({ isDemo = false }: BrokerTutorialProps) 
       completed: completedSteps.has('verification')
     },
     {
+      id: 'collapsible-sections',
+      title: 'Collapsible Interface',
+      description: 'The new collapsible sections help you manage long pages efficiently. Click on section headers to expand or collapse content as needed.',
+      action: 'Try collapsing the Document Management and RFQ sections',
+      icon: <FileText className="h-6 w-6 text-orange-400" />,
+      completed: completedSteps.has('collapsible-sections')
+    },
+    {
+      id: 'ranking-system',
+      title: 'Ranking & Performance',
+      description: 'Track your performance with the new ranking widget. See your league status, global rank, and points earned from successful deals.',
+      action: 'Check your ranking widget in the dashboard corner',
+      icon: <Trophy className="h-6 w-6 text-orange-400" />,
+      completed: completedSteps.has('ranking-system')
+    },
+    {
       id: 'completion',
       title: 'You\'re Ready!',
       description: 'Congratulations! You\'ve completed the broker tutorial. You now have access to the most advanced aviation brokerage platform. Start building your elite client base today.',
@@ -168,10 +173,6 @@ export default function BrokerTutorial({ isDemo = false }: BrokerTutorialProps) 
     }
   };
 
-  const togglePlayPause = () => {
-    setIsPlaying(!isPlaying);
-  };
-
   const markStepComplete = (stepId: string) => {
     setCompletedSteps(prev => new Set([...prev, stepId]));
   };
@@ -179,206 +180,242 @@ export default function BrokerTutorial({ isDemo = false }: BrokerTutorialProps) 
   const currentStepData = tutorialSteps[currentStep];
 
   return (
-    <div className="min-h-screen bg-app text-body">
+    <div className="min-h-screen relative overflow-hidden scroll-smooth">
+      {/* Cinematic Burnt Orange to Obsidian Gradient */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse at center, rgba(139, 69, 19, 0.9) 0%, rgba(91, 30, 13, 0.95) 25%, rgba(59, 30, 13, 0.98) 50%, rgba(20, 20, 20, 0.99) 75%, rgba(10, 10, 12, 1) 100%), linear-gradient(135deg, #3b1e0d 0%, #2d1a0a 25%, #1a0f08 50%, #0f0a06 75%, #0a0a0c 100%)',
+        }}
+      />
+      
+      {/* Cinematic Vignette - Creates spotlight effect on center */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse 80% 60% at center, transparent 0%, transparent 40%, rgba(0, 0, 0, 0.1) 60%, rgba(0, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0.6) 100%)',
+        }}
+      />
+      
+      {/* Subtle golden-orange glow in the center */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse 60% 40% at center, rgba(255, 140, 0, 0.08) 0%, rgba(255, 140, 0, 0.04) 30%, transparent 60%)',
+        }}
+      />
+      
+      {/* Subtle grid pattern overlay - more refined */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxwYXRoIGQ9Ik0gMTAwIDAgTCAwIDAgTCAwIDEwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjAuNSIvPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0idXJsKCNncmlkKSIvPgo8L3N2Zz4=')] opacity-30"></div>
+      </div>
+      
       {/* Header matching broker demo terminal */}
-      <header className="sticky top-0 z-20 bg-app/80 backdrop-blur border-b border-default">
-        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
+      <header className="relative z-10 sticky top-0 backdrop-blur-modern border-b border-terminal-border bg-slate-800">
+        <div className="w-full px-6 py-3 flex items-center justify-between">
+          {/* Logo at absolute left corner */}
+          <div className="flex items-center">
             <StratusConnectLogo className="text-xl" />
-            <div>
-              <div className="hero-glow">
-                <Brand.PageTitle>Broker Tutorial</Brand.PageTitle>
-              </div>
-              <p className="text-muted text-glow-subtle">Master the Elite Aviation Brokerage Platform</p>
-            </div>
           </div>
-          <div className="flex gap-2">
+          
+          {/* Middle space cleared for future content */}
+          <div className="flex-1"></div>
+          
+          {/* Tutorial button at absolute right corner */}
+          <div className="flex items-center">
             <Button
-              onClick={() => window.location.href = isDemo ? '/demo/broker' : '/broker'}
+              onClick={() => window.location.href = '/demo/broker'}
               className="bg-orange-500 hover:bg-orange-600 text-white"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
-              {isDemo ? 'Back to Demo' : 'Back to Terminal'}
+              Back to Demo
             </Button>
-            <Brand.StatusChip status="success">
-              <Shield className="w-3 h-3 mr-1 icon-glow" />
-              FCA Compliant
-            </Brand.StatusChip>
-            <Brand.StatusChip status="info">
-              <Trophy className="w-3 h-3 mr-1 icon-glow" />
-              Tutorial Mode
-            </Brand.StatusChip>
           </div>
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-8 py-12">
         {/* Progress Section */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
+        <div className="mb-12">
+          <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-lg font-semibold text-body mb-2">
+              <h2 className="text-xl font-semibold text-foreground mb-4">
                 Tutorial Progress
               </h2>
-              <div className="flex items-center space-x-4">
-                <Brand.StatusChip status="info">
-                  <Circle className="w-3 h-3 mr-1 icon-glow" />
+              <div className="flex items-center space-x-6">
+                <Badge className="bg-accent/20 text-accent border-accent/30 px-4 py-2">
+                  <Circle className="w-4 h-4 mr-2" />
                   Step {currentStep + 1} of {tutorialSteps.length}
-                </Brand.StatusChip>
-                <Brand.StatusChip status="success">
-                  <CheckCircle className="w-3 h-3 mr-1 icon-glow" />
+                </Badge>
+                <Badge className="bg-green-500/20 text-green-400 border-green-500/30 px-4 py-2">
+                  <CheckCircle className="w-4 h-4 mr-2" />
                   {completedSteps.size} Completed
-                </Brand.StatusChip>
+                </Badge>
               </div>
             </div>
-            <Button
-              onClick={togglePlayPause}
-              className="bg-orange-500 hover:bg-orange-600 text-white"
-            >
-              {isPlaying ? <Pause className="h-4 w-4 mr-2" /> : <Play className="h-4 w-4 mr-2" />}
-              {isPlaying ? 'Pause' : 'Play'} Tutorial
-            </Button>
+            <div className="flex items-center gap-6">
+              {/* Ranking Widget */}
+              <Card className="terminal-card w-fit">
+                <div className="flex items-center gap-4 p-4">
+                  <div className="text-center">
+                    <p className="text-sm text-muted-foreground mb-1">Ranking</p>
+                    <div className="flex items-center gap-2">
+                      <Trophy className="w-5 h-5 text-accent" />
+                      <span className="text-lg font-bold text-accent">Golden</span>
+                    </div>
+                    <p className="text-xs text-accent">#12 Global</p>
+                  </div>
+                  <div className="w-px h-10 bg-terminal-border"></div>
+                  <div className="text-center">
+                    <p className="text-sm text-muted-foreground mb-1">Points</p>
+                    <p className="text-lg font-bold text-foreground">567</p>
+                    <p className="text-xs text-accent">+23 this week</p>
+                  </div>
+                </div>
+              </Card>
+            </div>
           </div>
           
           {/* Progress Bar */}
-          <div className="w-full bg-elev rounded-full h-2 mb-2">
+          <div className="w-full bg-terminal-border rounded-full h-3 mb-3">
             <div 
-              className="bg-[hsl(var(--accent))] h-2 rounded-full transition-all duration-500"
+              className="bg-accent h-3 rounded-full transition-all duration-500"
               style={{ width: `${progress}%` }}
             />
           </div>
-          <div className="flex justify-between text-sm text-muted">
+          <div className="flex justify-between text-sm text-muted-foreground">
             <span>{Math.round(progress)}% Complete</span>
             <span>{tutorialSteps.length - currentStep - 1} steps remaining</span>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Tutorial Content */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-8">
             {/* Current Step Card */}
-            <Brand.Card className="border border-default">
-              <div className="flex items-start space-x-4 mb-6">
-                <div className="p-3 bg-[hsl(var(--accent))]/20 rounded-xl">
+            <Card className="terminal-card p-8">
+              <div className="flex items-start space-x-6 mb-8">
+                <div className="p-4 bg-accent/20 rounded-xl">
                   {currentStepData.icon}
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold text-body mb-2">
+                  <h3 className="text-2xl font-bold text-foreground mb-4">
                     {currentStepData.title}
                   </h3>
-                  <div className="flex items-center space-x-2 mb-4">
+                  <div className="flex items-center space-x-3 mb-6">
                     {currentStepData.completed ? (
-                      <Brand.StatusChip status="success">
-                        <CheckCircle className="w-3 h-3 mr-1 icon-glow" />
+                      <Badge className="bg-green-500/20 text-green-400 border-green-500/30 px-4 py-2">
+                        <CheckCircle className="w-4 h-4 mr-2" />
                         Completed
-                      </Brand.StatusChip>
+                      </Badge>
                     ) : (
-                      <Brand.StatusChip status="info">
-                        <Circle className="w-3 h-3 mr-1 icon-glow" />
+                      <Badge className="bg-accent/20 text-accent border-accent/30 px-4 py-2">
+                        <Circle className="w-4 h-4 mr-2" />
                         In Progress
-                      </Brand.StatusChip>
+                      </Badge>
                     )}
                   </div>
                 </div>
               </div>
               
-              <p className="text-body/80 text-lg leading-relaxed mb-6">
+              <p className="text-muted-foreground text-lg leading-relaxed mb-8">
                 {currentStepData.description}
               </p>
               
-              <div className="bg-elev rounded-xl p-4 border border-default mb-6">
-                <div className="flex items-center space-x-2 mb-2">
-                  <AlertCircle className="h-4 w-4 text-[hsl(var(--accent))]" />
-                  <span className="text-[hsl(var(--accent))] font-medium">Action Required:</span>
+              <div className="bg-terminal-card/50 rounded-xl p-6 border border-terminal-border mb-8">
+                <div className="flex items-center space-x-3 mb-3">
+                  <AlertCircle className="h-5 w-5 text-accent" />
+                  <span className="text-accent font-medium text-lg">Action Required:</span>
                 </div>
-                <p className="text-body/80">{currentStepData.action}</p>
+                <p className="text-muted-foreground text-lg">{currentStepData.action}</p>
               </div>
 
               {/* Navigation Controls */}
-              <div className="flex items-center justify-between">
-                <Brand.Secondary
+              <div className="flex items-center justify-between pt-4">
+                <Button
+                  variant="outline"
                   onClick={prevStep}
                   disabled={currentStep === 0}
-                  className="disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="disabled:opacity-50 disabled:cursor-not-allowed px-6 py-3"
                 >
                   <ArrowLeft className="h-4 w-4 mr-2" />
                   Previous
-                </Brand.Secondary>
+                </Button>
                 
-                <div className="flex items-center space-x-2">
-                  <Brand.Primary
+                <div className="flex items-center space-x-3">
+                  <Button
                     onClick={() => markStepComplete(currentStepData.id)}
                     disabled={currentStepData.completed}
-                    className="disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="bg-accent hover:bg-accent/90 text-white disabled:opacity-50 disabled:cursor-not-allowed px-6 py-3"
                   >
                     <CheckCircle className="h-4 w-4 mr-2" />
                     Mark Complete
-                  </Brand.Primary>
+                  </Button>
                 </div>
 
-                <Brand.Primary
+                <Button
                   onClick={nextStep}
                   disabled={currentStep === tutorialSteps.length - 1}
-                  className="disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="bg-accent hover:bg-accent/90 text-white disabled:opacity-50 disabled:cursor-not-allowed px-6 py-3"
                 >
                   Next
                   <ArrowRight className="h-4 w-4 ml-2" />
-                </Brand.Primary>
+                </Button>
               </div>
-            </Brand.Card>
+            </Card>
 
             {/* Quick Tips */}
-            <Brand.Card className="border border-default">
-              <div className="flex items-center space-x-2 mb-4">
-                <HelpCircle className="h-5 w-5 text-[hsl(var(--accent))]" />
-                <h3 className="text-lg font-semibold text-body">Quick Tips</h3>
+            <Card className="terminal-card p-8">
+              <div className="flex items-center space-x-3 mb-6">
+                <HelpCircle className="h-6 w-6 text-accent" />
+                <h3 className="text-xl font-semibold text-foreground">Quick Tips</h3>
               </div>
-              <div className="space-y-4">
+              <div className="space-y-6">
                 {[
                   "Always include detailed trip requirements to get accurate quotes",
                   "Compare multiple quotes before accepting to ensure best value",
                   "Use the messaging system to build relationships with operators",
                   "Save your favorite operators for quick access to trusted partners"
                 ].map((tip, index) => (
-                  <div key={index} className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-[hsl(var(--accent))] rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-white text-xs font-bold">{index + 1}</span>
+                  <div key={index} className="flex items-start space-x-4">
+                    <div className="w-8 h-8 bg-accent rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                      <span className="text-white text-sm font-bold">{index + 1}</span>
                     </div>
-                    <p className="text-body/80 text-sm">{tip}</p>
+                    <p className="text-muted-foreground text-base leading-relaxed">{tip}</p>
                   </div>
                 ))}
               </div>
-            </Brand.Card>
+            </Card>
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6">
+          <div className="space-y-8">
             {/* Step Overview */}
-            <Brand.Card className="border border-default">
-              <h3 className="text-lg font-semibold text-body mb-4">Tutorial Steps</h3>
-              <div className="space-y-2 max-h-96 overflow-y-auto">
+            <Card className="terminal-card p-6">
+              <h3 className="text-xl font-semibold text-foreground mb-6">Tutorial Steps</h3>
+              <div className="space-y-3 max-h-96 overflow-y-auto">
                 {tutorialSteps.map((step, index) => (
                   <div
                     key={step.id}
-                    className={`flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-colors ${
+                    className={`flex items-center space-x-4 p-4 rounded-lg cursor-pointer transition-colors ${
                       index === currentStep
-                        ? 'bg-[hsl(var(--accent))]/20 border border-[hsl(var(--accent))]/30'
-                        : 'hover:bg-elev'
+                        ? 'bg-accent/20 border border-accent/30'
+                        : 'hover:bg-terminal-card/50'
                     }`}
                     onClick={() => setCurrentStep(index)}
                   >
                     <div className="flex-shrink-0">
                       {step.completed ? (
-                        <CheckCircle className="h-4 w-4 text-green-400" />
+                        <CheckCircle className="h-5 w-5 text-green-400" />
                       ) : index === currentStep ? (
-                        <div className="w-4 h-4 bg-[hsl(var(--accent))] rounded-full" />
+                        <div className="w-5 h-5 bg-accent rounded-full" />
                       ) : (
-                        <Circle className="h-4 w-4 text-muted" />
+                        <Circle className="h-5 w-5 text-muted-foreground" />
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className={`text-sm font-medium ${
-                        index === currentStep ? 'text-[hsl(var(--accent))]' : 'text-body/80'
+                      <p className={`text-sm font-medium leading-relaxed ${
+                        index === currentStep ? 'text-accent' : 'text-muted-foreground'
                       }`}>
                         {step.title}
                       </p>
@@ -386,41 +423,41 @@ export default function BrokerTutorial({ isDemo = false }: BrokerTutorialProps) 
                   </div>
                 ))}
               </div>
-            </Brand.Card>
+            </Card>
 
             {/* Key Features */}
-            <Brand.Card className="border border-default">
-              <h3 className="text-lg font-semibold text-body mb-4">Key Features</h3>
-              <div className="space-y-3">
+            <Card className="terminal-card p-6">
+              <h3 className="text-xl font-semibold text-foreground mb-6">Key Features</h3>
+              <div className="space-y-4">
                 {[
-                  { icon: <Shield className="h-4 w-4 text-green-400" />, text: "Universal Compliance" },
-                  { icon: <DollarSign className="h-4 w-4 text-blue-400" />, text: "7% Platform Fee" },
-                  { icon: <MessageCircle className="h-4 w-4 text-purple-400" />, text: "Secure Messaging" },
-                  { icon: <BarChart3 className="h-4 w-4 text-[hsl(var(--accent))]" />, text: "Performance Analytics" },
-                  { icon: <Eye className="h-4 w-4 text-cyan-400" />, text: "Transparent Pricing" }
+                  { icon: <Shield className="h-5 w-5 text-green-400" />, text: "Universal Compliance" },
+                  { icon: <DollarSign className="h-5 w-5 text-blue-400" />, text: "7% Platform Fee" },
+                  { icon: <MessageCircle className="h-5 w-5 text-purple-400" />, text: "Secure Messaging" },
+                  { icon: <BarChart3 className="h-5 w-5 text-accent" />, text: "Performance Analytics" },
+                  { icon: <Eye className="h-5 w-5 text-cyan-400" />, text: "Transparent Pricing" }
                 ].map((feature, index) => (
-                  <div key={index} className="flex items-center space-x-3">
+                  <div key={index} className="flex items-center space-x-4">
                     {feature.icon}
-                    <span className="text-sm text-body/80">{feature.text}</span>
+                    <span className="text-base text-muted-foreground">{feature.text}</span>
                   </div>
                 ))}
               </div>
-            </Brand.Card>
+            </Card>
 
             {/* Support */}
-            <Brand.Card className="border border-default">
-              <h3 className="text-lg font-semibold text-body mb-4">Need Help?</h3>
-              <div className="space-y-3">
-                <Brand.Secondary className="w-full justify-start">
-                  <HelpCircle className="h-4 w-4 mr-2" />
+            <Card className="terminal-card p-6">
+              <h3 className="text-xl font-semibold text-foreground mb-6">Need Help?</h3>
+              <div className="space-y-4">
+                <Button variant="outline" className="w-full justify-start px-4 py-3">
+                  <HelpCircle className="h-4 w-4 mr-3" />
                   Contact Support
-                </Brand.Secondary>
-                <Brand.Secondary className="w-full justify-start">
-                  <BookOpen className="h-4 w-4 mr-2" />
+                </Button>
+                <Button variant="outline" className="w-full justify-start px-4 py-3">
+                  <BookOpen className="h-4 w-4 mr-3" />
                   View Documentation
-                </Brand.Secondary>
+                </Button>
               </div>
-            </Brand.Card>
+            </Card>
           </div>
         </div>
       </div>

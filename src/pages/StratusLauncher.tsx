@@ -203,12 +203,21 @@ export default function StratusLauncher() {
         {/* Main title with cinematic spotlight effect */}
         <div className="relative z-10 text-center">
           <div className="relative mb-6 inline-block">
-            {/* Spotlight glow behind the logo */}
+            {/* Enhanced spotlight glow behind the logo */}
             <div 
-              className="absolute inset-0 rounded-lg blur-xl opacity-30"
+              className="absolute inset-0 rounded-lg blur-2xl opacity-40"
               style={{
-                background: 'radial-gradient(ellipse at center, rgba(255, 140, 0, 0.4) 0%, rgba(255, 140, 0, 0.2) 30%, transparent 70%)',
-                transform: 'scale(1.2)',
+                background: 'radial-gradient(ellipse at center, rgba(255, 140, 0, 0.6) 0%, rgba(255, 140, 0, 0.4) 25%, rgba(255, 140, 0, 0.2) 50%, transparent 75%)',
+                transform: 'scale(1.4)',
+              }}
+            />
+            
+            {/* Additional orange glow layer for the logo */}
+            <div 
+              className="absolute inset-0 rounded-lg blur-xl opacity-25"
+              style={{
+                background: 'radial-gradient(ellipse at center, rgba(255, 165, 0, 0.5) 0%, rgba(255, 140, 0, 0.3) 30%, transparent 60%)',
+                transform: 'scale(1.6)',
               }}
             />
             
@@ -216,7 +225,7 @@ export default function StratusLauncher() {
             <div 
               className="relative bg-white/95 backdrop-blur-sm px-12 py-6 shadow-2xl border border-white/20 rounded-lg"
               style={{
-                boxShadow: '0 0 40px rgba(255, 140, 0, 0.3), 0 0 80px rgba(255, 140, 0, 0.1), 0 25px 50px rgba(0, 0, 0, 0.5)',
+                boxShadow: '0 0 60px rgba(255, 140, 0, 0.5), 0 0 120px rgba(255, 140, 0, 0.2), 0 0 200px rgba(255, 140, 0, 0.1), 0 25px 50px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 140, 0, 0.1)',
               }}
             >
               <h1 className="text-6xl font-black text-black tracking-wider drop-shadow-lg">STRATUS</h1>

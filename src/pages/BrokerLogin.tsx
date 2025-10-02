@@ -29,7 +29,7 @@ export default function BrokerLogin() {
             email.includes('lordbroctree1@gmail.com')) {
           navigate("/admin");
         } else {
-          navigate("/broker");
+          navigate("/demo/broker");
         }
       }
     } catch (error) {

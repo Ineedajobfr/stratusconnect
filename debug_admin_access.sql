@@ -67,3 +67,4 @@ WHERE email = 'Stratuscharters@gmail.com';
 -- ALTER TABLE public.users DISABLE ROW LEVEL SECURITY;
 -- SELECT 'RLS DISABLED - Check admin console now' as message;
 
+

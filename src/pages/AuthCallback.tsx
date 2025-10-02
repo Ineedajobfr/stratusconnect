@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Loader2, Plane } from 'lucide-react';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function AuthCallback() {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ export default function AuthCallback() {
           // Redirect based on user role
           switch (user.role) {
             case 'broker':
-              navigate('/broker-terminal', { replace: true });
+              navigate('/demo/broker', { replace: true });
               break;
             case 'operator':
               navigate('/operator-terminal', { replace: true });

@@ -108,6 +108,17 @@ export class JobBoardWorkflow {
   // Create job post
   static async createJobPost(jobData: Omit<JobPost, 'id' | 'created_at' | 'updated_at' | 'current_applications'>): Promise<JobPost> {
     try {
+      // First check if the job_posts table exists
+      const { data: tableCheck, error: tableError } = await supabase
+        .from('job_posts')
+        .select('id')
+        .limit(1);
+
+      if (tableError && tableError.code === '42P01') {
+        // Table doesn't exist, throw a more informative error
+        throw new Error('Job board functionality is not available - database tables not initialized');
+      }
+
       const { data, error } = await supabase
         .from('job_posts')
         .insert([{
@@ -135,6 +146,17 @@ export class JobBoardWorkflow {
   // Apply to job
   static async applyToJob(applicationData: Omit<JobApplication, 'id' | 'created_at' | 'updated_at'>): Promise<JobApplication> {
     try {
+      // First check if the job_applications table exists
+      const { data: tableCheck, error: tableError } = await supabase
+        .from('job_applications')
+        .select('id')
+        .limit(1);
+
+      if (tableError && tableError.code === '42P01') {
+        // Table doesn't exist, throw a more informative error
+        throw new Error('Job board functionality is not available - database tables not initialized');
+      }
+
       // Check if user already applied
       const { data: existingApplication, error: checkError } = await supabase
         .from('job_applications')
@@ -237,6 +259,18 @@ export class JobBoardWorkflow {
     search?: string;
   }): Promise<JobPost[]> {
     try {
+      // First check if the job_posts table exists
+      const { data: tableCheck, error: tableError } = await supabase
+        .from('job_posts')
+        .select('id')
+        .limit(1);
+
+      if (tableError && tableError.code === '42P01') {
+        // Table doesn't exist, return empty array
+        console.warn('job_posts table does not exist, returning empty array');
+        return [];
+      }
+
       let query = supabase
         .from('job_posts')
         .select('*')
@@ -280,13 +314,26 @@ export class JobBoardWorkflow {
       return data || [];
     } catch (error) {
       console.error('Error fetching jobs:', error);
-      throw error;
+      // Return empty array instead of throwing to prevent crashes
+      return [];
     }
   }
 
   // Get user applications
   static async getUserApplications(userId: string): Promise<JobApplication[]> {
     try {
+      // First check if the job_applications table exists
+      const { data: tableCheck, error: tableError } = await supabase
+        .from('job_applications')
+        .select('id')
+        .limit(1);
+
+      if (tableError && tableError.code === '42P01') {
+        // Table doesn't exist, return empty array
+        console.warn('job_applications table does not exist, returning empty array');
+        return [];
+      }
+
       const { data, error } = await supabase
         .from('job_applications')
         .select(`
@@ -300,7 +347,8 @@ export class JobBoardWorkflow {
       return data || [];
     } catch (error) {
       console.error('Error fetching user applications:', error);
-      throw error;
+      // Return empty array instead of throwing to prevent crashes
+      return [];
     }
   }
 

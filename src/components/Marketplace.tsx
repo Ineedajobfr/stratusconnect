@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
-import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Plane, MapPin, Calendar, Users, Clock, DollarSign, Loader2, Plus } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { Calendar, DollarSign, Loader2, MapPin, Plane, Plus, Users } from "lucide-react";
+import { useEffect, useState } from "react";
 
 interface MarketplaceListing {
   id: string;
@@ -140,7 +140,7 @@ export default function Marketplace() {
       const listingsWithOperators = await Promise.all(
         (data || []).map(async (listing) => {
           const { data: userData } = await supabase
-            .from('users')
+            .from('profiles')
             .select('full_name, company_name')
             .eq('id', listing.operator_id)
             .single();
@@ -185,7 +185,7 @@ export default function Marketplace() {
       const bidsWithBidders = await Promise.all(
         (data || []).map(async (bid) => {
           const { data: userData } = await supabase
-            .from('users')
+            .from('profiles')
             .select('full_name, company_name')
             .eq('id', bid.broker_id)
             .single();

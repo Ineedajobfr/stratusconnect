@@ -145,3 +145,4 @@ SELECT
   COUNT(*) FILTER (WHERE last_sign_in_at >= CURRENT_DATE) as active_today
 FROM public.users;
 
+

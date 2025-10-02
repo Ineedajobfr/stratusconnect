@@ -1,13 +1,14 @@
 // Real Workflow Integration Component - Connects all real workflows
 // This component provides a unified interface for all real workflow systems
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { RFQWorkflow, RFQData } from '@/lib/real-workflows/rfq-workflow';
-import { EscrowWorkflow, Deal } from '@/lib/real-workflows/escrow-workflow';
-import { ContractWorkflow, Contract, Receipt } from '@/lib/real-workflows/contract-workflow';
-import { JobBoardWorkflow, JobPost, JobApplication } from '@/lib/real-workflows/job-board-workflow';
-import { SecurityWorkflow, SecurityEvent, ThreatDetection } from '@/lib/real-workflows/security-workflow';
 import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
+import { Contract, ContractWorkflow, Receipt } from '@/lib/real-workflows/contract-workflow';
+import { Deal, EscrowWorkflow } from '@/lib/real-workflows/escrow-workflow';
+import { JobApplication, JobBoardWorkflow, JobPost } from '@/lib/real-workflows/job-board-workflow';
+import { RFQData, RFQWorkflow } from '@/lib/real-workflows/rfq-workflow';
+import { SecurityEvent, SecurityWorkflow, ThreatDetection } from '@/lib/real-workflows/security-workflow';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 interface WorkflowContextType {
   // RFQ Workflow
@@ -135,7 +136,29 @@ export const WorkflowProvider: React.FC<WorkflowProviderProps> = ({ children }) 
       setRfqs(data);
     } catch (error) {
       console.error('Error loading RFQs:', error);
-      setErrors(prev => ({ ...prev, rfqs: 'Failed to load RFQs' }));
+      // Check if it's a relationship error
+      if (error?.code === 'PGRST200' || error?.message?.includes('relationship')) {
+        console.log('RFQ-quotes relationship not found, loading RFQs without quotes');
+        // Try to load RFQs without the quotes relationship
+        try {
+          const { data: rfqData, error: rfqError } = await supabase
+            .from('rfqs')
+            .select('*')
+            .eq('broker_id', user.id)
+            .order('created_at', { ascending: false });
+          
+          if (rfqError) throw rfqError;
+          setRfqs(rfqData || []);
+          setErrors(prev => ({ ...prev, rfqs: null }));
+        } catch (fallbackError) {
+          console.error('Fallback RFQ loading failed:', fallbackError);
+          setErrors(prev => ({ ...prev, rfqs: 'Failed to load RFQs' }));
+          setRfqs([]);
+        }
+      } else {
+        setErrors(prev => ({ ...prev, rfqs: 'Failed to load RFQs' }));
+        setRfqs([]);
+      }
     } finally {
       setLoading(prev => ({ ...prev, rfqs: false }));
     }
@@ -186,7 +209,15 @@ export const WorkflowProvider: React.FC<WorkflowProviderProps> = ({ children }) 
       setJobs(data);
     } catch (error) {
       console.error('Error loading jobs:', error);
-      setErrors(prev => ({ ...prev, jobs: 'Failed to load jobs' }));
+      // Check if it's a table not found error
+      if (error?.code === '42P01' || error?.message?.includes('does not exist')) {
+        console.log('Job posts table not found, skipping job loading');
+        setJobs([]);
+        setErrors(prev => ({ ...prev, jobs: null }));
+      } else {
+        setErrors(prev => ({ ...prev, jobs: 'Failed to load jobs' }));
+        setJobs([]);
+      }
     } finally {
       setLoading(prev => ({ ...prev, jobs: false }));
     }

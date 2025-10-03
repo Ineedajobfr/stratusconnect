@@ -1096,16 +1096,16 @@ export default function AdminConsole() {
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-4">
-            <Button
-              variant="ghost"
-              onClick={() => navigate('/')}
+          <Button
+            variant="ghost"
+            onClick={() => navigate('/')}
               className="text-slate-700 hover:bg-slate-100 border border-slate-200"
-            >
-              <ChevronLeft className="h-5 w-5 mr-2" />
-              Back
-            </Button>
+          >
+            <ChevronLeft className="h-5 w-5 mr-2" />
+            Back
+          </Button>
             <div className="text-sm text-slate-500 font-medium">
-              STRATUSCONNECT
+            STRATUSCONNECT
             </div>
           </div>
           
@@ -1152,53 +1152,53 @@ export default function AdminConsole() {
           {/* Key Metrics */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <Card className="bg-white/90 border-slate-200 shadow-lg backdrop-blur-sm">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
                     <p className="text-sm text-slate-600 mb-1">Total Users</p>
                     <p className="text-3xl font-bold text-slate-800">{stats.totalUsers}</p>
-                  </div>
+              </div>
                   <Users className="h-8 w-8 text-blue-500" />
-                </div>
-              </CardContent>
-            </Card>
+            </div>
+          </CardContent>
+        </Card>
 
             <Card className="bg-white/90 border-slate-200 shadow-lg backdrop-blur-sm">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
                     <p className="text-sm text-slate-600 mb-1">Pending Verifications</p>
                     <p className="text-3xl font-bold text-slate-800">{stats.pendingVerifications}</p>
-                  </div>
+              </div>
                   <UserCheck className="h-8 w-8 text-amber-500" />
-                </div>
-              </CardContent>
-            </Card>
+            </div>
+          </CardContent>
+        </Card>
 
             <Card className="bg-white/90 border-slate-200 shadow-lg backdrop-blur-sm">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
                     <p className="text-sm text-slate-600 mb-1">Security Alerts</p>
                     <p className="text-3xl font-bold text-slate-800">{stats.securityAlerts}</p>
-                  </div>
+              </div>
                   <AlertOctagon className="h-8 w-8 text-red-500" />
-                </div>
-              </CardContent>
-            </Card>
+            </div>
+          </CardContent>
+        </Card>
 
             <Card className="bg-white/90 border-slate-200 shadow-lg backdrop-blur-sm">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
                     <p className="text-sm text-slate-600 mb-1">Revenue</p>
                     <p className="text-3xl font-bold text-slate-800">${stats.revenue.toLocaleString()}</p>
-                  </div>
+              </div>
                   <DollarSign className="h-8 w-8 text-emerald-500" />
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
           {/* Role-specific Stats */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -1356,102 +1356,102 @@ export default function AdminConsole() {
 
         {/* Users Tab */}
         <TabsContent value="users" className="space-y-6">
-          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="text-white text-2xl">User Management</CardTitle>
-              <p className="text-white/60 text-sm">Manage user accounts, roles, and verification status</p>
-            </CardHeader>
-            <CardContent>
-              {/* Filters */}
-              <div className="flex flex-col md:flex-row gap-4 mb-6">
-                <div className="flex-1 relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/40" />
-                  <Input
-                    placeholder="Search users..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10 bg-black/30 border-white/20 text-white placeholder:text-white/40"
-                  />
-                </div>
+      <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+        <CardHeader>
+          <CardTitle className="text-white text-2xl">User Management</CardTitle>
+          <p className="text-white/60 text-sm">Manage user accounts, roles, and verification status</p>
+        </CardHeader>
+        <CardContent>
+          {/* Filters */}
+          <div className="flex flex-col md:flex-row gap-4 mb-6">
+            <div className="flex-1 relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/40" />
+              <Input
+                placeholder="Search users..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 bg-black/30 border-white/20 text-white placeholder:text-white/40"
+              />
+            </div>
 
-                <Select value={roleFilter} onValueChange={setRoleFilter}>
-                  <SelectTrigger className="w-full md:w-48 bg-black/30 border-white/20 text-white">
-                    <SelectValue placeholder="Filter by role" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Roles</SelectItem>
-                    <SelectItem value="broker">Broker</SelectItem>
-                    <SelectItem value="operator">Operator</SelectItem>
-                    <SelectItem value="pilot">Pilot</SelectItem>
-                    <SelectItem value="crew">Crew</SelectItem>
-                    <SelectItem value="admin">Admin</SelectItem>
-                  </SelectContent>
-                </Select>
+            <Select value={roleFilter} onValueChange={setRoleFilter}>
+              <SelectTrigger className="w-full md:w-48 bg-black/30 border-white/20 text-white">
+                <SelectValue placeholder="Filter by role" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Roles</SelectItem>
+                <SelectItem value="broker">Broker</SelectItem>
+                <SelectItem value="operator">Operator</SelectItem>
+                <SelectItem value="pilot">Pilot</SelectItem>
+                <SelectItem value="crew">Crew</SelectItem>
+                <SelectItem value="admin">Admin</SelectItem>
+              </SelectContent>
+            </Select>
 
-                <Select value={statusFilter} onValueChange={setStatusFilter}>
-                  <SelectTrigger className="w-full md:w-48 bg-black/30 border-white/20 text-white">
-                    <SelectValue placeholder="Filter by status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Status</SelectItem>
-                    <SelectItem value="active">Active</SelectItem>
-                    <SelectItem value="pending">Pending</SelectItem>
-                    <SelectItem value="suspended">Suspended</SelectItem>
-                    <SelectItem value="inactive">Inactive</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger className="w-full md:w-48 bg-black/30 border-white/20 text-white">
+                <SelectValue placeholder="Filter by status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Status</SelectItem>
+                <SelectItem value="active">Active</SelectItem>
+                <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value="suspended">Suspended</SelectItem>
+                <SelectItem value="inactive">Inactive</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
 
               {/* Enhanced Users Table */}
-              <div className="border border-white/10 rounded-lg overflow-hidden">
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead className="bg-black/30 border-b border-white/10">
-                      <tr>
-                        <th className="px-4 py-3 text-left text-sm font-semibold text-white">User</th>
-                        <th className="px-4 py-3 text-left text-sm font-semibold text-white">Role</th>
-                        <th className="px-4 py-3 text-left text-sm font-semibold text-white">Status</th>
+          <div className="border border-white/10 rounded-lg overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-black/30 border-b border-white/10">
+                  <tr>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-white">User</th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-white">Role</th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-white">Status</th>
                         <th className="px-4 py-3 text-left text-sm font-semibold text-white">Risk Score</th>
                         <th className="px-4 py-3 text-left text-sm font-semibold text-white">Flags</th>
-                        <th className="px-4 py-3 text-left text-sm font-semibold text-white">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-white/5">
-                      {filteredUsers.length === 0 ? (
-                        <tr>
-                          <td colSpan={6} className="px-4 py-8 text-center text-white/60">
-                            No users found
-                          </td>
-                        </tr>
-                      ) : (
-                        filteredUsers.map((u) => (
-                          <tr key={u.id} className="hover:bg-white/5 transition-colors">
-                            <td className="px-4 py-3">
-                              <div>
-                                <div className="font-medium text-white">{u.full_name || 'No Name'}</div>
-                                <div className="text-sm text-white/60">{u.email}</div>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-white">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5">
+                  {filteredUsers.length === 0 ? (
+                    <tr>
+                      <td colSpan={6} className="px-4 py-8 text-center text-white/60">
+                        No users found
+                      </td>
+                    </tr>
+                  ) : (
+                    filteredUsers.map((u) => (
+                      <tr key={u.id} className="hover:bg-white/5 transition-colors">
+                        <td className="px-4 py-3">
+                          <div>
+                            <div className="font-medium text-white">{u.full_name || 'No Name'}</div>
+                            <div className="text-sm text-white/60">{u.email}</div>
                                 <div className="text-xs text-white/40">{u.location}</div>
-                              </div>
-                            </td>
-                            <td className="px-4 py-3">
-                              <Badge className={`${getRoleBadgeColor(u.role)} text-white text-xs`}>
-                                {u.role}
-                              </Badge>
-                            </td>
-                            <td className="px-4 py-3">
-                              <Badge className={`${getStatusBadgeColor(u.status)} text-white text-xs`}>
-                                {u.status}
-                              </Badge>
-                            </td>
-                            <td className="px-4 py-3">
+                          </div>
+                        </td>
+                        <td className="px-4 py-3">
+                          <Badge className={`${getRoleBadgeColor(u.role)} text-white text-xs`}>
+                            {u.role}
+                          </Badge>
+                        </td>
+                        <td className="px-4 py-3">
+                          <Badge className={`${getStatusBadgeColor(u.status)} text-white text-xs`}>
+                            {u.status}
+                          </Badge>
+                        </td>
+                        <td className="px-4 py-3">
                               <div className={`text-sm font-medium ${
                                 u.risk_score < 20 ? 'text-green-400' :
                                 u.risk_score < 50 ? 'text-yellow-400' : 'text-red-400'
                               }`}>
                                 {u.risk_score}/100
                               </div>
-                            </td>
-                            <td className="px-4 py-3">
+                        </td>
+                        <td className="px-4 py-3">
                               <div className="flex flex-wrap gap-1">
                                 {u.flags.slice(0, 2).map((flag, index) => (
                                   <Badge key={index} variant="outline" className="text-xs text-red-400 border-red-400">
@@ -1464,17 +1464,17 @@ export default function AdminConsole() {
                                   </Badge>
                                 )}
                               </div>
-                            </td>
-                            <td className="px-4 py-3">
-                              <div className="flex items-center gap-2">
-                                <Button
-                                  size="sm"
+                        </td>
+                        <td className="px-4 py-3">
+                          <div className="flex items-center gap-2">
+                              <Button
+                                size="sm"
                                   variant="outline"
                                   className="text-white border-white/20"
                                   onClick={() => viewUserProfile(u)}
-                                >
+                              >
                                   <Eye className="h-4 w-4" />
-                                </Button>
+                              </Button>
                                 <Button
                                   size="sm"
                                   variant="outline"
@@ -1483,29 +1483,29 @@ export default function AdminConsole() {
                                 >
                                   <Flag className="h-4 w-4" />
                                 </Button>
-                                <Button
-                                  size="sm"
+                            <Button
+                              size="sm"
                                   variant="outline"
                                   className="text-red-400 border-red-400"
                                   onClick={() => suspendUser(u.id, 'admin_action')}
                                 >
                                   <UserX className="h-4 w-4" />
-                                </Button>
-                              </div>
-                            </td>
-                          </tr>
-                        ))
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
 
-              <div className="mt-4 text-sm text-white/60">
-                Showing {filteredUsers.length} of {users.length} users
-              </div>
-            </CardContent>
-          </Card>
+          <div className="mt-4 text-sm text-white/60">
+            Showing {filteredUsers.length} of {users.length} users
+          </div>
+        </CardContent>
+      </Card>
         </TabsContent>
 
         {/* Verification Tab */}

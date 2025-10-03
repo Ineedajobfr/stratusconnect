@@ -22,3 +22,6 @@ export const StratusConnectHeader: React.FC<StratusConnectHeaderProps> = ({
 
 export default StratusConnectHeader;
 
+
+
+

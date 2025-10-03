@@ -1,179 +1,126 @@
 // Enhanced Demo Broker Terminal - All Features
 // FCA Compliant Aviation Platform - 100% Free Until Revenue
 
-import AdvancedSearch from '@/components/AdvancedSearch';
-import { MonthlyStatements } from '@/components/Billing/MonthlyStatements';
 import CommunicationTools from '@/components/CommunicationTools';
-import CommunityForums from '@/components/community/CommunityForums';
-import ContractGenerator from '@/components/contracts/ContractGenerator';
-import ReceiptGenerator from '@/components/contracts/ReceiptGenerator';
-import { MultiLegRFQ } from '@/components/DealFlow/MultiLegRFQ';
-import { SavedSearches } from '@/components/DealFlow/SavedSearches';
-import DocumentManagement from '@/components/DocumentManagement';
 import DocumentStorage from '@/components/documents/DocumentStorage';
-import JobBoard from '@/components/job-board/JobBoard';
-import SavedCrews from '@/components/job-board/SavedCrews';
-import { ModernHelpGuide } from '@/components/ModernHelpGuide';
-import NoteTakingSystem from '@/components/NoteTakingSystem';
-import RealTimeFlightTracker from '@/components/RealTimeFlightTracker';
 import { ReputationMetrics } from '@/components/Reputation/ReputationMetrics';
-import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { WeekOneScoreboard } from '@/components/WeekOneScoreboard';
 import { useAuth } from '@/contexts/AuthContext';
-import { brokerDashboardService, type BrokerMetrics } from '@/lib/broker-dashboard-service';
+import { type BrokerMetrics } from '@/lib/broker-dashboard-service';
 import {
-    AlertTriangle,
-    ArrowUp,
+    AlertCircle,
     Award,
     BarChart3,
     Bell,
     Briefcase,
     Calendar,
-    CheckCircle,
-    ChevronDown,
-    ChevronUp,
     Clock,
     DollarSign,
-    Eye,
     FileText,
-    Filter,
     GitCompare,
     MapPin,
     MessageCircle,
     Plane,
     Plus,
-    Receipt,
     Save,
     Search,
     Shield,
-    Star,
-    Target,
     TrendingUp,
     Trophy,
-    Users,
-    Zap
+    Users
 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 interface RFQ {
   id: string;
-  route: string;
+  title: string;
+  client: string;
   aircraft: string;
-  date: string;
-  price: number;
-  currency: string;
-  status: 'draft' | 'sent' | 'quoted' | 'accepted' | 'paid';
-  quotes: Quote[];
-  legs: number;
+  route: string;
   passengers: number;
-  specialRequirements: string;
+  date: string;
+  status: 'pending' | 'quoted' | 'accepted' | 'rejected';
+  quotes: number;
 }
 
 interface Quote {
   id: string;
+  rfqId: string;
   operator: string;
-  price: number;
-  currency: string;
-  validUntil: string;
   aircraft: string;
-  verified: boolean;
-  rating: number;
-  responseTime: number;
-  dealScore: number;
+  price: number;
+  date: string;
+  status: 'pending' | 'accepted' | 'rejected';
 }
 
-export default function DemoBrokerTerminal() {
+const DemoBrokerTerminal = () => {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [showWeekOneScoreboard, setShowWeekOneScoreboard] = useState(false);
-  const [showWarRoomChecks, setShowWarRoomChecks] = useState(false);
-  const [showEvidencePack, setShowEvidencePack] = useState(false);
-  const [liveFlowResult, setLiveFlowResult] = useState<{ allPassed: boolean; summary: string } | null>(null);
+  const [metrics, setMetrics] = useState<BrokerMetrics | null>(null);
+  const [metricsLoading, setMetricsLoading] = useState(true);
   const [showAlertsDropdown, setShowAlertsDropdown] = useState(false);
+  const [isDocumentManagementCollapsed, setIsDocumentManagementCollapsed] = useState(true);
   const alertsDropdownRef = useRef<HTMLDivElement>(null);
-  const [alerts, setAlerts] = useState([
+  
+  // Feature flags and user preferences
+  const [showAdvancedFeatures, setShowAdvancedFeatures] = useState(false);
+  const [showSecondaryFeatures, setShowSecondaryFeatures] = useState(true);
+  const [userPreferences, setUserPreferences] = useState({
+    showAdvancedFeatures: false,
+    showSecondaryFeatures: true,
+    compactMode: false,
+    showTooltips: true
+  });
+
+  // Sample alerts data
+  const [alerts] = useState([
     {
-      id: 'ALERT-001',
-      type: 'price_drop',
-      title: 'Price Drop: LHR to JFK',
-      message: 'Gulfstream G650 dropped 12% to $75,000',
-      time: '2025-09-16T14:30:00Z',
+      id: '1',
+      type: 'rfq',
+      message: 'New RFQ from Elite Aviation',
+      timestamp: '2 hours ago',
       unread: true
     },
     {
-      id: 'ALERT-002',
-      type: 'last_minute',
-      title: 'Last Minute: CDG to LHR',
-      message: 'Citation X available in 6 hours for $35,000',
-      time: '2025-09-16T16:45:00Z',
+      id: '2', 
+      type: 'payment',
+      message: 'Payment pending for $12,300',
+      timestamp: '4 hours ago',
       unread: true
     },
     {
-      id: 'ALERT-003',
-      type: 'new_operator',
-      title: 'New Operator: Elite Wings',
-      message: 'Premium operator with 4.9 rating joined platform',
-      time: '2025-09-16T10:45:00Z',
-      unread: false
-    },
-    {
-      id: 'ALERT-004',
-      type: 'price_drop',
-      title: 'Price Drop: LAX to NRT',
-      message: 'Bombardier Global 7500 dropped 8% to $115,000',
-      time: '2025-09-15T16:20:00Z',
-      unread: true
-    },
-    {
-      id: 'ALERT-005',
-      type: 'availability',
-      title: 'New Availability: MIA to LHR',
-      message: 'Challenger 650 available for $42,000 on Sep 28',
-      time: '2025-09-15T14:10:00Z',
-      unread: false
-    },
-    {
-      id: 'ALERT-006',
-      type: 'fuel_surcharge',
-      title: 'Fuel Surcharge Update',
-      message: 'Global fuel surcharge increased by 3% across all operators',
-      time: '2025-09-15T11:30:00Z',
+      id: '3',
+      type: 'contract',
+      message: 'Contract needs signature',
+      timestamp: '6 hours ago',
       unread: false
     }
   ]);
-  const [metrics, setMetrics] = useState<BrokerMetrics | null>(null);
-  const [metricsLoading, setMetricsLoading] = useState(true);
-  const [selectedRFQForQuotes, setSelectedRFQForQuotes] = useState<string | null>(null);
-  const [quotesForComparison, setQuotesForComparison] = useState<any[]>([]);
-  
-  // Collapsible sections state
-  const [isDocumentManagementCollapsed, setIsDocumentManagementCollapsed] = useState(false);
-  const [isCreateRFQCollapsed, setIsCreateRFQCollapsed] = useState(false);
-  const [isRFQFormsCollapsed, setIsRFQFormsCollapsed] = useState(false);
 
-  // Load dashboard metrics from database
-  useEffect(() => {
-    const loadMetrics = async () => {
-      if (user?.id) {
-        setMetricsLoading(true);
-        const data = await brokerDashboardService.getDashboardMetrics(user.id);
-        setMetrics(data);
-        setMetricsLoading(false);
+  const unreadAlertsCount = alerts.filter(alert => alert.unread).length;
+
+  const handleAlertClick = (alertId: string) => {
+    console.log('Alert clicked:', alertId);
+    setShowAlertsDropdown(false);
+    // Navigate to relevant section based on alert type
+    const alert = alerts.find(a => a.id === alertId);
+    if (alert) {
+      if (alert.type === 'rfq') {
+        setActiveTab('rfqs');
+      } else if (alert.type === 'payment') {
+        setActiveTab('billing');
+      } else if (alert.type === 'contract') {
+        setActiveTab('documents');
       }
-    };
+    }
+  };
 
-    loadMetrics();
-    
-    // Refresh metrics every 30 seconds
-    const interval = setInterval(loadMetrics, 30000);
-    return () => clearInterval(interval);
-  }, [user]);
-
-  // Close alerts dropdown when clicking outside
+  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (alertsDropdownRef.current && !alertsDropdownRef.current.contains(event.target as Node)) {
@@ -181,942 +128,694 @@ export default function DemoBrokerTerminal() {
       }
     };
 
-    if (showAlertsDropdown) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [showAlertsDropdown]);
+  }, []);
 
-  // Handle quote acceptance - creates booking, generates contract, processes payment
-  const handleAcceptQuote = async (quoteId: string) => {
-    if (!user?.id) return;
-
-    try {
-      // Accept quote and create booking in database
-      const success = await brokerDashboardService.acceptQuote(quoteId, user.id);
-      
-      if (success) {
-        // Refresh metrics to show updated deals
-        const updatedMetrics = await brokerDashboardService.getDashboardMetrics(user.id);
-        setMetrics(updatedMetrics);
-        
-        // Show success message
-        alert('✅ Quote Accepted!\n\n✈️ Booking created\n📄 Contract generated\n💳 Payment processing initiated\n⭐ +40 reputation points awarded');
-        
-        // Refresh the RFQ list
-        setActiveTab('dashboard');
-      }
-    } catch (error) {
-      console.error('Failed to accept quote:', error);
-      alert('❌ Failed to accept quote. Please try again.');
-    }
-  };
-
-  // Handle quote rejection
-  const handleRejectQuote = async (quoteId: string) => {
-    try {
-      const success = await brokerDashboardService.rejectQuote(quoteId);
-      
-      if (success) {
-        // Remove from quotes list
-        setQuotesForComparison(prev => prev.filter(q => q.id !== quoteId));
-        alert('Quote rejected successfully');
-      }
-    } catch (error) {
-      console.error('Failed to reject quote:', error);
-      alert('Failed to reject quote. Please try again.');
-    }
-  };
-  const [warRoomResult, setWarRoomResult] = useState<{ allChecksPassed: boolean; summary: string } | null>(null);
-  const [evidencePack, setEvidencePack] = useState<{ id: string; timestamp: string } | null>(null);
-  const [showJobBoard, setShowJobBoard] = useState(false);
-  const [showCommunityForums, setShowCommunityForums] = useState(false);
-  const [showSavedCrews, setShowSavedCrews] = useState(false);
-  const [showDocumentStorage, setShowDocumentStorage] = useState(false);
-  const [showContractGenerator, setShowContractGenerator] = useState(false);
-  const [showReceiptGenerator, setShowReceiptGenerator] = useState(false);
-  const [selectedDeal, setSelectedDeal] = useState(null);
-  const [rfqs, setRfqs] = useState<RFQ[]>([
-    {
-      id: 'RFQ-001',
-      route: 'London - New York',
-      aircraft: 'Gulfstream G650',
-      date: '2025-09-20',
-      price: 85000,
-      currency: 'USD',
-      status: 'quoted',
-      legs: 1,
-      passengers: 8,
-      specialRequirements: 'VIP handling, customs clearance, catering',
-      quotes: [
-        {
-          id: 'Q-001',
-          operator: 'Elite Aviation',
-          price: 85000,
-          currency: 'USD',
-          validUntil: '2025-09-18T23:59:59Z',
-          aircraft: 'Gulfstream G650',
-          verified: true,
-          rating: 4.8,
-          responseTime: 3.2,
-          dealScore: 89,
-          fees: {
-            basePrice: 75000,
-            fuelSurcharge: 8500,
-            handling: 1200,
-            catering: 800,
-            total: 85000
-          }
-        },
-        {
-          id: 'Q-002',
-          operator: 'SkyHigh Jets',
-          price: 92000,
-          currency: 'USD',
-          validUntil: '2025-09-19T12:00:00Z',
-          aircraft: 'Gulfstream G650',
-          verified: true,
-          rating: 4.6,
-          responseTime: 5.1,
-          dealScore: 76,
-          fees: {
-            basePrice: 82000,
-            fuelSurcharge: 7500,
-            handling: 1500,
-            catering: 1000,
-            total: 92000
-          }
-        }
-      ]
-    },
-    {
-      id: 'RFQ-002',
-      route: 'Paris - Dubai',
-      aircraft: 'Global 6000',
-      date: '2025-09-25',
-      price: 65000,
-      currency: 'EUR',
-      status: 'sent',
-      legs: 1,
-      passengers: 12,
-      specialRequirements: 'Catering for dietary restrictions, ground transportation',
-      quotes: [
-        {
-          id: 'Q-003',
-          operator: 'Luxury Wings',
-          price: 65000,
-          currency: 'EUR',
-          validUntil: '2025-09-23T18:00:00Z',
-          aircraft: 'Global 6000',
-          verified: true,
-          rating: 4.9,
-          responseTime: 2.1,
-          dealScore: 94,
-          fees: {
-            basePrice: 58000,
-            fuelSurcharge: 4500,
-            handling: 1500,
-            catering: 1000,
-            total: 65000
-          }
-        }
-      ]
-    },
-    {
-      id: 'RFQ-003',
-      route: 'Los Angeles - Tokyo',
-      aircraft: 'Bombardier Global 7500',
-      date: '2025-10-02',
-      price: 125000,
-      currency: 'USD',
-      status: 'quoted',
-      legs: 1,
-      passengers: 16,
-      specialRequirements: 'Custom interior, premium catering, ground crew',
-      quotes: [
-        {
-          id: 'Q-004',
-          operator: 'Pacific Elite',
-          price: 125000,
-          currency: 'USD',
-          validUntil: '2025-09-30T20:00:00Z',
-          aircraft: 'Bombardier Global 7500',
-          verified: true,
-          rating: 4.7,
-          responseTime: 4.5,
-          dealScore: 87,
-          fees: {
-            basePrice: 110000,
-            fuelSurcharge: 12000,
-            handling: 2000,
-            catering: 1000,
-            total: 125000
-          }
-        },
-        {
-          id: 'Q-005',
-          operator: 'TransGlobal Aviation',
-          price: 135000,
-          currency: 'USD',
-          validUntil: '2025-10-01T12:00:00Z',
-          aircraft: 'Bombardier Global 7500',
-          verified: true,
-          rating: 4.5,
-          responseTime: 6.2,
-          dealScore: 82,
-          fees: {
-            basePrice: 120000,
-            fuelSurcharge: 10000,
-            handling: 3000,
-            catering: 2000,
-            total: 135000
-          }
-        }
-      ]
-    },
-    {
-      id: 'RFQ-004',
-      route: 'Miami - London',
-      aircraft: 'Challenger 650',
-      date: '2025-09-28',
-      price: 45000,
-      currency: 'USD',
-      status: 'booked',
-      legs: 1,
-      passengers: 8,
-      specialRequirements: 'Pet transport, special handling',
-      quotes: [
-        {
-          id: 'Q-006',
-          operator: 'Atlantic Aviation',
-          price: 45000,
-          currency: 'USD',
-          validUntil: '2025-09-26T15:00:00Z',
-          aircraft: 'Challenger 650',
-          verified: true,
-          rating: 4.8,
-          responseTime: 2.8,
-          dealScore: 91,
-          fees: {
-            basePrice: 40000,
-            fuelSurcharge: 3500,
-            handling: 1000,
-            catering: 500,
-            total: 45000
-          }
-        }
-      ]
-    },
-    {
-      id: 'RFQ-005',
-      route: 'Zurich - Singapore',
-      aircraft: 'Falcon 8X',
-      date: '2025-10-05',
-      price: 95000,
-      currency: 'EUR',
-      status: 'draft',
-      legs: 1,
-      passengers: 8,
-      specialRequirements: 'VIP terminal access, customs pre-clearance',
-      quotes: []
-    },
-    {
-      id: 'RFQ-006',
-      route: 'Dubai - Mumbai - Singapore',
-      aircraft: 'Bombardier Challenger 350',
-      date: '2025-10-10',
-      price: 95000,
-      currency: 'USD',
-      status: 'pending',
-      legs: 2,
-      passengers: 8,
-      specialRequirements: 'Multi-leg itinerary, cargo space for luxury goods',
-      quotes: []
-    },
-    {
-      id: 'RFQ-007',
-      route: 'New York - London - Paris - Rome',
-      aircraft: 'Airbus ACJ320neo',
-      date: '2025-10-12',
-      price: 280000,
-      currency: 'USD',
-      status: 'quoted',
-      legs: 3,
-      passengers: 18,
-      specialRequirements: 'European tour, diplomatic clearance, conference facilities',
-      quotes: [
-        {
-          id: 'Q-008',
-          operator: 'European Executive',
-          price: 280000,
-          currency: 'USD',
-          validUntil: '2025-10-10T14:00:00Z',
-          aircraft: 'Airbus ACJ320neo',
-          verified: true,
-          rating: 4.8,
-          responseTime: 3.5,
-          dealScore: 91,
-          fees: {
-            basePrice: 250000,
-            fuelSurcharge: 20000,
-            handling: 5000,
-            catering: 5000,
-            total: 280000
-          }
-        }
-      ]
-    },
-    {
-      id: 'RFQ-008',
-      route: 'São Paulo - Buenos Aires',
-      aircraft: 'Embraer Legacy 650E',
-      date: '2025-10-15',
-      price: 55000,
-      currency: 'USD',
-      status: 'quoted',
-      legs: 1,
-      passengers: 12,
-      specialRequirements: 'Bilingual crew, South American customs expertise',
-      quotes: [
-        {
-          id: 'Q-009',
-          operator: 'Latam Executive',
-          price: 55000,
-          currency: 'USD',
-          validUntil: '2025-10-13T16:30:00Z',
-          aircraft: 'Embraer Legacy 650E',
-          verified: true,
-          rating: 4.7,
-          responseTime: 2.2,
-          dealScore: 88,
-          fees: {
-            basePrice: 50000,
-            fuelSurcharge: 3000,
-            handling: 1500,
-            catering: 500,
-            total: 55000
-          }
-        }
-      ]
-    },
-    {
-      id: 'RFQ-009',
-      route: 'Hong Kong - Sydney',
-      aircraft: 'Bombardier Global 7500',
-      date: '2025-10-18',
-      price: 165000,
-      currency: 'USD',
-      status: 'pending',
-      legs: 1,
-      passengers: 14,
-      specialRequirements: 'Extended range, medical equipment, quarantine protocols',
-      quotes: []
-    },
-    {
-      id: 'RFQ-010',
-      route: 'Moscow - Istanbul - Dubai',
-      aircraft: 'Gulfstream G550',
-      date: '2025-10-20',
-      price: 120000,
-      currency: 'USD',
-      status: 'quoted',
-      legs: 2,
-      passengers: 10,
-      specialRequirements: 'Multi-leg business trip, security detail, cargo space',
-      quotes: [
-        {
-          id: 'Q-010',
-          operator: 'Eurasian Aviation',
-          price: 120000,
-          currency: 'USD',
-          validUntil: '2025-10-18T12:00:00Z',
-          aircraft: 'Gulfstream G550',
-          verified: true,
-          rating: 4.6,
-          responseTime: 4.1,
-          dealScore: 83,
-          fees: {
-            basePrice: 110000,
-            fuelSurcharge: 7000,
-            handling: 2000,
-            catering: 1000,
-            total: 120000
-          }
-        }
-      ]
-    }
-  ]);
-
-  const [savedSearches, setSavedSearches] = useState([
-    {
-      id: 'SS-001',
-      name: 'LHR to JFK Business',
-      from: 'LHR',
-      to: 'JFK',
-      dateFrom: '2025-09-20',
-      dateTo: '2025-09-25',
-      passengers: 8,
-      budgetMax: 95000,
-      currency: 'USD',
-      alerts: 3,
-      lastAlert: '2025-09-16T14:30:00Z'
-    },
-    {
-      id: 'SS-002',
-      name: 'CDG to DXB Luxury',
-      from: 'CDG',
-      to: 'DXB',
-      dateFrom: '2025-09-25',
-      dateTo: '2025-09-30',
-      passengers: 12,
-      budgetMax: 70000,
-      currency: 'EUR',
-      alerts: 1,
-      lastAlert: '2025-09-22T09:15:00Z'
-    },
-    {
-      id: 'SS-003',
-      name: 'LAX to NRT Premium',
-      from: 'LAX',
-      to: 'NRT',
-      dateFrom: '2025-10-01',
-      dateTo: '2025-10-10',
-      passengers: 16,
-      budgetMax: 140000,
-      currency: 'USD',
-      alerts: 2,
-      lastAlert: '2025-09-28T16:45:00Z'
-    },
-    {
-      id: 'SS-004',
-      name: 'MIA to LHR Executive',
-      from: 'MIA',
-      to: 'LHR',
-      dateFrom: '2025-09-28',
-      dateTo: '2025-10-05',
-      passengers: 8,
-      budgetMax: 55000,
-      currency: 'USD',
-      alerts: 0,
-      lastAlert: null
-    },
-    {
-      id: 'SS-005',
-      name: 'ZUR to SIN Ultra Long Range',
-      from: 'ZUR',
-      to: 'SIN',
-      dateFrom: '2025-10-05',
-      dateTo: '2025-10-15',
-      passengers: 8,
-      budgetMax: 110000,
-      currency: 'EUR',
-      alerts: 1,
-      lastAlert: '2025-10-02T11:20:00Z'
-    }
-  ]);
-
-
-  // Debug alerts state
   useEffect(() => {
-    console.log('Alerts state updated:', alerts);
-    console.log('Unread alerts count:', alerts.filter(a => a.unread).length);
-  }, [alerts]);
-
-  const isDemoMode = import.meta.env.VITE_SC_DEMO_MODE === 'true';
-
-  const createPaymentIntent = (rfq: RFQ, quote: Quote) => {
-    const platformFee = Math.round(quote.price * 0.07);
-    const netToOperator = quote.price - platformFee;
-    
-    alert(`🚀 Payment Intent Created\n\n` +
-      `Route: ${rfq.route}\n` +
-      `Aircraft: ${quote.aircraft}\n` +
-      `Operator: ${quote.operator}\n` +
-      `Total Price: $${quote.price.toLocaleString()}\n` +
-      `Platform Fee (7%): $${platformFee.toLocaleString()}\n` +
-      `Net to Operator: $${netToOperator.toLocaleString()}\n\n` +
-      `✅ FCA Compliant - No custody of funds\n` +
-      `🔒 Stripe Connect processing\n` +
-      `📋 Immutable audit trail created`);
-  };
-
-  const generateReceipt = (rfq: RFQ, quote: Quote) => {
-    const platformFee = Math.round(quote.price * 0.07);
-    const netToOperator = quote.price - platformFee;
-    const auditHash = `audit_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
-    const receipt = {
-      transactionId: `TXN_${Date.now()}`,
-      timestamp: new Date().toISOString(),
-      broker: 'Demo Broker Ltd',
-      operator: quote.operator,
-      route: rfq.route,
-      aircraft: quote.aircraft,
-      totalPrice: quote.price,
-      platformFee: platformFee,
-      netToOperator: netToOperator,
-      currency: quote.currency,
-      auditHash: auditHash,
-      status: 'completed',
-      fcaCompliant: true,
-      stripeTransactionId: `pi_${Date.now()}`
+    const loadMetrics = async () => {
+      try {
+        setMetricsLoading(true);
+        // const data = await brokerDashboardService.getBrokerMetrics();
+        // setMetrics(data);
+      } catch (error) {
+        console.error('Failed to load broker metrics:', error);
+        // Use fallback data
+        setMetrics({
+          activeRFQs: 10,
+          quotesReceived: 23,
+          dealsClosed: 5,
+          avgResponseTime: 2.3,
+          reputationPoints: 567,
+          reputationRank: 'Gold',
+          weeklyTrend: {
+            rfqsChange: 12,
+            quotesChange: 8,
+            dealsChange: 15
+          }
+        });
+      } finally {
+        setMetricsLoading(false);
+      }
     };
 
-    const receiptData = JSON.stringify(receipt, null, 2);
-    const blob = new Blob([receiptData], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `receipt_${receipt.transactionId}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
+    loadMetrics();
+  }, []);
 
-    alert(`📄 Receipt generated with audit hash: ${auditHash}\n\n✅ FCA compliant transaction record`);
-  };
-
-  const runLiveFlowTests = async () => {
-    const result = { allPassed: true, summary: 'Demo mode - all tests passed' };
-    setLiveFlowResult(result);
-    alert(`Live Flow Tests: ${result.allPassed ? 'PASSED' : 'FAILED'}\n\n${result.summary}`);
-  };
-
-  const runWarRoomChecks = async () => {
-    const result = { allChecksPassed: true, summary: 'Demo mode - all checks passed' };
-    setWarRoomResult(result);
-    alert(`War Room Checks: ${result.allChecksPassed ? 'PASSED' : 'FAILED'}\n\n${result.summary}`);
-  };
-
-  const generateEvidencePack = async () => {
-    const pack = { id: 'demo-pack', timestamp: new Date().toISOString() };
-    setEvidencePack(pack);
-    alert('Evidence pack generated and downloaded!');
-  };
-
-  const handleAlertClick = (alert: any) => {
-    console.log('Alert clicked:', alert);
-    
-    // Close dropdown immediately
-    setShowAlertsDropdown(false);
-    
-    // Mark alert as read
-    setAlerts(prev => prev.map(a => 
-      a.id === alert.id ? { ...a, unread: false } : a
-    ));
-
-    // Navigate based on alert type with a small delay to ensure dropdown closes first
-    setTimeout(() => {
-      switch (alert.type) {
-        case 'price_drop':
-          // Navigate to marketplace to see the price drop
-          console.log('Navigating to marketplace for price drop');
-          setActiveTab('marketplace');
-          break;
-        case 'last_minute':
-          // Navigate to marketplace for last minute deals
-          console.log('Navigating to marketplace for last minute deal');
-          setActiveTab('marketplace');
-          break;
-        case 'new_operator':
-          // Navigate to marketplace to see new operators
-          console.log('Navigating to marketplace for new operator');
-          setActiveTab('marketplace');
-          break;
-        default:
-          // Default to marketplace
-          console.log('Navigating to marketplace (default)');
-          setActiveTab('marketplace');
-      }
-    }, 100);
-  };
-
-  const dismissAlert = (alertId: string) => {
-    setAlerts(prev => prev.filter(alert => alert.id !== alertId));
-  };
-
-  const renderDashboard = () => (
-    <div className="space-y-6">
-      {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="p-4 border-slate-700" style={{ backgroundColor: '#0e141b' }}>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">Active RFQs</p>
-              <p className="text-2xl font-bold text-foreground">
-                {metricsLoading ? '...' : (metrics?.activeRFQs || rfqs.length)}
-              </p>
-              <p className="text-xs text-accent">
-                {metrics?.weeklyTrend.rfqsChange > 0 ? '+' : ''}{metrics?.weeklyTrend.rfqsChange?.toFixed(0) || '+12'}% this week
-              </p>
-            </div>
-            <FileText className="w-8 h-8 text-accent" />
+  return (
+    <>
+      <div className="min-h-screen relative overflow-hidden">
+        {/* Cinematic Background - Orange/Red Theme */}
+        <div className="fixed inset-0 z-0">
+          {/* Cinematic Burnt Orange to Obsidian Gradient */}
+          <div 
+            className="absolute inset-0"
+            style={{
+              background: 'radial-gradient(ellipse at center, rgba(139, 69, 19, 0.9) 0%, rgba(91, 30, 13, 0.95) 25%, rgba(59, 30, 13, 0.98) 50%, rgba(20, 20, 20, 0.99) 75%, rgba(10, 10, 12, 1) 100%), linear-gradient(135deg, #3b1e0d 0%, #2d1a0a 25%, #1a0f08 50%, #0f0a06 75%, #0a0a0c 100%)',
+            }}
+          />
+          
+          {/* Cinematic Vignette - Creates spotlight effect on center */}
+          <div 
+            className="absolute inset-0"
+            style={{
+              background: 'radial-gradient(ellipse 80% 60% at center, transparent 0%, transparent 40%, rgba(0, 0, 0, 0.1) 60%, rgba(0, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0.6) 100%)',
+            }}
+          />
+          
+          {/* Enhanced golden-orange glow in the center */}
+          <div 
+            className="absolute inset-0"
+            style={{
+              background: 'radial-gradient(ellipse 80% 60% at center, rgba(255, 140, 0, 0.25) 0%, rgba(255, 140, 0, 0.15) 20%, rgba(255, 140, 0, 0.08) 40%, rgba(255, 140, 0, 0.04) 60%, transparent 80%)',
+            }}
+          />
+          
+          {/* Additional orange glow layer for more intensity */}
+          <div 
+            className="absolute inset-0"
+            style={{
+              background: 'radial-gradient(ellipse 100% 80% at center, rgba(255, 165, 0, 0.12) 0%, rgba(255, 140, 0, 0.08) 30%, rgba(255, 140, 0, 0.04) 50%, transparent 70%)',
+            }}
+          />
+          
+          {/* Subtle pulsing orange glow effect */}
+          <div 
+            className="absolute inset-0 animate-pulse"
+            style={{
+              background: 'radial-gradient(ellipse 70% 50% at center, rgba(255, 140, 0, 0.08) 0%, rgba(255, 140, 0, 0.04) 25%, transparent 50%)',
+              animation: 'pulse 4s ease-in-out infinite',
+            }}
+          />
+          
+          {/* Subtle grid pattern overlay - more refined */}
+          <div className="absolute inset-0 opacity-5">
+            <div className="w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxwYXRoIGQ9Ik0gMTAwIDAgTCAwIDAgTCAwIDEwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjAuNSIvPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0idXJsKCNncmlkKSIvPgo8L3N2Zz4=')] opacity-30"></div>
           </div>
-        </Card>
-
-        <Card className="p-4 border-slate-700" style={{ backgroundColor: '#0e141b' }}>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">Quotes Received</p>
-              <p className="text-2xl font-bold text-foreground">
-                {metricsLoading ? '...' : (metrics?.quotesReceived || rfqs.reduce((sum, rfq) => sum + rfq.quotes.length, 0))}
-              </p>
-              <p className="text-xs text-accent">
-                Avg {metrics?.quotesReceived && metrics?.activeRFQs ? (metrics.quotesReceived / metrics.activeRFQs).toFixed(1) : '2.3'} per RFQ
-              </p>
-            </div>
-            <TrendingUp className="w-8 h-8 text-accent" />
-          </div>
-        </Card>
-
-        <Card className="p-4 border-slate-700" style={{ backgroundColor: '#0e141b' }}>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">Deals Closed</p>
-              <p className="text-2xl font-bold text-foreground">
-                {metricsLoading ? '...' : (metrics?.dealsClosed || rfqs.filter(rfq => rfq.status === 'paid').length)}
-              </p>
-              <p className="text-xs text-accent">
-                {metrics?.dealsClosed ? `$${(metrics.dealsClosed * 45000).toLocaleString()}` : '$2.1M'} volume
-              </p>
-            </div>
-            <DollarSign className="w-8 h-8 text-accent" />
-          </div>
-        </Card>
-
-        <Card className="p-4 border-slate-700" style={{ backgroundColor: '#0e141b' }}>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">Avg Response Time</p>
-              <p className="text-2xl font-bold text-foreground">
-                {metricsLoading ? '...' : `${metrics?.avgResponseTime || 2.3}m`}
-              </p>
-              <p className="text-xs text-accent">
-                {(metrics?.avgResponseTime || 2.3) < 3 ? 'Fast lane eligible' : 'Standard lane'}
-              </p>
-            </div>
-            <Clock className="w-8 h-8 text-accent" />
-          </div>
-        </Card>
-      </div>
-
-      {/* Ranking Widget */}
-      <div className="flex justify-end">
-        <Card className="w-fit p-4 border-slate-700" style={{ backgroundColor: '#0e141b' }}>
-          <div className="flex items-center gap-3">
-            <div className="text-center">
-              <p className="text-sm text-muted-foreground">Ranking</p>
-              <div className="flex items-center gap-2">
-                <Trophy className="w-5 h-5 text-accent" />
-                <span className="text-lg font-bold text-accent">Golden</span>
-              </div>
-              <p className="text-xs text-accent">#12 Global</p>
-            </div>
-            <div className="w-px h-8" style={{ backgroundColor: '#2a3441' }}></div>
-            <div className="text-center">
-              <p className="text-sm text-muted-foreground">Points</p>
-              <p className="text-lg font-bold text-foreground">567</p>
-              <p className="text-xs text-accent">+23 this week</p>
-            </div>
-          </div>
-        </Card>
-      </div>
-
-
-      {/* Advanced Search */}
-      <AdvancedSearch terminalType="broker" onResults={(results) => console.log('Search results:', results)} />
-
-      {/* Document Management - Collapsible */}
-      <Card className="p-4 border-slate-700" style={{ backgroundColor: '#0e141b' }}>
-        <div 
-          className="cursor-pointer flex items-center justify-between mb-4"
-          onClick={() => setIsDocumentManagementCollapsed(!isDocumentManagementCollapsed)}
-        >
-          <div className="flex items-center gap-2">
-            <FileText className="w-5 h-5" />
-            <h2 className="text-lg font-semibold text-foreground">Document Management</h2>
-          </div>
-          {isDocumentManagementCollapsed ? (
-            <ChevronDown className="w-5 h-5 text-muted-foreground" />
-          ) : (
-            <ChevronUp className="w-5 h-5 text-muted-foreground" />
-          )}
         </div>
-        {!isDocumentManagementCollapsed && (
-          <div className="mt-4">
-            <DocumentManagement userRole="broker" />
+
+        {/* Header */}
+        <header className="relative z-50 border-b border-slate-800 bg-black/20 backdrop-blur-sm">
+          <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            {/* Left - Logo */}
+            <div className="flex items-center gap-4">
+              <div 
+                className="text-white text-lg font-bold bg-black px-6 py-3 rounded backdrop-blur-sm cursor-pointer hover:bg-gray-800 transition-colors"
+                onClick={() => window.location.href = '/'}
+                style={{
+                  textShadow: '0 0 10px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 140, 0, 0.2)',
+                  border: '1px solid rgba(255, 140, 0, 0.3)',
+                  boxShadow: '0 0 15px rgba(255, 140, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                }}
+              >
+                STRATUSCONNECT
+            </div>
           </div>
-        )}
-      </Card>
 
-
-      {/* Recent Activity */}
-      <Card className="p-4 border-slate-700" style={{ backgroundColor: '#0e141b' }}>
-        <div className="flex items-center gap-2 mb-4">
-          <BarChart3 className="w-5 h-5 text-accent" />
-          <h2 className="text-lg font-semibold text-foreground">Recent Activity</h2>
-        </div>
-        <div className="space-y-3">
-          {rfqs.slice(0, 3).map(rfq => (
-            <div key={rfq.id} className="p-3 rounded-lg border border-slate-600 hover:opacity-80 transition-opacity" style={{ backgroundColor: '#1a2332' }}>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-accent rounded-full"></div>
-                  <div>
-                    <p className="font-medium text-foreground">{rfq.route}</p>
-                    <p className="text-sm text-muted-foreground">{rfq.aircraft} • {rfq.quotes.length} quotes • {rfq.passengers} pax</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Badge className={`${
-                    rfq.status === 'paid' ? 'bg-green-500/20 text-green-400 border-green-500/30' :
-                    rfq.status === 'quoted' ? 'bg-blue-500/20 text-blue-400 border-blue-500/30' :
-                    'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'
-                  }`}>
-                    {rfq.status}
-                  </Badge>
-                  <Button variant="outline" size="sm" className="border-slate-600 text-muted-foreground hover:opacity-80" style={{ backgroundColor: '#1a2332' }}>
-                    <Eye className="w-4 h-4" />
-                  </Button>
-                </div>
-              </div>
+            {/* Center - Search */}
+            <div className="flex-1 max-w-md mx-8">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
+                <Input 
+                  placeholder="Search RFQs, quotes, clients..."
+                  className="pl-10 bg-slate-900/50 border-slate-600 text-white placeholder:text-slate-400 focus:border-accent"
+                />
             </div>
-          ))}
-        </div>
-      </Card>
-    </div>
-  );
+          </div>
 
-  const renderRFQs = () => (
-    <div className="space-y-6">
-      {/* Create New RFQ - Collapsible */}
-      <Card className="animate-fade-in-up border-slate-700" style={{ backgroundColor: '#0e141b' }}>
-        <CardHeader 
-          className="cursor-pointer"
-          onClick={() => setIsCreateRFQCollapsed(!isCreateRFQCollapsed)}
-        >
-          <CardTitle className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Plus className="w-5 h-5" />
-              Create New RFQ
-            </div>
-            {isCreateRFQCollapsed ? (
-              <ChevronDown className="w-5 h-5 text-muted" />
-            ) : (
-              <ChevronUp className="w-5 h-5 text-muted" />
-            )}
-          </CardTitle>
-        </CardHeader>
-        {!isCreateRFQCollapsed && (
-          <CardContent>
-            <MultiLegRFQ />
-          </CardContent>
-        )}
-      </Card>
-
-      {/* RFQ Forms with Flight Trackers - Collapsible */}
-      <Card className="animate-fade-in-up border-slate-700" style={{ backgroundColor: '#0e141b' }}>
-        <CardHeader 
-          className="cursor-pointer"
-          onClick={() => setIsRFQFormsCollapsed(!isRFQFormsCollapsed)}
-        >
-          <CardTitle className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Plane className="w-5 h-5" />
-              RFQ Forms with Flight Trackers
-            </div>
-            {isRFQFormsCollapsed ? (
-              <ChevronDown className="w-5 h-5 text-muted" />
-            ) : (
-              <ChevronUp className="w-5 h-5 text-muted" />
-            )}
-          </CardTitle>
-        </CardHeader>
-        {!isRFQFormsCollapsed && (
-          <CardContent>
-            <div className="space-y-4">
-              <p className="text-muted">Flight tracking forms and templates will be available here.</p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4 border rounded-lg">
-                  <h4 className="font-semibold mb-2">Standard RFQ Form</h4>
-                  <p className="text-sm text-muted">Basic flight request template</p>
-                </div>
-                <div className="p-4 border rounded-lg">
-                  <h4 className="font-semibold mb-2">Multi-Leg RFQ Form</h4>
-                  <p className="text-sm text-muted">Complex routing template</p>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        )}
-      </Card>
-
-      <div className="space-y-4">
-        {rfqs.map(rfq => (
-          <Card key={rfq.id} className="hover:opacity-80 animate-fade-in-up border-slate-700" style={{backgroundColor: '#0e141b', animationDelay: `${(rfq.id || 0) * 0.1}s`}}>
-            <CardHeader>
-              <div className="flex justify-between items-start">
-                <div>
-                  <CardTitle className="flex items-center gap-2">
-                    <Plane className="w-5 h-5" />
-                    {rfq.route}
-                  </CardTitle>
-                  <p className="text-gunmetal">{rfq.aircraft} • {rfq.date} • {rfq.legs} leg(s) • {rfq.passengers} pax</p>
-                  {rfq.specialRequirements && (
-                    <p className="text-sm text-accent mt-1">📋 {rfq.specialRequirements}</p>
+            {/* Right - Alerts & Actions */}
+            <div className="flex items-center gap-4">
+              {/* Alerts Bell */}
+              <div className="relative" ref={alertsDropdownRef}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowAlertsDropdown(!showAlertsDropdown)}
+                  className="relative p-2 text-slate-400 hover:text-white"
+                >
+                  <Bell className="h-5 w-5" />
+                  {unreadAlertsCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                      {unreadAlertsCount}
+                    </span>
                   )}
-                </div>
-                <div className="flex items-center gap-2">
-                  <Badge className={
-                    rfq.status === 'paid' ? 'bg-accent/20 text-accent' :
-                    rfq.status === 'quoted' ? 'bg-accent/20 text-accent' :
-                    'bg-warn/20 text-warn'
-                  }>
-                    {rfq.status}
-                  </Badge>
-                  <Button size="sm" variant="outline">
-                    <GitCompare className="w-4 h-4" />
-                  </Button>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              {rfq.quotes.length > 0 ? (
-                <div className="space-y-3">
-                  <h4 className="font-semibold flex items-center gap-2">
-                    <Target className="w-4 h-4" />
-                    Quotes Received ({rfq.quotes.length})
-                  </h4>
-                  {rfq.quotes.map(quote => (
-                    <div key={quote.id} className="p-4 border rounded-lg hover:bg-elev transition-colors">
-                      <div className="flex justify-between items-start mb-3">
-                        <div className="flex items-center gap-3">
-                          <div>
-                            <p className="font-medium">{quote.operator}</p>
-                            <p className="text-sm text-gunmetal">{quote.aircraft}</p>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Star className="w-4 h-4 text-warn" />
-                            <span className="text-sm font-medium">{quote.rating}</span>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-xl font-bold">${quote.price.toLocaleString()}</p>
-                          <p className="text-sm text-gunmetal">Valid until: {new Date(quote.validUntil).toLocaleDateString()}</p>
-                          <p className="text-xs text-accent">Deal Score: {quote.dealScore}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2 mb-3">
-                        {quote.verified ? (
-                          <Badge className="bg-accent/20 text-accent">
-                            <CheckCircle className="w-3 h-3 mr-1" />
-                            Verified
-                          </Badge>
-                        ) : (
-                          <Badge className="bg-warn/20 text-warn">
-                            <AlertTriangle className="w-3 h-3 mr-1" />
-                            Unverified
-                          </Badge>
-                        )}
-                        <Badge variant="outline" className="text-accent">
-                          <Clock className="w-3 h-3 mr-1" />
-                          {quote.responseTime}m response
-                        </Badge>
-                      </div>
-                      <div className="flex gap-2">
+                </Button>
+
+                {/* Alerts Dropdown */}
+                {showAlertsDropdown && (
+                  <div 
+                    className="absolute right-0 top-full mt-2 w-80 rounded-lg shadow-2xl z-[999999]"
+                    style={{ 
+                      backgroundColor: '#362620',
+                      border: '1px solid #4a3429'
+                    }}
+                  >
+                    <div className="p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <h3 className="text-sm font-medium text-white">Live Alerts</h3>
                         <Button
-                          onClick={() => createPaymentIntent(rfq, quote)}
-                          className="btn-terminal-accent"
-                          disabled={!quote.verified}
-                        >
-                          <DollarSign className="w-4 h-4 mr-2" />
-                          Create Payment
-                        </Button>
-                        <Button
-                          onClick={() => generateReceipt(rfq, quote)}
-                          variant="outline"
-                        >
-                          <FileText className="w-4 h-4 mr-2" />
-                          Generate Receipt
-                        </Button>
-                        <Button 
-                          variant="outline" 
+                          variant="ghost"
                           size="sm"
-                          onClick={() => {
-                            alert(`🔍 Compare Quote\n\nOperator: ${quote.operator}\nPrice: $${quote.price.toLocaleString()}\nRating: ${quote.rating}/5\nResponse Time: ${quote.responseTime}m\n\n✅ Comparison feature coming soon!`);
-                          }}
+                          className="text-xs text-slate-400 hover:text-white"
                         >
-                          <GitCompare className="w-4 h-4 mr-2" />
-                          Compare
+                          Mark all read
                         </Button>
-                        <Button 
-                          variant="outline" 
-                          size="sm"
-                          onClick={() => {
-                            const savedQuote = {
-                              id: quote.id,
-                              operator: quote.operator,
-                              price: quote.price,
-                              savedAt: new Date().toISOString()
-                            };
-                            localStorage.setItem(`saved_quote_${quote.id}`, JSON.stringify(savedQuote));
-                            alert(`💾 Quote Saved!\n\nOperator: ${quote.operator}\nPrice: $${quote.price.toLocaleString()}\n\n✅ Quote saved to your favorites!`);
-                          }}
-                        >
-                          <Save className="w-4 h-4 mr-2" />
-                          Save
-                        </Button>
+            </div>
+                      <div className="space-y-2">
+                        {alerts.map((alert) => (
+                          <div
+                            key={alert.id}
+                            onClick={() => handleAlertClick(alert.id)}
+                            className="flex items-center gap-3 p-3 rounded-lg cursor-pointer hover:bg-black/20 transition-colors"
+                          >
+                            <div className={`w-2 h-2 rounded-full ${alert.unread ? 'bg-red-500' : 'bg-slate-500'}`}></div>
+                            <div className="flex-1">
+                              <p className="text-sm text-white">{alert.message}</p>
+                              <p className="text-xs text-slate-400">{alert.timestamp}</p>
+          </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8 text-gunmetal">
-                  <Plane className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                  <p>No quotes received yet</p>
-                  <p className="text-sm">Operators typically respond within 2-5 minutes</p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        ))}
+                  </div>
+                )}
       </div>
-    </div>
-  );
 
-  const renderMarketplace = () => (
-    <div className="space-y-6">
-      <Card className="border-slate-700" style={{ backgroundColor: '#0e141b' }}>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Search className="w-5 h-5" />
-            Advanced Marketplace
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div className="flex items-center gap-2">
-              <Filter className="w-4 h-4 text-gunmetal" />
-              <span className="text-sm font-medium">Filters</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <GitCompare className="w-4 h-4 text-gunmetal" />
-              <span className="text-sm font-medium">Compare Mode</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Bell className="w-4 h-4 text-gunmetal" />
-              <span className="text-sm font-medium">Alerts Active</span>
-            </div>
+              {/* Primary CTA and Help Menu */}
+              <div className="flex items-center gap-3">
+                {/* Money Button - New RFQ */}
+                <Button
+                  onClick={() => setActiveTab('rfqs')}
+                  className="bg-accent hover:bg-accent/90 text-white font-semibold px-6"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  New RFQ
+                </Button>
+                
+                {/* User Preferences Toggle */}
+                <Button
+                  onClick={() => setShowSecondaryFeatures(!showSecondaryFeatures)}
+                  variant="outline"
+                  size="sm"
+                  className="border-slate-600 text-slate-400 hover:text-slate-300"
+                  title={showSecondaryFeatures ? "Hide secondary features" : "Show secondary features"}
+                >
+                  {showSecondaryFeatures ? 'Simplified' : 'Full View'}
+                </Button>
+                
+                {/* Help Menu */}
+                <div className="flex items-center gap-2">
+                  <Button
+                    onClick={() => setActiveTab('trophy')}
+                    variant="outline"
+                    size="sm"
+                    className="border-slate-600 text-slate-400 hover:text-slate-300"
+                  >
+                    <Trophy className="h-4 w-4 mr-1" />
+                    Trophy
+                  </Button>
+                  <Button
+                    onClick={() => window.location.href = '/tutorial/broker'}
+                    variant="outline"
+                    size="sm"
+                    className="border-slate-600 text-slate-400 hover:text-slate-300"
+                  >
+                    <Trophy className="h-4 w-4 mr-1" />
+                    Tutorial
+                  </Button>
+                </div>
+              </div>
+      </div>
           </div>
-          
+        </header>
+
+        <main className="relative z-10 max-w-7xl mx-auto p-6 space-y-6 overflow-y-auto scroll-smooth">
+
+        {/* Main Navigation */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-terminal-border scrollbar-track-transparent pb-2">
+            {/* Primary Navigation - Core Workflows */}
+            <TabsList className="flex w-max min-w-full justify-start space-x-1 backdrop-blur-sm" style={{ backgroundColor: 'hsla(0, 0%, 5%, 0.9)' }}>
+              {/* Primary Tabs - Essential Workflows */}
+              <TabsTrigger value="dashboard" className="flex items-center gap-2">
+                <BarChart3 className="w-4 h-4 icon-glow" />
+                Dashboard
+              </TabsTrigger>
+              <TabsTrigger value="rfqs" className="flex items-center gap-2">
+                <FileText className="w-4 h-4 icon-glow" />
+                RFQs & Quotes
+              </TabsTrigger>
+              <TabsTrigger value="marketplace" className="flex items-center gap-2">
+                <Search className="w-4 h-4 icon-glow" />
+                Marketplace
+              </TabsTrigger>
+              <TabsTrigger value="billing" className="flex items-center gap-2">
+                <DollarSign className="w-4 h-4 icon-glow" />
+                Billing
+              </TabsTrigger>
+              <TabsTrigger value="warroom" className="flex items-center gap-2">
+                <Shield className="w-4 h-4 icon-glow" />
+                War Room
+              </TabsTrigger>
+              
+              {/* Secondary Tabs - Important but Secondary */}
+              {showSecondaryFeatures && (
+                <>
+                  <TabsTrigger value="documents" className="flex items-center gap-2 opacity-75">
+                    <FileText className="w-4 h-4 icon-glow" />
+                    Documents
+                  </TabsTrigger>
+                  <TabsTrigger value="communication" className="flex items-center gap-2 opacity-75">
+                    <MessageCircle className="w-4 h-4 icon-glow" />
+                    Communication
+                  </TabsTrigger>
+                  <TabsTrigger value="reputation" className="flex items-center gap-2 opacity-75">
+                    <Award className="w-4 h-4 icon-glow" />
+                    Reputation
+                  </TabsTrigger>
+                </>
+              )}
+              
+              {/* Advanced Features Toggle */}
+              <div className="flex items-center ml-4">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowAdvancedFeatures(!showAdvancedFeatures)}
+                  className="text-slate-400 hover:text-white text-xs"
+                >
+                  {showAdvancedFeatures ? 'Hide' : 'Show'} Advanced
+                </Button>
+              </div>
+            </TabsList>
+            
+            {/* Secondary Navigation - Advanced Features */}
+            {showAdvancedFeatures && (
+              <div className="mt-2">
+                <TabsList className="flex w-max min-w-full justify-start space-x-1 backdrop-blur-sm" style={{ backgroundColor: 'hsla(0, 0%, 3%, 0.8)' }}>
+                  <TabsTrigger value="notes" className="flex items-center gap-2 opacity-60">
+                    <FileText className="w-3 h-3" />
+                    Notes
+                  </TabsTrigger>
+                  <TabsTrigger value="trophy" className="flex items-center gap-2 opacity-60">
+                    <Trophy className="w-3 h-3" />
+                    Scoreboard
+                  </TabsTrigger>
+                  <TabsTrigger value="jobs" className="flex items-center gap-2 opacity-60">
+                    <Users className="w-3 h-3" />
+                    Job Board
+                  </TabsTrigger>
+                  <TabsTrigger value="community" className="flex items-center gap-2 opacity-60">
+                    <MessageCircle className="w-3 h-3" />
+                    Community
+                  </TabsTrigger>
+                  <TabsTrigger value="saved-crews" className="flex items-center gap-2 opacity-60">
+                    <Users className="w-3 h-3" />
+                    Saved Crews
+                  </TabsTrigger>
+                  <TabsTrigger value="flight-tracking" className="flex items-center gap-2 opacity-60">
+                    <MapPin className="w-3 h-3" />
+                    Flight Tracking
+                  </TabsTrigger>
+                  <TabsTrigger value="advanced-search" className="flex items-center gap-2 opacity-60">
+                    <Search className="w-3 h-3" />
+                    Search
+                  </TabsTrigger>
+                  <TabsTrigger value="searches" className="flex items-center gap-2 opacity-60">
+                    <Search className="w-3 h-3" />
+                    Saved Searches
+                  </TabsTrigger>
+                </TabsList>
+              </div>
+            )}
+                    </div>
+
+          <TabsContent value="dashboard" className="mt-6 scroll-smooth">
+            <div className="space-y-6">
+              {/* Action Required */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                <Card className="border-slate-600 cursor-pointer hover:opacity-90 transition-all group" style={{ backgroundColor: '#110f0d' }}>
+                  <div className="flex h-24">
+                    <div className="w-1 bg-amber-500"></div>
+                    <CardContent className="flex-1 p-6 flex flex-col justify-center">
+                      <div className="flex items-center gap-3 mb-2">
+                        <FileText className="w-5 h-5 text-amber-400" />
+                        <p className="font-semibold text-amber-400 text-lg" style={{ textShadow: '0 0 10px rgba(255, 193, 7, 0.6)' }}>Reply to 2 RFQs now</p>
+                      </div>
+                      <p className="text-sm text-slate-400">SLA breach in 3h if ignored</p>
+                    </CardContent>
+                  </div>
+                </Card>
+
+                <Card className="border-slate-600 cursor-pointer hover:opacity-90 transition-all group" style={{ backgroundColor: '#110f0d' }}>
+                  <div className="flex h-24">
+                    <div className="w-1 bg-blue-500"></div>
+                    <CardContent className="flex-1 p-6 flex flex-col justify-center">
+                      <div className="flex items-center gap-3 mb-2">
+                        <FileText className="w-5 h-5 text-blue-400" />
+                        <p className="font-semibold text-blue-400 text-lg" style={{ textShadow: '0 0 10px rgba(59, 130, 246, 0.6)' }}>Send contract to 1 client</p>
+                      </div>
+                      <p className="text-sm text-slate-400">Deal expires in 6h</p>
+                    </CardContent>
+                  </div>
+                </Card>
+
+                <Card className="border-slate-600 cursor-pointer hover:opacity-90 transition-all group" style={{ backgroundColor: '#110f0d' }}>
+                  <div className="flex h-24">
+                    <div className="w-1 bg-green-500"></div>
+                    <CardContent className="flex-1 p-6 flex flex-col justify-center">
+                      <div className="flex items-center gap-3 mb-2">
+                        <DollarSign className="w-5 h-5 text-green-400" />
+                        <p className="font-semibold text-green-400 text-lg" style={{ textShadow: '0 0 10px rgba(34, 197, 94, 0.6)' }}>Collect 3 payments</p>
+                      </div>
+                      <p className="text-sm text-slate-400">£12,300 held in pending</p>
+                    </CardContent>
+                  </div>
+                </Card>
+              </div>
+
+              {/* Workflow Metrics */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <Card className="border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-2">
+                        <FileText className="w-4 h-4 text-slate-400" />
+                        <p className="text-xs uppercase tracking-wide text-slate-300 font-medium" style={{ textShadow: '0 0 8px rgba(148, 163, 184, 0.5)' }}>Active RFQs</p>
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-3xl font-bold text-foreground mb-1">10</p>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm text-green-400 font-medium">+12%</span>
+                        <span className="text-xs text-slate-500">this week</span>
+                      </div>
+                      <p className="text-xs text-slate-600 mt-1">from 9</p>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-2">
+                        <TrendingUp className="w-4 h-4 text-slate-400" />
+                        <p className="text-xs uppercase tracking-wide text-slate-300 font-medium" style={{ textShadow: '0 0 8px rgba(148, 163, 184, 0.5)' }}>Quotes received</p>
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-3xl font-bold text-foreground mb-1">23</p>
+                      <p className="text-sm text-slate-500">Avg 2.3 per RFQ</p>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-2">
+                        <DollarSign className="w-4 h-4 text-slate-400" />
+                        <p className="text-xs uppercase tracking-wide text-slate-300 font-medium" style={{ textShadow: '0 0 8px rgba(148, 163, 184, 0.5)' }}>Deals closed</p>
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-3xl font-bold text-foreground mb-1">5</p>
+                      <p className="text-sm text-slate-500">£2.1M volume</p>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-2">
+                        <Clock className="w-4 h-4 text-slate-400" />
+                        <p className="text-xs uppercase tracking-wide text-slate-300 font-medium" style={{ textShadow: '0 0 8px rgba(148, 163, 184, 0.5)' }}>Response time</p>
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-3xl font-bold text-foreground mb-1">2.3m</p>
+                      <p className="text-sm text-slate-500">Fast lane eligible</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Reputation & Performance */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                {/* Reputation Metrics */}
+                <div className="lg:col-span-2">
+                  <Card className="border-slate-600 h-full" style={{ backgroundColor: '#110f0d' }}>
+                    <CardContent className="p-6 h-full flex flex-col justify-between">
+                      <div className="flex items-center gap-2 mb-6">
+                        <Award className="w-4 h-4 text-slate-400" />
+                        <p className="text-sm uppercase tracking-wide text-slate-300 font-medium" style={{ textShadow: '0 0 10px rgba(148, 163, 184, 0.6)' }}>Reputation & Performance</p>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="text-center p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                          <p className="text-2xl font-bold text-accent mb-1">4.8</p>
+                          <p className="text-xs text-slate-400">Overall rating</p>
+                        </div>
+                        <div className="text-center p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                          <p className="text-2xl font-bold text-accent mb-1">98%</p>
+                          <p className="text-xs text-slate-400">Client satisfaction</p>
+                        </div>
+                        <div className="text-center p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                          <p className="text-2xl font-bold text-accent mb-1">127</p>
+                          <p className="text-xs text-slate-400">Successful deals</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Ranking Badge */}
+                <div>
+                  <Card className="border-slate-600 h-full" style={{ backgroundColor: '#110f0d' }}>
+                    <CardContent className="p-6 flex flex-col justify-center h-full">
+                      <div className="text-center">
+                        <div className="flex items-center justify-center gap-2 mb-3">
+                          <Trophy className="w-5 h-5 text-accent" />
+                          <span className="text-lg font-semibold text-accent" style={{ textShadow: '0 0 15px rgba(255, 140, 0, 0.8)' }}>Golden</span>
+                        </div>
+                        <p className="text-sm text-slate-400 mb-4">#12 Global Ranking</p>
+                        <div className="space-y-2">
+                          <div>
+                            <p className="text-2xl font-bold text-foreground">567</p>
+                            <p className="text-xs text-slate-500">Points</p>
+                          </div>
+                          <div className="pt-2 border-t border-slate-600">
+                            <p className="text-sm text-green-400 font-medium">+23 this week</p>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="rfqs" className="mt-6 scroll-smooth">
+            <div className="space-y-6">
+              {/* Active RFQs */}
+              <Card className="border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <FileText className="w-5 h-5 text-accent" />
+                    Active RFQs
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {/* RFQ 1 */}
+                    <div className="p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <h3 className="font-semibold text-white">London to Dubai Executive Flight</h3>
+                          <p className="text-sm text-slate-400">Client: Elite Aviation Group</p>
+                          <p className="text-sm text-slate-400">Aircraft: Gulfstream G650</p>
+                        </div>
+                        <Badge className="bg-amber-500/20 text-amber-400">Urgent</Badge>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
+                        <div>
+                          <p className="text-xs text-slate-500">Route</p>
+                          <p className="text-sm text-white">LHR → DXB</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-500">Passengers</p>
+                          <p className="text-sm text-white">8 passengers</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-500">Date</p>
+                          <p className="text-sm text-white">Sep 15, 2025</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <span className="text-sm text-slate-400">3 quotes received</span>
+                          <span className="text-sm text-green-400">Best: £45,000</span>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button size="sm" variant="outline">View Quotes</Button>
+                          <Button size="sm">Accept Quote</Button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* RFQ 2 */}
+                    <div className="p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <h3 className="font-semibold text-white">New York to Los Angeles Charter</h3>
+                          <p className="text-sm text-slate-400">Client: SkyBridge Ventures</p>
+                          <p className="text-sm text-slate-400">Aircraft: Bombardier Global 7500</p>
+                        </div>
+                        <Badge className="bg-blue-500/20 text-blue-400">New</Badge>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
+                        <div>
+                          <p className="text-xs text-slate-500">Route</p>
+                          <p className="text-sm text-white">JFK → LAX</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-500">Passengers</p>
+                          <p className="text-sm text-white">12 passengers</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-500">Date</p>
+                          <p className="text-sm text-white">Sep 18, 2025</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <span className="text-sm text-slate-400">1 quote received</span>
+                          <span className="text-sm text-yellow-400">Awaiting more</span>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button size="sm" variant="outline">View Quote</Button>
+                          <Button size="sm" variant="outline">Request More</Button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* RFQ 3 */}
+                    <div className="p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <h3 className="font-semibold text-white">Paris to Monaco Luxury Trip</h3>
+                          <p className="text-sm text-slate-400">Client: Monaco Elite</p>
+                          <p className="text-sm text-slate-400">Aircraft: Citation CJ3+</p>
+                        </div>
+                        <Badge className="bg-green-500/20 text-green-400">Ready</Badge>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
+                        <div>
+                          <p className="text-xs text-slate-500">Route</p>
+                          <p className="text-sm text-white">CDG → MCM</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-500">Passengers</p>
+                          <p className="text-sm text-white">6 passengers</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-500">Date</p>
+                          <p className="text-sm text-white">Sep 20, 2025</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <span className="text-sm text-slate-400">5 quotes received</span>
+                          <span className="text-sm text-green-400">Best: £18,500</span>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button size="sm" variant="outline">Compare Quotes</Button>
+                          <Button size="sm">Book Now</Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Recent Quotes */}
+              <Card className="border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <TrendingUp className="w-5 h-5 text-accent" />
+                    Recent Quotes
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between p-3 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center">
+                          <span className="text-xs font-semibold">EA</span>
+                        </div>
+                        <div>
+                          <p className="font-medium text-white">Elite Aviation</p>
+                          <p className="text-sm text-slate-400">Gulfstream G650 - LHR→DXB</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-semibold text-green-400">£45,000</p>
+                        <p className="text-xs text-slate-400">2 hours ago</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between p-3 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center">
+                          <span className="text-xs font-semibold">GW</span>
+                        </div>
+                        <div>
+                          <p className="font-medium text-white">Global Wings</p>
+                          <p className="text-sm text-slate-400">Global 7500 - JFK→LAX</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-semibold text-green-400">£78,500</p>
+                        <p className="text-xs text-slate-400">4 hours ago</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between p-3 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center">
+                          <span className="text-xs font-semibold">SC</span>
+                        </div>
+                        <div>
+                          <p className="font-medium text-white">SkyBridge Charters</p>
+                          <p className="text-sm text-slate-400">Citation CJ3+ - CDG→MCM</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-semibold text-green-400">£18,500</p>
+                        <p className="text-xs text-slate-400">6 hours ago</p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="marketplace" className="mt-6 scroll-smooth">
+            <div className="space-y-6">
+              <Card className="border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                <CardHeader>
+                  <CardTitle>Marketplace</CardTitle>
+                </CardHeader>
+                <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[1, 2, 3, 4, 5, 6].map(i => (
-              <Card key={i} className="p-4 hover:opacity-80 transition-all border-slate-700" style={{ backgroundColor: '#0e141b' }}>
+                    {/* Small Aircraft - Citation CJ3+ */}
+                    <Card className="p-4 hover:opacity-80 transition-all border-slate-600" style={{ backgroundColor: '#110f0d' }}>
                 <div className="flex items-start justify-between mb-3">
                   <div>
                     <h3 className="font-semibold">Elite Aviation</h3>
-                    <p className="text-sm text-gunmetal">Gulfstream G650</p>
+                          <p className="text-sm text-gunmetal">Citation CJ3+</p>
                   </div>
                   <Badge className="bg-accent/20 text-accent">Verified</Badge>
                 </div>
@@ -1131,12 +830,12 @@ export default function DemoBrokerTerminal() {
                   </div>
                   <div className="flex items-center gap-2 text-sm">
                     <Users className="w-4 h-4 text-gunmetal" />
-                    <span>8 seats</span>
+                          <span>6 seats</span>
                   </div>
                 </div>
                 <div className="flex items-center justify-between mb-3">
-                  <div className="text-2xl font-bold">$45,000</div>
-                  <div className="text-sm text-gunmetal">$2,100/NM</div>
+                        <div className="text-2xl font-bold">$28,500</div>
+                        <div className="text-sm text-gunmetal">$2,400/NM</div>
                 </div>
                 <div className="flex gap-2">
                   <Button size="sm" className="flex-1">
@@ -1151,625 +850,1273 @@ export default function DemoBrokerTerminal() {
                   </Button>
                 </div>
               </Card>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  );
 
-  const renderSavedSearches = () => (
-    <div className="space-y-6">
-      <SavedSearches />
+                    {/* Medium Aircraft - Gulfstream G550 */}
+                    <Card className="p-4 hover:opacity-80 transition-all border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <h3 className="font-semibold">SkyBridge Charters</h3>
+                          <p className="text-sm text-gunmetal">Gulfstream G550</p>
     </div>
-  );
-
-  const renderReputation = () => (
-    <div className="space-y-6">
-      <ReputationMetrics userId="broker_001" userType="broker" />
+                        <Badge className="bg-purple-500/20 text-purple-400">Premium</Badge>
     </div>
-  );
-
-  const renderBilling = () => (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-foreground">Billing & Analytics</h2>
-        <div className="flex space-x-2">
-          <Button 
-            onClick={() => setShowContractGenerator(true)}
-            className="bg-terminal-accent hover:bg-terminal-accent/90"
-          >
-            <FileText className="w-4 h-4 mr-2" />
-            Generate Contract
-          </Button>
-          <Button 
-            onClick={() => setShowReceiptGenerator(true)}
-            className="bg-terminal-accent hover:bg-terminal-accent/90"
-          >
-            <Receipt className="w-4 h-4 mr-2" />
-            Generate Receipt
-          </Button>
+                      <div className="space-y-2 mb-4">
+                        <div className="flex items-center gap-2 text-sm">
+                          <MapPin className="w-4 h-4 text-gunmetal" />
+                          <span>LAX → NRT</span>
         </div>
+                        <div className="flex items-center gap-2 text-sm">
+                          <Calendar className="w-4 h-4 text-gunmetal" />
+                          <span>Sep 22, 2025</span>
       </div>
-      <MonthlyStatements />
+                        <div className="flex items-center gap-2 text-sm">
+                          <Users className="w-4 h-4 text-gunmetal" />
+                          <span>12 seats</span>
     </div>
-  );
+              </div>
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="text-2xl font-bold">$78,000</div>
+                        <div className="text-sm text-gunmetal">$1,950/NM</div>
+            </div>
+                      <div className="flex gap-2">
+                        <Button size="sm" className="flex-1">
+                          <DollarSign className="w-4 h-4 mr-2" />
+                          Book
+                        </Button>
+                        <Button size="sm" variant="outline">
+                          <GitCompare className="w-4 h-4" />
+                        </Button>
+                        <Button size="sm" variant="outline">
+                          <Save className="w-4 h-4" />
+                        </Button>
+              </div>
+                    </Card>
 
-  const renderTrophyRoom = () => (
-    <div className="space-y-6">
-      <Card className="border-slate-700" style={{ backgroundColor: '#0e141b' }}>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Trophy className="w-5 h-5 text-accent" />
-            Your Achievements
-          </CardTitle>
-          <CardDescription>
-            Track your progress and unlock new achievements
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div className="p-4 bg-accent/10 rounded-lg border border-accent/20">
-              <div className="flex items-center gap-2 mb-2">
-                <Trophy className="w-5 h-5 text-accent" />
-                <span className="font-semibold">First Deal</span>
-              </div>
-              <p className="text-sm text-muted-foreground">Complete your first successful transaction</p>
-              <Badge className="mt-2 bg-green-500">Completed</Badge>
+                    {/* Large Aircraft - Bombardier Global 7500 */}
+                    <Card className="p-4 hover:opacity-80 transition-all border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <h3 className="font-semibold">Global Wings</h3>
+                          <p className="text-sm text-gunmetal">Bombardier Global 7500</p>
             </div>
-            <div className="p-4 bg-accent/10 rounded-lg border border-accent/20">
-              <div className="flex items-center gap-2 mb-2">
-                <Star className="w-5 h-5 text-accent" />
-                <span className="font-semibold">Top Performer</span>
+                        <Badge className="bg-green-500/20 text-green-400">New</Badge>
               </div>
-              <p className="text-sm text-muted-foreground">Achieve top 10% performance rating</p>
-              <Badge className="mt-2 bg-yellow-500">In Progress</Badge>
+                      <div className="space-y-2 mb-4">
+                        <div className="flex items-center gap-2 text-sm">
+                          <MapPin className="w-4 h-4 text-gunmetal" />
+                          <span>CDG → LAX</span>
             </div>
-            <div className="p-4 bg-accent/10 rounded-lg border border-accent/20">
-              <div className="flex items-center gap-2 mb-2">
-                <Award className="w-5 h-5 text-accent" />
-                <span className="font-semibold">Client Satisfaction</span>
-              </div>
-              <p className="text-sm text-muted-foreground">Maintain 95%+ client satisfaction</p>
-              <Badge className="mt-2 bg-blue-500">In Progress</Badge>
-            </div>
+                        <div className="flex items-center gap-2 text-sm">
+                          <Calendar className="w-4 h-4 text-gunmetal" />
+                          <span>Sep 25, 2025</span>
           </div>
-        </CardContent>
-      </Card>
+                        <div className="flex items-center gap-2 text-sm">
+                          <Users className="w-4 h-4 text-gunmetal" />
+                          <span>16 seats</span>
     </div>
-  );
-
-  return (
-    <>
-      {activeTab === 'dashboard' && (
-        <ModernHelpGuide 
-          terminalType="broker" 
-          activeTab={activeTab} 
-          showOnMount={true} 
-          isDemo={true}
-        />
-      )}
-      <div className="min-h-screen relative overflow-hidden scroll-smooth z-0">
-        {/* Cinematic Burnt Orange to Obsidian Gradient */}
-        <div 
-          className="absolute inset-0"
-          style={{
-            background: 'radial-gradient(ellipse at center, rgba(139, 69, 19, 0.9) 0%, rgba(91, 30, 13, 0.95) 25%, rgba(59, 30, 13, 0.98) 50%, rgba(20, 20, 20, 0.99) 75%, rgba(10, 10, 12, 1) 100%), linear-gradient(135deg, #3b1e0d 0%, #2d1a0a 25%, #1a0f08 50%, #0f0a06 75%, #0a0a0c 100%)',
-          }}
-        />
-        
-        {/* Cinematic Vignette - Creates spotlight effect on center */}
-        <div 
-          className="absolute inset-0"
-          style={{
-            background: 'radial-gradient(ellipse 80% 60% at center, transparent 0%, transparent 40%, rgba(0, 0, 0, 0.1) 60%, rgba(0, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0.6) 100%)',
-          }}
-        />
-        
-        {/* Subtle golden-orange glow in the center */}
-        <div 
-          className="absolute inset-0"
-          style={{
-            background: 'radial-gradient(ellipse 60% 40% at center, rgba(255, 140, 0, 0.08) 0%, rgba(255, 140, 0, 0.04) 30%, transparent 60%)',
-          }}
-        />
-        
-        {/* Subtle grid pattern overlay - more refined */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxwYXRoIGQ9Ik0gMTAwIDAgTCAwIDAgTCAwIDEwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjAuNSIvPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0idXJsKCNncmlkKSIvPgo8L3N2Zz4=')] opacity-30"></div>
         </div>
-        
-        <header className="relative z-50 sticky top-0 backdrop-blur-modern border-b border-terminal-border bg-slate-800">
-        <div className="w-full px-6 py-3 flex items-center justify-between">
-          {/* Logo and Alerts */}
-          <div className="flex items-center gap-4 relative">
-            <StratusConnectLogo className="text-xl" />
-            {alerts.length > 0 && (
-              <div className="relative z-[100]">
-                <button
-                  onClick={() => {
-                    console.log('Bell clicked, current state:', showAlertsDropdown);
-                    setShowAlertsDropdown(!showAlertsDropdown);
-                  }}
-                  className="relative p-2 rounded-full hover:bg-slate-700/50 transition-colors"
-                >
-                  <Bell className="w-5 h-5 text-accent" />
-                  {alerts.filter(a => a.unread).length > 0 && (
-                    <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full text-xs text-white flex items-center justify-center">
-                      {alerts.filter(a => a.unread).length}
-                    </span>
-                  )}
-                </button>
-                
-                {/* Alerts Dropdown */}
-                {showAlertsDropdown && (
-                  <div 
-                    ref={alertsDropdownRef}
-                    className="absolute top-full left-0 mt-2 w-72 border border-slate-600 rounded-lg shadow-2xl"
-                    style={{ 
-                      backgroundColor: '#362620', 
-                      zIndex: 999999,
-                      position: 'absolute',
-                      isolation: 'isolate'
-                    }}
-                  >
-                    <div className="p-2 border-b border-slate-500/40">
-                      <h3 className="text-xs font-semibold text-white">Live Alerts</h3>
-                      <p className="text-xs text-slate-300">{alerts.filter(a => a.unread).length} unread</p>
-                    </div>
-                    <div className="max-h-48 overflow-y-auto">
-                      {alerts.map(alert => (
-                        <button
-                          key={alert.id}
-                          onClick={() => handleAlertClick(alert)}
-                          className={`w-full p-2 text-left hover:bg-slate-700/40 transition-colors border-b border-slate-500/30 last:border-b-0 ${
-                            alert.unread ? 'bg-slate-700/20' : ''
-                          }`}
-                        >
-                          <div className="flex items-start gap-2">
-                            <div className="flex-shrink-0 mt-0.5">
-                              {alert.type === 'price_drop' ? (
-                                <TrendingUp className="w-3 h-3 text-accent" />
-                              ) : alert.type === 'last_minute' ? (
-                                <Clock className="w-3 h-3 text-accent" />
-                              ) : (
-                                <Bell className="w-3 h-3 text-accent" />
-                              )}
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-1 mb-0.5">
-                                <h4 className="text-xs font-medium text-white truncate">{alert.title}</h4>
-                                {alert.unread && (
-                                  <span className="w-1.5 h-1.5 bg-accent rounded-full flex-shrink-0"></span>
-                                )}
-                              </div>
-                              <p className="text-xs text-slate-300 mb-0.5 truncate">{alert.message}</p>
-                              <p className="text-xs text-slate-400">{new Date(alert.time).toLocaleDateString()}</p>
-                            </div>
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                    <div className="p-2 border-t border-slate-500/40 flex justify-between items-center">
-                      <button
-                        onClick={() => {
-                          console.log('Mark all as read clicked');
-                          setAlerts(prev => prev.map(alert => ({ ...alert, unread: false })));
-                        }}
-                        className="text-xs text-slate-300 hover:text-white transition-colors"
-                      >
-                        Mark all read
-                      </button>
-                      <button
-                        onClick={() => {
-                          console.log('Close dropdown clicked');
-                          setShowAlertsDropdown(false);
-                        }}
-                        className="text-xs text-slate-300 hover:text-white transition-colors"
-                      >
-                        Close
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="text-2xl font-bold">$125,000</div>
+                        <div className="text-sm text-gunmetal">$1,800/NM</div>
           </div>
-          
-          {/* Middle space cleared for future content */}
-          <div className="flex-1"></div>
-          
-          {/* Tutorial button at absolute right corner */}
-          <div className="flex items-center">
-            <Button
-              onClick={() => window.location.href = '/tutorial/broker'}
-              className="bg-orange-500 hover:bg-orange-600 text-white"
-            >
-              <Trophy className="h-4 w-4 mr-2" />
-              Tutorial
+          <div className="flex gap-2">
+                        <Button size="sm" className="flex-1">
+                          <DollarSign className="w-4 h-4 mr-2" />
+                          Book
             </Button>
+                        <Button size="sm" variant="outline">
+                          <GitCompare className="w-4 h-4" />
+                        </Button>
+                        <Button size="sm" variant="outline">
+                          <Save className="w-4 h-4" />
+                        </Button>
           </div>
+                    </Card>
         </div>
-      </header>
-
-        <main className="relative z-10 max-w-7xl mx-auto p-6 space-y-6 overflow-y-auto scroll-smooth">
-
-
-        {/* Main Navigation */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-terminal-border scrollbar-track-transparent pb-2">
-            <TabsList className="flex w-max min-w-full justify-start space-x-1 backdrop-blur-sm" style={{ backgroundColor: 'hsla(0, 0%, 5%, 0.9)' }}>
-            <TabsTrigger value="dashboard" className="flex items-center gap-2">
-              <BarChart3 className="w-4 h-4 icon-glow" />
-              Dashboard
-            </TabsTrigger>
-            <TabsTrigger value="rfqs" className="flex items-center gap-2">
-              <FileText className="w-4 h-4 icon-glow" />
-              RFQs & Quotes
-            </TabsTrigger>
-            <TabsTrigger value="marketplace" className="flex items-center gap-2">
-              <Search className="w-4 h-4 icon-glow" />
-              Marketplace
-            </TabsTrigger>
-            <TabsTrigger value="searches" className="flex items-center gap-2">
-              <Bell className="w-4 h-4 icon-glow" />
-              Saved Searches
-            </TabsTrigger>
-            <TabsTrigger value="reputation" className="flex items-center gap-2">
-              <Award className="w-4 h-4 icon-glow" />
-              Reputation
-            </TabsTrigger>
-            <TabsTrigger value="notes" className="flex items-center gap-2">
-              <FileText className="w-4 h-4 icon-glow" />
-              Notes
-            </TabsTrigger>
-            <TabsTrigger value="billing" className="flex items-center gap-2">
-              <DollarSign className="w-4 h-4 icon-glow" />
-              Billing
-            </TabsTrigger>
-            <TabsTrigger value="scoreboard" className="flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 icon-glow" />
-              Scoreboard
-            </TabsTrigger>
-            <TabsTrigger value="warroom" className="flex items-center gap-2">
-              <Shield className="w-4 h-4 icon-glow" />
-              War Room
-            </TabsTrigger>
-            <TabsTrigger value="trophy" className="flex items-center gap-2">
-              <Trophy className="w-4 h-4 icon-glow" />
-              Trophy
-            </TabsTrigger>
-            <TabsTrigger value="jobs" className="flex items-center gap-2">
-              <Briefcase className="w-4 h-4 icon-glow" />
-              Job Board
-            </TabsTrigger>
-            <TabsTrigger value="community" className="flex items-center gap-2">
-              <Users className="w-4 h-4 icon-glow" />
-              Community
-            </TabsTrigger>
-            <TabsTrigger value="saved-crews" className="flex items-center gap-2">
-              <Star className="w-4 h-4 icon-glow" />
-              Saved Crews
-            </TabsTrigger>
-            <TabsTrigger value="documents" className="flex items-center gap-2">
-              <FileText className="w-4 h-4 icon-glow" />
-              Documents
-            </TabsTrigger>
-            <TabsTrigger value="flight-tracking" className="flex items-center gap-2">
-              <Plane className="w-4 h-4 icon-glow" />
-              Flight Tracking
-            </TabsTrigger>
-            <TabsTrigger value="advanced-search" className="flex items-center gap-2">
-              <Search className="w-4 h-4 icon-glow" />
-              Search
-            </TabsTrigger>
-            <TabsTrigger value="communication" className="flex items-center gap-2">
-              <MessageCircle className="w-4 h-4 icon-glow" />
-              Communication
-            </TabsTrigger>
-            </TabsList>
+                </CardContent>
+              </Card>
           </div>
+          </TabsContent>
 
-          <TabsContent value="dashboard" className="mt-6 scroll-smooth">
-            {renderDashboard()}
-          </TabsContent>
-          <TabsContent value="rfqs" className="mt-6 scroll-smooth">
-            {renderRFQs()}
-          </TabsContent>
-          <TabsContent value="marketplace" className="mt-6 scroll-smooth">
-            {renderMarketplace()}
-          </TabsContent>
-          <TabsContent value="searches" className="mt-6 scroll-smooth">
-            {renderSavedSearches()}
-          </TabsContent>
-          <TabsContent value="reputation" className="mt-6 scroll-smooth">
-            {renderReputation()}
-          </TabsContent>
           <TabsContent value="billing" className="mt-6 scroll-smooth">
-            {renderBilling()}
-          </TabsContent>
-          <TabsContent value="scoreboard" className="mt-6 scroll-smooth">
-            <WeekOneScoreboard />
-          </TabsContent>
-          <TabsContent value="warroom" className="mt-6 scroll-smooth">
-            <Card className="border-slate-700" style={{ backgroundColor: '#0e141b' }}>
+            <div className="space-y-6">
+              <Card className="border-slate-600" style={{ backgroundColor: '#110f0d' }}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Shield className="w-5 h-5" />
-                  War Room Checks
+                    <DollarSign className="w-5 h-5 text-accent" />
+                    Billing & Payments
                 </CardTitle>
+                  <CardDescription>
+                    Monthly statements, pending payments, VAT invoices
+                  </CardDescription>
               </CardHeader>
               <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Revenue Overview */}
                 <div className="space-y-4">
-                  <Button onClick={runWarRoomChecks} className="w-full">
-                    <Shield className="w-4 h-4 mr-2" />
-                    Run War Room Checks
-                  </Button>
-                  {warRoomResult && (
-                    <div className="mt-4 p-4 bg-surface rounded-lg">
-                      <h3 className="font-semibold mb-2">Results:</h3>
-                      <p className="text-sm text-gunmetal whitespace-pre-line">
-                        {warRoomResult.summary}
-                      </p>
+                      <h3 className="text-lg font-semibold text-foreground">Revenue Overview</h3>
+                      <div className="space-y-3">
+                        <div className="p-3 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                          <p className="text-sm text-muted-foreground">This Month</p>
+                          <p className="text-2xl font-bold text-accent">$47,500</p>
+                          <p className="text-xs text-green-400">+15% from last month</p>
                     </div>
-                  )}
+                        <div className="p-3 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                          <p className="text-sm text-muted-foreground">Pending Payments</p>
+                          <p className="text-2xl font-bold text-accent">$12,300</p>
+                          <p className="text-xs text-yellow-400">3 transactions</p>
                 </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          
+                      </div>
+                    </div>
 
-          <TabsContent value="notes" className="mt-6 scroll-smooth">
-            <div className="space-y-6">
-              <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold text-foreground">Note Taking System</h2>
-                <Button className="btn-terminal-accent">
-                  <Plus className="w-4 h-4 mr-2" />
-                  New Note
+                    {/* Payment Actions */}
+                    <div className="space-y-4">
+                      <h3 className="text-lg font-semibold text-foreground">Payment Actions</h3>
+                      <div className="space-y-3">
+                        <Button className="w-full">
+                          <FileText className="w-4 h-4 mr-2" />
+                          Generate VAT Invoice
+                        </Button>
+                        <Button className="w-full" variant="outline">
+                          <DollarSign className="w-4 h-4 mr-2" />
+                          Process Pending Payments
+                        </Button>
+                        <Button className="w-full" variant="outline">
+                          <TrendingUp className="w-4 h-4 mr-2" />
+                          Export Monthly Statement
                 </Button>
               </div>
-              <NoteTakingSystem terminalType="broker" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </TabsContent>
 
+          <TabsContent value="warroom" className="mt-6 scroll-smooth">
+            <div className="space-y-6">
+              <Card className="border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Shield className="w-5 h-5 text-accent" />
+                    War Room - Verification Center
+                  </CardTitle>
+                  <CardDescription>
+                    Operator & crew verification, compliance checks, audit trails
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* System Status */}
+                    <div className="space-y-4">
+                      <h3 className="text-lg font-semibold text-foreground">System Status</h3>
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between p-3 rounded-lg border border-green-500/30" style={{ backgroundColor: '#110f0d' }}>
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                            <span className="text-sm font-medium">Operator Verification</span>
+                      </div>
+                          <Badge className="bg-green-500/20 text-green-400">Operational</Badge>
+                      </div>
+                        <div className="flex items-center justify-between p-3 rounded-lg border border-green-500/30" style={{ backgroundColor: '#110f0d' }}>
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                            <span className="text-sm font-medium">Crew License Checks</span>
+                    </div>
+                          <Badge className="bg-green-500/20 text-green-400">Operational</Badge>
+                      </div>
+                        <div className="flex items-center justify-between p-3 rounded-lg border border-green-500/30" style={{ backgroundColor: '#110f0d' }}>
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                            <span className="text-sm font-medium">Compliance Monitoring</span>
+                      </div>
+                          <Badge className="bg-green-500/20 text-green-400">Operational</Badge>
+                    </div>
+                    </div>
+                  </div>
+                  
+                    {/* Recent Verification Events */}
+                    <div className="space-y-4">
+                      <h3 className="text-lg font-semibold text-foreground">Recent Verification Events</h3>
+                      <div className="space-y-3">
+                        <div className="p-3 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                          <p className="font-medium text-foreground">Elite Aviation - License Verified</p>
+                          <p className="text-sm text-muted-foreground">Captain James Wilson - ATP License</p>
+                          <p className="text-xs text-slate-400">2 hours ago</p>
+                    </div>
+                        <div className="p-3 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                          <p className="font-medium text-foreground">SkyBridge Charters - Compliance Check</p>
+                          <p className="text-sm text-muted-foreground">Insurance certificate renewed</p>
+                          <p className="text-xs text-slate-400">1 day ago</p>
+                    </div>
+                        <div className="p-3 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                          <p className="font-medium text-foreground">Global Wings - Aircraft Inspection</p>
+                          <p className="text-sm text-muted-foreground">G650 maintenance records updated</p>
+                          <p className="text-xs text-slate-400">3 days ago</p>
+                  </div>
+                    </div>
+                    </div>
+                  </div>
+
+                  {/* Manual Verification Tools */}
+                  <div className="mt-6 pt-6 border-t border-slate-600">
+                    <h3 className="text-lg font-semibold text-foreground mb-4">Manual Verification Tools</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <Button className="w-full">
+                        <Shield className="w-4 h-4 mr-2" />
+                        Verify Operator
+                      </Button>
+                      <Button className="w-full">
+                        <FileText className="w-4 h-4 mr-2" />
+                        Check Licenses
+                      </Button>
+                      <Button className="w-full">
+                        <AlertCircle className="w-4 h-4 mr-2" />
+                        Run Audit Trail
+                      </Button>
+                            </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="reputation" className="mt-6 scroll-smooth">
+            <ReputationMetrics userId="demo-broker-1" userType="broker" />
+          </TabsContent>
+
+          <TabsContent value="documents" className="mt-6 scroll-smooth">
+            <DocumentStorage userRole="broker" />
+          </TabsContent>
+          <TabsContent value="communication" className="mt-6 scroll-smooth">
+            <CommunicationTools terminalType="broker" />
+          </TabsContent>
+          <TabsContent value="notes" className="mt-6 scroll-smooth">
+            <div className="space-y-6">
+              {/* Quick Notes */}
+              <Card className="border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <FileText className="w-5 h-5 text-accent" />
+                    Quick Notes
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex gap-3">
+                      <Input 
+                        placeholder="Add a new note..." 
+                        className="flex-1 bg-slate-800/50 border-slate-600 text-white"
+                      />
+                      <Button className="bg-accent hover:bg-accent/90">
+                        <Plus className="w-4 h-4" />
+                      </Button>
+                    </div>
+                    
+                    {/* Recent Notes */}
+                    <div className="space-y-3">
+                      <div className="p-3 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                        <div className="flex items-start justify-between mb-2">
+                          <h4 className="font-medium text-white">Elite Aviation Group Follow-up</h4>
+                          <span className="text-xs text-slate-500">2 hours ago</span>
+                        </div>
+                        <p className="text-sm text-slate-300">Client prefers morning departures. Need to confirm catering preferences for Dubai flight.</p>
+                        <div className="flex items-center gap-2 mt-2">
+                          <Badge className="bg-blue-500/20 text-blue-400 text-xs">Client</Badge>
+                          <Badge className="bg-amber-500/20 text-amber-400 text-xs">Follow-up</Badge>
+                        </div>
+                      </div>
+
+                      <div className="p-3 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                        <div className="flex items-start justify-between mb-2">
+                          <h4 className="font-medium text-white">Monaco Elite Special Request</h4>
+                          <span className="text-xs text-slate-500">5 hours ago</span>
+                        </div>
+                        <p className="text-sm text-slate-300">Client requested specific champagne service and ground transportation arrangements in Monaco.</p>
+                        <div className="flex items-center gap-2 mt-2">
+                          <Badge className="bg-green-500/20 text-green-400 text-xs">VIP</Badge>
+                          <Badge className="bg-purple-500/20 text-purple-400 text-xs">Special</Badge>
+                        </div>
+                      </div>
+
+                      <div className="p-3 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                        <div className="flex items-start justify-between mb-2">
+                          <h4 className="font-medium text-white">SkyBridge Payment Terms</h4>
+                          <span className="text-xs text-slate-500">1 day ago</span>
+                        </div>
+                        <p className="text-sm text-slate-300">Confirmed 50% deposit upfront, 50% on completion. Payment via bank transfer preferred.</p>
+                        <div className="flex items-center gap-2 mt-2">
+                          <Badge className="bg-emerald-500/20 text-emerald-400 text-xs">Payment</Badge>
+                          <Badge className="bg-slate-500/20 text-slate-400 text-xs">Confirmed</Badge>
+                        </div>
+                      </div>
+
+                      <div className="p-3 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                        <div className="flex items-start justify-between mb-2">
+                          <h4 className="font-medium text-white">Market Research - Gulfstream G650</h4>
+                          <span className="text-xs text-slate-500">2 days ago</span>
+                        </div>
+                        <p className="text-sm text-slate-300">Average market rate for LHR-DXB route is £42,000-£48,000. Current quote at £45,000 is competitive.</p>
+                        <div className="flex items-center gap-2 mt-2">
+                          <Badge className="bg-orange-500/20 text-orange-400 text-xs">Research</Badge>
+                          <Badge className="bg-blue-500/20 text-blue-400 text-xs">Market</Badge>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Client Notes */}
+              <Card className="border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Users className="w-5 h-5 text-accent" />
+                    Client Notes
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center">
+                          <span className="text-xs font-semibold">EA</span>
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-white">Elite Aviation Group</h4>
+                          <p className="text-sm text-slate-400">Premium client since 2023</p>
+                        </div>
+                      </div>
+                      <p className="text-sm text-slate-300">Prefers early morning departures. Very particular about catering - only Dom Pérignon champagne. Always books with 48hr notice minimum. Excellent payment history.</p>
+                    </div>
+
+                    <div className="p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center">
+                          <span className="text-xs font-semibold">ME</span>
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-white">Monaco Elite</h4>
+                          <p className="text-sm text-slate-400">VIP client since 2024</p>
+                        </div>
+                      </div>
+                      <p className="text-sm text-slate-300">Luxury-focused client. Requires ground transportation coordination. Often books last-minute. Pays immediately upon invoicing.</p>
+                    </div>
+
+                    <div className="p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center">
+                          <span className="text-xs font-semibold">SV</span>
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-white">SkyBridge Ventures</h4>
+                          <p className="text-sm text-slate-400">Corporate client since 2022</p>
+                        </div>
+                      </div>
+                      <p className="text-sm text-slate-300">Business-focused client. Requires detailed invoices for accounting. Prefers larger aircraft for group travel. Standard payment terms.</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
           <TabsContent value="trophy" className="mt-6 scroll-smooth">
             <div className="space-y-6">
-              <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold text-foreground">Trophy Room</h2>
-                <Button className="btn-terminal-accent">
-                  <Trophy className="w-4 h-4 mr-2" />
-                  View Achievements
-                </Button>
-              </div>
-              {renderTrophyRoom()}
-              
-              {/* League Status Card */}
-              <Card className="border-accent border-2" style={{ backgroundColor: '#0e141b' }}>
+              {/* Global Rankings */}
+              <Card className="border-slate-600" style={{ backgroundColor: '#110f0d' }}>
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 title-glow">
-                    <Trophy className="w-6 h-6 text-accent" />
-                    Your League Status
+                  <CardTitle className="flex items-center gap-2">
+                    <Trophy className="w-5 h-5 text-accent" />
+                    Global Broker Rankings
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div className="text-center">
-                      <div className="text-3xl font-bold text-accent accent-glow mb-1">
-                        Gold League
-                      </div>
-                      <div className="text-sm text-muted-foreground subtitle-glow">
-                        Current League
-                      </div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-3xl font-bold text-foreground mb-1">
-                        567
-                      </div>
-                      <div className="text-sm text-muted-foreground subtitle-glow">
-                        Total Points
-                      </div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-3xl font-bold text-foreground mb-1">
-                        #12
-                      </div>
-                      <div className="text-sm text-muted-foreground subtitle-glow">
-                        Global Rank
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="mt-6">
-                    <div className="flex justify-between text-sm mb-2">
-                      <span className="text-muted-foreground">Progress to Platinum League</span>
-                      <span className="text-accent font-semibold">133 points to go</span>
-                    </div>
-                    <div className="w-full bg-terminal-border rounded-full h-2">
-                      <div className="bg-accent h-2 rounded-full" style={{ width: '81%' }}></div>
-                    </div>
-                  </div>
-                  
-                  <div className="mt-4 flex items-center justify-between text-sm">
-                    <div className="flex items-center space-x-1">
-                      <TrendingUp className="w-4 h-4 text-green-500" />
-                      <span className="text-muted-foreground">+23 this week</span>
-                    </div>
-                    <div className="flex items-center space-x-1">
-                      <Clock className="w-4 h-4 text-orange-500" />
-                      <span className="text-muted-foreground">14 day streak</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Weekly Challenges */}
-              <Card className="border-slate-700" style={{ backgroundColor: '#0e141b' }}>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 title-glow">
-                    <Target className="w-6 h-6 text-accent" />
-                    Weekly Challenges
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid md:grid-cols-2 gap-4">
-                    {[
-                      { name: "Quality RFQ Week", description: "Post 3 quality RFQs that pass basic checks this week", points: 15, completed: true, progress: 100 },
-                      { name: "Fast Response Week", description: "Respond to 2 saved search alerts within 10 minutes this week", points: 20, completed: false, progress: 50 },
-                      { name: "On-Time Completion Week", description: "Complete 2 deals on time with no disputes this week", points: 80, completed: true, progress: 100 },
-                      { name: "Credentials Current Week", description: "Keep all credentials valid and current this week", points: 10, completed: true, progress: 100 },
-                      { name: "Compliance Clean Week", description: "Maintain clean compliance status this week", points: 5, completed: true, progress: 100 },
-                    ].map((challenge, index) => (
-                      <div key={index} className={`p-4 rounded-lg border ${
-                        challenge.completed 
-                          ? 'bg-accent/10 border-accent/30' 
-                          : 'bg-terminal-card/50 border-terminal-border'
-                      }`}>
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
-                              challenge.completed ? 'bg-accent text-white' : 'bg-terminal-border'
-                            }`}>
-                              {challenge.completed ? <CheckCircle className="w-4 h-4" /> : <span className="text-xs">+</span>}
-                            </div>
-                            <div className="flex-1">
-                              <div className="font-semibold text-foreground">{challenge.name}</div>
-                              <div className="text-sm text-muted-foreground mb-1">{challenge.description}</div>
-                              {!challenge.completed && challenge.progress !== undefined && (
-                                <div className="w-full bg-terminal-border rounded-full h-1.5">
-                                  <div 
-                                    className="bg-accent h-1.5 rounded-full transition-all duration-300" 
-                                    style={{ width: `${challenge.progress}%` }}
-                                  />
-                                </div>
-                              )}
-                            </div>
+                  <div className="space-y-4">
+                    {/* Top 3 Brokers */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      {/* 1st Place */}
+                      <div className="p-4 rounded-lg border border-yellow-500/30 bg-gradient-to-br from-yellow-500/10 to-yellow-600/5">
+                        <div className="text-center">
+                          <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center">
+                            <Trophy className="w-6 h-6 text-yellow-900" />
                           </div>
-                          <Badge variant={challenge.completed ? "default" : "outline"}>
-                            {challenge.completed ? "✓" : `+${challenge.points}`}
-                          </Badge>
+                          <h3 className="font-bold text-yellow-400 mb-1">#1 Elite Aviation Brokers</h3>
+                          <p className="text-sm text-slate-400 mb-2">London, UK</p>
+                          <div className="space-y-1">
+                            <p className="text-lg font-bold text-white">2,847 pts</p>
+                            <p className="text-xs text-slate-400">127 deals • 98% satisfaction</p>
+                          </div>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
 
-              {/* Recent Activity */}
-              <Card className="border-slate-700" style={{ backgroundColor: '#0e141b' }}>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 title-glow">
-                    <Zap className="w-6 h-6 text-accent" />
-                    Recent Activity
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    {[
-                      { action: "Submitted quote for NYC-LAX route in 3 minutes", points: 15, time: "2 hours ago" },
-                      { action: "Completed London-Dubai charter on schedule with no disputes", points: 40, time: "1 day ago" },
-                      { action: "Posted quality RFQ for Tokyo-Singapore route", points: 5, time: "2 days ago" },
-                      { action: "Closed Paris-Milan deal without disputes", points: 20, time: "3 days ago" },
-                      { action: "Responded to Europe-Asia alert in 8 minutes", points: 10, time: "4 days ago" },
-                    ].map((activity, index) => (
-                      <div key={index} className="flex items-center justify-between p-3 bg-terminal-card/50 rounded-lg">
-                        <div className="flex items-center gap-3">
-                          <div className="p-2 bg-accent/20 rounded-lg">
-                            <Zap className="w-4 h-4 text-accent" />
+                      {/* 2nd Place */}
+                      <div className="p-4 rounded-lg border border-slate-400/30 bg-gradient-to-br from-slate-400/10 to-slate-500/5">
+                        <div className="text-center">
+                          <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-gradient-to-br from-slate-400 to-slate-600 flex items-center justify-center">
+                            <Trophy className="w-6 h-6 text-slate-900" />
+                          </div>
+                          <h3 className="font-bold text-slate-300 mb-1">#2 SkyBridge Global</h3>
+                          <p className="text-sm text-slate-400 mb-2">New York, USA</p>
+                          <div className="space-y-1">
+                            <p className="text-lg font-bold text-white">2,634 pts</p>
+                            <p className="text-xs text-slate-400">98 deals • 96% satisfaction</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 3rd Place */}
+                      <div className="p-4 rounded-lg border border-orange-500/30 bg-gradient-to-br from-orange-500/10 to-orange-600/5">
+                        <div className="text-center">
+                          <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
+                            <Trophy className="w-6 h-6 text-orange-900" />
+                          </div>
+                          <h3 className="font-bold text-orange-400 mb-1">#3 Monaco Elite Partners</h3>
+                          <p className="text-sm text-slate-400 mb-2">Monaco</p>
+                          <div className="space-y-1">
+                            <p className="text-lg font-bold text-white">2,421 pts</p>
+                            <p className="text-xs text-slate-400">89 deals • 97% satisfaction</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Your Ranking */}
+                    <div className="p-4 rounded-lg border border-accent/30 bg-gradient-to-r from-accent/10 to-accent/5">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-accent to-orange-600 flex items-center justify-center">
+                            <span className="text-sm font-bold text-black">12</span>
                           </div>
                           <div>
-                            <div className="font-semibold text-foreground">{activity.action}</div>
-                            <div className="text-sm text-muted-foreground">{activity.time}</div>
+                            <h4 className="font-semibold text-accent">Your Ranking</h4>
+                            <p className="text-sm text-slate-400">567 points • Golden Tier</p>
                           </div>
                         </div>
-                        <Badge variant="outline" className="text-accent">
-                          +{activity.points}
-                        </Badge>
+                        <div className="text-right">
+                          <p className="text-lg font-bold text-white">#12</p>
+                          <p className="text-sm text-green-400">+23 this week</p>
+                        </div>
                       </div>
-                    ))}
+                    </div>
+
+                    {/* Ranking Table */}
+                    <div className="space-y-2">
+                      <h4 className="font-medium text-white mb-3">Top 10 Brokers</h4>
+                      <div className="space-y-2">
+                        {[
+                          { rank: 4, name: "Global Wings Aviation", location: "Dubai, UAE", points: 2156, deals: 76, satisfaction: "95%" },
+                          { rank: 5, name: "Atlantic Charter Co.", location: "Miami, USA", points: 2089, deals: 82, satisfaction: "94%" },
+                          { rank: 6, name: "European Sky Group", location: "Zurich, CH", points: 1987, deals: 71, satisfaction: "96%" },
+                          { rank: 7, name: "Pacific Elite", location: "Singapore", points: 1876, deals: 68, satisfaction: "93%" },
+                          { rank: 8, name: "Nordic Aviation", location: "Stockholm, SE", points: 1743, deals: 59, satisfaction: "95%" },
+                          { rank: 9, name: "Mediterranean Air", location: "Rome, IT", points: 1634, deals: 54, satisfaction: "92%" },
+                          { rank: 10, name: "Caribbean Wings", location: "Barbados", points: 1521, deals: 47, satisfaction: "94%" }
+                        ].map((broker) => (
+                          <div key={broker.rank} className="flex items-center justify-between p-3 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                            <div className="flex items-center gap-3">
+                              <span className="w-6 h-6 rounded-full bg-slate-700 flex items-center justify-center text-xs font-semibold">
+                                {broker.rank}
+                              </span>
+                              <div>
+                                <p className="font-medium text-white">{broker.name}</p>
+                                <p className="text-sm text-slate-400">{broker.location}</p>
+                              </div>
+                            </div>
+                            <div className="text-right">
+                              <p className="font-semibold text-white">{broker.points.toLocaleString()} pts</p>
+                              <p className="text-xs text-slate-400">{broker.deals} deals • {broker.satisfaction}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Performance Metrics */}
+              <Card className="border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <TrendingUp className="w-5 h-5 text-accent" />
+                    Your Performance Metrics
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div className="text-center p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <p className="text-2xl font-bold text-accent mb-1">567</p>
+                      <p className="text-sm text-slate-400">Total Points</p>
+                      <p className="text-xs text-green-400 mt-1">+23 this week</p>
+                    </div>
+                    <div className="text-center p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <p className="text-2xl font-bold text-accent mb-1">98%</p>
+                      <p className="text-sm text-slate-400">Client Satisfaction</p>
+                      <p className="text-xs text-green-400 mt-1">Above average</p>
+                    </div>
+                    <div className="text-center p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <p className="text-2xl font-bold text-accent mb-1">2.3h</p>
+                      <p className="text-sm text-slate-400">Avg Response Time</p>
+                      <p className="text-xs text-green-400 mt-1">Fast lane eligible</p>
+                    </div>
+                    <div className="text-center p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <p className="text-2xl font-bold text-accent mb-1">127</p>
+                      <p className="text-sm text-slate-400">Successful Deals</p>
+                      <p className="text-xs text-green-400 mt-1">5 this month</p>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
             </div>
           </TabsContent>
           <TabsContent value="jobs" className="mt-6 scroll-smooth">
-            <JobBoard userRole="broker" />
+            <div className="space-y-6">
+              {/* Job Postings */}
+              <Card className="border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Briefcase className="w-5 h-5 text-accent" />
+                    Available Positions
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {/* Job 1 */}
+                    <div className="p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <h3 className="font-semibold text-white">Senior Charter Broker</h3>
+                          <p className="text-sm text-slate-400">Elite Aviation Group • London, UK</p>
+                          <div className="flex items-center gap-2 mt-1">
+                            <Badge className="bg-green-500/20 text-green-400">Full-time</Badge>
+                            <Badge className="bg-blue-500/20 text-blue-400">Remote</Badge>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-lg font-bold text-accent">£75,000</p>
+                          <p className="text-sm text-slate-400">per year</p>
+                        </div>
+                      </div>
+                      <p className="text-sm text-slate-300 mb-3">
+                        Seeking experienced charter broker to manage VIP client relationships and coordinate luxury aviation services. 
+                        Minimum 5 years experience in private aviation required.
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <span className="text-sm text-slate-400">Posted 2 days ago</span>
+                          <span className="text-sm text-slate-400">12 applicants</span>
+                        </div>
+                        <Button size="sm">Apply Now</Button>
+                      </div>
+                    </div>
+
+                    {/* Job 2 */}
+                    <div className="p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <h3 className="font-semibold text-white">Business Development Manager</h3>
+                          <p className="text-sm text-slate-400">SkyBridge Global • New York, USA</p>
+                          <div className="flex items-center gap-2 mt-1">
+                            <Badge className="bg-green-500/20 text-green-400">Full-time</Badge>
+                            <Badge className="bg-purple-500/20 text-purple-400">Hybrid</Badge>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-lg font-bold text-accent">$95,000</p>
+                          <p className="text-sm text-slate-400">per year</p>
+                        </div>
+                      </div>
+                      <p className="text-sm text-slate-300 mb-3">
+                        Drive growth in corporate aviation market. Develop strategic partnerships and expand client base. 
+                        Strong sales background and aviation industry knowledge preferred.
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <span className="text-sm text-slate-400">Posted 1 week ago</span>
+                          <span className="text-sm text-slate-400">8 applicants</span>
+                        </div>
+                        <Button size="sm">Apply Now</Button>
+                      </div>
+                    </div>
+
+                    {/* Job 3 */}
+                    <div className="p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <h3 className="font-semibold text-white">Operations Coordinator</h3>
+                          <p className="text-sm text-slate-400">Monaco Elite Partners • Monaco</p>
+                          <div className="flex items-center gap-2 mt-1">
+                            <Badge className="bg-amber-500/20 text-amber-400">Contract</Badge>
+                            <Badge className="bg-blue-500/20 text-blue-400">On-site</Badge>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-lg font-bold text-accent">€65,000</p>
+                          <p className="text-sm text-slate-400">per year</p>
+                        </div>
+                      </div>
+                      <p className="text-sm text-slate-300 mb-3">
+                        Coordinate flight operations for luxury charter services. Manage schedules, crew assignments, and client communications. 
+                        Fluent French and English required.
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <span className="text-sm text-slate-400">Posted 3 days ago</span>
+                          <span className="text-sm text-slate-400">5 applicants</span>
+                        </div>
+                        <Button size="sm">Apply Now</Button>
+                      </div>
+                    </div>
+
+                    {/* Job 4 */}
+                    <div className="p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <h3 className="font-semibold text-white">Client Relations Specialist</h3>
+                          <p className="text-sm text-slate-400">Global Wings Aviation • Dubai, UAE</p>
+                          <div className="flex items-center gap-2 mt-1">
+                            <Badge className="bg-green-500/20 text-green-400">Full-time</Badge>
+                            <Badge className="bg-blue-500/20 text-blue-400">Remote</Badge>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-lg font-bold text-accent">AED 180,000</p>
+                          <p className="text-sm text-slate-400">per year</p>
+                        </div>
+                      </div>
+                      <p className="text-sm text-slate-300 mb-3">
+                        Manage VIP client relationships across Middle East and Asia. Provide exceptional service and coordinate complex travel arrangements. 
+                        Arabic language skills preferred.
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <span className="text-sm text-slate-400">Posted 5 days ago</span>
+                          <span className="text-sm text-slate-400">15 applicants</span>
+                        </div>
+                        <Button size="sm">Apply Now</Button>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Your Applications */}
+              <Card className="border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <FileText className="w-5 h-5 text-accent" />
+                    Your Applications
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between p-3 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div>
+                        <h4 className="font-medium text-white">Senior Charter Broker - Elite Aviation</h4>
+                        <p className="text-sm text-slate-400">Applied 1 day ago</p>
+                      </div>
+                      <Badge className="bg-blue-500/20 text-blue-400">Under Review</Badge>
+                    </div>
+                    <div className="flex items-center justify-between p-3 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div>
+                        <h4 className="font-medium text-white">Business Development Manager - SkyBridge</h4>
+                        <p className="text-sm text-slate-400">Applied 3 days ago</p>
+                      </div>
+                      <Badge className="bg-amber-500/20 text-amber-400">Interview Scheduled</Badge>
+                    </div>
+                    <div className="flex items-center justify-between p-3 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div>
+                        <h4 className="font-medium text-white">Operations Coordinator - Monaco Elite</h4>
+                        <p className="text-sm text-slate-400">Applied 1 week ago</p>
+                      </div>
+                      <Badge className="bg-green-500/20 text-green-400">Accepted</Badge>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
           <TabsContent value="community" className="mt-6 scroll-smooth">
-            <CommunityForums userRole="broker" />
+            <div className="space-y-6">
+              {/* Active Discussions */}
+              <Card className="border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Users className="w-5 h-5 text-accent" />
+                    Active Discussions
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center">
+                          <span className="text-xs font-semibold">MJ</span>
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            <h4 className="font-medium text-white">Market Trends Q4 2025</h4>
+                            <Badge className="bg-blue-500/20 text-blue-400">Trending</Badge>
+                          </div>
+                          <p className="text-sm text-slate-300 mb-2">What's everyone seeing in terms of pricing for transatlantic routes this quarter? Gulfstream G650 rates seem to be stabilizing around £45-50k.</p>
+                          <div className="flex items-center gap-4 text-xs text-slate-400">
+                            <span>Michael Johnson • 2 hours ago</span>
+                            <span>12 replies</span>
+                            <span>23 likes</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center">
+                          <span className="text-xs font-semibold">SL</span>
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            <h4 className="font-medium text-white">Best Practices for Client Onboarding</h4>
+                            <Badge className="bg-green-500/20 text-green-400">Helpful</Badge>
+                          </div>
+                          <p className="text-sm text-slate-300 mb-2">Sharing our new client onboarding checklist that's helped reduce response time by 40%. Happy to discuss implementation.</p>
+                          <div className="flex items-center gap-4 text-xs text-slate-400">
+                            <span>Sarah Lee • 4 hours ago</span>
+                            <span>8 replies</span>
+                            <span>15 likes</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center">
+                          <span className="text-xs font-semibold">DC</span>
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            <h4 className="font-medium text-white">New Operator Alert: Monaco Elite Partners</h4>
+                            <Badge className="bg-amber-500/20 text-amber-400">New</Badge>
+                          </div>
+                          <p className="text-sm text-slate-300 mb-2">Just worked with Monaco Elite Partners on a CDG-MCM route. Excellent service, competitive pricing. Highly recommend for European luxury charters.</p>
+                          <div className="flex items-center gap-4 text-xs text-slate-400">
+                            <span>David Chen • 6 hours ago</span>
+                            <span>5 replies</span>
+                            <span>9 likes</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Industry News */}
+              <Card className="border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <TrendingUp className="w-5 h-5 text-accent" />
+                    Industry News
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="p-3 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <h4 className="font-medium text-white mb-1">Gulfstream Announces New G800 Certification</h4>
+                      <p className="text-sm text-slate-300 mb-2">Latest ultra-long-range business jet receives EASA certification, opening new route possibilities for charter operators.</p>
+                      <p className="text-xs text-slate-400">Aviation Week • 1 hour ago</p>
+                    </div>
+                    <div className="p-3 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <h4 className="font-medium text-white mb-1">European Charter Market Grows 15% in Q3</h4>
+                      <p className="text-sm text-slate-300 mb-2">Strong demand for luxury travel drives growth across major European routes, particularly Mediterranean destinations.</p>
+                      <p className="text-xs text-slate-400">Business Aviation News • 3 hours ago</p>
+                    </div>
+                    <div className="p-3 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <h4 className="font-medium text-white mb-1">New Sustainability Initiatives in Private Aviation</h4>
+                      <p className="text-sm text-slate-300 mb-2">Major operators commit to carbon offset programs and sustainable aviation fuel adoption by 2026.</p>
+                      <p className="text-xs text-slate-400">Private Jet News • 5 hours ago</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
           <TabsContent value="saved-crews" className="mt-6 scroll-smooth">
-            <SavedCrews brokerId="demo-broker-1" />
-          </TabsContent>
-          <TabsContent value="documents" className="mt-6 scroll-smooth">
-            <DocumentStorage userRole="broker" />
-          </TabsContent>
+            <div className="space-y-6">
+              {/* Favorite Crews */}
+              <Card className="border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Users className="w-5 h-5 text-accent" />
+                    Favorite Crews
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center">
+                            <span className="text-sm font-semibold">EA</span>
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-white">Elite Aviation Crew Alpha</h3>
+                            <p className="text-sm text-slate-400">Gulfstream G650 Specialist</p>
+                          </div>
+                        </div>
+                        <Badge className="bg-green-500/20 text-green-400">Available</Badge>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
+                        <div>
+                          <p className="text-xs text-slate-500">Captain</p>
+                          <p className="text-sm text-white">James Mitchell</p>
+                          <p className="text-xs text-slate-400">8,500+ hours</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-500">First Officer</p>
+                          <p className="text-sm text-white">Sarah Thompson</p>
+                          <p className="text-xs text-slate-400">5,200+ hours</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-500">Flight Attendant</p>
+                          <p className="text-sm text-white">Maria Rodriguez</p>
+                          <p className="text-xs text-slate-400">10+ years experience</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <span className="text-sm text-slate-400">Last flight: 2 days ago</span>
+                          <span className="text-sm text-green-400">Rating: 4.9/5</span>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button size="sm" variant="outline">View Details</Button>
+                          <Button size="sm">Book Crew</Button>
+                        </div>
+                      </div>
+                    </div>
 
+                    <div className="p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center">
+                            <span className="text-sm font-semibold">GW</span>
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-white">Global Wings Team Bravo</h3>
+                            <p className="text-sm text-slate-400">Bombardier Global 7500</p>
+                          </div>
+                        </div>
+                        <Badge className="bg-blue-500/20 text-blue-400">Scheduled</Badge>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
+                        <div>
+                          <p className="text-xs text-slate-500">Captain</p>
+                          <p className="text-sm text-white">Robert Chen</p>
+                          <p className="text-xs text-slate-400">12,000+ hours</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-500">First Officer</p>
+                          <p className="text-sm text-white">Emma Wilson</p>
+                          <p className="text-xs text-slate-400">6,800+ hours</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-500">Flight Attendant</p>
+                          <p className="text-sm text-white">Sophie Laurent</p>
+                          <p className="text-xs text-slate-400">Bilingual French/English</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <span className="text-sm text-slate-400">Next available: Sep 22</span>
+                          <span className="text-sm text-green-400">Rating: 4.8/5</span>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button size="sm" variant="outline">View Details</Button>
+                          <Button size="sm" variant="outline">Pre-book</Button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center">
+                            <span className="text-sm font-semibold">SC</span>
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-white">SkyBridge Crew Charlie</h3>
+                            <p className="text-sm text-slate-400">Citation CJ3+ Specialists</p>
+                          </div>
+                        </div>
+                        <Badge className="bg-green-500/20 text-green-400">Available</Badge>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
+                        <div>
+                          <p className="text-xs text-slate-500">Captain</p>
+                          <p className="text-sm text-white">Alexandre Dubois</p>
+                          <p className="text-xs text-slate-400">7,200+ hours</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-500">First Officer</p>
+                          <p className="text-sm text-white">Lisa Anderson</p>
+                          <p className="text-xs text-slate-400">4,500+ hours</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-500">Flight Attendant</p>
+                          <p className="text-sm text-white">Grace Kim</p>
+                          <p className="text-xs text-slate-400">Wine & dining specialist</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <span className="text-sm text-slate-400">Last flight: 1 week ago</span>
+                          <span className="text-sm text-green-400">Rating: 4.7/5</span>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button size="sm" variant="outline">View Details</Button>
+                          <Button size="sm">Book Crew</Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Crew Search */}
+              <Card className="border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Search className="w-5 h-5 text-accent" />
+                    Find New Crews
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <Select>
+                        <SelectTrigger className="bg-slate-800/50 border-slate-600">
+                          <SelectValue placeholder="Aircraft Type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="gulfstream-g650">Gulfstream G650</SelectItem>
+                          <SelectItem value="global-7500">Global 7500</SelectItem>
+                          <SelectItem value="citation-cj3">Citation CJ3+</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <Select>
+                        <SelectTrigger className="bg-slate-800/50 border-slate-600">
+                          <SelectValue placeholder="Location" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="london">London</SelectItem>
+                          <SelectItem value="new-york">New York</SelectItem>
+                          <SelectItem value="monaco">Monaco</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <Select>
+                        <SelectTrigger className="bg-slate-800/50 border-slate-600">
+                          <SelectValue placeholder="Availability" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="immediate">Immediate</SelectItem>
+                          <SelectItem value="within-week">Within Week</SelectItem>
+                          <SelectItem value="flexible">Flexible</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <Button className="w-full bg-accent hover:bg-accent/90">
+                      <Search className="w-4 h-4 mr-2" />
+                      Search Available Crews
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
           <TabsContent value="flight-tracking" className="mt-6 scroll-smooth">
-            <RealTimeFlightTracker terminalType="broker" />
-          </TabsContent>
+            <div className="space-y-6">
+              {/* Active Flights */}
+              <Card className="border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Plane className="w-5 h-5 text-accent" />
+                    Active Flights
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <h3 className="font-semibold text-white">Flight SBA-2451</h3>
+                          <p className="text-sm text-slate-400">Elite Aviation Group • Gulfstream G650</p>
+                        </div>
+                        <Badge className="bg-green-500/20 text-green-400">In Flight</Badge>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
+                        <div>
+                          <p className="text-xs text-slate-500">Route</p>
+                          <p className="text-sm text-white">LHR → DXB</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-500">Status</p>
+                          <p className="text-sm text-green-400">On time</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-500">ETA</p>
+                          <p className="text-sm text-white">14:30 UTC</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <span className="text-sm text-slate-400">8 passengers</span>
+                          <span className="text-sm text-slate-400">Crew: Mitchell, Thompson, Rodriguez</span>
+                        </div>
+                        <Button size="sm" variant="outline">Track Flight</Button>
+                      </div>
+                    </div>
 
+                    <div className="p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <h3 className="font-semibold text-white">Flight GW-1873</h3>
+                          <p className="text-sm text-slate-400">Global Wings Aviation • Global 7500</p>
+                        </div>
+                        <Badge className="bg-blue-500/20 text-blue-400">Boarding</Badge>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
+                        <div>
+                          <p className="text-xs text-slate-500">Route</p>
+                          <p className="text-sm text-white">JFK → LAX</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-500">Status</p>
+                          <p className="text-sm text-blue-400">Boarding</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-500">ETD</p>
+                          <p className="text-sm text-white">16:45 UTC</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <span className="text-sm text-slate-400">12 passengers</span>
+                          <span className="text-sm text-slate-400">Crew: Chen, Wilson, Laurent</span>
+                        </div>
+                        <Button size="sm" variant="outline">Track Flight</Button>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Upcoming Flights */}
+              <Card className="border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Calendar className="w-5 h-5 text-accent" />
+                    Upcoming Flights
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between p-3 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div>
+                        <h4 className="font-medium text-white">SC-3241 • Citation CJ3+</h4>
+                        <p className="text-sm text-slate-400">CDG → MCM • Sep 20, 2025 09:30 UTC</p>
+                      </div>
+                      <Badge className="bg-amber-500/20 text-amber-400">Scheduled</Badge>
+                    </div>
+                    <div className="flex items-center justify-between p-3 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div>
+                        <h4 className="font-medium text-white">EA-4567 • Gulfstream G650</h4>
+                        <p className="text-sm text-slate-400">DXB → LHR • Sep 22, 2025 11:15 UTC</p>
+                      </div>
+                      <Badge className="bg-amber-500/20 text-amber-400">Confirmed</Badge>
+                    </div>
+                    <div className="flex items-center justify-between p-3 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div>
+                        <h4 className="font-medium text-white">GW-2981 • Global 7500</h4>
+                        <p className="text-sm text-slate-400">LAX → JFK • Sep 25, 2025 13:00 UTC</p>
+                      </div>
+                      <Badge className="bg-blue-500/20 text-blue-400">Pending</Badge>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
           <TabsContent value="advanced-search" className="mt-6 scroll-smooth">
-            <AdvancedSearch terminalType="broker" onResults={(results) => console.log('Search results:', results)} />
+            <div className="space-y-6">
+              <Card className="border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                <CardHeader>
+                  <CardTitle>Advanced Search</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p>Advanced search content will be here</p>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
+          <TabsContent value="searches" className="mt-6 scroll-smooth">
+            <div className="space-y-6">
+              {/* Saved Search Alerts */}
+              <Card className="border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Search className="w-5 h-5 text-accent" />
+                    Saved Search Alerts
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <h3 className="font-semibold text-white">London to Dubai Routes</h3>
+                          <p className="text-sm text-slate-400">Gulfstream G650 • £40,000-£50,000 range</p>
+                        </div>
+                        <Badge className="bg-green-500/20 text-green-400">Active</Badge>
+                      </div>
+                      <p className="text-sm text-slate-300 mb-3">
+                        Monitor LHR-DXB routes for Gulfstream G650 aircraft within budget range. 
+                        Get alerts for new listings and price changes.
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <span className="text-sm text-slate-400">3 matches found today</span>
+                          <span className="text-sm text-slate-400">Last alert: 2 hours ago</span>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button size="sm" variant="outline">View Results</Button>
+                          <Button size="sm" variant="outline">Edit Search</Button>
+                        </div>
+                      </div>
+                    </div>
 
-          <TabsContent value="communication" className="mt-6 scroll-smooth">
-            <CommunicationTools terminalType="broker" />
+                    <div className="p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <h3 className="font-semibold text-white">Transatlantic Business Jets</h3>
+                          <p className="text-sm text-slate-400">Global 7500 • JFK-LAX routes</p>
+                        </div>
+                        <Badge className="bg-green-500/20 text-green-400">Active</Badge>
+                      </div>
+                      <p className="text-sm text-slate-300 mb-3">
+                        Track availability for Global 7500 aircraft on transatlantic routes. 
+                        Focus on premium business configurations.
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <span className="text-sm text-slate-400">1 match found today</span>
+                          <span className="text-sm text-slate-400">Last alert: 6 hours ago</span>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button size="sm" variant="outline">View Results</Button>
+                          <Button size="sm" variant="outline">Edit Search</Button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="p-4 rounded-lg border border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <h3 className="font-semibold text-white">European Luxury Charters</h3>
+                          <p className="text-sm text-slate-400">Citation CJ3+ • CDG-MCM routes</p>
+                        </div>
+                        <Badge className="bg-amber-500/20 text-amber-400">Paused</Badge>
+                      </div>
+                      <p className="text-sm text-slate-300 mb-3">
+                        Monitor European luxury charter availability, particularly Paris to Monaco routes. 
+                        Currently paused due to client travel schedule.
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <span className="text-sm text-slate-400">Search paused</span>
+                          <span className="text-sm text-slate-400">Last alert: 3 days ago</span>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button size="sm" variant="outline">Resume</Button>
+                          <Button size="sm" variant="outline">Edit Search</Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Create New Search */}
+              <Card className="border-slate-600" style={{ backgroundColor: '#110f0d' }}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Plus className="w-5 h-5 text-accent" />
+                    Create New Search Alert
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-sm text-slate-400 mb-2 block">Search Name</label>
+                        <Input placeholder="e.g., Weekend NYC Charters" className="bg-slate-800/50 border-slate-600" />
+                      </div>
+                      <div>
+                        <label className="text-sm text-slate-400 mb-2 block">Aircraft Type</label>
+                        <Select>
+                          <SelectTrigger className="bg-slate-800/50 border-slate-600">
+                            <SelectValue placeholder="Select aircraft" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="gulfstream-g650">Gulfstream G650</SelectItem>
+                            <SelectItem value="global-7500">Global 7500</SelectItem>
+                            <SelectItem value="citation-cj3">Citation CJ3+</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-sm text-slate-400 mb-2 block">Origin</label>
+                        <Input placeholder="e.g., LHR, JFK" className="bg-slate-800/50 border-slate-600" />
+                      </div>
+                      <div>
+                        <label className="text-sm text-slate-400 mb-2 block">Destination</label>
+                        <Input placeholder="e.g., DXB, LAX" className="bg-slate-800/50 border-slate-600" />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-sm text-slate-400 mb-2 block">Max Price</label>
+                        <Input placeholder="e.g., £50,000" className="bg-slate-800/50 border-slate-600" />
+                      </div>
+                      <div>
+                        <label className="text-sm text-slate-400 mb-2 block">Alert Frequency</label>
+                        <Select>
+                          <SelectTrigger className="bg-slate-800/50 border-slate-600">
+                            <SelectValue placeholder="Select frequency" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="immediate">Immediate</SelectItem>
+                            <SelectItem value="daily">Daily Summary</SelectItem>
+                            <SelectItem value="weekly">Weekly Summary</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                    <Button className="w-full bg-accent hover:bg-accent/90">
+                      <Plus className="w-4 h-4 mr-2" />
+                      Create Search Alert
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
         </Tabs>
-
-        {/* Demo Notice */}
-        {isDemoMode && (
-          <div className="mt-8 p-4 border border-slate-700 rounded-lg" style={{ backgroundColor: '#0e141b' }}>
-            <div className="flex items-start gap-3">
-              <AlertTriangle className="w-5 h-5 text-warn mt-0.5" />
-              <div>
-                <h3 className="font-medium text-body">Demo Mode - All Features Active</h3>
-                <p className="text-muted text-sm mt-1">
-                  This terminal demonstrates all FCA compliant features with mock data. 
-                  In production, all payments would be processed through Stripe Connect with real money.
-                  <strong> Zero monthly costs until you generate revenue.</strong>
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
         </main>
       </div>
-      
-      {/* Scroll to Top Button */}
-      <Button
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="fixed bottom-6 right-6 z-50 w-12 h-12 bg-accent/80 hover:bg-accent rounded-full flex items-center justify-center transition-all duration-300 shadow-lg backdrop-blur-sm border border-accent/30"
-        title="Scroll to Top"
-      >
-        <ArrowUp className="w-6 h-6 text-white" />
-      </Button>
-      
-      {/* Contract Generator Modal */}
-      {showContractGenerator && (
-        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
-          <div className="bg-terminal-bg border border-terminal-border rounded-lg max-w-6xl w-full max-h-[90vh] overflow-y-auto">
-            <ContractGenerator 
-              dealId="demo-deal-1" 
-              onClose={() => setShowContractGenerator(false)} 
-            />
-          </div>
-        </div>
-      )}
-
-      {/* Receipt Generator Modal */}
-      {showReceiptGenerator && (
-        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
-          <div className="bg-terminal-bg border border-terminal-border rounded-lg max-w-6xl w-full max-h-[90vh] overflow-y-auto">
-            <ReceiptGenerator 
-              dealId="demo-deal-1" 
-              onClose={() => setShowReceiptGenerator(false)} 
-            />
-          </div>
-        </div>
-      )}
-
-      {/* Intelligent AI Chatbot */}
     </>
   );
-}
+};
+
+export default DemoBrokerTerminal;

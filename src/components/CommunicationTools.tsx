@@ -1,28 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { 
-  MessageCircle, 
-  Send, 
-  Bell, 
-  Users, 
-  Video, 
-  Phone, 
-  MoreVertical,
-  Search,
-  Filter,
-  Plus,
-  Settings,
-  Check,
-  CheckCheck,
-  Clock,
-  AlertCircle,
-  Info,
-  Star
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import {
+    AlertCircle,
+    Bell,
+    Check,
+    CheckCheck,
+    Clock,
+    Info,
+    MessageCircle,
+    MoreVertical,
+    Plus,
+    Search,
+    Send
 } from 'lucide-react';
+import { useState } from 'react';
 
 interface Message {
   id: string;
@@ -308,16 +302,8 @@ export default function CommunicationTools({ terminalType }: CommunicationToolsP
             size="sm"
             className="border-gray-600 text-gray-300 hover:bg-gray-800"
           >
-            <Video className="w-4 h-4 mr-2" />
-            Video Call
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            className="border-gray-600 text-gray-300 hover:bg-gray-800"
-          >
-            <Phone className="w-4 h-4 mr-2" />
-            Voice Call
+            <Plus className="w-4 h-4 mr-2" />
+            New Message
           </Button>
         </div>
       </div>

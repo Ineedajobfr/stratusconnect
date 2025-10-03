@@ -4,6 +4,7 @@ import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24W
 import JobBoard from '@/components/job-board/JobBoard';
 import { ModernHelpGuide } from '@/components/ModernHelpGuide';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
+import RealTimeFlightTracker from '@/components/RealTimeFlightTracker';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';

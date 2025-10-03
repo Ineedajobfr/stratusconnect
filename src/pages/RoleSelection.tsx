@@ -1,14 +1,17 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { 
-  Building2, Plane, Users, ArrowLeft, ArrowRight, CheckCircle, UserCheck
-} from "lucide-react";
 import { NavigationArrows } from "@/components/NavigationArrows";
-import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
+import { StratusConnectLogo } from "@/components/StratusConnectLogo";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  ArrowLeft, ArrowRight,
+  Building2,
+  CheckCircle,
+  Plane,
+  UserCheck,
+  Users
+} from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function RoleSelection() {
   const navigate = useNavigate();
@@ -67,21 +70,21 @@ export default function RoleSelection() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground mb-6 text-glow-subtle">
-                Access real-time aircraft listings, manage client relationships, and close deals faster than ever. 
-                Our AI-powered matching system connects you with the right opportunities.
+                Manage RFQs, track deals, and communicate with clients through our comprehensive broker dashboard. 
+                Real-time notifications, performance tracking, and integrated flight monitoring.
               </p>
               <div className="space-y-2 mb-6">
                 <div className="flex items-center text-sm text-gunmetal">
                   <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
-                  Real-time market data
+                  Real-time notifications & alerts
                 </div>
                 <div className="flex items-center text-sm text-gunmetal">
                   <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
-                  Automated quote generation
+                  RFQ management & quote tracking
                 </div>
                 <div className="flex items-center text-sm text-gunmetal">
                   <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
-                  Secure escrow payments
+                  Performance & reputation system
                 </div>
               </div>
               <div className="flex space-x-3">
@@ -112,21 +115,21 @@ export default function RoleSelection() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground mb-6 text-glow-subtle">
-                Maximize your fleet's potential with intelligent scheduling, crew management, and real-time performance tracking. 
-                Turn every flight into profit.
+                Manage your fleet operations with advanced search, document management, and real-time flight tracking. 
+                Complete crew management and contract generation tools.
               </p>
               <div className="space-y-2 mb-6">
                 <div className="flex items-center text-sm text-gunmetal">
                   <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
-                  Fleet optimization tools
+                  Advanced search & filtering
                 </div>
                 <div className="flex items-center text-sm text-gunmetal">
                   <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
-                  Crew scheduling automation
+                  Document & contract management
                 </div>
                 <div className="flex items-center text-sm text-gunmetal">
                   <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
-                  Real-time performance metrics
+                  Real-time flight tracking
                 </div>
               </div>
               <div className="flex space-x-3">
@@ -157,21 +160,21 @@ export default function RoleSelection() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground mb-6 text-glow-subtle">
-                Find the best flying opportunities that match your skills and schedule. 
-                Build your reputation and grow your career with verified operators.
+                Track your flight assignments, manage certifications, and access job opportunities. 
+                Complete dashboard with notes, community forums, and document storage.
               </p>
               <div className="space-y-2 mb-6">
                 <div className="flex items-center text-sm text-gunmetal">
                   <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
-                  Job matching algorithm
+                  Flight assignment tracking
                 </div>
                 <div className="flex items-center text-sm text-gunmetal">
                   <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
-                  Credential verification
+                  Job board & community forums
                 </div>
                 <div className="flex items-center text-sm text-gunmetal">
                   <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
-                  Secure payment processing
+                  Document & note management
                 </div>
               </div>
               <div className="flex space-x-3">
@@ -202,21 +205,21 @@ export default function RoleSelection() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground mb-6 text-glow-subtle">
-                Connect with top operators and build lasting relationships. 
-                Showcase your skills and availability to find the best crew assignments.
+                Manage crew assignments, track performance, and access job opportunities. 
+                Complete dashboard with notes, community forums, and document storage.
               </p>
               <div className="space-y-2 mb-6">
                 <div className="flex items-center text-sm text-gunmetal">
                   <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
-                  Premium crew opportunities
+                  Assignment management
                 </div>
                 <div className="flex items-center text-sm text-gunmetal">
                   <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
-                  Flexible scheduling
+                  Job board & community forums
                 </div>
                 <div className="flex items-center text-sm text-gunmetal">
                   <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
-                  Reputation building tools
+                  Document & note management
                 </div>
               </div>
               <div className="flex space-x-3">

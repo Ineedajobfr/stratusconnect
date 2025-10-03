@@ -148,7 +148,6 @@ const App = memo(() => {
                     <Routes>
               {/* Public routes */}
               <Route path="/" element={<StratusLauncher />} />
-              <Route path="/home" element={<Index />} />
               <Route path="/enter" element={<Enter />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/auth/callback" element={<AuthCallback />} />
@@ -173,11 +172,7 @@ const App = memo(() => {
               {/* New unified navigation routes */}
               <Route 
                 path="/home" 
-                element={
-                  <ProtectedRoute>
-                    <HomePage />
-                  </ProtectedRoute>
-                } 
+                element={<Index />}
               />
               <Route 
                 path="/network" 

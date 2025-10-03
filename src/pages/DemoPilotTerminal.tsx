@@ -11,25 +11,25 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
-    AlertTriangle,
-    ArrowUp,
-    Award,
-    BarChart3,
-    Briefcase,
-    Calendar,
-    Clock,
-    DollarSign,
-    FileText,
-    HelpCircle,
-    Navigation,
-    Plane,
-    Plus,
-    RefreshCw,
-    Settings,
-    Shield,
-    Star,
-    User,
-    Users
+  AlertTriangle,
+  ArrowUp,
+  Award,
+  BarChart3,
+  Briefcase,
+  Calendar,
+  Clock,
+  DollarSign,
+  FileText,
+  HelpCircle,
+  Navigation,
+  Plane,
+  Plus,
+  RefreshCw,
+  Settings,
+  Shield,
+  Star,
+  User,
+  Users
 } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -640,9 +640,6 @@ export default function DemoPilotTerminal() {
       >
         <ArrowUp className="w-6 h-6 text-white" />
       </Button>
-      
-      {/* Intelligent AI Chatbot */}
-            <RealTimeFlightTracker terminalType="pilot" />
     </>
   );
 }

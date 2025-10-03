@@ -14,6 +14,7 @@ import { ModernHelpGuide } from "@/components/ModernHelpGuide";
 import NoteTakingSystem from "@/components/NoteTakingSystem";
 import { NotificationCenter } from "@/components/NotificationCenter";
 import { PerformanceMonitor } from "@/components/Performance/PerformanceMonitor";
+import RealTimeFlightTracker from "@/components/RealTimeFlightTracker";
 import { ReputationMetrics } from "@/components/Reputation/ReputationMetrics";
 import { RiskAssessmentWidget } from "@/components/Risk/RiskAssessmentWidget";
 import { AuthenticationGuard } from "@/components/Security/AuthenticationGuard";
@@ -560,52 +561,151 @@ export default function BrokerTerminal() {
           </div>
 
           <TabsContent value="dashboard" className="space-y-6">
-            {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <Card className="bg-terminal-card border-terminal-border">
+            {/* Notifications Section */}
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold text-white">Notifications</h2>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                <Card className="bg-slate-800/50 border-slate-700 cursor-pointer hover:border-orange-500/50 transition-all group hover:shadow-orange-500/20 hover:shadow-lg">
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></div>
+                      <FileText className="w-5 h-5 text-amber-400" />
+                      <p className="font-semibold text-amber-400 text-lg">Reply to 2 RFQs now</p>
+                    </div>
+                    <p className="text-sm text-gray-400">SLA breach in 3h if ignored</p>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-slate-800/50 border-slate-700 cursor-pointer hover:border-orange-500/50 transition-all group hover:shadow-orange-500/20 hover:shadow-lg">
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                      <FileText className="w-5 h-5 text-blue-400" />
+                      <p className="font-semibold text-blue-400 text-lg">Send contract to 1 client</p>
+                    </div>
+                    <p className="text-sm text-gray-400">Deal expires in 6h</p>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-slate-800/50 border-slate-700 cursor-pointer hover:border-orange-500/50 transition-all group hover:shadow-orange-500/20 hover:shadow-lg">
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                      <DollarSign className="w-5 h-5 text-green-400" />
+                      <p className="font-semibold text-green-400 text-lg">Collect 3 payments</p>
+                    </div>
+                    <p className="text-sm text-gray-400">£12,300 held in pending</p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            {/* Key Metrics */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <Card className="bg-slate-800/50 border-slate-700 cursor-pointer hover:border-orange-500/50 transition-all group hover:shadow-orange-500/20 hover:shadow-lg">
                 <CardContent className="p-6">
-                  <div className="flex items-center space-x-2">
-                    <BarChart3 className="h-8 w-8 text-accent" />
-                    <div>
-                      <p className="text-sm text-muted-foreground">Quote Requests Today</p>
-                      <p className="text-2xl font-bold">47</p>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <Clock className="w-4 h-4 text-orange-400" />
+                      <p className="text-xs uppercase tracking-wide text-gray-300 font-medium">Pending Quotes</p>
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-3xl font-bold text-white mb-1">8</p>
+                    <p className="text-sm text-gray-400">Awaiting response</p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-800/50 border-slate-700 cursor-pointer hover:border-orange-500/50 transition-all group hover:shadow-orange-500/20 hover:shadow-lg">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <TrendingUp className="w-4 h-4 text-orange-400" />
+                      <p className="text-xs uppercase tracking-wide text-gray-300 font-medium">Quotes Accepted</p>
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-3xl font-bold text-white mb-1">23</p>
+                    <p className="text-sm text-gray-400">This month</p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-800/50 border-slate-700 cursor-pointer hover:border-orange-500/50 transition-all group hover:shadow-orange-500/20 hover:shadow-lg">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <DollarSign className="w-4 h-4 text-orange-400" />
+                      <p className="text-xs uppercase tracking-wide text-gray-300 font-medium">Deals Closed</p>
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-3xl font-bold text-white mb-1">5</p>
+                    <p className="text-sm text-gray-400">£2.1M volume</p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-800/50 border-slate-700 cursor-pointer hover:border-orange-500/50 transition-all group hover:shadow-orange-500/20 hover:shadow-lg">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <Clock className="w-4 h-4 text-orange-400" />
+                      <p className="text-xs uppercase tracking-wide text-gray-300 font-medium">Response Time</p>
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-3xl font-bold text-white mb-1">2.3m</p>
+                    <p className="text-sm text-gray-400">Fast lane eligible</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Reputation & Performance - Smaller */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <Card className="bg-slate-800/50 border-slate-700">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Award className="w-4 h-4 text-orange-400" />
+                    <p className="text-sm uppercase tracking-wide text-gray-300 font-medium">Reputation & Performance</p>
+                  </div>
+                  <div className="grid grid-cols-3 gap-3">
+                    <div className="text-center p-3 rounded-lg bg-slate-700/50 border border-slate-600">
+                      <p className="text-xl font-bold text-orange-400 mb-1">4.8</p>
+                      <p className="text-xs text-gray-400">Rating</p>
+                    </div>
+                    <div className="text-center p-3 rounded-lg bg-slate-700/50 border border-slate-600">
+                      <p className="text-xl font-bold text-orange-400 mb-1">98%</p>
+                      <p className="text-xs text-gray-400">Satisfaction</p>
+                    </div>
+                    <div className="text-center p-3 rounded-lg bg-slate-700/50 border border-slate-600">
+                      <p className="text-xl font-bold text-orange-400 mb-1">127</p>
+                      <p className="text-xs text-gray-400">Deals</p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
-              <Card className="bg-terminal-card border-terminal-border">
-                <CardContent className="p-6">
-                  <div className="flex items-center space-x-2">
-                    <Clock className="h-8 w-8 text-accent" />
-                    <div>
-                      <p className="text-sm text-muted-foreground">Response Median</p>
-                      <p className="text-2xl font-bold">2.3m</p>
-                    </div>
+
+              <Card className="bg-slate-800/50 border-slate-700">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Trophy className="w-4 h-4 text-orange-400" />
+                    <p className="text-sm uppercase tracking-wide text-gray-300 font-medium">Golden Status</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-sm text-gray-400 mb-2">#12 Global Ranking</p>
+                    <p className="text-2xl font-bold text-orange-400 mb-1">567</p>
+                    <p className="text-xs text-gray-400">Points (+23 this week)</p>
                   </div>
                 </CardContent>
               </Card>
-              <Card className="bg-terminal-card border-terminal-border">
-                <CardContent className="p-6">
-                  <div className="flex items-center space-x-2">
-                    <AlertTriangle className="h-8 w-8 text-red-400" />
-                    <div>
-                      <p className="text-sm text-muted-foreground">Risk Alerts</p>
-                      <p className="text-2xl font-bold text-red-400">3</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card className="bg-terminal-card border-terminal-border">
-                <CardContent className="p-6">
-                  <div className="flex items-center space-x-2">
-                    <DollarSign className="h-8 w-8 text-accent" />
-                    <div>
-                      <p className="text-sm text-muted-foreground">Total Value</p>
-                      <p className="text-2xl font-bold">$2.4M</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+            </div>
+
+            {/* Real-Time Flight Tracking */}
+            <div className="mt-8">
+              <RealTimeFlightTracker terminalType="broker" />
             </div>
 
             {/* Personalized Feed */}
@@ -688,6 +788,11 @@ export default function BrokerTerminal() {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Real-Time Flight Tracking */}
+            <div className="mt-8">
+              <RealTimeFlightTracker terminalType="broker" />
+            </div>
           </TabsContent>
 
           <TabsContent value="rfqs" className="space-y-6">

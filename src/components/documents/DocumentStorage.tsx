@@ -30,6 +30,7 @@ import {
   Archive
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { documentGenerator } from '@/lib/document-generator';
 
 interface Document {
   id: string;
@@ -88,6 +89,9 @@ const DocumentStorage = React.memo(function DocumentStorage({ userRole }: Docume
     tags: [] as string[],
     is_public: false
   });
+  const [showGeneratorDialog, setShowGeneratorDialog] = useState(false);
+  const [generatorType, setGeneratorType] = useState<'contract' | 'receipt' | 'invoice' | 'agreement' | 'certificate'>('contract');
+  const [generating, setGenerating] = useState(false);
 
   // Mock data - replace with actual API calls
   useEffect(() => {
@@ -317,6 +321,82 @@ const DocumentStorage = React.memo(function DocumentStorage({ userRole }: Docume
     }
   };
 
+  // Auto-generation functions
+  const generateContract = async () => {
+    setGenerating(true);
+    try {
+      const generatedDoc = await documentGenerator.generateContract({
+        dealId: 'demo-deal-1',
+        partyA: {
+          name: 'Demo Broker',
+          company: 'Elite Aviation Brokers',
+          email: 'broker@eliteaviation.com'
+        },
+        partyB: {
+          name: 'Demo Operator',
+          company: 'SkyHigh Operations',
+          email: 'operator@skyhigh.com'
+        },
+        terms: [
+          'The pilot agrees to provide professional aviation services',
+          'The operator agrees to maintain aircraft in airworthy condition',
+          'All flights shall comply with FAA regulations',
+          'Payment terms: Net 30 days from invoice date'
+        ],
+        amount: 50000,
+        currency: 'USD',
+        startDate: new Date().toISOString(),
+        endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+        additionalTerms: 'This agreement is subject to standard aviation industry practices.'
+      });
+      
+      setDocuments(prev => [generatedDoc, ...prev]);
+      setShowGeneratorDialog(false);
+    } catch (error) {
+      console.error('Error generating contract:', error);
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  const generateReceipt = async () => {
+    setGenerating(true);
+    try {
+      const generatedDoc = await documentGenerator.generateReceipt({
+        dealId: 'demo-deal-1',
+        payerName: 'Demo Client',
+        payeeName: 'SkyHigh Operations',
+        payeeCompany: 'SkyHigh Operations LLC',
+        amount: 25000,
+        currency: 'USD',
+        paymentMethod: 'Credit Card',
+        transactionId: 'TXN-' + Date.now(),
+        description: 'Payment for Gulfstream G650 charter service',
+        date: new Date().toISOString()
+      });
+      
+      setDocuments(prev => [generatedDoc, ...prev]);
+      setShowGeneratorDialog(false);
+    } catch (error) {
+      console.error('Error generating receipt:', error);
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  const handleGenerateDocument = () => {
+    switch (generatorType) {
+      case 'contract':
+        generateContract();
+        break;
+      case 'receipt':
+        generateReceipt();
+        break;
+      default:
+        console.log('Generator type not implemented yet:', generatorType);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -329,15 +409,26 @@ const DocumentStorage = React.memo(function DocumentStorage({ userRole }: Docume
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col space-y-4">
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-terminal-fg">Document Storage</h1>
-          <Dialog open={showUploadDialog} onOpenChange={setShowUploadDialog}>
-            <DialogTrigger asChild>
-              <Button className="bg-terminal-accent hover:bg-terminal-accent/90">
-                <Upload className="h-4 w-4 mr-2" />
-                Upload Document
+          <div className="flex items-center justify-between">
+            <h1 className="text-3xl font-bold text-terminal-fg">Document Storage</h1>
+            <div className="flex space-x-3">
+              <Button
+                onClick={() => setShowGeneratorDialog(true)}
+                className="bg-terminal-secondary hover:bg-terminal-secondary/90"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Generate Document
               </Button>
-            </DialogTrigger>
+              <Dialog open={showUploadDialog} onOpenChange={setShowUploadDialog}>
+                <DialogTrigger asChild>
+                  <Button className="bg-terminal-accent hover:bg-terminal-accent/90">
+                    <Upload className="h-4 w-4 mr-2" />
+                    Upload Document
+                  </Button>
+                </DialogTrigger>
+            </Dialog>
+            </div>
+          </div>
             <DialogContent className="bg-terminal-bg border-terminal-border">
               <DialogHeader>
                 <DialogTitle className="text-terminal-fg">Upload New Document</DialogTitle>
@@ -387,12 +478,65 @@ const DocumentStorage = React.memo(function DocumentStorage({ userRole }: Docume
               </form>
             </DialogContent>
           </Dialog>
+
+          {/* Document Generator Dialog */}
+          <Dialog open={showGeneratorDialog} onOpenChange={setShowGeneratorDialog}>
+            <DialogContent className="bg-terminal-bg border-terminal-border">
+              <DialogHeader>
+                <DialogTitle className="text-terminal-fg">Generate Document</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div>
+                  <label className="text-terminal-fg mb-2 block">Document Type</label>
+                  <Select value={generatorType} onValueChange={(value: any) => setGeneratorType(value)}>
+                    <SelectTrigger className="bg-terminal-bg border-terminal-border text-terminal-fg">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="contract">Contract</SelectItem>
+                      <SelectItem value="receipt">Receipt</SelectItem>
+                      <SelectItem value="invoice">Invoice</SelectItem>
+                      <SelectItem value="agreement">Agreement</SelectItem>
+                      <SelectItem value="certificate">Certificate</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex space-x-3 pt-4">
+                  <Button
+                    onClick={handleGenerateDocument}
+                    disabled={generating}
+                    className="bg-terminal-accent hover:bg-terminal-accent/90 flex-1"
+                  >
+                    {generating ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        Generating...
+                      </>
+                    ) : (
+                      <>
+                        <FileText className="h-4 w-4 mr-2" />
+                        Generate {generatorType.charAt(0).toUpperCase() + generatorType.slice(1)}
+                      </>
+                    )}
+                  </Button>
+                  <Button
+                    onClick={() => setShowGeneratorDialog(false)}
+                    variant="outline"
+                    className="border-terminal-border text-terminal-fg hover:bg-terminal-muted"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
         
         <p className="text-terminal-muted">
           Manage your contracts, receipts, and other important documents
         </p>
       </div>
+    </div>
 
       {/* Search and Filters */}
       <Card className="bg-terminal-bg border-terminal-border">

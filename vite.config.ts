@@ -10,10 +10,33 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
     cors: true,
     headers: {
+      // Security headers
       'X-Content-Type-Options': 'nosniff',
       'X-XSS-Protection': '1; mode=block',
+      'X-Frame-Options': 'DENY',
+      'X-Permitted-Cross-Domain-Policies': 'none',
       'Referrer-Policy': 'strict-origin-when-cross-origin',
-      'Content-Security-Policy': "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://lovable.dev https://lovable-api.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://lovable-api.com https://lovable.dev wss://*.lovableproject.com; frame-src 'self' https://lovable.dev;"
+      'Permissions-Policy': 'geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), speaker=()',
+      
+      // Enhanced Content Security Policy
+      'Content-Security-Policy': [
+        "default-src 'self'",
+        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://lovable.dev https://lovable-api.com",
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+        "font-src 'self' data: https://fonts.gstatic.com",
+        "img-src 'self' data: https: blob:",
+        "media-src 'self' data: https: blob:",
+        "object-src 'none'",
+        "base-uri 'self'",
+        "form-action 'self'",
+        "frame-ancestors 'none'",
+        "frame-src 'self' https://lovable.dev",
+        "connect-src 'self' https://*.supabase.co https://lovable-api.com https://lovable.dev wss://*.lovableproject.com",
+        "worker-src 'self' blob:",
+        "child-src 'self' blob:",
+        "manifest-src 'self'",
+        "prefetch-src 'self'"
+      ].join('; ')
     }
   },
   plugins: [

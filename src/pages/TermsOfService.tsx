@@ -1,4 +1,4 @@
-import StratusCinematicBackground from "@/components/StratusCinematicBackground";
+// Updated with cinematic design - force rebuild to clear cache - StratusCinematicBackground removed
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
@@ -8,8 +8,17 @@ export default function TermsOfService() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0B1426' }}>
-      <StratusCinematicBackground />
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Cinematic Gradient Background */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse at center, rgba(139, 69, 19, 0.9) 0%, rgba(91, 30, 13, 0.95) 25%, rgba(59, 30, 13, 0.98) 50%, rgba(20, 20, 20, 0.99) 75%, rgba(10, 10, 12, 1) 100%), linear-gradient(135deg, #3b1e0d 0%, #2d1a0a 25%, #1a0f08 50%, #0f0a06 75%, #0a0a0c 100%)',
+        }}
+      />
+      {/* Animated overlay for depth */}
+      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-slate-900/20 to-slate-900/40" />
+      <div className="absolute inset-0 bg-gradient-to-tr from-amber-900/10 via-transparent to-orange-900/10" />
       
       <div className="relative z-10 py-12">
         <div className="max-w-4xl mx-auto px-4">
@@ -23,7 +32,7 @@ export default function TermsOfService() {
               Back
             </Button>
             <h1 className="text-4xl font-bold text-foreground mb-4">Terms of Service</h1>
-            <p className="text-muted-foreground">Last updated: December 2024</p>
+            <p className="text-muted-foreground">Last updated: January 2025</p>
           </div>
 
           <Card className="terminal-card">

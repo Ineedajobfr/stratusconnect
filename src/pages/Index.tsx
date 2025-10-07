@@ -212,7 +212,7 @@ export default function Index() {
                   </div>
                   <div className="flex items-center text-sm text-white">
                     <CheckCircle className="w-4 h-4 text-green-400 mr-2 drop-shadow-[0_0_5px_rgba(34,197,94,0.6)]" />
-                    Secure escrow payments
+                    Stripe Connect payment protection
                   </div>
                 </div>
                 <div className="flex space-x-3">
@@ -497,7 +497,7 @@ export default function Index() {
                   <div className="flex items-center space-x-3">
                     <Lock className="w-12 h-12 text-slate-300" />
                     <div>
-                <CardTitle>We Only Win When You Win</CardTitle>
+                <CardTitle>Success-Based Pricing</CardTitle>
                     </div>
                   </div>
                   <Dialog>
@@ -508,7 +508,7 @@ export default function Index() {
                     </DialogTrigger>
                     <DialogContent className="bg-terminal-card border-terminal-border">
                       <DialogHeader>
-                        <DialogTitle className="text-slate-300">We Only Win When You Win</DialogTitle>
+                        <DialogTitle className="text-slate-300">Success-Based Pricing</DialogTitle>
                         <DialogDescription>
                           No monthly fees. No hidden costs. We only make money when you close deals. Your success is literally our business model.
                         </DialogDescription>
@@ -543,7 +543,7 @@ export default function Index() {
               <CardContent>
                 <p className="text-muted-foreground">
                   No monthly fees. No hidden costs. We only make money when you close deals. 
-                  Your success is literally our business model.
+                  Your success drives our success.
                 </p>
               </CardContent>
             </Card>
@@ -599,8 +599,8 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  We show you exactly what we do, how we do it, and what it costs. 
-                  No hidden fees, no surprises. Just results.
+                  Complete transparency in everything we do. Clear pricing, honest reporting, 
+                  and direct communication. What you see is what you get.
                 </p>
               </CardContent>
             </Card>
@@ -608,12 +608,12 @@ export default function Index() {
         </div>
       </div>
 
-      {/* Escrow & Payment Security */}
+      {/* Payment Protection */}
       <div className="relative z-10 py-24">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-foreground mb-4">Secure Escrow System</h2>
-            <p className="text-xl text-muted-foreground">Your funds are protected at every step</p>
+            <h2 className="text-4xl font-bold text-foreground mb-4">Stripe Connect Payment Protection</h2>
+            <p className="text-xl text-muted-foreground">Your funds are protected with enterprise-grade security</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
@@ -625,8 +625,8 @@ export default function Index() {
                     <span className="text-slate-300 font-bold text-sm">1</span>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-foreground">Funds Secured</h4>
-                    <p className="text-muted-foreground">Payment held in secure escrow until flight completion</p>
+                    <h4 className="font-semibold text-foreground">Secure Payment Processing</h4>
+                    <p className="text-muted-foreground">Stripe Connect handles all payments with PCI-compliant security</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
@@ -643,8 +643,8 @@ export default function Index() {
                     <span className="text-slate-300 font-bold text-sm">3</span>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-foreground">Automatic Release</h4>
-                    <p className="text-muted-foreground">Funds automatically released to service providers</p>
+                    <h4 className="font-semibold text-foreground">Instant Settlement</h4>
+                    <p className="text-muted-foreground">Funds transferred directly to your bank account</p>
                   </div>
                 </div>
               </div>
@@ -658,7 +658,7 @@ export default function Index() {
               <CardContent className="space-y-4">
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-white" />
-                  <span className="text-muted-foreground">FDIC-insured escrow accounts</span>
+                  <span className="text-muted-foreground">PCI-compliant payment processing</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-white" />
@@ -666,11 +666,11 @@ export default function Index() {
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-white" />
-                  <span className="text-muted-foreground">Dispute resolution system</span>
+                  <span className="text-muted-foreground">Built-in dispute resolution</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-white" />
-                  <span className="text-muted-foreground">24/7 fraud protection</span>
+                  <span className="text-muted-foreground">Advanced fraud protection</span>
                 </div>
               </CardContent>
             </Card>
@@ -885,7 +885,7 @@ export default function Index() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-foreground mb-4">Privacy by Design</h2>
-            <p className="text-xl text-muted-foreground">Your data is never shared without explicit consent</p>
+            <p className="text-xl text-muted-foreground">GDPR compliant with complete data control and encryption</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -928,8 +928,8 @@ export default function Index() {
        <div className="relative z-10 py-24">
          <div className="max-w-6xl mx-auto px-4">
            <div className="text-center mb-12">
-             <h2 className="text-4xl font-bold text-foreground mb-4">Stop Guessing, Start Winning</h2>
-             <p className="text-xl text-muted-foreground">Complete guides, AI assistance, and everything you need to succeed</p>
+             <h2 className="text-4xl font-bold text-foreground mb-4">Complete Platform Support</h2>
+             <p className="text-xl text-muted-foreground">Comprehensive guides, AI assistance, and everything you need to succeed</p>
            </div>
 
            <Card className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer transition-all duration-300">
@@ -1070,22 +1070,22 @@ export default function Index() {
                <h3 className="text-lg font-bold text-white">Support</h3>
             <div className="space-y-4">
                  <div>
-                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal">
+                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/help')}>
                   Help Center
                 </Button>
                  </div>
                  <div>
-                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal">
+                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/contact')}>
                   Contact Us
                 </Button>
                  </div>
                  <div>
-                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal">
+                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/status')}>
                   Status Page
                 </Button>
                  </div>
                  <div>
-                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal">
+                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/api-docs')}>
                   API Documentation
                 </Button>
                  </div>

@@ -1,0 +1,126 @@
+title = "StratusConnect Security Configuration"
+
+# Gitleaks configuration for StratusConnect
+# This file defines patterns to detect secrets and sensitive information
+
+[extend]
+useDefault = true
+
+[extend.gitleaksallow]
+# Allow these patterns (if needed for documentation)
+description = "Allow specific patterns for documentation"
+
+[[extend.gitleaksallow.regexes]]
+description = "Allow example keys in documentation"
+regex = '''(?i)(sk_test_|pk_test_|rk_test_).*example'''
+
+[[extend.gitleaksallow.regexes]]
+description = "Allow placeholder values"
+regex = '''(?i)(your-.*-key|placeholder|example|test|demo)'''
+
+# Custom rules for StratusConnect specific secrets
+[[rules]]
+id = "stratusconnect-api-key"
+description = "StratusConnect API Key"
+regex = '''(?i)stratusconnect[_-]?api[_-]?key["\s]*[:=]["\s]*[a-zA-Z0-9_-]{32,}'''
+tags = ["stratusconnect", "api-key"]
+keywords = ["stratusconnect", "api"]
+
+[[rules]]
+id = "supabase-anon-key"
+description = "Supabase Anonymous Key"
+regex = '''eyJ[a-zA-Z0-9_-]{20,}\.eyJ[a-zA-Z0-9_-]{20,}\.[a-zA-Z0-9_-]{20,}'''
+tags = ["supabase", "jwt"]
+keywords = ["supabase", "anon"]
+
+[[rules]]
+id = "supabase-service-key"
+description = "Supabase Service Role Key"
+regex = '''(?i)supabase[_-]?service[_-]?role[_-]?key["\s]*[:=]["\s]*[a-zA-Z0-9_-]{32,}'''
+tags = ["supabase", "service-role"]
+keywords = ["supabase", "service"]
+
+[[rules]]
+id = "stripe-secret-key"
+description = "Stripe Secret Key"
+regex = '''sk_(live|test)_[a-zA-Z0-9]{24,}'''
+tags = ["stripe", "secret-key"]
+keywords = ["stripe", "secret"]
+
+[[rules]]
+id = "stripe-publishable-key"
+description = "Stripe Publishable Key"
+regex = '''pk_(live|test)_[a-zA-Z0-9]{24,}'''
+tags = ["stripe", "publishable"]
+keywords = ["stripe", "publishable"]
+
+[[rules]]
+id = "database-url"
+description = "Database Connection String"
+regex = '''(?i)(postgresql|mysql|mongodb)://[^\s'"]*'''
+tags = ["database", "connection"]
+keywords = ["database", "url", "connection"]
+
+[[rules]]
+id = "jwt-secret"
+description = "JWT Secret"
+regex = '''(?i)jwt[_-]?secret["\s]*[:=]["\s]*[a-zA-Z0-9+/=]{32,}'''
+tags = ["jwt", "secret"]
+keywords = ["jwt", "secret"]
+
+[[rules]]
+id = "aws-access-key"
+description = "AWS Access Key ID"
+regex = '''AKIA[0-9A-Z]{16}'''
+tags = ["aws", "access-key"]
+keywords = ["aws", "access"]
+
+[[rules]]
+id = "aws-secret-key"
+description = "AWS Secret Access Key"
+regex = '''(?i)aws[_-]?secret[_-]?access[_-]?key["\s]*[:=]["\s]*[a-zA-Z0-9/+=]{40}'''
+tags = ["aws", "secret-key"]
+keywords = ["aws", "secret"]
+
+[[rules]]
+id = "github-token"
+description = "GitHub Personal Access Token"
+regex = '''ghp_[a-zA-Z0-9]{36}'''
+tags = ["github", "token"]
+keywords = ["github", "token"]
+
+[[rules]]
+id = "openai-api-key"
+description = "OpenAI API Key"
+regex = '''sk-[a-zA-Z0-9]{48}'''
+tags = ["openai", "api-key"]
+keywords = ["openai", "api"]
+
+[[rules]]
+id = "discord-webhook"
+description = "Discord Webhook URL"
+regex = '''https://discord\.com/api/webhooks/[0-9]+/[a-zA-Z0-9_-]+'''
+tags = ["discord", "webhook"]
+keywords = ["discord", "webhook"]
+
+[[rules]]
+id = "slack-webhook"
+description = "Slack Webhook URL"
+regex = '''https://hooks\.slack\.com/services/[a-zA-Z0-9/_-]+'''
+tags = ["slack", "webhook"]
+keywords = ["slack", "webhook"]
+
+# Allowlist patterns for common false positives
+[[rules]]
+id = "allow-example-comments"
+description = "Allow example values in comments"
+regex = '''//.*example.*key|/\*.*example.*key.*\*/'''
+tags = ["allowlist"]
+keywords = ["example", "comment"]
+
+[[rules]]
+id = "allow-test-values"
+description = "Allow test values"
+regex = '''(?i)(test|example|demo|placeholder)[_-]?[a-zA-Z0-9_-]*["\s]*[:=]["\s]*[a-zA-Z0-9_-]{8,}'''
+tags = ["allowlist"]
+keywords = ["test", "example", "demo"]

@@ -1,4 +1,46 @@
-#!/bin/sh
-npx --yes lefthook run pre-commit
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
 
+echo "🔒 Running security checks..."
 
+# Run Gitleaks to check for secrets
+echo "🔍 Checking for secrets with Gitleaks..."
+if command -v gitleaks >/dev/null 2>&1; then
+    gitleaks protect --verbose --staged
+    if [ $? -ne 0 ]; then
+        echo "❌ Gitleaks found potential secrets in staged files"
+        echo "Please remove or encrypt any secrets before committing"
+        exit 1
+    fi
+else
+    echo "⚠️  Gitleaks not found. Install with: brew install gitleaks"
+fi
+
+# Run ESLint security checks
+echo "🔧 Running ESLint security checks..."
+npm run lint:security
+if [ $? -ne 0 ]; then
+    echo "❌ ESLint security checks failed"
+    echo "Please fix security issues before committing"
+    exit 1
+fi
+
+# Run npm audit
+echo "📦 Running npm audit..."
+npm audit --audit-level=high
+if [ $? -ne 0 ]; then
+    echo "❌ npm audit found high/critical vulnerabilities"
+    echo "Please fix vulnerabilities before committing"
+    exit 1
+fi
+
+# Type check
+echo "🔍 Running TypeScript type check..."
+npm run type-check
+if [ $? -ne 0 ]; then
+    echo "❌ TypeScript type check failed"
+    echo "Please fix type errors before committing"
+    exit 1
+fi
+
+echo "✅ All security checks passed!"

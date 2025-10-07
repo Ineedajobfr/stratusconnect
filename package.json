@@ -13,13 +13,15 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint:warn": "eslint . --max-warnings 0",
+    "lint:security": "eslint . --config .eslintrc.security.json",
     "type-check": "tsc --noEmit",
     "clean": "rimraf dist node_modules/.vite",
     "preview": "vite preview",
     "audit:fix": "npm audit fix",
     "deps:check": "npm outdated",
     "deps:update": "npm update",
-    "postinstall": "npm audit --audit-level moderate"
+    "postinstall": "npm audit --audit-level moderate",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -76,6 +78,7 @@
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "tesseract.js": "^6.0.1",
+    "validator": "^13.15.15",
     "vaul": "^0.9.9",
     "zod": "^3.25.76"
   },
@@ -85,12 +88,18 @@
     "@types/node": "^22.16.5",
     "@types/react": "^18.3.23",
     "@types/react-dom": "^18.3.7",
+    "@types/validator": "^13.15.3",
     "@vitejs/plugin-react-swc": "^3.11.0",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.32.0",
+    "eslint-plugin-no-secrets": "^0.8.8",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
+    "eslint-plugin-security": "^2.1.1",
+    "eslint-plugin-xss": "^0.1.12",
     "globals": "^15.15.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.10",
     "lovable-tagger": "^1.1.9",
     "postcss": "^8.5.6",
     "rimraf": "^6.0.1",
@@ -98,5 +107,14 @@
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.38.0",
     "vite": "^5.4.19"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --config .eslintrc.security.json --fix",
+      "git add"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "git add"
+    ]
   }
 }

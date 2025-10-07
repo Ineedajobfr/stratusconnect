@@ -1,16 +1,16 @@
-import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Plus, Plane, Edit, Trash2, Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { Camera, Edit, Loader2, Plane, Plus, Trash2, X } from "lucide-react";
+import { useEffect, useState } from "react";
 
 interface Aircraft {
   id: string;
@@ -26,6 +26,7 @@ interface Aircraft {
   availability_status: string;
   base_location: string;
   description: string;
+  photos?: string[];
   created_at: string;
 }
 
@@ -37,6 +38,9 @@ export default function FleetManagement() {
   const [submitting, setSubmitting] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingAircraft, setEditingAircraft] = useState<Aircraft | null>(null);
+  const [uploadingPhotos, setUploadingPhotos] = useState(false);
+  const [selectedPhotos, setSelectedPhotos] = useState<File[]>([]);
+  const [photoPreviewUrls, setPhotoPreviewUrls] = useState<string[]>([]);
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
@@ -95,6 +99,74 @@ export default function FleetManagement() {
       description: "",
     });
     setEditingAircraft(null);
+    setSelectedPhotos([]);
+    setPhotoPreviewUrls([]);
+  };
+
+  // Photo upload functions
+  const handlePhotoSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    const imageFiles = files.filter(file => file.type.startsWith('image/'));
+    
+    if (imageFiles.length > 0) {
+      setSelectedPhotos(prev => [...prev, ...imageFiles]);
+      
+      // Create preview URLs
+      const newPreviewUrls = imageFiles.map(file => URL.createObjectURL(file));
+      setPhotoPreviewUrls(prev => [...prev, ...newPreviewUrls]);
+      
+      toast({
+        title: "Photos selected",
+        description: `${imageFiles.length} photo(s) ready for upload`,
+      });
+    }
+  };
+
+  const removePhoto = (index: number) => {
+    setSelectedPhotos(prev => prev.filter((_, i) => i !== index));
+    setPhotoPreviewUrls(prev => {
+      const newUrls = [...prev];
+      URL.revokeObjectURL(newUrls[index]);
+      return newUrls.filter((_, i) => i !== index);
+    });
+  };
+
+  const uploadPhotos = async (aircraftId: string): Promise<string[]> => {
+    if (selectedPhotos.length === 0) return [];
+
+    setUploadingPhotos(true);
+    const uploadedUrls: string[] = [];
+
+    try {
+      for (const photo of selectedPhotos) {
+        // In a real implementation, you would upload to Supabase Storage
+        // For demo purposes, we'll create a data URL
+        const reader = new FileReader();
+        const dataUrl = await new Promise<string>((resolve) => {
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.readAsDataURL(photo);
+        });
+        
+        uploadedUrls.push(dataUrl);
+      }
+
+      toast({
+        title: "Photos uploaded",
+        description: `${uploadedUrls.length} photo(s) uploaded successfully`,
+      });
+
+      return uploadedUrls;
+    } catch (error) {
+      console.error('Error uploading photos:', error);
+      toast({
+        title: "Upload failed",
+        description: "Failed to upload photos. Please try again.",
+        variant: "destructive",
+      });
+      return [];
+    } finally {
+      setUploadingPhotos(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -112,6 +184,8 @@ export default function FleetManagement() {
         return;
       }
 
+      let aircraftId: string;
+
       if (editingAircraft) {
         const { error } = await supabase
           .from("aircraft")
@@ -119,14 +193,34 @@ export default function FleetManagement() {
           .eq("id", editingAircraft.id);
 
         if (error) throw error;
+        aircraftId = editingAircraft.id;
         toast({ title: "Success", description: "Aircraft updated successfully" });
       } else {
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from("aircraft")
-          .insert([{ ...formData, operator_id: user.id }]);
+          .insert([{ ...formData, operator_id: user.id }])
+          .select()
+          .single();
 
         if (error) throw error;
+        aircraftId = data.id;
         toast({ title: "Success", description: "Aircraft added to fleet successfully" });
+      }
+
+      // Upload photos if any were selected
+      if (selectedPhotos.length > 0) {
+        const photoUrls = await uploadPhotos(aircraftId);
+        if (photoUrls.length > 0) {
+          // Update aircraft with photo URLs
+          const { error: photoError } = await supabase
+            .from("aircraft")
+            .update({ photos: photoUrls })
+            .eq("id", aircraftId);
+
+          if (photoError) {
+            console.error("Error updating aircraft photos:", photoError);
+          }
+        }
       }
 
       setDialogOpen(false);
@@ -355,6 +449,58 @@ export default function FleetManagement() {
                   className="bg-slate-700 border-slate-600 text-white"
                   rows={3}
                 />
+              </div>
+
+              {/* Photo Upload Section */}
+              <div className="space-y-4">
+                <Label className="text-white">Aircraft Photos</Label>
+                <div className="space-y-3">
+                  {/* Photo Upload Button */}
+                  <div className="flex items-center space-x-3">
+                    <input
+                      type="file"
+                      id="photo-upload"
+                      accept="image/*"
+                      multiple
+                      onChange={handlePhotoSelect}
+                      className="hidden"
+                    />
+                    <label
+                      htmlFor="photo-upload"
+                      className="flex items-center space-x-2 px-4 py-2 bg-slate-700 border border-slate-600 rounded-md cursor-pointer hover:bg-slate-600 transition-colors"
+                    >
+                      <Camera className="h-4 w-4 text-white" />
+                      <span className="text-white">Select Photos</span>
+                    </label>
+                    {selectedPhotos.length > 0 && (
+                      <span className="text-slate-400 text-sm">
+                        {selectedPhotos.length} photo(s) selected
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Photo Previews */}
+                  {photoPreviewUrls.length > 0 && (
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                      {photoPreviewUrls.map((url, index) => (
+                        <div key={index} className="relative group">
+                          <img
+                            src={url}
+                            alt={`Aircraft photo ${index + 1}`}
+                            className="w-full h-24 object-cover rounded-md border border-slate-600"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removePhoto(index)}
+                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="flex justify-end space-x-2">
                 <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>

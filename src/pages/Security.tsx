@@ -1,11 +1,9 @@
-import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Shield, Lock, Database, Eye, AlertTriangle, FileCheck, Zap, Globe } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { NavigationArrows } from "@/components/NavigationArrows";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
-import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
-
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AlertTriangle, Database, Eye, FileCheck, Globe, Lock, Shield, Zap } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+// Updated with cinematic design - force rebuild to clear cache - StarfieldRunwayBackground removed
 export default function Security() {
   const navigate = useNavigate();
 
@@ -53,8 +51,17 @@ export default function Security() {
   ];
 
   return (
-    <div className="relative min-h-screen bg-slate-900">
-      <StarfieldRunwayBackground intensity={0.7} starCount={260} />
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Cinematic Gradient Background */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse at center, rgba(139, 69, 19, 0.9) 0%, rgba(91, 30, 13, 0.95) 25%, rgba(59, 30, 13, 0.98) 50%, rgba(20, 20, 20, 0.99) 75%, rgba(10, 10, 12, 1) 100%), linear-gradient(135deg, #3b1e0d 0%, #2d1a0a 25%, #1a0f08 50%, #0f0a06 75%, #0a0a0c 100%)',
+        }}
+      />
+      {/* Animated overlay for depth */}
+      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-slate-900/20 to-slate-900/40" />
+      <div className="absolute inset-0 bg-gradient-to-tr from-amber-900/10 via-transparent to-orange-900/10" />
       
       <div className="absolute top-4 left-4 z-40">
         <StratusConnectLogo />

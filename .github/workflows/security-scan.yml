@@ -1,0 +1,168 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+
+jobs:
+  secret-scan:
+    name: Secret Scanning with Gitleaks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          config-path: .gitleaks.toml
+          redact: true
+          verbose: true
+
+  dependency-scan:
+    name: Dependency Vulnerability Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run npm audit
+        run: |
+          npm audit --audit-level=moderate --json > audit-results.json || true
+          npm audit --audit-level=moderate
+
+      - name: Run OWASP Dependency Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: 'StratusConnect'
+          path: '.'
+          format: 'JSON'
+          args: >
+            --enableExperimental
+            --enableRetired
+            --failOnCVSS 7
+
+      - name: Upload audit results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: audit-results
+          path: |
+            audit-results.json
+            dependency-check-report.json
+
+  code-scan:
+    name: Code Vulnerability Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint Security Plugin
+        run: |
+          npx eslint . --ext .ts,.tsx,.js,.jsx --config .eslintrc.security.json
+        continue-on-error: true
+
+      - name: Run Semgrep
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: >-
+            p/security-audit
+            p/secrets
+            p/javascript
+            p/typescript
+            p/react
+        env:
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+
+      - name: Upload Semgrep results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: semgrep-results
+          path: semgrep-results.json
+
+  security-report:
+    name: Generate Security Report
+    runs-on: ubuntu-latest
+    needs: [secret-scan, dependency-scan, code-scan]
+    if: always()
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Generate Security Report
+        run: |
+          echo "# Security Scan Report - $(date)" > security-report.md
+          echo "" >> security-report.md
+          
+          echo "## Secret Scanning" >> security-report.md
+          if [ -f "secret-scan-results.json" ]; then
+            echo "✅ No secrets detected" >> security-report.md
+          else
+            echo "❌ Secrets may have been detected - check logs" >> security-report.md
+          fi
+          
+          echo "" >> security-report.md
+          echo "## Dependency Scanning" >> security-report.md
+          if [ -f "audit-results/audit-results.json" ]; then
+            vulnerabilities=$(jq '.metadata.vulnerabilities.total' audit-results/audit-results.json 2>/dev/null || echo "unknown")
+            echo "📊 Total vulnerabilities found: $vulnerabilities" >> security-report.md
+          fi
+          
+          echo "" >> security-report.md
+          echo "## Code Scanning" >> security-report.md
+          if [ -f "semgrep-results/semgrep-results.json" ]; then
+            findings=$(jq '.results | length' semgrep-results/semgrep-results.json 2>/dev/null || echo "unknown")
+            echo "🔍 Security findings: $findings" >> security-report.md
+          fi
+
+      - name: Upload Security Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-report
+          path: security-report.md
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('security-report.md', 'utf8');
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: report
+            });

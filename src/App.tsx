@@ -1,8 +1,8 @@
 // Theme is imported in main.tsx
 // import { ErrorBoundary } from "@/components/ErrorBoundary";
-import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import { NavigationOptimizer } from "@/components/NavigationOptimizer";
 import { WorkflowProvider } from "@/components/real-workflows/WorkflowIntegration";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -14,7 +14,6 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
 import { StatusBanner } from "@/components/StatusBanner";
-import { AuthenticationGuard } from "@/components/security/AuthenticationGuard";
 
 // Import new dashboard components
 import BrokerDashboard from "@/components/dashboard/BrokerDashboard";
@@ -69,11 +68,15 @@ const PilotLogin = lazy(() => import("./pages/PilotLogin"));
 const CrewLogin = lazy(() => import("./pages/CrewLogin"));
 const AircraftIntelligence = lazy(() => import("./pages/AircraftIntelligence"));
 const Security = lazy(() => import("./pages/Security"));
+const HelpCenter = lazy(() => import("./pages/HelpCenter"));
+const ApiDocumentation = lazy(() => import("./pages/ApiDocumentation"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Compliance = lazy(() => import("./pages/Compliance"));
 const VerificationPending = lazy(() => import("./pages/VerificationPending"));
 const AdminConsole = lazy(() => import("./pages/AdminConsole"));
 const AdminSetup = lazy(() => import("./pages/AdminSetup"));
+const QuickAdminSetup = lazy(() => import("./pages/QuickAdminSetup"));
+const SecurityDashboard = lazy(() => import("./pages/SecurityDashboard"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const PublicProfile = lazy(() => import("./pages/PublicProfile"));
 const ProfileSettings = lazy(() => import("./pages/ProfileSettings"));
@@ -164,10 +167,13 @@ const App = memo(() => {
               <Route path="/cookie-policy" element={<CookiePolicy />} />
               <Route path="/user-agreement" element={<UserAgreement />} />
               <Route path="/security" element={<Security />} />
+              <Route path="/help" element={<HelpCenter />} />
+              <Route path="/api-docs" element={<ApiDocumentation />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/compliance" element={<Compliance />} />
               <Route path="/intelligence" element={<AircraftIntelligence />} />
               <Route path="/verification-pending" element={<VerificationPending />} />
+              <Route path="/quick-admin-setup" element={<QuickAdminSetup />} />
               
               {/* New unified navigation routes */}
               <Route 
@@ -330,6 +336,14 @@ const App = memo(() => {
                 element={
                   <ProtectedRoute allowedRoles={['admin']} requireApproved={true}>
                     <SecureAdminSetup />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/security-dashboard" 
+                element={
+                  <ProtectedRoute allowedRoles={['admin']} requireApproved={true}>
+                    <SecurityDashboard />
                   </ProtectedRoute>
                 } 
               />

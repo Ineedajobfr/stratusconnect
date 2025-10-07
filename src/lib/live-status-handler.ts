@@ -1,13 +1,8 @@
 // Live Status Handler - Real-time system monitoring with fallbacks
 // FCA Compliant Aviation Platform
 
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '@/integrations/supabase/client';
 import { compliantMonitoring, UptimeMetrics } from './compliant-monitoring';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
 
 export interface LiveStatusData {
   status: 'operational' | 'degraded' | 'outage' | 'unknown';

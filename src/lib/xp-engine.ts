@@ -1,11 +1,6 @@
 // Merit Engine - Server-side Merit Point awarding with Continuity, multipliers, and caps
-import { createClient } from "@supabase/supabase-js";
+import { supabase } from "@/integrations/supabase/client";
 import { LeagueConfig } from "./league-config";
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL!, 
-  import.meta.env.VITE_SUPABASE_SERVICE_KEY! // Service key for server-side operations
-);
 
 export type MeritAwardInput = {
   userId: string;

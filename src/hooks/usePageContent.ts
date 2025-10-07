@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { useEffect, useState } from 'react';
 
 export interface PageContent {
   id: string;
@@ -18,7 +18,7 @@ export const usePageContent = (pageName: string) => {
 
   useEffect(() => {
     fetchContent();
-  }, [pageName]);
+  }, [pageName, fetchContent]);
 
   const fetchContent = async () => {
     try {

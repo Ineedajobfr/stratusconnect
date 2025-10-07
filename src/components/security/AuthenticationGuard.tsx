@@ -1,27 +1,25 @@
 // Authentication Guard Component - Industry Standard Implementation
 // FCA Compliant Aviation Platform
 
-import React, { useState, useEffect, ReactNode } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { supabase } from '@/integrations/supabase/client';
-import { securityService } from '@/lib/security-service';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { 
-  Shield, 
-  Lock, 
-  Eye, 
-  EyeOff, 
-  AlertTriangle, 
-  CheckCircle,
-  RefreshCw,
+import { supabase } from '@/integrations/supabase/client';
+import { securityService } from '@/lib/security-service';
+import {
+  AlertTriangle,
+  Eye,
+  EyeOff,
   Key,
-  User,
-  Mail
+  Lock,
+  Mail,
+  RefreshCw,
+  Shield
 } from 'lucide-react';
+import React, { ReactNode, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface AuthenticationGuardProps {
   children: ReactNode;
@@ -62,12 +60,6 @@ export const AuthenticationGuard: React.FC<AuthenticationGuardProps> = ({
 
   const navigate = useNavigate();
   const location = useLocation();
-
-  useEffect(() => {
-    checkAuthentication();
-    const interval = setInterval(checkAuthentication, 30000); // Check every 30 seconds
-    return () => clearInterval(interval);
-  }, []);
 
   const checkAuthentication = async () => {
     try {
@@ -113,6 +105,12 @@ export const AuthenticationGuard: React.FC<AuthenticationGuardProps> = ({
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    checkAuthentication();
+    const interval = setInterval(checkAuthentication, 30000); // Check every 30 seconds
+    return () => clearInterval(interval);
+  }, [checkAuthentication]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

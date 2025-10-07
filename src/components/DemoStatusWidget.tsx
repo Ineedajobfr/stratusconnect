@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Activity, 
-  CheckCircle, 
-  AlertTriangle, 
-  XCircle, 
-  Clock,
-  RefreshCw
-} from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { liveStatusHandler } from '@/lib/live-status-handler';
+import {
+  Activity,
+  AlertTriangle,
+  CheckCircle,
+  Clock,
+  RefreshCw,
+  XCircle
+} from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export default function DemoStatusWidget() {
   const [metrics, setMetrics] = useState({
@@ -64,7 +64,7 @@ export default function DemoStatusWidget() {
     refreshMetrics();
     const interval = setInterval(refreshMetrics, 30000); // Refresh every 30 seconds
     return () => clearInterval(interval);
-  }, []);
+  }, [refreshMetrics]);
 
   const getStatusIcon = (status: string) => {
     switch (status) {

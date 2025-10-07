@@ -49,28 +49,15 @@ class RealTimeMonitoringService {
   }
 
   private initializeMonitors() {
-    // Monitor key endpoints
+    // Monitor key endpoints - simplified for development
     const endpoints = [
       {
         id: 'main-app',
         name: 'Main Application',
         url: window.location.origin,
       },
-      {
-        id: 'api-health',
-        name: 'API Health',
-        url: `${window.location.origin}/api/health`,
-      },
-      {
-        id: 'auth-service',
-        name: 'Authentication Service',
-        url: `${window.location.origin}/api/auth/health`,
-      },
-      {
-        id: 'database',
-        name: 'Database',
-        url: `${window.location.origin}/api/db/health`,
-      },
+      // Only check endpoints that actually exist in development
+      // The static files in public/api/ are not accessible as HTTP endpoints in dev
     ];
 
     endpoints.forEach(endpoint => {
@@ -96,13 +83,19 @@ class RealTimeMonitoringService {
     this.isRunning = true;
     console.log('🚀 Starting real-time monitoring...');
     
+    // Only run monitoring if we have endpoints to monitor
+    if (this.monitors.size === 0) {
+      console.log('ℹ️ No endpoints configured for monitoring');
+      return;
+    }
+    
     // Initial check
     await this.performHealthChecks();
     
     // Set up interval for continuous monitoring
     this.checkInterval = setInterval(async () => {
       await this.performHealthChecks();
-    }, 10000); // Check every 10 seconds
+    }, 30000); // Check every 30 seconds (reduced frequency)
 
     // Clean up old history data every hour
     setInterval(() => {
@@ -156,13 +149,21 @@ class RealTimeMonitoringService {
       monitor.consecutiveFailures++;
       monitor.responseTime = Math.round(performance.now() - startTime);
       
-      console.warn(`Health check failed for ${monitor.name}:`, error);
+      // Only log errors in development if they're not connection refused (expected)
+      if (import.meta.env.DEV && error instanceof Error) {
+        if (!error.message.includes('Failed to fetch') && !error.message.includes('ERR_CONNECTION_REFUSED')) {
+          console.warn(`Health check failed for ${monitor.name}:`, error);
+        }
+      } else if (import.meta.env.PROD) {
+        console.warn(`Health check failed for ${monitor.name}:`, error);
+      }
     }
 
     monitor.lastCheck = new Date().toISOString();
     
-    // Record this check in history
-    this.recordCheck(monitor.id, monitor.status, monitor.responseTime);
+    // Record this check in history (convert degraded to down for history tracking)
+    const historyStatus = monitor.status === 'degraded' ? 'down' : monitor.status;
+    this.recordCheck(monitor.id, historyStatus as 'up' | 'down', monitor.responseTime);
     
     // Update uptime calculations
     this.updateUptimeMetrics(monitor);
@@ -202,13 +203,13 @@ class RealTimeMonitoringService {
       
       if (recentChecks.length === 0) {
         // If no recent checks, assume 100% uptime
-        monitor[period.name as keyof HealthCheck] = 100;
+        (monitor as any)[period.name] = 100;
         return;
       }
 
       const upChecks = recentChecks.filter(record => record.status === 'up').length;
       const uptime = (upChecks / recentChecks.length) * 100;
-      monitor[period.name as keyof HealthCheck] = Math.round(uptime * 100) / 100;
+      (monitor as any)[period.name] = Math.round(uptime * 100) / 100;
     });
   }
 
@@ -315,6 +316,10 @@ export const realTimeMonitoring = RealTimeMonitoringService.getInstance();
 
 // Export for use in components
 export default realTimeMonitoring;
+
+
+
+
 
 
 

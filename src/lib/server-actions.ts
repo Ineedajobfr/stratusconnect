@@ -1,12 +1,7 @@
 // Server Actions - Real Actions for Real Hunters
 // FCA Compliant Aviation Platform - No More Pretty Demos
 
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  'https://pvgqfqkrtflpvajhddhr.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB2Z3FmcWtydGZscHZhamhkZGhyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Mzc4ODIxNywiZXhwIjoyMDY5MzY0MjE3fQ.UoKnIPZ8gfnoc8S1QovaMt8oYoKsE0wWgaVAi2VGEJU'
-);
+import { supabase } from '@/integrations/supabase/client';
 
 export interface CreateQuoteAction {
   route: string;

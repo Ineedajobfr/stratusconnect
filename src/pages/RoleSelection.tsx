@@ -1,20 +1,20 @@
 import { NavigationArrows } from "@/components/NavigationArrows";
-import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  ArrowLeft, ArrowRight,
-  Building2,
-  CheckCircle,
-  Plane,
-  UserCheck,
-  Users
+    ArrowLeft, ArrowRight,
+    Building2,
+    CheckCircle,
+    Plane,
+    UserCheck,
+    Users
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function RoleSelection() {
   const navigate = useNavigate();
+  // Updated with cinematic background
 
   const handleRoleClick = (route: string) => {
     navigate(route);
@@ -25,8 +25,47 @@ export default function RoleSelection() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0B1426' }}>
-      <StarfieldRunwayBackground />
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Cinematic Burnt Orange to Obsidian Gradient */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse at center, rgba(139, 69, 19, 0.9) 0%, rgba(91, 30, 13, 0.95) 25%, rgba(59, 30, 13, 0.98) 50%, rgba(20, 20, 20, 0.99) 75%, rgba(10, 10, 12, 1) 100%), linear-gradient(135deg, #3b1e0d 0%, #2d1a0a 25%, #1a0f08 50%, #0f0a06 75%, #0a0a0c 100%)',
+        }}
+      />
+      
+      {/* Cinematic Vignette - Creates spotlight effect on center */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse 80% 60% at center, transparent 0%, transparent 40%, rgba(0, 0, 0, 0.1) 60%, rgba(0, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0.6) 100%)',
+        }}
+      />
+      
+      {/* Enhanced golden-orange glow in the center */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse 80% 60% at center, rgba(255, 140, 0, 0.25) 0%, rgba(255, 140, 0, 0.15) 20%, rgba(255, 140, 0, 0.08) 40%, rgba(255, 140, 0, 0.04) 60%, transparent 80%)',
+        }}
+      />
+      
+      {/* Additional orange glow layer for more intensity */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse 100% 80% at center, rgba(255, 165, 0, 0.12) 0%, rgba(255, 140, 0, 0.08) 30%, rgba(255, 140, 0, 0.04) 50%, transparent 70%)',
+        }}
+      />
+      
+      {/* Subtle pulsing orange glow effect */}
+      <div 
+        className="absolute inset-0 animate-pulse"
+        style={{
+          background: 'radial-gradient(ellipse 70% 50% at center, rgba(255, 140, 0, 0.08) 0%, rgba(255, 140, 0, 0.04) 25%, transparent 50%)',
+          animation: 'pulse 4s ease-in-out infinite',
+        }}
+      />
       
       <div className="absolute top-4 left-4 z-40">
         <StratusConnectLogo />

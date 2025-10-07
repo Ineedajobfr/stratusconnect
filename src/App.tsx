@@ -1,6 +1,6 @@
 // Theme is imported in main.tsx
-import { ErrorBoundary } from "@/components/ErrorBoundary";
-import { FullPageLoader } from "@/components/LoadingSpinner";
+// import { ErrorBoundary } from "@/components/ErrorBoundary";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import { NavigationOptimizer } from "@/components/NavigationOptimizer";
 import { WorkflowProvider } from "@/components/real-workflows/WorkflowIntegration";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -14,6 +14,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
 import { StatusBanner } from "@/components/StatusBanner";
+import { AuthenticationGuard } from "@/components/security/AuthenticationGuard";
 
 // Import new dashboard components
 import BrokerDashboard from "@/components/dashboard/BrokerDashboard";
@@ -129,7 +130,6 @@ const App = memo(() => {
 
   return (
     <div className="min-h-screen bg-app text-body w-full overflow-x-hidden">
-      <ErrorBoundary>
         <QueryClientProvider client={queryClient}>
           <TooltipProvider>
             <BrowserRouter
@@ -144,7 +144,7 @@ const App = memo(() => {
                 <WorkflowProvider>
                   <MemoizedToaster />
                   <MemoizedSonner />
-                  <Suspense fallback={<FullPageLoader />}>
+                  <Suspense fallback={<LoadingSpinner size="lg" text="Loading StratusConnect..." />}>
                     <Routes>
               {/* Public routes */}
               <Route path="/" element={<StratusLauncher />} />
@@ -346,7 +346,6 @@ const App = memo(() => {
           </BrowserRouter>
           </TooltipProvider>
         </QueryClientProvider>
-      </ErrorBoundary>
     </div>
   );
 });

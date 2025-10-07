@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { 
-  CheckCircle, 
-  XCircle, 
-  AlertTriangle, 
-  Info, 
-  X 
+import {
+  AlertTriangle,
+  CheckCircle,
+  Info,
+  X,
+  XCircle
 } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 
 interface NotificationToastProps {
   id: string;
@@ -40,6 +40,11 @@ const NotificationToast: React.FC<NotificationToastProps> = ({
     return () => clearTimeout(timer);
   }, []);
 
+  const handleClose = () => {
+    setIsLeaving(true);
+    setTimeout(() => onClose(id), 300);
+  };
+
   useEffect(() => {
     if (duration > 0) {
       const timer = setTimeout(() => {
@@ -47,12 +52,7 @@ const NotificationToast: React.FC<NotificationToastProps> = ({
       }, duration);
       return () => clearTimeout(timer);
     }
-  }, [duration]);
-
-  const handleClose = () => {
-    setIsLeaving(true);
-    setTimeout(() => onClose(id), 300);
-  };
+  }, [duration, handleClose]);
 
   const getIcon = () => {
     switch (type) {

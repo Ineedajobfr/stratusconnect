@@ -1,19 +1,55 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Users, Target, Heart, Hand, Plane, BarChart3, Shield, Clock } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { NavigationArrows } from "@/components/NavigationArrows";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
-import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
-import BetaSignupButton from "@/components/BetaSignupButton";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowLeft, Hand, Heart, Plane, Shield } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function About() {
   const navigate = useNavigate();
 
   return (
-    <div className="relative min-h-screen" style={{ backgroundColor: '#0B1426' }}>
-      <StarfieldRunwayBackground />
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Cinematic Burnt Orange to Obsidian Gradient */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse at center, rgba(139, 69, 19, 0.9) 0%, rgba(91, 30, 13, 0.95) 25%, rgba(59, 30, 13, 0.98) 50%, rgba(20, 20, 20, 0.99) 75%, rgba(10, 10, 12, 1) 100%), linear-gradient(135deg, #3b1e0d 0%, #2d1a0a 25%, #1a0f08 50%, #0f0a06 75%, #0a0a0c 100%)',
+        }}
+      />
+      
+      {/* Cinematic Vignette - Creates spotlight effect on center */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse 80% 60% at center, transparent 0%, transparent 40%, rgba(0, 0, 0, 0.1) 60%, rgba(0, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0.6) 100%)',
+        }}
+      />
+      
+      {/* Enhanced golden-orange glow in the center */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse 80% 60% at center, rgba(255, 140, 0, 0.25) 0%, rgba(255, 140, 0, 0.15) 20%, rgba(255, 140, 0, 0.08) 40%, rgba(255, 140, 0, 0.04) 60%, transparent 80%)',
+        }}
+      />
+      
+      {/* Additional orange glow layer for more intensity */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse 100% 80% at center, rgba(255, 165, 0, 0.12) 0%, rgba(255, 140, 0, 0.08) 30%, rgba(255, 140, 0, 0.04) 50%, transparent 70%)',
+        }}
+      />
+      
+      {/* Subtle pulsing orange glow effect */}
+      <div 
+        className="absolute inset-0 animate-pulse"
+        style={{
+          background: 'radial-gradient(ellipse 70% 50% at center, rgba(255, 140, 0, 0.08) 0%, rgba(255, 140, 0, 0.04) 25%, transparent 50%)',
+          animation: 'pulse 4s ease-in-out infinite',
+        }}
+      />
       
       <div className="absolute top-4 left-4 z-40">
         <StratusConnectLogo />
@@ -38,38 +74,6 @@ export default function About() {
           </p>
         </div>
 
-        {/* What We Offer Section */}
-        <section className="mb-20 text-center">
-          <div className="max-w-4xl mx-auto">
-            <div className="flex items-center justify-between mb-8">
-              <div className="text-left">
-                <h2 className="text-4xl md:text-5xl font-bold mb-2 text-foreground">
-                  What we offer
-                </h2>
-                <p className="text-xl text-muted-foreground">
-                  How Stratus keeps you building
-                </p>
-              </div>
-              <BetaSignupButton />
-            </div>
-            
-            <div className="bg-gradient-to-br from-terminal-card/50 to-terminal-card/30 rounded-2xl p-8 md:p-12 border border-terminal-border">
-              <div className="space-y-6 text-lg leading-relaxed">
-                <p className="italic text-foreground/90">
-                  You manage deals, crews, aircraft, time. That's no small load. So when you land here, 
-                  it's not by accident—it's because something told you there's got to be a better way. 
-                  Stratus was built to back your next move, your next listing, your next breakthrough.
-                </p>
-                
-                <p className="italic text-foreground/90">
-                  One terminal to stay seen, update your availability, connect with the right people, 
-                  and get what you do in front of those who matter. You've carried the weight long enough—now 
-                  let us help you turn that work into wins, and get you where you were always meant to be.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
 
         {/* The StratusConnect Way */}
         <section className="mb-20">
@@ -225,87 +229,6 @@ export default function About() {
                 So StratusConnect is here to give you that hand, that foot on the ladder. 
                 And that's how we work.
               </p>
-            </div>
-          </div>
-        </section>
-
-        {/* The StratusConnect Way */}
-        <section className="mb-20">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-6 text-foreground">
-              The StratusConnect Way
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Real partnership, not just software. We're here to give you the tools 
-              to become your own hero.
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="space-y-6">
-              <div className="flex items-start space-x-4">
-                <div className="bg-accent/20 rounded-full p-3 mt-1">
-                  <span className="text-accent font-bold text-lg">1</span>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold mb-2 text-foreground">We Listen</h3>
-                  <p className="text-muted-foreground">
-                    We see the real problems you face every day. Not what we think you need, 
-                    but what you actually struggle with.
-                  </p>
-                </div>
-              </div>
-              
-              <div className="flex items-start space-x-4">
-                <div className="bg-accent/20 rounded-full p-3 mt-1">
-                  <span className="text-accent font-bold text-lg">2</span>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold mb-2 text-foreground">We Build</h3>
-                  <p className="text-muted-foreground">
-                    We create solutions that actually work for you, not just look good 
-                    in a boardroom presentation.
-                  </p>
-                </div>
-              </div>
-              
-              <div className="flex items-start space-x-4">
-                <div className="bg-accent/20 rounded-full p-3 mt-1">
-                  <span className="text-accent font-bold text-lg">3</span>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold mb-2 text-foreground">We Support</h3>
-                  <p className="text-muted-foreground">
-                    We're here to give you that helping hand, that foot on the ladder. 
-                    Your success is literally our business model.
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-gradient-to-br from-accent/10 to-accent/5 rounded-2xl p-8">
-              <h3 className="text-2xl font-bold mb-6 text-foreground text-center">
-                Join the Revolution
-              </h3>
-              <p className="text-muted-foreground text-center mb-8">
-                Ready to become the best version of yourself? Ready to stop struggling 
-                with multiple tools and start thriving with one platform?
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button 
-                  onClick={() => navigate('/roles')}
-                  className="bg-accent hover:bg-accent/90 text-white"
-                >
-                  Try StratusConnect
-                </Button>
-                <Button 
-                  variant="outline"
-                  onClick={() => navigate('/contact')}
-                  className="border-accent text-accent hover:bg-accent/10"
-                >
-                  Get in Touch
-                </Button>
-              </div>
             </div>
           </div>
         </section>

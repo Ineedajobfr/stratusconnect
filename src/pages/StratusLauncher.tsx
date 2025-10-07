@@ -2,16 +2,16 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
-    ArrowLeft,
-    BarChart3,
-    Briefcase,
-    Check,
-    Monitor,
-    Navigation,
-    Plane,
-    Settings,
-    Shield,
-    Users
+  ArrowLeft,
+  BarChart3,
+  Briefcase,
+  Check,
+  Monitor,
+  Navigation,
+  Plane,
+  Settings,
+  Shield,
+  Users
 } from 'lucide-react';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -136,13 +136,14 @@ export default function StratusLauncher() {
             return newIndex;
           });
           break;
-        case 'Enter':
+        case 'Enter': {
           event.preventDefault();
           const terminal = terminalSections[selectedTerminal];
           if (terminal && terminal.status === 'active') {
             navigate(terminal.route);
           }
           break;
+        }
         case 'Escape':
           setCurrentScreen('title');
           break;

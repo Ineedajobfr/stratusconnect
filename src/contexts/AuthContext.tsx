@@ -1,21 +1,57 @@
 import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/integrations/supabase/client';
-import { SECURITY_CONFIG, logSecurityEvent, rateLimiter } from '@/lib/security-config';
-import { Session, User as SupabaseUser } from '@supabase/supabase-js';
-import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { createClient, Session, SupabaseClient, User as SupabaseUser } from '@supabase/supabase-js';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-interface User {
+// Types
+export type UserRole = 'broker' | 'operator' | 'pilot' | 'crew' | 'admin';
+export type VerificationStatus = 'pending' | 'approved' | 'rejected';
+export type AccountType = 'individual' | 'enterprise_client' | 'enterprise_supplier';
+
+export interface User {
   id: string;
   email: string;
   fullName: string;
-  role: 'broker' | 'operator' | 'pilot' | 'crew' | 'admin';
-  verificationStatus: 'pending' | 'approved' | 'rejected';
+  role: UserRole;
+  verificationStatus: VerificationStatus;
+  createdAt?: string;
+  lastSignIn?: string;
+  avatar?: string | null;
+  preferences: {
+    theme: string;
+    notifications: boolean;
+    language: string;
+  };
+  accountType?: AccountType;
+  companyName?: string | null;
+  phoneNumber?: string | null;
+  address?: string | null;
+  timezone?: string;
+  currency?: string;
+  isEmailVerified?: boolean;
+  isPhoneVerified?: boolean;
+  lastActiveAt?: string;
+  profileCompleteness?: number;
+}
+
+export interface LoginData {
+  email: string;
+  password: string;
+}
+
+export interface RegisterData {
+  email: string;
+  password: string;
+  fullName: string;
+  role: UserRole;
   companyName?: string;
-  username?: string;
-  avatarUrl?: string;
-  isDemoUser?: boolean;
-  accountType: 'individual' | 'enterprise_client' | 'enterprise_supplier';
+  phoneNumber?: string;
+}
+
+export interface RegisterResult {
+  success: boolean;
+  message: string;
+  user?: User;
 }
 
 interface AuthContextType {
@@ -23,34 +59,21 @@ interface AuthContextType {
   session: Session | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<boolean>;
-  loginWithMagicLink: (email: string) => Promise<boolean>;
-  loginWithGoogle: () => Promise<boolean>;
-  loginWithMicrosoft: () => Promise<boolean>;
-  loginWithApple: () => Promise<boolean>;
+  loginAsDemo: (role: string) => Promise<boolean>;
   register: (data: RegisterData) => Promise<RegisterResult | null>;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
-  loginAsDemo: (role: string) => Promise<boolean>;
+  loginWithGoogle: () => Promise<boolean>;
+  loginWithMicrosoft: () => Promise<boolean>;
+  loginWithApple: () => Promise<boolean>;
+  loginWithMagicLink: (email: string) => Promise<boolean>;
 }
 
-interface RegisterData {
-  email: string;
-  password: string;
-  fullName: string;
-  companyName?: string;
-  role: 'broker' | 'operator' | 'pilot' | 'crew';
-}
-
-interface RegisterResult {
-  user: User;
-  verificationToken?: string;
-}
-
-const AuthContext = createContext<AuthContextType | null>(null);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) {
+  if (context === undefined) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
@@ -64,16 +87,83 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
+  const clearDemoTimeout = () => {
+    if (demoTimeout) {
+      clearTimeout(demoTimeout);
+      setDemoTimeout(null);
+    }
+  };
+
+  const fetchUserProfile = async (supabaseUser: SupabaseUser) => {
+    try {
+      const meta = supabaseUser.user_metadata || {};
+      const email = supabaseUser.email || '';
+      const role = meta.role || 'broker';
+      const fullName = meta.full_name || (email ? email.split('@')[0] : '');
+      const verificationStatus = meta.verification_status || 
+        (role === 'admin' ? 'approved' : 'pending');
+      
+      const userData: User = {
+        id: supabaseUser.id,
+        email,
+        fullName,
+        role: role as UserRole,
+        verificationStatus: verificationStatus as VerificationStatus,
+        createdAt: supabaseUser.created_at,
+        lastSignIn: supabaseUser.last_sign_in_at,
+        avatar: meta.avatar_url || null,
+        preferences: {
+          theme: meta.theme || 'dark',
+          notifications: meta.notifications !== false,
+          language: meta.language || 'en'
+        },
+        accountType: meta.account_type as AccountType || 'individual',
+        companyName: meta.company_name || null,
+        phoneNumber: meta.phone_number || null,
+        address: meta.address || null,
+        timezone: meta.timezone || 'UTC',
+        currency: meta.currency || 'USD',
+        isEmailVerified: supabaseUser.email_confirmed_at !== null,
+        isPhoneVerified: meta.phone_verified || false,
+        lastActiveAt: new Date().toISOString(),
+        profileCompleteness: 85
+      };
+
+      setUser(userData);
+      setLoading(false);
+      
+      // Set up demo auto-logout if this is a demo user
+      if (email.includes('@stratusconnect.org')) {
+        setupDemoAutoLogout();
+      }
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+      setLoading(false);
+    }
+  };
+
+  const setupDemoAutoLogout = () => {
+    clearDemoTimeout();
+    
+    const timeout = setTimeout(() => {
+      toast({
+        title: 'Demo Session Expired',
+        description: 'Your demo session has ended. Please log in with your real account.',
+        variant: 'destructive'
+      });
+      logout();
+    }, 30 * 60 * 1000);
+    
+    setDemoTimeout(timeout);
+  };
+
   // Initialize auth state
   useEffect(() => {
-    // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setSession(session);
         
-        // Handle session changes
         if (session?.user) {
-          // Defer the fetchUserProfile call to prevent deadlock
           setTimeout(() => {
             fetchUserProfile(session.user);
           }, 0);
@@ -84,7 +174,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     );
 
-    // THEN check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       if (session?.user) {
@@ -98,115 +187,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       subscription.unsubscribe();
       clearDemoTimeout();
     };
-  }, []);
-
-  const fetchUserProfile = async (supabaseUser: SupabaseUser) => {
-    try {
-      // Simplified version - just use auth metadata for now
-      const meta = supabaseUser.user_metadata || {};
-      const email = supabaseUser.email || '';
-      const role = meta.role || 'broker';
-      const fullName = meta.full_name || (email ? email.split('@')[0] : '');
-      const verificationStatus = meta.verification_status || 
-        (role === 'admin' ? 'approved' : 'pending');
-      
-      // Check if this is a demo user (these are actually admin access accounts, not demo users)
-      const isDemoUser = false; // No auto-logout for any @stratusconnect.org accounts
-
-      // Determine account type based on role and company
-      const accountType = meta.account_type || 
-        (role === 'broker' && meta.company_name ? 'enterprise_client' : 
-         ['operator', 'pilot', 'crew'].includes(role) && meta.company_name ? 'enterprise_supplier' : 
-         'individual');
-
-      const userData = {
-        id: supabaseUser.id,
-        email,
-        fullName,
-        companyName: meta.company_name || '',
-        role,
-        verificationStatus,
-        username: meta.username,
-        avatarUrl: meta.avatar_url,
-        isDemoUser,
-        accountType
-      };
-
-      setUser(userData);
-
-      // Set up auto-logout for demo users
-      if (isDemoUser) {
-        setupDemoAutoLogout();
-      } else {
-        clearDemoTimeout();
-      }
-    } catch (error) {
-      console.error('Profile fetch error:', error);
-      // Final fallback to ensure login works
-      const email = supabaseUser.email || '';
-      const meta = supabaseUser.user_metadata || {};
-      const isDemoUser = false; // No auto-logout for any @stratusconnect.org accounts
-      
-      // Determine account type based on role and company
-      const accountType = meta.account_type || 
-        (meta.role === 'broker' && meta.company_name ? 'enterprise_client' : 
-         ['operator', 'pilot', 'crew'].includes(meta.role || 'broker') && meta.company_name ? 'enterprise_supplier' : 
-         'individual');
-
-      setUser({
-        id: supabaseUser.id,
-        email,
-        fullName: meta.full_name || (email ? email.split('@')[0] : ''),
-        companyName: meta.company_name || '',
-        role: meta.role || 'broker',
-        verificationStatus: meta.verification_status || 
-          (email.endsWith('@stratusconnect.org') ? 'approved' : 'pending'),
-        isDemoUser,
-        accountType
-      });
-
-      if (isDemoUser) {
-        setupDemoAutoLogout();
-      } else {
-        clearDemoTimeout();
-      }
-    }
-    setLoading(false);
-  };
+  }, [clearDemoTimeout, fetchUserProfile]);
 
   const refreshUser = async () => {
-    const { data: { user: supabaseUser } } = await supabase.auth.getUser();
-    if (supabaseUser) {
-      await fetchUserProfile(supabaseUser);
-    }
-  };
-
-  const setupDemoAutoLogout = () => {
-    // Clear any existing timeout
-    clearDemoTimeout();
-    
-    // Set up auto-logout after 30 minutes for demo users
-    const timeout = setTimeout(() => {
-      toast({
-        title: 'Demo Session Expired',
-        description: 'Your demo session has ended. Please log in with your real account.',
-        variant: 'destructive'
-      });
-      logout();
-    }, 30 * 60 * 1000); // 30 minutes
-    
-    setDemoTimeout(timeout);
-  };
-
-  const clearDemoTimeout = () => {
-    if (demoTimeout) {
-      clearTimeout(demoTimeout);
-      setDemoTimeout(null);
+    try {
+      const { data: { user: supabaseUser } } = await supabase.auth.getUser();
+      if (supabaseUser) {
+        await fetchUserProfile(supabaseUser);
+      }
+    } catch (error) {
+      console.error('Error refreshing user:', error);
     }
   };
 
   const loginAsDemo = async (role: string): Promise<boolean> => {
-    // Only allow demo login for the specific demo accounts, not admin accounts
     const demoCredentials = {
       broker: { email: 'broker@stratusconnect.org', password: 'Bk7!mP9$qX2vL' },
       operator: { email: 'operator@stratusconnect.org', password: 'Op3#nW8&zR5kM' },
@@ -224,7 +218,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       setLoading(true);
       
-      // Input validation
       const sanitizedEmail = email.trim().toLowerCase();
       if (!sanitizedEmail || !password) {
         toast({
@@ -235,101 +228,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return false;
       }
 
-      // Owner bypass - check for owner emails first
-      const ownerEmails = ['stratuscharters@gmail.com', 'lordbroctree1@gmail.com'];
-      if (ownerEmails.includes(sanitizedEmail)) {
-        // Create a mock user for owner access
-        const mockUser = {
-          id: 'owner-' + sanitizedEmail.replace('@', '-'),
-          email: sanitizedEmail,
-          user_metadata: {
-            full_name: sanitizedEmail.includes('stratuscharters') ? 'Stratus Charters Owner' : 'Lord Broctree',
-            role: 'admin',
-            verification_status: 'approved'
-          },
-          app_metadata: {},
-          aud: 'authenticated',
-          created_at: new Date().toISOString()
-        } as SupabaseUser;
-
-        // Set the user directly
-        setUser({
-          id: mockUser.id,
-          email: sanitizedEmail,
-          fullName: mockUser.user_metadata.full_name,
-          role: 'admin',
-          verificationStatus: 'approved',
-          accountType: 'individual',
-          isDemoUser: false
-        });
-
-        setSession({
-          user: mockUser,
-          access_token: 'owner-bypass-token',
-          refresh_token: 'owner-bypass-refresh',
-          expires_in: 3600,
-          expires_at: Math.floor(Date.now() / 1000) + 3600,
-          token_type: 'bearer'
-        } as Session);
-
-        toast({
-          title: 'Owner Access Granted',
-          description: 'Welcome back!'
-        });
-        return true;
-      }
-      
-      // Rate limiting check for non-owner users
-      const rateLimitKey = `login_${email}`;
-      if (!rateLimiter.isAllowed(
-        rateLimitKey, 
-        SECURITY_CONFIG.rateLimits.loginAttempts.max, 
-        SECURITY_CONFIG.rateLimits.loginAttempts.window
-      )) {
-        const remainingTime = Math.ceil(rateLimiter.getRemainingTime(rateLimitKey) / 60000);
-        toast({
-          title: 'Too Many Login Attempts',
-          description: `Please wait ${remainingTime} minutes before trying again`,
-          variant: 'destructive'
-        });
-        logSecurityEvent('login_rate_limited', { email, remainingTime });
-        return false;
-      }
-      
-      // Use regular Supabase authentication for non-owner users
       const { data, error } = await supabase.auth.signInWithPassword({
         email: sanitizedEmail,
-        password
+        password: password
       });
 
       if (error) {
-        // Log failed login attempt
-        logSecurityEvent('login_failed', { 
-          email: sanitizedEmail, 
-          error: error.message 
-        });
-        
+        console.error('Login error:', error);
         toast({
           title: 'Login Failed',
-          description: error.message || 'Invalid credentials',
+          description: error.message,
           variant: 'destructive'
         });
         return false;
       }
 
       if (data.user) {
-        // Log successful login
-        logSecurityEvent('login_success', { 
-          email: sanitizedEmail,
-          userId: data.user.id 
-        });
-        
-        // Reset rate limiting on successful login
-        rateLimiter.reset(rateLimitKey);
-        
+        await fetchUserProfile(data.user);
         toast({
           title: 'Login Successful',
-          description: 'Welcome back!'
+          description: 'Welcome back!',
         });
         return true;
       }
@@ -337,14 +255,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       return false;
     } catch (error) {
       console.error('Login error:', error);
-      logSecurityEvent('login_error', { 
-        email, 
-        error: error instanceof Error ? error.message : 'Unknown error' 
-      });
-      
       toast({
-        title: 'Login Error',
-        description: 'An unexpected error occurred during login',
+        title: 'Login Failed',
+        description: 'An unexpected error occurred',
         variant: 'destructive'
       });
       return false;
@@ -355,16 +268,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const loginWithMagicLink = async (email: string): Promise<boolean> => {
     try {
-      const redirectUrl = `${window.location.origin}/`;
+      setLoading(true);
       
       const { error } = await supabase.auth.signInWithOtp({
-        email,
+        email: email.trim().toLowerCase(),
         options: {
-          emailRedirectTo: redirectUrl
+          emailRedirectTo: `${window.location.origin}/auth/callback`
         }
       });
 
       if (error) {
+        console.error('Magic link error:', error);
         toast({
           title: 'Magic Link Failed',
           description: error.message,
@@ -375,242 +289,209 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       toast({
         title: 'Magic Link Sent',
-        description: 'Check your email for the login link'
+        description: 'Check your email for the login link',
       });
       return true;
     } catch (error) {
       console.error('Magic link error:', error);
       toast({
-        title: 'Error',
-        description: 'Failed to send magic link',
+        title: 'Magic Link Failed',
+        description: 'An unexpected error occurred',
         variant: 'destructive'
       });
       return false;
+    } finally {
+      setLoading(false);
     }
   };
 
   const register = async (data: RegisterData): Promise<RegisterResult | null> => {
     try {
-      // Try server-side provision to avoid email confirmation blockers
-      const { data: fnRes, error: fnErr } = await supabase.functions.invoke('auth-direct-register', {
-        body: {
-          email: data.email,
-          password: data.password,
-          fullName: data.fullName,
-          companyName: data.companyName,
-          role: data.role,
-        }
-      });
-
-      if (fnErr) {
-        // Fallback to regular sign up (will require email confirmation if enabled)
-        const redirectUrl = `${window.location.origin}/`;
-        const { data: authData, error } = await supabase.auth.signUp({
-          email: data.email,
-          password: data.password,
-          options: {
-            emailRedirectTo: redirectUrl,
-            data: {
-              full_name: data.fullName,
-              role: data.role,
-              company_name: data.companyName || ''
-            }
-          }
-        });
-
-        if (error) {
-          toast({
-            title: 'Registration Failed',
-            description: error.message || 'Failed to create account',
-            variant: 'destructive'
-          });
-          return null;
-        }
-
-        toast({
-          title: 'Registration Successful!',
-          description: 'Please check your email to confirm your account.'
-        });
-
-        return {
-          user: {
-            id: authData.user?.id || '',
-            email: data.email,
-            fullName: data.fullName,
-            companyName: data.companyName,
-            role: data.role,
-            verificationStatus: 'pending',
-            accountType: data.role === 'broker' && data.companyName ? 'enterprise_client' : 
-                        ['operator', 'pilot', 'crew'].includes(data.role) && data.companyName ? 'enterprise_supplier' : 
-                        'individual'
-          }
-        };
-      }
-
-      // If server created the user, sign in immediately
-      const { error: loginErr } = await supabase.auth.signInWithPassword({
-        email: data.email,
-        password: data.password
-      });
-
-      if (loginErr) {
-        toast({
-          title: 'Login After Registration Failed',
-          description: loginErr.message,
-          variant: 'destructive'
-        });
-        return null;
-      }
-
-      toast({
-        title: 'Registration Complete',
-        description: 'Welcome to Stratus Connect!'
-      });
-
-      return {
-        user: {
-          id: fnRes?.userId || '',
-          email: data.email,
-          fullName: data.fullName,
-          companyName: data.companyName,
-          role: data.role,
-          verificationStatus: 'pending',
-          accountType: data.role === 'broker' && data.companyName ? 'enterprise_client' : 
-                      ['operator', 'pilot', 'crew'].includes(data.role) && data.companyName ? 'enterprise_supplier' : 
-                      'individual'
-        }
-      };
-    } catch (error) {
-      console.error('Registration error:', error);
-      toast({
-        title: 'Registration Error',
-        description: 'An unexpected error occurred during registration',
-        variant: 'destructive'
-      });
-      return null;
-    }
-  };
-
-  // Social login methods
-  const loginWithGoogle = async (): Promise<boolean> => {
-    try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
+      setLoading(true);
+      
+      const { data: authData, error } = await supabase.auth.signUp({
+        email: data.email.trim().toLowerCase(),
+        password: data.password,
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-          queryParams: {
-            access_type: 'offline',
-            prompt: 'consent',
-          },
-        },
+          data: {
+            full_name: data.fullName,
+            role: data.role,
+            company_name: data.companyName,
+            phone_number: data.phoneNumber,
+            verification_status: 'pending'
+          }
+        }
       });
 
       if (error) {
-        console.error('Google OAuth error:', error);
+        console.error('Registration error:', error);
+        return {
+          success: false,
+          message: error.message
+        };
+      }
+
+      if (authData.user) {
+        const userData: User = {
+          id: authData.user.id,
+          email: data.email,
+          fullName: data.fullName,
+          role: data.role,
+          verificationStatus: 'pending',
+          createdAt: authData.user.created_at,
+          avatar: null,
+          preferences: {
+            theme: 'dark',
+            notifications: true,
+            language: 'en'
+          },
+          accountType: 'individual',
+          companyName: data.companyName || null,
+          phoneNumber: data.phoneNumber || null,
+          isEmailVerified: false,
+          isPhoneVerified: false,
+          lastActiveAt: new Date().toISOString(),
+          profileCompleteness: 60
+        };
+
+        setUser(userData);
+        
+        return {
+          success: true,
+          message: 'Registration successful! Please check your email to verify your account.',
+          user: userData
+        };
+      }
+
+      return {
+        success: false,
+        message: 'Registration failed'
+      };
+    } catch (error) {
+      console.error('Registration error:', error);
+      return {
+        success: false,
+        message: 'An unexpected error occurred during registration'
+      };
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loginWithGoogle = async (): Promise<boolean> => {
+    try {
+      setLoading(true);
+      
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`
+        }
+      });
+
+      if (error) {
+        console.error('Google login error:', error);
         toast({
-          title: 'Google Sign-In Failed',
+          title: 'Google Login Failed',
           description: error.message,
-          variant: 'destructive',
+          variant: 'destructive'
         });
         return false;
       }
 
-      // OAuth redirect happens automatically, no need to return
       return true;
-    } catch (error: any) {
+    } catch (error) {
       console.error('Google login error:', error);
       toast({
-        title: 'Google Sign-In Error',
-        description: error.message || 'An unexpected error occurred during Google sign-in',
-        variant: 'destructive',
+        title: 'Google Login Failed',
+        description: 'An unexpected error occurred',
+        variant: 'destructive'
       });
       return false;
+    } finally {
+      setLoading(false);
     }
   };
 
   const loginWithMicrosoft = async (): Promise<boolean> => {
     try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
+      setLoading(true);
+      
+      const { error } = await supabase.auth.signInWithOAuth({
         provider: 'azure',
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-          scopes: 'email',
-        },
+          redirectTo: `${window.location.origin}/auth/callback`
+        }
       });
 
       if (error) {
+        console.error('Microsoft login error:', error);
         toast({
-          title: 'Microsoft Sign-In Failed',
+          title: 'Microsoft Login Failed',
           description: error.message,
-          variant: 'destructive',
+          variant: 'destructive'
         });
         return false;
       }
 
       return true;
-    } catch (error: any) {
+    } catch (error) {
       console.error('Microsoft login error:', error);
       toast({
-        title: 'Microsoft Sign-In Error',
-        description: 'An unexpected error occurred during Microsoft sign-in',
-        variant: 'destructive',
+        title: 'Microsoft Login Failed',
+        description: 'An unexpected error occurred',
+        variant: 'destructive'
       });
       return false;
+    } finally {
+      setLoading(false);
     }
   };
 
   const loginWithApple = async (): Promise<boolean> => {
     try {
-      const { data, error} = await supabase.auth.signInWithOAuth({
+      setLoading(true);
+      
+      const { error } = await supabase.auth.signInWithOAuth({
         provider: 'apple',
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-        },
+          redirectTo: `${window.location.origin}/auth/callback`
+        }
       });
 
       if (error) {
+        console.error('Apple login error:', error);
         toast({
-          title: 'Apple Sign-In Failed',
+          title: 'Apple Login Failed',
           description: error.message,
-          variant: 'destructive',
+          variant: 'destructive'
         });
         return false;
       }
 
       return true;
-    } catch (error: any) {
+    } catch (error) {
       console.error('Apple login error:', error);
       toast({
-        title: 'Apple Sign-In Error',
-        description: 'An unexpected error occurred during Apple sign-in',
-        variant: 'destructive',
+        title: 'Apple Login Failed',
+        description: 'An unexpected error occurred',
+        variant: 'destructive'
       });
       return false;
+    } finally {
+      setLoading(false);
     }
   };
 
   const logout = async () => {
     try {
-      await supabase.auth.signOut();
-      
-      // Clear demo timeout
       clearDemoTimeout();
-      
-      // Clear user state immediately
+      await supabase.auth.signOut();
       setUser(null);
       setSession(null);
-      
-      toast({
-        title: 'Logged Out',
-        description: 'You have been successfully logged out'
-      });
-      
-      // Navigate to home
       navigate('/');
     } catch (error) {
       console.error('Logout error:', error);
-      // Force navigation even if logout fails
-      navigate('/');
     }
   };
 
@@ -619,14 +500,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     session,
     loading,
     login,
-    loginWithMagicLink,
-    loginWithGoogle,
-    loginWithMicrosoft,
-    loginWithApple,
+    loginAsDemo,
     register,
     logout,
     refreshUser,
-    loginAsDemo
+    loginWithGoogle,
+    loginWithMicrosoft,
+    loginWithApple,
+    loginWithMagicLink
   };
 
   return (
@@ -635,3 +516,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     </AuthContext.Provider>
   );
 };
+
+// Supabase client
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://your-project.supabase.co';
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'your-anon-key';
+
+export const supabase: SupabaseClient = createClient(supabaseUrl, supabaseKey);

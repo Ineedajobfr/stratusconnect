@@ -1,12 +1,7 @@
 // Sequential Invoice Numbering with VAT and FX Compliance
 // FCA Compliant Aviation Platform
 
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+import { supabase } from '@/integrations/supabase/client';
 
 export interface SequentialInvoiceData {
   id: string;

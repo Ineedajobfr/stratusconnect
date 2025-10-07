@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Search, Filter, MapPin, Clock, DollarSign, Users, Star, Calendar } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { JobBoardWorkflow } from '@/lib/real-workflows/job-board-workflow';
+import { Calendar, DollarSign, MapPin, Search, Users } from 'lucide-react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 interface JobPost {
   id: string;
@@ -291,7 +290,10 @@ const JobBoard = React.memo(function JobBoard({ userRole }: JobBoardProps) {
         </div>
         
         <p className="text-terminal-muted">
-          Find your next aviation opportunity or post jobs for qualified professionals
+          {userRole === 'operator' 
+            ? 'Post and manage job opportunities for pilots and crew members'
+            : 'Find your next aviation opportunity or post jobs for qualified professionals'
+          }
         </p>
       </div>
 

@@ -108,13 +108,6 @@ export const WorkflowProvider: React.FC<WorkflowProviderProps> = ({ children }) 
     security: null as string | null
   });
 
-  // Load all data when user changes
-  useEffect(() => {
-    if (user?.id) {
-      loadAllData();
-    }
-  }, [user?.id]);
-
   const loadAllData = async () => {
     await Promise.all([
       loadRFQs(),
@@ -124,6 +117,13 @@ export const WorkflowProvider: React.FC<WorkflowProviderProps> = ({ children }) 
       loadSecurityEvents()
     ]);
   };
+
+  // Load all data when user changes
+  useEffect(() => {
+    if (user?.id) {
+      loadAllData();
+    }
+  }, [user?.id, loadAllData]);
 
   const loadRFQs = async () => {
     if (!user?.id) return;

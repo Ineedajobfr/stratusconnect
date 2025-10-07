@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { DollarSign, Shield, Clock, CheckCircle, AlertTriangle, Eye, Download, Lock } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
-import { formatDistanceToNow, format } from 'date-fns';
-import { EscrowWorkflow } from '@/lib/real-workflows/escrow-workflow';
 import { useAuth } from '@/contexts/AuthContext';
+import { format } from 'date-fns';
+import { AlertTriangle, CheckCircle, Clock, DollarSign, Download, Eye, Shield } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 
 interface LocalDeal {
   id: string;
@@ -148,10 +146,6 @@ export const EscrowManager: React.FC = () => {
           platform_fee: 1125,
           currency: 'USD',
           created_at: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
-          operator_amount: 40500,
-          platform_fee: 225,
-          currency: 'USD',
-          created_at: new Date(Date.now() - 1000 * 60 * 60 * 4).toISOString(),
           updated_at: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
           transactions: [
             {
@@ -195,8 +189,6 @@ export const EscrowManager: React.FC = () => {
           platform_fee: 1600,
           currency: 'USD',
           created_at: new Date(Date.now() - 1000 * 60 * 60 * 48).toISOString(),
-          updated_at: new Date().toISOString(),
-          created_at: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
           updated_at: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
           transactions: [
             {

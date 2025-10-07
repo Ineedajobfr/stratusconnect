@@ -1,8 +1,6 @@
-import { createClient } from "@supabase/supabase-js";
-import { XP_RULES, STARTING_LEAGUE_CODE, PROMOTE_TOP_PCT, DEMOTE_BOTTOM_PCT } from "./league-constants";
-import { verifyEligibilityForXpEvent, VerificationStatus } from "./verification-gate";
-
-const supabase = createClient(import.meta.env.VITE_SUPABASE_URL!, import.meta.env.VITE_SUPABASE_ANON_KEY!);
+import { supabase } from "@/integrations/supabase/client";
+import { DEMOTE_BOTTOM_PCT, PROMOTE_TOP_PCT, STARTING_LEAGUE_CODE, XP_RULES } from "./league-constants";
+import { VerificationStatus, verifyEligibilityForXpEvent } from "./verification-gate";
 
 // Get current active season
 export async function getActiveSeason() {

@@ -1,27 +1,23 @@
 // Quote Composer with Price to Win and Margin Guard
 // FCA Compliant Aviation Platform
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
 import { Slider } from '@/components/ui/slider';
+import { Textarea } from '@/components/ui/textarea';
 import { calcDealFees } from '@/lib/fees';
-import { 
-  Calculator, 
-  TrendingUp, 
-  Shield, 
-  Clock, 
-  DollarSign, 
+import {
   AlertTriangle,
+  Calculator,
   CheckCircle,
   Target,
   Zap
 } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
 
 export interface QuoteComposerProps {
   rfqId: string;
@@ -127,7 +123,7 @@ export function QuoteComposer({ rfqId, operatorId, route, aircraft, passengers, 
   // Calculate price band based on route, aircraft, and timing
   useEffect(() => {
     calculatePriceBand();
-  }, [calculatePriceBand]);
+  }, [calculatePriceBand, getUrgencyMultiplier]);
 
   // Calculate margin breakdown when values change
   useEffect(() => {

@@ -1,21 +1,19 @@
 // Backhaul and Empty Leg Auto-Match
 // FCA Compliant Aviation Platform
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Zap, 
-  Plane, 
-  Clock, 
-  MapPin, 
-  DollarSign, 
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
   CheckCircle,
-  AlertCircle,
+  Clock,
+  MapPin,
+  Plane,
+  Target,
   TrendingUp,
-  Target
+  Zap
 } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
 
 export interface EmptyLeg {
   id: string;
@@ -140,7 +138,7 @@ export function BackhaulMatcher({ rfqId, from, to, departureDate, passengers, on
 
   useEffect(() => {
     findMatches();
-  }, [findMatches]);
+  }, [findMatches, calculateMatch, emptyLegs]);
 
   const isWithinRadius = (airport1: string, airport2: string) => {
     // Simplified distance check - in production would use actual coordinates

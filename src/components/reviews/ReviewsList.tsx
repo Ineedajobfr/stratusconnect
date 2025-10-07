@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Star, MessageCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { MessageCircle, Star } from "lucide-react";
+import { useEffect, useState } from "react";
 
 interface Review {
   id: string;
@@ -25,10 +25,6 @@ export default function ReviewsList({ userId, className = "" }: ReviewsListProps
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [averageRating, setAverageRating] = useState(0);
-
-  useEffect(() => {
-    fetchReviews();
-  }, [userId]);
 
   const fetchReviews = async () => {
     try {
@@ -61,6 +57,10 @@ export default function ReviewsList({ userId, className = "" }: ReviewsListProps
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchReviews();
+  }, [userId, fetchReviews]);
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {

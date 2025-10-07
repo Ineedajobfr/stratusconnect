@@ -6,40 +6,40 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import {
-    AlertOctagon,
-    Bot,
-    Brain,
-    CheckCircle,
-    ChevronLeft,
-    CreditCard,
-    Database,
-    DollarSign,
-    Eye,
-    FileText,
-    Flag,
-    Globe,
-    Lock,
-    Plane,
-    RefreshCw,
-    Search,
-    Settings,
-    Shield,
-    Target,
-    UserCheck,
-    Users,
-    UserX,
-    XCircle
+  AlertOctagon,
+  Bot,
+  Brain,
+  CheckCircle,
+  ChevronLeft,
+  CreditCard,
+  Database,
+  DollarSign,
+  Eye,
+  FileText,
+  Flag,
+  Globe,
+  Lock,
+  Plane,
+  RefreshCw,
+  Search,
+  Settings,
+  Shield,
+  Target,
+  UserCheck,
+  Users,
+  UserX,
+  XCircle
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -272,7 +272,7 @@ export default function AdminConsole() {
     }
     
     loadAllData();
-  }, [user, navigate]);
+  }, [user, navigate, loadAllData]);
 
   const loadAllData = async () => {
     setLoading(true);
@@ -292,7 +292,7 @@ export default function AdminConsole() {
 
   useEffect(() => {
     filterUsers();
-  }, [users, searchQuery, roleFilter, statusFilter]);
+  }, [users, searchQuery, roleFilter, statusFilter, filterUsers]);
 
   const loadUsers = async () => {
     // Enhanced sample users with comprehensive data

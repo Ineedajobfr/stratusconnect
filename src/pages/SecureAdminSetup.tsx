@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
-import { useAuth } from "@/contexts/AuthContext";
 import { AdminSetup } from "@/components/AdminSetup";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Shield, AlertTriangle, ArrowLeft } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAuth } from "@/contexts/AuthContext";
+import { AlertTriangle, ArrowLeft, Shield } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // SECURE ADMIN SETUP PAGE - Only accessible to existing admins
@@ -16,7 +16,7 @@ export default function SecureAdminSetup() {
 
   useEffect(() => {
     checkAdminAuthorization();
-  }, [user]);
+  }, [user, checkAdminAuthorization]);
 
   const checkAdminAuthorization = async () => {
     if (!user) {

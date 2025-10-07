@@ -1,29 +1,26 @@
 // Data Protection Component - Industry Standard Implementation
 // FCA Compliant Aviation Platform
 
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { securityService } from '@/lib/security-service';
-import { 
-  Shield, 
-  Lock, 
-  Eye, 
-  EyeOff, 
-  Key, 
-  Database, 
-  FileText, 
-  Download,
-  Upload,
-  Trash2,
-  CheckCircle,
+import {
   AlertTriangle,
-  RefreshCw
+  CheckCircle,
+  Download,
+  Eye,
+  EyeOff,
+  FileText,
+  Key,
+  Lock,
+  RefreshCw,
+  Shield
 } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 
 interface DataProtectionProps {
   className?: string;
@@ -41,14 +38,14 @@ export const DataProtection: React.FC<DataProtectionProps> = ({ className }) => 
   const [maskedData, setMaskedData] = useState('');
   const [dataType, setDataType] = useState<'email' | 'phone' | 'creditcard' | 'ssn'>('email');
 
-  useEffect(() => {
-    validatePassword();
-  }, [password]);
-
   const validatePassword = () => {
     const validation = securityService.validatePassword(password);
     setPasswordValidation(validation);
   };
+
+  useEffect(() => {
+    validatePassword();
+  }, [password, validatePassword]);
 
   const handleEncrypt = async () => {
     try {

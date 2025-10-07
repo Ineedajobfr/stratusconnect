@@ -1,18 +1,12 @@
+// Submit Quote Edge Function
+// Handles quote submission and broker notifications
+
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-}
-
-interface SubmitQuotePayload {
-  request_id: string;
-  price: number;
-  currency?: string;
-  aircraft_id?: string;
-  notes?: string;
-  valid_until?: string;
 }
 
 serve(async (req) => {
@@ -34,178 +28,184 @@ serve(async (req) => {
     )
 
     // Get the current user
-    const { data: { user }, error: authError } = await supabaseClient.auth.getUser()
-    if (authError || !user) {
+    const { data: { user }, error: userError } = await supabaseClient.auth.getUser()
+    if (userError || !user) {
       return new Response(
         JSON.stringify({ error: 'Unauthorized' }),
         { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
-    // Get user profile to verify role and company
-    const { data: userProfile, error: profileError } = await supabaseClient
-      .from('users')
-      .select('role, company_id, full_name')
-      .eq('id', user.id)
-      .single()
+    // Parse request body
+    const {
+      rfq_id,
+      price,
+      currency,
+      aircraft_id,
+      aircraft_model,
+      aircraft_tail_number,
+      valid_until,
+      terms,
+      notes
+    } = await req.json()
 
-    if (profileError || !userProfile) {
+    // Validate required fields
+    if (!rfq_id || !price || !valid_until) {
       return new Response(
-        JSON.stringify({ error: 'User profile not found' }),
-        { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        JSON.stringify({ error: 'Missing required fields' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
-    // Verify user is an operator
-    if (userProfile.role !== 'operator') {
+    // Get user's company and role
+    const { data: userData, error: userDataError } = await supabaseClient
+      .from('users')
+      .select('company_id, role')
+      .eq('id', user.id)
+      .single()
+
+    if (userDataError || !userData || userData.role !== 'operator') {
       return new Response(
-        JSON.stringify({ error: 'Only operators can submit quotes' }),
+        JSON.stringify({ error: 'User must be an operator to submit quotes' }),
         { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
-    // Parse request body
-    const body: SubmitQuotePayload = await req.json()
-
-    // Validate required fields
-    if (!body.request_id || !body.price) {
-      return new Response(
-        JSON.stringify({ error: 'Missing required fields: request_id, price' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      )
-    }
-
-    // Validate price
-    if (body.price <= 0) {
-      return new Response(
-        JSON.stringify({ error: 'Price must be greater than 0' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      )
-    }
-
-    // Check if request exists and is open
-    const { data: request, error: requestError } = await supabaseClient
-      .from('requests')
-      .select('id, status, broker_company_id, created_at')
-      .eq('id', body.request_id)
+    // Verify RFQ exists and is open for quoting
+    const { data: rfq, error: rfqError } = await supabaseClient
+      .from('rfqs')
+      .select('*')
+      .eq('id', rfq_id)
+      .eq('status', 'open')
       .single()
 
-    if (requestError || !request) {
+    if (rfqError || !rfq) {
       return new Response(
-        JSON.stringify({ error: 'Request not found' }),
+        JSON.stringify({ error: 'RFQ not found or not open for quoting' }),
         { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
-    if (request.status !== 'open') {
-      return new Response(
-        JSON.stringify({ error: 'Request is no longer accepting quotes' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      )
-    }
-
-    // Check if operator has already quoted on this request
-    const { data: existingQuote, error: quoteCheckError } = await supabaseClient
+    // Check if operator has already quoted on this RFQ
+    const { data: existingQuote, error: existingQuoteError } = await supabaseClient
       .from('quotes')
       .select('id')
-      .eq('request_id', body.request_id)
-      .eq('operator_company_id', userProfile.company_id)
+      .eq('rfq_id', rfq_id)
+      .eq('operator_id', user.id)
       .single()
 
-    if (existingQuote) {
+    if (existingQuote && !existingQuoteError) {
       return new Response(
-        JSON.stringify({ error: 'You have already submitted a quote for this request' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        JSON.stringify({ error: 'You have already submitted a quote for this RFQ' }),
+        { status: 409, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
-    // If aircraft_id is provided, verify it belongs to the operator
-    if (body.aircraft_id) {
-      const { data: aircraft, error: aircraftError } = await supabaseClient
-        .from('aircraft')
-        .select('id, status')
-        .eq('id', body.aircraft_id)
-        .eq('operator_company_id', userProfile.company_id)
-        .single()
-
-      if (aircraftError || !aircraft) {
-        return new Response(
-          JSON.stringify({ error: 'Aircraft not found or not owned by your company' }),
-          { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        )
-      }
-
-      if (aircraft.status !== 'available') {
-        return new Response(
-          JSON.stringify({ error: 'Selected aircraft is not available' }),
-          { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        )
-      }
-    }
-
-    // Create the quote
-    const { data: newQuote, error: insertError } = await supabaseClient
+    // Create quote
+    const { data: quote, error: quoteError } = await supabaseClient
       .from('quotes')
       .insert({
-        request_id: body.request_id,
-        operator_company_id: userProfile.company_id,
-        created_by: user.id,
-        price: body.price,
-        currency: body.currency || 'USD',
-        aircraft_id: body.aircraft_id,
-        notes: body.notes,
-        valid_until: body.valid_until,
+        rfq_id,
+        operator_id: user.id,
+        operator_company_id: userData.company_id,
+        price,
+        currency: currency || rfq.currency,
+        aircraft_id,
+        aircraft_model,
+        aircraft_tail_number,
+        valid_until,
+        terms,
+        notes,
         status: 'pending'
       })
       .select()
       .single()
 
-    if (insertError) {
-      console.error('Error creating quote:', insertError)
+    if (quoteError) {
+      console.error('Error creating quote:', quoteError)
       return new Response(
-        JSON.stringify({ error: 'Failed to create quote' }),
+        JSON.stringify({ error: 'Failed to create quote', details: quoteError.message }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
-    // Log audit entry
+    // Update RFQ status to 'quoting' if it's the first quote
+    const { data: quoteCount, error: countError } = await supabaseClient
+      .from('quotes')
+      .select('id', { count: 'exact' })
+      .eq('rfq_id', rfq_id)
+
+    if (!countError && quoteCount && quoteCount.length === 1) {
+      await supabaseClient
+        .from('rfqs')
+        .update({ status: 'quoting' })
+        .eq('id', rfq_id)
+    }
+
+    // Notify broker (in a real implementation, this would send push notifications)
+    const { data: broker, error: brokerError } = await supabaseClient
+      .from('users')
+      .select('id, full_name, email')
+      .eq('id', rfq.broker_id)
+      .single()
+
+    if (!brokerError && broker) {
+      // Log notification attempt
+      await supabaseClient
+        .from('audit_logs')
+        .insert({
+          user_id: user.id,
+          action: 'quote_notification_sent',
+          table_name: 'quotes',
+          record_id: quote.id,
+          new_values: {
+            broker_id: rfq.broker_id,
+            quote_id: quote.id,
+            price
+          }
+        })
+    }
+
+    // Update performance metrics
+    await supabaseClient.rpc('update_performance_metrics', {
+      p_user_id: user.id,
+      p_company_id: userData.company_id,
+      p_metric_type: 'quotes_submitted',
+      p_metric_value: 1
+    })
+
+    // Update broker's response time metrics
+    const responseTime = new Date().getTime() - new Date(rfq.created_at).getTime()
+    await supabaseClient.rpc('update_performance_metrics', {
+      p_user_id: rfq.broker_id,
+      p_company_id: rfq.broker_company_id,
+      p_metric_type: 'average_response_time',
+      p_metric_value: responseTime / 1000 / 60 // Convert to minutes
+    })
+
+    // Log the quote submission
     await supabaseClient
       .from('audit_logs')
       .insert({
         user_id: user.id,
-        action_type: 'QUOTE_SUBMITTED',
-        details: {
-          quote_id: newQuote.id,
-          request_id: body.request_id,
-          price: body.price,
-          currency: body.currency || 'USD'
+        action: 'quote_submitted',
+        table_name: 'quotes',
+        record_id: quote.id,
+        new_values: {
+          rfq_id,
+          price,
+          currency: currency || rfq.currency,
+          aircraft_model,
+          response_time_minutes: responseTime / 1000 / 60
         }
       })
-
-    // Notify the broker about the new quote
-    const { data: brokerUsers } = await supabaseClient
-      .from('users')
-      .select('id')
-      .eq('company_id', request.broker_company_id)
-
-    if (brokerUsers && brokerUsers.length > 0) {
-      const notifications = brokerUsers.map(broker => ({
-        user_id: broker.id,
-        type: 'quote_submitted',
-        related_id: newQuote.id,
-        message: `New quote received for your request: $${body.price.toLocaleString()}`
-      }))
-
-      await supabaseClient
-        .from('notifications')
-        .insert(notifications)
-    }
 
     return new Response(
       JSON.stringify({ 
         success: true, 
-        quote_id: newQuote.id,
-        message: 'Quote submitted successfully'
+        quote,
+        broker_notified: !brokerError,
+        response_time_minutes: Math.round(responseTime / 1000 / 60)
       }),
       { 
         status: 201, 
@@ -216,7 +216,7 @@ serve(async (req) => {
   } catch (error) {
     console.error('Error in submit-quote function:', error)
     return new Response(
-      JSON.stringify({ error: 'Internal server error' }),
+      JSON.stringify({ error: 'Internal server error', details: error.message }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )
   }

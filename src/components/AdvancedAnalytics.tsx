@@ -1,17 +1,24 @@
-import { useState, useEffect, useCallback } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { 
-  TrendingUp, TrendingDown, BarChart3, 
-  PieChart, LineChart, Activity, 
-  Target, Zap, AlertCircle, 
-  Calendar, Filter, RefreshCw, DollarSign
+import { supabase } from "@/integrations/supabase/client";
+import {
+  Activity,
+  AlertCircle,
+  BarChart3,
+  DollarSign,
+  LineChart,
+  PieChart,
+  RefreshCw,
+  Target,
+  TrendingDown,
+  TrendingUp,
+  Zap
 } from "lucide-react";
-import { LineChart as RechartsLineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart as RechartsPieChart, Cell, Pie } from 'recharts';
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Bar, BarChart, CartesianGrid, Cell, Legend, Line, Pie, LineChart as RechartsLineChart, PieChart as RechartsPieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 interface MarketTrend {
   id: string;
@@ -53,14 +60,14 @@ export default function AdvancedAnalytics() {
   const { toast } = useToast();
 
   // Mock data for demonstration
-  const mockPriceData = [
+  const mockPriceData = useMemo(() => [
     { date: '2024-01', price: 45000, volume: 25, demand: 8.2 },
     { date: '2024-02', price: 47500, volume: 32, demand: 8.7 },
     { date: '2024-03', price: 46800, volume: 28, demand: 8.1 },
     { date: '2024-04', price: 49200, volume: 35, demand: 9.1 },
     { date: '2024-05', price: 51000, volume: 42, demand: 9.3 },
     { date: '2024-06', price: 48900, volume: 38, demand: 8.8 },
-  ];
+  ], []);
 
   const mockRouteData = [
     { route: 'NYC-LAX', deals: 45, revenue: 2250000, avg_price: 50000 },

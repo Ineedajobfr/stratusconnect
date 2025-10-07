@@ -1,5 +1,3 @@
-import { AIInsightsWidget } from "@/components/AI/AIInsightsWidget";
-import AIChatbot from "@/components/AIChatbot";
 import { AuditTrailWidget } from "@/components/Audit/AuditTrailWidget";
 import { MonthlyStatements } from "@/components/Billing/MonthlyStatements";
 import { MultiLegRFQ } from "@/components/DealFlow/MultiLegRFQ";
@@ -9,17 +7,17 @@ import { ErrorBoundary } from "@/components/Error/ErrorBoundary";
 import { ErrorMonitor } from "@/components/Error/ErrorMonitor";
 import { PersonalizedFeed } from "@/components/feed/PersonalizedFeed";
 import { FlightRadar24Widget } from "@/components/flight-tracking/FlightRadar24Widget";
-import { MobileOptimizedTerminal } from "@/components/Mobile/MobileOptimizedTerminal";
+import { MobileOptimizedTerminal } from "@/components/mobile/MobileOptimizedTerminal";
 import { ModernHelpGuide } from "@/components/ModernHelpGuide";
 import NoteTakingSystem from "@/components/NoteTakingSystem";
 import { NotificationCenter } from "@/components/NotificationCenter";
-import { PerformanceMonitor } from "@/components/Performance/PerformanceMonitor";
+import PerformanceMonitor from "@/components/Performance/PerformanceMonitor";
 import RealTimeFlightTracker from "@/components/RealTimeFlightTracker";
 import { ReputationMetrics } from "@/components/Reputation/ReputationMetrics";
 import { RiskAssessmentWidget } from "@/components/Risk/RiskAssessmentWidget";
-import { AuthenticationGuard } from "@/components/Security/AuthenticationGuard";
-import { DataProtection } from "@/components/Security/DataProtection";
-import { SecurityDashboard } from "@/components/Security/SecurityDashboard";
+import { AuthenticationGuard } from "@/components/security/AuthenticationGuard";
+import { DataProtection } from "@/components/security/DataProtection";
+import { SecurityDashboard } from "@/components/security/SecurityDashboard";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 import TerminalTemplate from "@/components/TerminalTemplate";
 import { Badge } from "@/components/ui/badge";
@@ -36,7 +34,7 @@ import { performanceService } from "@/lib/performance-service";
 import { quoteService } from "@/lib/quote-service";
 import { rfqService } from "@/lib/rfq-service";
 import type { User } from '@supabase/supabase-js';
-import { AlertTriangle, ArrowUp, Award, BarChart3, Bell, Bookmark, Clock, DollarSign, FileText, Globe, MessageSquare, Plane, Plus, Search, Settings, Shield, TrendingUp, Users } from "lucide-react";
+import { Activity, AlertTriangle, ArrowUp, Award, BarChart3, Bell, Bookmark, Bug, Clock, DollarSign, FileText, Globe, MessageSquare, Plane, Plus, Search, Settings, Shield, TrendingUp, Trophy, Users } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import DemoMarketplace from './DemoMarketplace';
@@ -84,11 +82,25 @@ export default function BrokerTerminal() {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showPerformanceMonitor, setShowPerformanceMonitor] = useState(false);
   const [performanceMetrics, setPerformanceMetrics] = useState<{ totalDeals: number; revenue: number; successRate: number } | null>(null);
+  const [selectedBooking, setSelectedBooking] = useState<any>(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   useShortcuts({
     "mod+k": () => searchRef.current?.focus(),
     "mod+f": () => {/* open filters */},
   });
+
+  const initializePerformanceMonitoring = () => {
+    performanceService.startPerformanceMonitoring();
+    
+    // Update metrics every 5 seconds
+    const interval = setInterval(() => {
+      const metrics = performanceService.getMetrics();
+      setPerformanceMetrics(metrics);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  };
 
   useEffect(() => {
     // Initialize performance monitoring
@@ -201,18 +213,6 @@ export default function BrokerTerminal() {
       });
       setLoading(false);
     }
-  };
-
-  const initializePerformanceMonitoring = () => {
-    performanceService.startPerformanceMonitoring();
-    
-    // Update metrics every 5 seconds
-    const interval = setInterval(() => {
-      const metrics = performanceService.getMetrics();
-      setPerformanceMetrics(metrics);
-    }, 5000);
-
-    return () => clearInterval(interval);
   };
 
   const handleAcceptQuote = async (quoteId: string) => {
@@ -734,10 +734,6 @@ export default function BrokerTerminal() {
               className="mb-6"
             />
 
-            {/* AI Insights Widget */}
-            <AIInsightsWidget 
-              className="mb-6"
-            />
 
             {/* Flight Tracking */}
             <FlightRadar24Widget 
@@ -905,8 +901,6 @@ export default function BrokerTerminal() {
         <ArrowUp className="w-6 h-6 text-white" />
       </Button>
       
-      {/* AI Chatbot */}
-      <AIChatbot terminalType="broker" />
       
       {/* Notification Center */}
       {user && (
@@ -917,27 +911,6 @@ export default function BrokerTerminal() {
         />
       )}
       
-      {/* Payment Modal */}
-      {selectedBooking && (
-        <PaymentModal
-          isOpen={showPaymentModal}
-          onClose={() => {
-            setShowPaymentModal(false);
-            setSelectedBooking(null);
-          }}
-          bookingId={selectedBooking.id}
-          amount={selectedBooking.amount}
-          currency={selectedBooking.currency}
-          onSuccess={() => {
-            setShowPaymentModal(false);
-            setSelectedBooking(null);
-            // Reload data
-            if (user) {
-              loadBrokerData(user.id);
-            }
-          }}
-        />
-      )}
         </MobileOptimizedTerminal>
       </AuthenticationGuard>
     </ErrorBoundary>

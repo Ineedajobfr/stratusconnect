@@ -1,18 +1,15 @@
 // Enhanced Demo Operator Terminal - All Features
 // FCA Compliant Aviation Platform - 100% Free Until Revenue
+// Updated: Removed CommunityForums - Force rebuild to clear cache
 
 import AdvancedSearch from '@/components/AdvancedSearch';
-import CommunityForums from '@/components/community/CommunityForums';
 import ContractGenerator from '@/components/contracts/ContractGenerator';
 import ReceiptGenerator from '@/components/contracts/ReceiptGenerator';
 import DocumentManagement from '@/components/DocumentManagement';
 import DocumentStorage from '@/components/documents/DocumentStorage';
-import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
 import JobBoard from '@/components/job-board/JobBoard';
 import SavedCrews from '@/components/job-board/SavedCrews';
-import { ModernHelpGuide } from '@/components/ModernHelpGuide';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
-import RealTimeFlightTracker from '@/components/RealTimeFlightTracker';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -34,13 +31,13 @@ import {
     Download,
     Eye,
     FileText,
-    HelpCircle,
     Navigation,
     Plane,
     Plus,
     Receipt,
     Star,
     TrendingUp,
+    User,
     UserPlus,
     Users,
     Wrench
@@ -103,6 +100,178 @@ interface Aircraft {
   nextMaintenance: string;
 }
 
+// Profile Modal Component
+const ProfileModal = ({ isOpen, onClose, userRole }: { isOpen: boolean; onClose: () => void; userRole: string }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-[9999] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-terminal-bg border border-terminal-border rounded-lg w-full max-w-6xl h-[80vh] overflow-hidden">
+        <div className="flex h-full">
+          {/* Profile Section */}
+          <div className="flex-1 p-6 overflow-y-auto">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-terminal-fg">Profile</h2>
+              <Button
+                onClick={onClose}
+                variant="outline"
+                className="border-terminal-border text-terminal-fg"
+              >
+                ✕
+              </Button>
+            </div>
+            
+            <div className="space-y-6">
+              {/* Company Profile */}
+              <Card className="terminal-card">
+                <CardHeader>
+                  <CardTitle className="text-terminal-fg">Company Information</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-terminal-fg mb-2">Company Name</label>
+                      <input 
+                        type="text" 
+                        defaultValue="StratusConnect Aviation" 
+                        className="w-full p-3 bg-terminal-bg border border-terminal-border rounded-lg text-terminal-fg"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-terminal-fg mb-2">License Number</label>
+                      <input 
+                        type="text" 
+                        defaultValue="AV-OP-2024-001" 
+                        className="w-full p-3 bg-terminal-bg border border-terminal-border rounded-lg text-terminal-fg"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-terminal-fg mb-2">Contact Email</label>
+                      <input 
+                        type="email" 
+                        defaultValue="operations@stratusconnect.com" 
+                        className="w-full p-3 bg-terminal-bg border border-terminal-border rounded-lg text-terminal-fg"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-terminal-fg mb-2">Phone Number</label>
+                      <input 
+                        type="tel" 
+                        defaultValue="+1 (555) 123-4567" 
+                        className="w-full p-3 bg-terminal-bg border border-terminal-border rounded-lg text-terminal-fg"
+                      />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Fleet Information */}
+              <Card className="terminal-card">
+                <CardHeader>
+                  <CardTitle className="text-terminal-fg">Fleet Overview</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="text-center p-4 border border-terminal-border rounded-lg">
+                      <div className="text-2xl font-bold text-terminal-fg">5</div>
+                      <div className="text-sm text-terminal-muted">Total Aircraft</div>
+                    </div>
+                    <div className="text-center p-4 border border-terminal-border rounded-lg">
+                      <div className="text-2xl font-bold text-terminal-fg">87%</div>
+                      <div className="text-sm text-terminal-muted">Utilization</div>
+                    </div>
+                    <div className="text-center p-4 border border-terminal-border rounded-lg">
+                      <div className="text-2xl font-bold text-terminal-fg">$2.4M</div>
+                      <div className="text-sm text-terminal-muted">Monthly Revenue</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          {/* Fortress of Verification */}
+          <div className="w-96 border-l border-terminal-border p-6 bg-terminal-bg/50">
+            <h3 className="text-xl font-bold text-terminal-fg mb-6">Fortress of Verification</h3>
+            
+            <div className="space-y-4">
+              <Card className="terminal-card">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-sm text-terminal-fg flex items-center">
+                    <Shield className="w-4 h-4 mr-2 text-green-500" />
+                    FCA Compliance
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-terminal-muted">License Status</span>
+                      <Badge className="bg-green-100 text-green-800">Active</Badge>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-terminal-muted">Insurance</span>
+                      <Badge className="bg-green-100 text-green-800">Valid</Badge>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-terminal-muted">Safety Rating</span>
+                      <Badge className="bg-green-100 text-green-800">A+</Badge>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="terminal-card">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-sm text-terminal-fg flex items-center">
+                    <CheckCircle className="w-4 h-4 mr-2 text-blue-500" />
+                    Verification Status
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-terminal-muted">Identity Verified</span>
+                      <Badge className="bg-blue-100 text-blue-800">✓</Badge>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-terminal-muted">Bank Account</span>
+                      <Badge className="bg-blue-100 text-blue-800">✓</Badge>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-terminal-muted">Tax Documents</span>
+                      <Badge className="bg-blue-100 text-blue-800">✓</Badge>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-terminal-muted">Aircraft Certificates</span>
+                      <Badge className="bg-blue-100 text-blue-800">✓</Badge>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="terminal-card">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-sm text-terminal-fg flex items-center">
+                    <AlertTriangle className="w-4 h-4 mr-2 text-orange-500" />
+                    Pending Items
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-sm text-terminal-muted">
+                    <p>• Annual safety audit due in 45 days</p>
+                    <p>• Insurance renewal in 30 days</p>
+                    <p>• Pilot certification updates</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function DemoOperatorTerminal() {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -130,14 +299,17 @@ export default function DemoOperatorTerminal() {
   const [liveFlowResult, setLiveFlowResult] = useState<{ allPassed: boolean; summary: string } | null>(null);
   const [warRoomResult, setWarRoomResult] = useState<{ allChecksPassed: boolean; summary: string } | null>(null);
   const [evidencePack, setEvidencePack] = useState<{ id: string; timestamp: string } | null>(null);
-  const [showHelpGuide, setShowHelpGuide] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
   const [showJobBoard, setShowJobBoard] = useState(false);
-  const [showCommunityForums, setShowCommunityForums] = useState(false);
   const [showSavedCrews, setShowSavedCrews] = useState(false);
   const [showDocumentStorage, setShowDocumentStorage] = useState(false);
   const [showContractGenerator, setShowContractGenerator] = useState(false);
   const [showReceiptGenerator, setShowReceiptGenerator] = useState(false);
   const [selectedDeal, setSelectedDeal] = useState(null);
+  const [showStickyNotes, setShowStickyNotes] = useState(true);
+  const [dismissedNotes, setDismissedNotes] = useState<string[]>([]);
+  const [currentNoteIndex, setCurrentNoteIndex] = useState(0);
+  const [isShowingNote, setIsShowingNote] = useState(true);
 
   const [rfqs, setRfqs] = useState<RFQ[]>([
     {
@@ -553,6 +725,117 @@ export default function DemoOperatorTerminal() {
     }
   ]);
 
+  // Sticky Notes for Help Guide
+  const stickyNotes = [
+    {
+      id: "welcome",
+      title: "Welcome to StratusConnect Operator Terminal! ✈️",
+      content: "This is your operator dashboard. Here you can manage your fleet, track RFQs, and coordinate with pilots and crew. Let's explore the complete workflow!",
+      position: { top: "10%", right: "2%" },
+      color: "bg-blue-500",
+      tab: "dashboard",
+      order: 0
+    },
+    {
+      id: "dashboard-metrics",
+      title: "Dashboard Overview 📊",
+      content: "Monitor your key metrics: Active RFQs, Fleet Utilization, Revenue, and Completed Flights. Keep an eye on your business performance!",
+      position: { top: "20%", right: "2%" },
+      color: "bg-green-500",
+      tab: "dashboard",
+      order: 1
+    },
+    {
+      id: "rfqs-management",
+      title: "RFQ Management 💼",
+      content: "Review incoming RFQs from brokers. You can quote prices, assign aircraft, and manage the entire booking process from here.",
+      position: { top: "30%", right: "2%" },
+      color: "bg-purple-500",
+      tab: "rfqs",
+      order: 0
+    },
+    {
+      id: "pilot-coordination",
+      title: "Pilot Coordination 👨‍✈️",
+      content: "Manage your pilot roster, assign flights, track certifications, and coordinate schedules. Keep your pilots happy and compliant!",
+      position: { top: "40%", right: "2%" },
+      color: "bg-orange-500",
+      tab: "pilots",
+      order: 0
+    },
+    {
+      id: "crew-management",
+      title: "Crew Management 👥",
+      content: "Coordinate with your crew members, manage schedules, and ensure all safety protocols are followed. Team coordination is key!",
+      position: { top: "50%", right: "2%" },
+      color: "bg-teal-500",
+      tab: "crew",
+      order: 0
+    },
+    {
+      id: "fleet-operations",
+      title: "Fleet Operations 🛩️",
+      content: "Monitor your aircraft status, schedule maintenance, track utilization, and ensure all aircraft are ready for operations.",
+      position: { top: "60%", right: "2%" },
+      color: "bg-indigo-500",
+      tab: "fleet",
+      order: 0
+    },
+    {
+      id: "job-posting",
+      title: "Job Posting 💼",
+      content: "Post new job opportunities for pilots and crew members. This is where you recruit talent and fill positions in your operation.",
+      position: { top: "70%", right: "2%" },
+      color: "bg-yellow-500",
+      tab: "jobs",
+      order: 0
+    },
+    {
+      id: "document-management",
+      title: "Document Management 📁",
+      content: "Store and organize contracts, receipts, and certifications. Keep everything color-coded: blue for contracts, green for receipts, orange for certificates.",
+      position: { top: "80%", right: "2%" },
+      color: "bg-red-500",
+      tab: "documents",
+      order: 0
+    }
+  ];
+
+  // Sticky Notes Helper Functions
+  const getCurrentTabNotes = () => {
+    return stickyNotes
+      .filter(note => note.tab === activeTab)
+      .sort((a, b) => a.order - b.order);
+  };
+
+  const getCurrentNote = () => {
+    const tabNotes = getCurrentTabNotes();
+    const currentNote = tabNotes[currentNoteIndex];
+    
+    if (!currentNote || dismissedNotes.includes(currentNote.id)) {
+      return null;
+    }
+    
+    return currentNote;
+  };
+
+  const dismissNote = (noteId: string) => {
+    setDismissedNotes(prev => [...prev, noteId]);
+    setIsShowingNote(false);
+    
+    // Show next note after a delay
+    setTimeout(() => {
+      setCurrentNoteIndex(prev => prev + 1);
+      setIsShowingNote(true);
+    }, 10000);
+  };
+
+  // Reset note sequence when tab changes
+  useEffect(() => {
+    setCurrentNoteIndex(0);
+    setIsShowingNote(true);
+  }, [activeTab]);
+
   const handleLiveFlowTest = async () => {
     try {
       const result = { allPassed: true, summary: 'Demo mode - all tests passed' };
@@ -629,13 +912,6 @@ export default function DemoOperatorTerminal() {
         </Card>
       </div>
 
-
-      {/* Advanced Search */}
-      <AdvancedSearch terminalType="operator" onResults={(results) => console.log('Search results:', results)} />
-
-      {/* Document Management */}
-      <DocumentManagement userRole="operator" />
-
       {/* Recent Activity */}
       <Card className="terminal-card">
         <CardHeader>
@@ -669,36 +945,12 @@ export default function DemoOperatorTerminal() {
         </CardContent>
       </Card>
 
-      {/* Fleet Status */}
-      <Card className="terminal-card">
-        <CardHeader>
-          <CardTitle className="text-foreground">Fleet Status</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {fleet.map((aircraft) => (
-              <div key={aircraft.id} className="flex items-center justify-between p-4 border border-terminal-border rounded-lg">
-                <div className="flex items-center space-x-4">
-                  <Plane className="h-8 w-8 text-accent" />
-                  <div>
-                    <p className="font-medium text-foreground">{aircraft.model}</p>
-                    <p className="text-sm text-muted-foreground">{aircraft.registration}</p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <Badge 
-                    variant={aircraft.status === 'available' ? 'default' : 
-                            aircraft.status === 'in-flight' ? 'secondary' : 'destructive'}
-                  >
-                    {aircraft.status}
-                  </Badge>
-                  <p className="text-sm text-muted-foreground mt-1">{aircraft.location}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+      {/* Advanced Search */}
+      <AdvancedSearch terminalType="operator" onResults={(results) => console.log('Search results:', results)} />
+
+      {/* Document Management */}
+      <DocumentManagement userRole="operator" />
+
     </div>
   );
 
@@ -1246,6 +1498,67 @@ export default function DemoOperatorTerminal() {
     </div>
   );
 
+  const renderFleetStatus = () => (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold text-foreground">Fleet Status</h2>
+        <Button className="btn-terminal-accent">
+          <Plus className="w-4 h-4 mr-2" />
+          Add Aircraft
+        </Button>
+      </div>
+
+      {/* Fleet Status Cards */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card className="terminal-card">
+          <CardHeader>
+            <CardTitle className="text-foreground">Aircraft Status</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {fleet.map((aircraft) => (
+                <div key={aircraft.id} className="flex items-center justify-between p-4 border border-terminal-border rounded-lg">
+                  <div className="flex items-center space-x-4">
+                    <Plane className="h-8 w-8 text-accent" />
+                    <div>
+                      <p className="font-medium text-foreground">{aircraft.model}</p>
+                      <p className="text-sm text-muted-foreground">{aircraft.registration}</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <Badge 
+                      variant={aircraft.status === 'available' ? 'default' : 
+                              aircraft.status === 'in-flight' ? 'secondary' : 'destructive'}
+                    >
+                      {aircraft.status}
+                    </Badge>
+                    <p className="text-sm text-muted-foreground mt-1">{aircraft.location}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Flight Radar Widget */}
+        <Card className="terminal-card">
+          <CardHeader>
+            <CardTitle className="text-foreground">Live Flight Tracking</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="h-96 bg-terminal-bg border border-terminal-border rounded-lg flex items-center justify-center">
+              <div className="text-center">
+                <Navigation className="h-12 w-12 text-terminal-muted mx-auto mb-4" />
+                <p className="text-terminal-muted">Flight Radar Integration</p>
+                <p className="text-sm text-terminal-muted">Real-time aircraft tracking</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+
   const renderNotes = () => (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -1259,29 +1572,65 @@ export default function DemoOperatorTerminal() {
     </div>
   );
 
-  const renderTracking = () => (
-    <div className="space-y-6">
-      <FlightRadar24Widget 
-        tailNumbers={['N123SC', 'N456AV', 'N789OP']}
-        showMap={true}
-        autoRefresh={true}
-        refreshInterval={30}
-        role="operator"
-      />
-    </div>
-  );
 
   return (
     <>
-      {showHelpGuide && (
-        <ModernHelpGuide 
-          terminalType="operator" 
-          activeTab={activeTab} 
-          showOnMount={false} 
-          isDemo={true}
-          onClose={() => setShowHelpGuide(false)}
+      {showProfile && (
+        <ProfileModal 
+          isOpen={showProfile}
+          onClose={() => setShowProfile(false)}
+          userRole="operator"
         />
       )}
+
+      {/* Sticky Notes */}
+      {showStickyNotes && isShowingNote && (() => {
+        const currentNote = getCurrentNote();
+        if (!currentNote) return null;
+        
+        return (
+          <div
+            className={`fixed z-[9999] w-80 p-4 rounded-lg shadow-2xl border-2 border-white/20 backdrop-blur-sm ${currentNote.color} text-white`}
+            style={{
+              top: currentNote.position.top,
+              right: currentNote.position.right,
+              animation: 'slideInFromRight 0.5s ease-out'
+            }}
+          >
+            <div className="flex items-start justify-between mb-2">
+              <h3 className="font-bold text-lg">{currentNote.title}</h3>
+              <button
+                onClick={() => dismissNote(currentNote.id)}
+                className="text-white/80 hover:text-white transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+            <p className="text-sm leading-relaxed mb-3">{currentNote.content}</p>
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-white/70">
+                {getCurrentTabNotes().findIndex(n => n.id === currentNote.id) + 1} of {getCurrentTabNotes().length}
+              </span>
+              <button
+                onClick={() => dismissNote(currentNote.id)}
+                className="text-xs bg-white/20 hover:bg-white/30 px-3 py-1 rounded transition-colors"
+              >
+                Got it!
+              </button>
+            </div>
+          </div>
+        );
+      })()}
+
+      {/* Toggle Sticky Notes Button */}
+      <Button
+        onClick={() => setShowStickyNotes(!showStickyNotes)}
+        className="fixed top-4 right-4 z-[9998] bg-orange-500 hover:bg-orange-600 text-white"
+        size="sm"
+      >
+        <Eye className="h-4 w-4" />
+        {showStickyNotes ? 'Hide' : 'Show'} Guide
+      </Button>
       
       <div className="min-h-screen relative overflow-hidden scroll-smooth">
         {/* Cinematic Burnt Orange to Obsidian Gradient */}
@@ -1335,11 +1684,11 @@ export default function DemoOperatorTerminal() {
                 Demo Mode
               </Badge>
               <Button
-                onClick={() => setShowHelpGuide(true)}
+                onClick={() => setShowProfile(true)}
                 className="w-12 h-12 bg-accent/20 hover:bg-accent/30 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-accent/30"
-                title="Help Guide"
+                title="Profile & Verification"
               >
-                <HelpCircle className="w-6 h-6 text-white" />
+                <User className="w-6 h-6 text-white" />
               </Button>
             </div>
           </div>
@@ -1370,6 +1719,10 @@ export default function DemoOperatorTerminal() {
                 <Plane className="w-4 h-4" />
                 Fleet
               </TabsTrigger>
+              <TabsTrigger value="fleet-status" className="flex items-center gap-2">
+                <Navigation className="w-4 h-4" />
+                Fleet Status
+              </TabsTrigger>
               <TabsTrigger value="billing" className="flex items-center gap-2">
                 <CreditCard className="w-4 h-4" />
                 Billing
@@ -1382,21 +1735,13 @@ export default function DemoOperatorTerminal() {
                 <FileText className="w-4 h-4" />
                 Notes
               </TabsTrigger>
-              <TabsTrigger value="tracking" className="flex items-center gap-2">
-                <Navigation className="w-4 h-4" />
-                Tracking
-              </TabsTrigger>
               <TabsTrigger value="jobs" className="flex items-center gap-2">
                 <Briefcase className="w-4 h-4" />
                 Job Board
               </TabsTrigger>
-              <TabsTrigger value="community" className="flex items-center gap-2">
-                <Users className="w-4 h-4" />
-                Community
-              </TabsTrigger>
               <TabsTrigger value="saved-crews" className="flex items-center gap-2">
                 <Star className="w-4 h-4" />
-                Saved Crews
+                Saved Crew Members
               </TabsTrigger>
               <TabsTrigger value="documents" className="flex items-center gap-2">
                 <FileText className="w-4 h-4" />
@@ -1425,6 +1770,10 @@ export default function DemoOperatorTerminal() {
               {renderFleet()}
             </TabsContent>
 
+            <TabsContent value="fleet-status" className="scroll-smooth">
+              {renderFleetStatus()}
+            </TabsContent>
+
             <TabsContent value="billing" className="scroll-smooth">
               {renderBilling()}
             </TabsContent>
@@ -1434,14 +1783,8 @@ export default function DemoOperatorTerminal() {
             <TabsContent value="notes" className="scroll-smooth">
               {renderNotes()}
             </TabsContent>
-            <TabsContent value="tracking" className="scroll-smooth">
-              {renderTracking()}
-            </TabsContent>
             <TabsContent value="jobs" className="scroll-smooth">
               <JobBoard userRole="operator" />
-            </TabsContent>
-            <TabsContent value="community" className="scroll-smooth">
-              <CommunityForums userRole="operator" />
             </TabsContent>
             <TabsContent value="saved-crews" className="scroll-smooth">
               <SavedCrews brokerId="demo-operator-1" />
@@ -1492,8 +1835,6 @@ export default function DemoOperatorTerminal() {
         </div>
       )}
 
-      {/* Intelligent AI Chatbot */}
-            <RealTimeFlightTracker terminalType="operator" />
     </>
   );
 }

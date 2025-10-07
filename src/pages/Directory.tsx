@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/contexts/AuthContext';
+import { DemoBanner } from '@/components/DemoBanner';
+import { NavigationArrows } from '@/components/NavigationArrows';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { NavigationArrows } from '@/components/NavigationArrows';
-import { DemoBanner } from '@/components/DemoBanner';
-import { Search, Filter, Shield, MapPin, Building } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
+import { Building, Filter, MapPin, Search, Shield } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface UserProfile {
@@ -44,7 +44,7 @@ export default function Directory() {
 
   useEffect(() => {
     filterAndSortProfiles();
-  }, [profiles, searchTerm, roleFilter, levelFilter, sortBy]);
+  }, [profiles, searchTerm, roleFilter, levelFilter, sortBy, filterAndSortProfiles]);
 
   const fetchProfiles = async () => {
     try {

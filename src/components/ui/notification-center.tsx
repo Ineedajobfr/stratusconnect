@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Bell, Check, X, AlertCircle, CheckCircle, Plane, DollarSign, Users } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/integrations/supabase/client";
 import { useRealtime } from "@/hooks/useRealtime";
+import { supabase } from "@/integrations/supabase/client";
+import { AlertCircle, Bell, Check, CheckCircle, DollarSign, Plane, Users, X } from "lucide-react";
+import React, { useEffect, useState } from 'react';
 
 interface Notification {
   id: string;
@@ -21,12 +21,6 @@ export const NotificationCenter: React.FC = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
   const [unreadCount, setUnreadCount] = useState(0);
-
-  useEffect(() => {
-    if (user) {
-      fetchNotifications();
-    }
-  }, [user]);
 
   const fetchNotifications = async () => {
     try {
@@ -64,6 +58,12 @@ export const NotificationCenter: React.FC = () => {
       console.error('Error marking notification as read:', error);
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      fetchNotifications();
+    }
+  }, [user, fetchNotifications]);
 
   const markAllAsRead = async () => {
     try {

@@ -1,14 +1,12 @@
+// Accept Quote Edge Function
+// Handles quote acceptance, deal creation, and payment processing
+
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-}
-
-interface AcceptQuotePayload {
-  quote_id: string;
-  request_id: string;
 }
 
 serve(async (req) => {
@@ -30,248 +28,202 @@ serve(async (req) => {
     )
 
     // Get the current user
-    const { data: { user }, error: authError } = await supabaseClient.auth.getUser()
-    if (authError || !user) {
+    const { data: { user }, error: userError } = await supabaseClient.auth.getUser()
+    if (userError || !user) {
       return new Response(
         JSON.stringify({ error: 'Unauthorized' }),
         { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
-    // Get user profile to verify role and company
-    const { data: userProfile, error: profileError } = await supabaseClient
-      .from('users')
-      .select('role, company_id, full_name')
-      .eq('id', user.id)
-      .single()
-
-    if (profileError || !userProfile) {
-      return new Response(
-        JSON.stringify({ error: 'User profile not found' }),
-        { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      )
-    }
-
-    // Verify user is a broker
-    if (userProfile.role !== 'broker') {
-      return new Response(
-        JSON.stringify({ error: 'Only brokers can accept quotes' }),
-        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      )
-    }
-
     // Parse request body
-    const body: AcceptQuotePayload = await req.json()
+    const {
+      quote_id,
+      payment_intent_id,
+      payment_method_id
+    } = await req.json()
 
     // Validate required fields
-    if (!body.quote_id || !body.request_id) {
+    if (!quote_id) {
       return new Response(
-        JSON.stringify({ error: 'Missing required fields: quote_id, request_id' }),
+        JSON.stringify({ error: 'Missing quote_id' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
-    // Get the quote with request details
+    // Get user's company and role
+    const { data: userData, error: userDataError } = await supabaseClient
+      .from('users')
+      .select('company_id, role')
+      .eq('id', user.id)
+      .single()
+
+    if (userDataError || !userData || userData.role !== 'broker') {
+      return new Response(
+        JSON.stringify({ error: 'User must be a broker to accept quotes' }),
+        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+
+    // Get quote details with RFQ info
     const { data: quote, error: quoteError } = await supabaseClient
       .from('quotes')
       .select(`
-        id,
-        request_id,
-        operator_company_id,
-        price,
-        currency,
-        status,
-        aircraft_id,
-        requests!inner(
+        *,
+        rfqs!inner (
           id,
+          broker_id,
           broker_company_id,
-          status
+          status,
+          currency
         )
       `)
-      .eq('id', body.quote_id)
-      .eq('request_id', body.request_id)
+      .eq('id', quote_id)
+      .eq('status', 'pending')
       .single()
 
     if (quoteError || !quote) {
       return new Response(
-        JSON.stringify({ error: 'Quote not found' }),
+        JSON.stringify({ error: 'Quote not found or not available for acceptance' }),
         { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
-    // Verify the request belongs to the broker's company
-    if (quote.requests.broker_company_id !== userProfile.company_id) {
+    // Verify broker owns the RFQ
+    if (quote.rfqs.broker_id !== user.id) {
       return new Response(
-        JSON.stringify({ error: 'Unauthorized to accept this quote' }),
+        JSON.stringify({ error: 'You can only accept quotes for your own RFQs' }),
         { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
-    // Check if quote is still pending
-    if (quote.status !== 'pending') {
+    // Check if quote is still valid
+    if (new Date(quote.valid_until) < new Date()) {
       return new Response(
-        JSON.stringify({ error: 'Quote is no longer available' }),
+        JSON.stringify({ error: 'Quote has expired' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
-    // Check if request is still open
-    if (quote.requests.status !== 'open') {
-      return new Response(
-        JSON.stringify({ error: 'Request is no longer accepting quotes' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      )
-    }
+    // Start a transaction
+    const { data: deal, error: dealError } = await supabaseClient.rpc('create_deal_from_quote', {
+      p_quote_id: quote_id,
+      p_payment_intent_id: payment_intent_id
+    })
 
-    // Start a transaction-like operation
-    // First, update the accepted quote
-    const { error: updateQuoteError } = await supabaseClient
-      .from('quotes')
-      .update({ status: 'accepted' })
-      .eq('id', body.quote_id)
-
-    if (updateQuoteError) {
-      console.error('Error updating quote:', updateQuoteError)
+    if (dealError) {
+      console.error('Error creating deal:', dealError)
       return new Response(
-        JSON.stringify({ error: 'Failed to accept quote' }),
+        JSON.stringify({ error: 'Failed to create deal', details: dealError.message }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
-    // Reject all other quotes for this request
-    const { error: rejectQuotesError } = await supabaseClient
+    // Update quote status to accepted
+    const { error: quoteUpdateError } = await supabaseClient
+      .from('quotes')
+      .update({ status: 'accepted' })
+      .eq('id', quote_id)
+
+    if (quoteUpdateError) {
+      console.error('Error updating quote status:', quoteUpdateError)
+      // Continue anyway as deal was created
+    }
+
+    // Reject all other quotes for this RFQ
+    const { error: rejectOtherQuotesError } = await supabaseClient
       .from('quotes')
       .update({ status: 'rejected' })
-      .eq('request_id', body.request_id)
-      .neq('id', body.quote_id)
+      .eq('rfq_id', quote.rfq_id)
+      .neq('id', quote_id)
 
-    if (rejectQuotesError) {
-      console.error('Error rejecting other quotes:', rejectQuotesError)
-      // Continue anyway as the main operation succeeded
+    if (rejectOtherQuotesError) {
+      console.error('Error rejecting other quotes:', rejectOtherQuotesError)
+      // Continue anyway
     }
 
-    // Update request status
-    const { error: updateRequestError } = await supabaseClient
-      .from('requests')
-      .update({ status: 'accepted' })
-      .eq('id', body.request_id)
+    // Update RFQ status to quoted
+    const { error: rfqUpdateError } = await supabaseClient
+      .from('rfqs')
+      .update({ status: 'quoted' })
+      .eq('id', quote.rfq_id)
 
-    if (updateRequestError) {
-      console.error('Error updating request:', updateRequestError)
-      return new Response(
-        JSON.stringify({ error: 'Failed to update request status' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      )
+    if (rfqUpdateError) {
+      console.error('Error updating RFQ status:', rfqUpdateError)
+      // Continue anyway
     }
 
-    // Create booking
-    const { data: newBooking, error: bookingError } = await supabaseClient
-      .from('bookings')
-      .insert({
-        request_id: body.request_id,
-        quote_id: body.quote_id,
-        broker_company_id: quote.requests.broker_company_id,
-        operator_company_id: quote.operator_company_id,
-        total_price: quote.price,
-        currency: quote.currency,
-        status: 'upcoming',
-        payment_status: 'pending'
-      })
-      .select()
+    // Notify operator (in a real implementation, this would send push notifications)
+    const { data: operator, error: operatorError } = await supabaseClient
+      .from('users')
+      .select('id, full_name, email')
+      .eq('id', quote.operator_id)
       .single()
 
-    if (bookingError) {
-      console.error('Error creating booking:', bookingError)
-      return new Response(
-        JSON.stringify({ error: 'Failed to create booking' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      )
-    }
-
-    // Create initial flight record if aircraft is specified
-    if (quote.aircraft_id) {
-      const { error: flightError } = await supabaseClient
-        .from('flights')
+    if (!operatorError && operator) {
+      // Log notification attempt
+      await supabaseClient
+        .from('audit_logs')
         .insert({
-          booking_id: newBooking.id,
-          departure_airport: 'TBD', // Will be updated by operator
-          arrival_airport: 'TBD',
-          departure_datetime: new Date().toISOString(),
-          arrival_datetime: new Date().toISOString(),
-          aircraft_id: quote.aircraft_id,
-          status: 'scheduled'
+          user_id: user.id,
+          action: 'deal_notification_sent',
+          table_name: 'deals',
+          record_id: deal,
+          new_values: {
+            operator_id: quote.operator_id,
+            deal_id: deal,
+            total_price: quote.price
+          }
         })
-
-      if (flightError) {
-        console.error('Error creating flight:', flightError)
-        // Continue anyway as booking was created
-      }
     }
 
-    // Log audit entry
+    // Update performance metrics
+    await supabaseClient.rpc('update_performance_metrics', {
+      p_user_id: user.id,
+      p_company_id: userData.company_id,
+      p_metric_type: 'deals_closed',
+      p_metric_value: 1
+    })
+
+    await supabaseClient.rpc('update_performance_metrics', {
+      p_user_id: user.id,
+      p_company_id: userData.company_id,
+      p_metric_type: 'total_revenue',
+      p_metric_value: quote.price
+    })
+
+    // Update operator metrics
+    await supabaseClient.rpc('update_performance_metrics', {
+      p_user_id: quote.operator_id,
+      p_company_id: quote.operator_company_id,
+      p_metric_type: 'quotes_accepted',
+      p_metric_value: 1
+    })
+
+    // Log the deal creation
     await supabaseClient
       .from('audit_logs')
       .insert({
         user_id: user.id,
-        action_type: 'QUOTE_ACCEPTED',
-        details: {
-          quote_id: body.quote_id,
-          request_id: body.request_id,
-          booking_id: newBooking.id,
-          price: quote.price,
-          currency: quote.currency
+        action: 'deal_created',
+        table_name: 'deals',
+        record_id: deal,
+        new_values: {
+          quote_id,
+          total_price: quote.price,
+          currency: quote.currency,
+          operator_id: quote.operator_id
         }
       })
-
-    // Notify the operator about the accepted quote
-    const { data: operatorUsers } = await supabaseClient
-      .from('users')
-      .select('id')
-      .eq('company_id', quote.operator_company_id)
-
-    if (operatorUsers && operatorUsers.length > 0) {
-      const notifications = operatorUsers.map(operator => ({
-        user_id: operator.id,
-        type: 'quote_accepted',
-        related_id: newBooking.id,
-        message: `Your quote has been accepted! Booking created for $${quote.price.toLocaleString()}`
-      }))
-
-      await supabaseClient
-        .from('notifications')
-        .insert(notifications)
-    }
-
-    // Notify other operators whose quotes were rejected
-    const { data: rejectedQuotes } = await supabaseClient
-      .from('quotes')
-      .select(`
-        id,
-        operator_company_id,
-        users!inner(id)
-      `)
-      .eq('request_id', body.request_id)
-      .eq('status', 'rejected')
-      .neq('id', body.quote_id)
-
-    if (rejectedQuotes && rejectedQuotes.length > 0) {
-      const rejectedNotifications = rejectedQuotes.map(quote => ({
-        user_id: quote.users.id,
-        type: 'quote_rejected',
-        related_id: quote.id,
-        message: 'Your quote was not selected for this request'
-      }))
-
-      await supabaseClient
-        .from('notifications')
-        .insert(rejectedNotifications)
-    }
 
     return new Response(
       JSON.stringify({ 
         success: true, 
-        booking_id: newBooking.id,
-        message: 'Quote accepted and booking created successfully'
+        deal_id: deal,
+        quote_accepted: quote_id,
+        operator_notified: !operatorError,
+        total_price: quote.price,
+        currency: quote.currency
       }),
       { 
         status: 201, 
@@ -282,7 +234,7 @@ serve(async (req) => {
   } catch (error) {
     console.error('Error in accept-quote function:', error)
     return new Response(
-      JSON.stringify({ error: 'Internal server error' }),
+      JSON.stringify({ error: 'Internal server error', details: error.message }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )
   }

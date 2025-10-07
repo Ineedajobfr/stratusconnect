@@ -1,4 +1,3 @@
-import AIHunterWidget from '@/components/AI/AIHunterWidget';
 import CommunityForums from '@/components/community/CommunityForums';
 import DocumentStorage from '@/components/documents/DocumentStorage';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
@@ -171,10 +170,6 @@ export default function DemoCrewTerminal() {
         ))}
       </div>
 
-      {/* AI Hunter Widget - Real Data, Real Actions */}
-      <AIHunterWidget 
-        currency="GBP"
-      />
 
       {/* Upcoming Assignments */}
       <Card className="terminal-card">

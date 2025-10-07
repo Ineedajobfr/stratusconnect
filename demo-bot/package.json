@@ -1,0 +1,26 @@
+{
+  "name": "stratusconnect-quote-loop-demo",
+  "version": "1.0.0",
+  "description": "Live demonstration of StratusConnect Quote Loop System",
+  "main": "quote-loop-demo.js",
+  "scripts": {
+    "demo": "node quote-loop-demo.js",
+    "install-deps": "npm install",
+    "setup": "npm install && mkdir -p demo-screenshots"
+  },
+  "dependencies": {
+    "puppeteer": "^23.0.0"
+  },
+  "keywords": [
+    "stratusconnect",
+    "aviation",
+    "charter",
+    "broker",
+    "operator",
+    "pilot",
+    "demo",
+    "automation"
+  ],
+  "author": "StratusConnect Team",
+  "license": "MIT"
+}

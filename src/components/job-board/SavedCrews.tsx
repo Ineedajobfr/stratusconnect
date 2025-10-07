@@ -1,34 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { 
-  Heart, 
-  Star, 
-  Search, 
-  Filter, 
-  Plus, 
-  MessageSquare, 
-  Phone, 
-  Mail,
-  MapPin,
-  Clock,
-  DollarSign,
-  Award,
-  CheckCircle,
-  XCircle,
-  MoreHorizontal,
-  Bookmark,
-  Share2,
-  Eye
-} from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import {
+    AlertTriangle,
+    Award,
+    CheckCircle,
+    Clock,
+    DollarSign,
+    Heart,
+    MapPin,
+    MessageSquare,
+    Plus,
+    Search,
+    Star,
+    XCircle
+} from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 
 interface SavedCrew {
   id: string;
@@ -75,6 +68,9 @@ const SavedCrews = React.memo(function SavedCrews({ brokerId }: SavedCrewsProps)
   const [selectedAvailability, setSelectedAvailability] = useState('all');
   const [selectedRating, setSelectedRating] = useState('all');
   const [showAddCrewDialog, setShowAddCrewDialog] = useState(false);
+  const [showRemoveDialog, setShowRemoveDialog] = useState(false);
+  const [crewToRemove, setCrewToRemove] = useState<string | null>(null);
+  const [removeCountdown, setRemoveCountdown] = useState(5);
   const [newCrew, setNewCrew] = useState({
     crew_id: '',
     notes: '',
@@ -208,8 +204,30 @@ const SavedCrews = React.memo(function SavedCrews({ brokerId }: SavedCrewsProps)
   };
 
   const handleRemoveCrew = async (crewId: string) => {
-    // TODO: Implement actual API call
-    console.log('Removing crew:', crewId);
+    setCrewToRemove(crewId);
+    setShowRemoveDialog(true);
+    setRemoveCountdown(5);
+    
+    // Start countdown
+    const interval = setInterval(() => {
+      setRemoveCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          // Actually remove the crew
+          setSavedCrews(prev => prev.filter(crew => crew.id !== crewId));
+          setShowRemoveDialog(false);
+          setCrewToRemove(null);
+          return 5;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
+
+  const cancelRemove = () => {
+    setShowRemoveDialog(false);
+    setCrewToRemove(null);
+    setRemoveCountdown(5);
   };
 
   const handleContactCrew = async (crewId: string) => {
@@ -267,7 +285,7 @@ const SavedCrews = React.memo(function SavedCrews({ brokerId }: SavedCrewsProps)
       {/* Header */}
       <div className="flex flex-col space-y-4">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-terminal-fg">Saved Crews</h1>
+          <h1 className="text-3xl font-bold text-terminal-fg">Saved Crew Members</h1>
           <Dialog open={showAddCrewDialog} onOpenChange={setShowAddCrewDialog}>
             <DialogTrigger asChild>
               <Button className="bg-terminal-accent hover:bg-terminal-accent/90">
@@ -391,7 +409,7 @@ const SavedCrews = React.memo(function SavedCrews({ brokerId }: SavedCrewsProps)
           <Card className="bg-terminal-bg border-terminal-border">
             <CardContent className="p-8 text-center">
               <Heart className="h-12 w-12 text-terminal-muted mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-terminal-fg mb-2">No Saved Crews</h3>
+              <h3 className="text-lg font-semibold text-terminal-fg mb-2">No Saved Crew Members</h3>
               <p className="text-terminal-muted">
                 Start building your network by adding crew members to your favorites.
               </p>
@@ -504,6 +522,54 @@ const SavedCrews = React.memo(function SavedCrews({ brokerId }: SavedCrewsProps)
           ))
         )}
       </div>
+
+      {/* Remove Confirmation Dialog */}
+      <Dialog open={showRemoveDialog} onOpenChange={setShowRemoveDialog}>
+        <DialogContent className="bg-terminal-bg border-terminal-border">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-terminal-fg">
+              <AlertTriangle className="h-5 w-5 text-terminal-warning" />
+              Confirm Removal
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <p className="text-terminal-muted">
+              Are you sure you want to remove this crew member? This action cannot be undone.
+            </p>
+            <div className="bg-terminal-warning/10 border border-terminal-warning/30 rounded-lg p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <AlertTriangle className="h-4 w-4 text-terminal-warning" />
+                <span className="font-medium text-terminal-fg">Auto-removing in {removeCountdown} seconds...</span>
+              </div>
+              <p className="text-sm text-terminal-muted">
+                Click "Cancel" to stop the removal process.
+              </p>
+            </div>
+            <div className="flex gap-3 justify-end">
+              <Button 
+                variant="outline" 
+                onClick={cancelRemove}
+                className="border-terminal-border text-terminal-fg hover:bg-terminal-hover"
+              >
+                Cancel
+              </Button>
+              <Button 
+                onClick={() => {
+                  if (crewToRemove) {
+                    setSavedCrews(prev => prev.filter(crew => crew.id !== crewToRemove));
+                    setShowRemoveDialog(false);
+                    setCrewToRemove(null);
+                    setRemoveCountdown(5);
+                  }
+                }}
+                className="bg-terminal-warning hover:bg-terminal-warning/90 text-terminal-bg"
+              >
+                Remove Now
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 });

@@ -199,7 +199,7 @@ const JobBoard = React.memo(function JobBoard({ userRole }: JobBoardProps) {
 
   // Filter and search jobs
   useEffect(() => {
-    let filtered = jobs.filter(job => {
+    const filtered = jobs.filter(job => {
       const matchesSearch = job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            job.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            job.location.toLowerCase().includes(searchTerm.toLowerCase());

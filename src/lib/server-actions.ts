@@ -190,7 +190,7 @@ export async function requestCrew(action: RequestCrewAction) {
 // Fleet Action - Real fleet management
 export async function fleetAction(action: FleetAction) {
   try {
-    let updateData: any = {
+    const updateData: any = {
       updated_at: new Date().toISOString()
     };
 

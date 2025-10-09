@@ -1,0 +1,491 @@
+/* 
+ * STRATUSCONNECT ENTERPRISE DESIGN SYSTEM
+ * The SAP of Private Aviation
+ * Inspired by: SAP Fiori + Bloomberg Terminal + Cinematic Branding
+ */
+
+:root {
+  /* ============================================
+     PRIMARY COLORS - Cinematic Branding
+     Burnt Orange to Obsidian Gradient
+     ============================================ */
+  --enterprise-primary: #8B4513; /* Burnt Orange */
+  --enterprise-dark: #0a0a0c; /* Obsidian */
+  --enterprise-gradient: radial-gradient(ellipse at center, 
+    rgba(139, 69, 19, 0.9) 0%, 
+    rgba(91, 30, 13, 0.95) 25%, 
+    rgba(59, 30, 13, 0.98) 50%, 
+    rgba(20, 20, 20, 0.99) 75%, 
+    rgba(10, 10, 12, 1) 100%);
+  
+  /* Secondary gradient for depth */
+  --enterprise-gradient-subtle: linear-gradient(135deg, 
+    #3b1e0d 0%, 
+    #2d1a0a 25%, 
+    #1a0f08 50%, 
+    #0f0a06 75%, 
+    #0a0a0c 100%);
+  
+  /* Vignette effect */
+  --enterprise-vignette: radial-gradient(ellipse 80% 60% at center, 
+    transparent 0%, 
+    transparent 40%, 
+    rgba(0, 0, 0, 0.1) 60%, 
+    rgba(0, 0, 0, 0.3) 80%, 
+    rgba(0, 0, 0, 0.6) 100%);
+  
+  /* Golden glow */
+  --enterprise-glow: radial-gradient(ellipse 60% 40% at center, 
+    rgba(255, 140, 0, 0.08) 0%, 
+    rgba(255, 140, 0, 0.04) 30%, 
+    transparent 60%);
+
+  /* ============================================
+     ACCENT COLORS
+     ============================================ */
+  --enterprise-gold: #FFD700; /* Premium accents */
+  --enterprise-silver: #C0C0C0; /* Secondary actions */
+  --enterprise-bronze: #CD7F32; /* Tertiary elements */
+  --enterprise-copper: #B87333; /* Subtle highlights */
+  
+  /* ============================================
+     SEMANTIC COLORS
+     ============================================ */
+  --enterprise-success: #10B981; /* Green */
+  --enterprise-warning: #F59E0B; /* Amber */
+  --enterprise-danger: #EF4444; /* Red */
+  --enterprise-info: #3B82F6; /* Blue */
+  --enterprise-neutral: #6B7280; /* Gray */
+  
+  /* Success shades */
+  --enterprise-success-light: #34D399;
+  --enterprise-success-dark: #059669;
+  
+  /* Warning shades */
+  --enterprise-warning-light: #FBBF24;
+  --enterprise-warning-dark: #D97706;
+  
+  /* Danger shades */
+  --enterprise-danger-light: #F87171;
+  --enterprise-danger-dark: #DC2626;
+  
+  /* Info shades */
+  --enterprise-info-light: #60A5FA;
+  --enterprise-info-dark: #2563EB;
+
+  /* ============================================
+     TYPOGRAPHY
+     ============================================ */
+  --font-enterprise: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', 'Consolas', 'Liberation Mono', 'Menlo', monospace;
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  /* Font sizes */
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-2xl: 1.5rem; /* 24px */
+  --text-3xl: 1.875rem; /* 30px */
+  --text-4xl: 2.25rem; /* 36px */
+  
+  /* Font weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  
+  /* Line heights */
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+
+  /* ============================================
+     SPACING SYSTEM (8px base)
+     ============================================ */
+  --space-0: 0;
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.5rem; /* 8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px */
+  --space-5: 1.25rem; /* 20px */
+  --space-6: 1.5rem; /* 24px */
+  --space-8: 2rem; /* 32px */
+  --space-10: 2.5rem; /* 40px */
+  --space-12: 3rem; /* 48px */
+  --space-16: 4rem; /* 64px */
+  --space-20: 5rem; /* 80px */
+  --space-24: 6rem; /* 96px */
+  
+  /* Semantic spacing */
+  --space-xs: var(--space-1);
+  --space-sm: var(--space-2);
+  --space-md: var(--space-4);
+  --space-lg: var(--space-6);
+  --space-xl: var(--space-8);
+  --space-2xl: var(--space-12);
+
+  /* ============================================
+     ELEVATION SYSTEM (Shadows)
+     ============================================ */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --shadow-enterprise: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(139, 69, 19, 0.1);
+  
+  /* Inset shadows */
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  
+  /* Glow effects */
+  --glow-gold: 0 0 8px rgba(255, 215, 0, 0.7), 0 0 12px rgba(255, 215, 0, 0.5);
+  --glow-orange: 0 0 8px rgba(255, 140, 0, 0.7), 0 0 12px rgba(255, 140, 0, 0.5);
+  --glow-white: 0 0 8px rgba(255, 255, 255, 0.7), 0 0 12px rgba(255, 255, 255, 0.5);
+
+  /* ============================================
+     BORDER RADIUS
+     ============================================ */
+  --radius-none: 0;
+  --radius-sm: 0.125rem; /* 2px */
+  --radius-base: 0.25rem; /* 4px */
+  --radius-md: 0.375rem; /* 6px */
+  --radius-lg: 0.5rem; /* 8px */
+  --radius-xl: 0.75rem; /* 12px */
+  --radius-2xl: 1rem; /* 16px */
+  --radius-full: 9999px;
+
+  /* ============================================
+     TRANSITIONS
+     ============================================ */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* ============================================
+     Z-INDEX LAYERS
+     ============================================ */
+  --z-base: 0;
+  --z-dropdown: 1000;
+  --z-sticky: 1100;
+  --z-fixed: 1200;
+  --z-modal-backdrop: 1300;
+  --z-modal: 1400;
+  --z-popover: 1500;
+  --z-tooltip: 1600;
+  --z-notification: 1700;
+
+  /* ============================================
+     OPACITY LEVELS
+     ============================================ */
+  --opacity-0: 0;
+  --opacity-5: 0.05;
+  --opacity-10: 0.1;
+  --opacity-20: 0.2;
+  --opacity-30: 0.3;
+  --opacity-40: 0.4;
+  --opacity-50: 0.5;
+  --opacity-60: 0.6;
+  --opacity-70: 0.7;
+  --opacity-80: 0.8;
+  --opacity-90: 0.9;
+  --opacity-95: 0.95;
+  --opacity-100: 1;
+}
+
+/* ============================================
+   ENTERPRISE COMPONENT STYLES
+   ============================================ */
+
+/* Enterprise Card */
+.enterprise-card {
+  background: rgba(10, 10, 12, 0.95);
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-enterprise);
+  backdrop-filter: blur(16px);
+  transition: all var(--transition-base);
+}
+
+.enterprise-card:hover {
+  border-color: rgba(139, 69, 19, 0.4);
+  box-shadow: var(--shadow-2xl);
+  transform: translateY(-2px);
+}
+
+.enterprise-card-header {
+  padding: var(--space-6);
+  border-bottom: 1px solid rgba(139, 69, 19, 0.1);
+}
+
+.enterprise-card-title {
+  font-family: var(--font-enterprise);
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  color: white;
+  margin: 0;
+}
+
+.enterprise-card-body {
+  padding: var(--space-6);
+}
+
+/* Enterprise Table */
+.enterprise-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.enterprise-table thead {
+  background: rgba(139, 69, 19, 0.1);
+  border-bottom: 2px solid rgba(139, 69, 19, 0.3);
+}
+
+.enterprise-table th {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  font-weight: var(--font-semibold);
+  color: var(--enterprise-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: var(--text-xs);
+}
+
+.enterprise-table tbody tr {
+  border-bottom: 1px solid rgba(139, 69, 19, 0.1);
+  transition: background-color var(--transition-fast);
+}
+
+.enterprise-table tbody tr:hover {
+  background: rgba(139, 69, 19, 0.05);
+  cursor: pointer;
+}
+
+.enterprise-table td {
+  padding: var(--space-3) var(--space-4);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Data Widget (Bloomberg-style) */
+.data-widget {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  border-radius: var(--radius-md);
+}
+
+.data-widget-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.data-widget-value {
+  font-family: var(--font-mono);
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  color: white;
+  line-height: var(--leading-tight);
+}
+
+.data-widget-trend {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+}
+
+.data-widget-trend.positive {
+  color: var(--enterprise-success);
+}
+
+.data-widget-trend.negative {
+  color: var(--enterprise-danger);
+}
+
+.data-widget-trend.neutral {
+  color: var(--enterprise-neutral);
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.status-badge-success {
+  background: rgba(16, 185, 129, 0.2);
+  color: var(--enterprise-success-light);
+  border: 1px solid var(--enterprise-success);
+}
+
+.status-badge-warning {
+  background: rgba(245, 158, 11, 0.2);
+  color: var(--enterprise-warning-light);
+  border: 1px solid var(--enterprise-warning);
+}
+
+.status-badge-danger {
+  background: rgba(239, 68, 68, 0.2);
+  color: var(--enterprise-danger-light);
+  border: 1px solid var(--enterprise-danger);
+}
+
+.status-badge-info {
+  background: rgba(59, 130, 246, 0.2);
+  color: var(--enterprise-info-light);
+  border: 1px solid var(--enterprise-info);
+}
+
+.status-badge-neutral {
+  background: rgba(107, 114, 128, 0.2);
+  color: var(--enterprise-silver);
+  border: 1px solid var(--enterprise-neutral);
+}
+
+/* Command Palette */
+.command-palette {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 640px;
+  background: rgba(10, 10, 12, 0.98);
+  border: 2px solid var(--enterprise-primary);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-2xl), var(--glow-orange);
+  backdrop-filter: blur(20px);
+  z-index: var(--z-modal);
+}
+
+.command-palette-input {
+  width: 100%;
+  padding: var(--space-6);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(139, 69, 19, 0.2);
+  font-family: var(--font-mono);
+  font-size: var(--text-lg);
+  color: white;
+  outline: none;
+}
+
+.command-palette-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.command-palette-results {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.command-palette-item {
+  padding: var(--space-4) var(--space-6);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+  border-left: 3px solid transparent;
+}
+
+.command-palette-item:hover,
+.command-palette-item.active {
+  background: rgba(139, 69, 19, 0.1);
+  border-left-color: var(--enterprise-primary);
+}
+
+/* Keyboard Shortcut Display */
+.kbd {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-2);
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Loading Spinner (Enterprise) */
+.enterprise-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(139, 69, 19, 0.2);
+  border-top-color: var(--enterprise-primary);
+  border-radius: 50%;
+  animation: enterprise-spin 0.8s linear infinite;
+}
+
+@keyframes enterprise-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Utility Classes */
+.text-enterprise-primary { color: var(--enterprise-primary); }
+.text-enterprise-gold { color: var(--enterprise-gold); }
+.text-enterprise-silver { color: var(--enterprise-silver); }
+.text-success { color: var(--enterprise-success); }
+.text-warning { color: var(--enterprise-warning); }
+.text-danger { color: var(--enterprise-danger); }
+.text-info { color: var(--enterprise-info); }
+
+.bg-enterprise-gradient { background: var(--enterprise-gradient); }
+.bg-enterprise-card { background: rgba(10, 10, 12, 0.95); }
+
+.border-enterprise { border-color: rgba(139, 69, 19, 0.2); }
+
+.shadow-enterprise { box-shadow: var(--shadow-enterprise); }
+.glow-gold { text-shadow: var(--glow-gold); }
+.glow-orange { text-shadow: var(--glow-orange); }
+.glow-white { text-shadow: var(--glow-white); }
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 69, 19, 0.4);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 69, 19, 0.6);
+}
+
+/* Focus States */
+*:focus-visible {
+  outline: 2px solid var(--enterprise-primary);
+  outline-offset: 2px;
+}
+
+/* Selection */
+::selection {
+  background: rgba(139, 69, 19, 0.3);
+  color: white;
+}
+

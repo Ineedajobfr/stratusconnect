@@ -1,0 +1,992 @@
+﻿
+> vite_react_shadcn_ts@0.0.0 lint
+> eslint .
+
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\demo-bots\playwright\full-workflow.spec.ts
+  7:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\demo-bots\playwright\real-workflow.spec.ts
+  7:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\demo-bots\playwright\simple-date-workflow.spec.ts
+  7:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\demo-bots\playwright\simple-workflow.spec.ts
+  7:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\Admin\AIChat.tsx
+  89:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\Admin\AdminCharts.tsx
+  14:16  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  15:10  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  16:10  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  17:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\Admin\PlatformOverview.tsx
+  17:56  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\Admin\TransactionManagement.tsx
+  45:6   warning  React Hook useEffect has a missing dependency: 'loadTransactions'. Either include it or remove the dependency array    react-hooks/exhaustive-deps
+  49:6   warning  React Hook useEffect has a missing dependency: 'filterTransactions'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  71:77  warning  Unexpected any. Specify a different type                                                                               @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\Admin\UserDetailsModal.tsx
+  18:9   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  21:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\Admin\UserMonitoring.tsx
+   33:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   93:40  warning  Unexpected empty object pattern           no-empty-pattern
+  369:82  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\AdvancedSearch.tsx
+  193:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  380:75  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\AuditLogs.tsx
+  18:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  19:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\Audit\AuditTrailWidget.tsx
+  56:6  warning  React Hook useEffect has a missing dependency: 'loadAuditData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\BetaSignupAdmin.tsx
+   64:6   warning  React Hook useEffect has a missing dependency: 'fetchSignups'. Either include it or remove the dependency array   react-hooks/exhaustive-deps
+   68:6   warning  React Hook useEffect has a missing dependency: 'filterSignups'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+   73:33  warning  Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+   78:27  warning  Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+  133:33  warning  Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+  146:46  warning  Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\BetaSignupButton.tsx
+   4:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  71:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\BetaSignupForm.tsx
+  118:66  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  192:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\BillingSystem.tsx
+   70:56  warning  Unexpected any. Specify a different type                                                                                  @typescript-eslint/no-explicit-any
+   92:6   warning  React Hook useEffect has a missing dependency: 'fetchBillingSchedules'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  206:52  warning  Unexpected any. Specify a different type                                                                                  @typescript-eslint/no-explicit-any
+  206:93  warning  Unexpected any. Specify a different type                                                                                  @typescript-eslint/no-explicit-any
+  209:32  warning  Unexpected any. Specify a different type                                                                                  @typescript-eslint/no-explicit-any
+  352:50  warning  Unexpected any. Specify a different type                                                                                  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\Billing\SequentialInvoiceGenerator.tsx
+   62:60  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  105:69  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\CompliantEscrowManagement.tsx
+  72:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\ContractManagement.tsx
+  222:76  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  223:79  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  224:72  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  225:75  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  226:68  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  227:69  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  228:66  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  324:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  324:76  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  325:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  325:85  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\DataTile.tsx
+  33:37  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\DealFlow\BackhaulMatcher.tsx
+  137:6  warning  React Hook useCallback has missing dependencies: 'calculateMatch' and 'emptyLegs'. Either include them or remove the dependency array                                                            react-hooks/exhaustive-deps
+  155:9  warning  The 'calculateMatch' function makes the dependencies of useEffect Hook (at line 141) change on every render. To fix this, wrap the definition of 'calculateMatch' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\DealFlow\QuoteComparison.tsx
+  122:63  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\DealFlow\QuoteComposer.tsx
+  82:6  warning  React Hook useCallback has a missing dependency: 'getUrgencyMultiplier'. Either include it or remove the dependency array                                                                                    react-hooks/exhaustive-deps
+  84:9  warning  The 'getUrgencyMultiplier' function makes the dependencies of useEffect Hook (at line 126) change on every render. To fix this, wrap the definition of 'getUrgencyMultiplier' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\DealFlow\QuoteSubmission.tsx
+  91:6  warning  React Hook useEffect has a missing dependency: 'calculatePricing'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\DemoStatusWidget.tsx
+  27:9  warning  The 'refreshMetrics' function makes the dependencies of useEffect Hook (at line 67) change on every render. To fix this, wrap the definition of 'refreshMetrics' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\DocumentManagement.tsx
+  384:88  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\EnhancedMarketplace.tsx
+   99:6  warning  React Hook useEffect has missing dependencies: 'fetchListings' and 'setupRealtimeSubscription'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  103:6  warning  React Hook useEffect has a missing dependency: 'applyFilters'. Either include it or remove the dependency array                                     react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\EnhancedMessaging.tsx
+  69:6  warning  React Hook useEffect has a missing dependency: 'fetchUserDeals'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  95:6  warning  React Hook useEffect has a missing dependency: 'fetchMessages'. Either include it or remove the dependency array   react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\Error\ErrorBoundary.tsx
+  276:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  284:73  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  292:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\Error\ErrorMonitor.tsx
+  56:6  warning  React Hook useEffect has a missing dependency: 'applyFilters'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\EscrowManagement.tsx
+  78:6  warning  React Hook useEffect has a missing dependency: 'loadEscrowIntents'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\FleetManagement.tsx
+  63:6  warning  React Hook useEffect has a missing dependency: 'fetchAircraft'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\HelpGuide.tsx
+  52:6  warning  React Hook useEffect has a missing dependency: 'hasBeenShown'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\KPICard.tsx
+  21:161  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\LiveStatus\LiveStatusWidget.tsx
+  139:82  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  200:84  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\MarketIntelligence.tsx
+   67:6   warning  React Hook useEffect has missing dependencies: 'fetchMarketData' and 'generateMockAnalytics'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+   98:6   warning  React Hook useCallback has an unnecessary dependency: 'toast'. Either exclude it or remove the dependency array                                   react-hooks/exhaustive-deps
+  106:49  warning  Unexpected any. Specify a different type                                                                                                          @typescript-eslint/no-explicit-any
+  163:6   warning  React Hook useEffect has missing dependencies: 'fetchMarketData' and 'generateMockAnalytics'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\Marketplace.tsx
+  82:6  warning  React Hook useEffect has missing dependencies: 'fetchListings' and 'fetchUserRole'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\Marketplace\FiltersDrawer.tsx
+  61:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\MessagingSystem.tsx
+  51:6  warning  React Hook useEffect has a missing dependency: 'fetchUserDeals'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\NavigationArrows.tsx
+  31:6  warning  React Hook useEffect has a missing dependency: 'currentIndex'. Either include it or remove the dependency array. You can also replace multiple useState variables with useReducer if 'setNavigationHistory' needs the current value of 'currentIndex'  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\NoteTakingSystem.tsx
+  280:91  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\NotificationCenter.tsx
+  41:6  warning  React Hook useEffect has missing dependencies: 'loadNotifications' and 'subscribeToNotifications'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\OperatorHelpGuide.tsx
+   25:32  warning  Unexpected any. Specify a different type                                                                         @typescript-eslint/no-explicit-any
+   51:6   warning  React Hook useEffect has a missing dependency: 'hasBeenShown'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+   81:29  warning  Unexpected any. Specify a different type                                                                         @typescript-eslint/no-explicit-any
+  130:28  warning  Unexpected any. Specify a different type                                                                         @typescript-eslint/no-explicit-any
+  252:27  warning  Unexpected any. Specify a different type                                                                         @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\Payment\EscrowManager.tsx
+  40:6  warning  React Hook useEffect has a missing dependency: 'loadEscrowAccounts'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\PerformanceOptimizer.tsx
+   5:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  10:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  56:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\Performance\LazyLoader.tsx
+  16:54  warning  Unexpected any. Specify a different type                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+  65:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components                                                                                                         react-refresh/only-export-components
+  75:6   warning  React Hook React.useEffect has a missing dependency: 'importFn'. Either include it or remove the dependency array. If 'importFn' changes too often, find the parent component that defines it and wrap that definition in useCallback  react-hooks/exhaustive-deps
+  81:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components                                                                                                         react-refresh/only-export-components
+  81:58  warning  Unexpected any. Specify a different type                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\Performance\VirtualList.tsx
+  118:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\ProfileWidget.tsx
+  32:6  warning  React Hook useEffect has a missing dependency: 'fetchProfile'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\RealTimeFlightTracker.tsx
+  109:6  warning  React Hook useEffect has a missing dependency: 'loadFlights'. Either include it or remove the dependency array    react-hooks/exhaustive-deps
+  113:6  warning  React Hook useEffect has a missing dependency: 'filterFlights'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\ReputationSystem.tsx
+  102:6  warning  React Hook useEffect has a missing dependency: 'fetchReputationData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\Reputation\ReputationMetrics.tsx
+  77:6  warning  React Hook useEffect has a missing dependency: 'loadMetrics'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\Risk\RiskAssessmentWidget.tsx
+   52:6   warning  React Hook useEffect has a missing dependency: 'performRiskAssessment'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+   89:98  warning  Unexpected any. Specify a different type                                                                                  @typescript-eslint/no-explicit-any
+   99:89  warning  Unexpected any. Specify a different type                                                                                  @typescript-eslint/no-explicit-any
+  100:92  warning  Unexpected any. Specify a different type                                                                                  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\SanctionsScreening.tsx
+  39:6  warning  React Hook useEffect has a missing dependency: 'fetchLatestScreening'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\StratusCinematicBackground.tsx
+  366:6  warning  React Hook useEffect has a missing dependency: 'nodes'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\StrikeManagement.tsx
+  52:6   warning  React Hook useEffect has a missing dependency: 'fetchStrikes'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  72:37  warning  Unexpected any. Specify a different type                                                                         @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\UserProfile.tsx
+  79:6  warning  React Hook useEffect has a missing dependency: 'fetchProfile'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\Weather\WeatherWidget.tsx
+  47:6  warning  React Hook useEffect has a missing dependency: 'loadWeather'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\contracts\ContractGenerator.tsx
+   91:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   92:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   93:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   94:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   95:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  114:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  115:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  116:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  117:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\contracts\ReceiptGenerator.tsx
+  265:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\crew\CrewSchedulingPro.tsx
+  321:20  error  Parsing error: ',' expected
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\dashboard\NewRequestForm.tsx
+  72:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\demo\InteractiveDemoData.tsx
+  13:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\demo\RealWorkflowDemo.tsx
+  30:12  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\demo\UnifiedTerminalLayout.tsx
+  128:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\documents\DocumentStorage.tsx
+   37:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  232:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  451:80  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  486:68  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\enterprise\CommandPalette.tsx
+  200:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  220:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\enterprise\EnterpriseTable.tsx
+  25:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\feed\PersonalizedFeed.tsx
+  45:29  warning  Unexpected any. Specify a different type                                                                                 @typescript-eslint/no-explicit-any
+  73:6   warning  React Hook useEffect has a missing dependency: 'loadPersonalizedFeed'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\fleet\FleetManagement.tsx
+  246:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\flight-tracking\EnhancedFlightMap.tsx
+   12:37  warning  Unexpected any. Specify a different type                                                                        @typescript-eslint/no-explicit-any
+   73:6   warning  React Hook useEffect has a missing dependency: 'loadMapData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  104:26  warning  Unexpected any. Specify a different type                                                                        @typescript-eslint/no-explicit-any
+  106:23  warning  Unexpected any. Specify a different type                                                                        @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\flight-tracking\FlightRadar24Widget.tsx
+  61:6  warning  React Hook useEffect has a missing dependency: 'startTracking'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\gamification\AchievementSystem.tsx
+  50:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\gamification\TierSystem.tsx
+  48:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\job-board\JobBoard.tsx
+  69:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  70:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\league\PerformanceDashboard.tsx
+  235:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\messaging\MessageCenter.tsx
+  61:6  warning  React Hook useEffect has a missing dependency: 'fetchMessages'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\messaging\MessagingCenter.tsx
+  41:6  warning  React Hook useEffect has a missing dependency: 'loadConversations'. Either include it or remove the dependency array                                         react-hooks/exhaustive-deps
+  48:6  warning  React Hook useEffect has missing dependencies: 'loadMessages', 'markAsRead', and 'selectedConversation'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  70:6  warning  React Hook useEffect has missing dependencies: 'loadConversations' and 'selectedConversation'. Either include them or remove the dependency array            react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\mobile\MobileOptimizedTerminal.tsx
+  310:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  314:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  314:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\network\ConnectionsPage.tsx
+  56:6  warning  React Hook useEffect has a missing dependency: 'loadConnections'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\payments\EscrowManager.tsx
+  232:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  339:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\real-workflows\WorkflowIntegration.tsx
+   18:28   warning  Unexpected any. Specify a different type                                                                                                                                 @typescript-eslint/no-explicit-any
+   18:44   warning  Unexpected any. Specify a different type                                                                                                                                 @typescript-eslint/no-explicit-any
+   24:28   warning  Unexpected any. Specify a different type                                                                                                                                 @typescript-eslint/no-explicit-any
+   32:72   warning  Unexpected any. Specify a different type                                                                                                                                 @typescript-eslint/no-explicit-any
+   33:110  warning  Unexpected any. Specify a different type                                                                                                                                 @typescript-eslint/no-explicit-any
+   34:50   warning  Unexpected any. Specify a different type                                                                                                                                 @typescript-eslint/no-explicit-any
+   39:28   warning  Unexpected any. Specify a different type                                                                                                                                 @typescript-eslint/no-explicit-any
+   40:33   warning  Unexpected any. Specify a different type                                                                                                                                 @typescript-eslint/no-explicit-any
+   46:33   warning  Unexpected any. Specify a different type                                                                                                                                 @typescript-eslint/no-explicit-any
+   70:14   warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components                                           react-refresh/only-export-components
+  119:6    warning  React Hook useCallback has missing dependencies: 'loadContracts', 'loadDeals', 'loadRFQs', and 'loadSecurityEvents'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  268:41   warning  Unexpected any. Specify a different type                                                                                                                                 @typescript-eslint/no-explicit-any
+  303:41   warning  Unexpected any. Specify a different type                                                                                                                                 @typescript-eslint/no-explicit-any
+  348:85   warning  Unexpected any. Specify a different type                                                                                                                                 @typescript-eslint/no-explicit-any
+  371:63   warning  Unexpected any. Specify a different type                                                                                                                                 @typescript-eslint/no-explicit-any
+  383:41   warning  Unexpected any. Specify a different type                                                                                                                                 @typescript-eslint/no-explicit-any
+  394:46   warning  Unexpected any. Specify a different type                                                                                                                                 @typescript-eslint/no-explicit-any
+  407:79   warning  Unexpected any. Specify a different type                                                                                                                                 @typescript-eslint/no-explicit-any
+  420:46   warning  Unexpected any. Specify a different type                                                                                                                                 @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\reviews\ReviewsList.tsx
+  29:9  warning  The 'fetchReviews' function makes the dependencies of useEffect Hook (at line 63) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchReviews' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\security\AuthenticationGuard.tsx
+   46:36  warning  Unexpected any. Specify a different type                                                                                                                                                                                                            @typescript-eslint/no-explicit-any
+   64:9   warning  The 'checkAuthentication' function makes the dependencies of useEffect Hook (at line 113) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'checkAuthentication' in its own useCallback() Hook  react-hooks/exhaustive-deps
+  177:25  warning  Unexpected any. Specify a different type                                                                                                                                                                                                            @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\security\DataProtection.tsx
+   41:9   warning  The 'validatePassword' function makes the dependencies of useEffect Hook (at line 48) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'validatePassword' in its own useCallback() Hook  react-hooks/exhaustive-deps
+  282:68  warning  Unexpected any. Specify a different type                                                                                                                                                                                                     @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\ui\NotificationToast.tsx
+  43:9  warning  The 'handleClose' function makes the dependencies of useEffect Hook (at line 55) change on every render. To fix this, wrap the definition of 'handleClose' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\ui\badge.tsx
+  36:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\ui\button.tsx
+  56:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\ui\form.tsx
+  168:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\ui\navigation-menu.tsx
+  119:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\ui\notification-center.tsx
+  25:9  warning  The 'fetchNotifications' function makes the dependencies of useEffect Hook (at line 66) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchNotifications' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\ui\sidebar.tsx
+  760:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\ui\sonner.tsx
+  26:19  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\components\ui\toggle.tsx
+  43:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\contexts\AuthContext.tsx
+   74:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components   react-refresh/only-export-components
+  130:6   warning  React Hook useCallback has unnecessary dependencies: 'navigate' and 'toast'. Either exclude them or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\hooks\usePageContent.ts
+  23:9  warning  The 'fetchContent' function makes the dependencies of useEffect Hook (at line 21) change on every render. To fix this, wrap the definition of 'fetchContent' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\admin-ai-assistant.ts
+   11:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   16:10  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   70:72  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  152:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\admin-automation.ts
+   36:10  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   41:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  140:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  172:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  186:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  212:64  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  243:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  253:57  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  266:56  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  273:63  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  287:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  297:61  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  311:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\admin-database.ts
+   65:14  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   88:10  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  148:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  153:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  155:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  194:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  387:56  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  408:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  460:84  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  474:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  519:54  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  549:41  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  559:63  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\ai-crew-scheduler.ts
+  327:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  351:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  412:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\audit-logger.ts
+   13:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   44:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  177:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  362:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\audit-service.ts
+   13:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  413:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  420:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\broadcast-service.ts
+  148:87  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  189:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  353:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  475:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\broker-dashboard-service.ts
+  140:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  193:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  251:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  305:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  348:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  349:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\circumvention-detector.ts
+   30:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   47:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   48:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  104:71  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\communication-service.ts
+  166:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  426:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  529:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\compliance-service.ts
+   27:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  209:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  444:64  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  526:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\compliant-monitoring.ts
+  147:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  152:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  152:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  164:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  170:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  170:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  178:68  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  188:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  194:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  194:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  204:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  209:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  209:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\crew-dashboard-service.ts
+  161:63  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  276:37  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  277:61  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  278:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  279:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  283:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  398:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\data-sync.ts
+   14:9   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  250:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  259:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  268:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  277:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\day-one-smoke-tests.ts
+   73:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   89:51  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   90:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  197:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\demo-gamification-data.ts
+  22:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\dispute-service-real.ts
+   22:13  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   23:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  227:56  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  248:62  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  272:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  293:60  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\dispute-service.ts
+  343:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  463:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\document-generator.ts
+   10:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   20:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  187:60  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  276:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  346:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  409:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  452:62  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  486:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  507:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  527:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  594:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\document-management-service.ts
+  160:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  234:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  341:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  491:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\error-recovery.ts
+    7:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   20:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   57:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   63:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   77:49  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   93:37  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  102:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  107:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  113:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  157:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  183:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\error-service.ts
+   13:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   49:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  233:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  251:64  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  280:49  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\fraud-detection.ts
+   18:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  296:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\gamification.ts
+  53:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\heartbeat-monitor.ts
+   28:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   68:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  112:63  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  205:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  206:54  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  207:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\integrations\fl3xx-integration.ts
+   7:24  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  14:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\integrations\hubspot-integration.ts
+  22:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\integrations\leon-integration.ts
+  14:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\integrations\salesforce-integration.ts
+  149:41  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\integrations\skylegs-integration.ts
+  15:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  20:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\kyc-aml-live.ts
+  5:24  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\kyc-service.ts
+   54:16  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  189:60  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\league-config.ts
+  121:51  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  139:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  143:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  151:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  155:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\live-flow-tester.ts
+   99:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  156:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\live-status-handler.ts
+   50:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  430:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  443:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\monitoring-live.ts
+  110:49  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  111:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  143:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  144:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  146:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  147:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  162:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  181:69  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  181:94  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  196:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  197:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  204:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  220:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  221:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  231:87  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  233:67  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  244:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  246:72  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  247:54  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  273:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  274:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  304:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  308:14  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  309:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\notification-service.ts
+   13:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   25:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   29:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  161:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  384:72  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  395:73  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  425:69  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  425:84  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  430:68  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  430:83  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  435:67  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  435:82  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\operator-dashboard-service.ts
+   93:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  162:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  205:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  243:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\payment-processing-service.ts
+  374:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  491:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  492:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\performance-service.ts
+   20:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   33:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   44:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  135:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  191:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  191:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  225:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  225:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  237:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  237:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\persistent-storage.ts
+    5:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+    6:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+    7:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+    8:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+    9:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   97:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  114:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  131:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  145:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  146:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  146:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  150:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  167:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  175:41  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  182:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  191:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\pilot-dashboard-service.ts
+  134:64  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  187:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  263:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  325:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\pricing-engine.ts
+  161:67  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  186:66  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  211:66  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  262:67  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  345:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  345:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  452:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\production-payment-flows.ts
+   89:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  147:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\quote-service.ts
+  338:41  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\real-data-integration.ts
+   80:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  174:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  203:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  238:57  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  262:54  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  285:68  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\real-time-monitoring.ts
+  206:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  212:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\real-workflows\contract-workflow.ts
+   27:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   28:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   29:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   30:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   31:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   73:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  323:84  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\real-workflows\escrow-workflow.ts
+   18:29   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   46:28   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  330:104  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  340:123  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  352:104  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\real-workflows\security-workflow.ts
+  19:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\receipt-generator.ts
+   99:13  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  143:15  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  213:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  217:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\rfq-service.ts
+  461:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\risk-assessment-service.ts
+  537:69  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  537:75  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  538:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  592:78  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  596:61  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\sanctions-service.ts
+   14:13  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  295:92  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\security-config.ts
+  119:25  warning  Unnecessary escape character: \[  no-useless-escape
+  119:42  warning  Unnecessary escape character: \/  no-useless-escape
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\security-service.ts
+  23:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\security\alerts.ts
+  11:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  42:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\security\anti-scraper.ts
+  143:67  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  474:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\security\input-sanitizer.ts
+    5:14  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+   16:14  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+   55:25  warning  Unnecessary escape character: \`                                                           no-useless-escape
+  118:31  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+  244:33  error    Unexpected control character(s) in regular expression: \x00, \x08, \x0b, \x0c, \x0e, \x1f  no-control-regex
+  267:30  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+  271:10  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+  277:22  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+  287:10  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+  339:59  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+  341:33  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+  347:39  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+  380:18  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+  397:36  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\sequential-invoice-handler.ts
+  390:41  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\server-actions.ts
+  193:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  239:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\smart-leg-finder.ts
+  272:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\ultimate-data-engine.ts
+    9:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   10:16  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   11:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   12:9   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   13:16  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   14:12  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   15:15  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   16:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   17:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   25:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  137:57  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  148:63  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  159:56  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  170:49  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  173:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  191:56  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  194:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  212:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  223:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  226:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  244:57  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  247:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  265:57  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  268:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  286:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  301:16  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  318:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  323:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\universal-compliance.ts
+   88:22  warning  Promise executor functions should not be async  no-async-promise-executor
+  201:50  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  288:36  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\web-scraping-service.ts
+    7:9   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  274:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  481:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  500:60  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  501:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  515:62  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  516:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  530:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  531:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  545:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  546:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  560:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  561:24  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  575:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  576:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  595:16  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\lib\xp-engine.ts
+   10:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   89:91  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  191:67  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  205:70  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  309:87  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\pages\AdminConsole.tsx
+  214:70  warning  Unexpected any. Specify a different type                                                                                                                                                                                            @typescript-eslint/no-explicit-any
+  215:72  warning  Unexpected any. Specify a different type                                                                                                                                                                                            @typescript-eslint/no-explicit-any
+  216:62  warning  Unexpected any. Specify a different type                                                                                                                                                                                            @typescript-eslint/no-explicit-any
+  217:64  warning  Unexpected any. Specify a different type                                                                                                                                                                                            @typescript-eslint/no-explicit-any
+  218:58  warning  Unexpected any. Specify a different type                                                                                                                                                                                            @typescript-eslint/no-explicit-any
+  393:6   warning  React Hook useEffect has a missing dependency: 'loadAllData'. Either include it or remove the dependency array                                                                                                                      react-hooks/exhaustive-deps
+  395:9   warning  The 'filterUsers' function makes the dependencies of useEffect Hook (at line 423) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'filterUsers' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\pages\AdminTerminal.tsx
+   70:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  196:60  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\pages\Auth.tsx
+  129:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  150:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  169:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  203:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\pages\BrokerTerminal.tsx
+  85:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\pages\DemoBrokerRanking.tsx
+  59:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  60:64  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  61:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\pages\Directory.tsx
+  65:9  warning  The 'filterAndSortProfiles' function makes the dependencies of useEffect Hook (at line 47) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'filterAndSortProfiles' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\pages\EmptyLegMarketplace.tsx
+  89:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\pages\ProfileSettings.tsx
+  68:9  warning  The 'fetchProfileData' function makes the dependencies of useEffect Hook (at line 66) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchProfileData' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\pages\QuickAdminSetup.tsx
+  65:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\pages\SecureAdminSetup.tsx
+  21:9  warning  The 'checkAdminAuthorization' function makes the dependencies of useEffect Hook (at line 19) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'checkAdminAuthorization' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\pages\SecurityDashboard.tsx
+  49:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\pages\StratusLauncher.tsx
+  23:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  33:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\services\quote-loop-service.ts
+   16:41  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   56:24  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  410:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  420:41  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  430:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  440:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\tests\pricing.spec.ts
+  132:57  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\tests\ranking-bias-gauntlet.spec.ts
+  114:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\utils\errorHandler.ts
+  67:57  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\utils\mobileOptimizations.tsx
+   5:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  15:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  25:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  43:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  68:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  77:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  82:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  87:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\utils\quickErrorFix.ts
+  2:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\src\widgets\BookingWidget.tsx
+  37:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\supabase\functions\ai_demand_price\index.ts
+   62:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  111:13  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  212:13  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  279:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  279:75  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  305:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  305:74  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\supabase\functions\rate-limiter\index.ts
+  70:13  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\supabase\functions\scan-user-code\index.ts
+  386:13  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  391:16  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ibrah\Documents\GitHub\stratusconnect\supabase\functions\validate-input\index.ts
+   11:19  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+   60:25  warning  Unnecessary escape character: \`                                                           no-useless-escape
+  133:33  error    Unexpected control character(s) in regular expression: \x00, \x08, \x0b, \x0c, \x0e, \x1f  no-control-regex
+  146:31  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+  259:30  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+  259:36  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+  265:22  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+  274:35  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+  315:13  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+  319:16  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+  361:20  warning  Unexpected any. Specify a different type                                                   @typescript-eslint/no-explicit-any
+
+Γ£û 615 problems (3 errors, 612 warnings)
+

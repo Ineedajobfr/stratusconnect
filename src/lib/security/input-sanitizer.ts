@@ -241,6 +241,7 @@ function sanitizeString(input: string, options: {
   sanitized = sanitized.normalize('NFC')
   
   // Remove control characters except newlines and tabs
+  // eslint-disable-next-line no-control-regex
   sanitized = sanitized.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '')
   
   // Trim whitespace

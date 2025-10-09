@@ -10,7 +10,7 @@ import React, { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 export default function Auth() {
-  const { user, loading, login, loginWithMagicLink, loginWithGoogle, register } = useAuth();
+  const { user, loading, login, loginWithMagicLink, loginWithGoogle, register, logout } = useAuth();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -30,6 +30,13 @@ export default function Auth() {
     companyName: '',
     role: '',
   });
+
+  // Clear any existing session when accessing auth page
+  React.useEffect(() => {
+    if (user) {
+      logout();
+    }
+  }, [user, logout]);
 
   if (loading) {
     return (
@@ -88,6 +95,8 @@ export default function Auth() {
   if (user) {
     // Redirect authenticated users to their respective terminals
     switch (user.role) {
+      case 'admin':
+        return <Navigate to="/admin" replace />;
       case 'broker':
         return <Navigate to="/demo/broker" replace />;
       case 'operator':
@@ -265,6 +274,19 @@ export default function Auth() {
             <div className="text-center space-y-2">
               <h1 className="text-3xl font-bold text-white">Sign Up</h1>
               <p className="text-white/80 text-sm" style={{ textShadow: '0 0 4px rgba(255, 255, 255, 0.5)' }}>Choose your preferred way to join our aviation community</p>
+              </div>
+              
+              {/* Clear Session Button */}
+              <div className="text-center">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => logout()}
+                  className="text-white/60 border-white/20 hover:bg-white/10 hover:text-white"
+                >
+                  Clear Session
+                </Button>
               </div>
 
             <div className="space-y-3">

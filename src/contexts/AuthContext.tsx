@@ -1,6 +1,6 @@
 import { useToast } from '@/hooks/use-toast';
-import { createClient, Session, SupabaseClient, User as SupabaseUser } from '@supabase/supabase-js';
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { Session, User as SupabaseUser } from '@supabase/supabase-js';
+import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Types
@@ -83,18 +83,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  const [demoTimeout, setDemoTimeout] = useState<NodeJS.Timeout | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const clearDemoTimeout = () => {
-    if (demoTimeout) {
-      clearTimeout(demoTimeout);
-      setDemoTimeout(null);
-    }
-  };
-
-  const fetchUserProfile = async (supabaseUser: SupabaseUser) => {
+  const fetchUserProfile = useCallback(async (supabaseUser: SupabaseUser) => {
     try {
       const meta = supabaseUser.user_metadata || {};
       const email = supabaseUser.email || '';
@@ -131,31 +123,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       setUser(userData);
       setLoading(false);
-      
-      // Set up demo auto-logout if this is a demo user
-      if (email.includes('@stratusconnect.org')) {
-        setupDemoAutoLogout();
-      }
     } catch (error) {
       console.error('Error fetching user profile:', error);
       setLoading(false);
     }
-  };
+  }, [toast, navigate]); // Stable dependencies only
 
-  const setupDemoAutoLogout = () => {
-    clearDemoTimeout();
-    
-    const timeout = setTimeout(() => {
-      toast({
-        title: 'Demo Session Expired',
-        description: 'Your demo session has ended. Please log in with your real account.',
-        variant: 'destructive'
-      });
-      logout();
-    }, 30 * 60 * 1000);
-    
-    setDemoTimeout(timeout);
-  };
 
   // Initialize auth state
   useEffect(() => {
@@ -185,9 +158,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     return () => {
       subscription.unsubscribe();
-      clearDemoTimeout();
     };
-  }, [clearDemoTimeout, fetchUserProfile]);
+  }, [fetchUserProfile]); // fetchUserProfile is now stable with useCallback
 
   const refreshUser = async () => {
     try {
@@ -483,9 +455,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     try {
-      clearDemoTimeout();
       await supabase.auth.signOut();
       setUser(null);
       setSession(null);
@@ -493,7 +464,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     } catch (error) {
       console.error('Logout error:', error);
     }
-  };
+  }, [navigate]);
 
   const value = {
     user,
@@ -517,8 +488,5 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Supabase client
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://your-project.supabase.co';
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'your-anon-key';
-
-export const supabase: SupabaseClient = createClient(supabaseUrl, supabaseKey);
+// Import shared Supabase client
+import { supabase } from '@/integrations/supabase/client';

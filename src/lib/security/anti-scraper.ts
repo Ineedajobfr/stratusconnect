@@ -323,7 +323,7 @@ class AntiScraper {
     let missingCount = 0
     features.forEach(feature => {
       try {
-        if (eval(feature) === undefined) {
+        if (typeof window[feature as keyof Window] === 'undefined') {
           missingCount++
         }
       } catch {

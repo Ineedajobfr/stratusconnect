@@ -8,7 +8,7 @@ import { Deal, EscrowWorkflow } from '@/lib/real-workflows/escrow-workflow';
 import { JobApplication, JobBoardWorkflow, JobPost } from '@/lib/real-workflows/job-board-workflow';
 import { RFQData, RFQWorkflow } from '@/lib/real-workflows/rfq-workflow';
 import { SecurityEvent, SecurityWorkflow, ThreatDetection } from '@/lib/real-workflows/security-workflow';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 interface WorkflowContextType {
   // RFQ Workflow
@@ -108,7 +108,7 @@ export const WorkflowProvider: React.FC<WorkflowProviderProps> = ({ children }) 
     security: null as string | null
   });
 
-  const loadAllData = async () => {
+  const loadAllData = useCallback(async () => {
     await Promise.all([
       loadRFQs(),
       loadDeals(),
@@ -116,7 +116,7 @@ export const WorkflowProvider: React.FC<WorkflowProviderProps> = ({ children }) 
       loadJobs(),
       loadSecurityEvents()
     ]);
-  };
+  }, []); // Empty dependency array since these functions are stable
 
   // Load all data when user changes
   useEffect(() => {

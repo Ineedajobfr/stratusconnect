@@ -1,10 +1,13 @@
 {
-  "name": "stratusconnect-quote-loop-demo",
-  "version": "1.0.0",
-  "description": "Live demonstration of StratusConnect Quote Loop System",
-  "main": "quote-loop-demo.js",
+  "name": "stratusconnect-enterprise-demo",
+  "version": "2.0.0",
+  "description": "Live demonstration of StratusConnect Enterprise Features - The SAP of Private Aviation",
+  "main": "enterprise-feature-demo.js",
   "scripts": {
-    "demo": "node quote-loop-demo.js",
+    "demo": "node enterprise-feature-demo.js",
+    "demo:enterprise": "node enterprise-feature-demo.js",
+    "demo:simple": "node simple-demo.js",
+    "demo:quote-loop": "node quote-loop-demo.js",
     "install-deps": "npm install",
     "setup": "npm install && mkdir -p demo-screenshots"
   },
@@ -18,8 +21,15 @@
     "broker",
     "operator",
     "pilot",
+    "crew",
     "demo",
-    "automation"
+    "automation",
+    "enterprise",
+    "ai",
+    "real-time",
+    "analytics",
+    "crew-scheduling",
+    "integrations"
   ],
   "author": "StratusConnect Team",
   "license": "MIT"

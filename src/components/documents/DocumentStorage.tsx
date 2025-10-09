@@ -1,36 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
-import { 
-  FileText, 
-  Download, 
-  Eye, 
-  Upload, 
-  Search, 
-  Filter, 
-  Calendar,
-  DollarSign,
-  Users,
-  Plane,
-  Briefcase,
-  Receipt,
-  FileCheck,
-  AlertCircle,
-  CheckCircle,
-  Clock,
-  MoreHorizontal,
-  Plus,
-  Folder,
-  Archive
-} from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { documentGenerator } from '@/lib/document-generator';
+import {
+    DollarSign,
+    Download,
+    Eye,
+    FileCheck,
+    FileText,
+    Folder,
+    Plus,
+    Receipt,
+    Search,
+    Upload
+} from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 
 interface Document {
   id: string;
@@ -207,7 +196,7 @@ const DocumentStorage = React.memo(function DocumentStorage({ userRole }: Docume
 
   // Filter documents
   useEffect(() => {
-    let filtered = documents.filter(doc => {
+    const filtered = documents.filter(doc => {
       const matchesSearch = doc.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            doc.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            doc.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -409,134 +398,133 @@ const DocumentStorage = React.memo(function DocumentStorage({ userRole }: Docume
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col space-y-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-bold text-terminal-fg">Document Storage</h1>
-            <div className="flex space-x-3">
-              <Button
-                onClick={() => setShowGeneratorDialog(true)}
-                className="bg-terminal-secondary hover:bg-terminal-secondary/90"
-              >
-                <Plus className="h-4 w-4 mr-2" />
-                Generate Document
-              </Button>
-              <Dialog open={showUploadDialog} onOpenChange={setShowUploadDialog}>
-                <DialogTrigger asChild>
-                  <Button className="bg-terminal-accent hover:bg-terminal-accent/90">
-                    <Upload className="h-4 w-4 mr-2" />
-                    Upload Document
-                  </Button>
-                </DialogTrigger>
-            </Dialog>
-            </div>
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl font-bold text-terminal-fg">Document Storage</h1>
+          <div className="flex space-x-3">
+            <Button
+              onClick={() => setShowGeneratorDialog(true)}
+              className="bg-terminal-secondary hover:bg-terminal-secondary/90"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Generate Document
+            </Button>
+            <Button 
+              onClick={() => setShowUploadDialog(true)}
+              className="bg-terminal-accent hover:bg-terminal-accent/90"
+            >
+              <Upload className="h-4 w-4 mr-2" />
+              Upload Document
+            </Button>
           </div>
-            <DialogContent className="bg-terminal-bg border-terminal-border">
-              <DialogHeader>
-                <DialogTitle className="text-terminal-fg">Upload New Document</DialogTitle>
-              </DialogHeader>
-              <form onSubmit={handleUploadDocument} className="space-y-4">
-                <div>
-                  <label className="text-terminal-fg">Document Title</label>
-                  <Input
-                    value={newDocument.title}
-                    onChange={(e) => setNewDocument(prev => ({ ...prev, title: e.target.value }))}
-                    className="bg-terminal-bg border-terminal-border text-terminal-fg"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="text-terminal-fg">Description</label>
-                  <Textarea
-                    value={newDocument.description}
-                    onChange={(e) => setNewDocument(prev => ({ ...prev, description: e.target.value }))}
-                    className="bg-terminal-bg border-terminal-border text-terminal-fg"
-                  />
-                </div>
-                <div>
-                  <label className="text-terminal-fg">Document Type</label>
-                  <Select value={newDocument.document_type} onValueChange={(value: any) => setNewDocument(prev => ({ ...prev, document_type: value }))}>
-                    <SelectTrigger className="bg-terminal-bg border-terminal-border text-terminal-fg">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="contract">Contract</SelectItem>
-                      <SelectItem value="receipt">Receipt</SelectItem>
-                      <SelectItem value="invoice">Invoice</SelectItem>
-                      <SelectItem value="agreement">Agreement</SelectItem>
-                      <SelectItem value="certificate">Certificate</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="flex space-x-4">
-                  <Button type="submit" className="bg-terminal-accent hover:bg-terminal-accent/90">
-                    Upload
-                  </Button>
-                  <Button type="button" variant="outline" onClick={() => setShowUploadDialog(false)} className="border-terminal-border text-terminal-fg">
-                    Cancel
-                  </Button>
-                </div>
-              </form>
-            </DialogContent>
-          </Dialog>
-
-          {/* Document Generator Dialog */}
-          <Dialog open={showGeneratorDialog} onOpenChange={setShowGeneratorDialog}>
-            <DialogContent className="bg-terminal-bg border-terminal-border">
-              <DialogHeader>
-                <DialogTitle className="text-terminal-fg">Generate Document</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-4">
-                <div>
-                  <label className="text-terminal-fg mb-2 block">Document Type</label>
-                  <Select value={generatorType} onValueChange={(value: any) => setGeneratorType(value)}>
-                    <SelectTrigger className="bg-terminal-bg border-terminal-border text-terminal-fg">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="contract">Contract</SelectItem>
-                      <SelectItem value="receipt">Receipt</SelectItem>
-                      <SelectItem value="invoice">Invoice</SelectItem>
-                      <SelectItem value="agreement">Agreement</SelectItem>
-                      <SelectItem value="certificate">Certificate</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="flex space-x-3 pt-4">
-                  <Button
-                    onClick={handleGenerateDocument}
-                    disabled={generating}
-                    className="bg-terminal-accent hover:bg-terminal-accent/90 flex-1"
-                  >
-                    {generating ? (
-                      <>
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                        Generating...
-                      </>
-                    ) : (
-                      <>
-                        <FileText className="h-4 w-4 mr-2" />
-                        Generate {generatorType.charAt(0).toUpperCase() + generatorType.slice(1)}
-                      </>
-                    )}
-                  </Button>
-                  <Button
-                    onClick={() => setShowGeneratorDialog(false)}
-                    variant="outline"
-                    className="border-terminal-border text-terminal-fg hover:bg-terminal-muted"
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </div>
-            </DialogContent>
-          </Dialog>
         </div>
-        
         <p className="text-terminal-muted">
           Manage your contracts, receipts, and other important documents
         </p>
       </div>
-    </div>
+
+      {/* Upload Dialog */}
+      <Dialog open={showUploadDialog} onOpenChange={setShowUploadDialog}>
+        <DialogContent className="bg-terminal-bg border-terminal-border">
+          <DialogHeader>
+            <DialogTitle className="text-terminal-fg">Upload New Document</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleUploadDocument} className="space-y-4">
+            <div>
+              <label className="text-terminal-fg">Document Title</label>
+              <Input
+                value={newDocument.title}
+                onChange={(e) => setNewDocument(prev => ({ ...prev, title: e.target.value }))}
+                className="bg-terminal-bg border-terminal-border text-terminal-fg"
+                required
+              />
+            </div>
+            <div>
+              <label className="text-terminal-fg">Description</label>
+              <Textarea
+                value={newDocument.description}
+                onChange={(e) => setNewDocument(prev => ({ ...prev, description: e.target.value }))}
+                className="bg-terminal-bg border-terminal-border text-terminal-fg"
+              />
+            </div>
+            <div>
+              <label className="text-terminal-fg">Document Type</label>
+              <Select value={newDocument.document_type} onValueChange={(value: any) => setNewDocument(prev => ({ ...prev, document_type: value }))}>
+                <SelectTrigger className="bg-terminal-bg border-terminal-border text-terminal-fg">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="contract">Contract</SelectItem>
+                  <SelectItem value="receipt">Receipt</SelectItem>
+                  <SelectItem value="invoice">Invoice</SelectItem>
+                  <SelectItem value="agreement">Agreement</SelectItem>
+                  <SelectItem value="certificate">Certificate</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex space-x-4">
+              <Button type="submit" className="bg-terminal-accent hover:bg-terminal-accent/90">
+                Upload
+              </Button>
+              <Button type="button" variant="outline" onClick={() => setShowUploadDialog(false)} className="border-terminal-border text-terminal-fg">
+                Cancel
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Document Generator Dialog */}
+      <Dialog open={showGeneratorDialog} onOpenChange={setShowGeneratorDialog}>
+        <DialogContent className="bg-terminal-bg border-terminal-border">
+          <DialogHeader>
+            <DialogTitle className="text-terminal-fg">Generate Document</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <label className="text-terminal-fg mb-2 block">Document Type</label>
+              <Select value={generatorType} onValueChange={(value: any) => setGeneratorType(value)}>
+                <SelectTrigger className="bg-terminal-bg border-terminal-border text-terminal-fg">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="contract">Contract</SelectItem>
+                  <SelectItem value="receipt">Receipt</SelectItem>
+                  <SelectItem value="invoice">Invoice</SelectItem>
+                  <SelectItem value="agreement">Agreement</SelectItem>
+                  <SelectItem value="certificate">Certificate</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex space-x-3 pt-4">
+              <Button
+                onClick={handleGenerateDocument}
+                disabled={generating}
+                className="bg-terminal-accent hover:bg-terminal-accent/90 flex-1"
+              >
+                {generating ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    Generating...
+                  </>
+                ) : (
+                  <>
+                    <FileText className="h-4 w-4 mr-2" />
+                    Generate {generatorType.charAt(0).toUpperCase() + generatorType.slice(1)}
+                  </>
+                )}
+              </Button>
+              <Button
+                onClick={() => setShowGeneratorDialog(false)}
+                variant="outline"
+                className="border-terminal-border text-terminal-fg hover:bg-terminal-muted"
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Search and Filters */}
       <Card className="bg-terminal-bg border-terminal-border">

@@ -13,7 +13,6 @@ import { lazy, memo, Suspense } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
-import { StatusBanner } from "@/components/StatusBanner";
 
 // Import new dashboard components
 import BrokerDashboard from "@/components/dashboard/BrokerDashboard";
@@ -142,7 +141,7 @@ const App = memo(() => {
               }}
             >
               <MemoizedNavigationOptimizer />
-              <StatusBanner />
+              {/* <StatusBanner /> */}
               <AuthProvider>
                 <WorkflowProvider>
                   <MemoizedToaster />

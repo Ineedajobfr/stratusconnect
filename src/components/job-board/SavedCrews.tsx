@@ -180,7 +180,7 @@ const SavedCrews = React.memo(function SavedCrews({ brokerId }: SavedCrewsProps)
 
   // Filter crews
   useEffect(() => {
-    let filtered = savedCrews.filter(crew => {
+    const filtered = savedCrews.filter(crew => {
       const matchesSearch = crew.crew.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            crew.crew.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            crew.crew.skills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase()));

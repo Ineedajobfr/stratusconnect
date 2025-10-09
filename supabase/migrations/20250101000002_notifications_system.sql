@@ -108,3 +108,4 @@ CREATE TRIGGER cleanup_notifications_trigger
     EXECUTE FUNCTION trigger_cleanup_notifications();
 
 
+

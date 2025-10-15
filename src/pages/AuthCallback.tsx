@@ -1,48 +1,100 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { Loader2, Plane } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function AuthCallback() {
   const navigate = useNavigate();
-  const { user, loading } = useAuth();
+  const { user, loading, fetchUserProfile } = useAuth();
+  const [processing, setProcessing] = useState(true);
+  const [status, setStatus] = useState('Processing authentication...');
 
   useEffect(() => {
-    // Give Supabase time to process the OAuth callback
-    const timer = setTimeout(() => {
-      if (!loading) {
-        if (user) {
-          // Successfully authenticated, redirect to appropriate terminal
-          console.log('User authenticated:', user);
+    const handleAuthCallback = async () => {
+      try {
+        // Give Supabase time to process the magic link callback
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        if (!loading && user) {
+          setStatus('Fetching profile data...');
           
-          // Redirect based on user role
-          switch (user.role) {
-            case 'broker':
-              navigate('/demo/broker', { replace: true });
-              break;
-            case 'operator':
-              navigate('/operator-terminal', { replace: true });
-              break;
-            case 'pilot':
-              navigate('/pilot-terminal', { replace: true });
-              break;
-            case 'crew':
-              navigate('/crew-terminal', { replace: true });
-              break;
-            default:
-              // If no role set yet, go to home to choose
-              navigate('/home', { replace: true });
+          // Fetch the latest user profile to get verification status
+          const profile = await fetchUserProfile();
+          
+          if (profile) {
+            console.log('User authenticated:', profile);
+            
+            // Check if this is a new user (no profile data yet)
+            const storedFormData = localStorage.getItem('signupFormData');
+            
+            if (storedFormData) {
+              // New user signup flow - redirect to document upload
+              setStatus('New account detected, redirecting to document upload...');
+              localStorage.removeItem('signupFormData'); // Clean up
+              navigate('/upload-documents', { replace: true });
+              return;
+            }
+            
+            // Returning user - check verification status
+            switch (profile.verification_status) {
+              case 'pending_documents':
+                setStatus('Documents required, redirecting to upload...');
+                navigate('/upload-documents', { replace: true });
+                break;
+              case 'pending_verification':
+                setStatus('Account under review, redirecting to status page...');
+                navigate('/verification-pending', { replace: true });
+                break;
+              case 'approved':
+                setStatus('Account verified, redirecting to terminal...');
+                // Redirect based on user role
+                switch (profile.role) {
+                  case 'broker':
+                    navigate('/broker-terminal', { replace: true });
+                    break;
+                  case 'operator':
+                    navigate('/operator-terminal', { replace: true });
+                    break;
+                  case 'pilot':
+                    navigate('/pilot-terminal', { replace: true });
+                    break;
+                  case 'crew':
+                    navigate('/crew-terminal', { replace: true });
+                    break;
+                  case 'admin':
+                    navigate('/admin', { replace: true });
+                    break;
+                  default:
+                    navigate('/home', { replace: true });
+                }
+                break;
+              case 'rejected':
+                setStatus('Account verification required, redirecting...');
+                navigate('/verification-rejected', { replace: true });
+                break;
+              default:
+                setStatus('Unknown status, redirecting to home...');
+                navigate('/home', { replace: true });
+            }
+          } else {
+            setStatus('Profile not found, redirecting to role selection...');
+            navigate('/role-selection', { replace: true });
           }
-        } else {
-          // No user found after waiting, redirect back to auth
-          console.log('No user found after callback');
-          navigate('/auth', { replace: true });
+        } else if (!loading && !user) {
+          setStatus('Authentication failed, redirecting to login...');
+          navigate('/login', { replace: true });
         }
+      } catch (error) {
+        console.error('Auth callback error:', error);
+        setStatus('Error occurred, redirecting to home...');
+        navigate('/home', { replace: true });
+      } finally {
+        setProcessing(false);
       }
-    }, 2000); // Wait 2 seconds for auth state to settle
+    };
 
-    return () => clearTimeout(timer);
-  }, [user, loading, navigate]);
+    handleAuthCallback();
+  }, [user, loading, navigate, fetchUserProfile]);
 
   return (
     <div 
@@ -88,7 +140,7 @@ export default function AuthCallback() {
         </h2>
         
         <p className="text-white/80 text-lg mb-2">
-          Setting up your StratusConnect account
+          {status}
         </p>
         
         {user?.email && (

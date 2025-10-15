@@ -1,35 +1,30 @@
-import CommunityForums from '@/components/community/CommunityForums';
-import DocumentStorage from '@/components/documents/DocumentStorage';
 import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
-import JobBoard from '@/components/job-board/JobBoard';
 import { ModernHelpGuide } from '@/components/ModernHelpGuide';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
-import RealTimeFlightTracker from '@/components/RealTimeFlightTracker';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
-  AlertTriangle,
-  ArrowUp,
-  Award,
-  BarChart3,
-  Briefcase,
-  Calendar,
-  Clock,
-  DollarSign,
-  FileText,
-  HelpCircle,
-  Navigation,
-  Plane,
-  Plus,
-  RefreshCw,
-  Settings,
-  Shield,
-  Star,
-  User,
-  Users
+    AlertTriangle,
+    ArrowUp,
+    Award,
+    BarChart3,
+    Briefcase,
+    Calendar,
+    Clock,
+    DollarSign,
+    FileText,
+    HelpCircle,
+    Navigation,
+    Plane,
+    Plus,
+    RefreshCw,
+    Settings,
+    Shield,
+    Star,
+    User
 } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -146,7 +141,7 @@ export default function DemoPilotTerminal() {
     <div className="space-y-6">
       {/* Flight Hours & Performance */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="terminal-card">
+        <Card className="bg-slate-800/50 border-slate-700 cursor-pointer hover:border-orange-500/50 transition-all group hover:shadow-orange-500/20 hover:shadow-lg">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gunmetal">Total Flight Hours</CardTitle>
             <Clock className="h-4 w-4 text-accent" />
@@ -157,7 +152,7 @@ export default function DemoPilotTerminal() {
           </CardContent>
         </Card>
 
-        <Card className="terminal-card">
+        <Card className="bg-slate-800/50 border-slate-700 cursor-pointer hover:border-orange-500/50 transition-all group hover:shadow-orange-500/20 hover:shadow-lg">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gunmetal">This Month</CardTitle>
             <Calendar className="h-4 w-4 text-accent" />
@@ -168,7 +163,7 @@ export default function DemoPilotTerminal() {
           </CardContent>
         </Card>
 
-        <Card className="terminal-card">
+        <Card className="bg-slate-800/50 border-slate-700 cursor-pointer hover:border-orange-500/50 transition-all group hover:shadow-orange-500/20 hover:shadow-lg">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gunmetal">Safety Rating</CardTitle>
             <Shield className="h-4 w-4 text-accent" />
@@ -179,7 +174,7 @@ export default function DemoPilotTerminal() {
           </CardContent>
         </Card>
 
-        <Card className="terminal-card">
+        <Card className="bg-slate-800/50 border-slate-700 cursor-pointer hover:border-orange-500/50 transition-all group hover:shadow-orange-500/20 hover:shadow-lg">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gunmetal">Monthly Earnings</CardTitle>
             <DollarSign className="h-4 w-4 text-accent" />
@@ -191,8 +186,6 @@ export default function DemoPilotTerminal() {
         </Card>
       </div>
 
-      {/* Real-Time Flight Tracker */}
-      <RealTimeFlightTracker terminalType="pilot" />
 
       {/* Upcoming Flights */}
       <Card className="terminal-card">
@@ -283,10 +276,10 @@ export default function DemoPilotTerminal() {
     </div>
   );
 
-  const renderFlights = () => (
+  const renderAssignments = () => (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-foreground">My Flights</h2>
+        <h2 className="text-2xl font-bold text-foreground">My Assignments</h2>
         <div className="flex gap-2">
           <Button variant="outline" className="border-terminal-border">
             <RefreshCw className="w-4 h-4 mr-2" />
@@ -382,7 +375,7 @@ export default function DemoPilotTerminal() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="terminal-card">
+        <Card className="bg-slate-800/50 border-slate-700 cursor-pointer hover:border-orange-500/50 transition-all group hover:shadow-orange-500/20 hover:shadow-lg">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <User className="w-5 h-5 text-accent" />
@@ -412,7 +405,7 @@ export default function DemoPilotTerminal() {
           </CardContent>
         </Card>
 
-        <Card className="terminal-card">
+        <Card className="bg-slate-800/50 border-slate-700 cursor-pointer hover:border-orange-500/50 transition-all group hover:shadow-orange-500/20 hover:shadow-lg">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Award className="w-5 h-5 text-accent" />
@@ -439,7 +432,7 @@ export default function DemoPilotTerminal() {
           </CardContent>
         </Card>
 
-        <Card className="terminal-card">
+        <Card className="bg-slate-800/50 border-slate-700 cursor-pointer hover:border-orange-500/50 transition-all group hover:shadow-orange-500/20 hover:shadow-lg">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <DollarSign className="w-5 h-5 text-accent" />
@@ -487,6 +480,331 @@ export default function DemoPilotTerminal() {
         refreshInterval={30}
         role="pilot"
       />
+    </div>
+  );
+
+  const renderJobBoard = () => (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold text-foreground">Available Jobs</h2>
+        <Button variant="outline" className="border-terminal-border">
+          <RefreshCw className="w-4 h-4 mr-2" />
+          Refresh
+        </Button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Job 1 - Gulfstream G650 */}
+        <Card className="bg-slate-800/50 border-slate-700">
+          <CardHeader>
+            <div className="flex justify-between items-start">
+              <div>
+                <CardTitle className="text-lg">Gulfstream G650 Charter</CardTitle>
+                <p className="text-sm text-muted-foreground mt-1">Luxury Aviation Corp</p>
+              </div>
+              <Badge className="bg-green-500">Active</Badge>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <p className="text-muted-foreground">Route:</p>
+                <p className="font-medium">NYC → LAX</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground">Date:</p>
+                <p className="font-medium">Jan 15, 2025</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground">Duration:</p>
+                <p className="font-medium">5.5 hours</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground">Pay:</p>
+                <p className="font-medium text-green-400">$2,500</p>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <p className="text-sm text-muted-foreground">Requirements:</p>
+              <ul className="text-xs space-y-1">
+                <li>• ATP License Required</li>
+                <li>• 2,000+ Gulfstream Hours</li>
+                <li>• Current Medical Certificate</li>
+              </ul>
+            </div>
+            <Button className="w-full bg-accent hover:bg-accent/90">
+              Apply for Job
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* Job 2 - Citation XLS */}
+        <Card className="bg-slate-800/50 border-slate-700">
+          <CardHeader>
+            <div className="flex justify-between items-start">
+              <div>
+                <CardTitle className="text-lg">Citation XLS Corporate</CardTitle>
+                <p className="text-sm text-muted-foreground mt-1">Business Travel Inc</p>
+              </div>
+              <Badge className="bg-blue-500">Urgent</Badge>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <p className="text-muted-foreground">Route:</p>
+                <p className="font-medium">CHI → MIA</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground">Date:</p>
+                <p className="font-medium">Jan 18, 2025</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground">Duration:</p>
+                <p className="font-medium">3.2 hours</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground">Pay:</p>
+                <p className="font-medium text-green-400">$1,800</p>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <p className="text-sm text-muted-foreground">Requirements:</p>
+              <ul className="text-xs space-y-1">
+                <li>• Commercial License</li>
+                <li>• 1,500+ Citation Hours</li>
+                <li>• IFR Rated</li>
+              </ul>
+            </div>
+            <Button className="w-full bg-accent hover:bg-accent/90">
+              Apply for Job
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* Job 3 - Challenger 350 */}
+        <Card className="bg-slate-800/50 border-slate-700">
+          <CardHeader>
+            <div className="flex justify-between items-start">
+              <div>
+                <CardTitle className="text-lg">Challenger 350 Executive</CardTitle>
+                <p className="text-sm text-muted-foreground mt-1">Elite Air Services</p>
+              </div>
+              <Badge className="bg-orange-500">New</Badge>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <p className="text-muted-foreground">Route:</p>
+                <p className="font-medium">SEA → LAS</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground">Date:</p>
+                <p className="font-medium">Jan 22, 2025</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground">Duration:</p>
+                <p className="font-medium">2.8 hours</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground">Pay:</p>
+                <p className="font-medium text-green-400">$2,200</p>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <p className="text-sm text-muted-foreground">Requirements:</p>
+              <ul className="text-xs space-y-1">
+                <li>• ATP License Required</li>
+                <li>• 1,000+ Challenger Hours</li>
+                <li>• Type Rating Preferred</li>
+              </ul>
+            </div>
+            <Button className="w-full bg-accent hover:bg-accent/90">
+              Apply for Job
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+
+  const renderDocuments = () => (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold text-foreground">My Documents</h2>
+        <Button variant="outline" className="border-terminal-border">
+          <Plus className="w-4 h-4 mr-2" />
+          Upload Document
+        </Button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Hiring Agreements */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-accent">Hiring Agreements</h3>
+          
+          <Card className="bg-slate-800/50 border-slate-700">
+            <CardHeader>
+              <div className="flex justify-between items-start">
+                <div>
+                  <CardTitle className="text-base">Luxury Aviation Corp</CardTitle>
+                  <p className="text-sm text-muted-foreground">Gulfstream G650</p>
+                </div>
+                <Badge className="bg-green-500">Active</Badge>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground mb-3">
+                Contract for Gulfstream G650 charter operations. Rate: $2,500/flight.
+              </p>
+              <div className="flex gap-2">
+                <Button size="sm" variant="outline">View</Button>
+                <Button size="sm" variant="outline">Download</Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-800/50 border-slate-700">
+            <CardHeader>
+              <div className="flex justify-between items-start">
+                <div>
+                  <CardTitle className="text-base">Business Travel Inc</CardTitle>
+                  <p className="text-sm text-muted-foreground">Citation XLS</p>
+                </div>
+                <Badge className="bg-blue-500">Pending</Badge>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground mb-3">
+                Proposed contract for Citation XLS operations. Rate: $1,800/flight.
+              </p>
+              <div className="flex gap-2">
+                <Button size="sm" variant="outline">Review</Button>
+                <Button size="sm" className="bg-accent">Sign</Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Job Receipts & Invoices */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-accent">Job Receipts</h3>
+          
+          <Card className="bg-slate-800/50 border-slate-700">
+            <CardHeader>
+              <div className="flex justify-between items-start">
+                <div>
+                  <CardTitle className="text-base">Assignment #001</CardTitle>
+                  <p className="text-sm text-muted-foreground">NYC → LAX • Jan 10, 2025</p>
+                </div>
+                <Badge className="bg-green-500">Paid</Badge>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Flight Hours:</span>
+                  <span>5.5</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Rate:</span>
+                  <span>$2,500</span>
+                </div>
+                <div className="flex justify-between font-semibold">
+                  <span>Total:</span>
+                  <span className="text-green-400">$2,500</span>
+                </div>
+              </div>
+              <div className="flex gap-2 mt-3">
+                <Button size="sm" variant="outline">View Receipt</Button>
+                <Button size="sm" variant="outline">Download</Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-800/50 border-slate-700">
+            <CardHeader>
+              <div className="flex justify-between items-start">
+                <div>
+                  <CardTitle className="text-base">Assignment #002</CardTitle>
+                  <p className="text-sm text-muted-foreground">CHI → MIA • Jan 12, 2025</p>
+                </div>
+                <Badge className="bg-yellow-500">Pending</Badge>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Flight Hours:</span>
+                  <span>3.2</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Rate:</span>
+                  <span>$1,800</span>
+                </div>
+                <div className="flex justify-between font-semibold">
+                  <span>Total:</span>
+                  <span className="text-yellow-400">$1,800</span>
+                </div>
+              </div>
+              <div className="flex gap-2 mt-3">
+                <Button size="sm" variant="outline">View Invoice</Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Certificates & Licenses */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-accent">Certificates</h3>
+          
+          <Card className="bg-slate-800/50 border-slate-700">
+            <CardHeader>
+              <CardTitle className="text-base">ATP License</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground mb-3">
+                Airline Transport Pilot License • Expires: Dec 2025
+              </p>
+              <div className="flex gap-2">
+                <Button size="sm" variant="outline">View</Button>
+                <Button size="sm" variant="outline">Download</Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-800/50 border-slate-700">
+            <CardHeader>
+              <CardTitle className="text-base">Medical Certificate</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground mb-3">
+                First Class Medical • Expires: Jun 2025
+              </p>
+              <div className="flex gap-2">
+                <Button size="sm" variant="outline">View</Button>
+                <Button size="sm" variant="outline">Download</Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-800/50 border-slate-700">
+            <CardHeader>
+              <CardTitle className="text-base">Gulfstream G650 Rating</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground mb-3">
+                Type Rating • Valid
+              </p>
+              <div className="flex gap-2">
+                <Button size="sm" variant="outline">View</Button>
+                <Button size="sm" variant="outline">Download</Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 
@@ -567,9 +885,9 @@ export default function DemoPilotTerminal() {
                   <BarChart3 className="w-4 h-4" />
                   Dashboard
                 </TabsTrigger>
-                <TabsTrigger value="flights" className="flex items-center gap-2">
+                <TabsTrigger value="assignments" className="flex items-center gap-2">
                   <Plane className="w-4 h-4" />
-                  Flights
+                  Assignments
                 </TabsTrigger>
                 <TabsTrigger value="profile" className="flex items-center gap-2">
                   <User className="w-4 h-4" />
@@ -587,10 +905,6 @@ export default function DemoPilotTerminal() {
                   <Briefcase className="w-4 h-4" />
                   Job Board
                 </TabsTrigger>
-                <TabsTrigger value="community" className="flex items-center gap-2">
-                  <Users className="w-4 h-4" />
-                  Community
-                </TabsTrigger>
                 <TabsTrigger value="documents" className="flex items-center gap-2">
                   <FileText className="w-4 h-4" />
                   Documents
@@ -601,8 +915,8 @@ export default function DemoPilotTerminal() {
             <TabsContent value="dashboard" className="scroll-smooth">
               {renderDashboard()}
             </TabsContent>
-            <TabsContent value="flights" className="scroll-smooth">
-              {renderFlights()}
+            <TabsContent value="assignments" className="scroll-smooth">
+              {renderAssignments()}
             </TabsContent>
             <TabsContent value="profile" className="scroll-smooth">
               {renderProfile()}
@@ -614,13 +928,10 @@ export default function DemoPilotTerminal() {
               {renderTracking()}
             </TabsContent>
             <TabsContent value="jobs" className="scroll-smooth">
-              <JobBoard userRole="pilot" />
-            </TabsContent>
-            <TabsContent value="community" className="scroll-smooth">
-              <CommunityForums userRole="pilot" />
+              {renderJobBoard()}
             </TabsContent>
             <TabsContent value="documents" className="scroll-smooth">
-              <DocumentStorage userRole="pilot" />
+              {renderDocuments()}
             </TabsContent>
           </Tabs>
         </main>

@@ -171,30 +171,34 @@ async function checkRateLimit(
   }
 }
 
-function detectSuspiciousActivity(req: Request, ip: string): boolean {
+interface BehavioralData {
+  hasMouseMovements?: boolean;
+  hasKeyboardActivity?: boolean;
+  hasAssetRequests?: boolean;
+  screenResolution?: string;
+  timezone?: string;
+  formFillSpeed?: number;
+  clickPattern?: string[];
+  navigationPattern?: string[];
+  requestTiming?: number[];
+}
+
+function detectSuspiciousActivity(req: Request, ip: string, behavioralData?: BehavioralData): boolean {
   const userAgent = req.headers.get('user-agent') || ''
   const referer = req.headers.get('referer') || ''
+  const acceptLanguage = req.headers.get('accept-language') || ''
   
   // Detect common bot patterns
   const botPatterns = [
-    /bot/i,
-    /crawler/i,
-    /spider/i,
-    /scraper/i,
-    /curl/i,
-    /wget/i,
-    /python-requests/i,
-    /node-fetch/i,
-    /postman/i
+    /bot/i, /crawler/i, /spider/i, /scraper/i,
+    /curl/i, /wget/i, /python-requests/i, /node-fetch/i,
+    /postman/i, /insomnia/i, /httpie/i
   ]
   
   // Detect headless browsers
   const headlessPatterns = [
-    /headless/i,
-    /phantom/i,
-    /selenium/i,
-    /puppeteer/i,
-    /playwright/i
+    /headless/i, /phantom/i, /selenium/i, /puppeteer/i, /playwright/i,
+    /chrome-lighthouse/i, /chromedriver/i, /geckodriver/i
   ]
   
   // Check for missing or suspicious user agent
@@ -213,6 +217,31 @@ function detectSuspiciousActivity(req: Request, ip: string): boolean {
     referer.includes('example.com') ||
     referer === ''
   )) return true
+  
+  // Enhanced behavioral analysis
+  if (behavioralData) {
+    // Check for missing human-like behavior
+    if (behavioralData.hasMouseMovements === false && 
+        behavioralData.hasKeyboardActivity === false) return true
+    
+    // Check for missing browser characteristics
+    if (!behavioralData.screenResolution && 
+        !behavioralData.timezone && 
+        !acceptLanguage) return true
+    
+    // Check for suspiciously fast form filling
+    if (behavioralData.formFillSpeed && behavioralData.formFillSpeed < 100) return true
+    
+    // Check for missing asset requests (CSS, JS, images)
+    if (behavioralData.hasAssetRequests === false) return true
+    
+    // Check for robotic click patterns
+    if (behavioralData.clickPattern && 
+        behavioralData.clickPattern.length > 0 &&
+        behavioralData.clickPattern.every(pattern => 
+          pattern.includes('exact') || pattern.includes('pixel-perfect')
+        )) return true
+  }
   
   return false
 }
@@ -251,8 +280,21 @@ serve(async (req) => {
     const url = new URL(req.url)
     const endpoint = url.pathname
 
-    // Detect suspicious activity
-    const isSuspicious = detectSuspiciousActivity(req, ip)
+    // Extract behavioral data from headers
+    const behavioralData: BehavioralData = {
+      hasMouseMovements: req.headers.get('x-mouse-movements') === 'true',
+      hasKeyboardActivity: req.headers.get('x-keyboard-activity') === 'true',
+      hasAssetRequests: req.headers.get('x-asset-requests') === 'true',
+      screenResolution: req.headers.get('x-screen-resolution') || undefined,
+      timezone: req.headers.get('x-timezone') || undefined,
+      formFillSpeed: parseFloat(req.headers.get('x-form-fill-speed') || '0'),
+      clickPattern: req.headers.get('x-click-pattern')?.split(',') || [],
+      navigationPattern: req.headers.get('x-navigation-pattern')?.split(',') || [],
+      requestTiming: req.headers.get('x-request-timing')?.split(',').map(Number) || []
+    };
+
+    // Detect suspicious activity with behavioral data
+    const isSuspicious = detectSuspiciousActivity(req, ip, behavioralData)
     
     if (isSuspicious) {
       // Apply stricter rate limiting for suspicious activity

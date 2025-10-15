@@ -1,437 +1,253 @@
-import { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
+// Login Page for Returning Users
+// Simple email input with magic link sending
+
+import { ReCaptchaComponent } from '@/components/ReCaptcha';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { useAuth } from '@/contexts/AuthContext';
-import { NavigationArrows } from '@/components/NavigationArrows';
-import { StratusConnectLogo } from '@/components/StratusConnectLogo';
-import { Loader2, Shield, Eye, EyeOff, Copy, CheckCircle } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { ArrowLeft, CheckCircle, Mail, Plane } from 'lucide-react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-  const { user, loading, login, register } = useAuth();
-  const [activeTab, setActiveTab] = useState('login');
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [registrationResult, setRegistrationResult] = useState<Record<string, unknown> | null>(null);
-  const [copied, setCopied] = useState({ username: false, accessCode: false });
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
 
-  // Login form state
-  const [loginData, setLoginData] = useState({
-    emailOrUsername: '',
-    password: ''
-  });
-
-  // Register form state
-  const [registerData, setRegisterData] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    fullName: '',
-    companyName: '',
-    role: 'broker' as 'broker' | 'operator' | 'pilot' | 'crew'
-  });
-
-  // Redirect if already authenticated
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-background flex items-center justify-center">
-        <div className="flex items-center gap-3">
-          <Loader2 className="h-6 w-6 animate-spin text-primary" />
-          <span>Loading...</span>
-        </div>
-      </div>
-    );
-  }
-
-  if (user) {
-    // Redirect based on user role and verification status
-    if (user.verificationStatus !== 'approved') {
-      return <Navigate to="/verification-pending" replace />;
-    }
-    
-    const roleRoutes = {
-      broker: '/terminal/broker',
-      operator: '/terminal/operator',
-      pilot: '/terminal/crew',
-      crew: '/terminal/crew',
-      admin: '/terminal/admin'
-    };
-    
-    return <Navigate to={roleRoutes[user.role]} replace />;
-  }
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!loginData.emailOrUsername || !loginData.password) return;
-
-    setIsLoading(true);
-    await login(loginData.emailOrUsername, loginData.password);
-    setIsLoading(false);
-  };
-
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (registerData.password !== registerData.confirmPassword) {
+  const handleSendMagicLink = async () => {
+    if (!email) {
+      setError('Please enter your email address');
       return;
     }
 
-    if (registerData.password.length < 12 || 
-        !/[a-zA-Z]/.test(registerData.password) || 
-        !/[0-9]/.test(registerData.password)) {
+    if (!recaptchaToken) {
+      setError('Please complete the security verification');
       return;
     }
 
     setIsLoading(true);
-    
-    const result = await register({
-      email: registerData.email,
-      password: registerData.password,
-      fullName: registerData.fullName,
-      companyName: registerData.companyName || undefined,
-      role: registerData.role
-    });
+    setError(null);
 
-    if (result) {
-      setRegistrationResult(result);
-      setActiveTab('success');
-    }
-    
-    setIsLoading(false);
-  };
-
-  const copyToClipboard = async (text: string, type: 'username' | 'accessCode') => {
     try {
-      await navigator.clipboard.writeText(text);
-      setCopied({ ...copied, [type]: true });
-      setTimeout(() => setCopied({ ...copied, [type]: false }), 2000);
-    } catch (err) {
-      console.log('Text copy operation completed with status:', err?.message || 'success');
+      const { error } = await supabase.auth.signInWithOtp({
+        email: email.trim(),
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+          shouldCreateUser: false, // Only allow existing users to login
+        }
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      setSuccess(true);
+    } catch (err: any) {
+      if (err.message.includes('Signups not allowed for otp')) {
+        setError('OTP signups are disabled. Please enable "Enable email confirmations" in Supabase Dashboard → Authentication → Settings → Auth Providers → Email');
+      } else if (err.message.includes('User not found')) {
+        setError('No account found with this email. Please sign up first.');
+      } else if (err.message.includes('rate limit')) {
+        setError('Too many requests. Please wait a few minutes before trying again.');
+      } else {
+        setError(`Failed to send magic link: ${err.message}`);
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
-
-  if (registrationResult) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-background flex items-center justify-center p-4">
-        <Card className="w-full max-w-md bg-card/90 border-border">
-          <CardHeader className="text-center">
-            <div className="flex justify-center mb-4">
-              <CheckCircle className="h-12 w-12 text-green-500" />
-            </div>
-            <CardTitle className="text-2xl text-foreground">Registration Complete!</CardTitle>
-            <CardDescription className="text-muted-foreground">
-              Save these credentials - they won't be shown again
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <Alert className="border-green-200 bg-slate-800 dark:border-green-800 dark:bg-green-950">
-              <Shield className="h-4 w-4 text-green-600" />
-              <AlertDescription className="text-green-800 dark:text-green-200">
-                Your account is pending admin approval. You'll be notified when approved.
-              </AlertDescription>
-            </Alert>
-
-            <div className="space-y-3">
-              <div>
-                <Label className="text-sm font-medium">Username</Label>
-                <div className="flex items-center gap-2 mt-1">
-                  <Input 
-                    value={registrationResult.username} 
-                    readOnly 
-                    className="bg-muted font-mono" 
-                  />
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => copyToClipboard(registrationResult.username, 'username')}
-                  >
-                    {copied.username ? <CheckCircle className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                  </Button>
-                </div>
-              </div>
-
-              <div>
-                <Label className="text-sm font-medium">Access Code</Label>
-                <div className="flex items-center gap-2 mt-1">
-                  <Input 
-                    value={registrationResult.accessCode} 
-                    readOnly 
-                    className="bg-muted font-mono" 
-                  />
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => copyToClipboard(registrationResult.accessCode, 'accessCode')}
-                  >
-                    {copied.accessCode ? <CheckCircle className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                  </Button>
-                </div>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Keep this secure - it's for account recovery only
-                </p>
-              </div>
-
-              <div>
-                <Label className="text-sm font-medium">Email</Label>
-                <Input 
-                  value={registrationResult.user.email} 
-                  readOnly 
-                  className="bg-muted mt-1" 
-                />
-              </div>
-
-              <div>
-                <Label className="text-sm font-medium">Role</Label>
-                <Badge variant="secondary" className="mt-1 capitalize">
-                  {registrationResult.user.role}
-                </Badge>
-              </div>
-            </div>
-
-            <Button 
-              className="w-full" 
-              onClick={() => {
-                setRegistrationResult(null);
-                setActiveTab('login');
-              }}
-            >
-              Continue to Login
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-background flex items-center justify-center p-4">
-      <div className="absolute top-6 left-6">
-        <StratusConnectLogo />
-      </div>
-      <div className="absolute top-4 right-4">
-        <NavigationArrows />
-      </div>
-      <Card className="w-full max-w-md bg-card/90 border-border">
-        <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
-            <Shield className="h-12 w-12 text-white" />
-          </div>
-          <CardTitle className="text-2xl text-foreground">StratusConnect</CardTitle>
-          <CardDescription className="text-muted-foreground">
-            Access the aviation marketplace platform
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-            <TabsList className="grid w-full grid-cols-2 bg-muted">
-              <TabsTrigger 
-                value="login" 
-                className="text-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-              >
-                Login
-              </TabsTrigger>
-              <TabsTrigger 
-                value="register" 
-                className="text-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-              >
-                Register
-              </TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="login">
-              <form onSubmit={handleLogin} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="login-email" className="text-foreground">Email or Username</Label>
-                  <Input
-                    id="login-email"
-                    type="text"
-                    value={loginData.emailOrUsername}
-                    onChange={(e) => setLoginData({ ...loginData, emailOrUsername: e.target.value })}
-                    placeholder="Enter your email or username"
-                    className="bg-input border-border text-foreground"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="login-password" className="text-foreground">Password</Label>
-                  <div className="relative">
-                    <Input
-                      id="login-password"
-                      type={showPassword ? "text" : "password"}
-                      value={loginData.password}
-                      onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-                      placeholder="Enter your password"
-                      className="bg-input border-border text-foreground pr-10"
-                      required
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? (
-                        <EyeOff className="h-4 w-4 text-muted-foreground" />
-                      ) : (
-                        <Eye className="h-4 w-4 text-muted-foreground" />
-                      )}
-                    </Button>
-                  </div>
-                </div>
-                <Button
-                  type="submit"
-                  className="w-full"
-                  disabled={isLoading || !loginData.emailOrUsername || !loginData.password}
-                >
-                  {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  Login
-                </Button>
-              </form>
-            </TabsContent>
-            
-            <TabsContent value="register">
-              <form onSubmit={handleRegister} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="register-name" className="text-foreground">Full Name</Label>
-                  <Input
-                    id="register-name"
-                    type="text"
-                    value={registerData.fullName}
-                    onChange={(e) => setRegisterData({ ...registerData, fullName: e.target.value })}
-                    placeholder="Enter your full name"
-                    className="bg-input border-border text-foreground"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="register-email" className="text-foreground">Email</Label>
-                  <Input
-                    id="register-email"
-                    type="email"
-                    value={registerData.email}
-                    onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
-                    placeholder="Enter your email"
-                    className="bg-input border-border text-foreground"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="company" className="text-foreground">Company (Optional)</Label>
-                  <Input
-                    id="company"
-                    type="text"
-                    value={registerData.companyName}
-                    onChange={(e) => setRegisterData({ ...registerData, companyName: e.target.value })}
-                    placeholder="Enter your company name"
-                    className="bg-input border-border text-foreground"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="role" className="text-foreground">Role</Label>
-                  <Select 
-                    value={registerData.role} 
-                    onValueChange={(value: 'broker' | 'operator' | 'pilot' | 'crew') => 
-                      setRegisterData({ ...registerData, role: value })
-                    }
-                  >
-                    <SelectTrigger className="bg-input border-border text-foreground">
-                      <SelectValue placeholder="Select your role" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-popover border-border">
-                      <SelectItem value="broker" className="text-foreground">Broker</SelectItem>
-                      <SelectItem value="operator" className="text-foreground">Operator</SelectItem>
-                      <SelectItem value="pilot" className="text-foreground">Pilot</SelectItem>
-                      <SelectItem value="crew" className="text-foreground">Cabin Crew</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="register-password" className="text-foreground">Password</Label>
-                  <div className="relative">
-                    <Input
-                      id="register-password"
-                      type={showPassword ? "text" : "password"}
-                      value={registerData.password}
-                      onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
-                      placeholder="Minimum 12 characters with letters and numbers"
-                      className="bg-input border-border text-foreground pr-10"
-                      required
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? (
-                        <EyeOff className="h-4 w-4 text-muted-foreground" />
-                      ) : (
-                        <Eye className="h-4 w-4 text-muted-foreground" />
-                      )}
-                    </Button>
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="confirm-password" className="text-foreground">Confirm Password</Label>
-                  <Input
-                    id="confirm-password"
-                    type="password"
-                    value={registerData.confirmPassword}
-                    onChange={(e) => setRegisterData({ ...registerData, confirmPassword: e.target.value })}
-                    placeholder="Confirm your password"
-                    className="bg-input border-border text-foreground"
-                    required
-                  />
-                </div>
-                
-                {registerData.password && registerData.password !== registerData.confirmPassword && (
-                  <Alert className="border-red-200 bg-slate-800 dark:border-red-800 dark:bg-red-950">
-                    <AlertDescription className="text-red-800 dark:text-red-200">
-                      Passwords do not match
-                    </AlertDescription>
-                  </Alert>
-                )}
-                
-                {registerData.password && (registerData.password.length < 12 || 
-                  !/[a-zA-Z]/.test(registerData.password) || 
-                  !/[0-9]/.test(registerData.password)) && (
-                  <Alert className="border-yellow-200 bg-slate-800 dark:border-yellow-800 dark:bg-yellow-950">
-                    <AlertDescription className="text-yellow-800 dark:text-yellow-200">
-                      Password must be at least 12 characters with letters and numbers
-                    </AlertDescription>
-                  </Alert>
-                )}
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Cinematic Background */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse at center, rgba(139, 69, 19, 0.9) 0%, rgba(91, 30, 13, 0.95) 25%, rgba(59, 30, 13, 0.98) 50%, rgba(20, 20, 20, 0.99) 75%, rgba(10, 10, 12, 1) 100%), linear-gradient(135deg, #3b1e0d 0%, #2d1a0a 25%, #1a0f08 50%, #0f0a06 75%, #0a0a0c 100%)',
+        }}
+      />
+      
+      {/* Cinematic Vignette */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse 80% 60% at center, transparent 0%, transparent 40%, rgba(0, 0, 0, 0.1) 60%, rgba(0, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0.6) 100%)',
+        }}
+      />
+      
+      {/* Subtle golden-orange glow */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse 60% 40% at center, rgba(255, 140, 0, 0.08) 0%, rgba(255, 140, 0, 0.04) 30%, transparent 60%)',
+        }}
+      />
 
+      {/* Header */}
+      <div className="relative z-10 bg-black/20 backdrop-blur-sm border-b border-orange-500/20 px-6 py-4">
+        <div className="flex items-center justify-between max-w-4xl mx-auto">
+          <div className="flex items-center space-x-4">
+            <div 
+              className="text-white text-lg font-bold bg-black/50 px-6 py-3 rounded backdrop-blur-sm cursor-pointer hover:bg-black/70 transition-colors"
+              onClick={() => navigate('/')}
+            >
+              STRATUSCONNECT
+            </div>
+            <div className="flex items-center space-x-3">
+              <Plane className="w-8 h-8 text-orange-400" />
+              <div>
+                <h1 className="text-2xl font-bold text-white">Welcome Back</h1>
+                <p className="text-orange-300/80">Sign in to your account</p>
+              </div>
+            </div>
+          </div>
+          <Button
+            onClick={() => navigate('/role-selection')}
+            variant="outline"
+            className="border-orange-500/30 text-orange-300 hover:bg-orange-500/10"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            New Account
+          </Button>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <main className="relative z-10 max-w-md mx-auto px-6 py-12">
+        <Card className="bg-slate-800/50 border-slate-700 border-2 backdrop-blur-sm">
+          <CardHeader className="text-center">
+            <div className="mx-auto w-16 h-16 bg-orange-500/20 rounded-full flex items-center justify-center mb-4">
+              <Plane className="w-8 h-8 text-orange-400" />
+            </div>
+            <CardTitle className="text-2xl text-orange-300">
+              Sign In
+            </CardTitle>
+            <CardDescription className="text-orange-200/80">
+              Enter your email address and we'll send you a secure login link
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {error && (
+              <Alert variant="destructive">
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+
+            {!success ? (
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email Address</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email address"
+                    className="bg-slate-700/50 border-slate-600 text-white placeholder:text-slate-400"
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter' && !isLoading && recaptchaToken) {
+                        handleSendMagicLink();
+                      }
+                    }}
+                  />
+                </div>
+
+                {/* reCAPTCHA */}
+                <div className="flex justify-center">
+                  <ReCaptchaComponent
+                    onVerify={setRecaptchaToken}
+                    onExpire={() => setRecaptchaToken(null)}
+                    theme="dark"
+                  />
+                </div>
+
+                {/* Send Magic Link Button */}
                 <Button
-                  type="submit"
-                  className="w-full"
-                  disabled={
-                    isLoading || 
-                    !registerData.email || 
-                    !registerData.password || 
-                    !registerData.fullName || 
-                    registerData.password !== registerData.confirmPassword ||
-                    registerData.password.length < 12 ||
-                    !/[a-zA-Z]/.test(registerData.password) ||
-                    !/[0-9]/.test(registerData.password)
-                  }
+                  onClick={handleSendMagicLink}
+                  disabled={isLoading || !recaptchaToken || !email.trim()}
+                  className="w-full bg-orange-600 hover:bg-orange-700 text-white"
                 >
-                  {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  Create Account
+                  {isLoading ? (
+                    <>
+                      <div className="w-4 h-4 mr-2 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Mail className="w-4 h-4 mr-2" />
+                      Send Magic Link
+                    </>
+                  )}
                 </Button>
-              </form>
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-      </Card>
+
+                {/* Security Notice */}
+                <div className="bg-slate-700/30 border border-slate-600 rounded-lg p-4">
+                  <h4 className="text-sm font-semibold text-orange-300 mb-2">Security Notice</h4>
+                  <ul className="text-xs text-orange-200/80 space-y-1">
+                    <li>• Magic links expire in 10 minutes</li>
+                    <li>• Links can only be used once</li>
+                    <li>• Check your spam folder if you don't receive the email</li>
+                    <li>• Never share your magic link with others</li>
+                  </ul>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Email Sent Confirmation */}
+                <div className="text-center space-y-6">
+                  <div className="mx-auto w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center">
+                    <CheckCircle className="w-8 h-8 text-green-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-green-400 mb-2">
+                      Check Your Email
+                    </h3>
+                    <p className="text-orange-200/80 mb-2">
+                      We've sent a secure magic link to:
+                    </p>
+                    <p className="text-white font-medium">{email}</p>
+                    <p className="text-sm text-orange-300/60 mt-4">
+                      Click the link in your email to sign in. The link will expire in 10 minutes.
+                    </p>
+                  </div>
+                  
+                  <Button
+                    onClick={() => {
+                      setSuccess(false);
+                      setEmail('');
+                      setRecaptchaToken(null);
+                    }}
+                    variant="outline"
+                    className="border-orange-500/30 text-orange-300 hover:bg-orange-500/10"
+                  >
+                    Send Another Link
+                  </Button>
+                </div>
+              </>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Additional Options */}
+        <div className="text-center mt-8">
+          <p className="text-orange-200/80 mb-4">
+            Don't have an account yet?
+          </p>
+          <Button
+            onClick={() => navigate('/role-selection')}
+            variant="outline"
+            className="border-orange-500/30 text-orange-300 hover:bg-orange-500/10"
+          >
+            Create New Account
+          </Button>
+        </div>
+      </main>
     </div>
   );
 }

@@ -1,10 +1,10 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import { LoginModal } from "@/components/LoginModal";
 import { NavigationArrows } from "@/components/NavigationArrows";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
-import { Search, ArrowRight, Lock, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ChevronRight, Lock } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 export default function Landing() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ export default function Landing() {
   }, {
     title: "Pilots",
     description: "Credentials speak. Availability sells. Fly the missions that fit.",
-    route: "/terminal/crew"
+    route: "/terminal/pilot"
   }, {
     title: "Cabin Crew",
     description: "Professional service wins repeat work. Your calendar is your shop window.",

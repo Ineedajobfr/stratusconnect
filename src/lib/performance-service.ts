@@ -282,6 +282,50 @@ class PerformanceService {
     document.head.appendChild(link);
   }
 
+  // Update performance metrics
+  updateMetrics(): void {
+    // Update load time
+    const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+    if (navigation) {
+      this.metrics.loadTime = navigation.loadEventEnd - navigation.fetchStart;
+    }
+
+    // Update render time (simplified)
+    this.metrics.renderTime = performance.now();
+
+    // Update memory usage (if available)
+    if ('memory' in performance) {
+      const memory = (performance as any).memory;
+      this.metrics.memoryUsage = memory.usedJSHeapSize;
+    }
+
+    // Update cache hit rate
+    const totalCacheRequests = this.cacheHits + this.cacheMisses;
+    this.metrics.cacheHitRate = totalCacheRequests > 0 ? (this.cacheHits / totalCacheRequests) * 100 : 0;
+
+    // Update API response time (simplified)
+    this.metrics.apiResponseTime = 100; // Mock value for now
+  }
+
+  // Start performance monitoring
+  startPerformanceMonitoring(): void {
+    console.log('🚀 Starting performance monitoring...');
+    
+    // Mark the start of performance monitoring
+    performance.mark('performance-monitoring-start');
+    
+    // Update metrics immediately
+    this.updateMetrics();
+    
+    // Set up periodic monitoring (every 30 seconds)
+    setInterval(() => {
+      this.updateMetrics();
+      console.log('📊 Performance metrics updated:', this.getMetrics());
+    }, 30000);
+    
+    console.log('✅ Performance monitoring started');
+  }
+
   // Performance budget monitoring
   checkPerformanceBudget(): boolean {
     const metrics = this.getMetrics();

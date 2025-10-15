@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useAuth } from "@/contexts/AuthContext";
-import { ArrowRight, BookOpen, Building2, CheckCircle, Clock, DollarSign, Download, Globe, Info, Lock, MessageSquare, Percent, Plane, Play, Shield, UserCheck, Users, Zap } from "lucide-react";
+import { ArrowRight, BookOpen, Building2, CheckCircle, Clock, DollarSign, Download, Globe, Info, Lock, Percent, Plane, Play, Shield, UserCheck, Users, Zap } from "lucide-react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 // AI removed - using Botpress instead
@@ -995,7 +995,7 @@ export default function Index() {
       {/* Performance & Reliability */}
       <div className="relative z-10 py-16">
         <div className="max-w-6xl mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold text-foreground mb-12">Enterprise Performance</h2>
+          <h2 className="text-4xl font-bold text-foreground mb-12">Stratus Performance</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
@@ -1017,126 +1017,183 @@ export default function Index() {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="relative z-10 bg-gray-900 text-white">
-        <div className="max-w-7xl mx-auto px-6 py-16">
-          {/* Main Footer Content */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-            {/* Company Info */}
-            <div className="space-y-6">
-            <h3 className="text-xl font-bold text-white">StratusConnect</h3>
-            <p className="text-gray-300 text-sm leading-relaxed">
-              The platform that's already processing millions in deals.
-            </p>
-              <div className="flex space-x-4">
-                <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white p-2">
-                  <Globe className="w-5 h-5" />
-                </Button>
-                <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white p-2">
-                  <MessageSquare className="w-5 h-5" />
-                </Button>
-              </div>
-            </div>
-
-            {/* Legal */}
-             <div className="space-y-6">
-               <h3 className="text-lg font-bold text-white">Legal</h3>
-            <div className="space-y-4">
-                 <div>
-                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/terms-of-service')}>
-                  Terms of Service
-                </Button>
-                 </div>
-                 <div>
-                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/privacy-policy')}>
-                  Privacy Policy
-                </Button>
-                 </div>
-                 <div>
-                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/cookie-policy')}>
-                  Cookie Policy
-                </Button>
-                 </div>
-                 <div>
-                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/user-agreement')}>
-                  User Agreement
-                </Button>
-                 </div>
-              </div>
-            </div>
-
-            {/* Support */}
-             <div className="space-y-6">
-               <h3 className="text-lg font-bold text-white">Support</h3>
-            <div className="space-y-4">
-                 <div>
-                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/help')}>
-                  Help Center
-                </Button>
-                 </div>
-                 <div>
-                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/contact')}>
-                  Contact Us
-                </Button>
-                 </div>
-                 <div>
-                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/status')}>
-                  Status Page
-                </Button>
-                 </div>
-                 <div>
-                   <Button variant="link" className="p-0 h-auto text-sm text-gray-300 hover:text-white justify-start font-normal" onClick={() => navigate('/api-docs')}>
-                  API Documentation
-                </Button>
-                 </div>
-              </div>
-            </div>
-
-            {/* Security */}
-            <div className="space-y-6">
-              <h3 className="text-lg font-bold text-white">Security</h3>
-              <div className="space-y-3">
-                <div className="flex items-center text-sm text-gray-300">
-                  <Shield className="w-4 h-4 text-green-400 mr-3" />
-                  SOC 2 Compliant
+      {/* New Enhanced Footer */}
+      <footer className="relative z-10 mt-20">
+        {/* Gradient separator */}
+        <div className="h-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-50"></div>
+        
+        {/* Main Footer Content */}
+        <div className="bg-gradient-to-b from-slate-900/95 to-black/98 backdrop-blur-sm">
+          <div className="max-w-7xl mx-auto px-6 py-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+              
+              {/* Company Info - Takes 2 columns on large screens */}
+              <div className="lg:col-span-2 space-y-6">
+                <div>
+                  <h2 className="text-3xl font-bold bg-gradient-to-r from-orange-500 to-orange-300 bg-clip-text text-transparent mb-3">
+                    STRATUSCONNECT
+                  </h2>
+                  <p className="text-slate-300 text-sm leading-relaxed mb-4">
+                    The premier B2B aviation marketplace connecting operators, brokers, pilots, and crew. 
+                    Built with enterprise-grade security and cinematic design.
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    <div className="flex items-center gap-2 bg-slate-800/50 px-3 py-1.5 rounded-full border border-slate-700">
+                      <Shield className="w-4 h-4 text-green-400" />
+                      <span className="text-xs text-slate-300">SOC 2 Type II</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-slate-800/50 px-3 py-1.5 rounded-full border border-slate-700">
+                      <Lock className="w-4 h-4 text-blue-400" />
+                      <span className="text-xs text-slate-300">256-bit Encryption</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-slate-800/50 px-3 py-1.5 rounded-full border border-slate-700">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-xs text-slate-300">99.9% Uptime</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-center text-sm text-gray-300">
-                  <Lock className="w-4 h-4 text-green-400 mr-3" />
-                  End-to-End Encryption
+                
+              </div>
+
+
+              {/* Legal Links */}
+              <div className="space-y-4">
+                <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+                  <Shield className="w-4 h-4 text-orange-400" />
+                  Legal
+                </h3>
+                <ul className="space-y-3">
+                  <li>
+                    <button 
+                      onClick={() => navigate('/privacy-policy')}
+                      className="text-slate-400 text-sm hover:text-orange-400 transition-colors flex items-center gap-2 group"
+                    >
+                      <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      Privacy Policy
+                    </button>
+                  </li>
+                  <li>
+                    <button 
+                      onClick={() => navigate('/terms-of-service')}
+                      className="text-slate-400 text-sm hover:text-orange-400 transition-colors flex items-center gap-2 group"
+                    >
+                      <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      Terms of Service
+                    </button>
+                  </li>
+                  <li>
+                    <button 
+                      onClick={() => navigate('/cookie-policy')}
+                      className="text-slate-400 text-sm hover:text-orange-400 transition-colors flex items-center gap-2 group"
+                    >
+                      <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      Cookie Policy
+                    </button>
+                  </li>
+                  <li>
+                    <button 
+                      onClick={() => navigate('/user-agreement')}
+                      className="text-slate-400 text-sm hover:text-orange-400 transition-colors flex items-center gap-2 group"
+                    >
+                      <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      User Agreement
+                    </button>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Support Links */}
+              <div className="space-y-4">
+                <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+                  <Users className="w-4 h-4 text-orange-400" />
+                  Support
+                </h3>
+                <ul className="space-y-3">
+                  <li>
+                    <button 
+                      onClick={() => navigate('/help')}
+                      className="text-slate-400 text-sm hover:text-orange-400 transition-colors flex items-center gap-2 group"
+                    >
+                      <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      Help Center
+                    </button>
+                  </li>
+                  <li>
+                    <button 
+                      onClick={() => navigate('/contact')}
+                      className="text-slate-400 text-sm hover:text-orange-400 transition-colors flex items-center gap-2 group"
+                    >
+                      <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      Contact Us
+                    </button>
+                  </li>
+                  <li>
+                    <button 
+                      onClick={() => navigate('/status')}
+                      className="text-slate-400 text-sm hover:text-orange-400 transition-colors flex items-center gap-2 group"
+                    >
+                      <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      System Status
+                    </button>
+                  </li>
+                  <li>
+                    <button 
+                      onClick={() => navigate('/api-docs')}
+                      className="text-slate-400 text-sm hover:text-orange-400 transition-colors flex items-center gap-2 group"
+                    >
+                      <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      API Docs
+                    </button>
+                  </li>
+                  <li>
+                    <button 
+                      onClick={() => navigate('/staff-portal')}
+                      className="text-slate-400 text-sm hover:text-orange-400 transition-colors flex items-center gap-2 group"
+                    >
+                      <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      Staff Portal
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div className="border-t border-slate-800 my-12"></div>
+
+            {/* Bottom Bar */}
+            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+              <div className="text-slate-500 text-sm text-center md:text-left">
+                © 2025 StratusConnect. All rights reserved. 
+                <span className="ml-2 text-slate-600">|</span>
+                <span className="ml-2">Built for the aviation industry.</span>
+              </div>
+              
+              {/* Compliance Badges */}
+              <div className="flex items-center gap-4 flex-wrap justify-center">
+                <div className="flex items-center gap-1.5 text-xs text-slate-500">
+                  <Shield className="w-3 h-3 text-green-400" />
+                  FCA Compliant
                 </div>
-                <div className="flex items-center text-sm text-gray-300">
-                  <CheckCircle className="w-4 h-4 text-green-400 mr-3" />
-                  Zero-Trust Architecture
+                <span className="text-slate-700">•</span>
+                <div className="flex items-center gap-1.5 text-xs text-slate-500">
+                  <Lock className="w-3 h-3 text-blue-400" />
+                  GDPR Ready
+                </div>
+                <span className="text-slate-700">•</span>
+                <div className="flex items-center gap-1.5 text-xs text-slate-500">
+                  <CheckCircle className="w-3 h-3 text-green-400" />
+                  ISO 27001
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Separator Line */}
-          <div className="border-t border-gray-700 mb-8"></div>
-
-          {/* Bottom Section */}
-            <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-             <p className="text-sm text-gray-400">
-               © September 2025 StratusConnect. All rights reserved. Built for the aviation industry.
-            </p>
-            <div className="flex items-center space-x-6 text-sm text-gray-400">
-                <span>FCA Compliant</span>
-                <span>•</span>
-                <span>GDPR Ready</span>
-                <span>•</span>
-                <span>ISO 27001</span>
-            </div>
           </div>
         </div>
+
+        {/* Bottom gradient accent */}
+        <div className="h-1 bg-gradient-to-r from-transparent via-orange-500/50 to-transparent"></div>
       </footer>
-
-      {/* AI Intelligence Demo Section */}
-      <section className="py-20 px-6">
-        <div className="max-w-7xl mx-auto">
-          {/* AI removed - using Botpress instead */}
-        </div>
-      </section>
 
     </div>
   );

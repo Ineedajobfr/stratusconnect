@@ -266,3 +266,6 @@ Write-Host ""
 Write-Host "🎯 Bot testing complete! Check the results above." -ForegroundColor Cyan
 
 
+
+
+

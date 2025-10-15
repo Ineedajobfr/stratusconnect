@@ -1,7 +1,7 @@
-import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { Loader2 } from 'lucide-react';
 import { isOwner } from '@/utils/ownerAccess';
+import { Loader2 } from 'lucide-react';
+import { Navigate } from 'react-router-dom';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -55,8 +55,8 @@ export const ProtectedRoute = ({
       return <Navigate to="/unauthorized" replace />;
     }
     
-    // Additional admin verification - must be explicitly admin role
-    if (user.role !== 'admin') {
+    // Additional admin verification - must be explicitly admin role or specific admin email
+    if (user.role !== 'admin' && user.email?.toLowerCase() !== 'stratuscharters@gmail.com') {
       console.warn('SECURITY ALERT: Non-admin user attempted to access admin route:', user.email, 'Role:', user.role);
       return <Navigate to="/unauthorized" replace />;
     }

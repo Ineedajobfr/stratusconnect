@@ -1,187 +1,161 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useAuth } from "@/contexts/AuthContext";
-import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Plane, Shield, Users } from "lucide-react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { supabase } from '@/integrations/supabase/client';
+import { ArrowLeft, Lock, Mail, Plane } from 'lucide-react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function OperatorLogin() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState<'success' | 'error' | ''>('');
   const navigate = useNavigate();
-  const { login } = useAuth();
-  const { toast } = useToast();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     
+    if (!email.trim() || !password.trim()) {
+      setMessage('Please enter both email and password');
+      setMessageType('error');
+      return;
+    }
+
     try {
-      const success = await login(email, password);
-      if (success) {
-        // Check if admin user and redirect accordingly
-        if (email.includes('admin@stratusconnect.org') || 
-            email.includes('stratuscharters@gmail.com') || 
-            email.includes('lordbroctree1@gmail.com')) {
-          navigate("/admin");
-        } else {
-          navigate("/operator");
+      setLoading(true);
+      setMessage('');
+      
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password: password.trim()
+      });
+
+      if (error) {
+        if (error.message.includes('Invalid login credentials')) {
+          setMessage('Invalid email or password. Please check your credentials.');
+          setMessageType('error');
+          return;
         }
+        
+        setMessage(`Login failed: ${error.message}`);
+        setMessageType('error');
+        return;
       }
-    } catch (error) {
-      console.error('Login error:', error);
+
+      // Success - redirect to operator terminal
+      setMessage('Login successful! Redirecting...');
+      setMessageType('success');
+      
+      setTimeout(() => {
+        navigate('/operator-terminal');
+      }, 1000);
+      
+    } catch (err) {
+      console.error('Login error:', err);
+      setMessage('An unexpected error occurred. Please try again.');
+      setMessageType('error');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleDemoAccess = () => {
-    navigate("/demo/operator");
-  };
-
   return (
-    <div className="min-h-screen relative overflow-hidden"
-      style={{
-        background: 'radial-gradient(ellipse at center, rgba(139, 69, 19, 0.9) 0%, rgba(91, 30, 13, 0.95) 25%, rgba(59, 30, 13, 0.98) 50%, rgba(20, 20, 20, 0.99) 75%, rgba(10, 10, 12, 1) 100%), linear-gradient(135deg, #3b1e0d 0%, #2d1a0a 25%, #1a0f08 50%, #0f0a06 75%, #0a0a0c 100%)',
-        minHeight: '100vh',
-        width: '100vw',
-      }}
-      data-cinematic-bg="true"
-    >
-      {/* Cinematic Vignette - Creates spotlight effect on center */}
-      <div 
-        className="absolute inset-0"
-        style={{
-          background: 'radial-gradient(ellipse 80% 60% at center, transparent 0%, transparent 40%, rgba(0, 0, 0, 0.1) 60%, rgba(0, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0.6) 100%)',
-        }}
-      />
-      
-      {/* Subtle golden-orange glow in the center */}
-      <div 
-        className="absolute inset-0"
-        style={{
-          background: 'radial-gradient(ellipse 60% 40% at center, rgba(255, 140, 0, 0.08) 0%, rgba(255, 140, 0, 0.04) 30%, transparent 60%)',
-        }}
-      />
-      
-      {/* Subtle grid pattern overlay - more refined */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxwYXRoIGQ9Ik0gMTAwIDAgTCAwIDAgTCAwIDEwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjAuNSIvPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0idXJsKCNncmlkKSIvPgo8L3N2Zz4=')] opacity-30"></div>
-      </div>
-      
-      <div className="relative z-10 min-h-screen flex items-center justify-center px-4">
-        <div className="w-full max-w-md">
-          {/* Back Button */}
-          <Button 
-            variant="ghost" 
-            onClick={() => navigate('/')}
-            className="mb-8 text-white hover:text-white/80"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Home
-          </Button>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-orange-900/20 to-slate-900 flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        <button
+          onClick={() => navigate('/')}
+          className="flex items-center space-x-2 text-slate-400 hover:text-orange-400 transition-colors mb-8"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          <span>Back to Home</span>
+        </button>
 
-          {/* Login Card */}
-          <Card className="bg-black/70 backdrop-blur-md rounded-lg shadow-2xl border border-white/20"
-            style={{
-              boxShadow: '0 0 40px rgba(255, 140, 0, 0.3), 0 0 80px rgba(255, 140, 0, 0.1), 0 25px 50px rgba(0, 0, 0, 0.5)',
-            }}
-          >
-            <CardHeader className="text-center">
-              <div className="flex items-center justify-center mb-4">
-                <div className="text-white text-lg font-bold bg-black px-6 py-3 rounded backdrop-blur-sm"
-                  style={{
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-                  }}
-                >
-                  STRATUSCONNECT
-                </div>
+        <Card className="bg-black/80 backdrop-blur-sm border-slate-700/30">
+          <CardHeader className="text-center">
+            <div className="flex justify-center mb-4">
+              <div className="p-3 bg-orange-500/10 rounded-full">
+                <Plane className="h-8 w-8 text-orange-400" />
               </div>
-              <CardTitle className="text-2xl font-bold text-white">Operator Terminal</CardTitle>
-              <CardDescription className="text-white/80">
-                Fill the legs. Lift the yield. Control the risk.
-              </CardDescription>
-            </CardHeader>
-            
-            <CardContent className="space-y-6">
-              <form onSubmit={handleLogin} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="email" className="text-white">Email Address</Label>
+            </div>
+            <CardTitle className="text-2xl font-bold text-white">
+              Operator Login
+            </CardTitle>
+            <CardDescription className="text-slate-400">
+              Access your operator terminal
+            </CardDescription>
+          </CardHeader>
+
+          <CardContent>
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">
+                  Email Address
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
                   <Input
                     id="email"
                     type="email"
-                    placeholder="your.email@company.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="bg-white text-black border-gray-300 focus:border-blue-500"
+                    placeholder="operator@example.com"
+                    className="bg-slate-800/50 border-slate-600 text-white placeholder-slate-400 pl-10"
                     required
                   />
                 </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="password" className="text-white">Password</Label>
+              </div>
+
+              <div>
+                <label htmlFor="password" className="block text-sm font-medium text-slate-300 mb-2">
+                  Password
+                </label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
                   <Input
                     id="password"
                     type="password"
-                    placeholder="Enter your secure password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="bg-white text-black border-gray-300 focus:border-blue-500"
+                    placeholder="Enter your password"
+                    className="bg-slate-800/50 border-slate-600 text-white placeholder-slate-400 pl-10"
                     required
                   />
                 </div>
-                
-                <Button 
-                  type="submit" 
-                  className="w-full bg-black hover:bg-gray-800 text-white"
-                  style={{
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-                  }}
-                  disabled={loading}
-                >
-                  {loading ? "Signing In..." : "Access Terminal"}
-                </Button>
-              </form>
-              
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t border-gray-600" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-black/70 px-2 text-gray-400">OR</span>
-                </div>
               </div>
-              
-              <Button 
-                variant="outline" 
-                onClick={handleDemoAccess}
-                className="w-full bg-white text-black border-gray-300 hover:bg-white hover:text-black hover:border-gray-400 transition-colors duration-200"
-                style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)' }}
-              >
-                <Plane className="w-4 h-4 mr-2" />
-                Quick Demo Access
-              </Button>
-            </CardContent>
-          </Card>
 
-          {/* Features */}
-          <div className="mt-8 grid grid-cols-2 gap-4">
-            <div className="text-center p-4 rounded-lg bg-black/50 border border-white/20">
-              <Shield className="w-6 h-6 text-orange-500 mx-auto mb-2" />
-              <div className="text-sm text-white font-medium">Fleet Management</div>
-              <div className="text-xs text-white/60">Optimize operations</div>
+              {message && (
+                <Alert className={messageType === 'error' ? 'border-red-500/50 bg-red-500/10' : 'border-green-500/50 bg-green-500/10'}>
+                  <AlertDescription className={messageType === 'error' ? 'text-red-400' : 'text-green-400'}>
+                    {message}
+                  </AlertDescription>
+                </Alert>
+              )}
+
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-orange-600 hover:bg-orange-700 text-white font-medium py-2"
+              >
+                {loading ? 'Signing In...' : 'Sign In'}
+              </Button>
+            </form>
+
+            <div className="mt-6 text-center">
+              <p className="text-sm text-slate-400">
+                Don't have an account?{' '}
+                <button
+                  onClick={() => navigate('/signup-form?role=operator')}
+                  className="text-orange-400 hover:text-orange-300 transition-colors"
+                >
+                  Sign up as an Operator
+                </button>
+              </p>
             </div>
-            <div className="text-center p-4 rounded-lg bg-black/50 border border-white/20">
-              <Users className="w-6 h-6 text-orange-500 mx-auto mb-2" />
-              <div className="text-sm text-white font-medium">Crew Scheduling</div>
-              <div className="text-xs text-white/60">Automated planning</div>
-            </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

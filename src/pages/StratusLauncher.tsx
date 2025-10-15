@@ -2,16 +2,16 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
-  ArrowLeft,
-  BarChart3,
-  Briefcase,
-  Check,
-  Monitor,
-  Navigation,
-  Plane,
-  Settings,
-  Shield,
-  Users
+    ArrowLeft,
+    BarChart3,
+    Briefcase,
+    Check,
+    Monitor,
+    Navigation,
+    Plane,
+    Settings,
+    Shield,
+    Users
 } from 'lucide-react';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -242,8 +242,9 @@ export default function StratusLauncher() {
               animationDuration: '2s',
               boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
             }}
+            onClick={() => navigate('/home')}
           >
-            PRESS [Enter] TO START
+            PRESS ENTER OR CLICK TO START
           </div>
         </div>
 
@@ -451,6 +452,7 @@ export default function StratusLauncher() {
           </div>
         </div>
       </div>
+
     </div>
   );
 }

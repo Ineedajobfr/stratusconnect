@@ -1,38 +1,33 @@
 // How to Use StratusConnect - Comprehensive User Guide
 // Step-by-step manual for all terminals and features
 
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
-import { 
-  ArrowLeft, 
-  BookOpen, 
-  Users, 
-  Plane, 
-  Briefcase, 
-  Building2,
-  Search,
-  MessageSquare,
-  BarChart3,
-  Shield,
-  DollarSign,
-  Clock,
-  CheckCircle,
-  Star,
-  Zap,
-  Target,
-  TrendingUp,
-  FileText,
-  Settings,
-  HelpCircle,
-  Play,
-  Download,
-  ExternalLink
+import { StratusConnectLogo } from '@/components/StratusConnectLogo';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+    ArrowLeft,
+    BarChart3,
+    BookOpen,
+    Briefcase,
+    Building2,
+    CheckCircle,
+    DollarSign,
+    Download,
+    ExternalLink,
+    FileText,
+    MessageSquare,
+    Plane,
+    Play,
+    Search,
+    Shield,
+    Target,
+    TrendingUp,
+    Users,
+    Zap
 } from 'lucide-react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function HowToUse() {
@@ -43,61 +38,61 @@ export default function HowToUse() {
     {
       id: 'broker',
       title: 'Broker Terminal',
-      description: 'Master the art of aviation brokerage',
+      description: 'Connect with operators and manage client relationships',
       icon: Building2,
       color: 'text-blue-400',
       features: [
-        'Real-time aircraft search and comparison',
-        'Automated quote generation and management',
-        'Client relationship management tools',
-        'Market analytics and pricing insights',
+        'Browse available aircraft and operators',
+        'Submit quote requests to multiple operators',
+        'Track and manage client communications',
+        'Monitor market trends and pricing',
         'Secure payment processing and escrow',
-        'AI-powered trip recommendations'
+        'Document management and compliance'
       ]
     },
     {
       id: 'operator',
       title: 'Operator Terminal',
-      description: 'Optimize your fleet operations',
+      description: 'Manage your fleet and respond to broker requests',
       icon: Plane,
       color: 'text-green-400',
       features: [
-        'Fleet management and scheduling',
-        'Crew assignment and management',
-        'Revenue optimization tools',
-        'Maintenance tracking and alerts',
-        'Performance analytics dashboard',
-        'Automated crew matching'
+        'Fleet availability and scheduling',
+        'Respond to broker quote requests',
+        'Manage crew assignments and rosters',
+        'Track maintenance and certifications',
+        'Revenue and performance analytics',
+        'Operational documentation'
       ]
     },
     {
       id: 'pilot',
       title: 'Pilot Terminal',
-      description: 'Advance your flying career',
+      description: 'Find flying opportunities and manage your career',
       icon: Users,
       color: 'text-purple-400',
       features: [
-        'Job opportunity matching',
-        'Digital logbook and certification tracking',
-        'Availability calendar management',
-        'Earnings and payment tracking',
-        'Professional profile optimization',
-        'AI-powered job recommendations'
+        'Browse available pilot positions',
+        'Submit applications to operators',
+        'Track flight hours and certifications',
+        'Manage availability calendar',
+        'View earnings and payment history',
+        'Professional profile management'
       ]
     },
     {
       id: 'crew',
       title: 'Crew Terminal',
-      description: 'Excel in cabin service',
+      description: 'Find cabin crew opportunities and manage assignments',
       icon: Briefcase,
       color: 'text-orange-400',
       features: [
-        'Assignment management and scheduling',
-        'Service specialty showcase',
-        'Availability and preference settings',
-        'Performance tracking and reviews',
-        'Certification and training records',
-        'Smart job matching system'
+        'Browse available crew positions',
+        'Apply for cabin crew assignments',
+        'Manage service specialties and skills',
+        'Track availability and preferences',
+        'View performance reviews and ratings',
+        'Certification and training records'
       ]
     }
   ];
@@ -153,52 +148,56 @@ export default function HowToUse() {
     }
   ];
 
-  const aiFeatures = [
+  const platformFeatures = [
     {
-      title: 'AI Search Assistant',
-      description: 'Ask complex questions in natural language',
-      icon: MessageSquare,
+      title: 'Advanced Search',
+      description: 'Powerful filtering and search capabilities',
+      icon: Search,
       examples: [
-        'Find all Gulfstream G650s available from London to Dubai next week',
-        'Show me operators with ARGUS Platinum rating in New York',
-        'What are the best empty leg opportunities for this route?'
+        'Filter aircraft by type, range, and availability',
+        'Search operators by location and certification level',
+        'Find opportunities by route and date preferences'
       ]
     },
     {
-      title: 'Predictive Analytics',
-      description: 'Get insights and recommendations based on data',
+      title: 'Market Analytics',
+      description: 'Real-time data and market insights',
       icon: TrendingUp,
       examples: [
-        'Optimal aircraft positioning recommendations',
-        'Pricing trend analysis and market insights',
-        'Demand forecasting for specific routes and dates'
+        'View pricing trends and market data',
+        'Track performance metrics and KPIs',
+        'Monitor competitor activity and pricing'
       ]
     },
     {
-      title: 'Smart Matching',
-      description: 'AI-powered connections between users',
-      icon: Star,
+      title: 'Communication Hub',
+      description: 'Centralized messaging and collaboration tools',
+      icon: MessageSquare,
       examples: [
-        'Automatic crew-to-flight matching',
-        'Broker-to-operator compatibility scoring',
-        'Personalized job and opportunity recommendations'
+        'Direct messaging between brokers and operators',
+        'Crew assignment notifications and updates',
+        'Document sharing and collaboration features'
       ]
     },
     {
-      title: 'Automated Workflows',
-      description: 'Streamline repetitive tasks with AI automation',
-      icon: Settings,
+      title: 'Document Management',
+      description: 'Secure file storage and compliance tracking',
+      icon: FileText,
       examples: [
-        'Auto-generate quotes based on historical data',
-        'Schedule optimization and conflict resolution',
-        'Automated compliance checking and alerts'
+        'Digital document storage and organization',
+        'Compliance tracking and renewal alerts',
+        'Secure document sharing between parties'
       ]
     }
   ];
 
   return (
-    <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0B1426' }}>
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-black">
       <StarfieldRunwayBackground />
+      
+      {/* Cinematic overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/20 to-black/40 pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(0,0,0,0.3)_100%)] pointer-events-none" />
       
       {/* Header */}
       <div className="relative z-10 bg-terminal-card border-b border-terminal-border px-6 py-4 backdrop-blur-modern">
@@ -241,10 +240,10 @@ export default function HowToUse() {
               <Building2 className="w-4 h-4" />
               Terminals
             </TabsTrigger>
-            <TabsTrigger value="ai-features" className="flex items-center gap-2">
-              <Zap className="w-4 h-4" />
-              AI Features
-            </TabsTrigger>
+                <TabsTrigger value="ai-features" className="flex items-center gap-2">
+                  <Zap className="w-4 h-4" />
+                  Platform Features
+                </TabsTrigger>
             <TabsTrigger value="quick-start" className="flex items-center gap-2">
               <Play className="w-4 h-4" />
               Quick Start
@@ -362,19 +361,19 @@ export default function HowToUse() {
               <Card className="terminal-card">
                 <CardHeader>
                   <div className="flex items-center space-x-3">
-                    <Zap className="w-8 h-8 text-accent" />
+                    <BarChart3 className="w-8 h-8 text-accent" />
                     <div>
-                      <CardTitle className="text-lg">AI-Powered</CardTitle>
-                      <p className="text-sm text-muted-foreground">Advanced automation</p>
+                      <CardTitle className="text-lg">Analytics & Insights</CardTitle>
+                      <p className="text-sm text-muted-foreground">Data-driven decision making</p>
                     </div>
                   </div>
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-2 text-sm text-muted-foreground">
-                    <li>• Smart search and matching</li>
-                    <li>• Predictive analytics</li>
-                    <li>• Automated workflows</li>
-                    <li>• Real-time recommendations</li>
+                    <li>• Market trend analysis</li>
+                    <li>• Performance metrics</li>
+                    <li>• Revenue tracking</li>
+                    <li>• Operational insights</li>
                   </ul>
                 </CardContent>
               </Card>
@@ -432,15 +431,15 @@ export default function HowToUse() {
           <TabsContent value="ai-features" className="space-y-8">
             <Card className="terminal-card">
               <CardHeader>
-                <CardTitle className="text-2xl text-foreground">AI-Powered Features</CardTitle>
+                <CardTitle className="text-2xl text-foreground">Platform Features</CardTitle>
                 <p className="text-muted-foreground">
-                  Leverage artificial intelligence to optimize your aviation operations and find the best opportunities.
+                  Advanced tools and features to streamline your aviation operations and maximize efficiency.
                 </p>
               </CardHeader>
             </Card>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {aiFeatures.map((feature, index) => (
+              {platformFeatures.map((feature, index) => (
                 <Card key={index} className="terminal-card">
                   <CardHeader>
                     <div className="flex items-center space-x-3">
@@ -513,12 +512,12 @@ export default function HowToUse() {
               <CardHeader>
                 <CardTitle className="text-2xl text-foreground">Additional Resources</CardTitle>
                 <p className="text-muted-foreground">
-                  Download guides, watch tutorials, and access support resources.
+                  Download comprehensive guides and documentation for each terminal.
                 </p>
               </CardHeader>
             </Card>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
               <Card className="terminal-card">
                 <CardHeader>
                   <div className="flex items-center space-x-3">
@@ -542,60 +541,6 @@ export default function HowToUse() {
                   <Button variant="outline" className="w-full justify-start">
                     <Download className="w-4 h-4 mr-2" />
                     Crew Terminal Guide (PDF)
-                  </Button>
-                </CardContent>
-              </Card>
-
-              <Card className="terminal-card">
-                <CardHeader>
-                  <div className="flex items-center space-x-3">
-                    <Play className="w-8 h-8 text-accent" />
-                    <CardTitle className="text-lg">Video Tutorials</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <Button variant="outline" className="w-full justify-start">
-                    <Play className="w-4 h-4 mr-2" />
-                    Platform Overview (5 min)
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start">
-                    <Play className="w-4 h-4 mr-2" />
-                    AI Features Demo (8 min)
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start">
-                    <Play className="w-4 h-4 mr-2" />
-                    Advanced Search Tips (6 min)
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start">
-                    <Play className="w-4 h-4 mr-2" />
-                    Payment & Escrow (4 min)
-                  </Button>
-                </CardContent>
-              </Card>
-
-              <Card className="terminal-card">
-                <CardHeader>
-                  <div className="flex items-center space-x-3">
-                    <HelpCircle className="w-8 h-8 text-accent" />
-                    <CardTitle className="text-lg">Support</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <Button variant="outline" className="w-full justify-start">
-                    <MessageSquare className="w-4 h-4 mr-2" />
-                    Live Chat Support
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start">
-                    <FileText className="w-4 h-4 mr-2" />
-                    Knowledge Base
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start">
-                    <ExternalLink className="w-4 h-4 mr-2" />
-                    API Documentation
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start">
-                    <Settings className="w-4 h-4 mr-2" />
-                    System Status
                   </Button>
                 </CardContent>
               </Card>

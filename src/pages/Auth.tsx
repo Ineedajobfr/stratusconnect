@@ -7,11 +7,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useAuth } from '@/contexts/AuthContext';
 import { Briefcase, Building, Eye, EyeOff, Loader2, Plane, Users } from 'lucide-react';
 import React, { useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 
 export default function Auth() {
   const { user, loading, login, loginWithMagicLink, loginWithGoogle, register, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const preselectedRole = location.state?.preselectedRole;
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -28,7 +30,7 @@ export default function Auth() {
     password: '',
     confirmPassword: '',
     companyName: '',
-    role: '',
+    role: preselectedRole || '',
   });
 
   // Clear any existing session when accessing auth page
@@ -98,13 +100,13 @@ export default function Auth() {
       case 'admin':
         return <Navigate to="/admin" replace />;
       case 'broker':
-        return <Navigate to="/demo/broker" replace />;
+        return <Navigate to="/terminal/broker" replace />;
       case 'operator':
-        return <Navigate to="/operator-terminal" replace />;
+        return <Navigate to="/terminal/operator" replace />;
       case 'pilot':
-        return <Navigate to="/pilot-terminal" replace />;
+        return <Navigate to="/terminal/pilot" replace />;
       case 'crew':
-        return <Navigate to="/crew-terminal" replace />;
+        return <Navigate to="/terminal/crew" replace />;
       default:
         return <Navigate to="/home" replace />;
     }
@@ -334,6 +336,35 @@ export default function Auth() {
                 Continue
               </Button>
             </form>
+
+            {/* Sign Up Link for existing users who want to create new account */}
+            <div className="text-center mt-4">
+              <p className="text-white/70 text-sm" style={{ textShadow: '0 0 4px rgba(255, 255, 255, 0.3)' }}>
+                Don't have an account?{' '}
+                <button
+                  type="button"
+                  onClick={() => {
+                    // Clear any existing data and proceed with signup flow
+                    setUserEmail('');
+                    setVerificationCode('');
+                    setIsEmailVerified(false);
+                    setRegisterData({
+                      fullName: '',
+                      password: '',
+                      confirmPassword: '',
+                      companyName: '',
+                      role: '',
+                    });
+                    setError(null);
+                    // Continue with the existing flow - it will naturally go to signup after email verification
+                  }}
+                  className="text-white underline hover:text-white/80 transition-colors font-medium"
+                  style={{ textShadow: '0 0 4px rgba(255, 255, 255, 0.5)' }}
+                >
+                  Sign Up
+                </button>
+              </p>
+            </div>
           </>
         )}
 
@@ -500,6 +531,35 @@ export default function Auth() {
                       Create Account
                     </Button>
                   </form>
+
+                  {/* Log In Link */}
+                  <div className="text-center mt-4">
+                    <p className="text-white/70 text-sm" style={{ textShadow: '0 0 4px rgba(255, 255, 255, 0.3)' }}>
+                      Already have an account?{' '}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          // Reset to email step for login
+                          setCurrentStep('email');
+                          setUserEmail('');
+                          setVerificationCode('');
+                          setIsEmailVerified(false);
+                          setRegisterData({
+                            fullName: '',
+                            password: '',
+                            confirmPassword: '',
+                            companyName: '',
+                            role: '',
+                          });
+                          setError(null);
+                        }}
+                        className="text-white underline hover:text-white/80 transition-colors font-medium"
+                        style={{ textShadow: '0 0 4px rgba(255, 255, 255, 0.5)' }}
+                      >
+                        Log In
+                      </button>
+                    </p>
+                  </div>
           </>
         )}
 

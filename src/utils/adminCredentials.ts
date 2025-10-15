@@ -7,7 +7,7 @@ export const adminCredentials = {
   },
   owner: {
     email: 'stratuscharters@gmail.com',
-    password: 'Str4tu$Ch4rt3r$_0wn3r_S3cur3_2025!@#$%',
+    password: 'Str4tu$C0nn3ct_M4st3r_4dm1n_2025!#$',
     role: 'admin'
   },
   lordbroctree: {

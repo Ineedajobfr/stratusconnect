@@ -1,27 +1,79 @@
-import { NavigationArrows } from "@/components/NavigationArrows";
-import { StratusConnectLogo } from "@/components/StratusConnectLogo";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-    ArrowLeft, ArrowRight,
-    Building2,
-    CheckCircle,
-    Plane,
-    UserCheck,
-    Users
-} from "lucide-react";
-import { useNavigate } from "react-router-dom";
+// Role Selection Page - First step in Magic Link Authentication
+// Users select their role before proceeding to signup
+
+import { Button } from '@/components/ui/button';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { ArrowLeft, Briefcase, Building2, Plane, Users } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function RoleSelection() {
   const navigate = useNavigate();
-  // Updated with cinematic background
 
-  const handleRoleClick = (route: string) => {
-    navigate(route);
-  };
+  const roles = [
+    {
+      id: 'broker',
+      title: 'Broker',
+      description: 'Connect clients with operators and manage aviation deals',
+      icon: Building2,
+      // Rich mahogany with burnished gold - like aged whiskey and luxury wood
+      primaryColor: 'rgba(101, 67, 33, 0.95)', // Deep mahogany
+      secondaryColor: 'rgba(212, 175, 55, 0.85)', // Burnished gold
+      accentColor: 'rgba(255, 215, 0, 0.7)', // Bright gold
+      iconColor: 'text-amber-200',
+      titleColor: 'text-amber-100',
+      descriptionColor: 'text-amber-50/90',
+      buttonStyle: 'bg-gradient-to-r from-amber-900 via-yellow-900 to-amber-800 hover:from-amber-800 hover:via-yellow-800 hover:to-amber-700 text-amber-100 border-amber-600/60',
+      glowColor: 'rgba(212, 175, 55, 0.4)'
+    },
+    {
+      id: 'operator',
+      title: 'Operator',
+      description: 'Manage your fleet and respond to broker requests',
+      icon: Plane,
+      // Deep obsidian with copper highlights - like polished metal and dark wood
+      primaryColor: 'rgba(15, 15, 15, 0.98)', // Obsidian black
+      secondaryColor: 'rgba(184, 115, 51, 0.8)', // Rich copper
+      accentColor: 'rgba(205, 127, 50, 0.7)', // Bright copper
+      iconColor: 'text-copper-200',
+      titleColor: 'text-copper-100',
+      descriptionColor: 'text-copper-50/90',
+      buttonStyle: 'bg-gradient-to-r from-gray-900 via-copper-900 to-gray-800 hover:from-gray-800 hover:via-copper-800 hover:to-gray-700 text-copper-100 border-copper-600/60',
+      glowColor: 'rgba(184, 115, 51, 0.4)'
+    },
+    {
+      id: 'pilot',
+      title: 'Pilot',
+      description: 'Find flying opportunities and manage your career',
+      icon: Users,
+      // Deep burgundy with brass accents - like aged leather and brass fittings
+      primaryColor: 'rgba(80, 20, 20, 0.95)', // Deep burgundy
+      secondaryColor: 'rgba(181, 166, 66, 0.85)', // Antique brass
+      accentColor: 'rgba(205, 149, 12, 0.7)', // Bright brass
+      iconColor: 'text-brass-200',
+      titleColor: 'text-brass-100',
+      descriptionColor: 'text-brass-50/90',
+      buttonStyle: 'bg-gradient-to-r from-red-900 via-yellow-800 to-red-800 hover:from-red-800 hover:via-yellow-700 hover:to-red-700 text-brass-100 border-brass-600/60',
+      glowColor: 'rgba(181, 166, 66, 0.4)'
+    },
+    {
+      id: 'crew',
+      title: 'Crew',
+      description: 'Find cabin crew opportunities and manage assignments',
+      icon: Briefcase,
+      // Rich cognac with platinum highlights - like luxury spirits and precious metals
+      primaryColor: 'rgba(139, 69, 19, 0.95)', // Rich cognac
+      secondaryColor: 'rgba(229, 228, 226, 0.85)', // Platinum silver
+      accentColor: 'rgba(255, 255, 255, 0.8)', // Bright platinum
+      iconColor: 'text-platinum-200',
+      titleColor: 'text-platinum-100',
+      descriptionColor: 'text-platinum-50/90',
+      buttonStyle: 'bg-gradient-to-r from-orange-900 via-gray-800 to-orange-800 hover:from-orange-800 hover:via-gray-700 hover:to-orange-700 text-platinum-100 border-platinum-600/60',
+      glowColor: 'rgba(229, 228, 226, 0.4)'
+    }
+  ];
 
-  const handleDemoClick = () => {
-    navigate('/demo');
+  const handleRoleSelect = (roleId: string) => {
+    navigate(`/signup-form?role=${roleId}`);
   };
 
   return (
@@ -42,238 +94,104 @@ export default function RoleSelection() {
         }}
       />
       
-      {/* Enhanced golden-orange glow in the center */}
+      {/* Subtle golden-orange glow in the center */}
       <div 
         className="absolute inset-0"
         style={{
-          background: 'radial-gradient(ellipse 80% 60% at center, rgba(255, 140, 0, 0.25) 0%, rgba(255, 140, 0, 0.15) 20%, rgba(255, 140, 0, 0.08) 40%, rgba(255, 140, 0, 0.04) 60%, transparent 80%)',
+          background: 'radial-gradient(ellipse 60% 40% at center, rgba(255, 140, 0, 0.08) 0%, rgba(255, 140, 0, 0.04) 30%, transparent 60%)',
         }}
       />
       
-      {/* Additional orange glow layer for more intensity */}
-      <div 
-        className="absolute inset-0"
-        style={{
-          background: 'radial-gradient(ellipse 100% 80% at center, rgba(255, 165, 0, 0.12) 0%, rgba(255, 140, 0, 0.08) 30%, rgba(255, 140, 0, 0.04) 50%, transparent 70%)',
-        }}
-      />
-      
-      {/* Subtle pulsing orange glow effect */}
-      <div 
-        className="absolute inset-0 animate-pulse"
-        style={{
-          background: 'radial-gradient(ellipse 70% 50% at center, rgba(255, 140, 0, 0.08) 0%, rgba(255, 140, 0, 0.04) 25%, transparent 50%)',
-          animation: 'pulse 4s ease-in-out infinite',
-        }}
-      />
-      
-      <div className="absolute top-4 left-4 z-40">
-        <StratusConnectLogo />
-      </div>
-      
-      <div className="absolute top-4 right-4 z-40">
-        <NavigationArrows />
+      {/* Subtle grid pattern overlay */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxwYXRoIGQ9Ik0gMTAwIDAgTCAwIDAgTCAwIDEwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjAuNSIvPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0idXJsKCNncmlkKSIvPgo8L3N2Zz4=')] opacity-30"></div>
       </div>
 
-      <div className="relative z-10 container mx-auto px-6 py-16 max-w-7xl">
-        
-        {/* Header */}
-        <div className="text-center mb-12">
+      {/* Header */}
+      <div className="relative z-10 bg-black/20 backdrop-blur-sm border-b border-orange-500/20 px-6 py-4">
+        <div className="flex items-center justify-between max-w-7xl mx-auto">
+          <div className="flex items-center space-x-4">
+            <div 
+              className="text-white text-lg font-bold bg-black/50 px-6 py-3 rounded backdrop-blur-sm cursor-pointer hover:bg-black/70 transition-colors"
+              style={{
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+              }}
+              onClick={() => navigate('/')}
+            >
+              STRATUSCONNECT
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-white">Choose Your Role</h1>
+              <p className="text-orange-300/80">Select your professional role to get started</p>
+            </div>
+          </div>
           <Button
-            variant="ghost"
-            onClick={() => navigate('/about')}
-            className="mb-8 text-muted-foreground hover:text-foreground"
+            onClick={() => navigate('/')}
+            variant="outline"
+            className="border-orange-500/30 text-orange-300 hover:bg-orange-500/10"
           >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to About
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Home
           </Button>
-          
-          <h2 className="text-4xl font-bold text-foreground mb-4 title-glow">Choose Your Terminal</h2>
-          <p className="text-xl text-muted-foreground text-glow-subtle">Access your personalized workspace</p>
         </div>
-
-        {/* Terminal Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Broker Terminal */}
-          <Card className="group terminal-card hover:terminal-glow cursor-pointer animate-fade-in-up">
-            <CardHeader className="pb-4">
-              <div className="flex items-center space-x-4">
-                <div className="p-3 bg-accent/20 rounded-xl animate-pulse-glow">
-                  <Building2 className="w-8 h-8 text-accent" />
-                </div>
-                <div>
-                  <CardTitle className="text-2xl text-foreground">Broker Terminal</CardTitle>
-                  <CardDescription className="text-muted-foreground">Quote management & client relations</CardDescription>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground mb-6 text-glow-subtle">
-                Manage RFQs, track deals, and communicate with clients through our comprehensive broker dashboard. 
-                Real-time notifications, performance tracking, and integrated flight monitoring.
-              </p>
-              <div className="space-y-2 mb-6">
-                <div className="flex items-center text-sm text-gunmetal">
-                  <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
-                  Real-time notifications & alerts
-                </div>
-                <div className="flex items-center text-sm text-gunmetal">
-                  <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
-                  RFQ management & quote tracking
-                </div>
-                <div className="flex items-center text-sm text-gunmetal">
-                  <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
-                  Performance & reputation system
-                </div>
-              </div>
-              <div className="flex space-x-3">
-                <Button onClick={() => handleRoleClick('/terminal/broker')} className="flex-1 btn-terminal-accent button-glow">
-                  Access Terminal <ArrowRight className="w-4 h-4 ml-2 icon-glow" />
-                </Button>
-                <Button onClick={handleDemoClick} variant="outline" className="px-6 button-glow">
-                  Demo
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Operator Terminal */}
-          <Card className="group terminal-card hover:terminal-glow cursor-pointer animate-fade-in-up" style={{
-            animationDelay: '0.1s'
-          }}>
-            <CardHeader className="pb-4">
-              <div className="flex items-center space-x-4">
-                <div className="p-3 bg-accent/20 rounded-xl animate-pulse-glow">
-                  <Plane className="w-8 h-8 text-accent" />
-                </div>
-                <div>
-                  <CardTitle className="text-2xl text-foreground">Operator Terminal</CardTitle>
-                  <CardDescription className="text-muted-foreground">Fleet management & optimization</CardDescription>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground mb-6 text-glow-subtle">
-                Manage your fleet operations with advanced search, document management, and real-time flight tracking. 
-                Complete crew management and contract generation tools.
-              </p>
-              <div className="space-y-2 mb-6">
-                <div className="flex items-center text-sm text-gunmetal">
-                  <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
-                  Advanced search & filtering
-                </div>
-                <div className="flex items-center text-sm text-gunmetal">
-                  <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
-                  Document & contract management
-                </div>
-                <div className="flex items-center text-sm text-gunmetal">
-                  <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
-                  Real-time flight tracking
-                </div>
-              </div>
-              <div className="flex space-x-3">
-                <Button onClick={() => handleRoleClick('/terminal/operator')} className="flex-1 btn-terminal-accent button-glow">
-                  Access Terminal <ArrowRight className="w-4 h-4 ml-2 icon-glow" />
-                </Button>
-                <Button onClick={handleDemoClick} variant="outline" className="px-6 button-glow">
-                  Demo
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Pilot Terminal */}
-          <Card className="group terminal-card hover:terminal-glow cursor-pointer animate-fade-in-up" style={{
-            animationDelay: '0.2s'
-          }}>
-            <CardHeader className="pb-4">
-              <div className="flex items-center space-x-4">
-                <div className="p-3 bg-accent/20 rounded-xl animate-pulse-glow">
-                  <UserCheck className="w-8 h-8 text-accent" />
-                </div>
-                <div>
-                  <CardTitle className="text-2xl text-foreground">Pilot Terminal</CardTitle>
-                  <CardDescription className="text-muted-foreground">Flight assignments & credentials</CardDescription>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground mb-6 text-glow-subtle">
-                Track your flight assignments, manage certifications, and access job opportunities. 
-                Complete dashboard with notes, community forums, and document storage.
-              </p>
-              <div className="space-y-2 mb-6">
-                <div className="flex items-center text-sm text-gunmetal">
-                  <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
-                  Flight assignment tracking
-                </div>
-                <div className="flex items-center text-sm text-gunmetal">
-                  <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
-                  Job board & community forums
-                </div>
-                <div className="flex items-center text-sm text-gunmetal">
-                  <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
-                  Document & note management
-                </div>
-              </div>
-              <div className="flex space-x-3">
-                <Button onClick={() => handleRoleClick('/terminal/pilot')} className="flex-1 btn-terminal-accent button-glow">
-                  Access Terminal <ArrowRight className="w-4 h-4 ml-2 icon-glow" />
-                </Button>
-                <Button onClick={handleDemoClick} variant="outline" className="px-6 button-glow">
-                  Demo
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Crew Terminal */}
-          <Card className="group terminal-card hover:terminal-glow cursor-pointer animate-fade-in-up" style={{
-            animationDelay: '0.3s'
-          }}>
-            <CardHeader className="pb-4">
-              <div className="flex items-center space-x-4">
-                <div className="p-3 bg-accent/20 rounded-xl animate-pulse-glow">
-                  <Users className="w-8 h-8 text-accent" />
-                </div>
-                <div>
-                  <CardTitle className="text-2xl text-foreground">Crew Terminal</CardTitle>
-                  <CardDescription className="text-muted-foreground">Service excellence & scheduling</CardDescription>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground mb-6 text-glow-subtle">
-                Manage crew assignments, track performance, and access job opportunities. 
-                Complete dashboard with notes, community forums, and document storage.
-              </p>
-              <div className="space-y-2 mb-6">
-                <div className="flex items-center text-sm text-gunmetal">
-                  <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
-                  Assignment management
-                </div>
-                <div className="flex items-center text-sm text-gunmetal">
-                  <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
-                  Job board & community forums
-                </div>
-                <div className="flex items-center text-sm text-gunmetal">
-                  <CheckCircle className="w-4 h-4 text-terminal-success mr-2" />
-                  Document & note management
-                </div>
-              </div>
-              <div className="flex space-x-3">
-                <Button onClick={() => handleRoleClick('/terminal/crew')} className="flex-1 btn-terminal-accent button-glow">
-                  Access Terminal <ArrowRight className="w-4 h-4 ml-2 icon-glow" />
-                </Button>
-                <Button onClick={handleDemoClick} variant="outline" className="px-6 button-glow">
-                  Demo
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
       </div>
+
+      {/* Main Content */}
+      <main className="relative z-10 max-w-6xl mx-auto px-6 py-12">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-white mb-4" style={{ textShadow: '0 0 20px rgba(255, 140, 0, 0.5)' }}>
+            JOIN THE SYSTEM
+          </h2>
+          <p className="text-xl text-white/80 max-w-2xl mx-auto">
+            Select your professional role to begin your secure onboarding process.
+          </p>
+        </div>
+
+        {/* Role Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {roles.map((role) => {
+            const IconComponent = role.icon;
+            return (
+              <Card 
+                key={role.id}
+                className="group bg-black/80 backdrop-blur-sm border border-slate-700/30 hover:bg-black/90 hover:border-slate-600/50 cursor-pointer transition-all duration-300 transform hover:scale-[1.02]"
+                onClick={() => handleRoleSelect(role.id)}
+                style={{
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 140, 0, 0.2), 0 0 20px rgba(255, 140, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                }}
+              >
+                <CardHeader className="pb-4">
+                  <div className="flex items-center space-x-4">
+                    <div className="p-3 bg-slate-800/20 rounded-xl">
+                      <IconComponent className="w-8 h-8 text-slate-300" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-2xl font-semibold text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">{role.title} Terminal</CardTitle>
+                      <CardDescription className="text-white/80">{role.description}</CardDescription>
+                    </div>
+                  </div>
+                </CardHeader>
+              </Card>
+            );
+          })}
+        </div>
+
+        {/* Security Notice */}
+        <div className="mt-12 text-center">
+          <div className="bg-black/90 backdrop-blur-sm border border-green-500/30 rounded-lg p-6 max-w-2xl mx-auto relative overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:border-green-400/50"
+               style={{
+                 boxShadow: '0 0 20px rgba(34, 197, 94, 0.3), inset 0 1px 0 rgba(34, 197, 94, 0.2)',
+               }}
+               onClick={() => navigate('/')}
+          >
+            <h3 className="text-lg font-semibold text-green-400 mb-2" style={{ textShadow: '0 0 10px rgba(34, 197, 94, 0.8)' }}>Secure Authentication</h3>
+            <p className="text-green-200/90 text-sm">
+              We use passwordless authentication with magic links for enhanced security. 
+              No passwords to remember, no security risks to worry about.
+            </p>
+          </div>
+        </div>
+      </main>
     </div>
   );
 }

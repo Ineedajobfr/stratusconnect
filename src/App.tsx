@@ -1,5 +1,6 @@
 // Theme is imported in main.tsx
 // import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { AIErrorNotification } from "@/components/Admin/AIErrorNotification";
 import { NavigationOptimizer } from "@/components/NavigationOptimizer";
 import { WorkflowProvider } from "@/components/real-workflows/WorkflowIntegration";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
@@ -7,9 +8,12 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { behavioralTracker } from "@/lib/behavioral-tracking";
+import { initializeAdminNotification } from "@/utils/adminNotification";
+import "@/utils/errorTracker"; // Initialize error tracking for AI system
 import { logger } from "@/utils/performance";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { lazy, memo, Suspense } from "react";
+import React, { lazy, memo, Suspense } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
@@ -21,7 +25,6 @@ import OperatorDashboard from "@/components/dashboard/OperatorDashboard";
 // Lazy load pages for better performance - prioritize by usage frequency
 const StratusLauncher = lazy(() => import("./pages/StratusLauncher"));
 const Index = lazy(() => import("./pages/Index"));
-const Enter = lazy(() => import("./pages/Enter"));
 const HomePage = lazy(() => import("./pages/HomePage"));
 const HowToUse = lazy(() => import("./pages/HowToUse"));
 const BrokerTerminal = lazy(() => import("./pages/BrokerTerminal"));
@@ -31,12 +34,6 @@ const CrewTerminal = lazy(() => import("./pages/CrewTerminal"));
 const AdminTerminal = lazy(() => import("./pages/AdminTerminal"));
 const BetaSignups = lazy(() => import("./pages/admin/BetaSignups"));
 const RoleSelection = lazy(() => import("./pages/RoleSelection"));
-const BetaNavigator = lazy(() => import("./pages/BetaNavigator"));
-const BetaBrokerTerminal = lazy(() => import("./pages/BetaBrokerTerminal"));
-const BetaOperatorTerminal = lazy(() => import("./pages/BetaOperatorTerminal"));
-const BetaPilotTerminal = lazy(() => import("./pages/BetaPilotTerminal"));
-const BetaCrewTerminal = lazy(() => import("./pages/BetaCrewTerminal"));
-const BetaTest = lazy(() => import("./pages/BetaTest"));
 const Status = lazy(() => import("./pages/CompliantStatus"));
 const Cookies = lazy(() => import("./pages/Cookies"));
 const Unauthorized = lazy(() => import("./pages/Unauthorized"));
@@ -72,9 +69,15 @@ const ApiDocumentation = lazy(() => import("./pages/ApiDocumentation"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Compliance = lazy(() => import("./pages/Compliance"));
 const VerificationPending = lazy(() => import("./pages/VerificationPending"));
+const VerificationRejected = lazy(() => import("./pages/VerificationRejected"));
+const DocumentUpload = lazy(() => import("./pages/DocumentUpload"));
+const Login = lazy(() => import("./pages/Login"));
+const Signup = lazy(() => import("./pages/Signup"));
 const AdminConsole = lazy(() => import("./pages/AdminConsole"));
+const AdminRouteGuard = lazy(() => import("./components/AdminRouteGuard"));
 const AdminSetup = lazy(() => import("./pages/AdminSetup"));
 const QuickAdminSetup = lazy(() => import("./pages/QuickAdminSetup"));
+const TestLogin = lazy(() => import("./pages/TestLogin"));
 const SecurityDashboard = lazy(() => import("./pages/SecurityDashboard"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const PublicProfile = lazy(() => import("./pages/PublicProfile"));
@@ -84,6 +87,7 @@ const Auth = lazy(() => import("./pages/Auth"));
 const AuthCallback = lazy(() => import("./pages/AuthCallback"));
 const SecureAdminSetup = lazy(() => import("./pages/SecureAdminSetup"));
 const MessagingCenter = lazy(() => import("./components/messaging/MessagingCenter"));
+const StaffPortal = lazy(() => import("./pages/StaffPortal"));
 
 // Demo terminals
 const DemoBrokerTerminal = lazy(() => import("./pages/DemoBrokerTerminal"));
@@ -129,6 +133,25 @@ const MemoizedNavigationOptimizer = memo(NavigationOptimizer);
 const App = memo(() => {
   // Log app initialization in development only
   logger.debug('StratusConnect App initializing...');
+  
+  // Initialize behavioral tracking
+  React.useEffect(() => {
+    behavioralTracker.updateConfig({
+      enabled: process.env.NODE_ENV === 'production',
+      sampleRate: 0.1, // Track 10% of requests in production
+      maxDataPoints: 100,
+      sendInterval: 30000 // Send data every 30 seconds
+    });
+    
+    return () => {
+      behavioralTracker.destroy();
+    };
+  }, []);
+
+  // Initialize admin notification system
+  React.useEffect(() => {
+    initializeAdminNotification();
+  }, []);
 
   return (
     <div className="min-h-screen bg-app text-body w-full overflow-x-hidden">
@@ -150,11 +173,18 @@ const App = memo(() => {
                     <Routes>
               {/* Public routes */}
               <Route path="/" element={<StratusLauncher />} />
-              <Route path="/enter" element={<Enter />} />
+              <Route path="/enter" element={<Navigate to="/auth" replace />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/auth/callback" element={<AuthCallback />} />
               <Route path="/demo" element={<Demo />} />
               <Route path="/roles" element={<RoleSelection />} />
+              <Route path="/role-selection" element={<RoleSelection />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/signup-form" element={<Signup />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/upload-documents" element={<DocumentUpload />} />
+              <Route path="/verification-pending" element={<VerificationPending />} />
+              <Route path="/verification-rejected" element={<VerificationRejected />} />
               <Route path="/how-to-use" element={<HowToUse />} />
               <Route path="/about" element={<About />} />
               <Route path="/fees" element={<Fees />} />
@@ -171,8 +201,9 @@ const App = memo(() => {
               <Route path="/contact" element={<Contact />} />
               <Route path="/compliance" element={<Compliance />} />
               <Route path="/intelligence" element={<AircraftIntelligence />} />
-              <Route path="/verification-pending" element={<VerificationPending />} />
               <Route path="/quick-admin-setup" element={<QuickAdminSetup />} />
+              <Route path="/staff-portal" element={<StaffPortal />} />
+              <Route path="/test-login" element={<TestLogin />} />
               
               {/* New unified navigation routes */}
               <Route 
@@ -221,33 +252,6 @@ const App = memo(() => {
               <Route path="/tutorial/broker" element={<BrokerTutorial isDemo={false} />} />
               <Route path="/demo/tutorial/broker" element={<BrokerTutorial isDemo={true} />} />
               
-              {/* Public Beta Testing Routes - Protected for users/owners */}
-              <Route path="/beta" element={<BetaNavigator />} />
-              <Route path="/beta/test" element={<BetaTest />} />
-              <Route 
-                path="/beta/broker" 
-                element={<BetaBrokerTerminal />}
-              />
-              <Route 
-                path="/beta/operator" 
-                element={<BetaOperatorTerminal />}
-              />
-              <Route 
-                path="/beta/pilot" 
-                element={<BetaPilotTerminal />}
-              />
-              <Route 
-                path="/beta/crew" 
-                element={<BetaCrewTerminal />}
-              />
-              <Route 
-                path="/beta/admin" 
-                element={
-                  <ProtectedRoute allowedRoles={['admin']}>
-                    <AdminTerminal />
-                  </ProtectedRoute>
-                } 
-              />
         
               
               {/* Profile routes */}
@@ -275,10 +279,26 @@ const App = memo(() => {
                 } 
               />
               <Route 
+                path="/broker-terminal" 
+                element={
+                  <ProtectedRoute allowedRoles={['broker']}>
+                    <BrokerTerminal />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
                 path="/terminal/operator" 
                 element={
                   <ProtectedRoute allowedRoles={['operator']}>
                     <OperatorDashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/operator-terminal" 
+                element={
+                  <ProtectedRoute allowedRoles={['operator']}>
+                    <OperatorTerminal />
                   </ProtectedRoute>
                 } 
               />
@@ -291,7 +311,23 @@ const App = memo(() => {
                 } 
               />
               <Route 
+                path="/pilot-terminal" 
+                element={
+                  <ProtectedRoute allowedRoles={['pilot']}>
+                    <PilotTerminal />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
                 path="/terminal/crew" 
+                element={
+                  <ProtectedRoute allowedRoles={['pilot', 'crew']}>
+                    <CrewTerminal />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/crew-terminal" 
                 element={
                   <ProtectedRoute allowedRoles={['pilot', 'crew']}>
                     <CrewTerminal />
@@ -309,9 +345,11 @@ const App = memo(() => {
               <Route 
                 path="/admin" 
                 element={
-                  <ProtectedRoute allowedRoles={['admin']} requireApproved={true}>
-                    <AdminConsole />
-                  </ProtectedRoute>
+                  <AdminRouteGuard>
+                    <ProtectedRoute allowedRoles={['admin']} requireApproved={true}>
+                      <AdminConsole />
+                    </ProtectedRoute>
+                  </AdminRouteGuard>
                 } 
               />
               <Route 
@@ -358,6 +396,9 @@ const App = memo(() => {
               </AuthProvider>
           </BrowserRouter>
           </TooltipProvider>
+          
+          {/* AI Error Notification - Site-wide error monitoring */}
+          <AIErrorNotification />
         </QueryClientProvider>
     </div>
   );

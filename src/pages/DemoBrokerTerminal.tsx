@@ -5,34 +5,26 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  AlertTriangle,
-  Award,
-  BarChart3,
-  Bell,
-  Briefcase,
-  Calendar,
-  CheckCircle,
-  Clock,
-  DollarSign,
-  Download,
-  Eye,
-  FileText,
-  Mail,
-  MapPin,
-  MessageCircle,
-  MessageSquare,
-  Phone,
-  Plane,
-  Plus,
-  Search,
-  Send,
-  Shield,
-  Star,
-  TrendingUp,
-  Trophy,
-  User,
-  Users,
-  X
+    AlertTriangle,
+    Award,
+    BarChart3,
+    Bell,
+    CheckCircle,
+    Clock,
+    DollarSign,
+    Eye,
+    FileText,
+    MapPin,
+    MessageCircle,
+    MessageSquare,
+    Plus,
+    Search,
+    Shield,
+    Star,
+    TrendingUp,
+    Trophy,
+    User,
+    X
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -692,447 +684,454 @@ export default function DemoBrokerTerminal() {
             </div>
           </TabsContent>
 
+
           <TabsContent value="rfqs" className="mt-6 scroll-smooth">
     <div className="space-y-6">
-              {/* Active RFQs */}
               <Card className="bg-slate-800/50 border-slate-700">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
                     <FileText className="w-5 h-5 text-orange-400" />
-                    Active RFQs
-                    <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30 ml-2">
-                      {rfqs.length} pending
-                    </Badge>
+                    RFQs & Quotes
           </CardTitle>
         </CardHeader>
         <CardContent>
-      <div className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {rfqs.map((rfq) => (
-                        <div key={rfq.id} className="p-4 rounded-lg border border-slate-600 bg-slate-700/50 hover:border-orange-500/50 transition-all group cursor-pointer">
-                          <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                              <h4 className="font-semibold text-white">{rfq.client}</h4>
-                              <Badge className={`${
-                                rfq.urgency === 'high' ? 'bg-red-500/20 text-red-400' : 
-                                rfq.urgency === 'medium' ? 'bg-amber-500/20 text-amber-400' : 
-                                'bg-green-500/20 text-green-400'
-                              }`}>
-                                {rfq.urgency}
-                              </Badge>
-                            </div>
-                            <Badge className={`${
-                              rfq.status === 'pending' ? 'bg-blue-500/20 text-blue-400' : 
-                              rfq.status === 'quoted' ? 'bg-orange-500/20 text-orange-400' : 
-                              'bg-green-500/20 text-green-400'
-                            }`}>
-                    {rfq.status}
-                  </Badge>
-                </div>
-                          
-                          <div className="space-y-2 mb-4">
-                            <div className="flex items-center gap-2">
-                              <Plane className="w-4 h-4 text-gray-400" />
-                              <span className="text-sm text-gray-300">{rfq.route}</span>
-              </div>
-                            <div className="flex items-center gap-2">
-                              <Users className="w-4 h-4 text-gray-400" />
-                              <span className="text-sm text-gray-300">{rfq.aircraft} • {rfq.passengers} passengers</span>
-                          </div>
-                            <div className="flex items-center gap-2">
-                              <DollarSign className="w-4 h-4 text-gray-400" />
-                              <span className="text-sm text-gray-300">Budget: £{rfq.budget.toLocaleString()}</span>
-                          </div>
-                            <div className="flex items-center gap-2">
-                              <Clock className="w-4 h-4 text-gray-400" />
-                              <span className="text-sm text-gray-300">
-                                {rfq.status === 'pending' ? 'Deadline: ' : 'Received: '}
-                                {new Date(rfq.deadline).toLocaleString()}
-                              </span>
-                        </div>
-                        </div>
-
-                          <div className="flex items-center justify-between">
-                      <div className="flex gap-2">
-                              <Button size="sm" className="bg-orange-500 hover:bg-orange-600 text-white">
-                                <Send className="w-3 h-3 mr-1" />
-                                Quote
-                        </Button>
-                              <Button size="sm" variant="outline" className="border-slate-600 text-gray-300 hover:bg-slate-700">
-                                <Eye className="w-3 h-3 mr-1" />
-                                View
-                        </Button>
-                            </div>
-                            <div className="text-right">
-                              <p className="text-xs text-gray-500">RFQ #{rfq.id}</p>
-                            </div>
-                      </div>
+          <div className="space-y-4">
+            {/* Pending RFQs that need replies */}
+            <div className="space-y-3">
+              <h3 className="text-lg font-semibold text-orange-400 flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4" />
+                Pending RFQs (2)
+              </h3>
+              
+              {/* RFQ 1 */}
+              <Card className="bg-red-900/20 border-red-500/30">
+                <CardContent className="p-4">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <h4 className="font-semibold text-white">NYC → LAX - Gulfstream G650</h4>
+                      <p className="text-sm text-gray-300">Client: TechCorp Industries</p>
+                      <p className="text-sm text-gray-400">Departure: Tomorrow 2:00 PM EST</p>
                     </div>
-                  ))}
-                </div>
-                </div>
-            </CardContent>
-          </Card>
-
-              {/* Recent Quotes */}
-              <Card className="bg-slate-800/50 border-slate-700">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-green-400" />
-                    Recent Quotes
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    {deals.map((deal) => (
-                      <div key={deal.id} className="p-3 rounded-lg border border-slate-600 bg-slate-700/30 hover:border-orange-500/50 transition-all group cursor-pointer">
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-2">
-                            <h4 className="font-medium text-white">{deal.client}</h4>
-                            <Badge className={`${
-                              deal.status === 'completed' ? 'bg-green-500/20 text-green-400' : 
-                              deal.status === 'in-progress' ? 'bg-orange-500/20 text-orange-400' : 
-                              'bg-blue-500/20 text-blue-400'
-                            }`}>
-                              {deal.status}
-                            </Badge>
-                          </div>
-                          <span className="text-orange-400 font-semibold">£{deal.value.toLocaleString()}</span>
-                        </div>
-                        <div className="flex items-center gap-4 text-sm text-gray-400">
-                          <span>{deal.route}</span>
-                          <span>•</span>
-                          <span>{deal.aircraft}</span>
-                          <span>•</span>
-                          <span>{deal.passengers} passengers</span>
-                        </div>
-                      </div>
-        ))}
-      </div>
+                    <Badge className="bg-red-500">URGENT</Badge>
+                  </div>
+                  <p className="text-sm text-gray-300 mb-3">Corporate executives need immediate transport for board meeting. 8 passengers, premium service required.</p>
+                  <div className="flex gap-2">
+                    <Button size="sm" className="bg-orange-500 hover:bg-orange-600">
+                      Send Quote
+                    </Button>
+                    <Button size="sm" variant="outline">
+                      View Details
+                    </Button>
+                  </div>
                 </CardContent>
+              </Card>
+
+              {/* RFQ 2 */}
+              <Card className="bg-yellow-900/20 border-yellow-500/30">
+                <CardContent className="p-4">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <h4 className="font-semibold text-white">LHR → DXB - Bombardier Global 7500</h4>
+                      <p className="text-sm text-gray-300">Client: Global Ventures Ltd</p>
+                      <p className="text-sm text-gray-400">Departure: Friday 8:00 AM GMT</p>
+                    </div>
+                    <Badge className="bg-yellow-500">HIGH PRIORITY</Badge>
+                  </div>
+                  <p className="text-sm text-gray-300 mb-3">Business delegation for Middle East expansion. 6 passengers, luxury amenities required.</p>
+                  <div className="flex gap-2">
+                    <Button size="sm" className="bg-orange-500 hover:bg-orange-600">
+                      Send Quote
+                    </Button>
+                    <Button size="sm" variant="outline">
+                      View Details
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Sent Quotes */}
+            <div className="space-y-3">
+              <h3 className="text-lg font-semibold text-blue-400 flex items-center gap-2">
+                <MessageSquare className="w-4 h-4" />
+                Sent Quotes (8)
+              </h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {/* Quote 1 */}
+                <Card className="bg-slate-700/50">
+                  <CardContent className="p-3">
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-medium text-white text-sm">JFK → LHR</h4>
+                      <Badge className="bg-blue-500 text-xs">Pending</Badge>
+                    </div>
+                    <p className="text-xs text-gray-400 mb-2">Client: Finance Corp</p>
+                    <p className="text-xs text-gray-300">$85,000 - Sent 2 hours ago</p>
+                  </CardContent>
+                </Card>
+
+                {/* Quote 2 */}
+                <Card className="bg-slate-700/50">
+                  <CardContent className="p-3">
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-medium text-white text-sm">LAX → NRT</h4>
+                      <Badge className="bg-green-500 text-xs">Accepted</Badge>
+                    </div>
+                    <p className="text-xs text-gray-400 mb-2">Client: Tech Startup</p>
+                    <p className="text-xs text-gray-300">$125,000 - Accepted yesterday</p>
+                  </CardContent>
+                </Card>
+
+                {/* Quote 3 */}
+                <Card className="bg-slate-700/50">
+                  <CardContent className="p-3">
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-medium text-white text-sm">CDG → DXB</h4>
+                      <Badge className="bg-yellow-500 text-xs">Negotiating</Badge>
+                    </div>
+                    <p className="text-xs text-gray-400 mb-2">Client: Luxury Group</p>
+                    <p className="text-xs text-gray-300">$95,000 - Counter offered</p>
+                  </CardContent>
+                </Card>
+
+                {/* Quote 4 */}
+                <Card className="bg-slate-700/50">
+                  <CardContent className="p-3">
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-medium text-white text-sm">SFO → SYD</h4>
+                      <Badge className="bg-red-500 text-xs">Rejected</Badge>
+                    </div>
+                    <p className="text-xs text-gray-400 mb-2">Client: Mining Corp</p>
+                    <p className="text-xs text-gray-300">$180,000 - Price too high</p>
+                  </CardContent>
+                </Card>
+
+                {/* Quote 5 */}
+                <Card className="bg-slate-700/50">
+                  <CardContent className="p-3">
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-medium text-white text-sm">MIA → GRU</h4>
+                      <Badge className="bg-blue-500 text-xs">Pending</Badge>
+                    </div>
+                    <p className="text-xs text-gray-400 mb-2">Client: Pharma Inc</p>
+                    <p className="text-xs text-gray-300">$65,000 - Sent 1 day ago</p>
+                  </CardContent>
+                </Card>
+
+                {/* Quote 6 */}
+                <Card className="bg-slate-700/50">
+                  <CardContent className="p-3">
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-medium text-white text-sm">ORD → FRA</h4>
+                      <Badge className="bg-green-500 text-xs">Accepted</Badge>
+                    </div>
+                    <p className="text-xs text-gray-400 mb-2">Client: Auto Manufacturer</p>
+                    <p className="text-xs text-gray-300">$78,000 - Confirmed</p>
+                  </CardContent>
+                </Card>
+
+                {/* Quote 7 */}
+                <Card className="bg-slate-700/50">
+                  <CardContent className="p-3">
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-medium text-white text-sm">BCN → JFK</h4>
+                      <Badge className="bg-yellow-500 text-xs">Negotiating</Badge>
+                    </div>
+                    <p className="text-xs text-gray-400 mb-2">Client: Fashion House</p>
+                    <p className="text-xs text-gray-300">$88,000 - Reviewing terms</p>
+                  </CardContent>
+                </Card>
+
+                {/* Quote 8 */}
+                <Card className="bg-slate-700/50">
+                  <CardContent className="p-3">
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-medium text-white text-sm">HKG → SIN</h4>
+                      <Badge className="bg-blue-500 text-xs">Pending</Badge>
+                    </div>
+                    <p className="text-xs text-gray-400 mb-2">Client: Investment Fund</p>
+                    <p className="text-xs text-gray-300">$45,000 - Sent 3 hours ago</p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </CardContent>
               </Card>
     </div>
           </TabsContent>
 
           <TabsContent value="marketplace" className="mt-6 scroll-smooth">
     <div className="space-y-6">
-              {/* Active Deals */}
               <Card className="bg-slate-800/50 border-slate-700">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-                    <Briefcase className="w-5 h-5 text-orange-400" />
-                    Active Deals
-                    <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30 ml-2">
-                      {deals.length} deals
-                    </Badge>
+                    <MapPin className="w-5 h-5 text-orange-400" />
+                    Marketplace
           </CardTitle>
         </CardHeader>
         <CardContent>
-                  <div className="space-y-4">
-                    {deals.map((deal) => (
-                      <div key={deal.id} className="p-6 rounded-lg border border-slate-600 bg-slate-700/30 hover:border-orange-500/50 transition-all group cursor-pointer">
-                        <div className="flex items-start justify-between mb-4">
-                          <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-full bg-slate-600 flex items-center justify-center">
-                              <span className="text-lg font-bold text-white">{deal.client.charAt(0)}</span>
-                            </div>
-                            <div>
-                              <h4 className="font-semibold text-white text-lg">{deal.client}</h4>
-                              <p className="text-sm text-gray-400">{deal.clientDetails.name}</p>
-                            </div>
-                          </div>
-                          <div className="text-right">
-                            <Badge className={`${
-                              deal.status === 'completed' ? 'bg-green-500/20 text-green-400' : 
-                              deal.status === 'in-progress' ? 'bg-orange-500/20 text-orange-400' : 
-                              'bg-blue-500/20 text-blue-400'
-                            } mb-2`}>
-                              {deal.status}
-                            </Badge>
-                            <p className="text-2xl font-bold text-orange-400">£{deal.value.toLocaleString()}</p>
-                          </div>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-                              <Plane className="w-4 h-4 text-gray-400" />
-                              <span className="text-sm text-gray-300">{deal.route}</span>
-            </div>
-            <div className="flex items-center gap-2">
-                              <Calendar className="w-4 h-4 text-gray-400" />
-                              <span className="text-sm text-gray-300">{deal.flightDetails.date} at {deal.flightDetails.time}</span>
-            </div>
-            <div className="flex items-center gap-2">
-                              <Clock className="w-4 h-4 text-gray-400" />
-                              <span className="text-sm text-gray-300">Duration: {deal.flightDetails.duration}</span>
-                            </div>
-                          </div>
-                          <div className="space-y-2">
-                            <div className="flex items-center gap-2">
-                              <Users className="w-4 h-4 text-gray-400" />
-                              <span className="text-sm text-gray-300">{deal.passengers} passengers</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Award className="w-4 h-4 text-gray-400" />
-                              <span className="text-sm text-gray-300">Aircraft: {deal.aircraft}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Star className="w-4 h-4 text-gray-400" />
-                              <span className="text-sm text-gray-300">Operator: {deal.flightDetails.operator}</span>
-                            </div>
-            </div>
-          </div>
-          
-                        {/* Timeline */}
-                        <div className="border-t border-slate-600 pt-4">
-                          <h5 className="text-sm font-medium text-white mb-3">Deal Timeline</h5>
-                          <div className="space-y-2">
-                            <div className="flex items-center gap-3">
-                              <CheckCircle className="w-4 h-4 text-green-400" />
-                              <span className="text-sm text-gray-300">RFQ Received: {new Date(deal.timeline.rfqReceived).toLocaleString()}</span>
+          <div className="space-y-4">
+            {/* Recent Sales */}
+            <div className="space-y-3">
+              <h3 className="text-lg font-semibold text-green-400 flex items-center gap-2">
+                <Trophy className="w-4 h-4" />
+                Recent Sales
+              </h3>
+              
+              {/* Sale 1 */}
+              <Card className="bg-green-900/20 border-green-500/30">
+                <CardContent className="p-4">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <h4 className="font-semibold text-white">Gulfstream G650ER - SOLD</h4>
+                      <p className="text-sm text-gray-300">Buyer: TechCorp Industries</p>
+                      <p className="text-sm text-gray-400">Sale Price: $65.5M</p>
+                    </div>
+                    <Badge className="bg-green-500">COMPLETED</Badge>
                   </div>
-                            <div className="flex items-center gap-3">
-                              <CheckCircle className="w-4 h-4 text-green-400" />
-                              <span className="text-sm text-gray-300">Quote Sent: {new Date(deal.timeline.quoteSent).toLocaleString()}</span>
-                </div>
-                            <div className="flex items-center gap-3">
-                              <CheckCircle className="w-4 h-4 text-green-400" />
-                              <span className="text-sm text-gray-300">Quote Accepted: {new Date(deal.timeline.quoteAccepted).toLocaleString()}</span>
-                  </div>
-                            {deal.timeline.flightCompleted && (
-                              <div className="flex items-center gap-3">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
-                                <span className="text-sm text-gray-300">Flight Completed: {new Date(deal.timeline.flightCompleted).toLocaleString()}</span>
-                  </div>
-                            )}
-                            {deal.timeline.paymentReceived && (
-                              <div className="flex items-center gap-3">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
-                                <span className="text-sm text-gray-300">Payment Received: {new Date(deal.timeline.paymentReceived).toLocaleString()}</span>
-                  </div>
-                            )}
-                </div>
-                </div>
-
-                        <div className="flex items-center justify-between mt-4">
-                <div className="flex gap-2">
-                            <Button size="sm" className="bg-orange-500 hover:bg-orange-600 text-white">
-                              <MessageSquare className="w-3 h-3 mr-1" />
-                              Contact
-                  </Button>
-                            <Button size="sm" variant="outline" className="border-slate-600 text-gray-300 hover:bg-slate-700">
-                              <Eye className="w-3 h-3 mr-1" />
-                              Details
-                  </Button>
-                </div>
-                          <div className="text-right">
-                            <p className="text-xs text-gray-500">Deal #{deal.id}</p>
-                          </div>
-                        </div>
-                      </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
-              {/* Client Performance */}
-              <Card className="bg-slate-800/50 border-slate-700">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <BarChart3 className="w-5 h-5 text-orange-400" />
-                    Client Performance
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {deals.map((deal) => (
-                      <div key={deal.id} className="p-4 rounded-lg border border-slate-600 bg-slate-700/30">
-                        <div className="flex items-center gap-3 mb-3">
-                          <div className="w-10 h-10 rounded-full bg-slate-600 flex items-center justify-center">
-                            <span className="text-sm font-bold text-white">{deal.client.charAt(0)}</span>
-    </div>
-                          <div>
-                            <h4 className="font-medium text-white">{deal.client}</h4>
-                            <p className="text-sm text-gray-400">{deal.clientDetails.name}</p>
-    </div>
-                        </div>
-                        <div className="space-y-2">
-                          <div className="flex justify-between text-sm">
-                            <span className="text-gray-400">Rating:</span>
-                            <div className="flex items-center gap-1">
-                              <Star className="w-3 h-3 text-yellow-400 fill-current" />
-                              <span className="text-white">{deal.clientDetails.rating}</span>
-                            </div>
-                          </div>
-                          <div className="flex justify-between text-sm">
-                            <span className="text-gray-400">Total Deals:</span>
-                            <span className="text-white">{deal.clientDetails.totalDeals}</span>
-                          </div>
-                          <div className="flex justify-between text-sm">
-                            <span className="text-gray-400">Contact:</span>
-                            <div className="flex gap-1">
-                              <Button size="sm" variant="ghost" className="p-1 h-6 w-6 text-gray-400 hover:text-white">
-                                <Mail className="w-3 h-3" />
-          </Button>
-                              <Button size="sm" variant="ghost" className="p-1 h-6 w-6 text-gray-400 hover:text-white">
-                                <Phone className="w-3 h-3" />
-          </Button>
-        </div>
-      </div>
-    </div>
-                      </div>
-                    ))}
+                  <p className="text-sm text-gray-300 mb-3">2019 model, 2,500 flight hours, pristine condition. Delivered to Teterboro Airport.</p>
+                  <div className="flex gap-2">
+                    <Button size="sm" className="bg-green-500 hover:bg-green-600">
+                      View Contract
+                    </Button>
+                    <Button size="sm" variant="outline">
+                      Commission: $4.6M
+                    </Button>
                   </div>
                 </CardContent>
+              </Card>
+
+              {/* Sale 2 */}
+              <Card className="bg-blue-900/20 border-blue-500/30">
+                <CardContent className="p-4">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <h4 className="font-semibold text-white">Bombardier Global 7500 - SOLD</h4>
+                      <p className="text-sm text-gray-300">Buyer: Global Ventures Ltd</p>
+                      <p className="text-sm text-gray-400">Sale Price: $72.8M</p>
+                    </div>
+                    <Badge className="bg-blue-500">DELIVERED</Badge>
+                  </div>
+                  <p className="text-sm text-gray-300 mb-3">2021 model, 1,200 flight hours, full VIP interior. Delivered to London Biggin Hill.</p>
+                  <div className="flex gap-2">
+                    <Button size="sm" className="bg-blue-500 hover:bg-blue-600">
+                      View Contract
+                    </Button>
+                    <Button size="sm" variant="outline">
+                      Commission: $5.1M
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Available Aircraft */}
+            <div className="space-y-3">
+              <h3 className="text-lg font-semibold text-orange-400 flex items-center gap-2">
+                <MapPin className="w-4 h-4" />
+                Available for Sale
+              </h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {/* Aircraft 1 */}
+                <Card className="bg-slate-700/50">
+                  <CardContent className="p-3">
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-medium text-white text-sm">Citation XLS+</h4>
+                      <Badge className="bg-orange-500 text-xs">Available</Badge>
+                    </div>
+                    <p className="text-xs text-gray-400 mb-2">2018 • 3,200 hours</p>
+                    <p className="text-xs text-gray-300">$8.5M • 7 passengers</p>
+                  </CardContent>
+                </Card>
+
+                {/* Aircraft 2 */}
+                <Card className="bg-slate-700/50">
+                  <CardContent className="p-3">
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-medium text-white text-sm">Phenom 300E</h4>
+                      <Badge className="bg-orange-500 text-xs">Available</Badge>
+                    </div>
+                    <p className="text-xs text-gray-400 mb-2">2020 • 1,800 hours</p>
+                    <p className="text-xs text-gray-300">$12.2M • 9 passengers</p>
+                  </CardContent>
+                </Card>
+
+                {/* Aircraft 3 */}
+                <Card className="bg-slate-700/50">
+                  <CardContent className="p-3">
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-medium text-white text-sm">Challenger 350</h4>
+                      <Badge className="bg-orange-500 text-xs">Available</Badge>
+                    </div>
+                    <p className="text-xs text-gray-400 mb-2">2019 • 2,400 hours</p>
+                    <p className="text-xs text-gray-300">$24.8M • 10 passengers</p>
+                  </CardContent>
+                </Card>
+
+                {/* Aircraft 4 */}
+                <Card className="bg-slate-700/50">
+                  <CardContent className="p-3">
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-medium text-white text-sm">Falcon 7X</h4>
+                      <Badge className="bg-orange-500 text-xs">Available</Badge>
+                    </div>
+                    <p className="text-xs text-gray-400 mb-2">2017 • 4,100 hours</p>
+                    <p className="text-xs text-gray-300">$38.5M • 12 passengers</p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </CardContent>
               </Card>
             </div>
           </TabsContent>
 
           <TabsContent value="billing" className="mt-6 scroll-smooth">
     <div className="space-y-6">
-              {/* Financial Overview */}
               <Card className="bg-slate-800/50 border-slate-700">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
                     <DollarSign className="w-5 h-5 text-orange-400" />
-                    Financial Overview
+                    Billing
           </CardTitle>
         </CardHeader>
         <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                    <div className="p-4 rounded-lg bg-slate-700/50 border border-slate-600">
-              <div className="flex items-center gap-2 mb-2">
-                        <TrendingUp className="w-4 h-4 text-green-400" />
-                        <span className="text-sm text-gray-400">Total Revenue</span>
-              </div>
-                      <p className="text-2xl font-bold text-white">£97,000</p>
-                      <p className="text-xs text-green-400">+12% this month</p>
+          <div className="space-y-4">
+            {/* Payment Summary */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              <Card className="bg-green-900/20 border-green-500/30">
+                <CardContent className="p-4 text-center">
+                  <h3 className="text-2xl font-bold text-green-400">$127,500</h3>
+                  <p className="text-sm text-gray-300">Collected This Month</p>
+                </CardContent>
+              </Card>
+              <Card className="bg-blue-900/20 border-blue-500/30">
+                <CardContent className="p-4 text-center">
+                  <h3 className="text-2xl font-bold text-blue-400">$45,200</h3>
+                  <p className="text-sm text-gray-300">Pending Payments</p>
+                </CardContent>
+              </Card>
+              <Card className="bg-orange-900/20 border-orange-500/30">
+                <CardContent className="p-4 text-center">
+                  <h3 className="text-2xl font-bold text-orange-400">$8,925</h3>
+                  <p className="text-sm text-gray-300">Commission Earned</p>
+                </CardContent>
+              </Card>
             </div>
-                    <div className="p-4 rounded-lg bg-slate-700/50 border border-slate-600">
-              <div className="flex items-center gap-2 mb-2">
-                        <Clock className="w-4 h-4 text-amber-400" />
-                        <span className="text-sm text-gray-400">Pending Payments</span>
-              </div>
-                      <p className="text-2xl font-bold text-white">£52,000</p>
-                      <p className="text-xs text-amber-400">2 deals pending</p>
-            </div>
-                    <div className="p-4 rounded-lg bg-slate-700/50 border border-slate-600">
-              <div className="flex items-center gap-2 mb-2">
-                        <CheckCircle className="w-4 h-4 text-blue-400" />
-                        <span className="text-sm text-gray-400">Completed</span>
-              </div>
-                      <p className="text-2xl font-bold text-white">£45,000</p>
-                      <p className="text-xs text-blue-400">1 deal completed</p>
+
+            {/* Recent Payments */}
+            <div className="space-y-3">
+              <h3 className="text-lg font-semibold text-green-400 flex items-center gap-2">
+                <CheckCircle className="w-4 h-4" />
+                Recent Payments (3)
+              </h3>
+              
+              {/* Payment 1 */}
+              <Card className="bg-green-900/20 border-green-500/30">
+                <CardContent className="p-4">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <h4 className="font-semibold text-white">LAX → NRT Charter</h4>
+                      <p className="text-sm text-gray-300">Client: Tech Startup</p>
+                      <p className="text-sm text-gray-400">Payment Date: Yesterday</p>
                     </div>
-                    <div className="p-4 rounded-lg bg-slate-700/50 border border-slate-600">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Award className="w-4 h-4 text-purple-400" />
-                        <span className="text-sm text-gray-400">Commission</span>
-                      </div>
-                      <p className="text-2xl font-bold text-white">£9,700</p>
-                      <p className="text-xs text-purple-400">10% average</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-              {/* Payment History */}
-              <Card className="bg-slate-800/50 border-slate-700">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <FileText className="w-5 h-5 text-orange-400" />
-                    Payment History
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {deals.map((deal) => (
-                      <div key={deal.id} className="p-4 rounded-lg border border-slate-600 bg-slate-700/30">
-                        <div className="flex items-center justify-between mb-3">
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-slate-600 flex items-center justify-center">
-                              <span className="text-sm font-bold text-white">{deal.client.charAt(0)}</span>
-    </div>
-                            <div>
-                              <h4 className="font-medium text-white">{deal.client}</h4>
-                              <p className="text-sm text-gray-400">Deal #{deal.id}</p>
-                            </div>
-                          </div>
-                          <div className="text-right">
-                            <p className="text-xl font-bold text-orange-400">£{deal.value.toLocaleString()}</p>
-                            <Badge className={`${
-                              deal.timeline.paymentReceived ? 'bg-green-500/20 text-green-400' : 
-                              'bg-amber-500/20 text-amber-400'
-                            }`}>
-                              {deal.timeline.paymentReceived ? 'Paid' : 'Pending'}
-                            </Badge>
-                          </div>
-                        </div>
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-            <div>
-                            <span className="text-gray-400">Route:</span>
-                            <p className="text-white">{deal.route}</p>
-            </div>
-                          <div>
-                            <span className="text-gray-400">Aircraft:</span>
-                            <p className="text-white">{deal.aircraft}</p>
-          </div>
-                          <div>
-                            <span className="text-gray-400">Commission:</span>
-                            <p className="text-white">£{(deal.value * 0.1).toLocaleString()}</p>
-          </div>
-        </div>
-
-                        {deal.timeline.paymentReceived && (
-                          <div className="mt-3 pt-3 border-t border-slate-600">
-                            <div className="flex items-center gap-2 text-sm text-green-400">
-                              <CheckCircle className="w-4 h-4" />
-                              <span>Payment received: {new Date(deal.timeline.paymentReceived).toLocaleString()}</span>
-          </div>
-                          </div>
-                        )}
-                      </div>
-                    ))}
+                    <Badge className="bg-green-500">PAID</Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="text-lg font-bold text-green-400">$125,000</p>
+                      <p className="text-sm text-gray-300">Commission: $8,750</p>
+                    </div>
+                    <Button size="sm" className="bg-green-500 hover:bg-green-600">
+                      View Invoice
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
 
-              {/* Invoices */}
-              <Card className="bg-slate-800/50 border-slate-700">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                    <FileText className="w-5 h-5 text-orange-400" />
-                    Recent Invoices
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                  <div className="space-y-3">
-                    {deals.map((deal) => (
-                      <div key={deal.id} className="flex items-center justify-between p-3 rounded-lg border border-slate-600 bg-slate-700/30">
-                        <div className="flex items-center gap-3">
-                          <FileText className="w-4 h-4 text-gray-400" />
-                          <div>
-                            <p className="text-white font-medium">Invoice #{deal.id}</p>
-                            <p className="text-sm text-gray-400">{deal.client}</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <span className="text-orange-400 font-semibold">£{deal.value.toLocaleString()}</span>
-                          <div className="flex gap-1">
-                            <Button size="sm" variant="ghost" className="p-1 h-6 w-6 text-gray-400 hover:text-white">
-                              <Eye className="w-3 h-3" />
-                  </Button>
-                            <Button size="sm" variant="ghost" className="p-1 h-6 w-6 text-gray-400 hover:text-white">
-                              <Download className="w-3 h-3" />
-                            </Button>
+              {/* Payment 2 */}
+              <Card className="bg-green-900/20 border-green-500/30">
+                <CardContent className="p-4">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <h4 className="font-semibold text-white">ORD → FRA Charter</h4>
+                      <p className="text-sm text-gray-300">Client: Auto Manufacturer</p>
+                      <p className="text-sm text-gray-400">Payment Date: 2 days ago</p>
                     </div>
-                        </div>
-                      </div>
-                    ))}
-                </div>
-              </CardContent>
+                    <Badge className="bg-green-500">PAID</Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="text-lg font-bold text-green-400">$78,000</p>
+                      <p className="text-sm text-gray-300">Commission: $5,460</p>
+                    </div>
+                    <Button size="sm" className="bg-green-500 hover:bg-green-600">
+                      View Invoice
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Payment 3 */}
+              <Card className="bg-green-900/20 border-green-500/30">
+                <CardContent className="p-4">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <h4 className="font-semibold text-white">G650ER Aircraft Sale</h4>
+                      <p className="text-sm text-gray-300">Client: TechCorp Industries</p>
+                      <p className="text-sm text-gray-400">Payment Date: 5 days ago</p>
+                    </div>
+                    <Badge className="bg-green-500">PAID</Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="text-lg font-bold text-green-400">$65,500,000</p>
+                      <p className="text-sm text-gray-300">Commission: $4,585,000</p>
+                    </div>
+                    <Button size="sm" className="bg-green-500 hover:bg-green-600">
+                      View Invoice
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Pending Payments */}
+            <div className="space-y-3">
+              <h3 className="text-lg font-semibold text-yellow-400 flex items-center gap-2">
+                <Clock className="w-4 h-4" />
+                Pending Payments
+              </h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <Card className="bg-yellow-900/20 border-yellow-500/30">
+                  <CardContent className="p-3">
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-medium text-white text-sm">JFK → LHR</h4>
+                      <Badge className="bg-yellow-500 text-xs">Pending</Badge>
+                    </div>
+                    <p className="text-xs text-gray-400 mb-2">Client: Finance Corp</p>
+                    <p className="text-xs text-gray-300">$85,000 • Due in 3 days</p>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-yellow-900/20 border-yellow-500/30">
+                  <CardContent className="p-3">
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-medium text-white text-sm">MIA → GRU</h4>
+                      <Badge className="bg-yellow-500 text-xs">Pending</Badge>
+                    </div>
+                    <p className="text-xs text-gray-400 mb-2">Client: Pharma Inc</p>
+                    <p className="text-xs text-gray-300">$65,000 • Due in 5 days</p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </CardContent>
             </Card>
             </div>
           </TabsContent>
@@ -1143,133 +1142,97 @@ export default function DemoBrokerTerminal() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                     <Shield className="w-5 h-5 text-orange-400" />
-                    Verification Center
-                    <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30 ml-2">
-                      Active
-                    </Badge>
+                    War Room
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div className="p-4 rounded-lg bg-slate-700/50 border border-slate-600">
-                        <div className="flex items-center gap-2 mb-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-sm text-gray-400">Verified Operators</span>
-                        </div>
-                        <p className="text-2xl font-bold text-white">12</p>
-                        <p className="text-xs text-green-400">All active</p>
-                      </div>
-                      <div className="p-4 rounded-lg bg-slate-700/50 border border-slate-600">
-                        <div className="flex items-center gap-2 mb-2">
-                          <Clock className="w-4 h-4 text-amber-400" />
-                          <span className="text-sm text-gray-400">Pending Reviews</span>
-                        </div>
-                        <p className="text-2xl font-bold text-white">3</p>
-                        <p className="text-xs text-amber-400">2 urgent</p>
-                      </div>
-                      <div className="p-4 rounded-lg bg-slate-700/50 border border-slate-600">
-                        <div className="flex items-center gap-2 mb-2">
-                          <AlertTriangle className="w-4 h-4 text-red-400" />
-                          <span className="text-sm text-gray-400">Issues</span>
-                        </div>
-                        <p className="text-2xl font-bold text-white">0</p>
-                        <p className="text-xs text-green-400">All clear</p>
-                      </div>
-                    </div>
+                <div className="space-y-4">
+                  {/* Verification Status */}
+                  <div className="space-y-3">
+                    <h3 className="text-lg font-semibold text-orange-400 flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4" />
+                      Verification Status
+                    </h3>
                     
-                    <div className="space-y-3">
-                      <h4 className="text-lg font-semibold text-white">Recent Verifications</h4>
-                      {deals.map((deal) => (
-                        <div key={deal.id} className="p-3 rounded-lg border border-slate-600 bg-slate-700/30">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                              <div className="w-8 h-8 rounded-full bg-slate-600 flex items-center justify-center">
-                                <span className="text-xs font-bold text-white">{deal.client.charAt(0)}</span>
-                              </div>
-                              <div>
-                                <p className="text-white font-medium">{deal.client}</p>
-                                <p className="text-sm text-gray-400">{deal.flightDetails.operator}</p>
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Badge className="bg-green-500/20 text-green-400">Verified</Badge>
-                              <Button size="sm" variant="ghost" className="p-1 h-6 w-6 text-gray-400 hover:text-white">
-                                <Eye className="w-3 h-3" />
-                </Button>
-              </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <Card className="bg-green-900/20 border-green-500/30">
+                        <CardContent className="p-4">
+                          <div className="flex items-center gap-3 mb-2">
+                            <CheckCircle className="w-5 h-5 text-green-400" />
+                            <h4 className="font-semibold text-white">Broker License</h4>
                           </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
+                          <p className="text-sm text-gray-300">Verified • Expires: Dec 2025</p>
+                          <Badge className="bg-green-500 mt-2">ACTIVE</Badge>
+                        </CardContent>
+                      </Card>
 
-          <TabsContent value="reputation" className="mt-6 scroll-smooth">
-            <div className="space-y-6">
-              <Card className="bg-slate-800/50 border-slate-700">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Award className="w-5 h-5 text-orange-400" />
-                    Reputation & Performance
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-4">
-                        <h4 className="text-lg font-semibold text-white">Performance Metrics</h4>
-                        <div className="space-y-3">
-                          <div className="flex justify-between items-center">
-                            <span className="text-gray-400">Overall Rating</span>
-                            <div className="flex items-center gap-1">
-                              <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                              <span className="text-white font-semibold">4.8/5.0</span>
-                      </div>
-                      </div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-gray-400">Response Time</span>
-                            <span className="text-white font-semibold">2.3 minutes</span>
-                    </div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-gray-400">Success Rate</span>
-                            <span className="text-white font-semibold">98%</span>
-                      </div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-gray-400">Client Satisfaction</span>
-                            <span className="text-white font-semibold">4.9/5.0</span>
-                      </div>
-                    </div>
-                      </div>
-                      
-                      <div className="space-y-4">
-                        <h4 className="text-lg font-semibold text-white">Recent Reviews</h4>
-                        <div className="space-y-3">
-                          {deals.map((deal) => (
-                            <div key={deal.id} className="p-3 rounded-lg border border-slate-600 bg-slate-700/30">
-                              <div className="flex items-center justify-between mb-2">
-                                <div className="flex items-center gap-2">
-                                  <div className="w-6 h-6 rounded-full bg-slate-600 flex items-center justify-center">
-                                    <span className="text-xs font-bold text-white">{deal.client.charAt(0)}</span>
-                      </div>
-                                  <span className="text-white font-medium">{deal.client}</span>
-                    </div>
-                                <div className="flex items-center gap-1">
-                                  <Star className="w-3 h-3 text-yellow-400 fill-current" />
-                                  <span className="text-white text-sm">{deal.clientDetails.rating}</span>
-                  </div>
-                    </div>
-                              <p className="text-sm text-gray-300">"Excellent service, very professional and responsive."</p>
-                    </div>
-                          ))}
-                  </div>
-                    </div>
+                      <Card className="bg-green-900/20 border-green-500/30">
+                        <CardContent className="p-4">
+                          <div className="flex items-center gap-3 mb-2">
+                            <CheckCircle className="w-5 h-5 text-green-400" />
+                            <h4 className="font-semibold text-white">Insurance Coverage</h4>
+                          </div>
+                          <p className="text-sm text-gray-300">Verified • $10M Coverage</p>
+                          <Badge className="bg-green-500 mt-2">ACTIVE</Badge>
+                        </CardContent>
+                      </Card>
                     </div>
                   </div>
-                </CardContent>
+
+                  {/* Pending Items */}
+                  <div className="space-y-3">
+                    <h3 className="text-lg font-semibold text-yellow-400 flex items-center gap-2">
+                      <AlertTriangle className="w-4 h-4" />
+                      Pending Items
+                    </h3>
+                    
+                    <Card className="bg-yellow-900/20 border-yellow-500/30">
+                      <CardContent className="p-4">
+                        <div className="flex justify-between items-start mb-2">
+                          <div>
+                            <h4 className="font-semibold text-white">Annual Compliance Review</h4>
+                            <p className="text-sm text-gray-300">Due: February 15, 2025</p>
+                          </div>
+                          <Badge className="bg-yellow-500">PENDING</Badge>
+                        </div>
+                        <p className="text-sm text-gray-300 mb-3">Required documentation for broker license renewal.</p>
+                        <Button size="sm" className="bg-yellow-500 hover:bg-yellow-600">
+                          Submit Documents
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  {/* Compliance Metrics */}
+                  <div className="space-y-3">
+                    <h3 className="text-lg font-semibold text-blue-400 flex items-center gap-2">
+                      <Shield className="w-4 h-4" />
+                      Compliance Metrics
+                    </h3>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                      <Card className="bg-blue-900/20 border-blue-500/30">
+                        <CardContent className="p-3 text-center">
+                          <h4 className="text-xl font-bold text-blue-400">98%</h4>
+                          <p className="text-sm text-gray-300">Compliance Score</p>
+                        </CardContent>
+                      </Card>
+                      <Card className="bg-green-900/20 border-green-500/30">
+                        <CardContent className="p-3 text-center">
+                          <h4 className="text-xl font-bold text-green-400">0</h4>
+                          <p className="text-sm text-gray-300">Active Violations</p>
+                        </CardContent>
+                      </Card>
+                      <Card className="bg-orange-900/20 border-orange-500/30">
+                        <CardContent className="p-3 text-center">
+                          <h4 className="text-xl font-bold text-orange-400">45</h4>
+                          <p className="text-sm text-gray-300">Days Since Last Audit</p>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
               </Card>
             </div>
           </TabsContent>
@@ -1280,59 +1243,123 @@ export default function DemoBrokerTerminal() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <FileText className="w-5 h-5 text-orange-400" />
-                    Document Storage
+                    Documents
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div className="p-4 rounded-lg bg-slate-700/50 border border-slate-600">
-                        <div className="flex items-center gap-2 mb-2">
-                          <FileText className="w-4 h-4 text-blue-400" />
-                          <span className="text-sm text-gray-400">Contracts</span>
-                            </div>
-                        <p className="text-2xl font-bold text-white">24</p>
-                        <p className="text-xs text-blue-400">2 new this week</p>
-                                </div>
-                      <div className="p-4 rounded-lg bg-slate-700/50 border border-slate-600">
-                        <div className="flex items-center gap-2 mb-2">
-                          <DollarSign className="w-4 h-4 text-green-400" />
-                          <span className="text-sm text-gray-400">Invoices</span>
-                            </div>
-                        <p className="text-2xl font-bold text-white">18</p>
-                        <p className="text-xs text-green-400">3 pending</p>
-                          </div>
-                      <div className="p-4 rounded-lg bg-slate-700/50 border border-slate-600">
-                        <div className="flex items-center gap-2 mb-2">
-                          <Plane className="w-4 h-4 text-orange-400" />
-                          <span className="text-sm text-gray-400">Flight Plans</span>
-                        </div>
-                        <p className="text-2xl font-bold text-white">12</p>
-                        <p className="text-xs text-orange-400">All current</p>
-                      </div>
+                    {/* Document Categories */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                      <Card className="bg-blue-900/20 border-blue-500/30">
+                        <CardContent className="p-4 text-center">
+                          <h3 className="text-2xl font-bold text-blue-400">24</h3>
+                          <p className="text-sm text-gray-300">Invoices</p>
+                        </CardContent>
+                      </Card>
+                      <Card className="bg-green-900/20 border-green-500/30">
+                        <CardContent className="p-4 text-center">
+                          <h3 className="text-2xl font-bold text-green-400">12</h3>
+                          <p className="text-sm text-gray-300">Contracts</p>
+                        </CardContent>
+                      </Card>
+                      <Card className="bg-orange-900/20 border-orange-500/30">
+                        <CardContent className="p-4 text-center">
+                          <h3 className="text-2xl font-bold text-orange-400">8</h3>
+                          <p className="text-sm text-gray-300">Certificates</p>
+                        </CardContent>
+                      </Card>
                     </div>
-                    
+
+                    {/* Recent Documents */}
                     <div className="space-y-3">
-                      <h4 className="text-lg font-semibold text-white">Recent Documents</h4>
-                      {deals.map((deal) => (
-                        <div key={deal.id} className="flex items-center justify-between p-3 rounded-lg border border-slate-600 bg-slate-700/30">
-                          <div className="flex items-center gap-3">
-                            <FileText className="w-4 h-4 text-gray-400" />
+                      <h3 className="text-lg font-semibold text-blue-400 flex items-center gap-2">
+                        <FileText className="w-4 h-4" />
+                        Recent Documents
+                      </h3>
+                      
+                      {/* Invoice History */}
+                      <Card className="bg-slate-700/50">
+                        <CardContent className="p-4">
+                          <div className="flex justify-between items-start mb-2">
                             <div>
-                              <p className="text-white font-medium">Contract - {deal.client}</p>
-                              <p className="text-sm text-gray-400">Deal #{deal.id} • {new Date().toLocaleDateString()}</p>
+                              <h4 className="font-semibold text-white">Invoice #INV-2025-001</h4>
+                              <p className="text-sm text-gray-300">LAX → NRT Charter - Tech Startup</p>
+                              <p className="text-sm text-gray-400">Generated: Yesterday</p>
                             </div>
+                            <Badge className="bg-green-500">PAID</Badge>
                           </div>
-                          <div className="flex gap-1">
-                            <Button size="sm" variant="ghost" className="p-1 h-6 w-6 text-gray-400 hover:text-white">
-                              <Eye className="w-3 h-3" />
+                          <div className="flex gap-2">
+                            <Button size="sm" className="bg-blue-500 hover:bg-blue-600">
+                              Download PDF
                             </Button>
-                            <Button size="sm" variant="ghost" className="p-1 h-6 w-6 text-gray-400 hover:text-white">
-                              <Download className="w-3 h-3" />
+                            <Button size="sm" variant="outline">
+                              View Details
                             </Button>
-                        </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card className="bg-slate-700/50">
+                        <CardContent className="p-4">
+                          <div className="flex justify-between items-start mb-2">
+                            <div>
+                              <h4 className="font-semibold text-white">Contract #CON-2025-002</h4>
+                              <p className="text-sm text-gray-300">Gulfstream G650ER Sale Agreement</p>
+                              <p className="text-sm text-gray-400">Signed: 5 days ago</p>
+                            </div>
+                            <Badge className="bg-blue-500">ACTIVE</Badge>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button size="sm" className="bg-green-500 hover:bg-green-600">
+                              Download PDF
+                            </Button>
+                            <Button size="sm" variant="outline">
+                              View Details
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card className="bg-slate-700/50">
+                        <CardContent className="p-4">
+                          <div className="flex justify-between items-start mb-2">
+                            <div>
+                              <h4 className="font-semibold text-white">Certificate #CERT-2025-003</h4>
+                              <p className="text-sm text-gray-300">Broker License Renewal</p>
+                              <p className="text-sm text-gray-400">Issued: 1 week ago</p>
+                            </div>
+                            <Badge className="bg-green-500">VALID</Badge>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button size="sm" className="bg-orange-500 hover:bg-orange-600">
+                              Download PDF
+                            </Button>
+                            <Button size="sm" variant="outline">
+                              View Details
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+
+                    {/* Document Actions */}
+                    <div className="space-y-3">
+                      <h3 className="text-lg font-semibold text-orange-400 flex items-center gap-2">
+                        <Plus className="w-4 h-4" />
+                        Quick Actions
+                      </h3>
+                      
+                      <div className="flex gap-3">
+                        <Button className="bg-blue-500 hover:bg-blue-600">
+                          Generate Invoice
+                        </Button>
+                        <Button className="bg-green-500 hover:bg-green-600">
+                          Create Contract
+                        </Button>
+                        <Button className="bg-orange-500 hover:bg-orange-600">
+                          Upload Document
+                        </Button>
                       </div>
-                    ))}
                     </div>
                   </div>
                 </CardContent>
@@ -1346,55 +1373,291 @@ export default function DemoBrokerTerminal() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <MessageCircle className="w-5 h-5 text-orange-400" />
-                    Communication Tools
+                    Communication
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="p-4 rounded-lg bg-slate-700/50 border border-slate-600">
-                        <div className="flex items-center gap-2 mb-2">
-                          <MessageSquare className="w-4 h-4 text-blue-400" />
-                          <span className="text-sm text-gray-400">Active Conversations</span>
-                        </div>
-                        <p className="text-2xl font-bold text-white">8</p>
-                        <p className="text-xs text-blue-400">3 unread</p>
-                      </div>
-                      <div className="p-4 rounded-lg bg-slate-700/50 border border-slate-600">
-                        <div className="flex items-center gap-2 mb-2">
-                          <Mail className="w-4 h-4 text-green-400" />
-                          <span className="text-sm text-gray-400">Emails Sent</span>
-                        </div>
-                        <p className="text-2xl font-bold text-white">47</p>
-                        <p className="text-xs text-green-400">This month</p>
-                      </div>
-                    </div>
-                    
-                  <div className="space-y-3">
-                      <h4 className="text-lg font-semibold text-white">Recent Conversations</h4>
-                      {deals.map((deal) => (
-                        <div key={deal.id} className="p-3 rounded-lg border border-slate-600 bg-slate-700/30">
-                          <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-3">
-                              <div className="w-8 h-8 rounded-full bg-slate-600 flex items-center justify-center">
-                                <span className="text-xs font-bold text-white">{deal.client.charAt(0)}</span>
+                    {/* Active Conversations */}
+                    <div className="space-y-3">
+                      <h3 className="text-lg font-semibold text-blue-400 flex items-center gap-2">
+                        <MessageSquare className="w-4 h-4" />
+                        Active Conversations
+                      </h3>
+                      
+                      {/* Conversation 1 */}
+                      <Card className="bg-slate-700/50">
+                        <CardContent className="p-4">
+                          <div className="flex justify-between items-start mb-3">
+                            <div>
+                              <h4 className="font-semibold text-white">TechCorp Industries</h4>
+                              <p className="text-sm text-gray-300">Gulfstream G650ER Sale Discussion</p>
+                            </div>
+                            <Badge className="bg-green-500">ONLINE</Badge>
                           </div>
-                          <div>
-                                <p className="text-white font-medium">{deal.client}</p>
-                                <p className="text-sm text-gray-400">{deal.clientDetails.name}</p>
-                          </div>
-                        </div>
-                            <div className="flex items-center gap-2">
-                              <Badge className="bg-green-500/20 text-green-400">Online</Badge>
-                              <Button size="sm" className="bg-orange-500 hover:bg-orange-600 text-white">
-                                <MessageSquare className="w-3 h-3 mr-1" />
-                                Chat
-                              </Button>
+                          <div className="space-y-2 mb-3">
+                            <div className="bg-blue-900/30 p-3 rounded-lg">
+                              <p className="text-sm text-gray-300">"The aircraft inspection went perfectly. When can we finalize the delivery?"</p>
+                              <p className="text-xs text-gray-400 mt-1">Sarah Chen - 10 minutes ago</p>
+                            </div>
+                            <div className="bg-slate-800/50 p-3 rounded-lg ml-8">
+                              <p className="text-sm text-white">"Excellent! I'll have the final paperwork ready by tomorrow morning."</p>
+                              <p className="text-xs text-gray-400 mt-1">You - 5 minutes ago</p>
                             </div>
                           </div>
-                          <p className="text-sm text-gray-300">"Thank you for the excellent service on the {deal.route} flight..."</p>
+                          <div className="flex gap-2">
+                            <Button size="sm" className="bg-blue-500 hover:bg-blue-600">
+                              Reply
+                            </Button>
+                            <Button size="sm" variant="outline">
+                              View Full Chat
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      {/* Conversation 2 */}
+                      <Card className="bg-slate-700/50">
+                        <CardContent className="p-4">
+                          <div className="flex justify-between items-start mb-3">
+                            <div>
+                              <h4 className="font-semibold text-white">Global Ventures Ltd</h4>
+                              <p className="text-sm text-gray-300">LHR → DXB Charter Inquiry</p>
+                            </div>
+                            <Badge className="bg-yellow-500">AWAY</Badge>
+                          </div>
+                          <div className="space-y-2 mb-3">
+                            <div className="bg-blue-900/30 p-3 rounded-lg">
+                              <p className="text-sm text-gray-300">"We need to confirm the catering options for 6 passengers."</p>
+                              <p className="text-xs text-gray-400 mt-1">James Mitchell - 1 hour ago</p>
+                            </div>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button size="sm" className="bg-blue-500 hover:bg-blue-600">
+                              Reply
+                            </Button>
+                            <Button size="sm" variant="outline">
+                              View Full Chat
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      {/* Conversation 3 */}
+                      <Card className="bg-slate-700/50">
+                        <CardContent className="p-4">
+                          <div className="flex justify-between items-start mb-3">
+                            <div>
+                              <h4 className="font-semibold text-white">Luxury Group</h4>
+                              <p className="text-sm text-gray-300">CDG → DXB Quote Negotiation</p>
+                            </div>
+                            <Badge className="bg-green-500">ONLINE</Badge>
+                          </div>
+                          <div className="space-y-2 mb-3">
+                            <div className="bg-blue-900/30 p-3 rounded-lg">
+                              <p className="text-sm text-gray-300">"Your counter-offer looks good. Can we add priority boarding?"</p>
+                              <p className="text-xs text-gray-400 mt-1">Marie Dubois - 30 minutes ago</p>
+                            </div>
+                            <div className="bg-slate-800/50 p-3 rounded-lg ml-8">
+                              <p className="text-sm text-white">"Absolutely! Priority boarding is included. I'll update the quote."</p>
+                              <p className="text-xs text-gray-400 mt-1">You - 15 minutes ago</p>
+                            </div>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button size="sm" className="bg-blue-500 hover:bg-blue-600">
+                              Reply
+                            </Button>
+                            <Button size="sm" variant="outline">
+                              View Full Chat
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+
+                    {/* Quick Actions */}
+                    <div className="space-y-3">
+                      <h3 className="text-lg font-semibold text-orange-400 flex items-center gap-2">
+                        <Plus className="w-4 h-4" />
+                        Quick Actions
+                      </h3>
+                      
+                      <div className="flex gap-3">
+                        <Button className="bg-blue-500 hover:bg-blue-600">
+                          New Message
+                        </Button>
+                        <Button className="bg-green-500 hover:bg-green-600">
+                          Schedule Call
+                        </Button>
+                        <Button className="bg-orange-500 hover:bg-orange-600">
+                          Send Quote
+                        </Button>
                       </div>
-                    ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="reputation" className="mt-6 scroll-smooth">
+            <div className="space-y-6">
+              <Card className="bg-slate-800/50 border-slate-700">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Award className="w-5 h-5 text-orange-400" />
+                    Reputation Metrics
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {/* Reputation Score */}
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                      <Card className="bg-orange-900/20 border-orange-500/30">
+                        <CardContent className="p-4 text-center">
+                          <h3 className="text-3xl font-bold text-orange-400">4.9</h3>
+                          <p className="text-sm text-gray-300">Overall Rating</p>
+                        </CardContent>
+                      </Card>
+                      <Card className="bg-green-900/20 border-green-500/30">
+                        <CardContent className="p-4 text-center">
+                          <h3 className="text-3xl font-bold text-green-400">127</h3>
+                          <p className="text-sm text-gray-300">Total Reviews</p>
+                        </CardContent>
+                      </Card>
+                      <Card className="bg-blue-900/20 border-blue-500/30">
+                        <CardContent className="p-4 text-center">
+                          <h3 className="text-3xl font-bold text-blue-400">98%</h3>
+                          <p className="text-sm text-gray-300">Success Rate</p>
+                        </CardContent>
+                      </Card>
+                      <Card className="bg-purple-900/20 border-purple-500/30">
+                        <CardContent className="p-4 text-center">
+                          <h3 className="text-3xl font-bold text-purple-400">24h</h3>
+                          <p className="text-sm text-gray-300">Avg Response</p>
+                        </CardContent>
+                      </Card>
+                    </div>
+
+                    {/* Recent Reviews */}
+                    <div className="space-y-3">
+                      <h3 className="text-lg font-semibold text-orange-400 flex items-center gap-2">
+                        <Award className="w-4 h-4" />
+                        Recent Reviews
+                      </h3>
+                      
+                      {/* Review 1 */}
+                      <Card className="bg-slate-700/50">
+                        <CardContent className="p-4">
+                          <div className="flex justify-between items-start mb-2">
+                            <div>
+                              <h4 className="font-semibold text-white">TechCorp Industries</h4>
+                              <p className="text-sm text-gray-300">Gulfstream G650ER Sale</p>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                              <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                              <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                              <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                              <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                            </div>
+                          </div>
+                          <p className="text-sm text-gray-300 mb-2">"Exceptional service throughout the entire process. The broker was professional, knowledgeable, and made the aircraft purchase seamless."</p>
+                          <p className="text-xs text-gray-400">Sarah Chen - 2 days ago</p>
+                        </CardContent>
+                      </Card>
+
+                      {/* Review 2 */}
+                      <Card className="bg-slate-700/50">
+                        <CardContent className="p-4">
+                          <div className="flex justify-between items-start mb-2">
+                            <div>
+                              <h4 className="font-semibold text-white">Auto Manufacturer</h4>
+                              <p className="text-sm text-gray-300">ORD → FRA Charter</p>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                              <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                              <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                              <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                              <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                            </div>
+                          </div>
+                          <p className="text-sm text-gray-300 mb-2">"Perfect charter experience. The aircraft was exactly as described and the crew was outstanding. Highly recommended!"</p>
+                          <p className="text-xs text-gray-400">Michael Rodriguez - 5 days ago</p>
+                        </CardContent>
+                      </Card>
+
+                      {/* Review 3 */}
+                      <Card className="bg-slate-700/50">
+                        <CardContent className="p-4">
+                          <div className="flex justify-between items-start mb-2">
+                            <div>
+                              <h4 className="font-semibold text-white">Tech Startup</h4>
+                              <p className="text-sm text-gray-300">LAX → NRT Charter</p>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                              <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                              <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                              <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                              <Star className="w-4 h-4 text-gray-400" />
+                            </div>
+                          </div>
+                          <p className="text-sm text-gray-300 mb-2">"Great service overall. The only minor issue was a slight delay, but the broker handled it professionally and kept us informed throughout."</p>
+                          <p className="text-xs text-gray-400">David Kim - 1 week ago</p>
+                        </CardContent>
+                      </Card>
+                    </div>
+
+                    {/* Performance Metrics */}
+                    <div className="space-y-3">
+                      <h3 className="text-lg font-semibold text-blue-400 flex items-center gap-2">
+                        <BarChart3 className="w-4 h-4" />
+                        Performance Metrics
+                      </h3>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <Card className="bg-blue-900/20 border-blue-500/30">
+                          <CardContent className="p-4">
+                            <h4 className="font-semibold text-white mb-2">Response Time</h4>
+                            <div className="space-y-2">
+                              <div className="flex justify-between text-sm">
+                                <span className="text-gray-300">Under 1 hour</span>
+                                <span className="text-green-400">85%</span>
+                              </div>
+                              <div className="flex justify-between text-sm">
+                                <span className="text-gray-300">1-24 hours</span>
+                                <span className="text-blue-400">12%</span>
+                              </div>
+                              <div className="flex justify-between text-sm">
+                                <span className="text-gray-300">Over 24 hours</span>
+                                <span className="text-orange-400">3%</span>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+
+                        <Card className="bg-green-900/20 border-green-500/30">
+                          <CardContent className="p-4">
+                            <h4 className="font-semibold text-white mb-2">Deal Completion</h4>
+                            <div className="space-y-2">
+                              <div className="flex justify-between text-sm">
+                                <span className="text-gray-300">Successful Deals</span>
+                                <span className="text-green-400">98%</span>
+                              </div>
+                              <div className="flex justify-between text-sm">
+                                <span className="text-gray-300">Cancelled Deals</span>
+                                <span className="text-red-400">2%</span>
+                              </div>
+                              <div className="flex justify-between text-sm">
+                                <span className="text-gray-300">Repeat Clients</span>
+                                <span className="text-blue-400">73%</span>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </div>
                     </div>
                   </div>
                 </CardContent>

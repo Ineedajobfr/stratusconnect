@@ -16,12 +16,12 @@ export default defineConfig(({ mode }) => ({
       'X-Frame-Options': 'DENY',
       'X-Permitted-Cross-Domain-Policies': 'none',
       'Referrer-Policy': 'strict-origin-when-cross-origin',
-      'Permissions-Policy': 'geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), speaker=()',
+      'Permissions-Policy': 'geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=()',
       
       // Enhanced Content Security Policy
       'Content-Security-Policy': [
         "default-src 'self'",
-        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://lovable.dev https://lovable-api.com",
+        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://lovable.dev https://lovable-api.com https://www.google.com https://www.gstatic.com",
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
         "font-src 'self' data: https://fonts.gstatic.com",
         "img-src 'self' data: https: blob:",
@@ -30,12 +30,11 @@ export default defineConfig(({ mode }) => ({
         "base-uri 'self'",
         "form-action 'self'",
         "frame-ancestors 'none'",
-        "frame-src 'self' https://lovable.dev",
+        "frame-src 'self' https://lovable.dev https://www.google.com",
         "connect-src 'self' https://*.supabase.co https://lovable-api.com https://lovable.dev wss://*.lovableproject.com",
         "worker-src 'self' blob:",
         "child-src 'self' blob:",
         "manifest-src 'self'",
-        "prefetch-src 'self'"
       ].join('; ')
     }
   },

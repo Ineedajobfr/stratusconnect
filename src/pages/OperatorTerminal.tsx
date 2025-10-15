@@ -1,3 +1,4 @@
+import { OperatorListingFlow } from "@/components/Marketplace/OperatorListingFlow";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -5,7 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/contexts/AuthContext";
 import { operatorDashboardService } from "@/lib/operator-dashboard-service";
-import { OperatorListingFlow } from "@/components/marketplace/OperatorListingFlow";
 import {
     Activity,
     ArrowUp,

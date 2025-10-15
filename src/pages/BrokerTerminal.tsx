@@ -1,3 +1,4 @@
+import { BrokerMarketplace } from "@/components/Marketplace/BrokerMarketplace";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -5,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/contexts/AuthContext";
 import { brokerDashboardService } from "@/lib/broker-dashboard-service";
-import { BrokerMarketplace } from "@/components/marketplace/BrokerMarketplace";
 import {
     Award,
     BarChart3,

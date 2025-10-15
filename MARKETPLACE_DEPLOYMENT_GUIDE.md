@@ -1,272 +1,196 @@
-# StratusConnect Marketplace Deployment Guide
+# 🚀 Marketplace Deployment Guide
 
-## 🎯 What We Built
+## ✅ Fixed Migration Issues
 
-A **production-ready marketplace system** for StratusConnect that allows:
-- **Brokers**: Search aircraft, post RFQs, view trip requests
-- **Operators**: Post aircraft listings, manage empty legs, calendar management  
-- **Trust-Based Ranking**: Listings ranked by operator reputation and verification
-- **Real-time Search**: Fast, filtered marketplace search with pagination
+### Issue 1: `trip_requests` table not existing
+**Problem**: Migration tried to `ALTER TABLE trip_requests` before creating it.
 
-## 📁 Files Created
+**Solution**: The migration now:
+1. Creates `trip_requests` table first (if it doesn't exist)
+2. Then adds new columns (trip_type, legs, return_date, etc.)
 
-### Database Schema
-- `supabase/migrations/20251015000000_marketplace_schema.sql` - Complete marketplace schema with no duplicates
+### Issue 2: `active` column not existing  
+**Problem**: Database uses `status` TEXT column, but code referenced `active` BOOLEAN.
 
-### Supabase Edge Functions
-- `supabase/functions/marketplace-search/index.ts` - Search listings with filters & trust ranking
-- `supabase/functions/marketplace-listing/index.ts` - Create/update/delete listings (operators)
-- `supabase/functions/trip-request/index.ts` - Create/manage trip requests (brokers)
-
-### Frontend Services
-- `src/lib/marketplace-service.ts` - TypeScript client for marketplace API
-
-### UI Components
-- `src/components/marketplace/BrokerMarketplace.tsx` - Broker marketplace interface
-- `src/components/marketplace/OperatorListingFlow.tsx` - Operator listing management
-
-### Integration
-- `src/pages/BrokerTerminal.tsx` - Integrated marketplace tab
-- `src/pages/OperatorTerminal.tsx` - Integrated marketplace tab
-
-## 🚀 Deployment Steps
-
-### 1. Deploy Database Schema
-
-Run the migration in Supabase SQL Editor:
-
-```bash
-# Navigate to Supabase Dashboard > SQL Editor
-# Run: supabase/migrations/20251015000000_marketplace_schema.sql
-```
-
-This will:
-- ✅ Add marketplace columns to existing `aircraft` table
-- ✅ Enhance `marketplace_listings` table
-- ✅ Create `trip_requests` table
-- ✅ Create `user_reputation` table
-- ✅ Create `security_events` table
-- ✅ Create `user_trust` VIEW for ranking
-- ✅ Set up RLS policies
-- ✅ Create indexes for performance
-
-### 2. Deploy Edge Functions
-
-Deploy each edge function to Supabase:
-
-```bash
-# From your project root
-cd supabase
-
-# Deploy marketplace search
-supabase functions deploy marketplace-search
-
-# Deploy listing management
-supabase functions deploy marketplace-listing
-
-# Deploy trip request management
-supabase functions deploy trip-request
-```
-
-### 3. Verify Deployment
-
-Check that edge functions are deployed:
-
-```bash
-supabase functions list
-```
-
-You should see:
-- ✅ marketplace-search
-- ✅ marketplace-listing
-- ✅ trip-request
-
-## 🧪 Testing
-
-### Test as Broker
-
-1. Log in as a broker user
-2. Navigate to **Broker Terminal** → **Marketplace** tab
-3. Try:
-   - Searching listings
-   - Creating a new RFQ (trip request)
-   - Viewing your RFQs
-
-### Test as Operator
-
-1. Log in as an operator user
-2. Navigate to **Operator Terminal** → **Marketplace** tab
-3. Try:
-   - Creating a new listing
-   - Editing a listing
-   - Deleting a listing
-   - Viewing all your listings
-
-### Test Search Functionality
-
-Search with filters:
-- Search by text (aircraft type, route)
-- Filter by listing type (charter, empty_leg, sale)
-- Filter by departure airport
-- Test pagination
-
-### Test Trust Scoring
-
-The marketplace automatically ranks listings by:
-- Operator reputation score (60% weight)
-- Verification status (+20 points if verified)
-- Activity count (20% weight)
-
-## 📊 Database Tables
-
-### New Tables
-
-**trip_requests** - Broker RFQs
-- Broker creates trip requests
-- Operators can view and respond
-- Status: open, fulfilled, cancelled
-
-**user_reputation** - Ratings & Reviews
-- Users can rate each other after transactions
-- Automatic reputation_score calculation
-- Triggers update profiles/users tables
-
-**security_events** - Audit Trail
-- Logs all marketplace actions
-- Tracks user_id, event_type, details
-- For compliance and security monitoring
-
-### Enhanced Tables
-
-**marketplace_listings** - Added columns:
-- title, description, listing_type
-- price, currency, departure/destination airports
-- dep_time, arr_time, seats, metadata
-- operator_id, active status
-
-**aircraft** - Added columns:
-- operator_id, category, base_airport, availability
-
-**users/profiles** - Added columns:
-- reputation_score, verified
-
-## 🔐 Security Features
-
-### Row Level Security (RLS)
-
-All tables have RLS enabled:
-
-**marketplace_listings**:
-- Anyone can view active listings
-- Only operators can create listings
-- Only owners can update/delete their listings
-
-**trip_requests**:
-- Anyone can view open requests
-- Only brokers can create requests
-- Only owners can update their requests
-
-**user_reputation**:
-- Anyone can view ratings
-- Only authenticated users can create ratings
-- Must be rated_by = auth.uid()
-
-### Audit Trail
-
-All marketplace actions are logged in `security_events`:
-- listing_created
-- listing_updated
-- listing_deleted
-- trip_request_created
-- trip_request_updated
-
-## 💰 Pricing & Business Model
-
-**FREE for users** (as requested):
-- No listing fees
-- No search fees
-- No transaction fees on the marketplace
-- Users can browse and connect for free
-
-**Revenue comes from**:
-- Payment protection (separate service)
-- Premium verification
-- Featured listings (future)
-- Value-added services
-
-## 📈 Next Steps
-
-After testing, you can enhance:
-
-1. **Quote System**: Allow operators to quote on trip requests
-2. **Messaging**: Direct messaging between brokers and operators
-3. **Advanced Search**: Geographic radius, multi-leg routes
-4. **Empty Leg Calendar**: Visual calendar for empty legs
-5. **Saved Searches**: Brokers can save searches and get alerts
-6. **Featured Listings**: Premium placement for operators
-7. **Analytics Dashboard**: Marketplace metrics and insights
-
-## 🐛 Troubleshooting
-
-### Edge Functions Not Working
-
-```bash
-# Check function logs
-supabase functions logs marketplace-search --tail
-
-# Redeploy if needed
-supabase functions deploy marketplace-search --no-verify-jwt
-```
-
-### Database Errors
-
-```bash
-# Check migration status
-supabase db status
-
-# View recent migrations
-supabase db history
-```
-
-### RLS Policies Blocking Requests
-
-- Ensure user is authenticated
-- Check user role matches policy requirements
-- Verify auth.uid() matches operator_id/broker_id
-
-## 📝 API Endpoints
-
-### Marketplace Search
-```
-GET /functions/v1/marketplace-search?q=&listing_type=&departure_airport=&page=1&per_page=20
-```
-
-### Create Listing (Operators)
-```
-POST /functions/v1/marketplace-listing
-Body: { title, listing_type, price, ... }
-```
-
-### Create Trip Request (Brokers)
-```
-POST /functions/v1/trip-request
-Body: { origin, destination, dep_time, pax, ... }
-```
-
-## ✅ Success Criteria
-
-Marketplace is working when:
-- ✅ Brokers can search and view listings
-- ✅ Brokers can create trip requests
-- ✅ Operators can create and manage listings
-- ✅ Trust scores are calculated and displayed
-- ✅ Search returns results ranked by trust
-- ✅ RLS policies protect data correctly
-- ✅ All actions are logged in security_events
+**Solution**: The migration now:
+1. Creates `marketplace_listings` with both `status` and `active` columns
+2. Adds `active` column if it doesn't exist (backward compatible)
+3. Syncs `active` with `status` (`active = true` when `status = 'active'`)
+4. Adds a trigger to keep them in sync automatically
+5. All RLS policies and indexes use `active` for consistency
 
 ---
 
-**Built with**: Supabase, TypeScript, React, Tailwind CSS  
-**Status**: Production Ready ✨  
-**Free to Use**: Yes - No fees for users 🎉
+## 📋 Step-by-Step Deployment
 
+### Step 1: Run the Database Migration
+
+**IMPORTANT**: Use the **SAFE migration** that's compatible with your existing schema!
+
+1. Go to your **Supabase Dashboard**
+2. Navigate to **SQL Editor**
+3. Copy and paste the entire contents of:
+   ```
+   supabase/migrations/20251015000001_marketplace_enhancements_safe.sql
+   ```
+4. Click **RUN**
+
+**Why the safe version?**
+- Your existing database uses `departure_location`, `asking_price`, `status` columns
+- The safe migration only adds new columns without recreating tables
+- Includes schema adapter for automatic translation
+
+**What this creates**:
+- ✅ 8 new tables (aircraft_models, trip_requests, marketplace_listings, quotes, user_reputation, security_events, preferred_vendors, saved_searches, airports, marketplace_activity)
+- ✅ 24 aircraft models (G650, Citation X, etc.)
+- ✅ 25 major airports (JFK, LHR, CDG, etc.)
+- ✅ All necessary indexes
+- ✅ All RLS policies
+- ✅ Permission grants
+
+### Step 2: Regenerate Supabase Types
+
+Open your terminal and run:
+
+```bash
+npx supabase gen types typescript --project-id YOUR_PROJECT_ID > src/integrations/supabase/types.ts
+```
+
+Replace `YOUR_PROJECT_ID` with your actual Supabase project ID (found in project settings).
+
+**Alternative method** (if you have Supabase CLI linked):
+```bash
+npx supabase gen types typescript --linked > src/integrations/supabase/types.ts
+```
+
+### Step 3: Verify Everything Works
+
+The TypeScript errors you saw earlier will **automatically disappear** after Step 2.
+
+---
+
+## 🧪 Testing Checklist
+
+### As a Broker:
+
+1. **Login** → Navigate to **Broker Terminal**
+2. Click **Marketplace** tab
+3. **Aircraft Search Tab**:
+   - Apply filters (category, airport, price range)
+   - Click a listing to view details modal
+   - Save a search
+4. **My RFQs Tab**:
+   - Click "New RFQ"
+   - Create a one-way trip request
+   - Create a round-trip request
+   - Create a multi-leg request (add 3+ legs)
+5. **Empty Legs Tab**:
+   - Browse discounted empty leg flights
+6. **Saved Searches Tab**:
+   - View your saved search
+   - Run it again
+7. **Preferred Vendors Tab**:
+   - (Will populate after adding vendors)
+
+### As an Operator:
+
+1. **Login** → Navigate to **Operator Terminal**
+2. Click **Marketplace** tab
+3. **My Listings Tab**:
+   - Click "New Listing"
+   - Fill out the form:
+     - Title: "G650 - Charter Available"
+     - Listing Type: Charter
+     - Select aircraft model from dropdown
+     - Set departure/destination airports
+     - Set price
+   - Click "Create Listing"
+   - Edit a listing
+   - Delete a listing
+4. **Trip Requests Tab**:
+   - Browse open broker RFQs
+   - Click "Submit Quote" on a request
+   - Enter quote amount and message
+   - Submit
+5. **Performance Tab**:
+   - View stats (views, inquiries, conversion rate)
+
+---
+
+## 🔍 Troubleshooting
+
+### TypeScript Errors Still Showing?
+**Solution**: Make sure you've completed Step 2 (regenerate types).
+
+### Can't see new tables in Supabase?
+**Solution**: Refresh your Supabase dashboard. Go to Table Editor to verify all tables exist.
+
+### RLS Policy Errors?
+**Solution**: The migration includes all necessary RLS policies. If you get permission errors, double-check the migration ran successfully.
+
+### Empty aircraft models dropdown?
+**Solution**: The migration includes 24 pre-loaded aircraft models. If empty, re-run the migration's INSERT section.
+
+### Airport lookup not working?
+**Solution**: 25 popular airports are pre-loaded. If not showing, re-run the airports INSERT section.
+
+---
+
+## 📊 Database Tables Created
+
+| Table | Purpose | Records |
+|-------|---------|---------|
+| `aircraft_models` | Aircraft types reference | 24 models |
+| `trip_requests` | Broker RFQs | User-generated |
+| `marketplace_listings` | Operator listings | User-generated |
+| `quotes` | Operator responses | User-generated |
+| `user_reputation` | Ratings/reviews | User-generated |
+| `security_events` | Audit trail | System-generated |
+| `preferred_vendors` | Broker favorites | User-generated |
+| `saved_searches` | Saved filters | User-generated |
+| `airports` | Airport directory | 25 airports |
+| `marketplace_activity` | View/inquiry tracking | System-generated |
+
+---
+
+## 🎯 What's Working Now
+
+### Full Marketplace Features
+- ✅ Advanced aircraft search with 15+ filters
+- ✅ One-way/round-trip/multi-leg trip requests
+- ✅ Empty leg search with discounts
+- ✅ Trust & reputation badges
+- ✅ ARGUS/WYVERN safety certifications
+- ✅ Airport autocomplete (ICAO/IATA)
+- ✅ Saved searches
+- ✅ Preferred vendors
+- ✅ Quote management system
+- ✅ Performance analytics
+
+### UI Components
+- ✅ BrokerMarketplace (5 tabs)
+- ✅ OperatorListingFlow (4 tabs)
+- ✅ TrustBadge
+- ✅ AirportLookup
+- ✅ TripTypeSelector
+- ✅ AdvancedFilters
+- ✅ AircraftDetailsModal
+
+---
+
+## 🎉 You're Done!
+
+After completing the 3 steps above, your marketplace is **fully operational** and ready for use!
+
+**Next steps (optional enhancements)**:
+- Add real-time notifications for new quotes/requests
+- Implement messaging system
+- Add image uploads for aircraft
+- Build analytics dashboard
+- Implement automated empty leg matching
+
+---
+
+**Status**: ✅ **READY TO DEPLOY**
+
+Run the migration and you're good to go!

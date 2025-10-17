@@ -211,7 +211,15 @@ export default function HowToUse() {
           </div>
           <div className="flex items-center space-x-4">
             <Button
-              onClick={() => navigate('/')}
+              onClick={() => {
+                // Check if user is authenticated to determine where to navigate
+                const isAuthenticated = localStorage.getItem('testUser') || document.cookie.includes('supabase');
+                if (isAuthenticated) {
+                  navigate('/home');
+                } else {
+                  navigate('/');
+                }
+              }}
               variant="outline"
               className="flex items-center space-x-2"
             >

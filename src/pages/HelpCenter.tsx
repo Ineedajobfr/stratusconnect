@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, BookOpen, HelpCircle, Mail, MessageSquare, Phone } from "lucide-react";
+import { ArrowLeft, BookOpen, HelpCircle, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function HelpCenter() {
@@ -105,29 +105,16 @@ export default function HelpCenter() {
               <p className="text-white/70 text-center">Our support team is here to assist you</p>
             </CardHeader>
             <CardContent>
-              <div className="grid md:grid-cols-3 gap-6">
-                <div className="text-center">
-                  <MessageSquare className="w-12 h-12 text-amber-500 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-white mb-2">Live Chat</h3>
-                  <p className="text-white/70 mb-4">Get instant help from our support team</p>
-                  <Button className="bg-amber-600 hover:bg-amber-700 text-white">
-                    Start Chat
-                  </Button>
-                </div>
+              <div className="grid md:grid-cols-1 gap-6 max-w-md mx-auto">
                 <div className="text-center">
                   <Mail className="w-12 h-12 text-amber-500 mx-auto mb-4" />
                   <h3 className="text-lg font-semibold text-white mb-2">Email Support</h3>
-                  <p className="text-white/70 mb-4">Send us a detailed message</p>
-                  <Button variant="outline" className="border-slate-600 text-white hover:bg-slate-700">
-                    Send Email
-                  </Button>
-                </div>
-                <div className="text-center">
-                  <Phone className="w-12 h-12 text-amber-500 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-white mb-2">Phone Support</h3>
-                  <p className="text-white/70 mb-4">Speak directly with our team</p>
-                  <Button variant="outline" className="border-slate-600 text-white hover:bg-slate-700">
-                    Call Now
+                  <p className="text-white/70 mb-4">We respond to all inquiries within 24 hours</p>
+                  <Button 
+                    onClick={() => window.open('mailto:support@stratusconnect.org', '_blank')}
+                    className="bg-amber-600 hover:bg-amber-700 text-white"
+                  >
+                    Contact Support
                   </Button>
                 </div>
               </div>

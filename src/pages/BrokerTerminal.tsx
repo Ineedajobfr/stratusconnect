@@ -14,7 +14,9 @@ import {
     Clock,
     DollarSign,
     FileText,
+    MapPin,
     MessageCircle,
+    MessageSquare,
     Plus,
     Search,
     Star,
@@ -174,186 +176,181 @@ export default function BrokerTerminal() {
     };
 
     const renderDashboard = () => (
-        <div className="space-y-6">
-            {/* Key Metrics */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                <Card className="terminal-card">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-gunmetal">Active RFQs</CardTitle>
-                        <FileText className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold text-foreground">{dashboardMetrics.activeRfqs}</div>
-                        <p className="text-xs text-muted-foreground">
-                            +2 from last week
-                        </p>
-                    </CardContent>
-                </Card>
-
-                <Card className="terminal-card">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-gunmetal">Quotes Received</CardTitle>
-                        <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold text-foreground">{dashboardMetrics.quotesReceived}</div>
-                        <p className="text-xs text-muted-foreground">
-                            +12 from last week
-                        </p>
-                    </CardContent>
-                </Card>
-
-                <Card className="terminal-card">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-gunmetal">Deals Closed</CardTitle>
-                        <CheckCircle className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold text-foreground">{dashboardMetrics.dealsClosed}</div>
-                        <p className="text-xs text-muted-foreground">
-                            +3 from last week
-                        </p>
-                    </CardContent>
-                </Card>
-
-                <Card className="terminal-card">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-gunmetal">Avg Response Time</CardTitle>
-                        <Clock className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold text-foreground">{dashboardMetrics.responseTime}m</div>
-                        <p className="text-xs text-muted-foreground">
-                            -5m from last week
-                        </p>
-                    </CardContent>
-                </Card>
-
-                <Card className="terminal-card">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-gunmetal">Reputation</CardTitle>
-                        <Star className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold text-foreground">{dashboardMetrics.reputation}/5</div>
-                        <p className="text-xs text-muted-foreground">
-                            +0.2 from last week
-                        </p>
-                    </CardContent>
-                </Card>
-            </div>
-
-            {/* Recent RFQs */}
-            <Card className="terminal-card">
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <FileText className="w-5 h-5 text-accent" />
-                        Recent RFQs
-                    </CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <div className="space-y-4">
-                        {rfqs.slice(0, 5).map((rfq) => (
-                            <div key={rfq.id} className="flex items-center justify-between p-4 border border-terminal-border rounded-lg">
-                                <div className="flex items-center space-x-4">
-                                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                                        <FileText className="w-5 h-5 text-blue-600" />
-                                    </div>
-                                    <div>
-                                        <p className="font-medium text-foreground">{rfq.client} - {rfq.route}</p>
-                                        <p className="text-sm text-muted-foreground">
-                                            {rfq.aircraft} • {rfq.passengers} passengers • ${rfq.budget.toLocaleString()}
-                                        </p>
-                                        <div className="flex gap-2 mt-1">
-                                            <Badge variant="secondary" className="text-xs">
-                                                {rfq.urgency}
-                                            </Badge>
-                                            <Badge variant="outline" className="text-xs">
-                                                {rfq.status}
-                                            </Badge>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="text-right">
-                                    <p className="text-sm text-muted-foreground">
-                                        {new Date(rfq.received).toLocaleDateString()}
-                                    </p>
-                                    <Button size="sm" className="mt-2">
-                                        View Details
-                                    </Button>
-                                </div>
-                            </div>
-                        ))}
+        <div className="space-y-8">
+            {/* Notifications Section */}
+            <div className="bg-slate-800/30 border border-slate-600/50 rounded-lg p-6 backdrop-blur-sm">
+                <div className="space-y-6">
+                    <div className="flex items-center justify-between">
+                        <h2 className="text-2xl font-semibold text-white">Notifications</h2>
+                        <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30">
+                            {unreadAlertsCount} urgent
+                        </Badge>
                     </div>
-                </CardContent>
-            </Card>
-        </div>
-    );
-
-    const renderRFQs = () => (
-        <div className="space-y-6">
-            <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold text-foreground">Request for Quotes</h2>
-                <Button className="btn-terminal-accent">
-                    <Plus className="w-4 h-4 mr-2" />
-                    Create RFQ
-                </Button>
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <Card className="bg-slate-800/50 border-slate-700 cursor-pointer hover:border-orange-500/50 transition-all group hover:shadow-orange-500/20 hover:shadow-lg">
+                            <CardContent className="p-6">
+                                <div className="flex items-center gap-3 mb-3">
+                                    <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></div>
+                                    <Clock className="w-5 h-5 text-amber-400" />
+                                    <p className="font-semibold text-amber-400 text-lg">Reply to 2 RFQs now</p>
+                                </div>
+                                <p className="text-sm text-gray-400 mb-2">SLA breach in 3h if ignored</p>
+                                <div className="flex items-center gap-2 text-xs text-gray-500">
+                                    <Clock className="w-3 h-3" />
+                                    <span>SkyBridge Ventures • Global Executive Travel</span>
+                                </div>
+                            </CardContent>
+                        </Card>
+                        <Card className="bg-slate-800/50 border-slate-700 cursor-pointer hover:border-orange-500/50 transition-all group hover:shadow-orange-500/20 hover:shadow-lg">
+                            <CardContent className="p-6">
+                                <div className="flex items-center gap-3 mb-3">
+                                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                                    <FileText className="w-5 h-5 text-blue-400" />
+                                    <p className="font-semibold text-blue-400 text-lg">Send contract to 1 client</p>
+                                </div>
+                                <p className="text-sm text-gray-400 mb-2">Deal expires in 6h</p>
+                                <div className="flex items-center gap-2 text-xs text-gray-500">
+                                    <User className="w-3 h-3" />
+                                    <span>Monaco Elite • NCE → LHR</span>
+                                </div>
+                            </CardContent>
+                        </Card>
+                        <Card className="bg-slate-800/50 border-slate-700 cursor-pointer hover:border-orange-500/50 transition-all group hover:shadow-orange-500/20 hover:shadow-lg">
+                            <CardContent className="p-6">
+                                <div className="flex items-center gap-3 mb-3">
+                                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                                    <DollarSign className="w-5 h-5 text-green-400" />
+                                    <p className="font-semibold text-green-400 text-lg">Collect 3 payments</p>
+                                </div>
+                                <p className="text-sm text-gray-400 mb-2">£12,300 held in pending</p>
+                                <div className="flex items-center gap-2 text-xs text-gray-500">
+                                    <CheckCircle className="w-3 h-3" />
+                                    <span>Elite Aviation Group • Monaco Elite</span>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
+                </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-6">
-                {rfqs.map((rfq) => (
-                    <Card key={rfq.id} className="terminal-card">
-                        <CardContent className="p-6">
-                            <div className="flex items-start justify-between">
-                                <div className="flex-1">
-                                    <div className="flex items-center gap-3 mb-3">
-                                        <Badge className={`text-xs ${
-                                            rfq.urgency === 'high' ? 'bg-red-500' : 
-                                            rfq.urgency === 'medium' ? 'bg-yellow-500' : 'bg-green-500'
-                                        }`}>
-                                            {rfq.urgency}
-                                        </Badge>
-                                        <Badge variant="outline" className="text-xs">
-                                            {rfq.status}
-                                        </Badge>
-                                    </div>
-                                    <h3 className="text-lg font-semibold text-foreground mb-2">{rfq.client}</h3>
-                                    <p className="text-muted-foreground mb-4">{rfq.route}</p>
-                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                                        <div>
-                                            <p className="text-muted-foreground">Aircraft</p>
-                                            <p className="font-medium text-foreground">{rfq.aircraft}</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-muted-foreground">Passengers</p>
-                                            <p className="font-medium text-foreground">{rfq.passengers}</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-muted-foreground">Budget</p>
-                                            <p className="font-medium text-foreground">${rfq.budget.toLocaleString()}</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-muted-foreground">Deadline</p>
-                                            <p className="font-medium text-foreground">{new Date(rfq.deadline).toLocaleDateString()}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="ml-6 flex flex-col gap-2">
-                                    <Button className="btn-terminal-accent">
-                                        <Plus className="w-4 h-4 mr-2" />
-                                        Send Quote
-                                    </Button>
-                                    <Button variant="outline" className="border-terminal-border">
-                                        View Details
-                                    </Button>
-                                </div>
+            {/* Key Metrics */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <Card className="bg-slate-800/50 border-slate-700 cursor-pointer hover:border-orange-500/50 transition-all group hover:shadow-orange-500/20 hover:shadow-lg">
+                    <CardContent className="p-6">
+                        <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center gap-2">
+                                <Clock className="w-4 h-4 text-orange-400" />
+                                <p className="text-xs uppercase tracking-wide text-gray-300 font-medium">Pending Quotes</p>
                             </div>
-                        </CardContent>
-                    </Card>
-                ))}
+                        </div>
+                        <div>
+                            <p className="text-3xl font-bold text-white mb-1">{dashboardMetrics.quotesReceived}</p>
+                            <p className="text-sm text-gray-400">Awaiting response</p>
+                        </div>
+                    </CardContent>
+                </Card>
+                <Card className="bg-slate-800/50 border-slate-700 cursor-pointer hover:border-orange-500/50 transition-all group hover:shadow-orange-500/20 hover:shadow-lg">
+                    <CardContent className="p-6">
+                        <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center gap-2">
+                                <TrendingUp className="w-4 h-4 text-orange-400" />
+                                <p className="text-xs uppercase tracking-wide text-gray-300 font-medium">Quotes Accepted</p>
+                            </div>
+                        </div>
+                        <div>
+                            <p className="text-3xl font-bold text-white mb-1">{dashboardMetrics.dealsClosed}</p>
+                            <p className="text-sm text-gray-400">This month</p>
+                        </div>
+                    </CardContent>
+                </Card>
+                <Card className="bg-slate-800/50 border-slate-700 cursor-pointer hover:border-orange-500/50 transition-all group hover:shadow-orange-500/20 hover:shadow-lg">
+                    <CardContent className="p-6">
+                        <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center gap-2">
+                                <DollarSign className="w-4 h-4 text-orange-400" />
+                                <p className="text-xs uppercase tracking-wide text-gray-300 font-medium">Deals Closed</p>
+                            </div>
+                        </div>
+                        <div>
+                            <p className="text-3xl font-bold text-white mb-1">{dashboardMetrics.dealsClosed}</p>
+                            <p className="text-sm text-gray-400">£2.1M volume</p>
+                        </div>
+                    </CardContent>
+                </Card>
+                <Card className="bg-slate-800/50 border-slate-700 cursor-pointer hover:border-orange-500/50 transition-all group hover:shadow-orange-500/20 hover:shadow-lg">
+                    <CardContent className="p-6">
+                        <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center gap-2">
+                                <Clock className="w-4 h-4 text-orange-400" />
+                                <p className="text-xs uppercase tracking-wide text-gray-300 font-medium">Response Time</p>
+                            </div>
+                        </div>
+                        <div>
+                            <p className="text-3xl font-bold text-white mb-1">{dashboardMetrics.responseTime}m</p>
+                            <p className="text-sm text-gray-400">Fast lane eligible</p>
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+
+            {/* Reputation & Performance */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <Card className="bg-slate-800/50 border-slate-700">
+                    <CardContent className="p-4">
+                        <div className="flex items-center gap-2 mb-4">
+                            <Award className="w-4 h-4 text-orange-400" />
+                            <p className="text-sm uppercase tracking-wide text-gray-300 font-medium">Reputation & Performance</p>
+                        </div>
+                        <div className="grid grid-cols-3 gap-3">
+                            <div className="text-center p-3 rounded-lg bg-slate-700/50 border border-slate-600">
+                                <p className="text-xl font-bold text-orange-400 mb-1">4.8</p>
+                                <p className="text-xs text-gray-400">Rating</p>
+                            </div>
+                            <div className="text-center p-3 rounded-lg bg-slate-700/50 border border-slate-600">
+                                <p className="text-xl font-bold text-orange-400 mb-1">98%</p>
+                                <p className="text-xs text-gray-400">Satisfaction</p>
+                            </div>
+                            <div className="text-center p-3 rounded-lg bg-slate-700/50 border border-slate-600">
+                                <p className="text-xl font-bold text-orange-400 mb-1">127</p>
+                                <p className="text-xs text-gray-400">Deals</p>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+                <Card className="bg-slate-800/50 border-slate-700">
+                    <CardContent className="p-4">
+                        <div className="flex items-center gap-2 mb-4">
+                            <Trophy className="w-4 h-4 text-orange-400" />
+                            <p className="text-sm uppercase tracking-wide text-gray-300 font-medium">Golden Status</p>
+                        </div>
+                        <div className="text-center">
+                            <p className="text-sm text-gray-400 mb-2">#12 Global Ranking</p>
+                            <p className="text-2xl font-bold text-orange-400 mb-1">567</p>
+                            <p className="text-xs text-gray-400">Points (+23 this week)</p>
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+
+            {/* Real-Time Flight Tracking */}
+            <div className="mt-8">
+                <Card className="bg-slate-800/50 border-slate-700">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-white">
+                            <MapPin className="w-5 h-5 text-orange-400" />
+                            Real-Time Flight Tracking
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="h-64 bg-slate-900/50 rounded-lg flex items-center justify-center">
+                            <p className="text-gray-400">Flight tracking map will be displayed here</p>
+                        </div>
+                    </CardContent>
+                </Card>
             </div>
         </div>
     );
+
 
     const renderMarketplace = () => (
         <div className="space-y-6">
@@ -556,14 +553,14 @@ export default function BrokerTerminal() {
                             )}
                         </div>
 
-                        {/* New RFQ Button */}
-                        <Button
-                            onClick={() => setActiveTab('rfqs')}
-                            className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 hover:shadow-orange-500/25 hover:shadow-lg transition-all"
-                        >
-                            <Plus className="h-4 w-4 mr-2" />
-                            New RFQ
-                        </Button>
+            {/* New RFQ Button - Redirect to Marketplace */}
+            <Button
+              onClick={() => setActiveTab('marketplace')}
+              className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 hover:shadow-orange-500/25 hover:shadow-lg transition-all"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              New RFQ
+            </Button>
 
                         {/* Trophy Button */}
                         <Button
@@ -594,10 +591,6 @@ export default function BrokerTerminal() {
                                 <BarChart3 className="w-4 h-4" />
                                 Dashboard
                             </TabsTrigger>
-                            <TabsTrigger value="rfqs" className="flex items-center gap-2">
-                                <FileText className="w-4 h-4" />
-                                RFQs
-                            </TabsTrigger>
                             <TabsTrigger value="marketplace" className="flex items-center gap-2">
                                 <TrendingUp className="w-4 h-4" />
                                 Marketplace
@@ -625,54 +618,574 @@ export default function BrokerTerminal() {
                         {renderDashboard()}
                     </TabsContent>
 
-                    <TabsContent value="rfqs" className="space-y-6">
-                        {renderRFQs()}
-                    </TabsContent>
 
                     <TabsContent value="marketplace" className="space-y-6">
                         <BrokerMarketplace />
                     </TabsContent>
 
                     <TabsContent value="billing" className="space-y-6">
-                        <Card className="terminal-card">
+                        <Card className="bg-slate-800/50 border-slate-700">
                             <CardHeader>
-                                <CardTitle>Billing & Payments</CardTitle>
+                                <CardTitle className="flex items-center gap-2">
+                                    <DollarSign className="w-5 h-5 text-orange-400" />
+                                    Billing & Payments
+                                </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p className="text-muted-foreground">Billing information will be displayed here.</p>
+                                <div className="space-y-4">
+                                    {/* Payment Summary */}
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                                        <Card className="bg-green-900/20 border-green-500/30">
+                                            <CardContent className="p-4 text-center">
+                                                <h3 className="text-2xl font-bold text-green-400">$127,500</h3>
+                                                <p className="text-sm text-gray-300">Collected This Month</p>
+                                            </CardContent>
+                                        </Card>
+                                        <Card className="bg-blue-900/20 border-blue-500/30">
+                                            <CardContent className="p-4 text-center">
+                                                <h3 className="text-2xl font-bold text-blue-400">$45,200</h3>
+                                                <p className="text-sm text-gray-300">Pending Payments</p>
+                                            </CardContent>
+                                        </Card>
+                                        <Card className="bg-orange-900/20 border-orange-500/30">
+                                            <CardContent className="p-4 text-center">
+                                                <h3 className="text-2xl font-bold text-orange-400">$8,925</h3>
+                                                <p className="text-sm text-gray-300">Commission Earned</p>
+                                            </CardContent>
+                                        </Card>
+                                    </div>
+
+                                    {/* Recent Payments */}
+                                    <div className="space-y-3">
+                                        <h3 className="text-lg font-semibold text-green-400 flex items-center gap-2">
+                                            <CheckCircle className="w-4 h-4" />
+                                            Recent Payments (3)
+                                        </h3>
+                                        
+                                        {/* Payment 1 */}
+                                        <Card className="bg-green-900/20 border-green-500/30">
+                                            <CardContent className="p-4">
+                                                <div className="flex justify-between items-start mb-2">
+                                                    <div>
+                                                        <h4 className="font-semibold text-white">LAX → NRT Charter</h4>
+                                                        <p className="text-sm text-gray-300">Client: Tech Startup</p>
+                                                        <p className="text-sm text-gray-400">Payment Date: Yesterday</p>
+                                                    </div>
+                                                    <Badge className="bg-green-500">PAID</Badge>
+                                                </div>
+                                                <div className="flex justify-between items-center">
+                                                    <div>
+                                                        <p className="text-lg font-bold text-green-400">$125,000</p>
+                                                        <p className="text-sm text-gray-300">Commission: $8,750</p>
+                                                    </div>
+                                                    <Button size="sm" className="bg-green-500 hover:bg-green-600">
+                                                        View Invoice
+                                                    </Button>
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+
+                                        {/* Payment 2 */}
+                                        <Card className="bg-green-900/20 border-green-500/30">
+                                            <CardContent className="p-4">
+                                                <div className="flex justify-between items-start mb-2">
+                                                    <div>
+                                                        <h4 className="font-semibold text-white">ORD → FRA Charter</h4>
+                                                        <p className="text-sm text-gray-300">Client: Auto Manufacturer</p>
+                                                        <p className="text-sm text-gray-400">Payment Date: 2 days ago</p>
+                                                    </div>
+                                                    <Badge className="bg-green-500">PAID</Badge>
+                                                </div>
+                                                <div className="flex justify-between items-center">
+                                                    <div>
+                                                        <p className="text-lg font-bold text-green-400">$78,000</p>
+                                                        <p className="text-sm text-gray-300">Commission: $5,460</p>
+                                                    </div>
+                                                    <Button size="sm" className="bg-green-500 hover:bg-green-600">
+                                                        View Invoice
+                                                    </Button>
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+
+                                        {/* Payment 3 */}
+                                        <Card className="bg-green-900/20 border-green-500/30">
+                                            <CardContent className="p-4">
+                                                <div className="flex justify-between items-start mb-2">
+                                                    <div>
+                                                        <h4 className="font-semibold text-white">G650ER Aircraft Sale</h4>
+                                                        <p className="text-sm text-gray-300">Client: TechCorp Industries</p>
+                                                        <p className="text-sm text-gray-400">Payment Date: 5 days ago</p>
+                                                    </div>
+                                                    <Badge className="bg-green-500">PAID</Badge>
+                                                </div>
+                                                <div className="flex justify-between items-center">
+                                                    <div>
+                                                        <p className="text-lg font-bold text-green-400">$65,500,000</p>
+                                                        <p className="text-sm text-gray-300">Commission: $4,585,000</p>
+                                                    </div>
+                                                    <Button size="sm" className="bg-green-500 hover:bg-green-600">
+                                                        View Invoice
+                                                    </Button>
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+                                    </div>
+
+                                    {/* Pending Payments */}
+                                    <div className="space-y-3">
+                                        <h3 className="text-lg font-semibold text-yellow-400 flex items-center gap-2">
+                                            <Clock className="w-4 h-4" />
+                                            Pending Payments
+                                        </h3>
+                                        
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                            <Card className="bg-yellow-900/20 border-yellow-500/30">
+                                                <CardContent className="p-3">
+                                                    <div className="flex justify-between items-start mb-2">
+                                                        <h4 className="font-medium text-white text-sm">JFK → LHR</h4>
+                                                        <Badge className="bg-yellow-500 text-xs">Pending</Badge>
+                                                    </div>
+                                                    <p className="text-xs text-gray-400 mb-2">Client: Finance Corp</p>
+                                                    <p className="text-xs text-gray-300">$85,000 • Due in 3 days</p>
+                                                </CardContent>
+                                            </Card>
+
+                                            <Card className="bg-yellow-900/20 border-yellow-500/30">
+                                                <CardContent className="p-3">
+                                                    <div className="flex justify-between items-start mb-2">
+                                                        <h4 className="font-medium text-white text-sm">MIA → GRU</h4>
+                                                        <Badge className="bg-yellow-500 text-xs">Pending</Badge>
+                                                    </div>
+                                                    <p className="text-xs text-gray-400 mb-2">Client: Pharma Inc</p>
+                                                    <p className="text-xs text-gray-300">$65,000 • Due in 5 days</p>
+                                                </CardContent>
+                                            </Card>
+                                        </div>
+                                    </div>
+                                </div>
                             </CardContent>
                         </Card>
                     </TabsContent>
 
                     <TabsContent value="reputation" className="space-y-6">
-                        <Card className="terminal-card">
+                        <Card className="bg-slate-800/50 border-slate-700">
                             <CardHeader>
-                                <CardTitle>Reputation & Reviews</CardTitle>
+                                <CardTitle className="flex items-center gap-2">
+                                    <Award className="w-5 h-5 text-orange-400" />
+                                    Reputation Metrics
+                                </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p className="text-muted-foreground">Reputation metrics will be displayed here.</p>
+                                <div className="space-y-4">
+                                    {/* Reputation Score */}
+                                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                                        <Card className="bg-orange-900/20 border-orange-500/30">
+                                            <CardContent className="p-4 text-center">
+                                                <h3 className="text-3xl font-bold text-orange-400">4.9</h3>
+                                                <p className="text-sm text-gray-300">Overall Rating</p>
+                                            </CardContent>
+                                        </Card>
+                                        <Card className="bg-green-900/20 border-green-500/30">
+                                            <CardContent className="p-4 text-center">
+                                                <h3 className="text-3xl font-bold text-green-400">127</h3>
+                                                <p className="text-sm text-gray-300">Total Reviews</p>
+                                            </CardContent>
+                                        </Card>
+                                        <Card className="bg-blue-900/20 border-blue-500/30">
+                                            <CardContent className="p-4 text-center">
+                                                <h3 className="text-3xl font-bold text-blue-400">98%</h3>
+                                                <p className="text-sm text-gray-300">Success Rate</p>
+                                            </CardContent>
+                                        </Card>
+                                        <Card className="bg-purple-900/20 border-purple-500/30">
+                                            <CardContent className="p-4 text-center">
+                                                <h3 className="text-3xl font-bold text-purple-400">24h</h3>
+                                                <p className="text-sm text-gray-300">Avg Response</p>
+                                            </CardContent>
+                                        </Card>
+                                    </div>
+
+                                    {/* Recent Reviews */}
+                                    <div className="space-y-3">
+                                        <h3 className="text-lg font-semibold text-orange-400 flex items-center gap-2">
+                                            <Award className="w-4 h-4" />
+                                            Recent Reviews
+                                        </h3>
+                                        
+                                        {/* Review 1 */}
+                                        <Card className="bg-slate-700/50">
+                                            <CardContent className="p-4">
+                                                <div className="flex justify-between items-start mb-2">
+                                                    <div>
+                                                        <h4 className="font-semibold text-white">TechCorp Industries</h4>
+                                                        <p className="text-sm text-gray-300">Gulfstream G650ER Sale</p>
+                                                    </div>
+                                                    <div className="flex items-center gap-1">
+                                                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                                                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                                                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                                                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                                                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                                                    </div>
+                                                </div>
+                                                <p className="text-sm text-gray-300 mb-2">"Exceptional service throughout the entire process. The broker was professional, knowledgeable, and made the aircraft purchase seamless."</p>
+                                                <p className="text-xs text-gray-400">Sarah Chen - 2 days ago</p>
+                                            </CardContent>
+                                        </Card>
+
+                                        {/* Review 2 */}
+                                        <Card className="bg-slate-700/50">
+                                            <CardContent className="p-4">
+                                                <div className="flex justify-between items-start mb-2">
+                                                    <div>
+                                                        <h4 className="font-semibold text-white">Auto Manufacturer</h4>
+                                                        <p className="text-sm text-gray-300">ORD → FRA Charter</p>
+                                                    </div>
+                                                    <div className="flex items-center gap-1">
+                                                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                                                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                                                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                                                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                                                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                                                    </div>
+                                                </div>
+                                                <p className="text-sm text-gray-300 mb-2">"Perfect charter experience. The aircraft was exactly as described and the crew was outstanding. Highly recommended!"</p>
+                                                <p className="text-xs text-gray-400">Michael Rodriguez - 5 days ago</p>
+                                            </CardContent>
+                                        </Card>
+
+                                        {/* Review 3 */}
+                                        <Card className="bg-slate-700/50">
+                                            <CardContent className="p-4">
+                                                <div className="flex justify-between items-start mb-2">
+                                                    <div>
+                                                        <h4 className="font-semibold text-white">Tech Startup</h4>
+                                                        <p className="text-sm text-gray-300">LAX → NRT Charter</p>
+                                                    </div>
+                                                    <div className="flex items-center gap-1">
+                                                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                                                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                                                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                                                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                                                        <Star className="w-4 h-4 text-gray-400" />
+                                                    </div>
+                                                </div>
+                                                <p className="text-sm text-gray-300 mb-2">"Great service overall. The only minor issue was a slight delay, but the broker handled it professionally and kept us informed throughout."</p>
+                                                <p className="text-xs text-gray-400">David Kim - 1 week ago</p>
+                                            </CardContent>
+                                        </Card>
+                                    </div>
+
+                                    {/* Performance Metrics */}
+                                    <div className="space-y-3">
+                                        <h3 className="text-lg font-semibold text-blue-400 flex items-center gap-2">
+                                            <BarChart3 className="w-4 h-4" />
+                                            Performance Metrics
+                                        </h3>
+                                        
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <Card className="bg-blue-900/20 border-blue-500/30">
+                                                <CardContent className="p-4">
+                                                    <h4 className="font-semibold text-white mb-2">Response Time</h4>
+                                                    <div className="space-y-2">
+                                                        <div className="flex justify-between text-sm">
+                                                            <span className="text-gray-300">Under 1 hour</span>
+                                                            <span className="text-green-400">85%</span>
+                                                        </div>
+                                                        <div className="flex justify-between text-sm">
+                                                            <span className="text-gray-300">1-24 hours</span>
+                                                            <span className="text-blue-400">12%</span>
+                                                        </div>
+                                                        <div className="flex justify-between text-sm">
+                                                            <span className="text-gray-300">Over 24 hours</span>
+                                                            <span className="text-orange-400">3%</span>
+                                                        </div>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+
+                                            <Card className="bg-green-900/20 border-green-500/30">
+                                                <CardContent className="p-4">
+                                                    <h4 className="font-semibold text-white mb-2">Deal Completion</h4>
+                                                    <div className="space-y-2">
+                                                        <div className="flex justify-between text-sm">
+                                                            <span className="text-gray-300">Successful Deals</span>
+                                                            <span className="text-green-400">98%</span>
+                                                        </div>
+                                                        <div className="flex justify-between text-sm">
+                                                            <span className="text-gray-300">Cancelled Deals</span>
+                                                            <span className="text-red-400">2%</span>
+                                                        </div>
+                                                        <div className="flex justify-between text-sm">
+                                                            <span className="text-gray-300">Repeat Clients</span>
+                                                            <span className="text-blue-400">73%</span>
+                                                        </div>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        </div>
+                                    </div>
+                                </div>
                             </CardContent>
                         </Card>
                     </TabsContent>
 
                     <TabsContent value="documents" className="space-y-6">
-                        <Card className="terminal-card">
+                        <Card className="bg-slate-800/50 border-slate-700">
                             <CardHeader>
-                                <CardTitle>Document Management</CardTitle>
+                                <CardTitle className="flex items-center gap-2">
+                                    <FileText className="w-5 h-5 text-orange-400" />
+                                    Documents
+                                </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p className="text-muted-foreground">Document storage and management will be available here.</p>
+                                <div className="space-y-4">
+                                    {/* Document Categories */}
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                                        <Card className="bg-blue-900/20 border-blue-500/30">
+                                            <CardContent className="p-4 text-center">
+                                                <h3 className="text-2xl font-bold text-blue-400">24</h3>
+                                                <p className="text-sm text-gray-300">Invoices</p>
+                                            </CardContent>
+                                        </Card>
+                                        <Card className="bg-green-900/20 border-green-500/30">
+                                            <CardContent className="p-4 text-center">
+                                                <h3 className="text-2xl font-bold text-green-400">12</h3>
+                                                <p className="text-sm text-gray-300">Contracts</p>
+                                            </CardContent>
+                                        </Card>
+                                        <Card className="bg-orange-900/20 border-orange-500/30">
+                                            <CardContent className="p-4 text-center">
+                                                <h3 className="text-2xl font-bold text-orange-400">8</h3>
+                                                <p className="text-sm text-gray-300">Certificates</p>
+                                            </CardContent>
+                                        </Card>
+                                    </div>
+
+                                    {/* Recent Documents */}
+                                    <div className="space-y-3">
+                                        <h3 className="text-lg font-semibold text-blue-400 flex items-center gap-2">
+                                            <FileText className="w-4 h-4" />
+                                            Recent Documents
+                                        </h3>
+                                        
+                                        {/* Invoice History */}
+                                        <Card className="bg-slate-700/50">
+                                            <CardContent className="p-4">
+                                                <div className="flex justify-between items-start mb-2">
+                                                    <div>
+                                                        <h4 className="font-semibold text-white">Invoice #INV-2025-001</h4>
+                                                        <p className="text-sm text-gray-300">LAX → NRT Charter - Tech Startup</p>
+                                                        <p className="text-sm text-gray-400">Generated: Yesterday</p>
+                                                    </div>
+                                                    <Badge className="bg-green-500">PAID</Badge>
+                                                </div>
+                                                <div className="flex gap-2">
+                                                    <Button size="sm" className="bg-blue-500 hover:bg-blue-600">
+                                                        Download PDF
+                                                    </Button>
+                                                    <Button size="sm" variant="outline">
+                                                        View Details
+                                                    </Button>
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+
+                                        <Card className="bg-slate-700/50">
+                                            <CardContent className="p-4">
+                                                <div className="flex justify-between items-start mb-2">
+                                                    <div>
+                                                        <h4 className="font-semibold text-white">Contract #CON-2025-002</h4>
+                                                        <p className="text-sm text-gray-300">Gulfstream G650ER Sale Agreement</p>
+                                                        <p className="text-sm text-gray-400">Signed: 5 days ago</p>
+                                                    </div>
+                                                    <Badge className="bg-blue-500">ACTIVE</Badge>
+                                                </div>
+                                                <div className="flex gap-2">
+                                                    <Button size="sm" className="bg-green-500 hover:bg-green-600">
+                                                        Download PDF
+                                                    </Button>
+                                                    <Button size="sm" variant="outline">
+                                                        View Details
+                                                    </Button>
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+
+                                        <Card className="bg-slate-700/50">
+                                            <CardContent className="p-4">
+                                                <div className="flex justify-between items-start mb-2">
+                                                    <div>
+                                                        <h4 className="font-semibold text-white">Certificate #CERT-2025-003</h4>
+                                                        <p className="text-sm text-gray-300">Broker License Renewal</p>
+                                                        <p className="text-sm text-gray-400">Issued: 1 week ago</p>
+                                                    </div>
+                                                    <Badge className="bg-green-500">VALID</Badge>
+                                                </div>
+                                                <div className="flex gap-2">
+                                                    <Button size="sm" className="bg-orange-500 hover:bg-orange-600">
+                                                        Download PDF
+                                                    </Button>
+                                                    <Button size="sm" variant="outline">
+                                                        View Details
+                                                    </Button>
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+                                    </div>
+
+                                    {/* Document Actions */}
+                                    <div className="space-y-3">
+                                        <h3 className="text-lg font-semibold text-orange-400 flex items-center gap-2">
+                                            <Plus className="w-4 h-4" />
+                                            Quick Actions
+                                        </h3>
+                                        
+                                        <div className="flex gap-3">
+                                            <Button className="bg-blue-500 hover:bg-blue-600">
+                                                Generate Invoice
+                                            </Button>
+                                            <Button className="bg-green-500 hover:bg-green-600">
+                                                Create Contract
+                                            </Button>
+                                            <Button className="bg-orange-500 hover:bg-orange-600">
+                                                Upload Document
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </div>
                             </CardContent>
                         </Card>
                     </TabsContent>
 
                     <TabsContent value="communication" className="space-y-6">
-                        <Card className="terminal-card">
+                        <Card className="bg-slate-800/50 border-slate-700">
                             <CardHeader>
-                                <CardTitle>Communication Center</CardTitle>
+                                <CardTitle className="flex items-center gap-2">
+                                    <MessageCircle className="w-5 h-5 text-orange-400" />
+                                    Communication
+                                </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p className="text-muted-foreground">Client communication tools will be available here.</p>
+                                <div className="space-y-4">
+                                    {/* Active Conversations */}
+                                    <div className="space-y-3">
+                                        <h3 className="text-lg font-semibold text-blue-400 flex items-center gap-2">
+                                            <MessageSquare className="w-4 h-4" />
+                                            Active Conversations
+                                        </h3>
+                                        
+                                        {/* Conversation 1 */}
+                                        <Card className="bg-slate-700/50">
+                                            <CardContent className="p-4">
+                                                <div className="flex justify-between items-start mb-3">
+                                                    <div>
+                                                        <h4 className="font-semibold text-white">TechCorp Industries</h4>
+                                                        <p className="text-sm text-gray-300">Gulfstream G650ER Sale Discussion</p>
+                                                    </div>
+                                                    <Badge className="bg-green-500">ONLINE</Badge>
+                                                </div>
+                                                <div className="space-y-2 mb-3">
+                                                    <div className="bg-blue-900/30 p-3 rounded-lg">
+                                                        <p className="text-sm text-gray-300">"The aircraft inspection went perfectly. When can we finalize the delivery?"</p>
+                                                        <p className="text-xs text-gray-400 mt-1">Sarah Chen - 10 minutes ago</p>
+                                                    </div>
+                                                    <div className="bg-slate-800/50 p-3 rounded-lg ml-8">
+                                                        <p className="text-sm text-white">"Excellent! I'll have the final paperwork ready by tomorrow morning."</p>
+                                                        <p className="text-xs text-gray-400 mt-1">You - 5 minutes ago</p>
+                                                    </div>
+                                                </div>
+                                                <div className="flex gap-2">
+                                                    <Button size="sm" className="bg-blue-500 hover:bg-blue-600">
+                                                        Reply
+                                                    </Button>
+                                                    <Button size="sm" variant="outline">
+                                                        View Full Chat
+                                                    </Button>
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+
+                                        {/* Conversation 2 */}
+                                        <Card className="bg-slate-700/50">
+                                            <CardContent className="p-4">
+                                                <div className="flex justify-between items-start mb-3">
+                                                    <div>
+                                                        <h4 className="font-semibold text-white">Global Ventures Ltd</h4>
+                                                        <p className="text-sm text-gray-300">LHR → DXB Charter Inquiry</p>
+                                                    </div>
+                                                    <Badge className="bg-yellow-500">AWAY</Badge>
+                                                </div>
+                                                <div className="space-y-2 mb-3">
+                                                    <div className="bg-blue-900/30 p-3 rounded-lg">
+                                                        <p className="text-sm text-gray-300">"We need to confirm the catering options for 6 passengers."</p>
+                                                        <p className="text-xs text-gray-400 mt-1">James Mitchell - 1 hour ago</p>
+                                                    </div>
+                                                </div>
+                                                <div className="flex gap-2">
+                                                    <Button size="sm" className="bg-blue-500 hover:bg-blue-600">
+                                                        Reply
+                                                    </Button>
+                                                    <Button size="sm" variant="outline">
+                                                        View Full Chat
+                                                    </Button>
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+
+                                        {/* Conversation 3 */}
+                                        <Card className="bg-slate-700/50">
+                                            <CardContent className="p-4">
+                                                <div className="flex justify-between items-start mb-3">
+                                                    <div>
+                                                        <h4 className="font-semibold text-white">Luxury Group</h4>
+                                                        <p className="text-sm text-gray-300">CDG → DXB Quote Negotiation</p>
+                                                    </div>
+                                                    <Badge className="bg-green-500">ONLINE</Badge>
+                                                </div>
+                                                <div className="space-y-2 mb-3">
+                                                    <div className="bg-blue-900/30 p-3 rounded-lg">
+                                                        <p className="text-sm text-gray-300">"Your counter-offer looks good. Can we add priority boarding?"</p>
+                                                        <p className="text-xs text-gray-400 mt-1">Marie Dubois - 30 minutes ago</p>
+                                                    </div>
+                                                    <div className="bg-slate-800/50 p-3 rounded-lg ml-8">
+                                                        <p className="text-sm text-white">"Absolutely! Priority boarding is included. I'll update the quote."</p>
+                                                        <p className="text-xs text-gray-400 mt-1">You - 15 minutes ago</p>
+                                                    </div>
+                                                </div>
+                                                <div className="flex gap-2">
+                                                    <Button size="sm" className="bg-blue-500 hover:bg-blue-600">
+                                                        Reply
+                                                    </Button>
+                                                    <Button size="sm" variant="outline">
+                                                        View Full Chat
+                                                    </Button>
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+                                    </div>
+
+                                    {/* Quick Actions */}
+                                    <div className="space-y-3">
+                                        <h3 className="text-lg font-semibold text-orange-400 flex items-center gap-2">
+                                            <Plus className="w-4 h-4" />
+                                            Quick Actions
+                                        </h3>
+                                        
+                                        <div className="flex gap-3">
+                                            <Button className="bg-blue-500 hover:bg-blue-600">
+                                                New Message
+                                            </Button>
+                                            <Button className="bg-green-500 hover:bg-green-600">
+                                                Schedule Call
+                                            </Button>
+                                            <Button className="bg-orange-500 hover:bg-orange-600">
+                                                Send Quote
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </div>
                             </CardContent>
                         </Card>
                     </TabsContent>

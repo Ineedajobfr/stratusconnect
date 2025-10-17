@@ -1,10 +1,8 @@
 import CommunityForums from '@/components/community/CommunityForums';
 import DocumentStorage from '@/components/documents/DocumentStorage';
-import { FlightRadar24Widget } from '@/components/flight-tracking/FlightRadar24Widget';
 import JobBoard from '@/components/job-board/JobBoard';
 import { ModernHelpGuide } from '@/components/ModernHelpGuide';
 import NoteTakingSystem from '@/components/NoteTakingSystem';
-import RealTimeFlightTracker from '@/components/RealTimeFlightTracker';
 import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -612,8 +610,6 @@ export default function DemoCrewTerminal() {
         <ArrowUp className="w-6 h-6 text-white" />
       </Button>
       
-      {/* Intelligent AI Chatbot */}
-            <RealTimeFlightTracker terminalType="crew" />
     </>
   );
 }

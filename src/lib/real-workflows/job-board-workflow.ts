@@ -310,7 +310,10 @@ export class JobBoardWorkflow {
 
       const { data, error } = await query.order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+        console.warn('job_posts table does not exist, returning empty array');
+        return [];
+      }
       return data || [];
     } catch (error) {
       console.error('Error fetching jobs:', error);

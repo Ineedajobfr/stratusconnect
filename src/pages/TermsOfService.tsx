@@ -161,7 +161,7 @@ export default function TermsOfService() {
               <section>
                 <h2 className="text-2xl font-semibold text-foreground mb-4">10. Contact Information</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  For questions about these terms, please contact us at legal@stratusconnect.com or through our support center.
+                  For questions about these terms, please contact us at legal@stratusconnect.org or through our support center.
                 </p>
               </section>
             </CardContent>

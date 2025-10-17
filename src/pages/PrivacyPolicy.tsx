@@ -209,7 +209,7 @@ export default function PrivacyPolicy() {
               <section>
                 <h2 className="text-2xl font-semibold text-foreground mb-4">Contact Us</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  If you have questions about this Privacy Policy or wish to exercise your rights, please contact us at privacy@stratusconnect.com or through our support center.
+                  If you have questions about this Privacy Policy or wish to exercise your rights, please contact us at privacy@stratusconnect.org or through our support center.
                 </p>
               </section>
             </CardContent>

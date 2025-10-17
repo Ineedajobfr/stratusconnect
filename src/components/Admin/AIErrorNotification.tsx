@@ -1,9 +1,11 @@
 // AI Error Notification - Clickable Error Display
 // Shows errors detected by the AI system in a small, clickable section
+// ONLY VISIBLE TO ADMIN USERS
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/hooks/use-toast';
 import { AlertTriangle, Bug, Eye, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -22,9 +24,13 @@ interface AIErrorNotificationProps {
 }
 
 export function AIErrorNotification({ className }: AIErrorNotificationProps) {
+    const { user } = useAuth();
     const [errors, setErrors] = useState<AIError[]>([]);
     const [isExpanded, setIsExpanded] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
+
+    // Only show for admin users
+    const isAdmin = user?.email === 'stratuscharters@gmail.com' || user?.role === 'admin';
 
     useEffect(() => {
         // Check for errors every 5 seconds
@@ -129,6 +135,11 @@ export function AIErrorNotification({ className }: AIErrorNotificationProps) {
             (window as any).__errorTracker.clearErrors();
         }
     };
+
+    // Only show for admin users
+    if (!isAdmin) {
+        return null;
+    }
 
     if (!isVisible || errors.length === 0) {
         return null;

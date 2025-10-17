@@ -201,7 +201,7 @@ export default function VerificationRejected() {
           </Button>
           
           <Button
-            onClick={() => window.open('mailto:support@stratusconnect.com', '_blank')}
+            onClick={() => window.open('mailto:support@stratusconnect.org', '_blank')}
             variant="outline"
             className="border-orange-500/30 text-orange-300 hover:bg-orange-500/10 px-8 py-3 text-lg"
           >
@@ -224,7 +224,7 @@ export default function VerificationRejected() {
               <div className="flex items-center justify-center gap-6 text-sm text-orange-300/60">
                 <div className="flex items-center gap-2">
                   <Mail className="w-4 h-4" />
-                  support@stratusconnect.com
+                  support@stratusconnect.org
                 </div>
                 <div className="flex items-center gap-2">
                   <span>Response time: 24 hours</span>

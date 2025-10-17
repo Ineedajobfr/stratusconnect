@@ -252,7 +252,7 @@ export default function VerificationPending() {
             Questions about your verification? Contact our support team.
           </p>
           <Button
-            onClick={() => window.open('mailto:support@stratusconnect.com', '_blank')}
+            onClick={() => window.open('mailto:support@stratusconnect.org', '_blank')}
             variant="outline"
             className="border-orange-500/30 text-orange-300 hover:bg-orange-500/10"
           >

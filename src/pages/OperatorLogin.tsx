@@ -66,7 +66,15 @@ export default function OperatorLogin() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-orange-900/20 to-slate-900 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <button
-          onClick={() => navigate('/')}
+          onClick={() => {
+            // Check if user is authenticated to determine where to navigate
+            const isAuthenticated = localStorage.getItem('testUser') || document.cookie.includes('supabase');
+            if (isAuthenticated) {
+              navigate('/home');
+            } else {
+              navigate('/');
+            }
+          }}
           className="flex items-center space-x-2 text-slate-400 hover:text-orange-400 transition-colors mb-8"
         >
           <ArrowLeft className="h-4 w-4" />

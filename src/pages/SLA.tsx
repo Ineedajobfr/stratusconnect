@@ -1,15 +1,14 @@
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Activity, 
-  Clock, 
-  DollarSign, 
-  AlertTriangle, 
-  CheckCircle,
-  Server,
-  Shield,
-  TrendingUp
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+    Activity,
+    AlertTriangle,
+    CheckCircle,
+    Clock,
+    DollarSign,
+    Server,
+    Shield,
+    TrendingUp
 } from 'lucide-react';
 
 export default function SLA() {
@@ -309,7 +308,7 @@ export default function SLA() {
               <div className="bg-slate-800 rounded-lg p-4">
                 <p className="font-medium text-foreground">Support Channels</p>
                 <div className="grid gap-2 mt-2 text-sm text-gunmetal">
-                  <div>Email: support@stratusconnect.com</div>
+                  <div>Email: support@stratusconnect.org</div>
                   <div>Status Page: /status</div>
                   <div>Emergency: [Emergency Contact]</div>
                 </div>

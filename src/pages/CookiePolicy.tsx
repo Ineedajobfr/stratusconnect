@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, BarChart3, Settings, Shield } from "lucide-react";
+import { ArrowLeft, Settings, Shield } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 // Updated with cinematic design - force rebuild to clear cache - StarfieldRunwayBackground removed
 export default function CookiePolicy() {
@@ -64,23 +64,6 @@ export default function CookiePolicy() {
                     </div>
                   </div>
 
-                  <div className="flex items-start space-x-4">
-                    <div className="p-2 bg-accent/20 rounded-lg">
-                      <BarChart3 className="w-5 h-5 text-accent" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-medium text-foreground mb-2">Analytics Cookies</h3>
-                      <p className="text-muted-foreground mb-2">
-                        These cookies help us understand how visitors interact with our website.
-                      </p>
-                      <ul className="list-disc list-inside text-muted-foreground space-y-1 text-sm">
-                        <li>Page views and user journeys</li>
-                        <li>Feature usage and performance</li>
-                        <li>Error tracking and debugging</li>
-                        <li>User behavior patterns</li>
-                      </ul>
-                    </div>
-                  </div>
 
                   <div className="flex items-start space-x-4">
                     <div className="p-2 bg-accent/20 rounded-lg">
@@ -129,11 +112,6 @@ export default function CookiePolicy() {
                         <td className="border border-terminal-border p-4 text-gunmetal">User interface settings</td>
                         <td className="border border-terminal-border p-4 text-gunmetal">1 year</td>
                       </tr>
-                      <tr>
-                        <td className="border border-terminal-border p-4 text-gunmetal">analytics</td>
-                        <td className="border border-terminal-border p-4 text-gunmetal">Usage analytics</td>
-                        <td className="border border-terminal-border p-4 text-gunmetal">2 years</td>
-                      </tr>
                     </tbody>
                   </table>
                 </div>
@@ -166,16 +144,26 @@ export default function CookiePolicy() {
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">Third-Party Cookies</h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  We may use third-party services that set their own cookies. These include:
+                <h2 className="text-2xl font-semibold text-foreground mb-4">How We Use Your Data</h2>
+                <p className="text-muted-foreground leading-relaxed mb-4">
+                  We only collect data necessary to improve your user experience. We never sell your data to third parties.
                 </p>
-                <ul className="list-disc list-inside text-muted-foreground space-y-2 mt-4">
-                  <li><strong>Analytics providers:</strong> Google Analytics, Mixpanel</li>
-                  <li><strong>Payment processors:</strong> Stripe, PayPal</li>
-                  <li><strong>Security services:</strong> Cloudflare, reCAPTCHA</li>
-                  <li><strong>Communication tools:</strong> Intercom, Zendesk</li>
-                </ul>
+                <div className="bg-slate-800 rounded-lg p-4">
+                  <h3 className="text-lg font-medium text-foreground mb-2">Data Collection</h3>
+                  <ul className="list-disc list-inside text-muted-foreground space-y-1 text-sm">
+                    <li>Authentication tokens for secure login</li>
+                    <li>User preferences for personalized experience</li>
+                    <li>Error logs for debugging and platform improvement</li>
+                    <li>Session data for security and functionality</li>
+                  </ul>
+                </div>
+                <div className="bg-slate-800 rounded-lg p-4 mt-4">
+                  <h3 className="text-lg font-medium text-foreground mb-2">Data Retention</h3>
+                  <p className="text-muted-foreground text-sm">
+                    Your data is retained as long as your account is active, or as required by law. 
+                    We use your data solely to enhance platform functionality and user experience.
+                  </p>
+                </div>
               </section>
 
               <section>
@@ -188,7 +176,7 @@ export default function CookiePolicy() {
               <section>
                 <h2 className="text-2xl font-semibold text-foreground mb-4">Contact Us</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  If you have questions about our use of cookies or this Cookie Policy, please contact us at privacy@stratusconnect.com or through our support center.
+                  If you have questions about our use of cookies or this Cookie Policy, please contact us at privacy@stratusconnect.org or through our support center.
                 </p>
               </section>
             </CardContent>

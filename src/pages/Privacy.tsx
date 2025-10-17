@@ -39,9 +39,9 @@ export default function Privacy() {
               <div className="bg-slate-800 rounded-lg p-4">
                 <p className="font-medium text-foreground">Contact Information</p>
                 <p className="text-gunmetal text-sm mt-1">
-                  Email: privacy@stratusconnect.com<br />
+                  Email: privacy@stratusconnect.org<br />
                   Address: [Registered Office Address]<br />
-                  Data Protection Officer: dpo@stratusconnect.com
+                  Data Protection Officer: dpo@stratusconnect.org
                 </p>
               </div>
             </CardContent>
@@ -246,7 +246,7 @@ export default function Privacy() {
               <div className="bg-slate-800 border border-blue-200 rounded-lg p-4">
                 <p className="text-blue-800 font-medium">Exercise Your Rights</p>
                 <p className="text-blue-700 text-sm mt-1">
-                  To exercise any of these rights, contact us at privacy@stratusconnect.com or use our DSAR portal. 
+                  To exercise any of these rights, contact us at privacy@stratusconnect.org or use our DSAR portal. 
                   We will respond within 30 days.
                 </p>
               </div>
@@ -326,7 +326,7 @@ export default function Privacy() {
               <div className="bg-slate-800 rounded-lg p-4">
                 <p className="font-medium text-foreground">Data Protection Officer</p>
                 <p className="text-gunmetal text-sm mt-1">
-                  Email: dpo@stratusconnect.com<br />
+                  Email: dpo@stratusconnect.org<br />
                   Phone: [Contact Number]
                 </p>
               </div>

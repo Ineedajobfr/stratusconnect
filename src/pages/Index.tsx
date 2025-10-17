@@ -154,7 +154,7 @@ export default function Index() {
           style={{
             boxShadow: '0 0 20px rgba(255, 140, 0, 0.3), 0 0 40px rgba(255, 140, 0, 0.1), inset 0 0 10px rgba(255, 140, 0, 0.2)',
           }}
-          onClick={() => navigate('/auth')}
+          onClick={() => navigate('/role-selection')}
         >
           Sign up
         </div>
@@ -1134,15 +1134,6 @@ export default function Index() {
                     >
                       <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                       System Status
-                    </button>
-                  </li>
-                  <li>
-                    <button 
-                      onClick={() => navigate('/api-docs')}
-                      className="text-slate-400 text-sm hover:text-orange-400 transition-colors flex items-center gap-2 group"
-                    >
-                      <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                      API Docs
                     </button>
                   </li>
                   <li>

@@ -126,7 +126,15 @@ export default function RoleSelection() {
             </div>
           </div>
           <Button
-            onClick={() => navigate('/')}
+            onClick={() => {
+              // Check if user is authenticated to determine where to navigate
+              const isAuthenticated = localStorage.getItem('testUser') || document.cookie.includes('supabase');
+              if (isAuthenticated) {
+                navigate('/home');
+              } else {
+                navigate('/');
+              }
+            }}
             variant="outline"
             className="border-orange-500/30 text-orange-300 hover:bg-orange-500/10"
           >

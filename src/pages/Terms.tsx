@@ -283,7 +283,7 @@ export default function Terms() {
         {/* Footer */}
         <div className="text-center mt-12 text-gunmetal text-sm">
           <p>
-            For questions about these terms, please contact our legal team at legal@stratusconnect.com
+            For questions about these terms, please contact our legal team at legal@stratusconnect.org
           </p>
           <p className="mt-2">
             This document is version 1.0, effective January 15, 2025.

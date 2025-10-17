@@ -15,7 +15,9 @@ import { logger } from "@/utils/performance";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React, { lazy, memo, Suspense } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { AuthGuard } from "./components/AuthGuard";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import { ScrollToTop } from "./components/ScrollToTop";
 
 
 // Import new dashboard components
@@ -163,6 +165,7 @@ const App = memo(() => {
                 v7_relativeSplatPath: true
               }}
             >
+              <ScrollToTop />
               <MemoizedNavigationOptimizer />
               {/* <StatusBanner /> */}
               <AuthProvider>
@@ -197,7 +200,7 @@ const App = memo(() => {
               <Route path="/user-agreement" element={<UserAgreement />} />
               <Route path="/security" element={<Security />} />
               <Route path="/help" element={<HelpCenter />} />
-              <Route path="/api-docs" element={<ApiDocumentation />} />
+              {/* <Route path="/api-docs" element={<ApiDocumentation />} /> */}
               <Route path="/contact" element={<Contact />} />
               <Route path="/compliance" element={<Compliance />} />
               <Route path="/intelligence" element={<AircraftIntelligence />} />
@@ -281,9 +284,11 @@ const App = memo(() => {
               <Route 
                 path="/broker-terminal" 
                 element={
-                  <ProtectedRoute allowedRoles={['broker']}>
-                    <BrokerTerminal />
-                  </ProtectedRoute>
+                  <AuthGuard>
+                    <ProtectedRoute allowedRoles={['broker']}>
+                      <BrokerTerminal />
+                    </ProtectedRoute>
+                  </AuthGuard>
                 } 
               />
               <Route 
@@ -297,9 +302,11 @@ const App = memo(() => {
               <Route 
                 path="/operator-terminal" 
                 element={
-                  <ProtectedRoute allowedRoles={['operator']}>
-                    <OperatorTerminal />
-                  </ProtectedRoute>
+                  <AuthGuard>
+                    <ProtectedRoute allowedRoles={['operator']}>
+                      <OperatorTerminal />
+                    </ProtectedRoute>
+                  </AuthGuard>
                 } 
               />
               <Route 
@@ -393,12 +400,12 @@ const App = memo(() => {
                     </Routes>
                   </Suspense>
                 </WorkflowProvider>
+                
+                {/* AI Error Notification - Admin-only error monitoring */}
+                <AIErrorNotification />
               </AuthProvider>
           </BrowserRouter>
           </TooltipProvider>
-          
-          {/* AI Error Notification - Site-wide error monitoring */}
-          <AIErrorNotification />
         </QueryClientProvider>
     </div>
   );

@@ -9,31 +9,37 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { fileValidationService } from "@/lib/file-validation-service";
+import { imageModerationService, type ImageModerationResult } from "@/lib/image-moderation-service";
 import {
-          marketplaceService,
-          type AircraftModel,
-          type MarketplaceListing,
-          type TripRequest
+    marketplaceService,
+    type AircraftModel,
+    type MarketplaceListing,
+    type TripRequest
 } from "@/lib/marketplace-service";
 import {
-          CheckCircle,
-          Clock,
-          DollarSign,
-          Edit,
-          Eye,
-          Loader2,
-          MapPin,
-          MessageSquare,
-          Plane,
-          Plus,
-          RefreshCw,
-          Save,
-          Trash2,
-          TrendingUp,
-          Users
+    CheckCircle,
+    Clock,
+    DollarSign,
+    Edit,
+    Eye,
+    Loader2,
+    MapPin,
+    MessageSquare,
+    Plane,
+    Plus,
+    Save,
+    Trash2,
+    TrendingUp,
+    Upload,
+    Users,
+    X
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { AirportLookup } from "./AirportLookup";
+import { IncomingTripRequests } from "./IncomingTripRequests";
+import { OperatorEmptyLegs } from "./OperatorEmptyLegs";
+import { OperatorListings } from "./OperatorListings";
 import { TrustBadge } from "./TrustBadge";
 
 interface OperatorListingFlowProps {
@@ -78,6 +84,16 @@ export function OperatorListingFlow({ className }: OperatorListingFlowProps) {
     seats: 0,
     distance_nm: 0
   });
+
+  // Image upload state
+  const [uploadedImages, setUploadedImages] = useState<{
+    file: File;
+    url: string;
+    moderation: ImageModerationResult;
+    uploading: boolean;
+  }[]>([]);
+  const [dragActive, setDragActive] = useState(false);
+  const [imageUploadProgress, setImageUploadProgress] = useState(0);
 
   // Load data on mount
   useEffect(() => {
@@ -143,11 +159,171 @@ export function OperatorListingFlow({ className }: OperatorListingFlowProps) {
     }
   };
 
+  // Image upload functions
+  const handleImageUpload = async (files: FileList) => {
+    const fileArray = Array.from(files);
+    
+    // Limit to 10 images max
+    if (uploadedImages.length + fileArray.length > 10) {
+      toast({
+        title: "Too Many Images",
+        description: "Maximum 10 images allowed per listing",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    for (const file of fileArray) {
+      // Add to state immediately with uploading status
+      const tempUrl = URL.createObjectURL(file);
+      setUploadedImages(prev => [...prev, {
+        file,
+        url: tempUrl,
+        moderation: {
+          approved: false,
+          confidence: 0,
+          classification: { nsfw: 0, violence: 0, inappropriate: 0, safe: 1 },
+          fileHash: '',
+          fileSize: file.size,
+          fileName: file.name
+        },
+        uploading: true
+      }]);
+
+      try {
+        // Validate file
+        const validation = await fileValidationService.validateFile(file, {
+          maxSize: 5 * 1024 * 1024, // 5MB
+          allowedTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'],
+          allowedExtensions: ['.jpg', '.jpeg', '.png', '.webp']
+        });
+
+        if (!validation.valid) {
+          throw new Error(validation.errors.join(', '));
+        }
+
+        // Moderate image content
+        const moderation = await imageModerationService.moderateImage(file);
+        
+        // Log to security events
+        await imageModerationService.logImageUpload(
+          'current-user-id', // This should come from auth context
+          moderation
+        );
+
+        if (!moderation.approved) {
+          toast({
+            title: "Image Rejected",
+            description: moderation.rejectionReason || "Image failed moderation",
+            variant: "destructive"
+          });
+          
+          // Remove rejected image
+          setUploadedImages(prev => prev.filter(img => img.file !== file));
+          URL.revokeObjectURL(tempUrl);
+          continue;
+        }
+
+        // Upload to Supabase Storage
+        const { url, path } = await imageModerationService.uploadImage(file, 'current-user-id');
+        
+        // Update state with approved image
+        setUploadedImages(prev => prev.map(img => 
+          img.file === file 
+            ? { ...img, url, moderation, uploading: false }
+            : img
+        ));
+
+        toast({
+          title: "Image Uploaded",
+          description: `${file.name} uploaded and approved`,
+        });
+
+      } catch (error) {
+        console.error('Image upload failed:', error);
+        toast({
+          title: "Upload Failed",
+          description: error instanceof Error ? error.message : "Failed to upload image",
+          variant: "destructive"
+        });
+        
+        // Remove failed image
+        setUploadedImages(prev => prev.filter(img => img.file !== file));
+        URL.revokeObjectURL(tempUrl);
+      }
+    }
+  };
+
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleImageUpload(e.dataTransfer.files);
+    }
+  };
+
+  const removeImage = (file: File) => {
+    setUploadedImages(prev => {
+      const image = prev.find(img => img.file === file);
+      if (image) {
+        URL.revokeObjectURL(image.url);
+      }
+      return prev.filter(img => img.file !== file);
+    });
+  };
+
   const handleCreateListing = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await marketplaceService.createListing(listingForm);
+      // Check if any images are still uploading
+      const stillUploading = uploadedImages.some(img => img.uploading);
+      if (stillUploading) {
+        toast({
+          title: "Please Wait",
+          description: "Some images are still uploading",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      // Check if any images failed moderation
+      const rejectedImages = uploadedImages.filter(img => !img.moderation.approved);
+      if (rejectedImages.length > 0) {
+        toast({
+          title: "Invalid Images",
+          description: "Please remove rejected images before creating listing",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      // Prepare listing data with images
+      const listingData = {
+        ...listingForm,
+        metadata: {
+          images: uploadedImages.map(img => ({
+            url: img.url,
+            fileName: img.file.name,
+            fileSize: img.file.size,
+            moderation: img.moderation
+          }))
+        }
+      };
+
+      await marketplaceService.createListing(listingData);
       toast({
         title: "Success",
         description: "Listing created successfully"
@@ -254,6 +430,10 @@ export function OperatorListingFlow({ className }: OperatorListingFlowProps) {
       seats: 0,
       distance_nm: 0
     });
+    
+    // Clear uploaded images
+    uploadedImages.forEach(img => URL.revokeObjectURL(img.url));
+    setUploadedImages([]);
   };
 
   const handleSubmitQuote = async () => {
@@ -311,31 +491,17 @@ export function OperatorListingFlow({ className }: OperatorListingFlowProps) {
 
         {/* My Listings Tab */}
         <TabsContent value="listings" className="space-y-6 mt-6">
-          <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-bold text-foreground">My Listings</h2>
-            <div className="flex gap-2">
-              <Button
-                onClick={loadMyListings}
-                variant="outline"
-                className="border-terminal-border"
-                disabled={loading}
-              >
-                <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
-                Refresh
-              </Button>
-              <Button
-                onClick={() => {
-                  resetForm();
-                  setEditingListing(null);
-                  setShowListingForm(!showListingForm);
-                }}
-                className="btn-terminal-accent"
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                New Listing
-              </Button>
-            </div>
-          </div>
+          <OperatorListings
+            onEditListing={(listing) => {
+              setEditingListing(listing);
+              setShowListingForm(true);
+            }}
+            onCreateListing={() => {
+              resetForm();
+              setEditingListing(null);
+              setShowListingForm(true);
+            }}
+          />
 
           {/* Listing Form */}
           {showListingForm && (
@@ -494,6 +660,99 @@ export function OperatorListingFlow({ className }: OperatorListingFlowProps) {
                     )}
                   </div>
 
+                  {/* Image Upload Section */}
+                  <div className="space-y-4">
+                    <Label className="text-white">Aircraft Images (Optional)</Label>
+                    <p className="text-sm text-gray-400">
+                      Upload up to 10 images of your aircraft. Images will be automatically moderated for content safety.
+                    </p>
+                    
+                    {/* Drag and Drop Zone */}
+                    <div
+                      className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
+                        dragActive
+                          ? 'border-orange-500 bg-orange-500/10'
+                          : 'border-slate-600 bg-slate-700/50'
+                      }`}
+                      onDragEnter={handleDrag}
+                      onDragLeave={handleDrag}
+                      onDragOver={handleDrag}
+                      onDrop={handleDrop}
+                    >
+                      <Upload className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                      <p className="text-white mb-2">
+                        Drag and drop images here, or click to select
+                      </p>
+                      <p className="text-sm text-gray-400 mb-4">
+                        PNG, JPG, WebP up to 5MB each
+                      </p>
+                      <input
+                        type="file"
+                        multiple
+                        accept="image/jpeg,image/jpg,image/png,image/webp"
+                        onChange={(e) => e.target.files && handleImageUpload(e.target.files)}
+                        className="hidden"
+                        id="image-upload"
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => document.getElementById('image-upload')?.click()}
+                        className="border-slate-600 text-white hover:bg-slate-600"
+                      >
+                        <Upload className="h-4 w-4 mr-2" />
+                        Choose Images
+                      </Button>
+                    </div>
+
+                    {/* Uploaded Images Preview */}
+                    {uploadedImages.length > 0 && (
+                      <div className="space-y-3">
+                        <h4 className="text-white font-medium">Uploaded Images ({uploadedImages.length}/10)</h4>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                          {uploadedImages.map((image, index) => (
+                            <div key={index} className="relative group">
+                              <div className="aspect-square rounded-lg overflow-hidden bg-slate-700">
+                                <img
+                                  src={image.url}
+                                  alt={image.file.name}
+                                  className="w-full h-full object-cover"
+                                />
+                                {image.uploading && (
+                                  <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                                    <Loader2 className="h-6 w-6 animate-spin text-white" />
+                                  </div>
+                                )}
+                                {!image.moderation.approved && (
+                                  <div className="absolute inset-0 bg-red-500/50 flex items-center justify-center">
+                                    <X className="h-6 w-6 text-white" />
+                                  </div>
+                                )}
+                              </div>
+                              <div className="mt-1 text-xs text-gray-400 truncate">
+                                {image.file.name}
+                              </div>
+                              {image.moderation.approved && (
+                                <div className="absolute top-1 right-1">
+                                  <CheckCircle className="h-4 w-4 text-green-400" />
+                                </div>
+                              )}
+                              <Button
+                                type="button"
+                                size="sm"
+                                variant="destructive"
+                                className="absolute top-1 left-1 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                                onClick={() => removeImage(image.file)}
+                              >
+                                <X className="h-3 w-3" />
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
                   <div className="flex gap-3 pt-4">
                     <Button
                       type="submit"
@@ -629,13 +888,15 @@ export function OperatorListingFlow({ className }: OperatorListingFlowProps) {
 
         {/* Trip Requests Tab */}
         <TabsContent value="trip-requests" className="space-y-6 mt-6">
-          <h2 className="text-2xl font-bold text-foreground">Open Trip Requests</h2>
+          <IncomingTripRequests
+            onQuoteSubmitted={() => {
+              // Refresh data after quote submission
+              loadTripRequests();
+            }}
+          />
 
-          {loading ? (
-            <div className="flex items-center justify-center h-64">
-              <Loader2 className="h-8 w-8 animate-spin text-accent" />
-            </div>
-          ) : (
+          {/* Old trip requests content - keeping for reference */}
+          {false && (
             <div className="grid grid-cols-1 gap-4">
               {availableRequests.map((request) => (
                 <Card key={request.id} className="terminal-card hover:border-blue-500 transition-colors">
@@ -729,17 +990,12 @@ export function OperatorListingFlow({ className }: OperatorListingFlowProps) {
 
         {/* Empty Legs Tab */}
         <TabsContent value="empty-legs" className="space-y-6 mt-6">
-          <div className="text-center py-12">
-            <TrendingUp className="w-16 h-16 text-accent mx-auto mb-4 opacity-50" />
-            <h3 className="text-xl font-semibold text-foreground mb-2">Empty Leg Manager</h3>
-            <p className="text-slate-400 mb-4">
-              Quickly post empty leg flights from your schedule
-            </p>
-            <Button className="btn-terminal-accent">
-              <Plus className="w-4 h-4 mr-2" />
-              Post Empty Leg
-            </Button>
-          </div>
+          <OperatorEmptyLegs
+            onEmptyLegCreated={() => {
+              // Refresh data after empty leg creation
+              loadMyListings();
+            }}
+          />
         </TabsContent>
 
         {/* Performance Tab */}

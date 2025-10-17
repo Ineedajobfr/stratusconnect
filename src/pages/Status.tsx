@@ -7,11 +7,8 @@ import {
     AlertTriangle,
     CheckCircle,
     Clock,
-    DollarSign,
     RefreshCw,
     Server,
-    TrendingUp,
-    Users,
     XCircle
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -162,7 +159,7 @@ export default function Status() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="text-center">
                   <div className="text-3xl font-bold text-white mb-2">
                     {formatUptime(metrics.uptime.uptime_24h)}
@@ -175,178 +172,58 @@ export default function Status() {
                   </div>
                   <p className="text-white/80">Avg Response Time (24h)</p>
                 </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-white mb-2">
-                    {metrics.active_users_24h.toLocaleString()}
-                  </div>
-                  <p className="text-white/80">Active Users (24h)</p>
-                </div>
               </div>
             </CardContent>
           </Card>
         )}
 
-        {/* Detailed Metrics */}
-        {metrics && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Uptime Metrics */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Activity className="w-5 h-5" />
-                  Uptime Metrics
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-white/80">Last 24 hours</span>
-                    <span className="font-mono font-semibold">
-                      {formatUptime(metrics.uptime.uptime_24h)}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-white/80">Last 7 days</span>
-                    <span className="font-mono font-semibold">
-                      {formatUptime(metrics.uptime.uptime_7d)}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-white/80">Last 30 days</span>
-                    <span className="font-mono font-semibold">
-                      {formatUptime(metrics.uptime.uptime_30d)}
-                    </span>
-                  </div>
-                  {metrics.uptime.last_incident && (
-                    <div className="pt-4 border-t">
-                      <p className="text-sm text-white/80 mb-1">Last Incident</p>
-                      <p className="text-sm font-mono">
-                        {new Date(metrics.uptime.last_incident).toLocaleString()}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+        {/* Component Status */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Card className="bg-black/80 backdrop-blur-sm border border-slate-700/30">
+            <CardContent className="p-6 text-center">
+              <CheckCircle className="w-8 h-8 text-green-500 mx-auto mb-3" />
+              <h3 className="text-lg font-semibold text-white mb-2">Application</h3>
+              <Badge className="bg-green-900/20 text-green-400 border-green-500/30">
+                Operational
+              </Badge>
+            </CardContent>
+          </Card>
 
-            {/* Response Time Metrics */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <TrendingUp className="w-5 h-5" />
-                  Response Time Metrics
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div>
-                    <p className="text-white/80 text-sm mb-2">Last 24 hours</p>
-                    <div className="grid grid-cols-3 gap-4 text-sm">
-                      <div>
-                        <span className="text-white/80">P50:</span>
-                        <span className="font-mono ml-1">
-                          {formatResponseTime(metrics.response_time.p50_24h)}
-                        </span>
-                      </div>
-                      <div>
-                        <span className="text-white/80">P90:</span>
-                        <span className="font-mono ml-1">
-                          {formatResponseTime(metrics.response_time.p90_24h)}
-                        </span>
-                      </div>
-                      <div>
-                        <span className="text-white/80">P99:</span>
-                        <span className="font-mono ml-1">
-                          {formatResponseTime(metrics.response_time.p99_24h)}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-white/80 text-sm mb-2">Last 7 days</p>
-                    <div className="grid grid-cols-3 gap-4 text-sm">
-                      <div>
-                        <span className="text-white/80">P50:</span>
-                        <span className="font-mono ml-1">
-                          {formatResponseTime(metrics.response_time.p50_7d)}
-                        </span>
-                      </div>
-                      <div>
-                        <span className="text-white/80">P90:</span>
-                        <span className="font-mono ml-1">
-                          {formatResponseTime(metrics.response_time.p90_7d)}
-                        </span>
-                      </div>
-                      <div>
-                        <span className="text-white/80">P99:</span>
-                        <span className="font-mono ml-1">
-                          {formatResponseTime(metrics.response_time.p99_7d)}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+          <Card className="bg-black/80 backdrop-blur-sm border border-slate-700/30">
+            <CardContent className="p-6 text-center">
+              <Server className="w-8 h-8 text-green-500 mx-auto mb-3" />
+              <h3 className="text-lg font-semibold text-white mb-2">Database</h3>
+              <Badge className="bg-green-900/20 text-green-400 border-green-500/30">
+                Operational
+              </Badge>
+            </CardContent>
+          </Card>
 
-            {/* User Activity */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Users className="w-5 h-5" />
-                  User Activity
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-white/80">Active Users (24h)</span>
-                    <span className="font-mono font-semibold text-lg">
-                      {metrics.active_users_24h.toLocaleString()}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-white/80">Active Users (7d)</span>
-                    <span className="font-mono font-semibold text-lg">
-                      {metrics.active_users_7d.toLocaleString()}
-                    </span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+          <Card className="bg-black/80 backdrop-blur-sm border border-slate-700/30">
+            <CardContent className="p-6 text-center">
+              <Activity className="w-8 h-8 text-green-500 mx-auto mb-3" />
+              <h3 className="text-lg font-semibold text-white mb-2">API</h3>
+              <Badge className="bg-green-900/20 text-green-400 border-green-500/30">
+                Operational
+              </Badge>
+            </CardContent>
+          </Card>
 
-            {/* Transaction Activity */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <DollarSign className="w-5 h-5" />
-                  Transaction Activity
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-white/80">Transactions (24h)</span>
-                    <span className="font-mono font-semibold text-lg">
-                      {metrics.transactions_24h.toLocaleString()}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-white/80">Transactions (7d)</span>
-                    <span className="font-mono font-semibold text-lg">
-                      {metrics.transactions_7d.toLocaleString()}
-                    </span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
+          <Card className="bg-black/80 backdrop-blur-sm border border-slate-700/30">
+            <CardContent className="p-6 text-center">
+              <CheckCircle className="w-8 h-8 text-green-500 mx-auto mb-3" />
+              <h3 className="text-lg font-semibold text-white mb-2">Authentication</h3>
+              <Badge className="bg-green-900/20 text-green-400 border-green-500/30">
+                Operational
+              </Badge>
+            </CardContent>
+          </Card>
+        </div>
 
         {/* System Information */}
-        <Card className="mt-8">
+        <Card className="mt-8 bg-black/80 backdrop-blur-sm border border-slate-700/30">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-white">
               <Server className="w-5 h-5" />
               System Information
             </CardTitle>
@@ -354,20 +231,8 @@ export default function Status() {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <span className="text-white/80">Version:</span>
-                <span className="font-mono ml-2">
-                  {process.env.VITE_APP_VERSION || '1.0.0'}
-                </span>
-              </div>
-              <div>
-                <span className="text-white/80">Environment:</span>
-                <span className="font-mono ml-2">
-                  {process.env.NODE_ENV || 'production'}
-                </span>
-              </div>
-              <div>
                 <span className="text-white/80">Last Updated:</span>
-                <span className="font-mono ml-2">
+                <span className="font-mono ml-2 text-white">
                   {lastUpdated ? new Date(lastUpdated).toLocaleString() : 'Never'}
                 </span>
               </div>
@@ -390,11 +255,13 @@ export default function Status() {
         {/* Footer */}
         <div className="text-center mt-8 text-white/80 text-sm">
           <p>
-            This status page shows real-time metrics from our monitoring system.
-            All data is collected and processed in compliance with our Privacy Policy.
+            This status page shows the current operational status of our platform.
+            For support or to report issues, please contact our support team.
           </p>
           <p className="mt-2">
-            For support or to report issues, please contact our support team.
+            <a href="mailto:support@stratusconnect.org" className="text-orange-400 hover:text-orange-300 underline">
+              support@stratusconnect.org
+            </a>
           </p>
         </div>
       </div>

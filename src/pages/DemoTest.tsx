@@ -1,9 +1,8 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
+import { StratusConnectLogo } from '@/components/StratusConnectLogo';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { StratusConnectLogo } from '@/components/StratusConnectLogo';
-import StarfieldRunwayBackground from '@/components/StarfieldRunwayBackground';
+import { useNavigate } from 'react-router-dom';
 
 export default function DemoTest() {
   const navigate = useNavigate();
@@ -47,7 +46,15 @@ export default function DemoTest() {
 
         <div className="mt-8 text-center">
           <Button 
-            onClick={() => navigate('/')}
+            onClick={() => {
+              // Check if user is authenticated to determine where to navigate
+              const isAuthenticated = localStorage.getItem('testUser') || document.cookie.includes('supabase');
+              if (isAuthenticated) {
+                navigate('/home');
+              } else {
+                navigate('/');
+              }
+            }}
             variant="outline"
           >
             Back to Home

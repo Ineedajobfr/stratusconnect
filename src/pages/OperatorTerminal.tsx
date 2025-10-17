@@ -1,4 +1,11 @@
+import { OperatorBilling } from "@/components/Billing/OperatorBilling";
+import DocumentStorage from "@/components/documents/DocumentStorage";
+import JobBoard from "@/components/job-board/JobBoard";
+import SavedCrews from "@/components/job-board/SavedCrews";
 import { OperatorListingFlow } from "@/components/Marketplace/OperatorListingFlow";
+import NoteTakingSystem from "@/components/NoteTakingSystem";
+import { OperatorProfile } from "@/components/Profile/OperatorProfile";
+import { OperatorReputation } from "@/components/Reputation/OperatorReputation";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -9,16 +16,22 @@ import { operatorDashboardService } from "@/lib/operator-dashboard-service";
 import {
     Activity,
     ArrowUp,
+    Award,
     BarChart3,
     Briefcase,
     Clock,
+    CreditCard,
     DollarSign,
     FileText,
     Plane,
     Plus,
     RefreshCw,
     Settings,
-    User
+    StickyNote,
+    TrendingUp,
+    User,
+    UserPlus,
+    Users
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -468,6 +481,66 @@ export default function OperatorTerminal() {
         </div>
     );
 
+    const renderPilots = () => (
+        <div className="space-y-6">
+            <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-bold text-foreground">Pilot Roster</h2>
+                <Button className="btn-terminal-accent">
+                    <Plus className="w-4 h-4 mr-2" />
+                    Add Pilot
+                </Button>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <Card className="terminal-card">
+                    <CardContent className="p-6">
+                        <div className="text-center">
+                            <UserPlus className="w-12 h-12 text-accent mx-auto mb-4" />
+                            <h3 className="text-lg font-semibold text-foreground mb-2">No Pilots Yet</h3>
+                            <p className="text-slate-400 text-sm mb-4">
+                                Add pilots to your roster to manage assignments and schedules
+                            </p>
+                            <Button className="btn-terminal-accent">
+                                <Plus className="w-4 h-4 mr-2" />
+                                Add First Pilot
+                            </Button>
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+        </div>
+    );
+
+    const renderCrew = () => (
+        <div className="space-y-6">
+            <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-bold text-foreground">Cabin Crew</h2>
+                <Button className="btn-terminal-accent">
+                    <Plus className="w-4 h-4 mr-2" />
+                    Add Crew Member
+                </Button>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <Card className="terminal-card">
+                    <CardContent className="p-6">
+                        <div className="text-center">
+                            <Users className="w-12 h-12 text-accent mx-auto mb-4" />
+                            <h3 className="text-lg font-semibold text-foreground mb-2">No Crew Members Yet</h3>
+                            <p className="text-slate-400 text-sm mb-4">
+                                Add crew members to manage assignments and schedules
+                            </p>
+                            <Button className="btn-terminal-accent">
+                                <Plus className="w-4 h-4 mr-2" />
+                                Add First Crew Member
+                            </Button>
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+        </div>
+    );
+
     return (
         <div className="min-h-screen relative overflow-hidden scroll-smooth">
             {/* Cinematic Burnt Orange to Obsidian Gradient */}
@@ -536,25 +609,49 @@ export default function OperatorTerminal() {
                                 <BarChart3 className="w-4 h-4" />
                                 Dashboard
                             </TabsTrigger>
-                            <TabsTrigger value="rfqs" className="flex items-center gap-2">
-                                <FileText className="w-4 h-4" />
-                                RFQs
+                            <TabsTrigger value="marketplace" className="flex items-center gap-2">
+                                <TrendingUp className="w-4 h-4" />
+                                Marketplace
                             </TabsTrigger>
                             <TabsTrigger value="fleet" className="flex items-center gap-2">
                                 <Plane className="w-4 h-4" />
                                 Fleet
                             </TabsTrigger>
+                            <TabsTrigger value="pilots" className="flex items-center gap-2">
+                                <UserPlus className="w-4 h-4" />
+                                Pilots
+                            </TabsTrigger>
+                            <TabsTrigger value="crew" className="flex items-center gap-2">
+                                <Users className="w-4 h-4" />
+                                Crew
+                            </TabsTrigger>
                             <TabsTrigger value="bookings" className="flex items-center gap-2">
                                 <Briefcase className="w-4 h-4" />
                                 Bookings
                             </TabsTrigger>
-                            <TabsTrigger value="revenue" className="flex items-center gap-2">
-                                <DollarSign className="w-4 h-4" />
-                                Revenue
+                            <TabsTrigger value="billing" className="flex items-center gap-2">
+                                <CreditCard className="w-4 h-4" />
+                                Billing
                             </TabsTrigger>
-                            <TabsTrigger value="marketplace" className="flex items-center gap-2">
-                                <Plane className="w-4 h-4" />
-                                Marketplace
+                            <TabsTrigger value="reputation" className="flex items-center gap-2">
+                                <Award className="w-4 h-4" />
+                                Reputation
+                            </TabsTrigger>
+                            <TabsTrigger value="documents" className="flex items-center gap-2">
+                                <FileText className="w-4 h-4" />
+                                Documents
+                            </TabsTrigger>
+                            <TabsTrigger value="job-board" className="flex items-center gap-2">
+                                <UserPlus className="w-4 h-4" />
+                                Job Board
+                            </TabsTrigger>
+                            <TabsTrigger value="notes" className="flex items-center gap-2">
+                                <StickyNote className="w-4 h-4" />
+                                Notes
+                            </TabsTrigger>
+                            <TabsTrigger value="profile" className="flex items-center gap-2">
+                                <User className="w-4 h-4" />
+                                Profile
                             </TabsTrigger>
                         </TabsList>
                     </div>
@@ -562,20 +659,52 @@ export default function OperatorTerminal() {
                     <TabsContent value="dashboard" className="scroll-smooth">
                         {renderDashboard()}
                     </TabsContent>
-                    <TabsContent value="rfqs" className="scroll-smooth">
-                        {renderRFQs()}
+                    
+                    <TabsContent value="marketplace" className="scroll-smooth">
+                        <OperatorListingFlow />
                     </TabsContent>
+                    
                     <TabsContent value="fleet" className="scroll-smooth">
                         {renderFleet()}
                     </TabsContent>
+                    
+                    <TabsContent value="pilots" className="scroll-smooth">
+                        {renderPilots()}
+                    </TabsContent>
+                    
+                    <TabsContent value="crew" className="scroll-smooth">
+                        {renderCrew()}
+                    </TabsContent>
+                    
                     <TabsContent value="bookings" className="scroll-smooth">
                         {renderBookings()}
                     </TabsContent>
-                    <TabsContent value="revenue" className="scroll-smooth">
-                        {renderRevenue()}
+                    
+                    <TabsContent value="billing" className="scroll-smooth">
+                        {user?.id && <OperatorBilling operatorId={user.id} />}
                     </TabsContent>
-                    <TabsContent value="marketplace" className="scroll-smooth">
-                        <OperatorListingFlow />
+                    
+                    <TabsContent value="reputation" className="scroll-smooth">
+                        {user?.id && <OperatorReputation operatorId={user.id} />}
+                    </TabsContent>
+                    
+                    <TabsContent value="documents" className="scroll-smooth">
+                        <DocumentStorage />
+                    </TabsContent>
+                    
+                    <TabsContent value="job-board" className="scroll-smooth">
+                        <JobBoard />
+                        <div className="mt-6">
+                            <SavedCrews />
+                        </div>
+                    </TabsContent>
+                    
+                    <TabsContent value="notes" className="scroll-smooth">
+                        <NoteTakingSystem />
+                    </TabsContent>
+                    
+                    <TabsContent value="profile" className="scroll-smooth">
+                        {user?.id && <OperatorProfile operatorId={user.id} />}
                     </TabsContent>
                 </Tabs>
             </main>

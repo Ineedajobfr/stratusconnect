@@ -1,7 +1,6 @@
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Shield, Clock, AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { AlertTriangle, CheckCircle, Clock, Shield, XCircle } from 'lucide-react';
 
 export default function CompliantSLA() {
   return (
@@ -321,7 +320,7 @@ export default function CompliantSLA() {
                   <div className="bg-slate-800 rounded-lg p-4">
                     <p className="font-semibold">Support Team</p>
                     <p className="text-sm text-gunmetal">
-                      Email: support@stratusconnect.com<br />
+                      Email: support@stratusconnect.org<br />
                       Status Page: <a href="/status" className="underline">/status</a><br />
                       Emergency: [Emergency Contact]
                     </p>

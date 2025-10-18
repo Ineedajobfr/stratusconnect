@@ -7,7 +7,6 @@
     "dev": "vite",
     "start": "npm run dev",
     "auto": "npm run dev",
-    "prebuild": "tsc --noEmit",
     "build": "vite build --mode production",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",

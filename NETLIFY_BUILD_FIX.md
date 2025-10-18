@@ -36,11 +36,14 @@
 ```json
 // REMOVED:
 "@types/dompurify": "^3.2.0"
+"prebuild": "tsc --noEmit",  // Removed to fix tsc not found error
 
 // CHANGED:
 "postinstall": "node -e \"process.exit(0)\"",
 "prepare": "node -e \"if(process.env.NODE_ENV!=='production')require('husky').install()\""
 ```
+
+**Note**: The `type-check` script is still available for local development (`npm run type-check`).
 
 ### netlify.toml (Updated)
 ```toml

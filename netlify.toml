@@ -1,11 +1,13 @@
 [build]
-  command = "npm run build"
+  command = "npm ci --legacy-peer-deps && npm run build"
   publish = "dist"
 
 [build.environment]
   NETLIFY_NEXT_PLUGIN_SKIP = "true"
-  NODE_VERSION = "20"
+  NODE_VERSION = "20.18.1"
   NPM_FLAGS = "--legacy-peer-deps"
+  NODE_ENV = "production"
+  CI = "true"
 
 [[redirects]]
   from = "/*"

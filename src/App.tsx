@@ -16,6 +16,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React, { lazy, memo, Suspense } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { AuthGuard } from "./components/AuthGuard";
+import { FullscreenToggle } from "./components/FullscreenToggle";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { ScrollToTop } from "./components/ScrollToTop";
 
@@ -166,6 +167,7 @@ const App = memo(() => {
               }}
             >
               <ScrollToTop />
+              <FullscreenToggle />
               <MemoizedNavigationOptimizer />
               {/* <StatusBanner /> */}
               <AuthProvider>

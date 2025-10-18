@@ -17,7 +17,8 @@
 
 ### 3. **Locked Node.js Version**
 - **Problem**: Netlify was using Node v20.19.5 (uncommon version) causing potential issues
-- **Solution**: Created `.nvmrc` file specifying Node v20.18.1 (stable LTS)
+- **Solution**: Created `.nvmrc` file specifying Node v20 (uses latest stable 20.x available on Netlify)
+- **Update**: Changed from specific version 20.18.1 to "20" for better compatibility
 - **Status**: ✅ Fixed
 
 ### 4. **Optimized Netlify Configuration**
@@ -49,7 +50,7 @@
 
 [build.environment]
   NETLIFY_NEXT_PLUGIN_SKIP = "true"
-  NODE_VERSION = "20.18.1"
+  NODE_VERSION = "20"
   NPM_FLAGS = "--legacy-peer-deps"
   NODE_ENV = "production"
   CI = "true"
@@ -57,8 +58,9 @@
 
 ### .nvmrc (New File)
 ```
-20.18.1
+20
 ```
+**Note**: Using "20" instead of a specific version (like "20.18.1") ensures Netlify uses the latest stable Node 20.x version available on their build servers.
 
 ## Verification
 

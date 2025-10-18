@@ -4,7 +4,7 @@
 
 [build.environment]
   NETLIFY_NEXT_PLUGIN_SKIP = "true"
-  NODE_VERSION = "20.18.1"
+  NODE_VERSION = "20"
   NPM_FLAGS = "--legacy-peer-deps"
   NODE_ENV = "production"
   CI = "true"

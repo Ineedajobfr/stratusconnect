@@ -8,7 +8,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Shield, ArrowLeft } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { NavigationArrows } from "@/components/NavigationArrows";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 import StratusConnectHeader from "@/components/StratusConnectHeader";
 
@@ -97,7 +96,6 @@ export default function Enter() {
       <StarfieldRunwayBackground intensity={0.7} starCount={260} />
       
       <div className="absolute top-4 right-4 z-40">
-        <NavigationArrows />
       </div>
       
       <StratusConnectHeader />

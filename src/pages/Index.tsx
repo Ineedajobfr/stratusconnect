@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useAuth } from "@/contexts/AuthContext";
-import NavigationArrows from "@/components/NavigationArrows";
 import { ArrowRight, BookOpen, Building2, CheckCircle, Clock, DollarSign, Download, Globe, Info, Lock, Percent, Plane, Play, Shield, UserCheck, Users, Zap } from "lucide-react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -147,13 +146,8 @@ export default function Index() {
         </div>
       </div>
 
-      {/* Navigation Arrows - Top Right Corner */}
-      <div className="absolute top-6 right-6 z-20">
-        <NavigationArrows />
-      </div>
-
       {/* About Us and Login Links - styled like title screen */}
-      <div className="absolute top-6 right-24 z-20 flex gap-4">
+      <div className="absolute top-6 right-6 z-20 flex gap-4">
         <div 
           className="text-white/90 text-lg font-mono bg-black/30 px-6 py-3 rounded backdrop-blur-sm cursor-pointer hover:bg-black/50 transition-colors"
           onClick={() => navigate('/about')}

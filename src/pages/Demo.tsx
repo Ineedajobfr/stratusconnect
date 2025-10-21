@@ -1,5 +1,4 @@
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-import { NavigationArrows } from "@/components/NavigationArrows";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -100,7 +99,6 @@ export default function DemoSetup() {
         </div>
         
         <div className="absolute top-4 right-4 z-40">
-          <NavigationArrows />
         </div>
 
         <div className="relative z-10 container mx-auto px-6 py-16 max-w-7xl">

@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft, FileCheck, Shield, Globe, AlertTriangle, Users, Lock, Database } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { NavigationArrows } from "@/components/NavigationArrows";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 import StarfieldRunwayBackground from "@/components/StarfieldRunwayBackground";
 
@@ -51,7 +50,6 @@ export default function Compliance() {
       </div>
       
       <div className="absolute top-4 right-4 z-40">
-        <NavigationArrows />
       </div>
 
       <div className="relative z-10 container mx-auto px-4 py-16 max-w-6xl">

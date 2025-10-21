@@ -1,5 +1,4 @@
 import { DemoBanner } from '@/components/DemoBanner';
-import { NavigationArrows } from '@/components/NavigationArrows';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -134,7 +133,6 @@ export default function Directory() {
     <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-background">
       <DemoBanner />
       <div className="fixed top-20 right-6 z-40">
-        <NavigationArrows />
       </div>
       <div className="container mx-auto px-4 py-8 pt-20">
         <div className="mb-8">

@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/contexts/AuthContext";
 import { pilotDashboardService } from "@/lib/pilot-dashboard-service";
-import NavigationArrows from "@/components/NavigationArrows";
 import {
     ArrowUp,
     BarChart3,
@@ -516,8 +515,6 @@ export default function PilotTerminal() {
                             </div>
                         </div>
                         
-                        {/* Navigation Arrows */}
-                        <NavigationArrows />
                         <div className="flex items-center space-x-4">
                             <div className="text-sm text-slate-400">
                                 STATUS: <span className="text-green-400">AVAILABLE</span>

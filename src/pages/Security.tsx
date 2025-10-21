@@ -1,4 +1,3 @@
-import { NavigationArrows } from "@/components/NavigationArrows";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { AlertTriangle, Database, Eye, FileCheck, Globe, Lock, Shield, Zap } from "lucide-react";
@@ -68,7 +67,6 @@ export default function Security() {
       </div>
       
       <div className="absolute top-4 right-4 z-40">
-        <NavigationArrows />
       </div>
       <div className="relative z-10 container mx-auto px-4 py-16 max-w-6xl">
         <div className="text-center mb-12">

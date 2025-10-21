@@ -1,4 +1,3 @@
-import { NavigationArrows } from '@/components/NavigationArrows';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -254,7 +253,6 @@ export default function Auth() {
 
       {/* Navigation Arrows - Top Right */}
       <div className="absolute top-8 right-8 z-20">
-          <NavigationArrows />
         </div>
 
       <div className="relative z-10 w-full max-w-md p-8 space-y-6 bg-black/70 backdrop-blur-md rounded-lg shadow-2xl border border-white/20"

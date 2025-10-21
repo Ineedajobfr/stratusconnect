@@ -1,6 +1,5 @@
 import { ReactNode, useState, useCallback, useMemo } from "react";
 import { Button } from "@/components/ui/button";
-import { NavigationArrows } from "@/components/NavigationArrows";
 import { useSessionManager } from "@/hooks/useSessionManager";
 import { DemoBanner } from "@/components/DemoBanner";
 import { Search, User, LogOut, ChevronRight, Menu, X } from "lucide-react";
@@ -163,7 +162,6 @@ export const TerminalLayout = withMemo(({
               
               <div className="flex items-center space-x-3">
                 <div className="hidden lg:block">
-                  <NavigationArrows />
                 </div>
                 <Button variant="ghost" size="sm" className="text-gunmetal hover:text-foreground hidden sm:flex">
                   <User className="w-4 h-4" />

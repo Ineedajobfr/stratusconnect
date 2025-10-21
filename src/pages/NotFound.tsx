@@ -1,7 +1,6 @@
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { NavigationArrows } from "@/components/NavigationArrows";
 import { DemoBanner } from "@/components/DemoBanner";
 import { Plane, Home } from "lucide-react";
 import StratusConnectHeader from "@/components/StratusConnectHeader";
@@ -21,7 +20,6 @@ const NotFound = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-terminal">
       <DemoBanner />
       <div className="fixed top-20 right-6 z-40">
-        <NavigationArrows />
       </div>
       
       <StratusConnectHeader />

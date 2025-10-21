@@ -1,5 +1,4 @@
 import { LoginModal } from "@/components/LoginModal";
-import { NavigationArrows } from "@/components/NavigationArrows";
 import { StratusConnectLogo } from "@/components/StratusConnectLogo";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Lock } from "lucide-react";
@@ -62,7 +61,6 @@ export default function Landing() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <NavigationArrows />
               <Button onClick={() => setIsLoginOpen(true)} className="btn-terminal-primary text-sm font-semibold">
                 Login
               </Button>

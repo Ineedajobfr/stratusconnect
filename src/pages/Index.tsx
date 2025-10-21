@@ -88,7 +88,7 @@ export default function Index() {
         STRATUSCONNECT
       </div>
 
-      {/* STRATUS logo and Welcome banner */}
+      {/* STRATUS logo and Welcome banner - Merged from StratusLauncher */}
       <div className="relative z-10 pt-20 pb-16">
         <div className="max-w-6xl mx-auto px-4 text-center">
           {/* STRATUS logo with cinematic spotlight effect */}
@@ -121,8 +121,25 @@ export default function Index() {
               <h1 className="text-6xl font-black text-black tracking-wider drop-shadow-lg">
                 STRATUS
               </h1>
-              </div>
             </div>
+          </div>
+          
+          {/* Subtitle from StratusLauncher */}
+          <h2 className="text-3xl text-white mb-8 tracking-wide font-light drop-shadow-lg">
+            YOUR WORLD OF AVIATION
+          </h2>
+          
+          {/* Call to action button from StratusLauncher */}
+          <div 
+            className="text-white/90 text-xl font-mono bg-black/30 px-6 py-3 rounded backdrop-blur-sm animate-pulse cursor-pointer hover:bg-black/50 transition-all duration-300 mb-12"
+            style={{ 
+              animationDuration: '2s',
+              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+            }}
+            onClick={() => navigate('/role-selection')}
+          >
+            PRESS ENTER OR CLICK TO START
+          </div>
           
           {/* Welcome heading */}
           <h2 className="text-4xl font-bold text-white mb-4 drop-shadow-lg">
@@ -137,9 +154,9 @@ export default function Index() {
             <p className="italic">
               One terminal to stay seen, update your availability, connect with the right people, and get what you do in front of those who matter. You've carried the weight long enough now let us help you turn that work into wins, and get you where you were always meant to be.
             </p>
-            </div>
-            </div>
           </div>
+        </div>
+      </div>
 
       {/* About Us and Login Links - styled like title screen */}
       <div className="absolute top-6 right-6 z-20 flex gap-4">
@@ -148,7 +165,7 @@ export default function Index() {
           onClick={() => navigate('/about')}
         >
           About Us
-            </div>
+        </div>
         <div 
           className="text-white/90 text-lg font-mono bg-orange-600/80 px-6 py-3 rounded backdrop-blur-sm cursor-pointer hover:bg-orange-700/90 transition-all duration-300"
           style={{
@@ -158,6 +175,19 @@ export default function Index() {
         >
           Sign up
         </div>
+      </div>
+
+      {/* ACCESS ONLINE button from StratusLauncher */}
+      <div 
+        className="absolute bottom-8 right-8 text-sm font-mono bg-black/30 px-4 py-2 rounded backdrop-blur-sm z-20"
+        style={{
+          color: '#22c55e',
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 15px rgba(34, 197, 94, 0.5)',
+          animation: 'pulse-green 2s ease-in-out infinite',
+          textShadow: '0 0 10px rgba(34, 197, 94, 0.8), 0 0 20px rgba(34, 197, 94, 0.6)',
+        }}
+      >
+        ACCESS ONLINE
       </div>
 
       {/* Hero Section - Simplified */}
@@ -1185,6 +1215,22 @@ export default function Index() {
         {/* Bottom gradient accent */}
         <div className="h-1 bg-gradient-to-r from-transparent via-orange-500/50 to-transparent"></div>
       </footer>
+
+      {/* CSS for pulse-green animation from StratusLauncher */}
+      <style>{`
+        @keyframes pulse-green {
+          0%, 100% {
+            opacity: 1;
+            text-shadow: 0 0 10px rgba(34, 197, 94, 0.8), 0 0 20px rgba(34, 197, 94, 0.6);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 15px rgba(34, 197, 94, 0.5);
+          }
+          50% {
+            opacity: 0.7;
+            text-shadow: 0 0 20px rgba(34, 197, 94, 1), 0 0 30px rgba(34, 197, 94, 0.8), 0 0 40px rgba(34, 197, 94, 0.6);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 25px rgba(34, 197, 94, 0.8);
+          }
+        }
+      `}</style>
 
     </div>
   );

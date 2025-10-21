@@ -26,7 +26,6 @@ import BrokerDashboard from "@/components/dashboard/BrokerDashboard";
 import OperatorDashboard from "@/components/dashboard/OperatorDashboard";
 
 // Lazy load pages for better performance - prioritize by usage frequency
-const StratusLauncher = lazy(() => import("./pages/StratusLauncher"));
 const Index = lazy(() => import("./pages/Index"));
 const HomePage = lazy(() => import("./pages/HomePage"));
 const HowToUse = lazy(() => import("./pages/HowToUse"));
@@ -177,7 +176,7 @@ const App = memo(() => {
                   <Suspense fallback={<LoadingSpinner size="lg" text="Loading StratusConnect..." />}>
                     <Routes>
               {/* Public routes */}
-              <Route path="/" element={<StratusLauncher />} />
+              <Route path="/" element={<Index />} />
               <Route path="/enter" element={<Navigate to="/auth" replace />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/auth/callback" element={<AuthCallback />} />

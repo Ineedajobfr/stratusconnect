@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/contexts/AuthContext";
 import { crewDashboardService } from "@/lib/crew-dashboard-service";
+import NavigationArrows from "@/components/NavigationArrows";
 import {
     ArrowUp,
     Award,
@@ -501,6 +502,9 @@ export default function CrewTerminal() {
                                 <p className="text-sm text-gunmetal">{user?.fullName || user?.email} • Flight Attendant</p>
             </div>
           </div>
+          
+          {/* Navigation Arrows */}
+          <NavigationArrows />
           <div className="flex items-center space-x-4">
                             <div className="text-sm text-slate-400">
                                 STATUS: <span className="text-green-400">AVAILABLE</span>

@@ -1,82 +1,54 @@
-import { useNavigate, useLocation } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useState, useEffect } from "react";
+import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-export const NavigationArrows = () => {
+interface NavigationArrowsProps {
+  className?: string;
+}
+
+export const NavigationArrows: React.FC<NavigationArrowsProps> = ({ className = "" }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [navigationHistory, setNavigationHistory] = useState<string[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(-1);
 
-  // Track navigation history
-  useEffect(() => {
-    setNavigationHistory(prev => {
-      const newHistory = [...prev];
-      const currentPath = location.pathname;
-      
-      // If we're not at the end of history, truncate and add new path
-      if (currentIndex < newHistory.length - 1) {
-        newHistory.splice(currentIndex + 1);
-      }
-      
-      // Add current path if it's different from the last one
-      if (newHistory[newHistory.length - 1] !== currentPath) {
-        newHistory.push(currentPath);
-        setCurrentIndex(newHistory.length - 1);
-      }
-      
-      return newHistory;
-    });
-  }, [location.pathname]);
-
-  const goBack = () => {
-    if (currentIndex > 0) {
-      const prevPath = navigationHistory[currentIndex - 1];
-      setCurrentIndex(prev => prev - 1);
-      navigate(prevPath);
-    } else {
-      // Fallback to browser back
+  const handleBackClick = () => {
+    // Check if there's history to go back to
+    if (window.history.length > 1) {
       navigate(-1);
-    }
-  };
-
-  const goForward = () => {
-    if (currentIndex < navigationHistory.length - 1) {
-      const nextPath = navigationHistory[currentIndex + 1];
-      setCurrentIndex(prev => prev + 1);
-      navigate(nextPath);
     } else {
-      // Fallback to browser forward
-      window.history.forward();
+      // Fallback to home page if no history
+      navigate('/');
     }
   };
 
-  const canGoBack = currentIndex > 0 || (typeof window !== "undefined" && window.history.length > 1);
-  const canGoForward = currentIndex < navigationHistory.length - 1;
+  const handleForwardClick = () => {
+    // Navigate forward in history
+    navigate(1);
+  };
 
   return (
-    <div className="flex items-center space-x-2">
+    <div className={`flex items-center space-x-2 ${className}`}>
       <Button
         variant="outline"
         size="sm"
-        onClick={goBack}
-        disabled={!canGoBack}
-        className="bg-terminal-card/80 border-terminal-border text-gunmetal hover:bg-terminal-card hover:text-foreground disabled:opacity-30 disabled:cursor-not-allowed h-8 w-8 p-0 backdrop-blur-sm"
-        aria-label="Go back"
+        onClick={handleBackClick}
+        className="h-8 w-8 p-0 border-slate-600/50 text-slate-300 hover:bg-slate-800/50 hover:text-white transition-all duration-200"
+        title="Go back"
       >
-        <ChevronLeft className="w-4 h-4" />
+        <ChevronLeft className="h-4 w-4" />
       </Button>
+      
       <Button
         variant="outline"
         size="sm"
-        onClick={goForward}
-        disabled={!canGoForward}
-        className="bg-terminal-card/80 border-terminal-border text-gunmetal hover:bg-terminal-card hover:text-foreground disabled:opacity-30 disabled:cursor-not-allowed h-8 w-8 p-0 backdrop-blur-sm"
-        aria-label="Go forward"
+        onClick={handleForwardClick}
+        className="h-8 w-8 p-0 border-slate-600/50 text-slate-300 hover:bg-slate-800/50 hover:text-white transition-all duration-200"
+        title="Go forward"
       >
-        <ChevronRight className="w-4 h-4" />
+        <ChevronRight className="h-4 w-4" />
       </Button>
     </div>
   );
 };
+
+export default NavigationArrows;

@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/contexts/AuthContext";
 import { brokerDashboardService } from "@/lib/broker-dashboard-service";
+import NavigationArrows from "@/components/NavigationArrows";
 import {
     Award,
     BarChart3,
@@ -578,6 +579,10 @@ export default function BrokerTerminal() {
                             </div>
                             <span className="text-white text-sm">{user?.fullName || user?.email}</span>
                         </div>
+                    </div>
+                    {/* Right - Navigation Arrows */}
+                    <div className="ml-auto">
+                        <NavigationArrows />
                     </div>
                 </div>
             </header>

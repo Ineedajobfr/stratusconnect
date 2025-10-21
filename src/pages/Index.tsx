@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useAuth } from "@/contexts/AuthContext";
+import NavigationArrows from "@/components/NavigationArrows";
 import { ArrowRight, BookOpen, Building2, CheckCircle, Clock, DollarSign, Download, Globe, Info, Lock, Percent, Plane, Play, Shield, UserCheck, Users, Zap } from "lucide-react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -92,7 +93,7 @@ export default function Index() {
       <div className="relative z-10 pt-20 pb-16">
         <div className="max-w-6xl mx-auto px-4 text-center">
           {/* STRATUS logo with cinematic spotlight effect */}
-          <div className="relative mb-32 inline-block">
+          <div className="relative mb-16 inline-block">
             {/* Enhanced spotlight glow behind the logo */}
             <div 
               className="absolute inset-0 rounded-lg blur-2xl opacity-40"
@@ -124,22 +125,10 @@ export default function Index() {
             </div>
           </div>
           
-          {/* Subtitle from StratusLauncher */}
-          <h2 className="text-3xl text-white mb-8 tracking-wide font-light drop-shadow-lg">
+          {/* Tagline from StratusLauncher */}
+          <h2 className="text-3xl text-white mb-16 tracking-wide font-light drop-shadow-lg">
             YOUR WORLD OF AVIATION
           </h2>
-          
-          {/* Call to action button from StratusLauncher */}
-          <div 
-            className="text-white/90 text-xl font-mono bg-black/30 px-6 py-3 rounded backdrop-blur-sm animate-pulse cursor-pointer hover:bg-black/50 transition-all duration-300 mb-12"
-            style={{ 
-              animationDuration: '2s',
-              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-            }}
-            onClick={() => navigate('/role-selection')}
-          >
-            PRESS ENTER OR CLICK TO START
-          </div>
           
           {/* Welcome heading */}
           <h2 className="text-4xl font-bold text-white mb-4 drop-shadow-lg">
@@ -158,8 +147,13 @@ export default function Index() {
         </div>
       </div>
 
+      {/* Navigation Arrows - Top Right Corner */}
+      <div className="absolute top-6 right-6 z-20">
+        <NavigationArrows />
+      </div>
+
       {/* About Us and Login Links - styled like title screen */}
-      <div className="absolute top-6 right-6 z-20 flex gap-4">
+      <div className="absolute top-6 right-24 z-20 flex gap-4">
         <div 
           className="text-white/90 text-lg font-mono bg-black/30 px-6 py-3 rounded backdrop-blur-sm cursor-pointer hover:bg-black/50 transition-colors"
           onClick={() => navigate('/about')}

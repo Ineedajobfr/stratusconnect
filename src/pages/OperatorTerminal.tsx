@@ -13,6 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/contexts/AuthContext";
 import { operatorDashboardService } from "@/lib/operator-dashboard-service";
+import NavigationArrows from "@/components/NavigationArrows";
 import {
     Activity,
     ArrowUp,
@@ -584,6 +585,9 @@ export default function OperatorTerminal() {
                             USER: <span className="text-orange-400">{user?.fullName || user?.email}</span>
                         </div>
                     </div>
+                    
+                    {/* Navigation Arrows */}
+                    <NavigationArrows />
                     <div className="flex items-center space-x-4">
                         <div className="text-sm text-slate-400">
                             <Clock className="w-4 h-4 inline mr-1" />
